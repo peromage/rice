@@ -27,7 +27,10 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(provide 'init)
+
 ;;; Local Variables:
 ;;; mode: Lisp
 ;;; coding: utf-8
+;;; no-byte-compile: t
 ;;; End:

@@ -1,5 +1,9 @@
 # Emacs auto-generated directories
 auto-save-list/
 elpa/
+elpa-*/
 games/
 url/
+
+# Local files
+custom.el

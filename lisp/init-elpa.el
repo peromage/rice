@@ -21,6 +21,17 @@
 ;; Fire up package.el
 (setq package-enable-at-startup nil)
 (package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; Use 'use-package' to simplify package configurations
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(eval-when-compile
+  (message "loading use-package")
+  (require 'use-package))
+;; Make sure packages will be installed
+(setq use-package-always-ensure t)
 
 (provide 'init-elpa)
 
