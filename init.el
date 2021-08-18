@@ -1,60 +1,33 @@
-;;; init.el -*- mode: Lisp; fill-column: 80; tab-width: 2; lexical-binding: t -*-
+;;; init.el --- Configuration entry -*- lexical-binding: t -*-
+;;; Commentary:
 
-(defun my-reload-config ()
-  (interactive)
-  (load-file "~/.emacs.d/init.el"))
+;; This file bootstraps the configuration, which is divided into a number of
+;; other files. Templates was from purcell/emacs.d.
 
-(defun my-open-config ()
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
+;;; Code:
 
-;; Text format
-(setq-default
- indent-tabs-mode nil
- tab-width 4
- fill-column 80
- comment-column 80
- buffer-file-coding-system 'utf-8-unix)
+;; Minimal version required
+(when (version< emacs-version "26.1")
+  (error "Emacs' version is too old. Please use 26.1 and above."))
 
-;; Appearance
-(setq-default
- ring-bell-function 'ignore
- inhibit-startup-screen t
- display-line-numbers-type 'relative
- cursor-type 'bar
- whitespace-style '(face trailing tab-mark)
- ;; Do not wrap by default
- word-wrap nil
- line-move-visual nil
- truncate-lines t
- truncate-partial-width-windows nil)
-;;---
-(load-theme 'tango-dark t nil)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(column-number-mode 1)
-(size-indication-mode 1)
-(show-paren-mode 1)
-(global-display-line-numbers-mode 1)
-(visual-line-mode -1)
-(global-whitespace-mode 1)
-(global-hl-line-mode 1)
-(blink-cursor-mode -1)
+;; Paths
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-;; Quality of life
-(setq-default
- major-mode 'text-mode
- ;; No backup and auto-save
- make-backup-files nil
- auto-save-timeout 0
- auto-save-interval 0
- ;; Smooth scrolling
- mouse-wheel-scroll-amount '(1 ((shift) . 5))
- mouse-wheel-progressive-speed nil
- mouse-wheel-follow-mouse t
- scroll-step 1)
+;; Bootstrap
+(require 'init-user)
+(require 'init-boot)
+(require 'init-basic)
+(require 'init-tui)
+(require 'init-utils)
+(require 'init-elpa)
 
-;; TUI specific
-(unless window-system
-  (xterm-mouse-mode 1))
+;; Variables configured via the interactive 'customize' interface
+;; Load this at the last to prevent local configurations from being overridden
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;;; Local Variables:
+;;; mode: Lisp
+;;; coding: utf-8
+;;; End:
