@@ -5,7 +5,7 @@
 (use-package dired
   :ensure nil
   :commands (dired dired-jump dired-find-file)
-  :bind (("C-x C-d" . (lambda () (interactive) (find-alternate-file default-directory)))
+  :bind (("C-x C-d" . (lambda () (interactive) (find-file default-directory)))
          :map dired-mode-map
          ("RET" . dired-find-alternate-file)
          ("^" . (lambda () (interactive) (find-alternate-file "..")))
