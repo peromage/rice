@@ -24,6 +24,7 @@
 
 ;; Extensions
 (require 'pack-themes)
+(require 'pack-dired)
 (require 'pack-helm)
 (require 'pack-magit)
 (require 'pack-projectile)
