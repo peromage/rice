@@ -1,4 +1,4 @@
-;;; init-boot.el --- Boot environment -*- lexical-binding: t -*-
+;;; init-boot.el --- Boot environment
 ;;; Commentary:
 
 ;; This file configures the environment while booting up.
@@ -20,8 +20,3 @@
               (server-start))))
 
 (provide 'init-boot)
-
-;;; Local Variables:
-;;; mode: Lisp
-;;; coding: utf-8
-;;; End:

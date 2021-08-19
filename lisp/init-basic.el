@@ -1,4 +1,4 @@
-;;; init-basic.el --- Basic Emacs configuration -*- lexical-binding: t -*-
+;;; init-basic.el --- Basic Emacs configuration
 ;;; Commentary:
 ;;; Code:
 
@@ -58,8 +58,3 @@
 (electric-pair-mode 1)
 
 (provide 'init-basic)
-
-;;; Local Variables:
-;;; mode: Lisp
-;;; coding: utf-8
-;;; End:

@@ -1,4 +1,4 @@
-;;; init-tui.el --- TUI specific configurations -*- lexical-binding: t -*-
+;;; init-tui.el --- TUI specific configurations
 ;;; Commentary:
 ;;; Code:
 
@@ -6,8 +6,3 @@
   (xterm-mouse-mode 1))
 
 (provide 'init-tui)
-
-;;; Local Variables:
-;;; mode: Lisp
-;;; coding: utf-8
-;;; End:

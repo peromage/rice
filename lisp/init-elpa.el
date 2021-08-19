@@ -1,4 +1,4 @@
-;;; init-elpa.el --- Configurations for package.el -*- lexical-binding: t -*-
+;;; init-elpa.el --- Configurations for package.el
 ;;; Commentary:
 ;;; Code:
 
@@ -34,8 +34,3 @@
 (setq use-package-always-ensure t)
 
 (provide 'init-elpa)
-
-;;; Local Variables:
-;;; mode: Lisp
-;;; coding: utf-8
-;;; End:

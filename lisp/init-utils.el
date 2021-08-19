@@ -1,4 +1,4 @@
-;;; init-utils.el --- Utilities -*- lexical-binding: t -*-
+;;; init-utils.el --- Utilities
 ;;; Commentary:
 
 ;; This file bootstraps the configuration, which is divided into a number of
@@ -16,8 +16,3 @@
   (find-file user-init-file))
 
 (provide 'init-utils)
-
-;;; Local Variables:
-;;; mode: Lisp
-;;; coding: utf-8
-;;; End:
