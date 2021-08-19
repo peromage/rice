@@ -4,6 +4,9 @@ elpa/
 elpa-*/
 games/
 url/
+transient/
 
 # Local files
 custom.el
+recentf
+projectile-bookmarks.eld

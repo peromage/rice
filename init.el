@@ -22,7 +22,18 @@
 (require 'init-utils)
 (require 'init-elpa)
 
-;; Variables configured via the interactive 'customize' interface
+;; Extensions
+(require 'pack-themes)
+(require 'pack-helm)
+(require 'pack-magit)
+(require 'pack-projectile)
+(require 'pack-company)
+(require 'pack-flycheck)
+(require 'pack-which-key)
+(require 'pack-yasnippet)
+(require 'pack-lsp)
+
+;; Variables configured via the interactive 'customize' interfaces
 ;; Load this at the last to prevent local configurations from being overridden
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -34,3 +45,4 @@
 ;;; coding: utf-8
 ;;; no-byte-compile: t
 ;;; End:
+;;; init.el ends here
