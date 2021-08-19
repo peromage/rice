@@ -5,10 +5,11 @@
 (use-package dired
   :ensure nil
   :commands (dired dired-jump dired-find-file)
-  :bind (:map dired-mode-map
-              ("RET" . dired-find-alternate-file)
-              ("^" . (lambda () (interactive) (find-alternate-file "..")))
-              ("DEL" . (lambda () (interactive) (find-alternate-file ".."))))
+  :bind (("C-x C-d" . (lambda () (interactive) (find-alternate-file default-directory)))
+         :map dired-mode-map
+         ("RET" . dired-find-alternate-file)
+         ("^" . (lambda () (interactive) (find-alternate-file "..")))
+         ("DEL" . (lambda () (interactive) (find-alternate-file ".."))))
   :init
   (setq dired-listing-switches "-alF --group-directories-first")
   (setq dired-dwim-target t)
