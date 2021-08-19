@@ -7,3 +7,4 @@
   (company-mode 1))
 
 (provide 'pack-company)
+;;; pack-company.el ends here

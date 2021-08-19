@@ -5,3 +5,4 @@
 (setq user-mail-address "peromage@outlook.com")
 
 (provide 'init-user)
+;;; init-user.el ends here

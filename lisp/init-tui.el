@@ -6,3 +6,4 @@
   (xterm-mouse-mode 1))
 
 (provide 'init-tui)
+;;; init-tui.el ends here

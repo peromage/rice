@@ -20,3 +20,4 @@
               (server-start))))
 
 (provide 'init-boot)
+;;; init-boot.el ends here

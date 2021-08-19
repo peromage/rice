@@ -58,3 +58,4 @@
 (electric-pair-mode 1)
 
 (provide 'init-basic)
+;;; init-basic.el ends here

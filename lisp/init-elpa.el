@@ -32,5 +32,7 @@
   (require 'use-package))
 ;; Make sure packages will be installed
 (setq use-package-always-ensure t)
+(use-package diminish)
 
 (provide 'init-elpa)
+;;; init-elpa.el ends here
