@@ -1,4 +1,4 @@
-;;; pack-themes.el --- Good looking themes
+;;; pack-themes.el --- Good looking themes -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

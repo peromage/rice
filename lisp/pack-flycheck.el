@@ -1,4 +1,4 @@
-;;; pack-flycheck.el --- Syntax checks
+;;; pack-flycheck.el --- Syntax checks -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

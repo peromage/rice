@@ -1,4 +1,4 @@
-;;; pack-company.el --- Completion
+;;; pack-company.el --- Completion -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

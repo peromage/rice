@@ -1,4 +1,4 @@
-;;; pack-dired.el --- File management
+;;; pack-dired.el --- File management -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

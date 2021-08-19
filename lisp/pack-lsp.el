@@ -1,4 +1,4 @@
-;;; pack-lsp.el --- Language Server Protocol supports
+;;; pack-lsp.el --- Language Server Protocol supports -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

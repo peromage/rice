@@ -1,4 +1,4 @@
-;;; pack-magit.el --- Git porcelain
+;;; pack-magit.el --- Git porcelain -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

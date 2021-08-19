@@ -1,4 +1,4 @@
-;;; pack-yasnippet.el --- Snippets
+;;; pack-yasnippet.el --- Snippets -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

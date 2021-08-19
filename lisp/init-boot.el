@@ -1,4 +1,4 @@
-;;; init-boot.el --- Boot environment
+;;; init-boot.el --- Boot environment -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; This file configures the environment while booting up.
@@ -18,6 +18,8 @@
             (require 'server)
             (unless (server-running-p)
               (server-start))))
+(message "init-boot!!!")
+(message "lexical binding: %S" lexical-binding)
 
 (provide 'init-boot)
 ;;; init-boot.el ends here

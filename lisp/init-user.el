@@ -1,4 +1,4 @@
-;;; init-user.el --- User information
+;;; init-user.el --- User information -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

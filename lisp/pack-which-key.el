@@ -1,4 +1,4 @@
-;;; pack-which-key.el --- Keymap navigation
+;;; pack-which-key.el --- Keymap navigation -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

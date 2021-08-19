@@ -1,4 +1,4 @@
-;;; init-tui.el --- TUI specific configurations
+;;; init-tui.el --- TUI specific configurations -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

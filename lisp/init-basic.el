@@ -1,4 +1,4 @@
-;;; init-basic.el --- Basic Emacs configuration
+;;; init-basic.el --- Basic Emacs configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

@@ -1,4 +1,4 @@
-;;; init-elpa.el --- Configurations for package.el
+;;; init-elpa.el --- Configurations for package.el -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

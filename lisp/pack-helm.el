@@ -1,4 +1,4 @@
-;;; pack-helm.el --- Helm for quick search
+;;; pack-helm.el --- Helm for quick search -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
