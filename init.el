@@ -26,19 +26,14 @@
 
 ;; Core settings
 (require 'init-vanilla)
-(require 'init-utils)
 (require 'init-elpa)
+(require 'init-utils)
 
 ;; Other packages
-(require 'pack-themes)
-(require 'pack-dired)
-(require 'pack-helm)
-(require 'pack-magit)
-(require 'pack-projectile)
-(require 'pack-company)
-(require 'pack-flycheck)
-(require 'pack-which-key)
-(require 'pack-yasnippet)
+(require 'pack-style)
+(require 'pack-navi)
+(require 'pack-git)
+(require 'pack-code)
 (require 'pack-lsp)
 
 ;;==============================================================================
