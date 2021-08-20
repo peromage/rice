@@ -11,7 +11,7 @@
          ("^" . (lambda () (interactive) (find-alternate-file "..")))
          ("DEL" . (lambda () (interactive) (find-alternate-file ".."))))
   :init
-  (setq dired-listing-switches "-alF --group-directories-first")
+  (setq dired-listing-switches "-alFD --group-directories-first")
   (setq dired-dwim-target t)
   (put 'dired-find-alternate-file 'disabled nil)
   :config
