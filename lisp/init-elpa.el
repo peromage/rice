@@ -1,5 +1,9 @@
 ;;; init-elpa.el --- Configurations for package.el -*- lexical-binding: t -*-
 ;;; Commentary:
+;;;
+;;; This ELPA initialization configuration should be loaded before any other
+;;; package settings.
+;;;
 ;;; Code:
 
 (require 'package)
@@ -30,8 +34,11 @@
 (eval-when-compile
   (message "loading use-package")
   (require 'use-package))
-;; Make sure packages will be installed
+
+;; Make sure future packages will be installed
 (setq use-package-always-ensure t)
+
+;; use-package's utilities
 (use-package diminish)
 
 (provide 'init-elpa)

@@ -1,10 +1,32 @@
-;;; init-basic.el --- Basic Emacs configuration -*- lexical-binding: t -*-
+;;; init-vanilla.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
 ;;; Commentary:
+;;;
+;;; This file should only contains the universal vanilla Emacs settings.
+;;; This should be loaded first since it is the core configuration.
+;;;
 ;;; Code:
 
-;; =============================================================================
+;;==============================================================================
+;; Initialization
+;;==============================================================================
+
+;; Adjust garbage collection thresholds during startup, and thereafter
+(let ((normal-gc-cons-threshold (* 20 1024 1024))
+      (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+;; Allow access from emacsclient
+(add-hook 'after-init-hook
+          (lambda ()
+            (require 'server)
+            (unless (server-running-p)
+              (server-start))))
+
+;;==============================================================================
 ;; Settings by variables
-;; =============================================================================
+;;==============================================================================
 
 (setq-default
 
@@ -59,9 +81,9 @@
  split-width-threshold nil
  split-height-threshold 0)
 
-;; =============================================================================
+;;==============================================================================
 ;; Settings by functions
-;; =============================================================================
+;;==============================================================================
 
 ;; Appearance
 (scroll-bar-mode -1)
@@ -86,5 +108,12 @@
 ;; Encoding
 (set-language-environment "UTF-8")
 
-(provide 'init-basic)
-;;; init-basic.el ends here
+;;==============================================================================
+;; TUI settings
+;;==============================================================================
+
+(unless window-system
+  (xterm-mouse-mode 1))
+
+(provide 'init-vanilla)
+;;; init-vanilla.el ends here

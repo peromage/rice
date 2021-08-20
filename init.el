@@ -6,23 +6,30 @@
 
 ;;; Code:
 
+;;==============================================================================
 ;; Minimal version required
+;;==============================================================================
+
 (when (version< emacs-version "26.1")
   (error "Emacs' version is too old. Please use 26.1 and above."))
 
+;;==============================================================================
 ;; Paths
+;;==============================================================================
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
+;;==============================================================================
 ;; Bootstrap
-(require 'init-user)
-(require 'init-boot)
-(require 'init-basic)
-(require 'init-tui)
+;;==============================================================================
+
+;; Core settings
+(require 'init-vanilla)
 (require 'init-utils)
 (require 'init-elpa)
 
-;; Extensions
+;; Other packages
 (require 'pack-themes)
 (require 'pack-dired)
 (require 'pack-helm)
@@ -33,6 +40,10 @@
 (require 'pack-which-key)
 (require 'pack-yasnippet)
 (require 'pack-lsp)
+
+;;==============================================================================
+;; Wrapups
+;;==============================================================================
 
 ;; Variables configured via the interactive 'customize' interfaces
 ;; Load this at the last to prevent local configurations from being overridden

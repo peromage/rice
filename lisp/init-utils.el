@@ -7,12 +7,12 @@
 ;;; Code:
 
 ;; Debug functions
-(defun peco/reload-initel ()
+(defun pew/reload-initel ()
   "Reload the config file."
   (interactive)
   (load-file user-init-file))
 
-(defun peco/open-initel ()
+(defun pew/open-initel ()
   "Open the config file."
   (interactive)
   (find-file user-init-file))
