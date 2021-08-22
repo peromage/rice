@@ -18,11 +18,13 @@
             (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 
 ;; Allow access from emacsclient
-(add-hook 'after-init-hook
-          (lambda ()
-            (require 'server)
-            (unless (server-running-p)
-              (server-start))))
+(defun pew/start-emacs-daemon ()
+  "Start daemon if it does not exist."
+  (require 'server)
+  (unless (server-running-p)
+    (message "[pew] Starting Emacs daemon...")
+    (server-start)))
+(add-hook 'after-init-hook #'pew/start-emacs-daemon)
 
 ;;==============================================================================
 ;; Settings by variables
@@ -41,8 +43,8 @@
  whitespace-style '(face trailing tab-mark)
 
  ;; Do not wrap by default
- word-wrap nil
- line-move-visual nil
+ word-wrap t
+ line-move-visual t
  truncate-lines t
  truncate-partial-width-windows nil
 
