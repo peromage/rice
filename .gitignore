@@ -1,12 +1,20 @@
-# Emacs auto-generated directories
+## Emacs auto-generated directories
+
 auto-save-list/
 elpa/
 elpa-*/
 games/
 url/
 transient/
+cache/
 
-# Local files
+## Local files
+
 custom.el
+local.el
+local.sh
+local.ps1
 recentf
 projectile-bookmarks.eld
+bookmarks
+ido.last

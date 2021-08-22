@@ -1,4 +1,4 @@
-;;; pack-code.el --- Coding convenience -*- lexical-binding: t -*-
+;;; pack-typing.el --- Coding convenience -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -8,7 +8,7 @@
 
 (use-package flycheck
   :diminish flycheck-mode
-  :config
+  :init
   (global-flycheck-mode 1))
 
 ;;==============================================================================
@@ -16,8 +16,23 @@
 ;;==============================================================================
 
 (use-package company
+  :diminish company-mode
+  :bind (("C-c i" . company-complete)
+         :map company-active-map
+         ("<tab>" . company-complete-common-or-cycle)
+         ("<RET>" . company-abort)
+         ("<return" . company-abort))
+  :init
+  (setq company-tooltip-align-annotations t
+        company-tooltip-limit 10
+        company-tooltip-idle-delay 0.2
+        company-idle-delay 0.2
+        company-show-numbers t
+        company-minimum-prefix-length 1
+        company-selection-wrap-around t)
+  (global-company-mode 1)
   :config
-  (company-mode 1))
+  (company-tng-mode 1))
 
 ;;==============================================================================
 ;; Snippets
@@ -25,8 +40,8 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :config
+  :init
   (yas-global-mode 1))
 
-(provide 'pack-code)
-;;; pack-code.el ends here
+(provide 'pack-typing)
+;;; pack-typing.el ends here

@@ -17,8 +17,13 @@
 ;; Paths
 ;;==============================================================================
 
+;; Cache directory for local files
+(let ((local-cache-dir (expand-file-name "cache" user-emacs-directory)))
+  (unless (file-directory-p local-cache-dir)
+      (make-directory local-cache-dir t)))
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (expand-file-name "local.el" user-emacs-directory))
 
 ;;==============================================================================
 ;; Bootstrap
@@ -32,8 +37,9 @@
 ;; Other packages
 (require 'pack-style)
 (require 'pack-navi)
+(require 'pack-org)
 (require 'pack-git)
-(require 'pack-code)
+(require 'pack-typing)
 (require 'pack-lsp)
 
 ;;==============================================================================

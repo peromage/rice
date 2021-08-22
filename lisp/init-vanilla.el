@@ -51,7 +51,6 @@
  tab-width 4
  fill-column 80
  comment-column 80
- buffer-file-coding-system 'utf-8-unix
 
  ;; No annoying bell
  ring-bell-function 'ignore
@@ -77,9 +76,31 @@
  mouse-wheel-follow-mouse t
  scroll-step 1
 
- ;; Disable automatic horizontal splits
+ ;; Make the splitting handier
  split-width-threshold nil
- split-height-threshold 0)
+ split-height-threshold 0
+ help-window-select t
+
+ ;; Ido mode settings
+ ido-enable-flex-matching t
+ ido-default-file-method 'selected-window
+ ido-default-buffer-method 'selected-window
+
+ ;; Input method for emergency
+ default-input-method "chinese-py"
+
+ ;; Local files
+ ido-save-directory-list-file (expand-file-name "cache/ido.last" user-emacs-directory)
+ bookmark-default-file (expand-file-name "cache/bookmarks" user-emacs-directory)
+ recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory)
+
+ ;; Scratch buffer message
+ initial-scratch-message ";; Happy hacking\n\n"
+
+ ;; Advanced minibuffer
+ enable-recursive-minibuffers t
+ resize-mini-windows 'grow-only
+ max-mini-window-height 0.3)
 
 ;;==============================================================================
 ;; Settings by functions
@@ -99,15 +120,25 @@
 (blink-cursor-mode -1)
 
 ;; Convenience
-(electric-pair-mode 1)
-(electric-indent-mode 1)
 (delete-selection-mode 1)
+(winner-mode 1)
+(recentf-mode 1)
+(ido-mode 1)
+
+;; Electric helpers
+(electric-pair-mode -1)
+(electric-indent-mode 1)
 
 ;; Default theme
 (load-theme 'tango-dark t nil)
 
 ;; Encoding
 (set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8-unix)
+(set-buffer-file-coding-system 'utf-8-unix)
+
+;; Replace the default crap buffer manager with ibuffer
+(defalias 'list-buffers 'ibuffer)
 
 ;;==============================================================================
 ;; TUI settings
