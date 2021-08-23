@@ -36,11 +36,11 @@
 
 ;; Other packages
 (require 'pack-style)
-(require 'pack-navi)
-(require 'pack-org)
+(require 'pack-navigation)
 (require 'pack-git)
 (require 'pack-typing)
 (require 'pack-lsp)
+(require 'pack-org)
 
 ;;==============================================================================
 ;; Wrapups

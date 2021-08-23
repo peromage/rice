@@ -19,9 +19,7 @@
   :diminish company-mode
   :bind (("C-c i" . company-complete)
          :map company-active-map
-         ("<tab>" . company-complete-common-or-cycle)
-         ("<RET>" . company-abort)
-         ("<return" . company-abort))
+         ("<tab>" . company-complete-common-or-cycle))
   :init
   (setq company-tooltip-align-annotations t
         company-tooltip-limit 10
@@ -33,6 +31,9 @@
   (global-company-mode 1)
   :config
   (company-tng-mode 1))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 
 ;;==============================================================================
 ;; Snippets

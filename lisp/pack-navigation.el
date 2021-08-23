@@ -1,4 +1,4 @@
-;;; pack-navi.el --- Navigation enhancement -*- lexical-binding: t -*-
+;;; pack-navigation.el --- Navigation enhancement -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -24,7 +24,7 @@
 ;;==============================================================================
 ;; Completion framework
 ;;==============================================================================
-(require 'pack-navi-ivy)
+(require 'pack-navigation-ivy)
 
 ;;==============================================================================
 ;; Sidebar file navigation
@@ -77,5 +77,5 @@
   :init
   (eyebrowse-mode 1))
 
-(provide 'pack-navi)
-;;; pack-navi.el ends here
+(provide 'pack-navigation)
+;;; pack-navigation.el ends here

@@ -1,4 +1,4 @@
-;;; pack-navi-helm.el --- Framework Helm -*- lexical-binding: t -*-
+;;; pack-navigation-helm.el --- Framework Helm -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -26,5 +26,5 @@
   :config
   (helm-autoresize-mode 1))
 
-(provide 'pack-navi-helm)
-;;; pack-navi-helm.el ends here
+(provide 'pack-navigation-helm)
+;;; pack-navigation-helm.el ends here

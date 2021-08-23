@@ -1,4 +1,4 @@
-;;; pack-navi-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
+;;; pack-navigation-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -24,7 +24,12 @@
         ivy-on-del-error-function #'ignore
         ivy-display-style 'fancy)
   (ivy-mode 1)
-  (counsel-mode 1))
+  (counsel-mode 1)
+  :config
+  (let ((ignored-buffers
+         '("\\`\\*"
+           "\\`magit")))
+    (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) ignored-buffers)))
 
 ;; Makes Ivy show more information
 (use-package ivy-rich
@@ -60,5 +65,5 @@
   ;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
-(provide 'pack-navi-ivy)
-;;; pack-navi-ivy.el ends here
+(provide 'pack-navigation-ivy)
+;;; pack-navigation-ivy.el ends here
