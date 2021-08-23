@@ -12,6 +12,8 @@
   :init
   (setq helm-split-window-inside-p t
         helm-echo-input-in-header-line t
+        helm-use-frame-when-more-than-two-windows nil
+        helm-always-two-windows nil
         helm-ff-file-name-history-use-recentf t
         helm-autoresize-max-height 30
         helm-autoresize-min-height 20

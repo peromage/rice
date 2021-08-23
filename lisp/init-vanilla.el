@@ -134,7 +134,7 @@
 (ido-mode 1)
 
 ;; Electric helpers
-(electric-pair-mode -1)
+(electric-pair-mode 1)
 (electric-indent-mode 1)
 
 ;; Default theme
