@@ -10,8 +10,9 @@
 ;; Minimal version required
 ;;==============================================================================
 
-(when (version< emacs-version "26.1")
-  (error "Emacs' version is too old. Please use 26.1 and above."))
+(let ((minimal-emacs-version "27"))
+  (when (version< emacs-version minimal-emacs-version)
+    (error "Emacs' version is too old. Please use %s and above." minimal-emacs-version)))
 
 ;;==============================================================================
 ;; Paths
@@ -41,6 +42,7 @@
 (require 'pack-typing)
 (require 'pack-lsp)
 (require 'pack-org)
+(require 'pack-terminal)
 
 ;;==============================================================================
 ;; Wrapups
