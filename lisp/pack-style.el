@@ -2,10 +2,12 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Colors
+;; Colors schemes
 (use-package moe-theme :defer t)
 (use-package doom-themes :defer t)
-(use-package dracula-theme :init (load-theme 'dracula t))
+(use-package dracula-theme :defer t)
+
+(load-theme 'dracula t)
 
 ;; Icons
 (use-package all-the-icons)
