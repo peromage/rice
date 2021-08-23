@@ -42,7 +42,7 @@
  cursor-type 'bar
  whitespace-style '(face trailing tab-mark)
 
- ;; No wrap by default
+ ;; No line wrap by default
  word-wrap t
  line-move-visual t
  truncate-lines t
@@ -60,17 +60,6 @@
 
  ;; Default major mode
  major-mode 'text-mode
-
- ;; No backup and auto-save
- make-backup-files nil
- auto-save-timeout 0
- auto-save-interval 0
-
- ;; No bookmark file
- bookmark-file nil
-
- ;; Uses lock files
- create-lockfiles t
 
  ;; Smooth scrolling
  mouse-wheel-scroll-amount '(2 ((shift) . 5))
@@ -106,11 +95,17 @@
  ido-save-directory-list-file (expand-file-name "cache/ido.last" user-emacs-directory)
  bookmark-default-file (expand-file-name "cache/bookmarks" user-emacs-directory)
  recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory)
+ ;; Uses lock files
+ create-lockfiles t
+ ;; No backup and auto-save
+ make-backup-files nil
+ auto-save-timeout 0
+ auto-save-interval 0
 
  ;; Scratch buffer message
  initial-scratch-message ";; Happy hacking\n\n"
 
- ;; Advanced minibuffer
+ ;; Better minibuffer
  enable-recursive-minibuffers t
  resize-mini-windows 'grow-only
  max-mini-window-height 0.3)
@@ -150,7 +145,7 @@
 (set-default-coding-systems 'utf-8-unix)
 (set-buffer-file-coding-system 'utf-8-unix)
 
-;; Replace the default crap buffer manager with ibuffer
+;; Replaces the default crap buffer manager with ibuffer
 (defalias 'list-buffers 'ibuffer)
 
 ;;==============================================================================
