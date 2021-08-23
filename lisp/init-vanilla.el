@@ -42,7 +42,7 @@
  cursor-type 'bar
  whitespace-style '(face trailing tab-mark)
 
- ;; Do not wrap by default
+ ;; No wrap by default
  word-wrap t
  line-move-visual t
  truncate-lines t
@@ -69,7 +69,7 @@
  ;; No bookmark file
  bookmark-file nil
 
- ;; Use lock files
+ ;; Uses lock files
  create-lockfiles t
 
  ;; Smooth scrolling
@@ -78,10 +78,15 @@
  mouse-wheel-follow-mouse t
  scroll-step 1
 
- ;; Make the splitting handier
+ ;; Window splitting behavior
  split-width-threshold nil
  split-height-threshold 0
  help-window-select t
+ ;; Splits properly
+ display-buffer-base-action
+ '((display-buffer-reuse-window display-buffer-below-selected)
+   (inhibit-switch-frame . t)
+   (reusable-frames . nil))
 
  ;; Ido mode settings
  ido-enable-flex-matching t
