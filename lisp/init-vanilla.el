@@ -77,6 +77,12 @@
  mouse-wheel-progressive-speed nil
  mouse-wheel-follow-mouse t
  scroll-step 1
+ scroll-margin 0
+ scroll-conservatively 101
+ scroll-up-aggressively 0.01
+ scroll-down-aggressively 0.01
+ scroll-preserve-screen-position t
+ auto-window-vscroll nil
 
  ;; Window splitting behavior
  split-width-threshold nil
