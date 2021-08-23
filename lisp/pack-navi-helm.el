@@ -5,10 +5,10 @@
 (use-package helm
   :diminish helm-mode
   :bind (("M-x" . helm-M-x)
-         ("C-x f" . helm-find-files)
-         ("C-x C-f" . helm-find)
-         ("C-x C-b" . helm-mini)
-         ("C-x b" . helm-buffers-list))
+         ("C-s" . helm-occur)
+         ("C-x f" . helm-find)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-mini))
   :init
   (setq helm-split-window-inside-p t
         helm-echo-input-in-header-line t

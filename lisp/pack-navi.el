@@ -46,7 +46,8 @@
            :init
            (counsel-projectile-mode 1)))
         ((featurep 'helm)
-         (setq projectile-completion-system 'helm))))
+         (setq projectile-completion-system 'helm)
+         (use-package helm-projectile))))
 
 ;;==============================================================================
 ;; Key binding quick view
