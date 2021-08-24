@@ -130,6 +130,7 @@
 (global-display-fill-column-indicator-mode 1)
 
 ;; Convenience
+(auto-fill-mode -1)
 (delete-selection-mode 1)
 (winner-mode 1)
 (recentf-mode 1)

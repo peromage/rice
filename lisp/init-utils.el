@@ -17,5 +17,9 @@
   (interactive)
   (find-file user-init-file))
 
+(defun pew/find-keyname (keycode)
+  "Display corresponding key name from KEYCODE."
+  (help-key-description (vector keycode) nil))
+
 (provide 'init-utils)
 ;;; init-utils.el ends here
