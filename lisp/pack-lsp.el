@@ -4,6 +4,10 @@
 
 (use-package lsp-mode
   :commands lsp
+  :bind
+  (:map lsp-mode-map
+        ("C-c j" . lsp-find-definition)
+        ("C-c k" . lsp-find-declaration))
   :init
   (setq lsp-auto-configure t
         lsp-enable-symbol-highlighting t
