@@ -53,6 +53,7 @@
  tab-width 4
  fill-column 80
  comment-column 80
+ display-fill-column-indicator-column 80
 
  ;; No annoying bell
  ring-bell-function 'ignore
@@ -126,6 +127,7 @@
 (global-whitespace-mode 1)
 (global-hl-line-mode 1)
 (blink-cursor-mode -1)
+(global-display-fill-column-indicator-mode 1)
 
 ;; Convenience
 (delete-selection-mode 1)
