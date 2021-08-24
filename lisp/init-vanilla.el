@@ -35,7 +35,10 @@
  ;; Startup
  inhibit-startup-screen t
  inhibit-startup-buffer-menu t
- inhibit-startup-echo-area-message t
+ ;; Does not work but I don't want a nasty hack. Set it in customize instead if
+ ;; it is really bothering See:
+ ;; https://yann.hodique.info/blog/rant-obfuscation-in-emacs/
+ inhibit-startup-echo-area-message user-login-name
 
  ;; Appearance
  display-line-numbers-type 'relative

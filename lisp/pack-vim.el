@@ -43,9 +43,10 @@
        (cdr binding))))
   ;; Modes that don't use Evil
   (let ((excluded-modes
-         '(help-mode
-           dired-mode
-           magit-status-mode)))
+         '(dired-mode
+           ;;help-mode
+           ;;magit-status-mode
+           )))
     (dolist (mode excluded-modes)
       (evil-set-initial-state mode 'emacs))))
 

@@ -24,8 +24,8 @@
   :init
   (setq company-tooltip-align-annotations t
         company-tooltip-limit 10
-        company-tooltip-idle-delay 0.1
-        company-idle-delay 0.1
+        company-tooltip-idle-delay 0.3
+        company-idle-delay 0.2
         company-show-numbers t
         company-minimum-prefix-length 1
         company-selection-wrap-around t
