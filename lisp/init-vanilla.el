@@ -104,7 +104,7 @@
  auto-save-interval 0
 
  ;; Scratch buffer message
- initial-scratch-message ";; Happy hacking\n\n"
+ initial-scratch-message ""
 
  ;; Better minibuffer
  enable-recursive-minibuffers t
