@@ -43,6 +43,7 @@
 (require 'pack-lsp)
 (require 'pack-org)
 (require 'pack-terminal)
+(require 'pack-vim)
 
 ;;==============================================================================
 ;; Wrapups
