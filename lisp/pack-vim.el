@@ -10,7 +10,8 @@
         evil-disable-insert-state-bindings t
         evil-split-window-below t
         evil-vsplit-window-right t
-        evil-auto-balance-windows t)
+        evil-auto-balance-windows t
+        evil-search-module 'evil-search)
   (evil-mode 1)
   :config
   ;; Leader key bindings in normal mode
@@ -24,24 +25,29 @@
            ("l" . evil-window-right)
            ("s" . evil-window-split)
            ("v" . evil-window-vsplit))))
-    (mapcar (lambda (binding)
-              (evil-global-set-key
-                'normal
-                (kbd (format "<leader>%s" (car binding)))
-                (cdr binding)))
-            key-bindings-with-leader-in-normal))
-  ;; Individual key in normal mode
+    (dolist (binding key-bindings-with-leader-in-normal)
+      (evil-global-set-key
+       'normal
+       (kbd (format "<leader>%s" (car binding)))
+       (cdr binding))))
+  ;; Individual keys in normal mode
   (let ((key-bindings-in-normal
          '(("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
            ("<right>" . evil-window-increase-width))))
-    (mapcar (lambda (binding)
-              (evil-global-set-key
-                'normal
-                (kbd (car binding))
-                (cdr binding)))
-            key-bindings-in-normal)))
+    (dolist (binding key-bindings-in-normal)
+      (evil-global-set-key
+       'normal
+       (kbd (car binding))
+       (cdr binding))))
+  ;; Modes that don't use Evil
+  (let ((excluded-modes
+         '(help-mode
+           dired-mode
+           magit-status-mode)))
+    (dolist (mode excluded-modes)
+      (evil-set-initial-state mode 'emacs))))
 
 (provide 'pack-vim)
 ;;; pack-vim.el ends here
