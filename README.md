@@ -1,8 +1,8 @@
 # PEW - Peromage's Emacs Workstation
 
-This is my personal Emacs configuration together with some other common tools' settings as well.
+> Makes your workflow like pewpewpew
 
-This Emacs configuration is intended to be as minimal as possible.
+This is my personal Emacs configuration. It intends to be as minimal as possible.
 
 ## Get Started
 
@@ -12,12 +12,10 @@ Clone this repo and put it to your home directory with folder name `.emacs.d`.
 $ git clone https://github.com/peromage/pew.git .emacs.d
 ```
 
-Then Emacs will automatically installed everything for you.
+Then Emacs will automatically install everything for you.
 
 ## Make Local Changes
 
-Temporary local changes will be put into `local.el` including settings by `customize`.
-
-Also changes which don't need to be tracked by version control system can go into this file as well.
+Temporary local changes can go into `local.el` including settings by `customize`.
 
 `local.el` will be applied on top of the default pew configuration.
