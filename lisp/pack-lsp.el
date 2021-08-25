@@ -55,6 +55,7 @@
   :commands lsp-ivy-workspace-symbol)
 
 (require 'pack-lsp-c)
+(require 'pack-lsp-python)
 
 (provide 'pack-lsp)
 ;;; pack-lsp.el ends here
