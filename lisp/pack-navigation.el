@@ -12,7 +12,6 @@
   :bind (("C-x C-d" . (lambda () (interactive) (find-file default-directory)))
          :map dired-mode-map
          ("RET" . dired-find-alternate-file)
-         ("^" . (lambda () (interactive) (find-alternate-file "..")))
          ("DEL" . (lambda () (interactive) (find-alternate-file ".."))))
   :init
   (setq dired-listing-switches "-alFD --group-directories-first"
