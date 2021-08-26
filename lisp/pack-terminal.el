@@ -5,7 +5,8 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :init
-  (setq vterm-kill-buffer-on-exit t)
+  (setq vterm-kill-buffer-on-exit t
+        vterm-max-scrollback 99999)
   :config
   (use-package multi-vterm))
 
