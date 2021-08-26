@@ -19,7 +19,8 @@
 
 (defun pew/find-keyname (keycode)
   "Display corresponding key name from KEYCODE."
-  (help-key-description (vector keycode) nil))
+  (interactive "nKeycode to name: ")
+  (message "%s" (help-key-description (vector keycode) nil)))
 
 (provide 'init-utils)
 ;;; init-utils.el ends here

@@ -51,9 +51,12 @@
  truncate-lines t
  truncate-partial-width-windows nil
 
- ;; Text format
+ ;; Indentation
  indent-tabs-mode nil
  tab-width 4
+ backward-delete-char-untabify-method 'hungry
+
+ ;; Ruler
  fill-column 80
  comment-column 80
  display-fill-column-indicator-column 80

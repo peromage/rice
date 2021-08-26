@@ -17,14 +17,17 @@
 
 (use-package company
   :diminish company-mode
-  :bind (("C-c i" . company-complete)
+  :bind (:map company-mode-map
+         ("C-c i" . company-complete)
+         ([remap completion-at-point] . company-complete)
+         ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
          ("<tab>" . company-complete)
          ("C-SPC" . company-search-abort))
   :init
   (setq company-tooltip-align-annotations t
         company-tooltip-limit 10
-        company-tooltip-idle-delay 0.3
+        company-tooltip-idle-delay 0.5
         company-idle-delay 0.2
         company-show-numbers t
         company-minimum-prefix-length 1
