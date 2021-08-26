@@ -2,6 +2,16 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun pew-pack/evil-set-keybindings (state binding-list)
+  "Set a list of keybindings BINDING-LIST to a STATE globally."
+  (dolist (binding binding-list)
+    (evil-global-set-key state (kbd (car binding)) (cdr binding))))
+
+(defun pew-pack/evil-set-keybindings-in-normal-and-motion-state (binding-list)
+  "Set BINDING-LIST in both normal and motion state."
+  (pew-pack/evil-set-keybindings 'normal binding-list)
+  (pew-pack/evil-set-keybindings 'motion binding-list))
+
 (use-package evil
   :init
   (setq evil-want-integration t
@@ -15,32 +25,24 @@
   (evil-mode 1)
   :config
   ;; Leader key bindings in normal mode
-  (evil-set-leader 'normal (kbd "SPC"))
-  (let ((key-bindings-with-leader-in-normal
-         '(("w" . save-buffer)
-           ("q" . evil-quit)
-           ("h" . evil-window-left)
-           ("j" . evil-window-down)
-           ("k" . evil-window-up)
-           ("l" . evil-window-right)
-           ("s" . evil-window-split)
-           ("v" . evil-window-vsplit))))
-    (dolist (binding key-bindings-with-leader-in-normal)
-      (evil-global-set-key
-       'normal
-       (kbd (format "<leader>%s" (car binding)))
-       (cdr binding))))
+  (evil-set-leader '(normal motion) (kbd "SPC"))
+  (let ((keybindings
+         '(("<leader>w" . save-buffer)
+           ("<leader>q" . evil-quit)
+           ("<leader>h" . evil-window-left)
+           ("<leader>j" . evil-window-down)
+           ("<leader>k" . evil-window-up)
+           ("<leader>l" . evil-window-right)
+           ("<leader>s" . evil-window-split)
+           ("<leader>v" . evil-window-vsplit))))
+    (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
   ;; Individual keys in normal mode
-  (let ((key-bindings-in-normal
+  (let ((keybindings
          '(("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
            ("<right>" . evil-window-increase-width))))
-    (dolist (binding key-bindings-in-normal)
-      (evil-global-set-key
-       'normal
-       (kbd (car binding))
-       (cdr binding))))
+    (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(dired-mode
