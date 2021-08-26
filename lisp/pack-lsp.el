@@ -11,7 +11,7 @@
   :init
   (setq lsp-auto-configure t
         lsp-enable-symbol-highlighting t
-        lsp-lens-enable t
+        lsp-lens-enable nil
         lsp-headerline-breadcrumb-enable t
         lsp-idle-delay 0.5
         lsp-session-file (expand-file-name "cache/.lsp-session-v1" user-emacs-directory)
@@ -31,17 +31,17 @@
   :init
   (setq lsp-ui-peek-enable t
         lsp-ui-peek-show-directory t
-        lsp-ui-sideline-enable t
+        lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-hover t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-show-code-actions t
         lsp-ui-sideline-update-mode 'point
-        lsp-ui-sideline-delay 0.2
+        lsp-ui-sideline-delay 1
         lsp-ui-doc-enable t
         lsp-ui-doc-position 'bottom
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
-        lsp-ui-doc-delay 0.2
+        lsp-ui-doc-delay 1
         lsp-eldoc-enable-hover nil
         lsp-modeline-diagnostics-enable t
         lsp-modeline-code-actions-enable t
