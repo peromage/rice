@@ -5,6 +5,7 @@
 (use-package lsp-python-ms
   :init
   (setq lsp-python-ms-auto-install-server t)
+  (setq lsp-python-ms-python-executable (executable-find "python3"))
   :hook (python-mode . (lambda ()
                          (require 'lsp-python-ms)
                          (lsp))))
