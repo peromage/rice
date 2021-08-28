@@ -14,8 +14,14 @@ $ git clone https://github.com/peromage/pew.git .emacs.d
 
 Then Emacs will automatically install everything for you.
 
-## Make Local Changes
+## Local Files
 
-Temporary local changes can go into `local.el` including settings by `customize`.
+Temporary local changes can go into `pew/local.el` including settings by `customize`.
 
 `local.el` will be applied on top of the default pew configuration.
+
+## Directories
+
+- *lisp*: Pew configurations.
+- *site-lisp*: Third party packages.
+- *snippets*: My snippets.
