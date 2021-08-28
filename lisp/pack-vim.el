@@ -15,7 +15,7 @@
 (use-package evil
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil
+        evil-want-keybinding t
         evil-want-minibuffer nil
         evil-disable-insert-state-bindings t
         evil-split-window-below t
@@ -45,7 +45,7 @@
     (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
-         '(dired-mode
+         '(;;dired-mode
            ;;help-mode
            ;;magit-status-mode
            )))
