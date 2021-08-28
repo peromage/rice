@@ -102,8 +102,8 @@
  ido-save-directory-list-file (expand-file-name "cache/ido.last" user-emacs-directory)
  bookmark-default-file (expand-file-name "cache/bookmarks" user-emacs-directory)
  recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory)
- ;; Uses lock files
- create-lockfiles t
+ ;; No lock files
+ create-lockfiles nil
  ;; No backup and auto-save
  make-backup-files nil
  auto-save-timeout 0
@@ -115,7 +115,11 @@
  ;; Better minibuffer
  enable-recursive-minibuffers t
  resize-mini-windows 'grow-only
- max-mini-window-height 0.3)
+ max-mini-window-height 0.3
+
+ ;; Final newline
+ require-final-newline t
+ mode-require-final-newline t)
 
 ;;==============================================================================
 ;; Settings by functions
