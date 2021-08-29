@@ -36,7 +36,7 @@
 (require 'init-utils)
 
 ;; Other packages
-(require 'pack-style)
+(require 'pack-theme)
 (require 'pack-navigation)
 (require 'pack-git)
 (require 'pack-typing)

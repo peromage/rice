@@ -21,6 +21,7 @@ local.sh
 local.ps1
 recentf
 projectile-bookmarks.eld
+projects
 bookmarks
 ido.last
 todo.org

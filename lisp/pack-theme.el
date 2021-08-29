@@ -1,4 +1,4 @@
-;;; pack-style.el --- Visual enhancement -*- lexical-binding: t -*-
+;;; pack-theme.el --- Visual enhancement -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -22,5 +22,5 @@
   (setq doom-modeline-height 1)
   (doom-modeline-mode 1))
 
-(provide 'pack-style)
-;;; pack-style.el ends here
+(provide 'pack-theme)
+;;; pack-theme.el ends here
