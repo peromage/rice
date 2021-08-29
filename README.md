@@ -25,3 +25,8 @@ Temporary local changes can go into `pew/local.el` including settings by `custom
 - *lisp*: Pew configurations.
 - *site-lisp*: Third party packages.
 - *snippets*: My snippets.
+
+## TODO
+
+- [ ] DAP mode
+- [ ] TRAMP mode
