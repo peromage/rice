@@ -32,9 +32,8 @@
 ;; Makes Ivy show more information
 (use-package ivy-rich
   :after ivy
-  :init
-  (ivy-rich-mode 1)
   :config
+  (ivy-rich-mode 1)
   (setq ivy-rich-path-style 'abbrev)
   (ivy-rich-set-columns
    'ivy-switch-buffer
@@ -60,7 +59,7 @@
   (setq ivy-prescient-enable-filtering nil)
   :config
   ;; Uncomment the following line to have sorting remembered across sessions!
-  ;(prescient-persist-mode 1)
+  ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
 (provide 'pack-navigation-ivy)

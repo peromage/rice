@@ -52,5 +52,11 @@
     (dolist (mode excluded-modes)
       (evil-set-initial-state mode 'emacs))))
 
+;;(use-package evil-collection
+;;  :after evil
+;;  :config
+;;  (setq evil-want-keybinding nil)
+;;  (evil-collection-init))
+
 (provide 'pack-vim)
 ;;; pack-vim.el ends here

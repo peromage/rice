@@ -46,7 +46,7 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :init
+  :config
   (yas-global-mode 1))
 
 (provide 'pack-typing)

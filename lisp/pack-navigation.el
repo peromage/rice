@@ -42,8 +42,8 @@
   (setq projectile-known-projects-file (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory)
         projectile-cache-file (expand-file-name "cache/projectile.cache" user-emacs-directory)
         projectile-enable-caching t)
-  (projectile-mode 1)
   :config
+  (projectile-mode 1)
   ;; Enhancement when Ivy or Helm present
   (cond ((featurep 'ivy)
          (setq projectile-completion-system 'ivy)
@@ -64,8 +64,8 @@
   (setq which-key-popup-type 'minibuffer
         which-key-show-early-on-C-h nil
         which-key-idle-delay 1.0)
-  (which-key-mode 1)
   :config
+  (which-key-mode 1)
   (which-key-setup-minibuffer))
 
 ;;==============================================================================
@@ -73,8 +73,13 @@
 ;;==============================================================================
 
 (use-package eyebrowse
-  :init
+  :config
   (eyebrowse-mode 1))
+
+(use-package edwina
+  :config
+  ;;(edwina-setup-dwm-keys)
+  (edwina-mode 1))
 
 (provide 'pack-navigation)
 ;;; pack-navigation.el ends here

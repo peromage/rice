@@ -19,8 +19,8 @@
         git-gutter:visual-line nil
         git-gutter:hide-gutter nil
         git-gutter:verbosity 0)
-  (global-git-gutter-mode 1)
   :config
+  (global-git-gutter-mode 1)
   (set-face-foreground 'git-gutter:modified "yellow")
   (set-face-foreground 'git-gutter:added "green")
   (set-face-foreground 'git-gutter:deleted "red")
