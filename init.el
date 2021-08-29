@@ -2,7 +2,7 @@
 ;;; Commentary:
 
 ;; This file bootstraps the configuration, which is divided into a number of
-;; other files. Templates was from purcell/emacs.d.
+;; other files.  Templates was from purcell/emacs.d
 
 ;;; Code:
 
@@ -12,7 +12,7 @@
 
 (let ((minimal-emacs-version "27"))
   (when (version< emacs-version minimal-emacs-version)
-    (error "Emacs' version is too old. Please use %s and above." minimal-emacs-version)))
+    (error "Emacs' version is too old.  Please use %s and above" minimal-emacs-version)))
 
 ;;==============================================================================
 ;; Paths
