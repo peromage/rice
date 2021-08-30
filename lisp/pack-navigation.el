@@ -78,7 +78,7 @@
 
 (use-package edwina
   ;; Enabled on demand
-  :commands edwin-mode
+  :commands (edwina-mode edwin-mode)
   :config
   ;;(edwina-setup-dwm-keys)
   ;;(edwina-mode 1)

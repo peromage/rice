@@ -45,8 +45,8 @@
     (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
-         '(;;dired-mode
-           ;;help-mode
+         '(flycheck-error-list-mode
+           ;;dired-mode
            ;;magit-status-mode
            )))
     (dolist (mode excluded-modes)
