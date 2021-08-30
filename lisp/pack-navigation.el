@@ -77,9 +77,12 @@
   (eyebrowse-mode 1))
 
 (use-package edwina
+  ;; Enabled on demand
+  :commands edwin-mode
   :config
   ;;(edwina-setup-dwm-keys)
-  (edwina-mode 1))
+  ;;(edwina-mode 1)
+  )
 
 (provide 'pack-navigation)
 ;;; pack-navigation.el ends here
