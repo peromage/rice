@@ -47,7 +47,7 @@
 
  ;; No line wrap by default
  word-wrap t
- line-move-visual t
+ line-move-visual nil
  truncate-lines t
  truncate-partial-width-windows nil
 

@@ -4,9 +4,10 @@
 
 (defun pew-pack/term-setup ()
   "Setup for terminal on entering."
-  (setq word-wrap nil
-        truncate-lines nil
-        truncate-partial-width-windows nil)
+  (setq-local word-wrap nil
+              truncate-lines nil
+              truncate-partial-width-windows nil
+              global-hl-line-mode nil)
   (hl-line-mode -1)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
