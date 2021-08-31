@@ -72,11 +72,12 @@
  mouse-wheel-scroll-amount '(2 ((shift) . 5))
  mouse-wheel-progressive-speed nil
  mouse-wheel-follow-mouse t
- scroll-step 1
- scroll-margin 0
+ ;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Scrolling.html
  scroll-conservatively 101
- scroll-up-aggressively 0.01
- scroll-down-aggressively 0.01
+ scroll-step 0
+ scroll-up-aggressively 0.0
+ scroll-down-aggressively 0.0
+ scroll-margin 0
  scroll-preserve-screen-position t
  auto-window-vscroll nil
 
