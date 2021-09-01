@@ -30,6 +30,7 @@
         company-tooltip-idle-delay 0.5
         company-idle-delay 0.2
         company-show-numbers t
+        company-show-quick-access t
         company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-auto-complete nil)
@@ -38,7 +39,17 @@
   (company-tng-mode -1))
 
 (use-package company-box
-  :hook (company-mode . company-box-mode))
+  :after company
+  :hook (company-mode . company-box-mode)
+  :bind (:map company-active-map
+         ("C-d" . company-box-doc-manually))
+  :init
+  (setq company-box-doc-enable nil
+        company-box-doc-delay 0.5
+        company-box-enable-icon t
+        company-box-color-icon t
+        company-box-show-single-candidate 'always
+        company-box-scrollbar t))
 
 ;;==============================================================================
 ;; Snippets
