@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-pack/term-setup ()
+(defun pew-term/setup ()
   "Setup for terminal on entering."
   (setq-local word-wrap nil
               truncate-lines nil
@@ -13,12 +13,12 @@
   (display-fill-column-indicator-mode -1))
 
 ;; Eshell
-(add-hook 'eshell-mode-hook #'pew-pack/term-setup)
+(add-hook 'eshell-mode-hook #'pew-term/setup)
 
 ;; Libvterm
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
-  :hook (vterm-mode . pew-pack/term-setup)
+  :hook (vterm-mode . pew-term/setup)
   :init
   (setq vterm-kill-buffer-on-exit t
         vterm-max-scrollback 99999))

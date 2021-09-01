@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew/disable-all-themes ()
+(defun pew-theme/disable-all-themes ()
   "Disable all themes."
   (dolist (theme custom-enabled-themes)
     (disable-theme theme)))
@@ -26,7 +26,7 @@
   (doom-modeline-mode 1))
 
 ;; At last, enables global color theme with some addtional settings
-(pew/disable-all-themes)
+(pew-theme/disable-all-themes)
 (load-theme 'doom-dracula t)
 (set-face-attribute 'tab-bar nil :inherit 'default)
 

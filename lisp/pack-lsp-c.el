@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-pack/lsp-c-setup ()
+(defun pew-lsp/c-setup ()
   "Initialization for C mode."
   (setq c-basic-offset tab-width
         ;; Prevent Clangd from inserting headers itself
@@ -16,13 +16,13 @@
           "--header-insertion-decorators=0"))
   (lsp))
 
-(defun pew-pack/lsp-cpp-setup ()
+(defun pew-lsp/cpp-setup ()
   "Initialization for C++ mode."
   (c-set-offset 'innamespace [0])
-  (pew-pack/lsp-c-setup))
+  (pew-lsp/c-setup))
 
-(add-hook 'c-mode-hook #'pew-pack/lsp-c-setup)
-(add-hook 'c++-mode-hook #'pew-pack/lsp-cpp-setup)
+(add-hook 'c-mode-hook #'pew-lsp/c-setup)
+(add-hook 'c++-mode-hook #'pew-lsp/cpp-setup)
 
 (provide 'pack-lsp-c)
 ;;; pack-lsp-c.el ends here

@@ -2,17 +2,17 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-pack/evil-global-set-key (state binding-list)
+(defun pew-evil/global-set-key (state binding-list)
   "Set a list of keybindings BINDING-LIST to a STATE globally."
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
-(defun pew-pack/evil-global-set-key-in-normal-and-motion-state (binding-list)
+(defun pew-evil/global-set-key-in-normal-and-motion-state (binding-list)
   "Set BINDING-LIST in both normal and motion state."
-  (pew-pack/evil-global-set-key 'normal binding-list)
-  (pew-pack/evil-global-set-key 'motion binding-list))
+  (pew-evil/global-set-key 'normal binding-list)
+  (pew-evil/global-set-key 'motion binding-list))
 
-(defun pew-pack/close-window ()
+(defun pew-evil/close-window ()
   "Close window on conditional.  If there is only one window then close the tab."
   (interactive)
   (cond ((one-window-p)
@@ -39,7 +39,7 @@
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((keybindings
          '(("<leader>w" . save-buffer)
-           ("<leader>q" . pew-pack/close-window)
+           ("<leader>q" . pew-evil/close-window)
            ("<leader>h" . evil-window-left)
            ("<leader>j" . evil-window-down)
            ("<leader>k" . evil-window-up)
@@ -51,14 +51,14 @@
            ("<leader>b" . tab-bar-switch-to-prev-tab)
            ("<leader>n" . next-buffer)
            ("<leader>p" . previous-buffer))))
-    (pew-pack/evil-global-set-key-in-normal-and-motion-state keybindings))
+    (pew-evil/global-set-key-in-normal-and-motion-state keybindings))
   ;; Individual keys in normal and motion mode
   (let ((keybindings
          '(("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
            ("<right>" . evil-window-increase-width))))
-    (pew-pack/evil-global-set-key-in-normal-and-motion-state keybindings))
+    (pew-evil/global-set-key-in-normal-and-motion-state keybindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(flycheck-error-list-mode
