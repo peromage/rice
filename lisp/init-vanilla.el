@@ -168,7 +168,7 @@
 (electric-indent-mode 1)
 
 ;; Default theme
-(load-theme 'tango-dark t nil)
+(load-theme 'tsdh-light t nil)
 
 ;; Encoding
 (set-language-environment "UTF-8")
