@@ -21,6 +21,9 @@
         evil-split-window-below t
         evil-vsplit-window-right t
         evil-auto-balance-windows t
+        evil-ex-search-highlight-all t
+        evil-ex-search-persistent-highlight t
+        evil-kill-on-visual-paste t
         evil-search-module 'evil-search)
   (evil-mode 1)
   :config
@@ -46,6 +49,7 @@
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(flycheck-error-list-mode
+           ivy-occur-grep-mode
            ;;dired-mode
            ;;magit-status-mode
            )))
