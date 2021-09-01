@@ -7,6 +7,48 @@
 ;;; Code:
 
 ;;==============================================================================
+;; Global functions and variables
+;;==============================================================================
+
+(defun pew/start-emacs-daemon ()
+  "Start daemon if it does not exist."
+  (require 'server)
+  (unless (server-running-p)
+    (message "[pew] Starting Emacs daemon...")
+    (server-start)))
+
+(setq pew/special-buffers
+      '("\\`\\*"
+        "\\` "
+        "\\`magit"))
+
+(defun pew/special-buffer-p (name)
+  "Check if the given buffer NAME is a special buffer."
+  (catch 'found-special
+    (dolist (buffer-regex pew/special-buffers)
+      (if (string-match buffer-regex name)
+          (throw 'found-special t)))
+    nil))
+
+(defun pew/switch-buffer (switch-func)
+  "Switch to the buffer by SWITCH-FUNC but skip special buffers."
+  (let ((current-buffer-name (buffer-name)))
+    (funcall switch-func)
+    (while (and (pew/special-buffer-p (buffer-name))
+                (not (string= current-buffer-name (buffer-name))))
+      (funcall switch-func))))
+
+(defun pew/next-buffer ()
+  "Switch to the next buffer but skip special buffers."
+  (interactive)
+  (pew/switch-buffer #'next-buffer))
+
+(defun pew/prev-buffer ()
+  "Switch to the previous buffer but skip special buffers."
+  (interactive)
+  (pew/switch-buffer #'previous-buffer))
+
+;;==============================================================================
 ;; Initialization
 ;;==============================================================================
 
@@ -18,12 +60,6 @@
             (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 
 ;; Allow access from emacsclient
-(defun pew/start-emacs-daemon ()
-  "Start daemon if it does not exist."
-  (require 'server)
-  (unless (server-running-p)
-    (message "[pew] Starting Emacs daemon...")
-    (server-start)))
 (add-hook 'after-init-hook #'pew/start-emacs-daemon)
 
 ;;==============================================================================
@@ -185,7 +221,11 @@
 (defun pew/global-set-key (keybindings)
   "Globally bind keys defined in the alist KEYBINDINGS."
   (dolist (binding keybindings)
-    (global-set-key (kbd (car binding)) (cdr binding))))
+    (let ((keys (car binding))
+          (cmd (cdr binding)))
+      (if (vectorp keys)
+          (global-set-key keys cmd)
+        (global-set-key (kbd keys) cmd)))))
 
 (let ((global-keys
        '(("C-x t SPC" . tab-bar-select-tab-by-name)
@@ -194,7 +234,9 @@
          ("C-x t >" . (lambda () (interactive) (tab-bar-move-tab 1)))
          ("C-x t <" . (lambda () (interactive) (tab-bar-move-tab -1)))
          ("C-x t t" . tab-bar-new-tab)
-         ("C-x t l" . tab-switcher))))
+         ("C-x t l" . tab-switcher)
+         ([remap next-buffer] . pew/next-buffer)
+         ([remap previous-buffer] . pew/prev-buffer))))
   (pew/global-set-key global-keys))
 
 ;;==============================================================================
