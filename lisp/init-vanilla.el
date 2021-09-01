@@ -120,7 +120,23 @@
 
  ;; Final newline
  require-final-newline t
- mode-require-final-newline t)
+ mode-require-final-newline t
+
+ ;; Tab bar
+ ;; Since Emacs 27 the built-in tab is pretty viable to be used as workspace
+ ;; management like Eyebrowse.  This package is aimed to make it hadier.
+ tab-bar-close-button-show nil
+ tab-bar-close-last-tab-choice nil
+ tab-bar-history-mode nil
+ tab-bar-new-button-show nil
+ tab-bar-new-tab-choice nil
+ tab-bar-new-tab-to 'right
+ tab-bar-position t
+ tab-bar-select-tab-modifiers '(meta)
+ tab-bar-show 1
+ tab-bar-tab-hints t
+ tab-bar-tab-name-function 'tab-bar-tab-name-current
+ tool-bar-mode nil)
 
 ;;==============================================================================
 ;; Settings by functions
@@ -161,6 +177,31 @@
 
 ;; Replaces the default crap buffer manager with ibuffer
 (defalias 'list-buffers 'ibuffer)
+
+;;==============================================================================
+;; Keybindings
+;;==============================================================================
+
+(defun pew/global-set-key (keybindings)
+  "Globally bind keys defined in the alist KEYBINDINGS."
+  (dolist (binding keybindings)
+    (global-set-key (kbd (car binding)) (cdr binding))))
+
+(let ((global-keys
+       '(("C-x t SPC" . tab-bar-select-tab-by-name)
+         ("C-x t f" . tab-bar-switch-to-next-tab)
+         ("C-x t b" . tab-bar-switch-to-prev-tab)
+         ("C-x t >" . (lambda () (interactive) (tab-bar-move-tab 1)))
+         ("C-x t <" . (lambda () (interactive) (tab-bar-move-tab -1)))
+         ("C-x t t" . tab-bar-new-tab)
+         ("C-x t l" . tab-switcher))))
+  (pew/global-set-key global-keys))
+
+;;==============================================================================
+;; GUI settings
+;;==============================================================================
+
+(set-face-attribute 'tab-bar nil :inherit 'default)
 
 ;;==============================================================================
 ;; TUI settings

@@ -72,17 +72,16 @@
 ;; Layout management
 ;;==============================================================================
 
-(use-package eyebrowse
-  :config
-  (eyebrowse-mode 1))
-
-(use-package edwina
-  ;; Enabled on demand
-  :commands (edwina-mode edwin-mode)
-  :config
-  ;;(edwina-setup-dwm-keys)
-  ;;(edwina-mode 1)
-  )
+;;(use-package eyebrowse
+;;  :commands eyebrowse-mode)
+;;
+;;(use-package edwina
+;;  ;; Enabled on demand
+;;  :commands (edwina-mode edwin-mode)
+;;  :config
+;;  ;;(edwina-setup-dwm-keys)
+;;  ;;(edwina-mode 1)
+;;  )
 
 (provide 'pack-navigation)
 ;;; pack-navigation.el ends here

@@ -2,15 +2,23 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-pack/evil-set-keybindings (state binding-list)
+(defun pew-pack/evil-global-set-key (state binding-list)
   "Set a list of keybindings BINDING-LIST to a STATE globally."
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
-(defun pew-pack/evil-set-keybindings-in-normal-and-motion-state (binding-list)
+(defun pew-pack/evil-global-set-key-in-normal-and-motion-state (binding-list)
   "Set BINDING-LIST in both normal and motion state."
-  (pew-pack/evil-set-keybindings 'normal binding-list)
-  (pew-pack/evil-set-keybindings 'motion binding-list))
+  (pew-pack/evil-global-set-key 'normal binding-list)
+  (pew-pack/evil-global-set-key 'motion binding-list))
+
+(defun pew-pack/close-window ()
+  "Close window on conditional.  If there is only one window then close the tab."
+  (interactive)
+  (cond ((one-window-p)
+         (tab-bar-close-tab)
+         (previous-window))
+        (t (delete-window))))
 
 (use-package evil
   :init
@@ -27,29 +35,35 @@
         evil-search-module 'evil-search)
   (evil-mode 1)
   :config
-  ;; Leader key bindings in normal mode
+  ;; Leader key bindings in normal and motion mode
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((keybindings
          '(("<leader>w" . save-buffer)
-           ("<leader>q" . evil-quit)
+           ("<leader>q" . pew-pack/close-window)
            ("<leader>h" . evil-window-left)
            ("<leader>j" . evil-window-down)
            ("<leader>k" . evil-window-up)
            ("<leader>l" . evil-window-right)
            ("<leader>s" . evil-window-split)
-           ("<leader>v" . evil-window-vsplit))))
-    (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
-  ;; Individual keys in normal mode
+           ("<leader>v" . evil-window-vsplit)
+           ("<leader>t" . tab-bar-new-tab)
+           ("<leader>f" . tab-bar-switch-to-next-tab)
+           ("<leader>b" . tab-bar-switch-to-prev-tab)
+           ("<leader>n" . next-buffer)
+           ("<leader>p" . previous-buffer))))
+    (pew-pack/evil-global-set-key-in-normal-and-motion-state keybindings))
+  ;; Individual keys in normal and motion mode
   (let ((keybindings
          '(("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
            ("<right>" . evil-window-increase-width))))
-    (pew-pack/evil-set-keybindings-in-normal-and-motion-state keybindings))
+    (pew-pack/evil-global-set-key-in-normal-and-motion-state keybindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(flycheck-error-list-mode
            ivy-occur-grep-mode
+           tab-switcher-mode
            ;;dired-mode
            ;;magit-status-mode
            )))
