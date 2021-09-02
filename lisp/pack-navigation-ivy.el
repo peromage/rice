@@ -26,8 +26,7 @@
   (ivy-mode 1)
   (counsel-mode 1)
   :config
-  (let ((ignored-buffers '("\\`\\*" "\\`magit:" "\\`magit-")))
-    (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) ignored-buffers)))
+  (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) pew/special-buffers))
 
 ;; Makes Ivy show more information
 (use-package ivy-rich
