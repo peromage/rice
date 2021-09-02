@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;;==============================================================================
+;; Functions and variables
+;;==============================================================================
+
 (defun pew-evil/global-set-key (state binding-list)
   "Set a list of keybindings BINDING-LIST to a STATE globally."
   (dolist (binding binding-list)
@@ -19,6 +23,10 @@
          (tab-bar-close-tab)
          (previous-window))
         (t (delete-window))))
+
+;;==============================================================================
+;; Setup
+;;==============================================================================
 
 (use-package evil
   :init

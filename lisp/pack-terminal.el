@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;;==============================================================================
+;; Functions and variables
+;;==============================================================================
+
 (defun pew-term/setup ()
   "Setup for terminal on entering."
   (setq-local word-wrap nil
@@ -11,6 +15,10 @@
   (hl-line-mode -1)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
+
+;;==============================================================================
+;; Setup
+;;==============================================================================
 
 ;; Eshell
 (add-hook 'eshell-mode-hook #'pew-term/setup)
