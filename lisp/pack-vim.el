@@ -11,11 +11,6 @@
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
-(defun pew-evil/global-set-key-in-normal-and-motion-state (binding-list)
-  "Set BINDING-LIST in both normal and motion state."
-  (pew-evil/global-set-key 'normal binding-list)
-  (pew-evil/global-set-key 'motion binding-list))
-
 (defun pew-evil/close-window ()
   "Close window on conditional.  If there is only one window then close the tab."
   (interactive)
@@ -23,6 +18,37 @@
          (tab-bar-close-tab)
          (previous-window))
         (t (delete-window))))
+
+(defun pew-evil/escape-region ()
+  "Return selected region with regex special character escaped."
+  (if (use-region-p)
+      (let ((selection (buffer-substring-no-properties (region-beginning) (region-end))))
+        (if (/= (length selection) 0)
+            (regexp-quote selection)
+          nil))
+    nil))
+
+(defun pew-evil/search-region ()
+  "Use / command to search the selected region."
+  (interactive)
+  (let ((content (pew-evil/escape-region)))
+    (when content
+      (setq evil-ex-search-pattern (list content t t))
+      (setq evil-ex-search-direction 'forward)
+      ;; Either use `evil-ex-search' or `evil-ex-search-next' the cursor jumps to the
+      ;; next one anyways despite the `evil-ex-search-direction'.
+      ;; Also `evil-ex-search' doesn't recognize 0.
+      ;; This implementation is ugly. Hope they can improve the function in the
+      ;; future.
+      (evil-ex-search-next)
+      (evil-ex-search-previous))))
+
+(defun pew-evil/visual-search-region ()
+  "Search the selected region visual state and return to normal state."
+  (interactive)
+  (when (evil-visual-state-p)
+    (pew-evil/search-region)
+    (evil-normal-state)))
 
 ;;==============================================================================
 ;; Setup
@@ -39,13 +65,14 @@
         evil-auto-balance-windows t
         evil-ex-search-highlight-all t
         evil-ex-search-persistent-highlight t
+        evil-symbol-word-search t
         evil-kill-on-visual-paste t
         evil-search-module 'evil-search)
   (evil-mode 1)
   :config
-  ;; Leader key bindings in normal and motion mode
+  ;; Key bindings in normal and motion state
   (evil-set-leader '(normal motion) (kbd "SPC"))
-  (let ((keybindings
+  (let ((normal-bindings
          '(("<leader>w" . save-buffer)
            ("<leader>q" . pew-evil/close-window)
            ("<leader>h" . evil-window-left)
@@ -58,20 +85,25 @@
            ("<leader>f" . tab-bar-switch-to-next-tab)
            ("<leader>b" . tab-bar-switch-to-prev-tab)
            ("<leader>n" . next-buffer)
-           ("<leader>p" . previous-buffer))))
-    (pew-evil/global-set-key-in-normal-and-motion-state keybindings))
-  ;; Individual keys in normal and motion mode
-  (let ((keybindings
-         '(("<left>" . evil-window-decrease-width)
+           ("<leader>p" . previous-buffer)
+           ("<leader>g" . pew/show-file-path)
+           ("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
-           ("<right>" . evil-window-increase-width))))
-    (pew-evil/global-set-key-in-normal-and-motion-state keybindings))
+           ("<right>" . evil-window-increase-width)
+           ("#" . evil-ex-nohighlight))))
+    (pew-evil/global-set-key 'normal normal-bindings)
+    (pew-evil/global-set-key 'motion normal-bindings))
+  ;; Key bindings in visual state
+  (let ((visual-bindings
+         '(("*" . pew-evil/visual-search-region))))
+    (pew-evil/global-set-key 'visual visual-bindings))
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(flycheck-error-list-mode
            ivy-occur-grep-mode
            tab-switcher-mode
+           xref--xref-buffer-mode
            ;;dired-mode
            ;;magit-status-mode
            )))

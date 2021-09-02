@@ -83,5 +83,10 @@ The alist KEYBINDINGS should be something like:
           (global-set-key keys cmd)
         (global-set-key (kbd keys) cmd)))))
 
+(defun pew/show-file-path ()
+  "Display current file path in the minibuffer."
+  (interactive)
+  (message buffer-file-name))
+
 (provide 'init-lib)
 ;;; init-lib.el ends here
