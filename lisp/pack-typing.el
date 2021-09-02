@@ -3,6 +3,28 @@
 ;;; Code:
 
 ;;==============================================================================
+;; Functions and variables
+;;==============================================================================
+
+(defun pew/company-box-doc-toggle (&optional status)
+  "Toggle company box doc display if STATUS is omitted.
+Otherwise if STATUS is given, the status of doc display depends on the value
+of STATUS.  Possible values are:
+  'show: Display doc.
+  'hide: Do not display doc.
+  Other values: Toggle doc display status."
+  (interactive)
+  (cond ((eq 'show status)
+         (setq company-box-doc-enable t))
+        ((eq 'hide status)
+         (setq company-box-doc-enable nil))
+        (t (setq company-box-doc-enable (not company-box-doc-enable)))))
+
+(defun pew/company-box--on-start ()
+  "Company-box on-start actions."
+  (pew/company-box-doc-toggle 'hide))
+
+;;==============================================================================
 ;; Syntax checker
 ;;==============================================================================
 
@@ -23,7 +45,9 @@
          ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
          ("<tab>" . company-complete)
-         ("C-SPC" . company-search-abort))
+         ("C-SPC" . company-search-abort)
+         ("C-d" . company-show-doc-buffer)
+         ("C-f" . company-show-location))
   :init
   (setq company-tooltip-align-annotations t
         company-tooltip-limit 10
@@ -42,7 +66,7 @@
   :after company
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
-         ("C-d" . company-box-doc-manually))
+         ("C-k" . company-box-doc-manually))
   :init
   (setq company-box-doc-enable nil
         company-box-doc-delay 0.5
