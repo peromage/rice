@@ -130,7 +130,12 @@
  tab-bar-show 1
  tab-bar-tab-hints t
  tab-bar-tab-name-function 'tab-bar-tab-name-current
- tool-bar-mode nil)
+ tool-bar-mode nil
+
+ ;; Electric settings
+ ;; No closing pair if the open pair precedes a non-whitespace character
+ electric-pair-preserve-balance nil
+ electric-pair-delete-adjacent-pairs nil)
 
 ;;==============================================================================
 ;; Settings by functions
