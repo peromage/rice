@@ -45,6 +45,8 @@ of STATUS.  Possible values are:
          ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
          ("<tab>" . company-complete)
+         ("<return>" . company-abort)
+         ("RET" . company-abort)
          ("C-SPC" . company-search-abort)
          ("C-d" . company-show-doc-buffer)
          ("C-f" . company-show-location))
