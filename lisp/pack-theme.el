@@ -2,11 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-theme/disable-all-themes ()
-  "Disable all themes."
-  (dolist (theme custom-enabled-themes)
-    (disable-theme theme)))
-
 ;; Colors schemes
 (use-package moe-theme :defer t)
 (use-package doom-themes :defer t)
@@ -26,7 +21,7 @@
   (doom-modeline-mode 1))
 
 ;; At last, enables global color theme with some addtional settings
-(pew-theme/disable-all-themes)
+(pew/disable-theme-list custom-enabled-themes)
 (load-theme 'doom-dracula t)
 (set-face-attribute 'tab-bar nil :inherit 'default)
 

@@ -88,5 +88,17 @@ The alist KEYBINDINGS should be something like:
   (interactive)
   (message buffer-file-name))
 
+(defun pew/disable-theme-list (disabled-themes)
+  "Disable all themes in the DISABLED-THEMES."
+  (dolist (theme disabled-themes)
+    (disable-theme theme)))
+
+(defun pew/load-theme ()
+  "Load only one theme."
+  (interactive)
+  (call-interactively #'load-theme)
+  (if (> (length custom-enabled-themes) 1)
+      (pew/disable-theme-list (cdr custom-enabled-themes))))
+
 (provide 'init-lib)
 ;;; init-lib.el ends here
