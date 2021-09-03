@@ -65,19 +65,19 @@
     (pew-evil/search-selected)
     (evil-normal-state)))
 
-(defun pew-evil/replace-ex-pattern (pattern replacement)
+(defun pew-evil/replace-last-search ()
   "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
-  (interactive
-   (list
-    evil-ex-search-pattern
-    (read-string (concat "Replacing ' " evil-ex-search-pattern " ': "))))
-  (evil-ex-substitute
-   (point-min)
-   (point-max)
-   pattern
-   replacement
-   (list ?\g ?\c))
-  )
+  (interactive)
+  (if (not evil-ex-search-pattern)
+      (user-error "No search pattern found"))
+  (let* ((regex (nth 0 evil-ex-search-pattern))
+         (replacement (read-string (concat regex " -> ")))
+         (flags (list ?g ?c))
+         (subpattern (evil-ex-make-substitute-pattern regex flags)))
+    (message "regex %s" regex)
+    (message "replacement %s" replacement)
+    (message "subpattern %S" subpattern)
+    (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
 
 ;;==============================================================================
 ;; Setup
@@ -117,6 +117,7 @@
            ("<leader>n" . next-buffer)
            ("<leader>p" . previous-buffer)
            ("<leader>g" . pew/show-file-path)
+           ("<leader>cs" . pew-evil/replace-last-search)
            ("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
