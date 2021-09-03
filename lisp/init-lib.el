@@ -1,9 +1,9 @@
 ;;; init-lib.el --- Utilities -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;;; This is the pew library file.
-;;; I might split this into multiple files if there are too many shared functions
-;;; in the future.
+;; This is the pew library file.
+;; I might split this into multiple files if there are too many shared functions
+;; in the future.
 
 ;;; Code:
 

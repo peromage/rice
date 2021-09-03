@@ -1,8 +1,8 @@
 ;;; init.el --- Configuration entry -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;;; This file bootstraps the configuration, which is divided into a number of
-;;; other files.  Templates was from purcell/emacs.d
+;; This file bootstraps the configuration, which is divided into a number of
+;; other files.  Templates was from purcell/emacs.d
 
 ;;; Code:
 

@@ -1,9 +1,9 @@
 ;;; init-vanilla.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
 ;;; Commentary:
-;;;
-;;; This file should only contains the universal vanilla Emacs settings.
-;;; This should be loaded first since it is the core configuration.
-;;;
+
+;; This file should only contains the universal vanilla Emacs settings.
+;; This should be loaded first since it is the core configuration.
+
 ;;; Code:
 
 ;;==============================================================================

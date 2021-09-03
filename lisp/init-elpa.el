@@ -1,9 +1,9 @@
 ;;; init-elpa.el --- Configurations for package.el -*- lexical-binding: t -*-
 ;;; Commentary:
-;;;
-;;; This ELPA initialization configuration should be loaded before any other
-;;; package settings.
-;;;
+
+;; This ELPA initialization configuration should be loaded before any other
+;; package settings.
+
 ;;; Code:
 
 (require 'package)
