@@ -19,36 +19,65 @@
          (previous-window))
         (t (delete-window))))
 
-(defun pew-evil/escape-region ()
-  "Return selected region with regex special character escaped."
-  (if (use-region-p)
-      (let ((selection (buffer-substring-no-properties (region-beginning) (region-end))))
-        (if (/= (length selection) 0)
-            (regexp-quote selection)
-          nil))
-    nil))
+(defun pew-evil/escape-region (begin end)
+  "Escape region from BEGIN to END for evil-search mode."
+  (catch 'result
+    (let ((selection (buffer-substring-no-properties begin end))
+          (placeholder "_IM_A_PERCENTAGE_"))
+      (if (= (length selection) 0)
+          (throw 'result nil))
+      ;; Replace the % symbols so that `regexp-quote' does not complain
+      (setq selection (replace-regexp-in-string "%" placeholder selection))
+      (setq selection (regexp-quote selection))
+      ;; `regexp-quote' does not escape /. We escape it here so that evil-search
+      ;; can recognize it
+      (setq selection (replace-regexp-in-string "/" "\\\\/" selection)
+            ;; Change the % symbols back
+            selection (replace-regexp-in-string placeholder "%" selection)))))
 
-(defun pew-evil/search-region ()
-  "Use / command to search the selected region."
-  (interactive)
-  (let ((content (pew-evil/escape-region)))
-    (when content
-      (setq evil-ex-search-pattern (list content t t))
-      (setq evil-ex-search-direction 'forward)
-      ;; Either use `evil-ex-search' or `evil-ex-search-next' the cursor jumps to the
-      ;; next one anyways despite the `evil-ex-search-direction'.
-      ;; Also `evil-ex-search' doesn't recognize 0.
-      ;; This implementation is ugly. Hope they can improve the function in the
-      ;; future.
-      (evil-ex-search-next)
-      (evil-ex-search-previous))))
+(defun pew-evil/search-selected ()
+  "Use evil-search for the selected region."
+  (when (use-region-p)
+    (setq evil-ex-search-count 1
+          evil-ex-search-direction 'forward)
+    (let* ((quoted-pattern (pew-evil/escape-region (region-beginning) (region-end)))
+           (result (evil-ex-search-full-pattern
+                    quoted-pattern
+                    evil-ex-search-count
+                    evil-ex-search-direction))
+           (success (pop result))
+           (pattern (pop result))
+           (offset (pop result)))
+      (when success
+        ;; From `evil-ex-start-search'
+        (setq evil-ex-search-pattern pattern
+              evil-ex-search-offset offset)
+        ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
+        ;; are more than one candidates. So we jump twice here to go back to the
+        ;; very first one that we selected.
+        (evil-ex-search-previous)
+        (evil-ex-search-previous)))))
 
-(defun pew-evil/visual-search-region ()
+(defun pew-evil/visual-search-selected ()
   "Search the selected region visual state and return to normal state."
   (interactive)
   (when (evil-visual-state-p)
-    (pew-evil/search-region)
+    (pew-evil/search-selected)
     (evil-normal-state)))
+
+(defun pew-evil/replace-ex-pattern (pattern replacement)
+  "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
+  (interactive
+   (list
+    evil-ex-search-pattern
+    (read-string (concat "Replacing ' " evil-ex-search-pattern " ': "))))
+  (evil-ex-substitute
+   (point-min)
+   (point-max)
+   pattern
+   replacement
+   (list ?\g ?\c))
+  )
 
 ;;==============================================================================
 ;; Setup
@@ -69,6 +98,7 @@
         evil-kill-on-visual-paste t
         evil-search-module 'evil-search)
   (evil-mode 1)
+
   :config
   ;; Key bindings in normal and motion state
   (evil-set-leader '(normal motion) (kbd "SPC"))
@@ -94,10 +124,12 @@
            ("#" . evil-ex-nohighlight))))
     (pew-evil/global-set-key 'normal normal-bindings)
     (pew-evil/global-set-key 'motion normal-bindings))
+
   ;; Key bindings in visual state
   (let ((visual-bindings
-         '(("*" . pew-evil/visual-search-region))))
+         '(("*" . pew-evil/visual-search-selected))))
     (pew-evil/global-set-key 'visual visual-bindings))
+
   ;; Modes that don't use Evil
   (let ((excluded-modes
          '(flycheck-error-list-mode
