@@ -21,8 +21,7 @@
   (doom-modeline-mode 1))
 
 ;; At last, enables global color theme with some addtional settings
-(pew/disable-theme-list custom-enabled-themes)
-(load-theme 'doom-dracula t)
+(pew/load-theme 'doom-dracula)
 (set-face-attribute 'tab-bar nil :inherit 'default)
 
 (provide 'pack-theme)

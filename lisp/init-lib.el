@@ -93,10 +93,13 @@ The alist KEYBINDINGS should be something like:
   (dolist (theme disabled-themes)
     (disable-theme theme)))
 
-(defun pew/load-theme ()
-  "Load only one theme."
-  (interactive)
-  (call-interactively #'load-theme)
+(defun pew/load-theme (theme)
+  "Load THEME but make sure it is the only one active."
+  (interactive (list '_INTERACT_))
+  (cond
+   ((eq '_INTERACT_ theme)
+    (call-interactively #'load-theme))
+   (t (load-theme theme t)))
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
