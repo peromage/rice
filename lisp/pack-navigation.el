@@ -15,7 +15,9 @@
          ("DEL" . (lambda () (interactive) (find-alternate-file ".."))))
   :init
   (setq dired-listing-switches "-alFD --group-directories-first"
-        dired-dwim-target t)
+        dired-dwim-target t
+        dired-recursive-copies 'always
+        dired-recursive-deletes 'top)
   (put 'dired-find-alternate-file 'disabled nil)
   :config
   (use-package dired-x :ensure nil))
