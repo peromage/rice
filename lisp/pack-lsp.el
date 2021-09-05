@@ -56,6 +56,7 @@
 
 (require 'pack-lsp-c)
 (require 'pack-lsp-python)
+(require 'pack-lsp-cs)
 
 (provide 'pack-lsp)
 ;;; pack-lsp.el ends here
