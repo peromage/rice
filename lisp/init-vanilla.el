@@ -62,10 +62,11 @@
  ;; Default major mode
  major-mode 'text-mode
 
- ;; Smooth scrolling
+ ;; Better scrolling
  mouse-wheel-scroll-amount '(2 ((shift) . 5))
  mouse-wheel-progressive-speed nil
  mouse-wheel-follow-mouse t
+ ;; Vertical scrolling
  ;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Scrolling.html
  scroll-conservatively 101
  scroll-step 0
@@ -74,6 +75,10 @@
  scroll-margin 0
  scroll-preserve-screen-position t
  auto-window-vscroll nil
+ ;; Horizontal scrolling
+ hscroll-step 1
+ hscroll-margin 0
+ auto-hscroll-mode t
 
  ;; Window splitting behavior
  split-width-threshold nil
