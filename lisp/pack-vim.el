@@ -149,5 +149,12 @@
 ;;  (setq evil-want-keybinding nil)
 ;;  (evil-collection-init))
 
+;; Make Evil undo/redo easier
+(use-package undo-tree
+  :requires evil
+  :hook (evil-local-mode . turn-on-undo-tree-mode)
+  :config
+  (evil-set-undo-system 'undo-tree))
+
 (provide 'pack-vim)
 ;;; pack-vim.el ends here
