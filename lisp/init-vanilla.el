@@ -54,6 +54,7 @@
  fill-column 80
  comment-column 80
  display-fill-column-indicator-column 80
+ adaptive-fill-mode nil
 
  ;; No annoying bell
  ring-bell-function 'ignore

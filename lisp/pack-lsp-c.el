@@ -19,7 +19,8 @@
           "--header-insertion=never"
           "--header-insertion-decorators=0"
           "--suggest-missing-includes"
-          "--all-scopes-completion"))
+          "--all-scopes-completion")
+        adaptive-fill-mode nil)
   (lsp))
 
 (defun pew-lsp/cpp-setup ()
