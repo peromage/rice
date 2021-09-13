@@ -11,6 +11,11 @@
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
+(defun pew-evil/set-initial-state (mode-state-list)
+  "Set the initial state for a mode defined in the alist MODE-STATE-LIST."
+  (dolist (mode-state mode-state-list)
+    (evil-set-initial-state (car mode-state) (cdr mode-state))))
+
 (defun pew-evil/close-window ()
   "Close window on conditional.  If there is only one window then close the tab."
   (interactive)
@@ -131,17 +136,17 @@
          '(("*" . pew-evil/visual-search-selected))))
     (pew-evil/global-set-key 'visual visual-bindings))
 
-  ;; Modes that don't use Evil
-  (let ((excluded-modes
-         '(flycheck-error-list-mode
-           ivy-occur-grep-mode
-           tab-switcher-mode
-           xref--xref-buffer-mode
-           ;;dired-mode
-           ;;magit-status-mode
+  ;; Explicitly set the initial state for a mode
+  ;; States are: emacs, motion, normal, insert, visual
+  (let ((initial-states
+         '((help-mode . motion)
+           (tab-switcher-mode . emacs)
+           (xref--xref-buffer-mode . emacs)
+           (flycheck-error-list-mode . emacs)
+           (ivy-occur-grep-mode . emacs)
+           ;;(dired-mode . emacs)
            )))
-    (dolist (mode excluded-modes)
-      (evil-set-initial-state mode 'emacs))))
+    (pew-evil/set-initial-state initial-states)))
 
 ;;(use-package evil-collection
 ;;  :after evil
