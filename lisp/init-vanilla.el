@@ -167,13 +167,12 @@
 (winner-mode 1)
 (recentf-mode 1)
 (ido-mode 1)
+;; Make backspace and del keys behave as expected
+(normal-erase-is-backspace-mode 1)
 
 ;; Electric helpers
 (electric-pair-mode 1)
 (electric-indent-mode 1)
-
-;; Default theme
-(load-theme 'tsdh-light t nil)
 
 ;; Encoding
 (set-language-environment "UTF-8")

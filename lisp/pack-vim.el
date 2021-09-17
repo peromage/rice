@@ -11,6 +11,7 @@
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
+
 (defun pew-evil/set-initial-state (mode-state-list)
   "Set the initial state for a mode defined in the alist MODE-STATE-LIST."
   (dolist (mode-state mode-state-list)
@@ -99,7 +100,7 @@
         evil-auto-balance-windows t
         evil-ex-search-highlight-all t
         evil-ex-search-persistent-highlight t
-        evil-symbol-word-search t
+        evil-symbol-word-search nil
         evil-kill-on-visual-paste t
         evil-search-module 'evil-search)
   (evil-mode 1)
