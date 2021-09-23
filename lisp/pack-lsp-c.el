@@ -20,8 +20,11 @@
           "--header-insertion-decorators=0"
           "--suggest-missing-includes"
           "--all-scopes-completion")
+        lsp-enable-on-type-formatting nil
         adaptive-fill-mode nil)
-  (lsp))
+  (lsp)
+  ;; Post LSP mode settings
+  (electric-indent-mode 1))
 
 (defun pew-lsp/cpp-setup ()
   "Initialization for C++ mode."
