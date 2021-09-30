@@ -83,8 +83,10 @@ of STATUS.  Possible values are:
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :config
-  (yas-global-mode 1))
+  :defer t
+  ;;:config
+  ;;(yas-global-mode 1)
+  )
 
 (provide 'pack-typing)
 ;;; pack-typing.el ends here
