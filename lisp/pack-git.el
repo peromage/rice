@@ -2,11 +2,25 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Must-have git extension
+;;==============================================================================
+;; Ediff
+;;==============================================================================
+(use-package ediff
+  :ensure nil
+  :defer t
+  :init
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-vertically))
+
+;;==============================================================================
+;; Magit
+;;==============================================================================
 (use-package magit
   :commands magit-status)
 
+;;==============================================================================
 ;; Display changes besides the row number
+;;==============================================================================
 (use-package git-gutter
   :diminish git-gutter-mode
   :init
