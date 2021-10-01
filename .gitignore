@@ -13,6 +13,8 @@ server/
 fonts/
 font/
 orgfiles/
+temp/
+tmp/
 
 ## Local files
 
@@ -29,3 +31,4 @@ todo.org
 todo
 places
 place
+*.desktop
