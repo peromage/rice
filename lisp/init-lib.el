@@ -103,5 +103,9 @@ The alist KEYBINDINGS should be something like:
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
+(defun pew/get-user-cache-path (cache-file)
+  "Get the full path of CACHE-FILE under .emacs.d/cache."
+  (expand-file-name (concat "cache/" cache-file) user-emacs-directory))
+
 (provide 'init-lib)
 ;;; init-lib.el ends here

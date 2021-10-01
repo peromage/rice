@@ -1,4 +1,4 @@
-## Emacs auto-generated directories
+## Local folders
 
 auto-save-list/
 elpa/
@@ -32,3 +32,4 @@ todo
 places
 place
 *.desktop
+network-security.data

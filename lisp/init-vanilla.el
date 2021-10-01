@@ -165,6 +165,7 @@
  ;; Local files
  bookmark-default-file (expand-file-name "cache/bookmarks" user-emacs-directory)
  recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory)
+ nsm-settings-file (expand-file-name "cache/network-security.data" user-emacs-directory)
  ;; No lock files
  create-lockfiles nil
  ;; No backup and auto-save
@@ -175,7 +176,6 @@
 (recentf-mode 1)
 ;; Replaces the default crap buffer manager with ibuffer
 (defalias 'list-buffers 'ibuffer)
-
 
 ;;==============================================================================
 ;; Electric mode
