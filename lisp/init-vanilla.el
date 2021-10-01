@@ -85,7 +85,7 @@
 (global-hl-line-mode 1)
 (blink-cursor-mode -1)
 ;; Make backspace and del keys behave as expected
-(normal-erase-is-backspace-mode 1)
+;;(normal-erase-is-backspace-mode -1)
 
 ;;==============================================================================
 ;; Windows
@@ -219,17 +219,17 @@
   (pew/global-set-key global-keys))
 
 ;;==============================================================================
-;; GUI settings
+;; GUI and TUI settings
 ;;==============================================================================
 
-(set-face-attribute 'tab-bar nil :inherit 'default)
-
-;;==============================================================================
-;; TUI settings
-;;==============================================================================
-
-(unless window-system
-  (xterm-mouse-mode 1))
+(cond ((window-system)
+       (normal-erase-is-backspace-mode 1)
+       (set-face-attribute 'tab-bar nil :inherit 'default))
+      ;; In terminal
+      (t
+       ;; Enable C-h in terminal
+       (normal-erase-is-backspace-mode -1)
+       (xterm-mouse-mode 1)))
 
 (provide 'init-vanilla)
 ;;; init-vanilla.el ends here
