@@ -32,7 +32,7 @@
         vterm-max-scrollback 99999))
 
 (use-package multi-vterm
-  :after vterm)
+  :requires vterm)
 
 (provide 'pack-terminal)
 ;;; pack-terminal.el ends here
