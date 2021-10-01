@@ -27,12 +27,14 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :hook (vterm-mode . pew-term/setup)
+  :commands (vterm vterm-other-window)
   :init
   (setq vterm-kill-buffer-on-exit t
-        vterm-max-scrollback 99999))
+        vterm-max-scrollback 9999))
 
 (use-package multi-vterm
-  :requires vterm)
+  :after vterm
+  :commands (multi-vterm multi-vterm-project))
 
 (provide 'pack-terminal)
 ;;; pack-terminal.el ends here
