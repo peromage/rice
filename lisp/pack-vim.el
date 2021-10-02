@@ -6,18 +6,18 @@
 ;; Functions and variables
 ;;==============================================================================
 
-(defun pew-evil/global-set-key (state binding-list)
+(defun pew/evil/global-set-key (state binding-list)
   "Set a list of keybindings BINDING-LIST to a STATE globally."
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
 
-(defun pew-evil/set-initial-state (mode-state-list)
+(defun pew/evil/set-initial-state (mode-state-list)
   "Set the initial state for a mode defined in the alist MODE-STATE-LIST."
   (dolist (mode-state mode-state-list)
     (evil-set-initial-state (car mode-state) (cdr mode-state))))
 
-(defun pew-evil/close-window ()
+(defun pew/evil/close-window ()
   "Close window on conditional.  If there is only one window then close the tab."
   (interactive)
   (cond ((one-window-p)
@@ -25,7 +25,7 @@
          (previous-window))
         (t (delete-window))))
 
-(defun pew-evil/escape-region (begin end)
+(defun pew/evil/escape-region (begin end)
   "Escape region from BEGIN to END for evil-search mode."
   (catch 'result
     (let ((selection (buffer-substring-no-properties begin end))
@@ -41,12 +41,12 @@
             ;; Change the % symbols back
             selection (replace-regexp-in-string placeholder "%" selection)))))
 
-(defun pew-evil/search-selected ()
+(defun pew/evil/search-selected ()
   "Use evil-search for the selected region."
   (when (use-region-p)
     (setq evil-ex-search-count 1
           evil-ex-search-direction 'forward)
-    (let* ((quoted-pattern (pew-evil/escape-region (region-beginning) (region-end)))
+    (let* ((quoted-pattern (pew/evil/escape-region (region-beginning) (region-end)))
            (result (evil-ex-search-full-pattern
                     quoted-pattern
                     evil-ex-search-count
@@ -64,14 +64,14 @@
         (evil-ex-search-previous)
         (evil-ex-search-previous)))))
 
-(defun pew-evil/visual-search-selected ()
+(defun pew/evil/visual-search-selected ()
   "Search the selected region visual state and return to normal state."
   (interactive)
   (when (evil-visual-state-p)
-    (pew-evil/search-selected)
+    (pew/evil/search-selected)
     (evil-normal-state)))
 
-(defun pew-evil/replace-last-search ()
+(defun pew/evil/replace-last-search ()
   "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
   (interactive)
   (if (not evil-ex-search-pattern)
@@ -110,7 +110,7 @@
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((normal-bindings
          '(("<leader>w" . save-buffer)
-           ("<leader>q" . pew-evil/close-window)
+           ("<leader>q" . pew/evil/close-window)
            ("<leader>h" . evil-window-left)
            ("<leader>j" . evil-window-down)
            ("<leader>k" . evil-window-up)
@@ -123,19 +123,19 @@
            ("<leader>n" . next-buffer)
            ("<leader>p" . previous-buffer)
            ("<leader>g" . pew/show-file-path)
-           ("<leader>cs" . pew-evil/replace-last-search)
+           ("<leader>cs" . pew/evil/replace-last-search)
            ("<left>" . evil-window-decrease-width)
            ("<down>" . evil-window-decrease-height)
            ("<up>" . evil-window-increase-height)
            ("<right>" . evil-window-increase-width)
            ("#" . evil-ex-nohighlight))))
-    (pew-evil/global-set-key 'normal normal-bindings)
-    (pew-evil/global-set-key 'motion normal-bindings))
+    (pew/evil/global-set-key 'normal normal-bindings)
+    (pew/evil/global-set-key 'motion normal-bindings))
 
   ;; Key bindings in visual state
   (let ((visual-bindings
-         '(("*" . pew-evil/visual-search-selected))))
-    (pew-evil/global-set-key 'visual visual-bindings))
+         '(("*" . pew/evil/visual-search-selected))))
+    (pew/evil/global-set-key 'visual visual-bindings))
 
   ;; Explicitly set the initial state for a mode
   ;; States are: emacs, motion, normal, insert, visual
@@ -147,7 +147,7 @@
            (ivy-occur-grep-mode . emacs)
            ;;(dired-mode . emacs)
            )))
-    (pew-evil/set-initial-state initial-states)))
+    (pew/evil/set-initial-state initial-states)))
 
 ;;(use-package evil-collection
 ;;  :after evil

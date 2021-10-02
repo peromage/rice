@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;;==============================================================================
+;; LSP core package
+;;==============================================================================
+
 (use-package lsp-mode
   :commands lsp
   :bind
@@ -29,19 +33,23 @@
   :config
   (lsp-enable-which-key-integration 1))
 
-(defun pew-lsp/lsp-ui-doc-glance ()
+;;==============================================================================
+;; LSP experience improvement
+;;==============================================================================
+
+(defun pew/lsp-ui/doc-glance ()
   "Quick peek documentation for the current symbol."
   (interactive)
   (if (lsp-ui-doc--frame-visible-p)
       (lsp-ui-doc-focus-frame)
     (lsp-ui-doc-glance)))
 
-(defun pew-lsp/lsp-ui-doc-toggle ()
+(defun pew/lsp-ui/doc-toggle ()
   "Toggle doc frame."
   (interactive)
   (lsp-ui-doc-mode 'toggle))
 
-(defun pew-lsp/lsp-ui-setup ()
+(defun pew/lsp-ui/setup ()
   "Setup function for lsp-ui."
   (lsp-ui-mode 1)
   (lsp-ui-doc-frame-mode 1))
@@ -54,9 +62,9 @@
         ([remap xref-find-references] . lsp-ui-peek-find-references)
         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
         ("C-c u" . lsp-ui-imenu)
-        ("C-c k" . pew-lsp/lsp-ui-doc-glance)
-        ("C-c K" . pew-lsp/lsp-ui-doc-toggle))
-  :hook (lsp-mode . pew-lsp/lsp-ui-setup)
+        ("C-c k" . pew/lsp-ui/doc-glance)
+        ("C-c K" . pew/lsp-ui/doc-toggle))
+  :hook (lsp-mode . pew/lsp-ui/setup)
   :init
   (setq lsp-ui-peek-enable t
         lsp-ui-peek-show-directory t
@@ -80,6 +88,10 @@
   :requires ivy
   :after lsp-mode
   :commands lsp-ivy-workspace-symbol)
+
+;;==============================================================================
+;; Language servers
+;;==============================================================================
 
 (require 'pack-lsp-c)
 (require 'pack-lsp-python)

@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew-org/setup ()
+(defun pew/org/setup ()
   "Setup for Org mode."
   (org-indent-mode 1)
   (visual-line-mode 1)
@@ -18,7 +18,7 @@
         org-startup-truncated nil
         org-startup-with-inline-images t)
   :hook
-  (org-mode . pew-org/setup)
+  (org-mode . pew/org/setup)
   :config
   (setq org-log-done 'time
         org-log-into-drawer t

@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;;==============================================================================
+;; Ivy core package
+;;==============================================================================
+
 ;; Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
@@ -28,7 +32,11 @@
   :config
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) pew/special-buffers))
 
-;; Makes Ivy show more information
+;;==============================================================================
+;; Ivy improvement
+;;==============================================================================
+
+;; Make Ivy show more information
 (use-package ivy-rich
   :after ivy
   :config
@@ -51,7 +59,7 @@
                            x
                            (ivy-rich-minibuffer-width 0.3))) :align left)))))
 
-;; Sorts candidates and also keeps the most recent history on the top
+;; Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
   :after counsel
   :init
