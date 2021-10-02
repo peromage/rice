@@ -32,7 +32,8 @@
 
 ;; Core settings
 (require 'init-lib)
-(require 'init-vanilla)
+(require 'init-base)
+(require 'init-config)
 (require 'init-elpa)
 
 ;; Other packages

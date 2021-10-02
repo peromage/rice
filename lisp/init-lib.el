@@ -8,7 +8,7 @@
 ;;; Code:
 
 ;;==============================================================================
-;; Global variables
+;; Shared variables
 ;;==============================================================================
 
 (setq pew/special-buffers
@@ -18,7 +18,7 @@
         "\\`magit:"))
 
 ;;==============================================================================
-;; Global functions
+;; Shared functions
 ;;==============================================================================
 
 ;; Debug functions
@@ -36,13 +36,6 @@
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
   (message "%s" (help-key-description (vector keycode) nil)))
-
-(defun pew/start-emacs-daemon ()
-  "Start daemon if it does not exist."
-  (require 'server)
-  (unless (server-running-p)
-    (message "[pew] Starting Emacs daemon...")
-    (server-start)))
 
 (defun pew/special-buffer-p (name)
   "Check if the given buffer NAME is a special buffer."
