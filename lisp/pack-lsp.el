@@ -13,7 +13,8 @@
         ("C-c j" . lsp-find-definition)
         ("C-c J" . lsp-find-declaration))
   :init
-  (setq lsp-auto-configure t
+  (setq lsp-enable-snippet nil
+        lsp-auto-configure t
         lsp-enable-symbol-highlighting t
         lsp-lens-enable nil
         lsp-headerline-breadcrumb-enable t

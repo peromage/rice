@@ -40,11 +40,11 @@
 (require 'pack-theme)
 (require 'pack-navigation)
 (require 'pack-git)
-(require 'pack-typing)
-(require 'pack-lsp)
-(require 'pack-org)
-(require 'pack-terminal)
 (require 'pack-vim)
+(require 'pack-typing)
+(require 'pack-org)
+(require 'pack-lsp)
+(require 'pack-terminal)
 
 ;;==============================================================================
 ;; Wrapups
