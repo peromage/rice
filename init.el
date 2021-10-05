@@ -36,14 +36,16 @@
 (require 'init-config)
 (require 'init-elpa)
 
-;; Other packages
+;; Essential
 (require 'pack-theme)
-(require 'pack-navigation)
-(require 'pack-git)
 (require 'pack-vim)
+(require 'pack-git)
+;; Coding
+(require 'pack-navigation)
 (require 'pack-typing)
-(require 'pack-org)
 (require 'pack-lsp)
+;; Other
+(require 'pack-org)
 (require 'pack-terminal)
 
 ;;==============================================================================
