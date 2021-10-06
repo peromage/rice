@@ -97,6 +97,7 @@
 (require 'pack-lsp-c)
 (require 'pack-lsp-python)
 (require 'pack-lsp-cs)
+(require 'pack-lsp-pwsh)
 
 (provide 'pack-lsp)
 ;;; pack-lsp.el ends here
