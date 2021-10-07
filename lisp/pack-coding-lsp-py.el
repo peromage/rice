@@ -1,4 +1,4 @@
-;;; pack-lsp-python.el --- Python mode -*- lexical-binding: t -*-
+;;; pack-coding-lsp-py.el --- Python mode -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -10,5 +10,5 @@
                          (require 'lsp-python-ms)
                          (lsp))))
 
-(provide 'pack-lsp-python)
-;;; pack-lsp-python.el ends here
+(provide 'pack-coding-lsp-py)
+;;; pack-coding-lsp-py.el ends here

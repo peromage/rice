@@ -1,4 +1,4 @@
-;;; pack-typing.el --- Coding convenience -*- lexical-binding: t -*-
+;;; pack-coding.el --- Coding convenience -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -86,5 +86,15 @@ of STATUS.  Possible values are:
   ;;(yas-global-mode 1)
   )
 
-(provide 'pack-typing)
-;;; pack-typing.el ends here
+;;------------------------------------------------------------------------------
+;; Language servers
+;;------------------------------------------------------------------------------
+
+(require 'pack-coding-lsp)
+(require 'pack-coding-lsp-c)
+(require 'pack-coding-lsp-py)
+(require 'pack-coding-lsp-cs)
+(require 'pack-coding-lsp-pwsh)
+
+(provide 'pack-coding)
+;;; pack-coding.el ends here

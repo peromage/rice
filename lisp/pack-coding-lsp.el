@@ -1,4 +1,4 @@
-;;; pack-lsp.el --- Language Server Protocol supports -*- lexical-binding: t -*-
+;;; pack-coding-lsp.el --- Language Server Protocol supports -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -90,14 +90,5 @@
   :after lsp-mode
   :commands lsp-ivy-workspace-symbol)
 
-;;------------------------------------------------------------------------------
-;; Language servers
-;;------------------------------------------------------------------------------
-
-(require 'pack-lsp-c)
-(require 'pack-lsp-python)
-(require 'pack-lsp-cs)
-(require 'pack-lsp-pwsh)
-
-(provide 'pack-lsp)
-;;; pack-lsp.el ends here
+(provide 'pack-coding-lsp)
+;;; pack-coding-lsp.el ends here

@@ -42,8 +42,7 @@
 (require 'pack-git)
 ;; Coding
 (require 'pack-navigation)
-(require 'pack-typing)
-(require 'pack-lsp)
+(require 'pack-coding)
 ;; Other
 (require 'pack-org)
 (require 'pack-terminal)
