@@ -16,13 +16,13 @@
         org-startup-folded nil
         org-return-follows-link t
         org-startup-truncated nil
-        org-startup-with-inline-images t)
-  :hook
-  (org-mode . pew/org/setup)
-  :config
-  (setq org-log-done 'time
+        org-startup-with-inline-images t
+        org-log-done 'time
         org-log-into-drawer t
-        org-agenda-files (expand-file-name "orgfiles" user-emacs-directory)))
+        org-indent-mode-turns-on-hiding-stars nil
+        org-agenda-files (expand-file-name "orgfiles" user-emacs-directory))
+  :hook
+  (org-mode . pew/org/setup))
 
 (provide 'pack-org)
 ;;; pack-org.el ends here
