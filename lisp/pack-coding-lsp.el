@@ -53,7 +53,7 @@
 (defun pew/lsp-ui/setup ()
   "Setup function for lsp-ui."
   (lsp-ui-mode 1)
-  (lsp-ui-doc-frame-mode 1))
+  (lsp-ui-doc-frame-mode -1))
 
 (use-package lsp-ui
   :after lsp-mode
