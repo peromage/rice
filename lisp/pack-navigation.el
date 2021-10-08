@@ -42,9 +42,7 @@
   :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-known-projects-file (expand-file-name "cache/projectile-bookmarks.eld" user-emacs-directory)
-        projectile-cache-file (expand-file-name "cache/projectile.cache" user-emacs-directory)
-        projectile-enable-caching t)
+  (setq projectile-enable-caching t)
   :config
   (projectile-mode 1)
   ;; Enhancement when Ivy or Helm present

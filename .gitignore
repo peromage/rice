@@ -13,8 +13,8 @@ server/
 fonts/
 font/
 orgfiles/
-temp/
-tmp/
+temp*/
+tmp*/
 
 ## Local files
 

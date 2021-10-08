@@ -148,10 +148,6 @@
 ;;------------------------------------------------------------------------------
 
 (setq-default
- ;; Local files
- bookmark-default-file (expand-file-name "cache/bookmarks" user-emacs-directory)
- recentf-save-file (expand-file-name "cache/recentf" user-emacs-directory)
- nsm-settings-file (expand-file-name "cache/network-security.data" user-emacs-directory)
  ;; No lock files
  create-lockfiles nil
  ;; No backup and auto-save
@@ -160,6 +156,7 @@
  auto-save-interval 0)
 
 (recentf-mode 1)
+(save-place-mode -1)
 ;; Replaces the default crap buffer manager with ibuffer
 (defalias 'list-buffers 'ibuffer)
 
@@ -183,8 +180,7 @@
  ;; Ido mode settings
  ido-enable-flex-matching t
  ido-default-file-method 'selected-window
- ido-default-buffer-method 'selected-window
- ido-save-directory-list-file (expand-file-name "cache/ido.last" user-emacs-directory))
+ ido-default-buffer-method 'selected-window)
 
 (ido-mode 1)
 

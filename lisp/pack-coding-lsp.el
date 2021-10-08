@@ -19,7 +19,6 @@
         lsp-lens-enable nil
         lsp-headerline-breadcrumb-enable t
         lsp-idle-delay 0.5
-        lsp-session-file (expand-file-name "cache/.lsp-session-v1" user-emacs-directory)
         lsp-keymap-prefix "C-c l"
         lsp-eldoc-enable-hover nil
         lsp-eldoc-render-all nil
