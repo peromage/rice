@@ -8,6 +8,7 @@
 
 (defun pew/c-mode/setup ()
   "Initialization for C mode."
+  (c-set-offset 'inextern-lang 0)
   (setq c-basic-offset tab-width
         ;; Prevent Clangd from inserting headers itself
         lsp-clients-clangd-args
@@ -28,7 +29,7 @@
 
 (defun pew/cpp-mode/setup ()
   "Initialization for C++ mode."
-  (c-set-offset 'innamespace [0])
+  (c-set-offset 'innamespace 0)
   (pew/c-mode/setup))
 
 ;;------------------------------------------------------------------------------
