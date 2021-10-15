@@ -101,5 +101,25 @@ The alist KEYBINDINGS should be something like:
   (when (file-exists-p file)
     (load file)))
 
+(defun pew/toggle-line-number-type ()
+  "Switch line number type between relative and absolute for current buffer."
+  (interactive)
+  (cond ((eq 'relative display-line-numbers-type)
+         (setq-local display-line-numbers-type t)
+         (display-line-numbers-mode 1))
+        (t
+         (setq-local display-line-numbers-type 'relative)
+         (display-line-numbers-mode 1))))
+
+(defun pew/global-toggle-line-number-type ()
+  "Switch line number type between relative and absolute globally."
+  (interactive)
+  (cond ((eq 'relative display-line-numbers-type)
+         (setq-default display-line-numbers-type t)
+         (global-display-line-numbers-mode 1))
+        (t
+         (setq-default display-line-numbers-type 'relative)
+         (global-display-line-numbers-mode 1))))
+
 (provide 'init-lib)
 ;;; init-lib.el ends here
