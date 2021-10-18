@@ -8,28 +8,27 @@
 
 (defun pew/c-mode/setup ()
   "Initialization for C mode."
-  (c-set-offset 'inextern-lang 0)
-  (setq c-basic-offset tab-width
+  (setq lsp-enable-on-type-formatting nil
         ;; Prevent Clangd from inserting headers itself
-        lsp-clients-clangd-args
-        '("-j=2"
-          "--background-index"
-          "--clang-tidy"
-          "--completion-style=bundled"
-          "--pch-storage=memory"
-          "--header-insertion=never"
-          "--header-insertion-decorators=0"
-          "--suggest-missing-includes"
-          "--all-scopes-completion")
-        lsp-enable-on-type-formatting nil
-        adaptive-fill-mode nil)
+        lsp-clients-clangd-args '("-j=2"
+                                  "--background-index"
+                                  "--clang-tidy"
+                                  "--completion-style=bundled"
+                                  "--pch-storage=memory"
+                                  "--header-insertion=never"
+                                  "--header-insertion-decorators=0"
+                                  "--suggest-missing-includes"
+                                  "--all-scopes-completion")
+        adaptive-fill-mode nil
+        c-basic-offset tab-width
+        c-syntactic-indentation nil
+        c-syntactic-indentation-in-macros nil)
   (lsp)
   ;; Post LSP mode settings
   (electric-indent-mode 1))
 
 (defun pew/cpp-mode/setup ()
   "Initialization for C++ mode."
-  (c-set-offset 'innamespace 0)
   (pew/c-mode/setup))
 
 ;;------------------------------------------------------------------------------
