@@ -15,41 +15,29 @@
     (error "Emacs' version is too old.  Please use %s and above" minimal-emacs-version)))
 
 ;;------------------------------------------------------------------------------
-;; Paths
-;;------------------------------------------------------------------------------
-
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(setq custom-file (expand-file-name "local.el" user-emacs-directory))
-
-;;------------------------------------------------------------------------------
 ;; Bootstrap
 ;;------------------------------------------------------------------------------
 
-;; Core settings
-(require 'init-lib)
+;; Core
+(add-to-list 'load-path (expand-file-name "lisp" (file-name-directory load-file-name)))
 (require 'init-base)
+(require 'init-lib)
+(require 'init-keymap)
 (require 'init-config)
-(require 'init-elpa)
 
-;; Essential
+;; Packages
 (require 'pack-theme)
 (require 'pack-vim)
 (require 'pack-git)
-;; Coding
 (require 'pack-navigation)
 (require 'pack-coding)
-;; Other
 (require 'pack-org)
 (require 'pack-terminal)
 
-;;------------------------------------------------------------------------------
-;; Wrapups
-;;------------------------------------------------------------------------------
-
 ;; Variables configured via the interactive 'customize' interfaces
 ;; Load this at the last to prevent local configurations from being overridden
-(when (file-exists-p custom-file)
-  (load custom-file))
+(setq custom-file (expand-file-name "local.el" pew/home-dir))
+(pew/load-if-exists custom-file)
 
 (provide 'init)
 

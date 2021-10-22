@@ -2,7 +2,6 @@
 ;;; Commentary:
 
 ;; This file should only contains the universal vanilla Emacs settings.
-;; This should be loaded first since it is the core configuration.
 
 ;;; Code:
 
@@ -186,22 +185,6 @@
  ido-default-buffer-method 'selected-window)
 
 (ido-mode 1)
-
-;;------------------------------------------------------------------------------
-;; Keybindings
-;;------------------------------------------------------------------------------
-
-(let ((global-keys
-       '(("C-x t SPC" . tab-bar-select-tab-by-name)
-         ("C-x t f" . tab-bar-switch-to-next-tab)
-         ("C-x t b" . tab-bar-switch-to-prev-tab)
-         ("C-x t >" . (lambda () (interactive) (tab-bar-move-tab 1)))
-         ("C-x t <" . (lambda () (interactive) (tab-bar-move-tab -1)))
-         ("C-x t t" . tab-bar-new-tab)
-         ("C-x t l" . tab-switcher)
-         ([remap next-buffer] . pew/next-buffer)
-         ([remap previous-buffer] . pew/prev-buffer))))
-  (pew/global-set-key global-keys))
 
 ;;------------------------------------------------------------------------------
 ;; GUI and TUI settings

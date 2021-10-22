@@ -1,9 +1,8 @@
 ;;; init-lib.el --- Utilities -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; This is the pew library file.
-;; I might split this into multiple files if there are too many shared functions
-;; in the future.
+;; This is the pew library file.  I might split this into multiple files if there
+;; are too many shared functions in the future.
 
 ;;; Code:
 
@@ -63,18 +62,6 @@ SWITCH-FUNC should not take any arguments."
   "Switch to the previous buffer but skip special buffers."
   (interactive)
   (pew/switch-buffer #'previous-buffer))
-
-(defun pew/global-set-key (keybindings)
-  "Globally bind keys defined in the alist KEYBINDINGS.
-The alist KEYBINDINGS should be something like:
-  '((\"key strokes\" . command)
-    ([key strokes] . command))"
-  (dolist (binding keybindings)
-    (let ((keys (car binding))
-          (cmd (cdr binding)))
-      (if (vectorp keys)
-          (global-set-key keys cmd)
-        (global-set-key (kbd keys) cmd)))))
 
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."

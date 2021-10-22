@@ -6,7 +6,7 @@
 ;; Functions and variables
 ;;------------------------------------------------------------------------------
 
-(defun pew/theme/setup ()
+(defun pew/terminal/setup ()
   "Setup for terminal on entering."
   (setq-local word-wrap nil
               truncate-lines nil
@@ -21,12 +21,12 @@
 ;;------------------------------------------------------------------------------
 
 ;; Eshell
-(add-hook 'eshell-mode-hook #'pew/theme/setup)
+(add-hook 'eshell-mode-hook #'pew/terminal/setup)
 
 ;; Libvterm
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
-  :hook (vterm-mode . pew/theme/setup)
+  :hook (vterm-mode . pew/terminal/setup)
   :commands (vterm vterm-other-window)
   :init
   (setq vterm-kill-buffer-on-exit t

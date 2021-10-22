@@ -20,7 +20,7 @@
         org-log-done 'time
         org-log-into-drawer t
         org-indent-mode-turns-on-hiding-stars nil
-        org-agenda-files (expand-file-name "orgfiles" user-emacs-directory))
+        org-agenda-files (expand-file-name "orgfiles" pew/home-dir))
   :hook
   (org-mode . pew/org/setup))
 
