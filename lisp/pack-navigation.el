@@ -44,16 +44,7 @@
   :init
   (setq projectile-enable-caching t)
   :config
-  (projectile-mode 1)
-  ;; Enhancement when Ivy or Helm present
-  (cond ((featurep 'ivy)
-         (setq projectile-completion-system 'ivy)
-         (use-package counsel-projectile
-           :init
-           (counsel-projectile-mode 1)))
-        ((featurep 'helm)
-         (setq projectile-completion-system 'helm)
-         (use-package helm-projectile))))
+  (projectile-mode 1))
 
 ;;------------------------------------------------------------------------------
 ;; Key binding quick view

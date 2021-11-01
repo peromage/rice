@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;;------------------------------------------------------------------------------
+;; Helm core package
+;;------------------------------------------------------------------------------
+
 (use-package helm
   :diminish helm-mode
   :bind (("M-x" . helm-M-x)
@@ -25,6 +29,16 @@
   (helm-mode 1)
   :config
   (helm-autoresize-mode 1))
+
+;;------------------------------------------------------------------------------
+;; Helm improvement
+;;------------------------------------------------------------------------------
+
+;; Projectile integration
+(use-package helm-projectile
+  :requires projectile
+  :init
+  (setq projectile-completion-system 'helm))
 
 (provide 'pack-navigation-helm)
 ;;; pack-navigation-helm.el ends here

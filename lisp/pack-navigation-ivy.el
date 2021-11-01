@@ -36,6 +36,13 @@
 ;; Ivy improvement
 ;;------------------------------------------------------------------------------
 
+;; Projectile integration
+(use-package counsel-projectile
+  :requires projectile
+  :init
+  (setq projectile-completion-system 'ivy)
+  (counsel-projectile-mode 1))
+
 ;; Make Ivy show more information
 (use-package ivy-rich
   :after ivy
