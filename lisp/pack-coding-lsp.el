@@ -55,7 +55,6 @@
   (lsp-ui-doc-frame-mode -1))
 
 (use-package lsp-ui
-  :after lsp-mode
   :commands lsp-ui-mode
   :bind
   (:map lsp-ui-mode-map
@@ -86,7 +85,6 @@
 
 (use-package lsp-ivy
   :requires ivy
-  :after lsp-mode
   :commands lsp-ivy-workspace-symbol)
 
 (provide 'pack-coding-lsp)

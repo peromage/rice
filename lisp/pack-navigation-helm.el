@@ -8,6 +8,7 @@
 
 (use-package helm
   :diminish helm-mode
+  :demand t
   :bind (("M-x" . helm-M-x)
          ("C-s" . helm-occur)
          ("C-x f" . helm-find)

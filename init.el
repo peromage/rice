@@ -29,8 +29,20 @@
 (require 'pack-theme)
 (require 'pack-vim)
 (require 'pack-git)
+
+;; Navigation
 (require 'pack-navigation)
+(require 'pack-navigation-ivy)
+
+;; Coding
 (require 'pack-coding)
+(require 'pack-coding-major-mode)
+(require 'pack-coding-lsp)
+(require 'pack-coding-lsp-c)
+(require 'pack-coding-lsp-py)
+(require 'pack-coding-lsp-cs)
+(require 'pack-coding-lsp-pwsh)
+
 (require 'pack-org)
 (require 'pack-terminal)
 

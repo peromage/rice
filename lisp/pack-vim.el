@@ -150,7 +150,6 @@
     (pew/evil/set-initial-state initial-states)))
 
 ;;(use-package evil-collection
-;;  :after evil
 ;;  :config
 ;;  (setq evil-want-keybinding nil)
 ;;  (evil-collection-init))

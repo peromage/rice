@@ -10,6 +10,7 @@
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
   :diminish (ivy-mode counsel-mode)
+  :demand t
   :bind (("C-s" . swiper)
          ("C-c r" . ivy-resume)
          ("C-x d" . counsel-dired)
@@ -36,16 +37,19 @@
 ;; Ivy improvement
 ;;------------------------------------------------------------------------------
 
+(when (featurep 'projectile)
+  (message "projectile loaded!!"))
+
 ;; Projectile integration
 (use-package counsel-projectile
   :requires projectile
   :init
+  (message "loading counsel-projectile!!!")
   (setq projectile-completion-system 'ivy)
   (counsel-projectile-mode 1))
 
 ;; Make Ivy show more information
 (use-package ivy-rich
-  :after ivy
   :config
   (ivy-rich-mode 1)
   (setq ivy-rich-path-style 'abbrev)
@@ -68,7 +72,6 @@
 
 ;; Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
-  :after counsel
   :init
   (setq ivy-prescient-enable-filtering nil)
   :config

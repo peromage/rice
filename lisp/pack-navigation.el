@@ -23,12 +23,6 @@
   (use-package dired-x :ensure nil))
 
 ;;------------------------------------------------------------------------------
-;; Completion framework
-;;------------------------------------------------------------------------------
-
-(require 'pack-navigation-ivy)
-
-;;------------------------------------------------------------------------------
 ;; Sidebar file navigation
 ;;------------------------------------------------------------------------------
 
@@ -43,8 +37,10 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :init
   (setq projectile-enable-caching t)
+  (projectile-mode 1)
   :config
-  (projectile-mode 1))
+  ;;(projectile-mode 1)
+  )
 
 ;;------------------------------------------------------------------------------
 ;; Key binding quick view

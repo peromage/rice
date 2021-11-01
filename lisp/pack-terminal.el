@@ -33,7 +33,6 @@
         vterm-max-scrollback 9999))
 
 (use-package multi-vterm
-  :after vterm
   :commands (multi-vterm multi-vterm-project))
 
 (provide 'pack-terminal)

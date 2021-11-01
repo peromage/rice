@@ -63,7 +63,6 @@ of STATUS.  Possible values are:
   (pew/company-box/doc-toggle 'hide))
 
 (use-package company-box
-  :after company
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
          ("C-k" . company-box-doc-manually))
@@ -85,22 +84,6 @@ of STATUS.  Possible values are:
   ;;:config
   ;;(yas-global-mode 1)
   )
-
-;;------------------------------------------------------------------------------
-;; Some other major modes
-;;------------------------------------------------------------------------------
-
-(use-package vimrc-mode :defer t)
-
-;;------------------------------------------------------------------------------
-;; Language servers
-;;------------------------------------------------------------------------------
-
-(require 'pack-coding-lsp)
-(require 'pack-coding-lsp-c)
-(require 'pack-coding-lsp-py)
-(require 'pack-coding-lsp-cs)
-(require 'pack-coding-lsp-pwsh)
 
 (provide 'pack-coding)
 ;;; pack-coding.el ends here
