@@ -21,11 +21,15 @@
  ring-bell-function 'ignore
  visible-bell nil)
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+;; Minimize visual distractions
 (menu-bar-mode -1)
 (column-number-mode 1)
 (size-indication-mode 1)
+
+;; GUI settings
+(when (string-match-p "X11" system-configuration-features)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1))
 
 ;;------------------------------------------------------------------------------
 ;; Editor
