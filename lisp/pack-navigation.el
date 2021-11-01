@@ -37,10 +37,8 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :init
   (setq projectile-enable-caching t)
-  (projectile-mode 1)
   :config
-  ;;(projectile-mode 1)
-  )
+  (projectile-mode 1))
 
 ;;------------------------------------------------------------------------------
 ;; Key binding quick view

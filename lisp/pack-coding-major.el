@@ -1,4 +1,4 @@
-;;; pack-coding-major-mode.el --- Major modes packages -*- lexical-binding: t -*-
+;;; pack-coding-major.el --- Major modes packages -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -8,5 +8,5 @@
 
 (use-package vimrc-mode :defer t)
 
-(provide 'pack-coding-major-mode)
-;;; pack-coding-major-mode.el ends here
+(provide 'pack-coding-major)
+;;; pack-coding-major.el ends here

@@ -37,14 +37,10 @@
 ;; Ivy improvement
 ;;------------------------------------------------------------------------------
 
-(when (featurep 'projectile)
-  (message "projectile loaded!!"))
-
 ;; Projectile integration
 (use-package counsel-projectile
-  :requires projectile
-  :init
-  (message "loading counsel-projectile!!!")
+  :after projectile
+  :config
   (setq projectile-completion-system 'ivy)
   (counsel-projectile-mode 1))
 

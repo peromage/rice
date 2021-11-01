@@ -11,6 +11,7 @@
 
 (use-package org
   :ensure nil
+  :hook (org-mode . pew/org/setup)
   :init
   (setq org-src-fontify-natively t
         org-startup-folded nil
@@ -20,9 +21,7 @@
         org-log-done 'time
         org-log-into-drawer t
         org-indent-mode-turns-on-hiding-stars nil
-        org-agenda-files (expand-file-name "orgfiles" pew/home-dir))
-  :hook
-  (org-mode . pew/org/setup))
+        org-agenda-files (expand-file-name "orgfiles" pew/home-dir)))
 
 (provide 'pack-org)
 ;;; pack-org.el ends here

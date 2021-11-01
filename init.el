@@ -18,14 +18,14 @@
 ;; Bootstrap
 ;;------------------------------------------------------------------------------
 
-;; Core
+;; Base setup
 (add-to-list 'load-path (expand-file-name "lisp" (file-name-directory load-file-name)))
 (require 'init-base)
 (require 'init-lib)
 (require 'init-keymap)
 (require 'init-config)
 
-;; Packages
+;; Base packages
 (require 'pack-theme)
 (require 'pack-vim)
 (require 'pack-git)
@@ -36,13 +36,14 @@
 
 ;; Coding
 (require 'pack-coding)
-(require 'pack-coding-major-mode)
+(require 'pack-coding-major)
 (require 'pack-coding-lsp)
 (require 'pack-coding-lsp-c)
 (require 'pack-coding-lsp-py)
 (require 'pack-coding-lsp-cs)
 (require 'pack-coding-lsp-pwsh)
 
+;; Other packages
 (require 'pack-org)
 (require 'pack-terminal)
 

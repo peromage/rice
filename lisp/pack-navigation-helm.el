@@ -37,7 +37,7 @@
 
 ;; Projectile integration
 (use-package helm-projectile
-  :requires projectile
+  :after projectile
   :init
   (setq projectile-completion-system 'helm))
 
