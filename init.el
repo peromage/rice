@@ -38,7 +38,7 @@
 (require 'pack-coding)
 (require 'pack-coding-major)
 (require 'pack-coding-lsp)
-(require 'pack-coding-lsp-c)
+(require 'pack-coding-lsp-cc)
 (require 'pack-coding-lsp-py)
 (require 'pack-coding-lsp-cs)
 (require 'pack-coding-lsp-pwsh)

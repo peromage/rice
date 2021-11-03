@@ -1,10 +1,23 @@
-;;; pack-coding-lsp-c.el --- C/C++ mode -*- lexical-binding: t -*-
+;;; pack-coding-lsp-cc.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Functions and variables
+;; Setup functions
 ;;------------------------------------------------------------------------------
+
+(defun pew/cc-mode/setup ()
+  "Common CC mode setup."
+  (c-set-offset 'substatement-open 0)
+  (setq c++-tab-always-indent t
+        c-basic-offset 4
+        ;;c-syntactic-indentation nil
+        ;;c-syntactic-indentation-in-macros nil
+        c-indent-level 4
+        tab-width 4
+        tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+        indent-tabs-mode nil
+        adaptive-fill-mode nil))
 
 (defun pew/c-mode/setup ()
   "Initialization for C mode."
@@ -18,11 +31,7 @@
                                   "--header-insertion=never"
                                   "--header-insertion-decorators=0"
                                   "--suggest-missing-includes"
-                                  "--all-scopes-completion")
-        adaptive-fill-mode nil
-        c-basic-offset tab-width
-        c-syntactic-indentation nil
-        c-syntactic-indentation-in-macros nil)
+                                  "--all-scopes-completion"))
   (lsp)
   ;; Post LSP mode settings
   (electric-indent-mode 1))
@@ -32,11 +41,12 @@
   (pew/c-mode/setup))
 
 ;;------------------------------------------------------------------------------
-;; Setup
+;; Hooks
 ;;------------------------------------------------------------------------------
 
+(add-hook 'c-mode-common-hook #'pew/cc-mode/setup)
 (add-hook 'c-mode-hook #'pew/c-mode/setup)
 (add-hook 'c++-mode-hook #'pew/cpp-mode/setup)
 
-(provide 'pack-coding-lsp-c)
-;;; pack-coding-lsp-c.el ends here
+(provide 'pack-coding-lsp-cc)
+;;; pack-coding-lsp-cc.el ends here

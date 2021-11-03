@@ -60,9 +60,6 @@
  backward-delete-char-untabify-method 'hungry
  indent-tabs-mode nil
  tab-width 4
- c-basic-offset tab-width
- c-syntactic-indentation nil
- c-syntactic-indentation-in-macros nil
  ;; Final newline
  require-final-newline t
  mode-require-final-newline t)
