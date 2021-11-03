@@ -9,6 +9,7 @@
 (defun pew/cc-mode/setup ()
   "Common CC mode setup."
   (c-set-offset 'substatement-open 0)
+  (c-set-offset 'innamespace 0)
   (setq c++-tab-always-indent t
         c-basic-offset 4
         ;;c-syntactic-indentation nil
