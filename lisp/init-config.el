@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Visual
+;; Window
 ;;------------------------------------------------------------------------------
 
 (setq-default
@@ -19,14 +19,48 @@
  inhibit-startup-echo-area-message user-login-name
  ;; No annoying bell
  ring-bell-function 'ignore
- visible-bell nil)
+ visible-bell nil
+ ;; Window splitting behavior
+ split-width-threshold nil
+ split-height-threshold 0
+ help-window-select t
+ ;; Splits properly
+ display-buffer-base-action '((display-buffer-reuse-window display-buffer-below-selected)
+                              (inhibit-switch-frame . t)
+                              (reusable-frames . nil))
+ ;; Better minibuffer
+ enable-recursive-minibuffers t
+ resize-mini-windows 'grow-only
+ max-mini-window-height 0.3
+ ;; Better scrolling
+ mouse-wheel-scroll-amount '(2 ((shift) . 5))
+ mouse-wheel-progressive-speed nil
+ mouse-wheel-follow-mouse t
+ ;; Vertical scrolling
+ ;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Scrolling.html
+ scroll-conservatively 101
+ scroll-step 0
+ scroll-up-aggressively 0.0
+ scroll-down-aggressively 0.0
+ scroll-margin 0
+ scroll-preserve-screen-position t
+ auto-window-vscroll nil
+ ;; Horizontal scrolling
+ hscroll-step 1
+ hscroll-margin 0
+ auto-hscroll-mode t)
 
 ;; Minimize visual distractions
 (menu-bar-mode -1)
 (column-number-mode 1)
 (size-indication-mode 1)
+;; Convenience
+(xterm-mouse-mode 1)
+(winner-mode 1)
+;; Fonts
+(set-face-attribute 'tab-bar nil :inherit 'default)
 
-;; GUI settings
+;; X11 settings
 (when (string-match-p "X11" system-configuration-features)
   (scroll-bar-mode -1)
   (tool-bar-mode -1))
@@ -75,43 +109,6 @@
 (blink-cursor-mode -1)
 ;; Make backspace and del keys behave as expected
 ;;(normal-erase-is-backspace-mode -1)
-
-;;------------------------------------------------------------------------------
-;; Windows
-;;------------------------------------------------------------------------------
-
-(setq-default
- ;; Window splitting behavior
- split-width-threshold nil
- split-height-threshold 0
- help-window-select t
- ;; Splits properly
- display-buffer-base-action '((display-buffer-reuse-window display-buffer-below-selected)
-                              (inhibit-switch-frame . t)
-                              (reusable-frames . nil))
- ;; Better minibuffer
- enable-recursive-minibuffers t
- resize-mini-windows 'grow-only
- max-mini-window-height 0.3
- ;; Better scrolling
- mouse-wheel-scroll-amount '(2 ((shift) . 5))
- mouse-wheel-progressive-speed nil
- mouse-wheel-follow-mouse t
- ;; Vertical scrolling
- ;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Scrolling.html
- scroll-conservatively 101
- scroll-step 0
- scroll-up-aggressively 0.0
- scroll-down-aggressively 0.0
- scroll-margin 0
- scroll-preserve-screen-position t
- auto-window-vscroll nil
- ;; Horizontal scrolling
- hscroll-step 1
- hscroll-margin 0
- auto-hscroll-mode t)
-
-(winner-mode 1)
 
 ;;------------------------------------------------------------------------------
 ;; Tabbar
@@ -186,19 +183,6 @@
  ido-default-buffer-method 'selected-window)
 
 (ido-mode 1)
-
-;;------------------------------------------------------------------------------
-;; GUI and TUI settings
-;;------------------------------------------------------------------------------
-
-(cond ((window-system)
-       (normal-erase-is-backspace-mode 1)
-       (set-face-attribute 'tab-bar nil :inherit 'default))
-      ;; In terminal
-      (t
-       ;; Enable C-h in terminal
-       (normal-erase-is-backspace-mode -1)
-       (xterm-mouse-mode 1)))
 
 (provide 'init-config)
 ;;; init-config.el ends here
