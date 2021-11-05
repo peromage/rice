@@ -24,11 +24,11 @@
   "Initialization for C mode."
   (setq lsp-enable-on-type-formatting nil
         ;; Prevent Clangd from inserting headers itself
-        lsp-clients-clangd-args '("-j=2"
+        lsp-clients-clangd-args '("-j=8"
                                   "--background-index"
                                   "--clang-tidy"
-                                  "--completion-style=bundled"
-                                  "--pch-storage=memory"
+                                  "--completion-style=detailed"
+                                  "--pch-storage=disk"
                                   "--header-insertion=never"
                                   "--header-insertion-decorators=0"
                                   "--suggest-missing-includes"
