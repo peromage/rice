@@ -23,9 +23,9 @@
          ([remap completion-at-point] . company-complete)
          ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
-         ("<tab>" . company-complete)
-         ("<return>" . company-abort)
-         ("RET" . company-abort)
+         ("TAB" . company-complete)
+         ("RET" . company-complete-selection)
+         ("ESC" . company-abort)
          ("C-SPC" . company-search-abort)
          ("C-d" . company-show-doc-buffer)
          ("C-f" . company-show-location))
