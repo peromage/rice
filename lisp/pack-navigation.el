@@ -17,7 +17,7 @@
   (setq dired-listing-switches "-alFD --group-directories-first"
         dired-dwim-target t
         dired-recursive-copies 'always
-        dired-recursive-deletes 'top)
+        dired-recursive-deletes 'always)
   (put 'dired-find-alternate-file 'disabled nil)
   :config
   (use-package dired-x :ensure nil))

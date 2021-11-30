@@ -153,7 +153,9 @@
  ;; No backup and auto-save
  make-backup-files nil
  auto-save-timeout 0
- auto-save-interval 0)
+ auto-save-interval 0
+ ;; Don't use system recycle bin by default
+ delete-by-moving-to-trash nil)
 
 (recentf-mode 1)
 (save-place-mode -1)
