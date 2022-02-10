@@ -27,7 +27,8 @@
         ;;search-default-mode #'char-fold-to-regexp
         ivy-count-format "(%d/%d) "
         ivy-on-del-error-function #'ignore
-        ivy-display-style 'fancy)
+        ivy-display-style 'fancy
+        ivy-use-selectable-prompt t)
   (ivy-mode 1)
   (counsel-mode 1)
   :config
