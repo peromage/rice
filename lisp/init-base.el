@@ -6,42 +6,23 @@
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Pew environment
+;; Initialization
 ;;------------------------------------------------------------------------------
 
-(defun pew/get-parent-directory (path)
-  "Get the parent directory of the PATH."
-    (file-name-directory (directory-file-name path)))
-(setq pew/home-dir (pew/get-parent-directory (pew/get-parent-directory load-file-name)))
-
-;;------------------------------------------------------------------------------
 ;; Adjust garbage collection thresholds during startup, and thereafter
-;;------------------------------------------------------------------------------
-
 (let ((normal-gc-cons-threshold (* 20 1024 1024))
       (init-gc-cons-threshold (* 128 1024 1024)))
   (setq gc-cons-threshold init-gc-cons-threshold)
-  (add-hook 'emacs-startup-hook
-            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
 
-;;------------------------------------------------------------------------------
-;; Allow access from the emacsclient.
-;;------------------------------------------------------------------------------
+;; Start a daemon if it is not running yet
+(add-hook 'after-init-hook (lambda ()
+                             (require 'server)
+                             (unless (server-running-p)
+                               (message "[pew] Starting Emacs daemon")
+                               (server-start))))
 
-(defun pew/start--emacs-daemon ()
-  "Start a daemon if it is not running yet."
-  (require 'server)
-  (unless (server-running-p)
-    (message "[pew] Starting Emacs daemon")
-    (server-start)))
-
-(add-hook 'after-init-hook #'pew/start--emacs-daemon)
-
-;;------------------------------------------------------------------------------
-;; Temporary local files
-;;------------------------------------------------------------------------------
-
-;; Cache directory for local files
+;; Redirect temporary files
 (let ((local-cache-dir (expand-file-name "tempfiles" pew/home-dir))
       (file-settings
        '((bookmark-default-file . "bookmarks")
@@ -58,11 +39,10 @@
     (eval `(setq ,(car settings) ,(expand-file-name (cdr settings) local-cache-dir)))))
 
 ;;------------------------------------------------------------------------------
-;; Package archives
+;; Package support
 ;;------------------------------------------------------------------------------
 
 ;; This ELPA initialization configuration should be loaded before any other package settings.
-
 (require 'package)
 
 ;; Standard package repositories
@@ -73,14 +53,11 @@
 ;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
 (when (and (version< emacs-version "26.3") (boundp 'libgnutls-version) (>= libgnutls-version 30604))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
 ;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
-(setq package-user-dir
-      (expand-file-name (format "elpa-%s.%s" emacs-major-version emacs-minor-version)
-                        pew/home-dir))
+(setq package-user-dir (expand-file-name (format "elpa-%s.%s" emacs-major-version emacs-minor-version) pew/home-dir)
+      package-enable-at-startup nil)
 
 ;; Fire up package.el
-(setq package-enable-at-startup nil)
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -91,10 +68,8 @@
 (eval-when-compile
   (message "[pew] Loading use-package")
   (require 'use-package))
-
 ;; Make sure future packages will be installed
 (setq use-package-always-ensure t)
-
 ;; use-package's utilities
 (use-package diminish)
 

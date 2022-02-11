@@ -1,4 +1,4 @@
-;;; init-lib.el --- Utilities -*- lexical-binding: t -*-
+;;; init-shared.el --- Utilities -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; This is the pew library file.  I might split this into multiple files if there
@@ -108,5 +108,21 @@ SWITCH-FUNC should not take any arguments."
          (setq-default display-line-numbers-type 'relative)
          (global-display-line-numbers-mode 1))))
 
-(provide 'init-lib)
-;;; init-lib.el ends here
+(defun pew/get-parent-directory (path)
+  "Get the parent directory of the PATH."
+    (file-name-directory (directory-file-name path)))
+
+(defun pew/global-set-key (keybindings)
+  "Globally bind keys defined in the alist KEYBINDINGS.
+The alist KEYBINDINGS should be something like:
+  '((\"key strokes\" . command)
+    ([key strokes] . command))"
+  (dolist (binding keybindings)
+    (let ((keys (car binding))
+          (cmd (cdr binding)))
+      (if (vectorp keys)
+          (global-set-key keys cmd)
+        (global-set-key (kbd keys) cmd)))))
+
+(provide 'init-shared)
+;;; init-shared.el ends here

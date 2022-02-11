@@ -1,7 +1,7 @@
-;;; init-config.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
+;;; init-custom.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; This file should only contains the universal vanilla Emacs settings.
+;; This file contains the settings for vanilla Emacs.
 
 ;;; Code:
 
@@ -186,5 +186,5 @@
 
 (ido-mode 1)
 
-(provide 'init-config)
-;;; init-config.el ends here
+(provide 'init-custom)
+;;; init-custom.el ends here
