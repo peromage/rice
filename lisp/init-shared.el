@@ -98,6 +98,11 @@ SWITCH-FUNC should not take any arguments."
          (setq-local display-line-numbers-type 'relative)
          (display-line-numbers-mode 1))))
 
+(defun pew/toggle-tab-mode ()
+  "Switch between tab mode or space mode."
+  (interactive)
+  (setq indent-tabs-mode (not indent-tabs-mode)))
+
 (defun pew/global-toggle-line-number-type ()
   "Switch line number type between relative and absolute globally."
   (interactive)
