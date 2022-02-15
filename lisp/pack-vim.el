@@ -145,7 +145,7 @@
            (xref--xref-buffer-mode . emacs)
            (flycheck-error-list-mode . emacs)
            (ivy-occur-grep-mode . emacs)
-           ;;(dired-mode . emacs)
+           (dired-mode . emacs)
            )))
     (pew/evil/set-initial-state initial-states)))
 
