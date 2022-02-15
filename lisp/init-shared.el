@@ -129,5 +129,13 @@ The alist KEYBINDINGS should be something like:
           (global-set-key keys cmd)
         (global-set-key (kbd keys) cmd)))))
 
+(defun pew/close-other-dired-buffers ()
+  "Close all Dired buffers but this one."
+  (interactive)
+  (let ((this-buf (current-buffer)))
+    (dolist (buf (buffer-list))
+      (if (and (eq 'dired-mode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
+          (kill-buffer buf)))))
+
 (provide 'init-shared)
 ;;; init-shared.el ends here
