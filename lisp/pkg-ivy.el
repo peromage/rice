@@ -50,6 +50,7 @@
 (use-package ivy-rich
   :config
   (ivy-rich-mode 1)
+
   (setq ivy-rich-path-style 'abbrev)
   (ivy-rich-set-columns
    'ivy-switch-buffer
@@ -72,6 +73,7 @@
 (use-package ivy-prescient
   :config
   (setq ivy-prescient-enable-filtering nil)
+
   ;; Uncomment the following line to have sorting remembered across sessions!
   ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))

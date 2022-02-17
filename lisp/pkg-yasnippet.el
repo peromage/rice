@@ -4,7 +4,6 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :defer t
   :config
   (setq yas-snippet-dirs (list (expand-file-name "snippets" pew/home-dir)))
   (yas-global-mode 1))

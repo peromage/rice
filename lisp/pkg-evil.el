@@ -90,6 +90,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package evil
+  :demand t
   :config
   (setq evil-want-integration t
         evil-want-keybinding t
