@@ -1,4 +1,4 @@
-;;; pack-navigation-helm.el --- Framework Helm -*- lexical-binding: t -*-
+;;; pkg-helm.el --- Framework Helm -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -41,5 +41,5 @@
   :init
   (setq projectile-completion-system 'helm))
 
-(provide 'pack-navigation-helm)
-;;; pack-navigation-helm.el ends here
+(provide 'pkg-helm)
+;;; pkg-helm.el ends here

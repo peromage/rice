@@ -1,19 +1,6 @@
-;;; pack-coding.el --- Coding convenience -*- lexical-binding: t -*-
+;;; pkg-company.el --- Code completion -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-
-;;------------------------------------------------------------------------------
-;; Syntax checker
-;;------------------------------------------------------------------------------
-
-(use-package flycheck
-  :diminish flycheck-mode
-  :init
-  (global-flycheck-mode 1))
-
-;;------------------------------------------------------------------------------
-;; Code completion
-;;------------------------------------------------------------------------------
 
 ;; Company core package
 (use-package company
@@ -74,16 +61,5 @@ of STATUS.  Possible values are:
         company-box-show-single-candidate 'always
         company-box-scrollbar t))
 
-;;------------------------------------------------------------------------------
-;; Snippets
-;;------------------------------------------------------------------------------
-
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :defer t
-  ;;:config
-  ;;(yas-global-mode 1)
-  )
-
-(provide 'pack-coding)
-;;; pack-coding.el ends here
+(provide 'pkg-company)
+;;; pkg-company.el ends here

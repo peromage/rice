@@ -1,4 +1,4 @@
-;;; pack-org.el --- Org mode tweaks -*- lexical-binding: t -*-
+;;; pkg-org.el --- Org mode tweaks -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -23,5 +23,5 @@
         org-indent-mode-turns-on-hiding-stars nil
         org-agenda-files (expand-file-name "orgfiles" pew/home-dir)))
 
-(provide 'pack-org)
-;;; pack-org.el ends here
+(provide 'pkg-org)
+;;; pkg-org.el ends here

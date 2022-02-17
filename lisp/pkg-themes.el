@@ -1,4 +1,4 @@
-;;; pack-theme.el --- Visual enhancement -*- lexical-binding: t -*-
+;;; pkg-themes.el --- Visual enhancement -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -24,5 +24,5 @@
 (pew/load-theme 'doom-dracula)
 (set-face-attribute 'tab-bar nil :inherit 'default)
 
-(provide 'pack-theme)
-;;; pack-theme.el ends here
+(provide 'pkg-themes)
+;;; pkg-themes.el ends here

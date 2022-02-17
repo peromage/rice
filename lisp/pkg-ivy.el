@@ -1,4 +1,4 @@
-;;; pack-navigation-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
+;;; pkg-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -76,5 +76,5 @@
   ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
-(provide 'pack-navigation-ivy)
-;;; pack-navigation-ivy.el ends here
+(provide 'pkg-ivy)
+;;; pkg-ivy.el ends here

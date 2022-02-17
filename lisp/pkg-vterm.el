@@ -1,4 +1,4 @@
-;;; pack-terminal.el --- Terminal supports -*- lexical-binding: t -*-
+;;; pkg-vterm.el --- Terminal in Emacs -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -35,5 +35,5 @@
 (use-package multi-vterm
   :commands (multi-vterm multi-vterm-project))
 
-(provide 'pack-terminal)
-;;; pack-terminal.el ends here
+(provide 'pkg-vterm)
+;;; pkg-vterm.el ends here

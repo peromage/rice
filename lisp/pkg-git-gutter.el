@@ -1,28 +1,6 @@
-;;; pack-git.el --- Git porcelain -*- lexical-binding: t -*-
+;;; pkg-git-gutter.el --- Display git changes for lines -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
-
-;;------------------------------------------------------------------------------
-;; Ediff
-;;------------------------------------------------------------------------------
-
-(use-package ediff
-  :ensure nil
-  :defer t
-  :init
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain
-        ediff-split-window-function 'split-window-vertically))
-
-;;------------------------------------------------------------------------------
-;; Magit
-;;------------------------------------------------------------------------------
-
-(use-package magit
-  :commands magit-status)
-
-;;------------------------------------------------------------------------------
-;; Display changes besides the row number
-;;------------------------------------------------------------------------------
 
 (use-package git-gutter
   :diminish git-gutter-mode
@@ -49,5 +27,5 @@
   (set-face-background 'git-gutter:unchanged "unspecified")
   (set-face-background 'git-gutter:separator "unspecified"))
 
-(provide 'pack-git)
-;;; pack-git.el ends here
+(provide 'pkg-git-gutter)
+;;; pkg-git-gutter.el ends here

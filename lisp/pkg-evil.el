@@ -1,4 +1,4 @@
-;;; pack-vim.el --- Vim layer -*- lexical-binding: t -*-
+;;; pkg-evil.el --- Vim layer -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -149,7 +149,12 @@
            )))
     (pew/evil/set-initial-state initial-states)))
 
+;;------------------------------------------------------------------------------
+;; Evil enhancement
+;;------------------------------------------------------------------------------
+
 ;;(use-package evil-collection
+;;  :requires evil
 ;;  :config
 ;;  (setq evil-want-keybinding nil)
 ;;  (evil-collection-init))
@@ -161,5 +166,5 @@
   :config
   (evil-set-undo-system 'undo-tree))
 
-(provide 'pack-vim)
-;;; pack-vim.el ends here
+(provide 'pkg-evil)
+;;; pkg-evil.el ends here

@@ -22,7 +22,7 @@
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 
 ;;------------------------------------------------------------------------------
-;; Bootstrap -- To avoid complexity, all packages are managed here
+;; Bootstrap -- To avoid  nested loading, all packages are managed here
 ;;------------------------------------------------------------------------------
 
 ;; Base setup
@@ -30,24 +30,42 @@
 (require 'init-base)
 (require 'init-custom)
 (require 'init-keymaps)
-;; Basics
-(require 'pack-theme)
-(require 'pack-vim)
-(require 'pack-git)
+
+;; Framework
+(require 'pkg-ivy)
+
+;; Vim keymaps
+(require 'pkg-evil)
+
 ;; Navigation
-(require 'pack-navigation)
-(require 'pack-navigation-ivy)
+(require 'pkg-which-key)
+(require 'pkg-projectile)
+(require 'pkg-dired)
+
+;; Git
+(require 'pkg-magit)
+(require 'pkg-ediff)
+(require 'pkg-git-gutter)
+
 ;; Coding
-(require 'pack-coding)
-(require 'pack-coding-major)
-(require 'pack-coding-lsp)
-(require 'pack-coding-lsp-cc)
-(require 'pack-coding-lsp-py)
-(require 'pack-coding-lsp-cs)
-(require 'pack-coding-lsp-pwsh)
+(require 'pkg-flycheck)
+(require 'pkg-company)
+(require 'pkg-yasnippet)
+(require 'pkg-major-modes)
+
+;; LSP
+(require 'pkg-lsp)
+(require 'pkg-lsp-cc)
+(require 'pkg-lsp-python)
+(require 'pkg-lsp-cs)
+(require 'pkg-lsp-powershell)
+
 ;; Other packages
-(require 'pack-org)
-(require 'pack-terminal)
+(require 'pkg-org)
+(require 'pkg-vterm)
+
+;; Appearance
+(require 'pkg-themes)
 
 ;; Load this at the last to prevent local configurations from being overridden
 (when (file-exists-p custom-file) (load custom-file))
