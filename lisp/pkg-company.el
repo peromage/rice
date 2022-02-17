@@ -2,7 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Company core package
+;;------------------------------------------------------------------------------
+;; Company
+;;------------------------------------------------------------------------------
+
 (use-package company
   :diminish company-mode
   :bind (:map company-mode-map
@@ -16,7 +19,7 @@
          ("C-SPC" . company-search-abort)
          ("C-d" . company-show-doc-buffer)
          ("C-f" . company-show-location))
-  :init
+  :config
   (setq company-tooltip-align-annotations t
         company-tooltip-limit 10
         company-tooltip-idle-delay 0.5
@@ -27,10 +30,12 @@
         company-selection-wrap-around t
         company-auto-complete nil)
   (global-company-mode 1)
-  :config
   (company-tng-mode -1))
 
-;; Company improvement
+;;------------------------------------------------------------------------------
+;; Company Enhancement
+;;------------------------------------------------------------------------------
+
 (defun pew/company-box/doc-toggle (&optional status)
   "Toggle company box doc display if STATUS is omitted.
 Otherwise if STATUS is given, the status of doc display depends on the value
@@ -53,7 +58,7 @@ of STATUS.  Possible values are:
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
          ("C-k" . company-box-doc-manually))
-  :init
+  :config
   (setq company-box-doc-enable nil
         company-box-doc-delay 0.5
         company-box-enable-icon t

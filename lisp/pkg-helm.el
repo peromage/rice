@@ -14,7 +14,7 @@
          ("C-x f" . helm-find)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-mini))
-  :init
+  :config
   (setq helm-split-window-inside-p t
         helm-echo-input-in-header-line t
         helm-use-frame-when-more-than-two-windows nil
@@ -27,8 +27,8 @@
         helm-ff-fuzzy-matching t
         helm-apropos-fuzzy-match t
         helm-recentf-fuzzy-match t)
+
   (helm-mode 1)
-  :config
   (helm-autoresize-mode 1))
 
 ;;------------------------------------------------------------------------------

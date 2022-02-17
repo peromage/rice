@@ -16,7 +16,7 @@
   :custom-face
   (mode-line ((t (:height 0.9))))
   (mode-line-inactive ((t (:height 0.9))))
-  :init
+  :config
   (setq doom-modeline-height 1)
   (doom-modeline-mode 1))
 

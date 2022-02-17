@@ -86,11 +86,11 @@
     (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
 
 ;;------------------------------------------------------------------------------
-;; Setup
+;; Evil setup
 ;;------------------------------------------------------------------------------
 
 (use-package evil
-  :init
+  :config
   (setq evil-want-integration t
         evil-want-keybinding t
         evil-want-minibuffer nil
@@ -103,9 +103,9 @@
         evil-symbol-word-search nil
         evil-kill-on-visual-paste t
         evil-search-module 'evil-search)
+
   (evil-mode 1)
 
-  :config
   ;; Key bindings in normal and motion state
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((normal-bindings
@@ -154,14 +154,12 @@
 ;;------------------------------------------------------------------------------
 
 ;;(use-package evil-collection
-;;  :requires evil
 ;;  :config
 ;;  (setq evil-want-keybinding nil)
 ;;  (evil-collection-init))
 
 ;; Make Evil undo/redo easier
 (use-package undo-tree
-  :requires evil
   :hook (evil-local-mode . turn-on-undo-tree-mode)
   :config
   (evil-set-undo-system 'undo-tree))

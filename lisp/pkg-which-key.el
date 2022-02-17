@@ -4,11 +4,10 @@
 
 (use-package which-key
   :diminish which-key-mode
-  :init
+  :config
   (setq which-key-popup-type 'minibuffer
         which-key-show-early-on-C-h nil
         which-key-idle-delay 1.0)
-  :config
   (which-key-mode 1)
   (which-key-setup-minibuffer))
 

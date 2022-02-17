@@ -5,7 +5,7 @@
 (use-package ediff
   :ensure nil
   :defer t
-  :init
+  :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain
         ediff-split-window-function 'split-window-vertically))
 

@@ -11,14 +11,15 @@
          ;;("DEL" . (lambda () (interactive) (find-alternate-file "..")))
          ("DEL" . dired-up-directory)
          )
-  :init
+  :config
   (setq dired-listing-switches "-alFD --group-directories-first"
         dired-dwim-target t
         dired-recursive-copies 'always
         dired-recursive-deletes 'always)
-  (put 'dired-find-alternate-file 'disabled nil)
-  :config
-  (use-package dired-x :ensure nil))
+  (put 'dired-find-alternate-file 'disabled nil))
+
+(use-package dired-x
+  :ensure nil)
 
 (provide 'pkg-dired)
 ;;; pkg-dired.el ends here

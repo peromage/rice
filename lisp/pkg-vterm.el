@@ -28,7 +28,7 @@
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :hook (vterm-mode . pew/terminal/setup)
   :commands (vterm vterm-other-window)
-  :init
+  :config
   (setq vterm-kill-buffer-on-exit t
         vterm-max-scrollback 9999))
 

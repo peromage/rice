@@ -69,7 +69,9 @@
   (message "[pew] Loading use-package")
   (require 'use-package))
 ;; Make sure future packages will be installed
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure t
+      use-package-always-defer nil
+      use-package-always-demand nil)
 ;; use-package's utilities
 (use-package diminish)
 

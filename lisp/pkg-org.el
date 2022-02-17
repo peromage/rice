@@ -12,7 +12,7 @@
 (use-package org
   :ensure nil
   :hook (org-mode . pew/org/setup)
-  :init
+  :config
   (setq org-src-fontify-natively t
         org-startup-folded nil
         org-return-follows-link t

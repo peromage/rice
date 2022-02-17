@@ -12,7 +12,7 @@
   (:map lsp-mode-map
         ("C-c j" . lsp-find-definition)
         ("C-c J" . lsp-find-declaration))
-  :init
+  :config
   (setq lsp-enable-snippet nil
         lsp-auto-configure t
         lsp-enable-symbol-highlighting t
@@ -30,7 +30,7 @@
         lsp-completion-show-detail t
         lsp-completion-show-kind t
         lsp-headerline-breadcrumb-enable t)
-  :config
+
   (lsp-enable-which-key-integration 1))
 
 ;;------------------------------------------------------------------------------
@@ -64,7 +64,7 @@
         ("C-c k" . pew/lsp-ui/doc-glance)
         ("C-c K" . pew/lsp-ui/doc-toggle))
   :hook (lsp-mode . pew/lsp-ui/setup)
-  :init
+  :config
   (setq lsp-ui-peek-enable t
         lsp-ui-peek-show-directory t
         lsp-ui-sideline-enable nil

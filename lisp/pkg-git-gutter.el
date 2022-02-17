@@ -4,7 +4,7 @@
 
 (use-package git-gutter
   :diminish git-gutter-mode
-  :init
+  :config
   (setq git-gutter:modified-sign "**"
         git-gutter:added-sign "++"
         git-gutter:deleted-sign "--"
@@ -14,8 +14,9 @@
         git-gutter:visual-line nil
         git-gutter:hide-gutter nil
         git-gutter:verbosity 0)
-  :config
+
   (global-git-gutter-mode 1)
+
   (set-face-foreground 'git-gutter:modified "yellow")
   (set-face-foreground 'git-gutter:added "green")
   (set-face-foreground 'git-gutter:deleted "red")

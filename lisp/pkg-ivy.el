@@ -21,7 +21,7 @@
          ("C-c g" . counsel-ag)
          :map minibuffer-local-map
          ("C-r" . counsel-minibuffer-history))
-  :init
+  :config
   (setq ivy-use-virtual-buffers t
         ;; enable this if you want `swiper' to use it
         ;;search-default-mode #'char-fold-to-regexp
@@ -29,9 +29,10 @@
         ivy-on-del-error-function #'ignore
         ivy-display-style 'fancy
         ivy-use-selectable-prompt t)
+
   (ivy-mode 1)
   (counsel-mode 1)
-  :config
+
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) pew/special-buffers))
 
 ;;------------------------------------------------------------------------------
@@ -69,9 +70,8 @@
 
 ;; Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
-  :init
-  (setq ivy-prescient-enable-filtering nil)
   :config
+  (setq ivy-prescient-enable-filtering nil)
   ;; Uncomment the following line to have sorting remembered across sessions!
   ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))

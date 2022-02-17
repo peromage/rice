@@ -4,7 +4,7 @@
 
 (use-package flycheck
   :diminish flycheck-mode
-  :init
+  :config
   (global-flycheck-mode 1))
 
 (provide 'pkg-flycheck)

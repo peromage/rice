@@ -15,6 +15,5 @@
         indent-tabs-mode nil
         tab-width 4))
 
-
 (provide 'pkg-lsp-python)
 ;;; pkg-lsp-python.el ends here
