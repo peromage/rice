@@ -31,15 +31,5 @@
   (helm-mode 1)
   (helm-autoresize-mode 1))
 
-;;------------------------------------------------------------------------------
-;; Helm improvement
-;;------------------------------------------------------------------------------
-
-;; Projectile integration
-(use-package helm-projectile
-  :after projectile
-  :init
-  (setq projectile-completion-system 'helm))
-
 (provide 'pkg-helm)
 ;;; pkg-helm.el ends here

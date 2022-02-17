@@ -71,7 +71,9 @@
 ;; Make sure future packages will be installed
 (setq use-package-always-ensure t
       use-package-always-defer nil
-      use-package-always-demand nil)
+      use-package-always-demand nil
+      use-package-compute-statistics nil
+      use-package-verbose nil)
 ;; use-package's utilities
 (use-package diminish)
 

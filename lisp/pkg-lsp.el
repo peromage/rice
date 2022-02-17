@@ -83,9 +83,9 @@
         lsp-ui-imenu-auto-refresh t
         lsp-ui-imenu-refresh-delay 1.0))
 
-(use-package lsp-ivy
-  :requires ivy
-  :commands lsp-ivy-workspace-symbol)
+(if (featurep 'ivy)
+    (use-package lsp-ivy
+      :commands lsp-ivy-workspace-symbol))
 
 (provide 'pkg-lsp)
 ;;; pkg-lsp.el ends here
