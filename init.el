@@ -85,7 +85,7 @@
 (require 'pkg-ediff)
 (require 'pkg-electric)
 (require 'pkg-eshell)
-(require 'pkg-ido)
+;;(require 'pkg-ido)
 (require 'pkg-org)
 
 ;; Appearance
