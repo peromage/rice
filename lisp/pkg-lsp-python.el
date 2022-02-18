@@ -4,17 +4,16 @@
 
 (defun pew/py-mode/setup ()
   "Python LSP mode setup."
-  (require 'lsp-python-ms)
-  (lsp))
+  (setq-local indent-tabs-mode nil
+              tab-width 4)
+  (lsp-deferred))
 
 (use-package lsp-python-ms
   :hook (python-mode . pew/py-mode/setup)
-  :config
+  :init
   (setq lsp-python-ms-auto-install-server t
         lsp-python-ms-python-executable (executable-find "python3")
-        lsp-python-ms-python-executable-cmd "python3"
-        indent-tabs-mode nil
-        tab-width 4))
+        lsp-python-ms-python-executable-cmd "python3"))
 
 (provide 'pkg-lsp-python)
 ;;; pkg-lsp-python.el ends here
