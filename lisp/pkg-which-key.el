@@ -5,7 +5,7 @@
 (use-package which-key
   :diminish which-key-mode
   :config
-  (setq which-key-popup-type 'minibuffer
+  (setq which-key-popup-type 'side-window
         which-key-show-early-on-C-h nil
         which-key-idle-delay 1.0)
   (which-key-mode 1)
