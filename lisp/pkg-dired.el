@@ -2,14 +2,39 @@
 ;;; Commentary:
 ;;; Code:
 
+;;------------------------------------------------------------------------------
+;; Dired functions
+;;------------------------------------------------------------------------------
+
+(defun pew/dired/go-to ()
+  "Go into the current directory/file under the cursor without creating a new buffer."
+  (interactive)
+  (dired-find-alternate-file))
+
+(defun pew/dired/go-up ()
+  "Go to the parent directory without creating a new buffer."
+  (interactive)
+  (dired-up-directory)
+  (dired-find-file)
+  (find-alternate-file ".."))
+
+(defun pew/dired/go-to-default-directory ()
+  "Go to the directory where the current file resides."
+  (interactive)
+  (find-file default-directory))
+
+;;------------------------------------------------------------------------------
+;; Dired
+;;------------------------------------------------------------------------------
+
 (use-package dired
   :ensure nil
   :commands (dired dired-jump dired-find-file)
-  :bind (("C-x C-d" . (lambda () (interactive) (find-file default-directory)))
+  :bind (("C-x C-d" . pew/dired/go-to-default-directory)
          :map dired-mode-map
-         ("RET" . dired-find-alternate-file) ;; was dired-find-file
-         ("DEL" . (lambda () (interactive) (find-alternate-file ".."))) ;; was dired-unmark-backward
-         ("SPC" . dired-up-directory) ;; was dired-next-line
+         ("RET" . pew/dired/go-to) ;; was dired-find-file
+         ("DEL" . pew/dired/go-up) ;; was dired-unmark-backward
+         ;;("SPC" . dired-up-directory) ;; was dired-next-line
          ;;("DEL" . dired-up-directory)
          )
   :config
