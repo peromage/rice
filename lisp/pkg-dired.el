@@ -7,9 +7,10 @@
   :commands (dired dired-jump dired-find-file)
   :bind (("C-x C-d" . (lambda () (interactive) (find-file default-directory)))
          :map dired-mode-map
-         ;;("RET" . dired-find-alternate-file)
-         ;;("DEL" . (lambda () (interactive) (find-alternate-file "..")))
-         ("DEL" . dired-up-directory)
+         ("RET" . dired-find-alternate-file) ;; was dired-find-file
+         ("DEL" . (lambda () (interactive) (find-alternate-file ".."))) ;; was dired-unmark-backward
+         ("SPC" . dired-up-directory) ;; was dired-next-line
+         ;;("DEL" . dired-up-directory)
          )
   :config
   (setq dired-listing-switches "-alFD --group-directories-first"
