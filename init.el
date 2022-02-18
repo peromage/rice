@@ -21,23 +21,29 @@
 ;; Runtime path
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 
+;; Adjust garbage collection thresholds during startup, and thereafter
+(let ((normal-gc-cons-threshold (* 20 1024 1024))
+      (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+;; Start a daemon if it is not running yet
+(add-hook 'after-init-hook
+          (lambda ()
+            (require 'server)
+            (unless (server-running-p)
+              (message "[pew] Starting Emacs daemon")
+              (server-start))))
+
 ;;------------------------------------------------------------------------------
 ;; Bootstrap -- To avoid  nested loading, all packages are managed here
 ;;------------------------------------------------------------------------------
 
 ;; Base setup
 (require 'init-shared)
-(require 'init-base)
 (require 'init-custom)
 (require 'init-keymaps)
-
-;; Internal packages
-(require 'pkg-dired)
-(require 'pkg-ediff)
-(require 'pkg-electric)
-(require 'pkg-eshell)
-(require 'pkg-ido)
-(require 'pkg-org)
+(require 'init-package)
 
 ;; Framework
 (require 'pkg-ivy)
@@ -68,6 +74,14 @@
 
 ;; Other packages
 (require 'pkg-vterm)
+
+;; Internal packages
+(require 'pkg-dired)
+(require 'pkg-ediff)
+(require 'pkg-electric)
+(require 'pkg-eshell)
+(require 'pkg-ido)
+(require 'pkg-org)
 
 ;; Appearance
 (require 'pkg-themes)

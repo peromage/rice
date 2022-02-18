@@ -4,6 +4,24 @@
 ;; This file contains the settings for vanilla Emacs.
 
 ;;; Code:
+;;------------------------------------------------------------------------------
+;; Redirect temporary files
+;;------------------------------------------------------------------------------
+
+(let ((local-cache-dir (expand-file-name "tempfiles" pew/home-dir))
+      (file-settings
+       '((bookmark-default-file . "bookmarks")
+         (recentf-save-file . "recentf")
+         (nsm-settings-file . "network-security.data")
+         (ido-save-directory-list-file . "ido.last")
+         (lsp-session-file . ".lsp-session-v1")
+         (projectile-cache-file . "projectile.cache")
+         (projectile-known-projects-file . "projectile-bookmarks.eld"))))
+  (unless (file-directory-p local-cache-dir)
+    (make-directory local-cache-dir t))
+  ;; Local files
+  (dolist (settings file-settings)
+    (eval `(setq ,(car settings) ,(expand-file-name (cdr settings) local-cache-dir)))))
 
 ;;------------------------------------------------------------------------------
 ;; Window
