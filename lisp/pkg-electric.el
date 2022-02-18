@@ -7,10 +7,10 @@
   :config
   (setq
    ;; No closing pair if the open pair precedes a non-whitespace character
-   electric-pair-preserve-balance nil
-   electric-pair-delete-adjacent-pairs nil)
+   electric-pair-preserve-balance t
+   electric-pair-delete-adjacent-pairs t)
 
-  (electric-pair-mode 1)
+  (electric-pair-mode -1)
   (electric-indent-mode 1))
 
 (provide 'pkg-electric)
