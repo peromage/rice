@@ -31,6 +31,14 @@
 (require 'init-custom)
 (require 'init-keymaps)
 
+;; Internal packages
+(require 'pkg-dired)
+(require 'pkg-ediff)
+(require 'pkg-electric)
+(require 'pkg-eshell)
+(require 'pkg-ido)
+(require 'pkg-org)
+
 ;; Framework
 (require 'pkg-ivy)
 
@@ -40,11 +48,9 @@
 ;; Navigation
 (require 'pkg-which-key)
 (require 'pkg-projectile)
-(require 'pkg-dired)
 
 ;; Git
 (require 'pkg-magit)
-(require 'pkg-ediff)
 (require 'pkg-git-gutter)
 
 ;; Coding
@@ -61,7 +67,6 @@
 (require 'pkg-lsp-powershell)
 
 ;; Other packages
-(require 'pkg-org)
 (require 'pkg-vterm)
 
 ;; Appearance

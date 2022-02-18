@@ -162,29 +162,5 @@
 ;; Replaces the default crap buffer manager with ibuffer
 (defalias 'list-buffers 'ibuffer)
 
-;;------------------------------------------------------------------------------
-;; Electric mode
-;;------------------------------------------------------------------------------
-
-(setq-default
- ;; No closing pair if the open pair precedes a non-whitespace character
- electric-pair-preserve-balance nil
- electric-pair-delete-adjacent-pairs nil)
-
-(electric-pair-mode 1)
-(electric-indent-mode 1)
-
-;;------------------------------------------------------------------------------
-;; Ido mode
-;;------------------------------------------------------------------------------
-
-(setq-default
- ;; Ido mode settings
- ido-enable-flex-matching t
- ido-default-file-method 'selected-window
- ido-default-buffer-method 'selected-window)
-
-(ido-mode 1)
-
 (provide 'init-custom)
 ;;; init-custom.el ends here

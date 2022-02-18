@@ -137,5 +137,15 @@ The alist KEYBINDINGS should be something like:
       (if (and (eq 'dired-mode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
           (kill-buffer buf)))))
 
+(defun pew/terminal-setup ()
+  "Setup for terminal on entering."
+  (setq-local word-wrap nil
+              truncate-lines nil
+              truncate-partial-width-windows nil
+              global-hl-line-mode nil)
+  (hl-line-mode -1)
+  (display-line-numbers-mode -1)
+  (display-fill-column-indicator-mode -1))
+
 (provide 'init-shared)
 ;;; init-shared.el ends here
