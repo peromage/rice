@@ -10,7 +10,10 @@
   :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
-  (setq projectile-enable-caching t)
+  (setq projectile-enable-caching t
+        projectile-cache-file (expand-file-name "projectile.cache" pew/temp-dir)
+        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" pew/temp-dir))
+
   (projectile-mode 1))
 
 ;;------------------------------------------------------------------------------

@@ -29,7 +29,8 @@
         lsp-modeline-code-actions-enable t
         lsp-completion-show-detail t
         lsp-completion-show-kind t
-        lsp-headerline-breadcrumb-enable t)
+        lsp-headerline-breadcrumb-enable t
+        lsp-session-file (expand-file-name ".lsp-session-v1" pew/temp-dir))
 
   (lsp-enable-which-key-integration 1))
 

@@ -7,7 +7,7 @@
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Prerequisites
+;; Initialization
 ;;------------------------------------------------------------------------------
 
 (let ((minimal-emacs-version "27"))
@@ -15,6 +15,7 @@
     (error "Emacs' version is too old.  Please use %s and above" minimal-emacs-version)))
 
 (setq pew/home-dir (file-name-directory load-file-name)
+      pew/temp-dir (expand-file-name "tempfiles" pew/home-dir)
       ;; Variables configured via the interactive 'customize' interfaces
       custom-file (expand-file-name "local.el" pew/home-dir))
 
@@ -34,6 +35,10 @@
             (unless (server-running-p)
               (message "[pew] Starting Emacs daemon")
               (server-start))))
+
+;; Create the temporary directory
+(unless (file-directory-p pew/temp-dir)
+  (make-directory pew/temp-dir t))
 
 ;;------------------------------------------------------------------------------
 ;; Bootstrap -- To avoid  nested loading, all packages are managed here
