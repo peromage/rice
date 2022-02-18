@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package csharp-mode
-  :hook (csharp-mode . lsp))
+  :hook (csharp-mode . lsp-deferred))
 
 (provide 'pkg-lsp-cs)
 ;;; pkg-lsp-cs.el ends here

@@ -33,7 +33,7 @@
                                   "--header-insertion-decorators=0"
                                   "--suggest-missing-includes"
                                   "--all-scopes-completion"))
-  (lsp)
+  (lsp-deferred)
   ;; Post LSP mode settings
   (electric-indent-mode 1))
 

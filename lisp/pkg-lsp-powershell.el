@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package powershell
-  :hook (powershell-mode . lsp))
+  :hook (powershell-mode . lsp-deferred))
 
 (provide 'pkg-lsp-powershell)
 ;;; pkg-lsp-powershell.el  ends here
