@@ -79,6 +79,7 @@
 
 ;; Other packages
 (require 'pkg-vterm)
+(require 'pkg-edwina)
 
 ;; Internal packages
 (require 'pkg-dired)
