@@ -37,15 +37,17 @@
          ;;("SPC" . dired-up-directory) ;; was dired-next-line
          ;;("DEL" . dired-up-directory)
          )
+  :custom
+  (dired-listing-switches "-alFD --group-directories-first")
+  (dired-dwim-target t)
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
   :config
-  (setq dired-listing-switches "-alFD --group-directories-first"
-        dired-dwim-target t
-        dired-recursive-copies 'always
-        dired-recursive-deletes 'always)
   (put 'dired-find-alternate-file 'disabled nil))
 
 (use-package dired-x
-  :ensure nil)
+  :ensure nil
+  :after dired)
 
 (provide 'pkg-dired)
 ;;; pkg-dired.el ends here

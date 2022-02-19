@@ -7,8 +7,8 @@
 ;;------------------------------------------------------------------------------
 
 (use-package company
-  :diminish company-mode
   :demand t
+  :diminish company-mode
   :bind (:map company-mode-map
          ("C-c i" . company-complete)
          ([remap completion-at-point] . company-complete)
@@ -20,16 +20,17 @@
          ("C-SPC" . company-search-abort)
          ("C-d" . company-show-doc-buffer)
          ("C-f" . company-show-location))
+  :custom
+  (company-tooltip-align-annotations t)
+  (company-tooltip-limit 10)
+  (company-tooltip-idle-delay 0.5)
+  (company-idle-delay 0.2)
+  (company-show-numbers t)
+  (company-show-quick-access t)
+  (company-minimum-prefix-length 1)
+  (company-selection-wrap-around t)
+  (company-auto-complete nil)
   :config
-  (setq company-tooltip-align-annotations t
-        company-tooltip-limit 10
-        company-tooltip-idle-delay 0.5
-        company-idle-delay 0.2
-        company-show-numbers t
-        company-show-quick-access t
-        company-minimum-prefix-length 1
-        company-selection-wrap-around t
-        company-auto-complete nil)
   (global-company-mode 1)
   (company-tng-mode -1))
 
@@ -59,13 +60,13 @@ of STATUS.  Possible values are:
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
          ("C-k" . company-box-doc-manually))
-  :config
-  (setq company-box-doc-enable nil
-        company-box-doc-delay 0.5
-        company-box-enable-icon t
-        company-box-color-icon t
-        company-box-show-single-candidate 'always
-        company-box-scrollbar t))
+  :custom
+  (company-box-doc-enable nil)
+  (company-box-doc-delay 0.5)
+  (company-box-enable-icon t)
+  (company-box-color-icon t)
+  (company-box-show-single-candidate 'always)
+  (company-box-scrollbar t))
 
 (provide 'pkg-company)
 ;;; pkg-company.el ends here

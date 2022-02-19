@@ -6,8 +6,7 @@
   ;; Enabled on demand
   :commands (edwina-mode edwin-mode)
   :config
-  (edwina-setup-dwm-keys)
-  (edwina-mode 1))
+  (edwina-setup-dwm-keys))
 
 (provide 'pkg-edwina)
 ;;; pkg-edwina.el ends here

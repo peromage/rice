@@ -9,11 +9,11 @@
 (use-package projectile
   :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
+  :custom
+  (projectile-enable-caching t)
+  (projectile-cache-file (expand-file-name "projectile.cache" pew/temp-dir))
+  (projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" pew/temp-dir))
   :config
-  (setq projectile-enable-caching t
-        projectile-cache-file (expand-file-name "projectile.cache" pew/temp-dir)
-        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" pew/temp-dir))
-
   (projectile-mode 1))
 
 ;;------------------------------------------------------------------------------
@@ -26,15 +26,16 @@
 (if (featurep 'helm)
     (use-package helm-projectile
       :after helm
-      :config
-      (setq projectile-completion-system 'helm)))
+      :custom
+      (projectile-completion-system 'helm)))
 
 ;; Ivy integration
 (if (featurep 'ivy)
     (use-package counsel-projectile
-      :requires ivy
+      :after ivy
+      :custom
+      (projectile-completion-system 'ivy)
       :config
-      (setq projectile-completion-system 'ivy)
       (counsel-projectile-mode 1)))
 
 (provide 'pkg-projectile)

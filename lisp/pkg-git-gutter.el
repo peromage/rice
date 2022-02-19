@@ -4,19 +4,18 @@
 
 (use-package git-gutter
   :diminish git-gutter-mode
+  :custom
+  (git-gutter:modified-sign "**")
+  (git-gutter:added-sign "++")
+  (git-gutter:deleted-sign "--")
+  (git-gutter:unchanged-sign nil)
+  (git-gutter:separator-sign nil)
+  (git-gutter:update-interval 2)
+  (git-gutter:visual-line nil)
+  (git-gutter:hide-gutter nil)
+  (git-gutter:verbosity 0)
   :config
-  (setq git-gutter:modified-sign "**"
-        git-gutter:added-sign "++"
-        git-gutter:deleted-sign "--"
-        git-gutter:unchanged-sign nil
-        git-gutter:separator-sign nil
-        git-gutter:update-interval 2
-        git-gutter:visual-line nil
-        git-gutter:hide-gutter nil
-        git-gutter:verbosity 0)
-
   (global-git-gutter-mode 1)
-
   (set-face-foreground 'git-gutter:modified "yellow")
   (set-face-foreground 'git-gutter:added "green")
   (set-face-foreground 'git-gutter:deleted "red")

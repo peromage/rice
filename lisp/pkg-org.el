@@ -12,16 +12,16 @@
 (use-package org
   :ensure nil
   :hook (org-mode . pew/org/setup)
-  :config
-  (setq org-src-fontify-natively t
-        org-startup-folded nil
-        org-return-follows-link t
-        org-startup-truncated nil
-        org-startup-with-inline-images t
-        org-log-done 'time
-        org-log-into-drawer t
-        org-indent-mode-turns-on-hiding-stars nil
-        org-agenda-files (expand-file-name "orgfiles" pew/home-dir)))
+  :custom
+  (org-src-fontify-natively t)
+  (org-startup-folded nil)
+  (org-return-follows-link t)
+  (org-startup-truncated nil)
+  (org-startup-with-inline-images t)
+  (org-log-done 'time)
+  (org-log-into-drawer t)
+  (org-indent-mode-turns-on-hiding-stars nil)
+  (org-agenda-files (expand-file-name "orgfiles" pew/home-dir)))
 
 (provide 'pkg-org)
 ;;; pkg-org.el ends here

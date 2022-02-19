@@ -91,20 +91,20 @@
 
 (use-package evil
   :demand t
+  :custom
+  (evil-want-integration t)
+  (evil-want-keybinding t)
+  (evil-want-minibuffer nil)
+  (evil-disable-insert-state-bindings t)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t)
+  (evil-auto-balance-windows t)
+  (evil-ex-search-highlight-all t)
+  (evil-ex-search-persistent-highlight t)
+  (evil-symbol-word-search nil)
+  (evil-kill-on-visual-paste t)
+  (evil-search-module 'evil-search)
   :config
-  (setq evil-want-integration t
-        evil-want-keybinding t
-        evil-want-minibuffer nil
-        evil-disable-insert-state-bindings t
-        evil-split-window-below t
-        evil-vsplit-window-right t
-        evil-auto-balance-windows t
-        evil-ex-search-highlight-all t
-        evil-ex-search-persistent-highlight t
-        evil-symbol-word-search nil
-        evil-kill-on-visual-paste t
-        evil-search-module 'evil-search)
-
   (evil-mode 1)
 
   ;; Key bindings in normal and motion state
@@ -155,8 +155,9 @@
 ;;------------------------------------------------------------------------------
 
 ;;(use-package evil-collection
+;;  :custom
+;;  (evil-want-keybinding nil)
 ;;  :config
-;;  (setq evil-want-keybinding nil)
 ;;  (evil-collection-init))
 
 ;; Make Evil undo/redo easier

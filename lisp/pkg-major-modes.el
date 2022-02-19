@@ -2,7 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package vimrc-mode :defer t)
+(use-package vimrc-mode
+  :defer t)
 
 (provide 'pkg-major-modes)
 ;;; pkg-major-modes.el ends here

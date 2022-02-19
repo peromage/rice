@@ -4,10 +4,11 @@
 
 (use-package which-key
   :diminish which-key-mode
+  :custom
+  (which-key-popup-type 'side-window)
+  (which-key-show-early-on-C-h nil)
+  (which-key-idle-delay 1.0)
   :config
-  (setq which-key-popup-type 'side-window
-        which-key-show-early-on-C-h nil
-        which-key-idle-delay 1.0)
   (which-key-mode 1)
   (which-key-setup-minibuffer))
 
