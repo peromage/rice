@@ -16,7 +16,10 @@
 
 (setq pew/home-dir (file-name-directory load-file-name)
       ;; Variables configured via the interactive 'customize' interfaces
-      custom-file (expand-file-name "local.el" pew/home-dir))
+      ;; Local changes that are not tracked by VCS can go in here as well
+      ;; Although some custom variables will be loaded twice the startup speed
+      ;; is not dragged down that much. I can live with that.
+      custom-file (expand-file-name "local.el" user-emacs-directory))
 
 ;; Runtime path
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
@@ -90,8 +93,7 @@
 (require 'pkg-themes)
 
 ;; Load this at the last to prevent local configurations from being overridden
-(if (file-exists-p custom-file)
-    (load custom-file))
+(load custom-file t)
 
 (provide 'init)
 
