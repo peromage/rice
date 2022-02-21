@@ -60,6 +60,7 @@
 
 ;; Framework
 (require 'pkg-ivy)
+;;(require 'pkg-helm)
 
 ;; Vim keymaps
 (require 'pkg-evil)
@@ -67,6 +68,9 @@
 ;; Navigation
 (require 'pkg-which-key)
 (require 'pkg-projectile)
+(require 'pkg-edwina)
+;;(require 'pkg-eyebrowse)
+;;(require 'pkg-treemacs)
 
 ;; Git
 (require 'pkg-magit)
@@ -81,13 +85,12 @@
 ;; LSP
 (require 'pkg-lsp)
 (require 'pkg-lsp-cc)
-(require 'pkg-lsp-python)
 (require 'pkg-lsp-cs)
+(require 'pkg-lsp-python)
 (require 'pkg-lsp-powershell)
 
 ;; Other packages
 (require 'pkg-vterm)
-(require 'pkg-edwina)
 
 ;; Appearance
 (require 'pkg-themes)
