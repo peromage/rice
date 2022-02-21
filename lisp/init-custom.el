@@ -44,8 +44,9 @@
  '(backward-delete-char-untabify-method 'hungry)
 
  ;; Whitespaces
- '(whitespace-style '(face trailing space-before-tab tab-mark))
- '(show-trailing-whitespace t)
+ ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
+ '(whitespace-style '(trailing space-before-tab tab-mark))
+ '(show-trailing-whitespace nil)
  '(global-whitespace-mode t)
 
  ;; Columns and fill

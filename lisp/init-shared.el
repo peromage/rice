@@ -113,6 +113,11 @@ SWITCH-FUNC should not take any arguments."
          (setq-default display-line-numbers-type 'relative)
          (global-display-line-numbers-mode 1))))
 
+(defun pew/toggle-show-trailing-whitespace ()
+  "Toggle to show trailing spaces."
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+
 (defun pew/get-parent-directory (path)
   "Get the parent directory of the PATH."
     (file-name-directory (directory-file-name path)))
