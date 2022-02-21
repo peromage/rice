@@ -93,9 +93,11 @@ SWITCH-FUNC should not take any arguments."
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
   (cond ((eq 'relative display-line-numbers)
-         (setq display-line-numbers t))
+         (setq display-line-numbers t)
+         (message "Set line numbers to normal"))
         (t
-         (setq display-line-numbers 'relative))))
+         (setq display-line-numbers 'relative)
+         (message "Set line numbers to relative"))))
 
 (defun pew/toggle-indent-tabs-mode ()
   "Switch between tab mode or space mode."
@@ -108,7 +110,10 @@ SWITCH-FUNC should not take any arguments."
 (defun pew/toggle-show-trailing-whitespace ()
   "Toggle to show trailing spaces."
   (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace)))
+  (setq show-trailing-whitespace (not show-trailing-whitespace))
+  (if show-trailing-whitespace
+      (message "Show trailing whitespaces")
+    (message "Hide trailing whitespaces")))
 
 (defun pew/get-parent-directory (path)
   "Get the parent directory of the PATH."
