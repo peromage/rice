@@ -10,7 +10,7 @@
   (which-key-idle-delay 1.0)
   :config
   (which-key-mode 1)
-  ;;(which-key-setup-minibuffer)
+  ;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
 (provide 'pkg-which-key)

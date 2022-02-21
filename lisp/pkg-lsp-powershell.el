@@ -4,9 +4,8 @@
 
 (use-package powershell
   :hook (powershell-mode . lsp-deferred)
-  ;;:custom
-  ;; Explicitely set this if Emacs cannot find it
-  ;;(lsp-pwsh-exe (expand-file-name ".dotnet/tools/pwsh" (getenv "HOME")))
+  ;:custom
+  ;(lsp-pwsh-exe (expand-file-name ".dotnet/tools/pwsh" (getenv "HOME"))) ;; Explicitely set this if Emacs cannot find it
   )
 
 (provide 'pkg-lsp-powershell)

@@ -54,13 +54,13 @@
 (require 'pkg-electric)
 (require 'pkg-eshell)
 (require 'pkg-ibuffer)
-;;(require 'pkg-ido)
+;(require 'pkg-ido)
 (require 'pkg-org)
-;;(require 'pkg-winner)
+;(require 'pkg-winner)
 
 ;; Framework
 (require 'pkg-ivy)
-;;(require 'pkg-helm)
+;(require 'pkg-helm)
 
 ;; Vim keymaps
 (require 'pkg-evil)
@@ -69,8 +69,8 @@
 (require 'pkg-which-key)
 (require 'pkg-projectile)
 (require 'pkg-edwina)
-;;(require 'pkg-eyebrowse)
-;;(require 'pkg-treemacs)
+;(require 'pkg-eyebrowse)
+;(require 'pkg-treemacs)
 
 ;; Git
 (require 'pkg-magit)

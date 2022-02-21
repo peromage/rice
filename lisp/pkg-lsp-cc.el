@@ -12,8 +12,8 @@
   (c-set-offset 'innamespace 0)
   (setq c++-tab-always-indent t
         c-basic-offset 4
-        ;;c-syntactic-indentation nil
-        ;;c-syntactic-indentation-in-macros nil
+        ;c-syntactic-indentation nil
+        ;c-syntactic-indentation-in-macros nil
         c-indent-level 4
         tab-width 4
         tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)

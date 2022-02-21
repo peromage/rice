@@ -154,11 +154,11 @@
 ;; Evil enhancement
 ;;------------------------------------------------------------------------------
 
-;;(use-package evil-collection
-;;  :custom
-;;  (evil-want-keybinding nil)
-;;  :config
-;;  (evil-collection-init))
+;(use-package evil-collection
+;  :custom
+;  (evil-want-keybinding nil)
+;  :config
+;  (evil-collection-init))
 
 ;; Make Evil undo/redo easier
 (use-package undo-tree

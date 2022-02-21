@@ -7,7 +7,7 @@
 
 ;; Standard package repositories
 (let ((online-archives '(("melpa" . "https://melpa.org/packages/")
-                         ;;("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ;("melpa-stable" . "https://stable.melpa.org/packages/")
                          )))
   (dolist (archive online-archives)
     (add-to-list 'package-archives archive t)))

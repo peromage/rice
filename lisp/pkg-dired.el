@@ -34,8 +34,8 @@
          :map dired-mode-map
          ("RET" . pew/dired/go-to) ;; was dired-find-file
          ("DEL" . pew/dired/go-up) ;; was dired-unmark-backward
-         ;;("SPC" . dired-up-directory) ;; was dired-next-line
-         ;;("DEL" . dired-up-directory)
+         ;("SPC" . dired-up-directory) ;; was dired-next-line
+         ;("DEL" . dired-up-directory)
          )
   :custom
   (dired-listing-switches "-alFD --group-directories-first")
