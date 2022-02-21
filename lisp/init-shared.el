@@ -83,35 +83,21 @@ SWITCH-FUNC should not take any arguments."
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
-(defun pew/load-if-exists (file)
-  "Load the Emacs script FILE if it exists."
-  (when (file-exists-p file)
-    (load file)))
-
 (defun pew/toggle-line-number-type ()
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
-  (cond ((eq 'relative display-line-numbers-type)
-         (setq-local display-line-numbers-type t)
-         (display-line-numbers-mode 1))
+  (cond ((eq 'relative display-line-numbers)
+         (setq display-line-numbers t))
         (t
-         (setq-local display-line-numbers-type 'relative)
-         (display-line-numbers-mode 1))))
+         (setq display-line-numbers 'relative))))
 
-(defun pew/toggle-tab-mode ()
+(defun pew/toggle-indent-tabs-mode ()
   "Switch between tab mode or space mode."
   (interactive)
-  (setq indent-tabs-mode (not indent-tabs-mode)))
-
-(defun pew/global-toggle-line-number-type ()
-  "Switch line number type between relative and absolute globally."
-  (interactive)
-  (cond ((eq 'relative display-line-numbers-type)
-         (setq-default display-line-numbers-type t)
-         (global-display-line-numbers-mode 1))
-        (t
-         (setq-default display-line-numbers-type 'relative)
-         (global-display-line-numbers-mode 1))))
+  (setq indent-tabs-mode (not indent-tabs-mode))
+  (if indent-tabs-mode
+      (message "Enabled indent tabs mode")
+    (message "Disabled indent tabs mode")))
 
 (defun pew/toggle-show-trailing-whitespace ()
   "Toggle to show trailing spaces."
