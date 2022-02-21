@@ -63,6 +63,12 @@ SWITCH-FUNC should not take any arguments."
   (interactive)
   (pew/switch-buffer #'previous-buffer))
 
+(defun pew/pop-window-in-new-tab ()
+  "Pop current window into a new tab."
+  (interactive)
+  (tab-bar-new-tab)
+  (delete-other-windows))
+
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
   (interactive)

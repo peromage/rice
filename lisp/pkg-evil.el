@@ -119,6 +119,7 @@
            ("<leader>s" . evil-window-split)
            ("<leader>v" . evil-window-vsplit)
            ("<leader>t" . tab-bar-new-tab)
+           ("<leader>T" . pew/pop-window-in-new-tab)
            ("<leader>f" . tab-bar-switch-to-next-tab)
            ("<leader>b" . tab-bar-switch-to-prev-tab)
            ("<leader>n" . next-buffer)
