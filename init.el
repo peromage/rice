@@ -50,6 +50,16 @@
 (require 'init-keymaps)
 (require 'init-package)
 
+;; Internal packages
+(require 'pkg-dired)
+(require 'pkg-ediff)
+(require 'pkg-electric)
+(require 'pkg-eshell)
+(require 'pkg-ibuffer)
+;;(require 'pkg-ido)
+(require 'pkg-org)
+;;(require 'pkg-winner)
+
 ;; Framework
 (require 'pkg-ivy)
 
@@ -81,19 +91,12 @@
 (require 'pkg-vterm)
 (require 'pkg-edwina)
 
-;; Internal packages
-(require 'pkg-dired)
-(require 'pkg-ediff)
-(require 'pkg-electric)
-(require 'pkg-eshell)
-;;(require 'pkg-ido)
-(require 'pkg-org)
-
 ;; Appearance
 (require 'pkg-themes)
 
 ;; Load this at the last to prevent local configurations from being overridden
-(when (file-exists-p custom-file) (load custom-file))
+(if (file-exists-p custom-file)
+    (load custom-file))
 
 (provide 'init)
 

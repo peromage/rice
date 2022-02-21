@@ -11,7 +11,8 @@
   :defer t)
 
 ;; Icons
-(use-package all-the-icons)
+(use-package all-the-icons
+  :defer t)
 
 ;; Modeline
 (use-package doom-modeline
@@ -26,7 +27,6 @@
 
 ;; At last, enables global color theme with some addtional settings
 (pew/load-theme 'doom-dracula)
-(set-face-attribute 'tab-bar nil :inherit 'default)
 
 (provide 'pkg-themes)
 ;;; pkg-themes.el ends here
