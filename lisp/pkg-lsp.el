@@ -30,7 +30,6 @@
   (lsp-completion-show-detail t)
   (lsp-completion-show-kind t)
   (lsp-headerline-breadcrumb-enable t)
-  (lsp-session-file (expand-file-name ".lsp-session-v1" pew/temp-dir))
   :config
   (lsp-enable-which-key-integration 1))
 

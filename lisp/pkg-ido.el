@@ -8,7 +8,6 @@
   (ido-enable-flex-matching t)
   (ido-default-file-method 'selected-window)
   (ido-default-buffer-method 'selected-window)
-  (ido-save-directory-list-file (expand-file-name "ido.last" pew/temp-dir))
   :config
   (ido-mode 1))
 

@@ -11,8 +11,6 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :custom
   (projectile-enable-caching t)
-  (projectile-cache-file (expand-file-name "projectile.cache" pew/temp-dir))
-  (projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" pew/temp-dir))
   :config
   (projectile-mode 1))
 

@@ -6,14 +6,6 @@
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Redirect temporary files
-;;------------------------------------------------------------------------------
-
-;;(setq-default bookmark-default-file (expand-file-name "bookmarks" pew/temp-dir)
-;;              recentf-save-file (expand-file-name "recentf" pew/temp-dir)
-;;              nsm-settings-file (expand-file-name "network-security.data" pew/temp-dir))
-
-;;------------------------------------------------------------------------------
 ;; Custom settings
 ;;------------------------------------------------------------------------------
 
