@@ -2,11 +2,11 @@
 # whitelist mode to prevent troubles
 *
 !lisp/
-!lisp/*
+!lisp/**
 !site-lisp/
-!site-lisp/*
+!site-lisp/**
 !snippets/
-!snippets/*
+!snippets/**
 !.gitignore
 !.pew
 !LICENSE
