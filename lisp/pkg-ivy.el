@@ -29,6 +29,8 @@
   (ivy-on-del-error-function #'ignore)
   (ivy-display-style 'fancy)
   (ivy-use-selectable-prompt t)
+  ;; Force minimal number of chars required for all searches
+  (ivy-more-chars-alist '((t . 2)))
   :config
   (ivy-mode 1)
   (counsel-mode 1)
