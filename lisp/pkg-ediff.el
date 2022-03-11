@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package ediff
-  :ensure nil
   :defer t
   :custom
   (ediff-window-setup-function 'ediff-setup-windows-plain)

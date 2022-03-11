@@ -90,6 +90,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package evil
+  :ensure t
   :demand t
   :custom
   (evil-want-integration t)
@@ -156,6 +157,7 @@
 ;;------------------------------------------------------------------------------
 
 ;(use-package evil-collection
+;  :ensure t
 ;  :custom
 ;  (evil-want-keybinding nil)
 ;  :config
@@ -163,6 +165,7 @@
 
 ;; Make Evil undo/redo easier
 (use-package undo-tree
+  :ensure t
   :hook (evil-local-mode . turn-on-undo-tree-mode)
   :config
   (evil-set-undo-system 'undo-tree))

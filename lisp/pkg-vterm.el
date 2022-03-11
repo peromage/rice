@@ -4,6 +4,7 @@
 
 ;; Libvterm
 (use-package vterm
+  :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :hook (vterm-mode . pew/terminal-setup)
   :commands (vterm vterm-other-window)
@@ -12,6 +13,7 @@
   (vterm-max-scrollback 9999))
 
 (use-package multi-vterm
+  :ensure t
   :after vterm
   :commands (multi-vterm multi-vterm-project))
 

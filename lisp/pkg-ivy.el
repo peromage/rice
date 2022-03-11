@@ -9,6 +9,7 @@
 ;; Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
+  :ensure t
   :demand t
   :diminish (ivy-mode counsel-mode)
   :bind (("C-s" . swiper)
@@ -42,6 +43,7 @@
 
 ;; Make Ivy show more information
 (use-package ivy-rich
+  :ensure t
   :custom
   (ivy-rich-path-style 'abbrev)
   :config
@@ -65,6 +67,7 @@
 
 ;; Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
+  :ensure t
   :custom
   (ivy-prescient-enable-filtering nil)
   :config

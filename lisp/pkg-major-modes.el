@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package vimrc-mode
+  :ensure t
   :defer t)
 
 (provide 'pkg-major-modes)

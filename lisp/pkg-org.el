@@ -10,7 +10,6 @@
   (electric-indent-mode -1))
 
 (use-package org
-  :ensure nil
   :hook (org-mode . pew/org/setup)
   :custom
   (org-src-fontify-natively t)

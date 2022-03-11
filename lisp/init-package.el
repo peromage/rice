@@ -24,20 +24,21 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Use 'use-package' to simplify package configurations
+;; Use "use-package" to simplify package configurations
 (unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  (package-install 'diminish))
 (eval-when-compile
   (message "[pew] Loading use-package")
-  (require 'use-package))
-;; Make sure future packages will be installed
-(setq use-package-always-ensure t
+  (require 'use-package)
+  (require 'diminish))
+
+;; Avoid using "always" behaviors. Packages should explicitly declare them
+(setq use-package-always-ensure nil
       use-package-always-defer nil
       use-package-always-demand nil
       use-package-compute-statistics nil
       use-package-verbose nil)
-;; use-package's utilities
-(use-package diminish)
 
 (provide 'init-package)
 ;;; init-package.el ends here

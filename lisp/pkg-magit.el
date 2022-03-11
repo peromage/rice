@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package magit
+  :ensure t
   :commands magit-status)
 
 (provide 'pkg-magit)

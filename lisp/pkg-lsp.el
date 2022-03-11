@@ -7,6 +7,7 @@
 ;;------------------------------------------------------------------------------
 
 (use-package lsp-mode
+  :ensure t
   :commands (lsp lsp-deferred)
   :bind (:map lsp-mode-map
          ("C-c j" . lsp-find-definition)
@@ -55,6 +56,7 @@
   (lsp-ui-doc-frame-mode -1))
 
 (use-package lsp-ui
+  :ensure t
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
@@ -84,6 +86,7 @@
 
 (if (featurep 'ivy)
     (use-package lsp-ivy
+      :ensure t
       :commands lsp-ivy-workspace-symbol))
 
 (provide 'pkg-lsp)

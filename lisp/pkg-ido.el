@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package ido
-  :ensure nil
   :custom
   (ido-enable-flex-matching t)
   (ido-default-file-method 'selected-window)

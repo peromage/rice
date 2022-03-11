@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package edwina
+  :ensure t
   ;; Enabled on demand
   :commands (edwina-mode edwin-mode)
   :config

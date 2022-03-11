@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package eshell
-  :ensure nil
   :hook (eshell-mode . pew/terminal-setup))
 
 (provide 'pkg-eshell)

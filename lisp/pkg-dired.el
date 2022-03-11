@@ -28,7 +28,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package dired
-  :ensure nil
   :commands (dired dired-jump dired-find-file)
   :bind (("C-x C-d" . pew/dired/go-to-default-directory)
          :map dired-mode-map
@@ -46,7 +45,6 @@
   (put 'dired-find-alternate-file 'disabled nil))
 
 (use-package dired-x
-  :ensure nil
   :after dired)
 
 (provide 'pkg-dired)
