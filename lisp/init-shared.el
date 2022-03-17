@@ -115,6 +115,14 @@ SWITCH-FUNC should not take any arguments."
       (message "Show trailing whitespaces")
     (message "Hide trailing whitespaces")))
 
+(defun pew/toggle-visual-line-move ()
+  "Toggle visual line movement."
+  (interactive)
+  (setq line-move-visual (not line-move-visual))
+  (if line-move-visual
+      (message "Visual line move on")
+    (message "Visual line move off")))
+
 (defun pew/get-parent-directory (path)
   "Get the parent directory of the PATH."
     (file-name-directory (directory-file-name path)))
