@@ -11,7 +11,6 @@
   (dolist (binding binding-list)
     (evil-global-set-key state (kbd (car binding)) (cdr binding))))
 
-
 (defun pew/evil/set-initial-state (mode-state-list)
   "Set the initial state for a mode defined in the alist MODE-STATE-LIST."
   (dolist (mode-state mode-state-list)
@@ -24,6 +23,8 @@
          (tab-bar-close-tab)
          (previous-window))
         (t (delete-window))))
+
+;; Begin search functions
 
 (defun pew/evil/escape-region (begin end)
   "Escape region from BEGIN to END for evil-search mode."
@@ -46,6 +47,7 @@
   (when (use-region-p)
     (setq evil-ex-search-count 1
           evil-ex-search-direction 'forward)
+    (evil-yank (region-beginning) (region-end))
     (let* ((quoted-pattern (pew/evil/escape-region (region-beginning) (region-end)))
            (result (evil-ex-search-full-pattern
                     quoted-pattern
@@ -71,6 +73,13 @@
     (pew/evil/search-selected)
     (evil-normal-state)))
 
+;; TODO: Fix the register calls
+(defun pew/evil/normal-search-cursor ()
+  "Search word under the cursor in normal mode."
+  (interactive)
+  (evil-ex-search-word-forward)
+  (evil-set-register "*" (evil-get-register "/")))
+
 (defun pew/evil/replace-last-search ()
   "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
   (interactive)
@@ -84,6 +93,8 @@
     (message "replacement %s" replacement)
     (message "subpattern %S" subpattern)
     (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
+
+;; End search functions
 
 ;;------------------------------------------------------------------------------
 ;; Evil setup
