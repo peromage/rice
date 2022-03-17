@@ -6,7 +6,7 @@
 ;; Setup functions
 ;;------------------------------------------------------------------------------
 
-(defun pew/cc-mode/setup ()
+(defun pew/cc-mode/common-setup ()
   "Common CC mode setup."
   (c-set-offset 'substatement-open 0)
   (c-set-offset 'innamespace 0)
@@ -20,7 +20,7 @@
         indent-tabs-mode nil
         adaptive-fill-mode nil))
 
-(defun pew/c-mode/setup ()
+(defun pew/cc-mode/c-setup ()
   "Initialization for C mode."
   (setq lsp-enable-on-type-formatting nil
         ;; Prevent Clangd from inserting headers itself
@@ -37,17 +37,17 @@
   ;; Post LSP mode settings
   (electric-indent-mode 1))
 
-(defun pew/cpp-mode/setup ()
+(defun pew/cc-mode/cpp-setup ()
   "Initialization for C++ mode."
-  (pew/c-mode/setup))
+  (pew/cc-mode/c-setup))
 
 ;;------------------------------------------------------------------------------
 ;; Hooks
 ;;------------------------------------------------------------------------------
 
-(add-hook 'c-mode-common-hook #'pew/cc-mode/setup)
-(add-hook 'c-mode-hook #'pew/c-mode/setup)
-(add-hook 'c++-mode-hook #'pew/cpp-mode/setup)
+(add-hook 'c-mode-common-hook #'pew/cc-mode/common-setup)
+(add-hook 'c-mode-hook #'pew/cc-mode/c-setup)
+(add-hook 'c++-mode-hook #'pew/cc-mode/cpp-setup)
 
 (provide 'pkg-mode-cc)
 ;;; pkg-mode-cc.el ends here

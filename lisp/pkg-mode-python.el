@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(defun pew/py-mode/setup ()
+(defun pew/python-mode/setup ()
   "Python LSP mode setup."
   (setq indent-tabs-mode nil
         tab-width 4)
@@ -10,7 +10,7 @@
 
 (use-package lsp-python-ms
   :ensure t
-  :hook (python-mode . pew/py-mode/setup)
+  :hook (python-mode . pew/python-mode/setup)
   :custom
   (lsp-python-ms-auto-install-server t)
   (lsp-python-ms-python-executable (executable-find "python3"))
