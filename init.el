@@ -91,6 +91,7 @@
 (require 'pkg-mode-python)
 (require 'pkg-mode-powershell)
 (require 'pkg-mode-vimrc)
+(require 'pkg-mode-markdown)
 
 ;; Appearance
 (require 'pkg-themes)
