@@ -80,17 +80,17 @@
 (require 'pkg-flycheck)
 (require 'pkg-company)
 (require 'pkg-yasnippet)
-(require 'pkg-major-modes)
-
-;; LSP
 (require 'pkg-lsp)
-(require 'pkg-lsp-cc)
-(require 'pkg-lsp-cs)
-(require 'pkg-lsp-python)
-(require 'pkg-lsp-powershell)
 
 ;; Other packages
 (require 'pkg-vterm)
+
+;; Major modes
+(require 'pkg-mode-cc)
+(require 'pkg-mode-cs)
+(require 'pkg-mode-python)
+(require 'pkg-mode-powershell)
+(require 'pkg-mode-vimrc)
 
 ;; Appearance
 (require 'pkg-themes)

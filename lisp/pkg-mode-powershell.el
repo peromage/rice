@@ -1,4 +1,4 @@
-;;; pkg-lsp-powershell.el --- PowerShell mode  -*- lexical-binding: t -*-
+;;; pkg-mode-powershell.el --- PowerShell mode  -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -9,5 +9,5 @@
   ;(lsp-pwsh-exe (expand-file-name ".dotnet/tools/pwsh" (getenv "HOME"))) ;; Explicitely set this if Emacs cannot find it
   )
 
-(provide 'pkg-lsp-powershell)
-;;; pkg-lsp-powershell.el  ends here
+(provide 'pkg-mode-powershell)
+;;; pkg-mode-powershell.el  ends here

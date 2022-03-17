@@ -1,4 +1,4 @@
-;;; pkg-lsp-cc.el --- C/C++ mode -*- lexical-binding: t -*-
+;;; pkg-mode-cc.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -49,5 +49,5 @@
 (add-hook 'c-mode-hook #'pew/c-mode/setup)
 (add-hook 'c++-mode-hook #'pew/cpp-mode/setup)
 
-(provide 'pkg-lsp-cc)
-;;; pkg-lsp-cc.el ends here
+(provide 'pkg-mode-cc)
+;;; pkg-mode-cc.el ends here
