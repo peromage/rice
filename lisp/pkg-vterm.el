@@ -12,10 +12,13 @@
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 9999))
 
-(use-package multi-vterm
-  :ensure t
-  :after vterm
-  :commands (multi-vterm multi-vterm-project))
+;; Multiple vterm windows
+(defun pew/vterm/new ()
+  "Create a new vterm window with a unique name."
+  (interactive)
+  (vterm)
+  (set-buffer "*vterm*")
+  (rename-buffer "vterm" t))
 
 (provide 'pkg-vterm)
 ;;; pkg-vterm.el ends here
