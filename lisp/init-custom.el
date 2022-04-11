@@ -65,6 +65,8 @@
  '(scroll-conservatively 101)
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount '(2 ((shift) . 0.5) ((control) . text-scale)))
+ '(hscroll-margin 0)
+ '(hscroll-step 1)
 
  ;; Tabbar
  '(tab-bar-close-button-show nil)
