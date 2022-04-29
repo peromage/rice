@@ -69,6 +69,16 @@ SWITCH-FUNC should not take any arguments."
   (tab-bar-new-tab)
   (delete-other-windows))
 
+(defun pew/move-tab-next ()
+  "Move current tab to the next."
+  (interactive)
+  (tab-bar-move-tab 1))
+
+(defun pew/move-tab-prev ()
+  "Move current tab to the previous."
+  (interactive)
+  (tab-bar-move-tab -1))
+
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
   (interactive)
