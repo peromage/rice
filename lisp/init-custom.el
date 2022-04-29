@@ -65,7 +65,7 @@
  '(scroll-conservatively 101)
  '(mouse-wheel-progressive-speed nil)
  '(mouse-wheel-scroll-amount '(2 ((shift) . 0.5) ((control) . text-scale)))
- '(hscroll-margin 0)
+ '(hscroll-margin 2) ;; Settting to 2 to avoid ending character overlapping in terminal mode
  '(hscroll-step 1)
 
  ;; Tabbar
@@ -104,6 +104,11 @@
 (custom-set-faces
  '(tab-bar ((t (:inherit default)))))
 
+;;------------------------------------------------------------------------------
+;; Enable commands that are disabled by default
+;;------------------------------------------------------------------------------
+
+(put 'scroll-left 'disabled nil)
 
 (provide 'init-custom)
 ;;; init-custom.el ends here
