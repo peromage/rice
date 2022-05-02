@@ -181,6 +181,8 @@
 (use-package undo-tree
   :ensure t
   :hook (evil-local-mode . turn-on-undo-tree-mode)
+  :custom
+  (undo-tree-auto-save-history nil)
   :config
   (evil-set-undo-system 'undo-tree))
 
