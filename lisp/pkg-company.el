@@ -25,7 +25,7 @@
   (company-tooltip-align-annotations t)
   (company-tooltip-limit 10)
   (company-tooltip-idle-delay 0.5)
-  (company-idle-delay 0.2)
+  (company-idle-delay 0.0)
   (company-show-numbers t)
   (company-show-quick-access t)
   (company-minimum-prefix-length 1)
