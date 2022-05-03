@@ -3,20 +3,13 @@
 ;;; Code:
 
 ;; Colors schemes
-(use-package moe-theme
-  :ensure t
-  :defer t)
-(use-package doom-themes
-  :ensure t
-  :defer t)
-(use-package dracula-theme
-  :ensure t
-  :defer t)
+(use-package doom-themes :ensure t :defer t)
+(use-package dracula-theme :ensure t :defer t)
+(use-package moe-theme :ensure t :defer t)
+(use-package modus-themes :ensure t :defer t)
 
 ;; Icons
-(use-package all-the-icons
-  :ensure t
-  :defer t)
+(use-package all-the-icons :ensure t :defer t)
 
 ;; Modeline
 (use-package doom-modeline
