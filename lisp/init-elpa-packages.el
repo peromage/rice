@@ -49,6 +49,7 @@
 
 ;; Appearance
 (require 'elpa-themes)
+(require 'elpa-theme-doom-modeline)
 
 (provide 'init-elpa-packages)
 ;;; init-elpa-packages.el ends here
