@@ -10,11 +10,12 @@
 ;; Shared variables
 ;;------------------------------------------------------------------------------
 
-(setq pew/special-buffers
-      '("\\` "
-        "\\`\\*"
-        "\\`magit-"
-        "\\`magit:"))
+(defvar pew/special-buffers '("\\` "
+                              "\\`\\*"
+                              "\\`magit-"
+                              "\\`magit:")
+  "A regex list of special buffer patterns.
+Special buffers are usually skipped and ignored from buffer list.")
 
 ;;------------------------------------------------------------------------------
 ;; Shared functions
