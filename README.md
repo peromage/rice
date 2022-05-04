@@ -1,8 +1,12 @@
-# PEW - Peromage's Emacs Workstation
+# PEW - Peromage's Emacs Workbench
 
-> Makes your workflow like pewpewpew
+> A minimalist's Emacs configuration.
 
-This is my personal Emacs configuration. It intends to be as minimal as possible.
+This is my personal Emacs configuration. Before using it you should be aware that it might be suitable for you.
+
+This configuration intends to be as minimal as possible meaning it "just works" without installing too many packages.
+
+I.E. if Emacs already has certain features I'll try to optimize them unless they are far from good-to-use.
 
 ## Get Started
 
@@ -26,7 +30,6 @@ Temporary local changes can go into `pew/local.el` including settings by `custom
 - *site-lisp*: Third party packages.
 - *snippets*: My snippets.
 
-## TODO
+## Credit
 
-- [ ] DAP mode
-- [ ] TRAMP mode
+This Configuration is inspired by [Steve Purell's emacs.d](https://github.com/purcell/emacs.d)
