@@ -8,7 +8,6 @@
   (visual-line-mode))
 
 (use-package markdown-mode
-  :ensure t
   :hook (markdown-mode . pew/markdown-mode/setup))
 
 (provide 'pkg-mode-markdown)

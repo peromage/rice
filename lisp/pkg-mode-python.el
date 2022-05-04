@@ -9,7 +9,6 @@
   (lsp-deferred))
 
 (use-package lsp-python-ms
-  :ensure t
   :hook (python-mode . pew/python-mode/setup)
   :custom
   (lsp-python-ms-auto-install-server t)

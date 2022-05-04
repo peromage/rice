@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package yasnippet
-  :ensure t
   :diminish yas-minor-mode
   :custom
   (yas-snippet-dirs (list (expand-file-name "snippets" pew/home-dir)))

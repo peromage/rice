@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package csharp-mode
-  :ensure t
   :hook (csharp-mode . lsp-deferred))
 
 (provide 'pkg-mode-cs)

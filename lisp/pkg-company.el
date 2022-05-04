@@ -7,7 +7,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package company
-  :ensure t
   :demand t
   :diminish company-mode
   :bind (:map company-mode-map
@@ -58,7 +57,6 @@ of STATUS.  Possible values are:
   (pew/company-box/doc-toggle 'hide))
 
 (use-package company-box
-  :ensure t
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
          ("C-k" . company-box-doc-manually))

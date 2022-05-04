@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package treemacs
-  :ensure t)
+(use-package treemacs)
 
 (provide 'pkg-treemacs)
 ;;; pkg-treemacs.el ends here

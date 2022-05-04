@@ -33,10 +33,11 @@
   (require 'use-package)
   (require 'diminish))
 
-;; Avoid using "always" behaviors. Packages should explicitly declare them
-(setq use-package-always-ensure nil
+;; Automatically install packages for now
+(setq use-package-always-ensure t
       use-package-always-defer nil
       use-package-always-demand nil
+      use-package-always-pin nil
       use-package-compute-statistics nil
       use-package-verbose nil)
 

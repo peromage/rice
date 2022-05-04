@@ -4,7 +4,6 @@
 
 ;; Libvterm
 (use-package vterm
-  :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :hook (vterm-mode . pew/terminal-setup)
   :commands (vterm vterm-other-window)

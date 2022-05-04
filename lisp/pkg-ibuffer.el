@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package ibuffer
+  :ensure nil
   :commands (ibuffer list-buffers)
   :init
   (defalias 'list-buffers 'ibuffer))

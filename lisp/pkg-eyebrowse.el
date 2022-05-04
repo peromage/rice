@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package eyebrowse
-  :ensure t
   :commands eyebrowse-mode)
 
 (provide 'pkg-eyebrowse)

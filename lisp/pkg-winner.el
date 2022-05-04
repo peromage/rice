@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package winner
+  :ensure nil
   :config
   (winner-mode 1))
 

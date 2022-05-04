@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package which-key
-  :ensure t
   :diminish which-key-mode
   :custom
   (which-key-popup-type 'side-window)

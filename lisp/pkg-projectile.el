@@ -7,7 +7,6 @@
 ;;------------------------------------------------------------------------------
 
 (use-package projectile
-  :ensure t
   :diminish projectile-mode
   :bind-keymap ("C-c p" . projectile-command-map)
   :custom
@@ -24,7 +23,6 @@
 ;; Helm integration
 (if (featurep 'helm)
     (use-package helm-projectile
-      :ensure t
       :after helm
       :custom
       (projectile-completion-system 'helm)))
@@ -32,7 +30,6 @@
 ;; Ivy integration
 (if (featurep 'ivy)
     (use-package counsel-projectile
-      :ensure t
       :after ivy
       :custom
       (projectile-completion-system 'ivy)
