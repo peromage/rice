@@ -1,4 +1,4 @@
-;;; elpa-mode-markdown.el --- Markdown mode -*- lexical-binding: t -*-
+;;; elpa-majormode-markdown-mode.el --- Markdown mode -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -10,5 +10,5 @@
 (use-package markdown-mode
   :hook (markdown-mode . pew/markdown-mode/setup))
 
-(provide 'elpa-mode-markdown)
-;;; elpa-mode-markdown.el ends here
+(provide 'elpa-majormode-markdown-mode)
+;;; elpa-majormode-markdown-mode.el ends here

@@ -1,4 +1,4 @@
-;;; elpa-mode-cc.el --- C/C++ mode -*- lexical-binding: t -*-
+;;; elpa-majormode-cc-mode.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -49,5 +49,5 @@
 (add-hook 'c-mode-hook #'pew/cc-mode/c-setup)
 (add-hook 'c++-mode-hook #'pew/cc-mode/cpp-setup)
 
-(provide 'elpa-mode-cc)
-;;; elpa-mode-cc.el ends here
+(provide 'elpa-majormode-cc-mode)
+;;; elpa-majormode-cc-mode.el ends here

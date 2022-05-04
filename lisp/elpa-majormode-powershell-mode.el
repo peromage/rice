@@ -1,4 +1,4 @@
-;;; elpa-mode-powershell.el --- PowerShell mode  -*- lexical-binding: t -*-
+;;; elpa-majormode-powershell-mode.el --- PowerShell mode  -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -8,5 +8,5 @@
   ;(lsp-pwsh-exe (expand-file-name ".dotnet/tools/pwsh" (getenv "HOME"))) ;; Explicitely set this if Emacs cannot find it
   )
 
-(provide 'elpa-mode-powershell)
-;;; elpa-mode-powershell.el ends here
+(provide 'elpa-majormode-powershell-mode)
+;;; elpa-majormode-powershell-mode.el ends here

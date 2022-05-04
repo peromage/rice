@@ -40,12 +40,12 @@
 (require 'elpa-vterm)
 
 ;; Major modes
-(require 'elpa-mode-cc)
-(require 'elpa-mode-cs)
-(require 'elpa-mode-python)
-(require 'elpa-mode-powershell)
-(require 'elpa-mode-vimrc)
-(require 'elpa-mode-markdown)
+(require 'elpa-majormodes)
+(require 'elpa-majormode-cc-mode)
+(require 'elpa-majormode-csharp-mode)
+(require 'elpa-majormode-python-mode)
+(require 'elpa-majormode-powershell-mode)
+(require 'elpa-majormode-markdown-mode)
 
 ;; Appearance
 (require 'elpa-themes)
