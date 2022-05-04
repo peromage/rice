@@ -47,54 +47,8 @@
 (require 'init-custom)
 (require 'init-keymaps)
 (require 'init-package)
-
-;; Internal packages
-(require 'pkg-dired)
-(require 'pkg-ediff)
-(require 'pkg-electric)
-(require 'pkg-eshell)
-(require 'pkg-ibuffer)
-;(require 'pkg-ido)
-(require 'pkg-org)
-;(require 'pkg-winner)
-
-;; Framework
-(require 'pkg-ivy)
-;(require 'pkg-helm)
-
-;; Vim keymaps
-(require 'pkg-evil)
-
-;; Navigation
-(require 'pkg-which-key)
-(require 'pkg-projectile)
-(require 'pkg-edwina)
-;(require 'pkg-eyebrowse)
-;(require 'pkg-treemacs)
-
-;; Git
-(require 'pkg-magit)
-(require 'pkg-git-gutter)
-
-;; Coding
-(require 'pkg-flycheck)
-(require 'pkg-company)
-(require 'pkg-yasnippet)
-(require 'pkg-lsp)
-
-;; Other packages
-(require 'pkg-vterm)
-
-;; Major modes
-(require 'pkg-mode-cc)
-(require 'pkg-mode-cs)
-(require 'pkg-mode-python)
-(require 'pkg-mode-powershell)
-(require 'pkg-mode-vimrc)
-(require 'pkg-mode-markdown)
-
-;; Appearance
-(require 'pkg-themes)
+(require 'init-base-packages)
+(require 'init-elpa-packages)
 
 ;; Load this at the last to prevent local configurations from being overridden
 (load custom-file t)
