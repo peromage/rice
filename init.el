@@ -19,14 +19,13 @@ Not necessarily to be `user-emacs-directory' since this configuration can be loa
 ;; Runtime path
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 
-
 ;;;; Load modules
 
 ;; The load sequence must be in order
 (require 'init-boot)
 (require 'init-common)
 (require 'init-custom)
-(require 'init-keymaps)
+(require 'init-keybindings)
 (require 'init-package)
 (require 'init-base-packages)
 (require 'init-elpa-packages)

@@ -1,4 +1,4 @@
-;;; init-keymaps.el --- Keymaps for original features -*- lexical-binding: t -*-
+;;; init-keybindings.el --- Keymaps for original features -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; Global keymaps respect vanilla Emacs settings
@@ -16,5 +16,5 @@
                       ([remap next-buffer] . pew/next-buffer)
                       ([remap previous-buffer] . pew/prev-buffer)))
 
-(provide 'init-keymaps)
-;;; init-keymaps.el ends here
+(provide 'init-keybindings)
+;;; init-keybindings.el ends here
