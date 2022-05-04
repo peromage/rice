@@ -3,21 +3,12 @@
 
 ;; This is the PEW common library file.
 ;; It might be splitted into several files if it's needed in the future.
-;; NOTE: This file should be loaded before any other packages but init-boot.
+;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-;;;; Common variables
 
-(defvar pew/special-buffers '("\\` "
-                              "\\`\\*"
-                              "\\`magit-"
-                              "\\`magit:")
-  "A regex list of special buffer patterns.
-Special buffers are usually skipped and ignored from buffer list.")
+;;;; Debug utilities
 
-;;;; Common functions
-
-;; Debug functions
 (defun pew/reload-initel ()
   "Reload the config file."
   (interactive)
@@ -33,68 +24,35 @@ Special buffers are usually skipped and ignored from buffer list.")
   (interactive "nKeycode to name: ")
   (message "%s" (help-key-description (vector keycode) nil)))
 
-(defun pew/special-buffer-p (name)
-  "Check if the given buffer NAME is a special buffer."
-  (catch 'found-special
-    (dolist (buffer-regex pew/special-buffers)
-      (if (string-match buffer-regex name)
-          (throw 'found-special t)))
-    nil))
+;;;; Common utilities
 
-(defun pew/switch-buffer (switch-func)
-  "Switch to the buffer by SWITCH-FUNC but skip special buffers.
-SWITCH-FUNC should not take any arguments."
-  (let ((current-buffer-name (buffer-name)))
-    (funcall switch-func)
-    (while (and (pew/special-buffer-p (buffer-name))
-                (not (string= current-buffer-name (buffer-name))))
-      (funcall switch-func))))
-
-(defun pew/next-buffer ()
-  "Switch to the next buffer but skip special buffers."
-  (interactive)
-  (pew/switch-buffer #'next-buffer))
-
-(defun pew/prev-buffer ()
-  "Switch to the previous buffer but skip special buffers."
-  (interactive)
-  (pew/switch-buffer #'previous-buffer))
-
-(defun pew/pop-window-in-new-tab ()
-  "Pop current window into a new tab."
-  (interactive)
-  (tab-bar-new-tab)
-  (delete-other-windows))
-
-(defun pew/move-tab-next ()
-  "Move current tab to the next."
-  (interactive)
-  (tab-bar-move-tab 1))
-
-(defun pew/move-tab-prev ()
-  "Move current tab to the previous."
-  (interactive)
-  (tab-bar-move-tab -1))
+(defun pew/global-set-key (keybindings)
+  "Globally bind keys defined in the alist KEYBINDINGS.
+The alist KEYBINDINGS should be something like:
+  '((\"key strokes\" . command)
+    ([key strokes] . command))"
+  (dolist (binding keybindings)
+    (let ((keys (car binding))
+          (cmd (cdr binding)))
+      (if (vectorp keys)
+          (global-set-key keys cmd)
+        (global-set-key (kbd keys) cmd)))))
 
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
   (interactive)
   (message buffer-file-name))
 
-(defun pew/disable-theme-list (disabled-themes)
-  "Disable all themes in the DISABLED-THEMES."
-  (dolist (theme disabled-themes)
-    (disable-theme theme)))
+(defun pew/get-parent-directory (path)
+  "Get the parent directory of the PATH."
+    (file-name-directory (directory-file-name path)))
 
-(defun pew/load-theme (theme)
-  "Load THEME but make sure it is the only one active."
-  (interactive (list '_INTERACT_))
-  (cond
-   ((eq '_INTERACT_ theme)
-    (call-interactively #'load-theme))
-   (t (load-theme theme t)))
-  (if (> (length custom-enabled-themes) 1)
-      (pew/disable-theme-list (cdr custom-enabled-themes))))
+(defvar pew/home-dir (pew/get-parent-directory (pew/get-parent-directory load-file-name))
+  "The PEW configuration's home directory.
+Not necessarily to be `user-emacs-directory' since this configuration can be
+loaded from other places.")
+
+;;;; Toggles
 
 (defun pew/toggle-line-number-type ()
   "Switch line number type between relative and absolute for current buffer."
@@ -130,21 +88,41 @@ SWITCH-FUNC should not take any arguments."
       (message "Visual line move on")
     (message "Visual line move off")))
 
-(defun pew/get-parent-directory (path)
-  "Get the parent directory of the PATH."
-    (file-name-directory (directory-file-name path)))
+;;;; Buffer utilities
 
-(defun pew/global-set-key (keybindings)
-  "Globally bind keys defined in the alist KEYBINDINGS.
-The alist KEYBINDINGS should be something like:
-  '((\"key strokes\" . command)
-    ([key strokes] . command))"
-  (dolist (binding keybindings)
-    (let ((keys (car binding))
-          (cmd (cdr binding)))
-      (if (vectorp keys)
-          (global-set-key keys cmd)
-        (global-set-key (kbd keys) cmd)))))
+(defvar pew/special-buffers '("\\` "
+                              "\\`\\*"
+                              "\\`magit-"
+                              "\\`magit:")
+  "A regex list of special buffer patterns.
+Special buffers are usually skipped and ignored from buffer list.")
+
+(defun pew/special-buffer-p (name)
+  "Check if the given buffer NAME is a special buffer."
+  (catch 'found-special
+    (dolist (buffer-regex pew/special-buffers)
+      (if (string-match buffer-regex name)
+          (throw 'found-special t)))
+    nil))
+
+(defun pew/switch-buffer (switch-func)
+  "Switch to the buffer by SWITCH-FUNC but skip special buffers.
+SWITCH-FUNC should not take any arguments."
+  (let ((current-buffer-name (buffer-name)))
+    (funcall switch-func)
+    (while (and (pew/special-buffer-p (buffer-name))
+                (not (string= current-buffer-name (buffer-name))))
+      (funcall switch-func))))
+
+(defun pew/next-buffer ()
+  "Switch to the next buffer but skip special buffers."
+  (interactive)
+  (pew/switch-buffer #'next-buffer))
+
+(defun pew/prev-buffer ()
+  "Switch to the previous buffer but skip special buffers."
+  (interactive)
+  (pew/switch-buffer #'previous-buffer))
 
 (defun pew/close-other-dired-buffers ()
   "Close all Dired buffers but this one."
@@ -153,6 +131,45 @@ The alist KEYBINDINGS should be something like:
     (dolist (buf (buffer-list))
       (if (and (eq 'dired-mode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
           (kill-buffer buf)))))
+
+;;;; Window utilities
+
+(defun pew/pop-window-in-new-tab ()
+  "Pop current window into a new tab."
+  (interactive)
+  (tab-bar-new-tab)
+  (delete-other-windows))
+
+;;;; Tab utilities
+
+(defun pew/move-tab-next ()
+  "Move current tab to the next."
+  (interactive)
+  (tab-bar-move-tab 1))
+
+(defun pew/move-tab-prev ()
+  "Move current tab to the previous."
+  (interactive)
+  (tab-bar-move-tab -1))
+
+;;;; Theme utilities
+
+(defun pew/disable-theme-list (disabled-themes)
+  "Disable all themes in the DISABLED-THEMES."
+  (dolist (theme disabled-themes)
+    (disable-theme theme)))
+
+(defun pew/load-theme (theme)
+  "Load THEME but make sure it is the only one active."
+  (interactive (list '_INTERACT_))
+  (cond
+   ((eq '_INTERACT_ theme)
+    (call-interactively #'load-theme))
+   (t (load-theme theme t)))
+  (if (> (length custom-enabled-themes) 1)
+      (pew/disable-theme-list (cdr custom-enabled-themes))))
+
+;;;; Terminal common
 
 (defun pew/terminal-setup ()
   "Setup for terminal on entering."

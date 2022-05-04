@@ -8,16 +8,12 @@
 ;;; Code:
 ;;;; Preparation
 
-(defvar pew/home-dir (file-name-directory load-file-name)
-  "The PEW configuration's home directory.
-Not necessarily to be `user-emacs-directory' since this configuration can be loaded from other places.")
+;; The runtime path should be relative to this file instead of `user-emacs-directory'
+(add-to-list 'load-path (expand-file-name "lisp" (file-name-directory load-file-name)))
 
 ;; Configurations from the interactive `customize' interfaces.
 ;; Any disposable code can be put in this file.
 (setq custom-file (expand-file-name "local.el" user-emacs-directory))
-
-;; Runtime path
-(add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 
 ;;;; Load modules
 
