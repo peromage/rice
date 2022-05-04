@@ -1,4 +1,4 @@
-;;; pkg-winner.el --- Builtin window manager -*- lexical-binding: t -*-
+;;; base-winner.el --- Builtin window manager -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -7,5 +7,5 @@
   :config
   (winner-mode 1))
 
-(provide 'pkg-winner)
-;;; pkg-winner.el ends here
+(provide 'base-winner)
+;;; base-winner.el ends here

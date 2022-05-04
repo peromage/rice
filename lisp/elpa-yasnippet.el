@@ -1,4 +1,4 @@
-;;; pkg-yasnippet.el --- Snippet management -*- lexical-binding: t -*-
+;;; elpa-yasnippet.el --- Snippet management -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -9,5 +9,5 @@
   :config
   (yas-global-mode 1))
 
-(provide 'pkg-yasnippet)
-;;; pkg-yasnippet.el ends here
+(provide 'elpa-yasnippet)
+;;; elpa-yasnippet.el ends here

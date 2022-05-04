@@ -1,4 +1,4 @@
-;;; pkg-evil.el --- Vim layer -*- lexical-binding: t -*-
+;;; elpa-evil.el --- Vim layer -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -183,5 +183,5 @@
   :config
   (evil-set-undo-system 'undo-tree))
 
-(provide 'pkg-evil)
-;;; pkg-evil.el ends here
+(provide 'elpa-evil)
+;;; elpa-evil.el ends here

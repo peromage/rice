@@ -1,4 +1,4 @@
-;;; pkg-edwina.el --- DWM like window management -*- lexical-binding: t -*-
+;;; elpa-edwina.el --- DWM like window management -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -8,5 +8,5 @@
   :config
   (edwina-setup-dwm-keys))
 
-(provide 'pkg-edwina)
-;;; pkg-edwina.el ends here
+(provide 'elpa-edwina)
+;;; elpa-edwina.el ends here

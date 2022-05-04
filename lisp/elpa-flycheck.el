@@ -1,4 +1,4 @@
-;;; pkg-flycheck.el --- Syntax checker -*- lexical-binding: t -*-
+;;; elpa-flycheck.el --- Syntax checker -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -7,5 +7,5 @@
   :config
   (global-flycheck-mode 1))
 
-(provide 'pkg-flycheck)
-;;; pkg-flycheck.el ends here
+(provide 'elpa-flycheck)
+;;; elpa-flycheck.el ends here

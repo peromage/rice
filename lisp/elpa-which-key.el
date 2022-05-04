@@ -1,4 +1,4 @@
-;;; pkg-which-key.el --- Keybinding hints -*- lexical-binding: t -*-
+;;; elpa-which-key.el --- Keybinding hints -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -13,5 +13,5 @@
   ;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
-(provide 'pkg-which-key)
-;;; pkg-which-key.el ends here
+(provide 'elpa-which-key)
+;;; elpa-which-key.el ends here

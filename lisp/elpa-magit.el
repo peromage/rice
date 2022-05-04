@@ -1,9 +1,9 @@
-;;; pkg-magit.el --- A must-have git frontend -*- lexical-binding: t -*-
+;;; elpa-magit.el --- A must-have git frontend -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
 (use-package magit
   :commands magit-status)
 
-(provide 'pkg-magit)
-;;; pkg-magit.el ends here
+(provide 'elpa-magit)
+;;; elpa-magit.el ends here

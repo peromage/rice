@@ -1,4 +1,4 @@
-;;; pkg-vterm.el --- Terminal in Emacs -*- lexical-binding: t -*-
+;;; elpa-vterm.el --- Terminal in Emacs -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -19,5 +19,5 @@
   (set-buffer "*vterm*")
   (rename-buffer "vterm" t))
 
-(provide 'pkg-vterm)
-;;; pkg-vterm.el ends here
+(provide 'elpa-vterm)
+;;; elpa-vterm.el ends here

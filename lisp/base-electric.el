@@ -1,4 +1,4 @@
-;;; pkg-electric.el --- Electric mode related -*- lexical-binding: t -*-
+;;; base-electric.el --- Electric mode related -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -12,5 +12,5 @@
   (electric-pair-mode -1)
   (electric-indent-mode 1))
 
-(provide 'pkg-electric)
-;;; pkg-electric.el ends here
+(provide 'base-electric)
+;;; base-electric.el ends here

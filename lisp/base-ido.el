@@ -1,4 +1,4 @@
-;;; pkg-ido.el --- Ido mode related -*- lexical-binding: t -*-
+;;; base-ido.el --- Ido mode related -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -11,5 +11,5 @@
   :config
   (ido-mode 1))
 
-(provide 'pkg-ido)
-;;; pkg-ido.el ends here
+(provide 'base-ido)
+;;; base-ido.el ends here

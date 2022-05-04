@@ -1,4 +1,4 @@
-;;; pkg-dired.el --- Default file manager -*- lexical-binding: t -*-
+;;; base-dired.el --- Default file manager -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -49,5 +49,5 @@
   :ensure nil
   :after dired)
 
-(provide 'pkg-dired)
-;;; pkg-dired.el ends here
+(provide 'base-dired)
+;;; base-dired.el ends here

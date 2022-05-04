@@ -1,4 +1,4 @@
-;;; pkg-company.el --- Code completion -*- lexical-binding: t -*-
+;;; elpa-company.el --- Code completion -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -68,5 +68,5 @@ of STATUS.  Possible values are:
   (company-box-show-single-candidate 'always)
   (company-box-scrollbar t))
 
-(provide 'pkg-company)
-;;; pkg-company.el ends here
+(provide 'elpa-company)
+;;; elpa-company.el ends here

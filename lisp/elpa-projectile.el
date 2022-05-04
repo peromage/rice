@@ -1,4 +1,4 @@
-;;; pkg-projectile.el --- Project management -*- lexical-binding: t -*-
+;;; elpa-projectile.el --- Project management -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -36,5 +36,5 @@
       :config
       (counsel-projectile-mode 1)))
 
-(provide 'pkg-projectile)
-;;; pkg-projectile.el ends here
+(provide 'elpa-projectile)
+;;; elpa-projectile.el ends here

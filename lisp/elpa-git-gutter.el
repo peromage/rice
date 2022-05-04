@@ -1,4 +1,4 @@
-;;; pkg-git-gutter.el --- Display git changes for lines -*- lexical-binding: t -*-
+;;; elpa-git-gutter.el --- Display git changes for lines -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -27,5 +27,5 @@
   (set-face-background 'git-gutter:unchanged "unspecified")
   (set-face-background 'git-gutter:separator "unspecified"))
 
-(provide 'pkg-git-gutter)
-;;; pkg-git-gutter.el ends here
+(provide 'elpa-git-gutter)
+;;; elpa-git-gutter.el ends here

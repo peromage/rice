@@ -1,4 +1,4 @@
-;;; pkg-ibuffer.el --- Builtin buffer manager -*- lexical-binding: t -*-
+;;; base-ibuffer.el --- Builtin buffer manager -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -8,5 +8,5 @@
   :init
   (defalias 'list-buffers 'ibuffer))
 
-(provide 'pkg-ibuffer)
-;;; pkg-ibuffer.el ends here
+(provide 'base-ibuffer)
+;;; base-ibuffer.el ends here

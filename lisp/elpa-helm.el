@@ -1,4 +1,4 @@
-;;; pkg-helm.el --- Framework Helm -*- lexical-binding: t -*-
+;;; elpa-helm.el --- Framework Helm -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -31,5 +31,5 @@
   (helm-mode 1)
   (helm-autoresize-mode 1))
 
-(provide 'pkg-helm)
-;;; pkg-helm.el ends here
+(provide 'elpa-helm)
+;;; elpa-helm.el ends here

@@ -1,4 +1,4 @@
-;;; pkg-org.el --- Org mode tweaks -*- lexical-binding: t -*-
+;;; base-org.el --- Org mode tweaks -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -23,5 +23,5 @@
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-agenda-files (expand-file-name "orgfiles" user-emacs-directory)))
 
-(provide 'pkg-org)
-;;; pkg-org.el ends here
+(provide 'base-org)
+;;; base-org.el ends here

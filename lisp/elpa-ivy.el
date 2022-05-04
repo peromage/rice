@@ -1,4 +1,4 @@
-;;; pkg-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
+;;; elpa-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -72,5 +72,5 @@
   ;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
-(provide 'pkg-ivy)
-;;; pkg-ivy.el ends here
+(provide 'elpa-ivy)
+;;; elpa-ivy.el ends here

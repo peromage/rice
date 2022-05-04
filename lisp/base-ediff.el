@@ -1,4 +1,4 @@
-;;; pkg-ediff.el --- Builtin diff -*- lexical-binding: t -*-
+;;; base-ediff.el --- Builtin diff -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -9,5 +9,5 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain)
   (ediff-split-window-function 'split-window-vertically))
 
-(provide 'pkg-ediff)
-;;; pkg-ediff.el ends here
+(provide 'base-ediff)
+;;; base-ediff.el ends here

@@ -1,4 +1,4 @@
-;;; pkg-themes.el --- Visual enhancement -*- lexical-binding: t -*-
+;;; elpa-themes.el --- Visual enhancement -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -25,5 +25,5 @@
 ;; At last, enables global color theme with some addtional settings
 (pew/load-theme 'doom-dracula)
 
-(provide 'pkg-themes)
-;;; pkg-themes.el ends here
+(provide 'elpa-themes)
+;;; elpa-themes.el ends here
