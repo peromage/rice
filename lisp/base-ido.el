@@ -1,5 +1,8 @@
-;;; base-ido.el --- Ido mode related -*- lexical-binding: t -*-
+;;; base-ido.el --- Ido mode -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Configuration for `ido-mode' in case I drop using any completion framework.
+
 ;;; Code:
 
 (use-package ido

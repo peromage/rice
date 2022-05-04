@@ -1,10 +1,10 @@
-;;; elpa-helm.el --- Framework Helm -*- lexical-binding: t -*-
+;;; elpa-helm.el --- Completion framework -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Helm core package
-;;------------------------------------------------------------------------------
+;; Helm uses buffers to show completions.
+;; Fully functional but a little bit heavy.
+
+;;; Code:
 
 (use-package helm
   :demand t

@@ -1,14 +1,12 @@
-;;; init.el --- Configuration entry -*- lexical-binding: t -*-
+;;; init.el --- PEW entry -*- lexical-binding: t -*-
+
 ;;; Commentary:
 
-;; This file bootstraps the configuration, which is divided into a number of
+;; This file bootstraps the PEW configuration which is divided into a number of
 ;; other files.  Templates was from purcell/emacs.d
 
 ;;; Code:
-
-;;------------------------------------------------------------------------------
-;; Initialization
-;;------------------------------------------------------------------------------
+;;;; Preparation
 
 (defvar pew/home-dir (file-name-directory load-file-name)
   "The PEW configuration's home directory.
@@ -21,11 +19,10 @@ Not necessarily to be `user-emacs-directory' since this configuration can be loa
 ;; Runtime path
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 
-;;------------------------------------------------------------------------------
-;; Bootstrap -- To avoid  nested loading, all packages are managed here
-;;------------------------------------------------------------------------------
 
-;; Base setup
+;;;; Load modules
+
+;; The load sequence must be in order
 (require 'init-boot)
 (require 'init-common)
 (require 'init-custom)
@@ -38,9 +35,8 @@ Not necessarily to be `user-emacs-directory' since this configuration can be loa
 (load custom-file t)
 
 (provide 'init)
-
 ;;; Local Variables:
-;;; mode: Lisp
+;;; mode: ELisp
 ;;; coding: utf-8
 ;;; no-byte-compile: t
 ;;; End:

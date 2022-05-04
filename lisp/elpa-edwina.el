@@ -1,5 +1,8 @@
-;;; elpa-edwina.el --- DWM like window management -*- lexical-binding: t -*-
+;;; elpa-edwina.el --- Window split control -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Edwina splits windows automatically in DWM fashions.
+
 ;;; Code:
 
 (use-package edwina

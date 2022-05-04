@@ -1,5 +1,8 @@
 ;;; elpa-flycheck.el --- Syntax checker -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Spell and syntax checker.  Helpful while coding.
+
 ;;; Code:
 
 (use-package flycheck

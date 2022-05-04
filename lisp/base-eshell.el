@@ -1,5 +1,8 @@
-;;; base-eshell.el --- Eshell settings -*- lexical-binding: t -*-
+;;; base-eshell.el --- Elisp shell -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Eshell related configuration.
+
 ;;; Code:
 
 (use-package eshell

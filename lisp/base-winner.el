@@ -1,5 +1,8 @@
-;;; base-winner.el --- Builtin window manager -*- lexical-binding: t -*-
+;;; base-winner.el --- winner-mode -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Builtin window manager.
+
 ;;; Code:
 
 (use-package winner

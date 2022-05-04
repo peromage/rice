@@ -1,5 +1,4 @@
 ;;; elpa-themes.el --- Theme collection -*- lexical-binding: t -*-
-
 ;;; Commentary:
 
 ;; This file is a simple collection of theme related stuff.
@@ -7,16 +6,16 @@
 
 ;;; Code:
 
-;;;; Colors schemes
+;; Colors schemes
 (use-package doom-themes :defer t)
 (use-package dracula-theme :defer t)
 (use-package moe-theme :defer t)
 (use-package modus-themes :defer t)
 
-;;;; Icons
+;; Icons
 (use-package all-the-icons :defer t)
 
-;;;; Default theme
+;; Default theme
 (pew/load-theme 'doom-dracula)
 
 (provide 'elpa-themes)

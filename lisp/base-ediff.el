@@ -1,5 +1,8 @@
-;;; base-ediff.el --- Builtin diff -*- lexical-binding: t -*-
+;;; base-ediff.el --- Builtin diff utility -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Configuration for builtin diff tool.
+
 ;;; Code:
 
 (use-package ediff

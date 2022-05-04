@@ -1,5 +1,8 @@
 ;;; base-ibuffer.el --- Builtin buffer manager -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; A pretty decent buffer manager to replace the default shabby one.
+
 ;;; Code:
 
 (use-package ibuffer

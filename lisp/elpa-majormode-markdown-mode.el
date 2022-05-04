@@ -1,5 +1,8 @@
 ;;; elpa-majormode-markdown-mode.el --- Markdown mode -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; When writting in `markdown-mode' some configurations are slightly different than coding modes.
+
 ;;; Code:
 
 (defun pew/markdown-mode/setup ()

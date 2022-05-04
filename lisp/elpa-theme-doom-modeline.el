@@ -1,6 +1,7 @@
-;;; elpa-theme-doom-modeline.el --- Modeline from Doom -*- lexical-binding: t -*-
-
+;;; elpa-theme-doom-modeline.el --- Doom Emacs modeline -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Modeline taken from Doom Emacs.
 
 ;;; Code:
 

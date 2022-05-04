@@ -1,5 +1,8 @@
-;;; base-electric.el --- Electric mode related -*- lexical-binding: t -*-
+;;; base-electric.el --- Builtin format control -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Some tweaks for the automatic format control.
+
 ;;; Code:
 
 (use-package electric

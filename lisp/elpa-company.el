@@ -1,10 +1,10 @@
 ;;; elpa-company.el --- Code completion -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Company
-;;------------------------------------------------------------------------------
+;; This configures `company-mode' and enhances its experience.
+
+;;; Code:
+;;;; Company
 
 (use-package company
   :demand t
@@ -34,9 +34,7 @@
   (global-company-mode 1)
   (company-tng-mode -1))
 
-;;------------------------------------------------------------------------------
-;; Company Enhancement
-;;------------------------------------------------------------------------------
+;;;; Company Enhancement
 
 (defun pew/company-box/doc-toggle (&optional status)
   "Toggle company box doc display if STATUS is omitted.

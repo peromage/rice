@@ -1,5 +1,4 @@
 ;;; init-elpa-packages.el --- Initialize ELPA packages -*- lexical-binding: t -*-
-
 ;;; Commentary:
 
 ;; This file should contain only ELPA packages.

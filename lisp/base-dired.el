@@ -1,10 +1,10 @@
-;;; base-dired.el --- Default file manager -*- lexical-binding: t -*-
+;;; base-dired.el --- Builtin file manager -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Dired functions
-;;------------------------------------------------------------------------------
+;; Configuration for Dired file manager.
+
+;;; Code:
+;;;; Dired helper functions
 
 (defun pew/dired/go-to ()
   "Go into the current directory/file under the cursor without creating a new buffer."
@@ -23,10 +23,7 @@
   (interactive)
   (find-file default-directory))
 
-;;------------------------------------------------------------------------------
-;; Dired
-;;------------------------------------------------------------------------------
-
+;;;; Dired
 (use-package dired
   :ensure nil
   :commands (dired dired-jump dired-find-file)

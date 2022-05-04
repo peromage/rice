@@ -1,10 +1,11 @@
 ;;; elpa-lsp.el --- Language Server Protocol supports -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; LSP core package
-;;------------------------------------------------------------------------------
+;; This should only contain LSP core package configuration.
+;; For specific language supports, they should go into the major mode modules.
+
+;;; Code:
+;;;; LSP core package
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -33,9 +34,7 @@
   :config
   (lsp-enable-which-key-integration 1))
 
-;;------------------------------------------------------------------------------
-;; LSP experience improvement
-;;------------------------------------------------------------------------------
+;;;; LSP experience improvement
 
 (defun pew/lsp-ui/doc-glance ()
   "Quick peek documentation for the current symbol."

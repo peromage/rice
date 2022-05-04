@@ -1,14 +1,12 @@
-;;; init-common.el --- Utilities -*- lexical-binding: t -*-
+;;; init-common.el --- Common library -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; This is the pew library file.  I might split this into multiple files if there
-;; are too many shared functions in the future.
+;; This is the PEW common library file.
+;; It might be splitted into several files if it's needed in the future.
+;; NOTE: This file should be loaded before any other packages but init-boot.
 
 ;;; Code:
-
-;;------------------------------------------------------------------------------
-;; Shared variables
-;;------------------------------------------------------------------------------
+;;;; Common variables
 
 (defvar pew/special-buffers '("\\` "
                               "\\`\\*"
@@ -17,9 +15,7 @@
   "A regex list of special buffer patterns.
 Special buffers are usually skipped and ignored from buffer list.")
 
-;;------------------------------------------------------------------------------
-;; Shared functions
-;;------------------------------------------------------------------------------
+;;;; Common functions
 
 ;; Debug functions
 (defun pew/reload-initel ()

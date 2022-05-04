@@ -1,5 +1,9 @@
-;;; elpa-magit.el --- A must-have git frontend -*- lexical-binding: t -*-
+;;; elpa-magit.el --- Git frontend -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Magit is a powerful git frontend.
+;; No special configuration needed usually.
+
 ;;; Code:
 
 (use-package magit

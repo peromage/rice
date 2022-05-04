@@ -1,5 +1,9 @@
 ;;; elpa-yasnippet.el --- Snippet management -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Emacs missing snippet manager.
+;; Default snippet directory is located at "snippets" in this PEW configuration.
+
 ;;; Code:
 
 (use-package yasnippet

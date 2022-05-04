@@ -1,10 +1,10 @@
 ;;; elpa-majormode-cc-mode.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Setup functions
-;;------------------------------------------------------------------------------
+;; This file configures C/C++ modes including LSP support.
+
+;;; Code:
+;;;; Setup functions
 
 (defun pew/cc-mode/common-setup ()
   "Common CC mode setup."
@@ -41,9 +41,7 @@
   "Initialization for C++ mode."
   (pew/cc-mode/c-setup))
 
-;;------------------------------------------------------------------------------
-;; Hooks
-;;------------------------------------------------------------------------------
+;;;; Hooks
 
 (add-hook 'c-mode-common-hook #'pew/cc-mode/common-setup)
 (add-hook 'c-mode-hook #'pew/cc-mode/c-setup)

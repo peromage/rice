@@ -1,5 +1,8 @@
 ;;; elpa-majormode-python-mode.el --- Python mode -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Python LSP support.
+
 ;;; Code:
 
 (defun pew/python-mode/setup ()

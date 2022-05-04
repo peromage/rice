@@ -1,11 +1,14 @@
 ;;; init-package.el --- Package management -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; This ELPA initialization configuration should be loaded before any other package configurations.
+
 ;;; Code:
 
-;; This ELPA initialization configuration should be loaded before any other package settings.
+;; Initialize package manager
 (require 'package)
 
-;; Standard package repositories
+;; Package repositories
 (let ((online-archives '(("melpa" . "https://melpa.org/packages/")
                          ;("melpa-stable" . "https://stable.melpa.org/packages/")
                          )))
@@ -15,6 +18,7 @@
 ;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
 (when (and (version< emacs-version "26.3") (boundp 'libgnutls-version) (>= libgnutls-version 30604))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+
 ;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
 (setq package-user-dir (expand-file-name (format "elpa-%s.%s" emacs-major-version emacs-minor-version) user-emacs-directory)
       package-enable-at-startup nil)
@@ -33,7 +37,7 @@
   (require 'use-package)
   (require 'diminish))
 
-;; Automatically install packages for now
+;; Default `use-package' behaviors
 (setq use-package-always-ensure t
       use-package-always-defer nil
       use-package-always-demand nil

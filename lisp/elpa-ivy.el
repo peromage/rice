@@ -1,10 +1,11 @@
-;;; elpa-ivy.el --- Framework Ivy -*- lexical-binding: t -*-
+;;; elpa-ivy.el --- Completion framework -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Ivy core package
-;;------------------------------------------------------------------------------
+;; Ivy uses minibuffers to show completions.
+;; Unlike helm, Ivy is faster and minimalist.  Also, easier to configure.
+
+;;; Code:
+;;;; Ivy core package
 
 ;; Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
@@ -36,9 +37,7 @@
   (counsel-mode 1)
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) pew/special-buffers))
 
-;;------------------------------------------------------------------------------
-;; Ivy improvement
-;;------------------------------------------------------------------------------
+;;;; Ivy improvement
 
 ;; Make Ivy show more information
 (use-package ivy-rich

@@ -1,5 +1,8 @@
-;;; elpa-git-gutter.el --- Display git changes for lines -*- lexical-binding: t -*-
+;;; elpa-git-gutter.el --- Line change indicator -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; `git-gutter-mode' displays line changes on the left margin.
+
 ;;; Code:
 
 (use-package git-gutter

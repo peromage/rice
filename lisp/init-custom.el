@@ -4,10 +4,7 @@
 ;; This file contains the settings for vanilla Emacs.
 
 ;;; Code:
-
-;;------------------------------------------------------------------------------
-;; Custom settings
-;;------------------------------------------------------------------------------
+;;;; Custom settingis
 
 (custom-set-variables
  ;; Startup
@@ -97,16 +94,12 @@
  '(recentf-mode t)
  )
 
-;;------------------------------------------------------------------------------
-;; Face settings
-;;------------------------------------------------------------------------------
+;;;; Face settings
 
 (custom-set-faces
  '(tab-bar ((t (:inherit default)))))
 
-;;------------------------------------------------------------------------------
-;; Enable commands that are disabled by default
-;;------------------------------------------------------------------------------
+;;;; Enable commands that are disabled by default
 
 (put 'scroll-left 'disabled nil)
 

@@ -1,10 +1,11 @@
 ;;; elpa-evil.el --- Vim layer -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; Code:
 
-;;------------------------------------------------------------------------------
-;; Functions and variables
-;;------------------------------------------------------------------------------
+;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
+;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
+
+;;; Code:
+;;;; Evil helper functions and variables
 
 (defun pew/evil/global-set-key (state binding-list)
   "Set a list of keybindings BINDING-LIST to a STATE globally."
@@ -25,7 +26,6 @@
         (t (delete-window))))
 
 ;; Begin search functions
-
 (defun pew/evil/escape-region (begin end)
   "Escape region from BEGIN to END for evil-search mode."
   (catch 'result
@@ -93,12 +93,9 @@
     (message "replacement %s" replacement)
     (message "subpattern %S" subpattern)
     (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
-
 ;; End search functions
 
-;;------------------------------------------------------------------------------
-;; Evil setup
-;;------------------------------------------------------------------------------
+;;;; Evil setup
 
 (use-package evil
   :demand t
@@ -165,10 +162,9 @@
            )))
     (pew/evil/set-initial-state initial-states)))
 
-;;------------------------------------------------------------------------------
-;; Evil enhancement
-;;------------------------------------------------------------------------------
+;;;; Evil enhancement
 
+;; Extend Evil keybindings to more modes
 ;(use-package evil-collection
 ;  :custom
 ;  (evil-want-keybinding nil)

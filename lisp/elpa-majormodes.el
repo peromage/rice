@@ -1,5 +1,4 @@
 ;;; elpa-majormodes.el --- Major mode collection -*- lexical-binding: t -*-
-
 ;;; Commentary:
 
 ;; This file is a simple collection of major mode related stuff.

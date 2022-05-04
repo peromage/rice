@@ -1,5 +1,8 @@
-;;; base-org.el --- Org mode tweaks -*- lexical-binding: t -*-
+;;; base-org.el --- Org mode -*- lexical-binding: t -*-
 ;;; Commentary:
+
+;; Configuration for `org-mode' to fit my own taste.
+
 ;;; Code:
 
 (defun pew/org/setup ()

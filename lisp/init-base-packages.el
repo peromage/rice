@@ -1,5 +1,4 @@
 ;;; init-base-packages.el --- Initialize builtin packages -*- lexical-binding: t -*-
-
 ;;; Commentary:
 
 ;; This file should contain only builtin package configurations.
