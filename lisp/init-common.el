@@ -124,12 +124,12 @@ SWITCH-FUNC should not take any arguments."
   (interactive)
   (pew/switch-buffer #'previous-buffer))
 
-(defun pew/close-other-dired-buffers ()
-  "Close all Dired buffers but this one."
-  (interactive)
+(defun pew/close-other-buffers-with-major-mode (majormode)
+  "Close all other buffers in MAJORMODE but thie one."
+  (interactive "SMajor mode: ")
   (let ((this-buf (current-buffer)))
     (dolist (buf (buffer-list))
-      (if (and (eq 'dired-mode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
+      (if (and (eq majormode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
           (kill-buffer buf)))))
 
 ;;;; Window utilities

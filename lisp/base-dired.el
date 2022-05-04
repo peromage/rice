@@ -23,6 +23,11 @@
   (interactive)
   (find-file default-directory))
 
+(defun pew/dired/close-others ()
+  "Close other Dired buffers but this one."
+  (interactive)
+  (pew/close-other-buffers-with-major-mode 'dired-mode))
+
 ;;;; Dired
 (use-package dired
   :ensure nil
