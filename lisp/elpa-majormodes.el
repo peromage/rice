@@ -8,6 +8,7 @@
 ;;; Code:
 
 (use-package vimrc-mode :defer t)
+(use-package yaml-mode :defer t)
 
 (provide 'elpa-majormodes)
 ;;; elpa-majormodes.el ends here
