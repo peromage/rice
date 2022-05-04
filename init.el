@@ -43,7 +43,7 @@
 ;;------------------------------------------------------------------------------
 
 ;; Base setup
-(require 'init-shared)
+(require 'init-common)
 (require 'init-custom)
 (require 'init-keymaps)
 (require 'init-package)

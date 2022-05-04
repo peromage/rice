@@ -1,4 +1,4 @@
-;;; init-shared.el --- Utilities -*- lexical-binding: t -*-
+;;; init-common.el --- Utilities -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; This is the pew library file.  I might split this into multiple files if there
@@ -167,5 +167,5 @@ The alist KEYBINDINGS should be something like:
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(provide 'init-shared)
-;;; init-shared.el ends here
+(provide 'init-common)
+;;; init-common.el ends here
