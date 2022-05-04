@@ -9,11 +9,10 @@
 (require 'package)
 
 ;; Package repositories
-(let ((online-archives '(("melpa" . "https://melpa.org/packages/")
-                         ;("melpa-stable" . "https://stable.melpa.org/packages/")
-                         )))
-  (dolist (archive online-archives)
-    (add-to-list 'package-archives archive t)))
+(dolist (archive '(("melpa" . "https://melpa.org/packages/")
+                   ;("melpa-stable" . "https://stable.melpa.org/packages/")
+                   ))
+  (add-to-list 'package-archives archive t))
 
 ;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
 (when (and (version< emacs-version "26.3") (boundp 'libgnutls-version) (>= libgnutls-version 30604))

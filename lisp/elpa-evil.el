@@ -146,21 +146,16 @@
     (pew/evil/global-set-key 'motion normal-bindings))
 
   ;; Key bindings in visual state
-  (let ((visual-bindings
-         '(("*" . pew/evil/visual-search-selected))))
-    (pew/evil/global-set-key 'visual visual-bindings))
+  (pew/evil/global-set-key 'visual '(("*" . pew/evil/visual-search-selected)))
 
   ;; Explicitly set the initial state for a mode
   ;; States are: emacs, motion, normal, insert, visual
-  (let ((initial-states
-         '((help-mode . motion)
-           (tab-switcher-mode . emacs)
-           (xref--xref-buffer-mode . emacs)
-           (flycheck-error-list-mode . emacs)
-           (ivy-occur-grep-mode . emacs)
-           (dired-mode . emacs)
-           )))
-    (pew/evil/set-initial-state initial-states)))
+  (pew/evil/set-initial-state '((help-mode . motion)
+                                (tab-switcher-mode . emacs)
+                                (xref--xref-buffer-mode . emacs)
+                                (flycheck-error-list-mode . emacs)
+                                (ivy-occur-grep-mode . emacs)
+                                (dired-mode . emacs))))
 
 ;;;; Evil enhancement
 
