@@ -7,7 +7,6 @@
 ;;; Code:
 
 ;; Internal packages
-(require 'base-ediff)
 (require 'base-electric)
 (require 'base-eshell)
 (require 'base-org)

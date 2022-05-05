@@ -20,8 +20,7 @@
 (require 'elpa-navigation)
 
 ;; Git
-(require 'elpa-magit)
-(require 'elpa-git-gutter)
+(require 'elpa-git)
 
 ;; Coding
 (require 'elpa-flycheck)

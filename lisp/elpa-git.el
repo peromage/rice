@@ -1,10 +1,20 @@
-;;; elpa-git-gutter.el --- Line change indicator -*- lexical-binding: t -*-
+;;; elpa-git.el --- Git packages -*- lexical-binding: t -*-
 ;;; Commentary:
 
-;; `git-gutter-mode' displays line changes on the left margin.
+;; This module contains git related packages and configurations
 
 ;;; Code:
 
+;;;; Frontend
+
+;; Magit is a powerful git frontend.
+;; No special configuration needed usually.
+(use-package magit
+  :commands magit-status)
+
+;;;; Status
+
+;; `git-gutter-mode' displays line changes on the left margin.
 (use-package git-gutter
   :diminish git-gutter-mode
   :custom
@@ -30,5 +40,15 @@
   (set-face-background 'git-gutter:unchanged "unspecified")
   (set-face-background 'git-gutter:separator "unspecified"))
 
-(provide 'elpa-git-gutter)
-;;; elpa-git-gutter.el ends here
+;;;; Diff tools
+
+;; Builtin diff tool.
+(use-package ediff
+  :ensure nil
+  :defer t
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-vertically))
+
+(provide 'elpa-git)
+;;; elpa-git.el ends here
