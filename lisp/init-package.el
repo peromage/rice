@@ -14,10 +14,6 @@
                    ))
   (add-to-list 'package-archives archive t))
 
-;; Work-around for https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34341
-(when (and (version< emacs-version "26.3") (boundp 'libgnutls-version) (>= libgnutls-version 30604))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
 ;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
 (setq package-user-dir (expand-file-name (format "elpa-%s.%s" emacs-major-version emacs-minor-version) user-emacs-directory)
       package-enable-at-startup nil)
