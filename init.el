@@ -18,13 +18,25 @@
 ;;;; Load modules
 
 ;; The load sequence must be in order
-(require 'init-boot)
 (require 'init-common)
+(require 'init-boot)
 (require 'init-custom)
 (require 'init-keybindings)
 (require 'init-package)
-(require 'init-base-packages)
-(require 'init-elpa-packages)
+;; Load ELPA packages (managed by `use-package')
+(require 'elpa-evil)
+(require 'elpa-navigation)
+(require 'elpa-coding)
+(require 'elpa-git)
+(require 'elpa-shell)
+(require 'elpa-ui)
+(require 'elpa-lang)
+(require 'elpa-lang-cc)
+(require 'elpa-lang-csharp)
+(require 'elpa-lang-python)
+(require 'elpa-lang-powershell)
+(require 'elpa-lang-org)
+(require 'elpa-lang-markdown)
 
 ;; Load this at the last to prevent local configurations from being overridden
 (load custom-file t)
