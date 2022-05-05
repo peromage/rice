@@ -71,35 +71,6 @@
   ;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
-;;;;; Helm framework
-
-(use-package helm
-  :disabled
-  :demand t
-  :diminish helm-mode
-  :bind (("M-x" . helm-M-x)
-         ("C-s" . helm-occur)
-         ("C-x f" . helm-find)
-         ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-mini))
-  :custom
-  (helm-split-window-inside-p t)
-  (helm-echo-input-in-header-line t)
-  (helm-use-frame-when-more-than-two-windows nil)
-  (helm-always-two-windows nil)
-  (helm-ff-file-name-history-use-recentf t)
-  (helm-autoresize-max-height 30)
-  (helm-autoresize-min-height 20)
-  (helm-M-x-fuzzy-match t)
-  (helm-buffers-fuzzy-matching t)
-  (helm-ff-fuzzy-matching t)
-  (helm-apropos-fuzzy-match t)
-  (helm-recentf-fuzzy-match t)
-  :config
-  (message "## loading helm")
-  (helm-mode 1)
-  (helm-autoresize-mode 1))
-
 ;;;; Prompt
 
 ;; Which-key is very informative to show keybindings when you forget them.
@@ -175,13 +146,6 @@
 
 ;;;;; Framework integration
 
-;; Use if guard to prevent automatic installation when the framework doesn't exist
-;; Helm integration
-(if (featurep 'helm)
-    (use-package helm-projectile
-      :after helm
-      :custom
-      (projectile-completion-system 'helm)))
 ;; Ivy integration
 (if (featurep 'ivy)
     (use-package counsel-projectile
