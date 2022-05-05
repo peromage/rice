@@ -8,9 +8,17 @@
 
 ;;; Code:
 
+;; Frame setup
+;; Remove useless UI elements also avoid errors when some features don't exist in TUI mode
+;; See: https://www.gnu.org/software/emacs/manual/html_node/elisp/Layout-Parameters.html
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(tab-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars . 0) default-frame-alist)
+(push '(horizontal-scroll-bars . 0) default-frame-alist)
+
+;; Manually configure packages
 (setq package-enable-at-startup nil)
 
-;; So we can detect this having been loaded
 (provide 'early-init)
-
 ;;; early-init.el ends here

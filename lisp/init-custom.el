@@ -28,9 +28,6 @@
  '(initial-scratch-message "")
 
  ;; Interface
- '(tool-bar-mode nil)
- '(menu-bar-mode nil)
- '(scroll-bar-mode nil)
  '(cursor-type 'box)
  '(size-indication-mode t)
  '(display-line-numbers 'relative)
