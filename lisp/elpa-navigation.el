@@ -166,11 +166,6 @@
   (dired-find-file)
   (find-alternate-file ".."))
 
-(defun pew/dired/go-to-default-directory ()
-  "Go to the directory where the current file resides."
-  (interactive)
-  (find-file default-directory))
-
 (defun pew/dired/close-others ()
   "Close other Dired buffers but this one."
   (interactive)
