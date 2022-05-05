@@ -133,8 +133,6 @@
 
 ;;;; Project management
 
-;;;;; Projectile
-
 ;; Projectile provides a convenient way navigate between different projects.
 (use-package projectile
   :diminish projectile-mode
@@ -144,16 +142,13 @@
   :config
   (projectile-mode 1))
 
-;;;;; Framework integration
-
 ;; Ivy integration
-(if (featurep 'ivy)
-    (use-package counsel-projectile
-      :after ivy
-      :custom
-      (projectile-completion-system 'ivy)
-      :config
-      (counsel-projectile-mode 1)))
+(use-package counsel-projectile
+  :requires ivy
+  :custom
+  (projectile-completion-system 'ivy)
+  :config
+  (counsel-projectile-mode 1))
 
 ;;;; File management
 
