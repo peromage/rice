@@ -21,7 +21,6 @@
 (require 'init-common)
 (require 'init-boot)
 (require 'init-custom)
-(require 'init-keybindings)
 (require 'init-package)
 ;; Load ELPA packages (managed by `use-package')
 (require 'elpa-evil)

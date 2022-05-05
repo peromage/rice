@@ -14,10 +14,9 @@
   :demand t
   :diminish (ivy-mode counsel-mode)
   :bind (("C-s" . swiper)
-         ("C-c r" . ivy-resume)
          ("C-x d" . counsel-dired)
          ("C-x f" . counsel-find-file)
-         ("C-x C-f" . counsel-find-file)
+         ("C-c r" . ivy-resume)
          ("C-c f" . counsel-git)
          ("C-c h" . counsel-git-grep)
          ("C-c g" . counsel-ag)
@@ -223,13 +222,9 @@
 (use-package dired
   :ensure nil
   :commands (dired dired-jump dired-find-file)
-  :bind (("C-x C-d" . pew/dired/go-to-default-directory)
-         :map dired-mode-map
+  :bind (:map dired-mode-map
          ("RET" . pew/dired/go-to) ;; was dired-find-file
-         ("DEL" . pew/dired/go-up) ;; was dired-unmark-backward
-         ;("SPC" . dired-up-directory) ;; was dired-next-line
-         ;("DEL" . dired-up-directory)
-         )
+         ("DEL" . pew/dired/go-up)) ;; was dired-unmark-backward
   :custom
   (dired-listing-switches "-alFD --group-directories-first")
   (dired-dwim-target t)

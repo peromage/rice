@@ -52,6 +52,11 @@ The alist KEYBINDINGS should be something like:
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")
 
+(defun pew/open-cwd ()
+  "Go to the directory where the current file resides."
+  (interactive)
+  (find-file default-directory))
+
 ;;;; Toggles
 
 (defun pew/toggle-line-number-type ()
