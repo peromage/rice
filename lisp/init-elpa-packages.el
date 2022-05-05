@@ -17,13 +17,7 @@
 (require 'elpa-evil)
 
 ;; Navigation
-(require 'elpa-ivy)
-;(require 'elpa-helm)
-(require 'elpa-which-key)
-(require 'elpa-projectile)
-;(require 'elpa-edwina)
-;(require 'elpa-eyebrowse)
-;(require 'elpa-treemacs)
+(require 'elpa-navigation)
 
 ;; Git
 (require 'elpa-magit)
