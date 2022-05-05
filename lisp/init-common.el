@@ -169,17 +169,5 @@ SWITCH-FUNC should not take any arguments."
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
-;;;; Terminal common
-
-(defun pew/terminal-setup ()
-  "Setup for terminal on entering."
-  (setq-local word-wrap nil
-              truncate-lines nil
-              truncate-partial-width-windows nil
-              global-hl-line-mode nil)
-  (hl-line-mode -1)
-  (display-line-numbers-mode -1)
-  (display-fill-column-indicator-mode -1))
-
 (provide 'init-common)
 ;;; init-common.el ends here
