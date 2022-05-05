@@ -1,4 +1,4 @@
-;;; elpa-majormode-cc-mode.el --- C/C++ mode -*- lexical-binding: t -*-
+;;; elpa-lang-cc.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; This file configures C/C++ modes including LSP support.
@@ -47,5 +47,5 @@
 (add-hook 'c-mode-hook #'pew/cc-mode/c-setup)
 (add-hook 'c++-mode-hook #'pew/cc-mode/cpp-setup)
 
-(provide 'elpa-majormode-cc-mode)
-;;; elpa-majormode-cc-mode.el ends here
+(provide 'elpa-lang-cc)
+;;; elpa-lang-cc.el ends here

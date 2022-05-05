@@ -1,4 +1,4 @@
-;;; base-org.el --- Org mode -*- lexical-binding: t -*-
+;;; elpa-lang-org.el --- Org mode -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; Configuration for `org-mode' to fit my own taste.
@@ -26,5 +26,5 @@
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-agenda-files (expand-file-name "orgfiles" user-emacs-directory)))
 
-(provide 'base-org)
-;;; base-org.el ends here
+(provide 'elpa-lang-org)
+;;; elpa-lang-org.el ends here

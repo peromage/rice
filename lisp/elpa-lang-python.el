@@ -1,4 +1,4 @@
-;;; elpa-majormode-python-mode.el --- Python mode -*- lexical-binding: t -*-
+;;; elpa-lang-python.el --- Python mode -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; Python LSP support.
@@ -18,5 +18,5 @@
   (lsp-python-ms-python-executable (executable-find "python3"))
   (lsp-python-ms-python-executable-cmd "python3"))
 
-(provide 'elpa-majormode-python-mode)
-;;; elpa-majormode-python-mode.el ends here
+(provide 'elpa-lang-python)
+;;; elpa-lang-python.el ends here
