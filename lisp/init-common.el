@@ -174,5 +174,20 @@ SWITCH-FUNC should not take any arguments."
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
+;;;; Custom option utilities
+
+(defmacro pew/setc (&rest customs)
+  "A helper macro to set options from `customize' interface.
+This macro takes a list CUSTOMS of custom options in form:
+  (pew/setc-custom option1 value1
+                   option2 value2
+                   option3 value3
+                   ...)
+The values will be evaluated before passing to `customize-set-variable'."
+  `(let ((_ ',customs))
+     (while _
+       (customize-set-variable (car _) (eval (cadr _)))
+       (setq _ (cddr _)))))
+
 (provide 'init-common)
 ;;; init-common.el ends here
