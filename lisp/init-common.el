@@ -190,5 +190,12 @@ This macro takes in form:
          (setq k (kbd k)))
        (global-set-key k c))))
 
+(defmacro pew/set-enabled (&rest options)
+  "Enable OPTIONS that are disabled by default.
+OPTIONS is a list in form:
+  (scroll-left list-threads list-timers ...)"
+  `(dolist (_ ',options)
+     (put _ 'disabled nil)))
+
 (provide 'init-common)
 ;;; init-common.el ends here

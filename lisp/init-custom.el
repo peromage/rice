@@ -187,9 +187,13 @@
 
 ;;;; Enable commands that are disabled by default
 
-(put 'scroll-left 'disabled nil)
-(put 'list-threads 'disabled nil)
-(put 'list-timers 'disabled nil)
+(pew/set-enabled
+ 
+ scroll-left
+ list-threads
+ list-timers
+
+)
 
 (provide 'init-custom)
 ;;; init-custom.el ends here
