@@ -43,9 +43,13 @@
 
 ;;;; Hooks
 
-(add-hook 'c-mode-common-hook #'pew/cc-mode/common-setup)
-(add-hook 'c-mode-hook #'pew/cc-mode/c-setup)
-(add-hook 'c++-mode-hook #'pew/cc-mode/cpp-setup)
+(pew/set-hook
+
+ (c-mode-common-hook . pew/cc-mode/common-setup)
+ (c-mode-hook . pew/cc-mode/c-setup)
+ (c++-mode-hook . pew/cc-mode/cpp-setup)
+
+ )
 
 (provide 'elpa-lang-cc)
 ;;; elpa-lang-cc.el ends here

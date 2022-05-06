@@ -197,5 +197,14 @@ OPTIONS is a list in form:
   `(dolist (_ ',options)
      (put _ 'disabled nil)))
 
+(defmacro pew/set-hook (&rest hooks)
+  "Add HOOKS in batch.
+The HOOKS alist should be in form:
+  (pew/set-hook (hook1 . func1)
+                (hook2 . func2)
+                ...)"
+  `(dolist (_ ',hooks)
+     (add-hook (car _) (cdr _))))
+
 (provide 'init-common)
 ;;; init-common.el ends here
