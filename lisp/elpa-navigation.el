@@ -86,44 +86,6 @@
   ;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
-;; Ido can be replaced by which-key and completion framework
-(use-package ido
-  :disabled
-  :ensure nil
-  :custom
-  (ido-enable-flex-matching t)
-  (ido-default-file-method 'selected-window)
-  (ido-default-buffer-method 'selected-window)
-  :config
-  (ido-mode 1))
-
-;;;; Workspace management
-
-;; Edwina splits windows automatically in DWM fashions.
-(use-package edwina
-  :disabled
-  ;; Enabled on demand
-  :commands (edwina-mode edwin-mode)
-  :config
-  (edwina-setup-dwm-keys))
-
-;; Like `winner-mode', `eyebrowse-mode' arranges multiple workspaces.
-;; This functionality can be replaced with builtin tab which works pretty much the same.
-(use-package eyebrowse
-  :disabled
-  :commands eyebrowse-mode)
-
-;; Treemacs provides a sidebar for navigation.
-(use-package treemacs
-  :disabled)
-
-;; Builtin window manager.
-(use-package winner
-  :disabled
-  :ensure nil
-  :config
-  (winner-mode 1))
-
 ;;;; Project management
 
 ;; Projectile provides a convenient way navigate between different projects.
