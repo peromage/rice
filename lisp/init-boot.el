@@ -6,9 +6,9 @@
 ;;; Code:
 
 ;; Check minimal version
-(let ((minimal-emacs-version "27"))
+(let ((minimal-emacs-version "28.1"))
   (when (version< emacs-version minimal-emacs-version)
-    (error "Emacs' version is too old.  Please use %s and above" minimal-emacs-version)))
+    (error "PEW only supports Emacs version %s and above" minimal-emacs-version)))
 
 ;; Adjust garbage collection thresholds during startup, and thereafter
 (let ((normal-gc-cons-threshold (* 20 1024 1024))
