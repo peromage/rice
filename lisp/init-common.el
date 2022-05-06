@@ -165,7 +165,7 @@ SWITCH-FUNC should not take any arguments."
 ;;;; Macros
 
 (defmacro pew/set-custom (&rest customs)
-  "A helper macro to set options from `customize' interface.
+  "A helper macro that set CUSTOMS from `customize' interface.
 CUSTOMS is an alist in the form of:
   (pew/set-custom option1 value1
                   option2 value2
@@ -188,7 +188,7 @@ Equivalent to:
     `(progn ,@r)))
 
 (defmacro pew/set-key (&rest keys)
-  "Globally bind KEYS.
+  "A helper macro that binds KEYS globally.
 KEYS is an alist in the form of:
   (pew/set-key (\"binding1\" . func1)
                ([binding2] . func2)
@@ -206,7 +206,7 @@ Equivalent to:
                     keys)))
 
 (defmacro pew/set-enabled (&rest options)
-  "Enable OPTIONS that are disabled by default.
+  "A helper macro that enables OPTIONS that are disabled by default.
 OPTIONS is a list in the form of:
   (pew/set-enabled command1 command2 ...)
 Equivalent to:
