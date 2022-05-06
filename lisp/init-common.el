@@ -26,18 +26,6 @@
 
 ;;;; Common utilities
 
-(defun pew/global-set-key (keybindings)
-  "Globally bind keys defined in the alist KEYBINDINGS.
-The alist KEYBINDINGS should be something like:
-  '((\"key strokes\" . command)
-    ([key strokes] . command))"
-  (dolist (binding keybindings)
-    (let ((keys (car binding))
-          (cmd (cdr binding)))
-      (if (vectorp keys)
-          (global-set-key keys cmd)
-        (global-set-key (kbd keys) cmd)))))
-
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
   (interactive)
@@ -174,7 +162,7 @@ SWITCH-FUNC should not take any arguments."
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
-;;;; Custom option utilities
+;;;; Macros
 
 (defmacro pew/setc (&rest customs)
   "A helper macro to set options from `customize' interface.
@@ -188,6 +176,19 @@ The values will be evaluated before passing to `customize-set-variable'."
      (while _
        (customize-set-variable (car _) (eval (cadr _)))
        (setq _ (cddr _)))))
+
+(defmacro pew/set-key (&rest keys)
+  "Globally bind keys from KEYS alist.
+This macro takes in form:
+  (pew/set-key (\"binding1\" . func1)
+               (\"binding2\" . func1)
+               ...)"
+  `(dolist (_ ',keys)
+     (let ((k (car _))
+           (c (cdr _)))
+       (unless (vectorp k)
+         (setq k (kbd k)))
+       (global-set-key k c))))
 
 (provide 'init-common)
 ;;; init-common.el ends here
