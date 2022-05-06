@@ -171,7 +171,7 @@ CUSTOMS is an alist in the form of:
                   option2 value2
                   ...)
 The values will be evaluated before passing to `customize-set-variable'.
-Equivalent to:
+The result is equivalent to:
   (customize-set-variable 'option1 value1)
   (customize-set-variable 'option2 value2)
   ..."
@@ -198,8 +198,8 @@ FACES is a list in the form of:
                 ...)
 For the attribute plist see `defface'.
 The result is equivalent to:
-  (set-face-attribute 'face1 nil attr1_1 value1_1 attr1_2 value1_2 ...)
-  (set-face-attribute 'face2 nil attr2_1 value2_1 attr2_2 value2_2 ...)
+  (set-face-attribute 'face1 nil attr1a value1a attr1b value1b ...)
+  (set-face-attribute 'face2 nil attr2a value2a attr2b value2b ...)
   ..."
   (unless (zerop (mod (length faces) 2))
     (error "Incomplete pairs"))
@@ -217,7 +217,8 @@ KEYS is an alist in the form of:
   (pew/set-key (\"binding1\" . func1)
                ([binding2] . func2)
                ...)
-Equivalent to:
+See `global-set-key' for keybinding help.
+The result is equivalent to:
   (global-set-key \"binding1\" #'func1)
   (global-set-key [binding2] #'func2)
   ..."
@@ -233,7 +234,7 @@ Equivalent to:
   "A helper macro that enables OPTIONS that are disabled by default.
 OPTIONS is a list in the form of:
   (pew/set-enabled command1 command2 ...)
-Equivalent to:
+The result is equivalent to:
   (put 'command1 'disabled nil)
   (put 'command2 'disabled nil)
   ..."
@@ -247,7 +248,8 @@ HOOKS is an alist in the form of:
   (pew/set-hook (hook1 . func1)
                 (hook2 . func2)
                 ...)
-Equivalent to:
+See `add-hook'.
+The result is equivalent to:
   (add-hook 'hook1 #'func1)
   (add-hook 'hook2 #'func2)
   ..."
