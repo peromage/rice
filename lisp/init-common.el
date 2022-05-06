@@ -180,12 +180,15 @@ Equivalent to:
   ;; NOTE:
   ;;   - `nreverse' is way faster then `reverse'.
   ;;   - Prefer using `push' than `add-to-list' since the later checks elements.
+  (unless (zerop (mod (length customs) 2))
+    (error "Incomplete pairs"))
   (let ((_ (nreverse customs))
         (r nil))
     (while _
       (push `(customize-set-variable ',(cadr _) ,(car _)) r)
       (setq _ (cddr _)))
-    `(progn ,@r)))
+    (push 'progn r)
+    r))
 
 (defmacro pew/set-face (&rest faces)
   "A helper macro that set FACES.
@@ -198,12 +201,15 @@ The result is equivalent to:
   (set-face-attribute 'face1 nil attr1_1 value1_1 attr1_2 value1_2 ...)
   (set-face-attribute 'face2 nil attr2_1 value2_1 attr2_2 value2_2 ...)
   ..."
+  (unless (zerop (mod (length faces) 2))
+    (error "Incomplete pairs"))
   (let ((_ (nreverse faces))
         (r nil))
     (while _
       (push `(set-face-attribute ',(cadr _) nil ,@(car _)) r)
       (setq _ (cddr _)))
-    `(progn ,@r)))
+    (push 'progn r)
+    r))
 
 (defmacro pew/set-key (&rest keys)
   "A helper macro that binds KEYS globally.
