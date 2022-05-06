@@ -187,6 +187,24 @@ Equivalent to:
       (setq _ (cddr _)))
     `(progn ,@r)))
 
+(defmacro pew/set-face (&rest faces)
+  "A helper macro that set FACES.
+FACES is a list in the form of:
+  (pew/set-face face1 (attr1_1 value1_1 attr1_2 value1_2 ...)
+                face2 (attr2_1 value2_1 attr2_2 value2_2 ...)
+                ...)
+For the attribute plist see `defface'.
+The result is equivalent to:
+  (set-face-attribute 'face1 nil attr1_1 value1_1 attr1_2 value1_2 ...)
+  (set-face-attribute 'face2 nil attr2_1 value2_1 attr2_2 value2_2 ...)
+  ..."
+  (let ((_ (nreverse faces))
+        (r nil))
+    (while _
+      (push `(set-face-attribute ',(cadr _) nil ,@(car _)) r)
+      (setq _ (cddr _)))
+    `(progn ,@r)))
+
 (defmacro pew/set-key (&rest keys)
   "A helper macro that binds KEYS globally.
 KEYS is an alist in the form of:

@@ -182,8 +182,11 @@
 
 ;;;; Face settings
 
-(custom-set-faces
- '(tab-bar ((t (:inherit default)))))
+(pew/set-face
+
+ tab-bar (:inherit 'default)
+
+ )
 
 ;;;; Enable commands that are disabled by default
 
