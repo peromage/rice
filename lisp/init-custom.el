@@ -21,7 +21,7 @@
  ([remap next-buffer] . pew/next-buffer)
  ([remap previous-buffer] . pew/prev-buffer)
 
-)
+ )
 
 ;;;; Custom settingis
 
@@ -178,7 +178,7 @@
  ;; Let Emacs use minibuffer to prompt passphrase
  epg-pinentry-mode 'loopback
 
-)
+ )
 
 ;;;; Face settings
 
@@ -193,7 +193,7 @@
  list-threads
  list-timers
 
-)
+ )
 
 (provide 'init-custom)
 ;;; init-custom.el ends here

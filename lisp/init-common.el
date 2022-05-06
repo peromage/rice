@@ -166,45 +166,70 @@ SWITCH-FUNC should not take any arguments."
 
 (defmacro pew/set-custom (&rest customs)
   "A helper macro to set options from `customize' interface.
-This macro takes a list CUSTOMS of custom options in form:
+CUSTOMS is an alist in the form of:
   (pew/set-custom option1 value1
                   option2 value2
-                  option3 value3
                   ...)
-The values will be evaluated before passing to `customize-set-variable'."
-  `(let ((_ ',customs))
-     (while _
-       (customize-set-variable (car _) (eval (cadr _)))
-       (setq _ (cddr _)))))
+The values will be evaluated before passing to `customize-set-variable'.
+Equivalent to:
+  (customize-set-variable 'option1 value1)
+  (customize-set-variable 'option2 value2)
+  ..."
+  ;; Since using `push' would cause configuration lines being read in a reversed
+  ;; way, we reverse the passed-in lines first.
+  ;; NOTE:
+  ;;   - `nreverse' is way faster then `reverse'.
+  ;;   - Prefer using `push' than `add-to-list' since the later checks elements.
+  (let ((_ (nreverse customs))
+        (r nil))
+    (while _
+      (push `(customize-set-variable ',(cadr _) ,(car _)) r)
+      (setq _ (cddr _)))
+    `(progn ,@r)))
 
 (defmacro pew/set-key (&rest keys)
-  "Globally bind keys from KEYS alist.
-This macro takes in form:
+  "Globally bind KEYS.
+KEYS is an alist in the form of:
   (pew/set-key (\"binding1\" . func1)
-               (\"binding2\" . func1)
-               ...)"
-  `(dolist (_ ',keys)
-     (let ((k (car _))
-           (c (cdr _)))
-       (unless (vectorp k)
-         (setq k (kbd k)))
-       (global-set-key k c))))
+               ([binding2] . func2)
+               ...)
+Equivalent to:
+  (global-set-key \"binding1\" #'func1)
+  (global-set-key [binding2] #'func2)
+  ..."
+  `(progn ,@(mapcar (lambda (_)
+                      (let ((k (car _))
+                            (c (cdr _)))
+                        (unless (vectorp k)
+                          (setq k (kbd k)))
+                        `(global-set-key ,k #',c)))
+                    keys)))
 
 (defmacro pew/set-enabled (&rest options)
   "Enable OPTIONS that are disabled by default.
-OPTIONS is a list in form:
-  (scroll-left list-threads list-timers ...)"
-  `(dolist (_ ',options)
-     (put _ 'disabled nil)))
+OPTIONS is a list in the form of:
+  (pew/set-enabled command1 command2 ...)
+Equivalent to:
+  (put 'command1 'disabled nil)
+  (put 'command2 'disabled nil)
+  ..."
+  `(progn ,@(mapcar (lambda (_)
+                      `(put ',_ 'disabled nil))
+                    options)))
 
 (defmacro pew/set-hook (&rest hooks)
-  "Add HOOKS in batch.
-The HOOKS alist should be in form:
+  "Add HOOKS.
+HOOKS is an alist in the form of:
   (pew/set-hook (hook1 . func1)
                 (hook2 . func2)
-                ...)"
-  `(dolist (_ ',hooks)
-     (add-hook (car _) (cdr _))))
+                ...)
+Equivalent to:
+  (add-hook 'hook1 #'func1)
+  (add-hook 'hook2 #'func2)
+  ..."
+  `(progn ,@(mapcar (lambda (_)
+                      `(add-hook ',(car _) #',(cdr _)))
+                    hooks)))
 
 (provide 'init-common)
 ;;; init-common.el ends here
