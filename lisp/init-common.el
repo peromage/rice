@@ -164,13 +164,13 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Macros
 
-(defmacro pew/setc (&rest customs)
+(defmacro pew/set-custom (&rest customs)
   "A helper macro to set options from `customize' interface.
 This macro takes a list CUSTOMS of custom options in form:
-  (pew/setc option1 value1
-            option2 value2
-            option3 value3
-            ...)
+  (pew/set-custom option1 value1
+                  option2 value2
+                  option3 value3
+                  ...)
 The values will be evaluated before passing to `customize-set-variable'."
   `(let ((_ ',customs))
      (while _

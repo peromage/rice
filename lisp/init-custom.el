@@ -35,7 +35,7 @@
 
 ;;;;; Startup
 
-(pew/setc
+(pew/set-custom
 
  inhibit-startup-buffer-menu t
  inhibit-startup-echo-area-message t
