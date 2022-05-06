@@ -20,6 +20,7 @@
  ("C-x C-d" . pew/open-cwd)
  ([remap next-buffer] . pew/next-buffer)
  ([remap previous-buffer] . pew/prev-buffer)
+ ([remap list-buffers] . ibuffer)
 
  )
 
@@ -174,6 +175,19 @@
  repeat-mode t
  repeat-exit-key (kbd "RET")
  repeat-exit-timeout 2
+
+ ;; ibuffer
+ ibuffer-movement-cycle nil
+ ;; Check `ibuffer-filtering-alist' for quilifiers.
+ ibuffer-saved-filter-groups '(("PEW"
+                                ("Dired" (mode . dired-mode))
+                                ("Shell" (or (mode . shell-mode)
+                                             (mode . eshell-mode)
+                                             (mode . term-mode)
+                                             (mode . vterm-mode)))
+                                ("Git" (name . "magit"))
+                                ;; Putting to last to avoid buffers being wrongly categorized as "special"
+                                ("Special" (starred-name))))
 
  ;; Let Emacs use minibuffer to prompt passphrase
  epg-pinentry-mode 'loopback

@@ -124,13 +124,6 @@
   :config
   (winner-mode 1))
 
-;; A pretty decent buffer manager to replace the default shabby one.
-(use-package ibuffer
-  :ensure nil
-  :commands (ibuffer list-buffers)
-  :init
-  (defalias 'list-buffers 'ibuffer))
-
 ;;;; Project management
 
 ;; Projectile provides a convenient way navigate between different projects.
