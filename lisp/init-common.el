@@ -9,35 +9,42 @@
 
 ;;;; Debug utilities
 
+;;;###autoload
 (defun pew/reload-initel ()
   "Reload the config file."
   (interactive)
   (load-file user-init-file))
 
+;;;###autoload
 (defun pew/open-initel ()
   "Open the config file."
   (interactive)
   (find-file user-init-file))
 
+;;;###autoload
 (defun pew/expand-macro (form)
   "Expand macro in FORM and print the expanded code (no evaluation)."
   (message "Expanded macro:\n%S" (macroexpand form)))
 
 ;;;; Common utilities
 
+;;;###autoload
 (defun pew/evenp (num)
   "Determine if NUM is odd."
   (zerop (mod num 2)))
 
+;;;###autoload
 (defun pew/oddp (num)
   "Determine if NUM is odd."
   (not (pew/evenp num)))
 
+;;;###autoload
 (defun pew/find-keyname (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
   (message "%s" (help-key-description (vector keycode) nil)))
 
+;;;###autoload
 (defun pew/tokey (key)
   "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
@@ -46,31 +53,37 @@ is a vector then does nothing."
       key
     (kbd key)))
 
+;;;###autoload
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
   (interactive)
   (message buffer-file-name))
 
+;;;###autoload
 (defun pew/get-parent-directory (path)
   "Get the parent directory of the PATH."
     (file-name-directory (directory-file-name path)))
 
+;;;###autoload
 (defvar pew/home-dir (pew/get-parent-directory (pew/get-parent-directory load-file-name))
   "The PEW configuration's home directory.
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")
 
+;;;###autoload
 (defun pew/open-cwd ()
   "Go to the directory where the current file resides."
   (interactive)
   (find-file default-directory))
 
+;;;###autoload
 (defun pew/delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;;; Toggles
 
+;;;###autoload
 (defun pew/toggle-line-number-type ()
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
@@ -81,6 +94,7 @@ loaded from other places.")
          (setq display-line-numbers 'relative)
          (message "Set line numbers to relative"))))
 
+;;;###autoload
 (defun pew/toggle-indent-tabs-mode ()
   "Switch between tab mode or space mode."
   (interactive)
@@ -89,6 +103,7 @@ loaded from other places.")
       (message "Enabled indent tabs mode")
     (message "Disabled indent tabs mode")))
 
+;;;###autoload
 (defun pew/toggle-show-trailing-whitespace ()
   "Toggle to show trailing spaces."
   (interactive)
@@ -97,6 +112,7 @@ loaded from other places.")
       (message "Show trailing whitespaces")
     (message "Hide trailing whitespaces")))
 
+;;;###autoload
 (defun pew/toggle-visual-line-move ()
   "Toggle visual line movement."
   (interactive)
@@ -107,6 +123,7 @@ loaded from other places.")
 
 ;;;; Buffer utilities
 
+;;;###autoload
 (defvar pew/special-buffers '("\\` "
                               "\\`\\*"
                               "\\`magit-"
@@ -122,6 +139,7 @@ Special buffers are usually skipped and ignored from buffer list.")
           (throw 'found-special t)))
     nil))
 
+;;;###autoload
 (defun pew/switch-buffer (switch-func)
   "Switch to the buffer by SWITCH-FUNC but skip special buffers.
 SWITCH-FUNC should not take any arguments."
@@ -131,16 +149,19 @@ SWITCH-FUNC should not take any arguments."
                 (not (string= current-buffer-name (buffer-name))))
       (funcall switch-func))))
 
+;;;###autoload
 (defun pew/next-buffer ()
   "Switch to the next buffer but skip special buffers."
   (interactive)
   (pew/switch-buffer #'next-buffer))
 
+;;;###autoload
 (defun pew/prev-buffer ()
   "Switch to the previous buffer but skip special buffers."
   (interactive)
   (pew/switch-buffer #'previous-buffer))
 
+;;;###autoload
 (defun pew/close-other-buffers-with-major-mode (majormode)
   "Close all other buffers in MAJORMODE but thie one."
   (interactive "SMajor mode: ")
@@ -151,6 +172,7 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Window utilities
 
+;;;###autoload
 (defun pew/pop-window-in-new-tab ()
   "Pop current window into a new tab."
   (interactive)
@@ -159,11 +181,13 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Tab utilities
 
+;;;###autoload
 (defun pew/move-tab-next ()
   "Move current tab to the next."
   (interactive)
   (tab-bar-move-tab 1))
 
+;;;###autoload
 (defun pew/move-tab-prev ()
   "Move current tab to the previous."
   (interactive)
@@ -171,11 +195,13 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Theme utilities
 
+;;;###autoload
 (defun pew/disable-theme-list (disabled-themes)
   "Disable all themes in the DISABLED-THEMES."
   (dolist (theme disabled-themes)
     (disable-theme theme)))
 
+;;;###autoload
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '_INTERACT_))
@@ -189,11 +215,13 @@ SWITCH-FUNC should not take any arguments."
 ;;;; Builtin package utilities
 ;;;;; Dired
 
+;;;###autoload
 (defun pew/dired-go-to ()
   "Go into the current directory/file under the cursor without creating a new buffer."
   (interactive)
   (dired-find-alternate-file))
 
+;;;###autoload
 (defun pew/dired-go-up ()
   "Go to the parent directory without creating a new buffer."
   (interactive)
@@ -201,6 +229,7 @@ SWITCH-FUNC should not take any arguments."
   (dired-find-file)
   (find-alternate-file ".."))
 
+;;;###autoload
 (defun pew/dired-close-others ()
   "Close other Dired buffers but this one."
   (interactive)
@@ -208,6 +237,7 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;;; Terminals
 
+;;;###autoload
 (defun pew/term-setup ()
   "Common setup for terminal on entering."
   (setq-local word-wrap nil
