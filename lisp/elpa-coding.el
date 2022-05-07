@@ -10,7 +10,6 @@
 
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
-  :demand t
   :diminish company-mode
   :bind (:map company-mode-map
          ("C-c i" . company-complete)
@@ -33,7 +32,7 @@
   (company-minimum-prefix-length 1)
   (company-selection-wrap-around t)
   (company-auto-complete nil)
-  :config
+  :init
   (global-company-mode 1)
   (company-tng-mode -1))
 

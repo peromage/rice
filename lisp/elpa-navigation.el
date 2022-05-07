@@ -11,7 +11,6 @@
 ;; Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
-  :demand t
   :diminish (ivy-mode counsel-mode)
   :bind (("C-s" . swiper)
          ("C-x d" . counsel-dired)
@@ -32,9 +31,10 @@
   (ivy-use-selectable-prompt t)
   ;; Force minimal number of chars required for all searches
   (ivy-more-chars-alist '((t . 2)))
-  :config
+  :init
   (ivy-mode 1)
   (counsel-mode 1)
+  :config
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) pew/special-buffers))
 
 ;; Make Ivy show more information
