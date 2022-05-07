@@ -270,8 +270,8 @@ The result is equivalent to:
       (setq customs (cddr customs)))
     ;; Since `push' causes configuration lines being read in a reversed way we
     ;; need to fix it to the right order
-    ;; Prefer using `nreverse' because it's way faster then `reverse'
-    (nreverse result)))
+    ;; NOTE: `nreverse' seems to be faster but it doesn't work properly sometims
+    (reverse result)))
 
 (defmacro pew/set-face (&rest faces)
   "A helper macro that set FACES.
@@ -290,7 +290,7 @@ The result is equivalent to:
     (while faces
       (push `(set-face-attribute ',(car faces) nil ,@(cadr faces)) result)
       (setq faces (cddr faces)))
-    (nreverse result)))
+    (reverse result)))
 
 (defmacro pew/set-key (&rest keys)
   "A helper macro that binds KEYS globally.
@@ -331,7 +331,7 @@ The result is equivalent to:
         (dolist (pair pairs)
           (push `(define-key ,map ,(pew/tokey (car pair)) #',(cdr pair)) result)))
       (setq maps (cddr maps)))
-    (nreverse result)))
+    (reverse result)))
 
 (defmacro pew/set-enabled (&rest options)
   "A helper macro that enables OPTIONS that are disabled by default.
