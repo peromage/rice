@@ -169,6 +169,7 @@
  dired-dwim-target t
  dired-recursive-copies 'always
  dired-recursive-deletes 'always
+ dired-kill-when-opening-new-dired-buffer nil ;; Cannot open multiple dired windows if on
 
  ;; ibuffer
  ibuffer-movement-cycle nil
