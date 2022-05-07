@@ -229,16 +229,16 @@ The result is equivalent to:
   (global-set-key \"binding1\" #'func1)
   (global-set-key [binding2] #'func2)
   ..."
-  `(progn ,@(mapcar (lambda (bind)
-                      `(global-set-key ,(pew/tokey (car bind)) #',(cdr bind)))
+  `(progn ,@(mapcar (lambda (pair)
+                      `(global-set-key ,(pew/tokey (car pair)) #',(cdr pair)))
                     keys)))
 
 (defmacro pew/set-map (&rest maps)
   "A helper macro that set MAPS keybindings.
 MAPS is a list in the form of:
-  (pew/set-map (map1 (binding1a . func1a)
+  (pew/set-map map1 ((binding1a . func1a)
                      (binding1b . func1b))
-               (map2 (binding2a . func2a)
+               map2 ((binding2a . func2a)
                      (binding2b . func2b))
                ...)
 See `define-key'.
@@ -248,11 +248,16 @@ The result is equivalent to:
   (define-key map2 binding2a func2a)
   (define-key map2 binding2b func2b)
   ..."
-  `(progn ,@(mapcan (lambda (map)
-                      (mapcar (lambda (bind)
-                                `(define-key ,(car map) ,(pew/tokey (car bind)) #',(cdr bind)))
-                              (cdr map)))
-                    maps)))
+  (if (cl-oddp (length maps))
+      (error "Incomplete pairs!"))
+  (let ((result '(progn)))
+    (while maps
+      (let ((map (car maps))
+            (pairs (cadr maps)))
+        (dolist (pair pairs)
+          (push `(define-key ,map ,(pew/tokey (car pair)) #',(cdr pair)) result)))
+      (setq maps (cddr maps)))
+    (nreverse result)))
 
 (defmacro pew/set-enabled (&rest options)
   "A helper macro that enables OPTIONS that are disabled by default.
