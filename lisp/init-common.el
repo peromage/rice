@@ -25,6 +25,14 @@
 
 ;;;; Common utilities
 
+(defun pew/evenp (num)
+  "Determine if NUM is odd."
+  (zerop (mod num 2)))
+
+(defun pew/oddp (num)
+  "Determine if NUM is odd."
+  (not (pew/evenp num)))
+
 (defun pew/find-keyname (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
@@ -219,7 +227,7 @@ The result is equivalent to:
   (customize-set-variable 'option1 value1)
   (customize-set-variable 'option2 value2)
   ..."
-  (if (cl-oddp (length customs))
+  (if (pew/oddp (length customs))
       (error "Incomplete pairs!"))
   (let ((result '(progn)))
     (while customs
@@ -242,7 +250,7 @@ The result is equivalent to:
   (set-face-attribute 'face1 nil attr1a value1a attr1b value1b ...)
   (set-face-attribute 'face2 nil attr2a value2a attr2b value2b ...)
   ..."
-  (if (cl-oddp (length faces))
+  (if (pew/oddp (length faces))
       (error "Incomplete pairs!"))
   (let ((result '(progn)))
     (while faces
@@ -280,7 +288,7 @@ The result is equivalent to:
   (define-key map2 binding2a func2a)
   (define-key map2 binding2b func2b)
   ..."
-  (if (cl-oddp (length maps))
+  (if (pew/oddp (length maps))
       (error "Incomplete pairs!"))
   (let ((result '(progn)))
     (while maps
