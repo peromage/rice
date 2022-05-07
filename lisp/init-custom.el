@@ -38,16 +38,19 @@
 
  ;; Scrolling
  scroll-conservatively 101
- scroll-step 2
+ scroll-step 1
  scroll-margin 2
  scroll-preserve-screen-position t
- hscroll-margin 2 ;; Avoid ending character overlapping in terminal mode
- hscroll-step 2
+ hscroll-margin 3 ;; Avoid ending character overlapping in terminal mode
+ hscroll-step 1
  auto-hscroll-mode t ;; set to 'current-line to scroll the current line only
  auto-window-vscroll t
  mouse-wheel-progressive-speed nil
  mouse-wheel-scroll-amount '(2 ((shift) . 0.5) ((control) . text-scale))
  redisplay-skip-fontification-on-input t
+ ;; Don't skip any characters
+ line-move-ignore-invisible nil
+ line-move-visual nil
 
 ;;;;; Interface elements
 
@@ -100,10 +103,6 @@
  ;; Don't wrap by default
  truncate-lines t
  truncate-partial-width-windows nil
-
- ;; Don't skip any characters
- line-move-ignore-invisible nil
- line-move-visual nil
 
  ;; Column and fill
  fill-column 80
