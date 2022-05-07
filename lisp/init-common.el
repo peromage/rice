@@ -174,6 +174,38 @@ SWITCH-FUNC should not take any arguments."
   (if (> (length custom-enabled-themes) 1)
       (pew/disable-theme-list (cdr custom-enabled-themes))))
 
+;;;; Builtin package utilities
+;;;;; Dired
+
+(defun pew/dired-go-to ()
+  "Go into the current directory/file under the cursor without creating a new buffer."
+  (interactive)
+  (dired-find-alternate-file))
+
+(defun pew/dired-go-up ()
+  "Go to the parent directory without creating a new buffer."
+  (interactive)
+  (dired-up-directory)
+  (dired-find-file)
+  (find-alternate-file ".."))
+
+(defun pew/dired-close-others ()
+  "Close other Dired buffers but this one."
+  (interactive)
+  (pew/close-other-buffers-with-major-mode 'dired-mode))
+
+;;;;; Terminals
+
+(defun pew/term-setup ()
+  "Common setup for terminal on entering."
+  (setq-local word-wrap nil
+              truncate-lines nil
+              truncate-partial-width-windows nil
+              global-hl-line-mode nil)
+  (hl-line-mode -1)
+  (display-line-numbers-mode -1)
+  (display-fill-column-indicator-mode -1))
+
 ;;;; Macros
 
 (defmacro pew/set-custom (&rest customs)

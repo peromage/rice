@@ -86,17 +86,5 @@ of STATUS.  Possible values are:
   :config
   (yas-global-mode 1))
 
-;;;; Format
-
-(use-package electric
-  :ensure nil
-  :custom
-   ;; No closing pair if the open pair precedes a non-whitespace character
-  (electric-pair-preserve-balance t)
-  (electric-pair-delete-adjacent-pairs t)
-  :config
-  (electric-pair-mode -1)
-  (electric-indent-mode 1))
-
 (provide 'elpa-coding)
 ;;; elpa-coding.el ends here

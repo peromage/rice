@@ -5,26 +5,6 @@
 ;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
 
 ;;; Code:
-;;;; Keybindings
-
-(pew/set-key
-
- ("C-x t SPC" . tab-bar-select-tab-by-name)
- ("C-x t f" . tab-bar-switch-to-next-tab)
- ("C-x t b" . tab-bar-switch-to-prev-tab)
- ("C-x t m" . pew/move-tab-next)
- ("C-x t M" . pew/move-tab-prev)
- ("C-x t t" . tab-bar-new-tab)
- ("C-x t T" . pew/pop-window-in-new-tab)
- ("C-x t l" . tab-switcher)
- ("C-x C-d" . pew/open-cwd)
- ([remap next-buffer] . pew/next-buffer)
- ([remap previous-buffer] . pew/prev-buffer)
- ([remap list-buffers] . ibuffer)
- ([remap isearch-delete-char] . isearch-del-char)
-
- )
-
 ;;;; Custom settingis
 
 ;; IMPORTANT NOTE:
@@ -55,7 +35,7 @@
  frame-resize-pixelwise t
  window-resize-pixelwise t
  help-window-select t
- 
+
  ;; Scrolling
  scroll-conservatively 101
  scroll-step 2
@@ -75,7 +55,7 @@
  cursor-type 'box
  blink-cursor-mode nil
  mouse-yank-at-point t
- 
+
  ;; Status
  column-number-indicator-zero-based nil
  column-number-mode t
@@ -120,11 +100,11 @@
  ;; Don't wrap by default
  truncate-lines t
  truncate-partial-width-windows nil
- 
+
  ;; Don't skip any characters
  line-move-ignore-invisible nil
  line-move-visual nil
- 
+
  ;; Column and fill
  fill-column 80
  adaptive-fill-mode nil
@@ -147,38 +127,49 @@
  shell-command-prompt-show-cwd t
  what-cursor-show-names t
 
+ ;; Operations
+ save-place-mode t
+ delete-selection-mode t
+
+ ;; Don't write files automatically
+ auto-save-default nil
+ create-lockfiles nil
+ make-backup-files nil
+
+ ;; Auto refresh buffer
+ global-auto-revert-mode t
+
+ ;; Clipboard
+ select-enable-clipboard t
+ select-enable-primary t
+
+ ;; Let Emacs use minibuffer to prompt passphrase
+ epg-pinentry-mode 'loopback
+
+;;;;; Some useful builtin packages
+
+ ;; TODO: newcomment
+
  ;; Pairs
  show-paren-when-point-in-periphery t
  show-paren-when-point-inside-paren t
  show-paren-mode t
 
- ;; Operations
- save-place-mode t
- delete-selection-mode t
- 
- ;; Don't write files automatically
- auto-save-default nil
- create-lockfiles nil
- make-backup-files nil
- 
- ;; Auto refresh buffer
- global-auto-revert-mode t
-
- ;; TODO: newcomment
- 
  ;; Recentf
  recentf-max-saved-items 250
  recentf-auto-cleanup 'never
  recentf-mode t
- 
- ;; Clipboard
- select-enable-clipboard t
- select-enable-primary t
- 
+
  ;; Repeat mode
  repeat-mode t
  repeat-exit-key (kbd "RET")
  repeat-exit-timeout 2
+
+ ;; Dired
+ dired-listing-switches "-alFD --group-directories-first"
+ dired-dwim-target t
+ dired-recursive-copies 'always
+ dired-recursive-deletes 'always
 
  ;; ibuffer
  ibuffer-movement-cycle nil
@@ -199,8 +190,62 @@
  ;; ispell
  ispell-dictionary "en_US"
 
- ;; Let Emacs use minibuffer to prompt passphrase
- epg-pinentry-mode 'loopback
+ ;; ediff
+ ediff-window-setup-function 'ediff-setup-windows-plain
+ ediff-split-window-function 'split-window-vertically
+
+ ;; electric
+ electric-pair-preserve-balance t
+ electric-pair-delete-adjacent-pairs t
+ electric-pair-mode nil ;; Annoying sometimes
+ electric-indent-mode t
+
+ )
+
+;;;; Keybindings
+
+(pew/set-key
+
+ ("C-x t SPC" . tab-bar-select-tab-by-name)
+ ("C-x t f" . tab-bar-switch-to-next-tab)
+ ("C-x t b" . tab-bar-switch-to-prev-tab)
+ ("C-x t m" . pew/move-tab-next)
+ ("C-x t M" . pew/move-tab-prev)
+ ("C-x t t" . tab-bar-new-tab)
+ ("C-x t T" . pew/pop-window-in-new-tab)
+ ("C-x t l" . tab-switcher)
+ ("C-x C-d" . pew/open-cwd)
+ ([remap next-buffer] . pew/next-buffer)
+ ([remap previous-buffer] . pew/prev-buffer)
+ ([remap list-buffers] . ibuffer)
+ ([remap isearch-delete-char] . isearch-del-char)
+
+ )
+
+(pew/set-map
+
+ ;; Dired key bindings
+ dired-mode-map (("RET" . pew/dired-go-to)
+                 ("DEL" . pew/dired-go-up))
+
+ )
+
+;;;; Mode hooks
+
+(pew/set-hook
+
+ (eshell-mode-hook . pew/term-setup)
+
+ )
+
+;;;; Enable commands that are disabled by default
+
+(pew/set-enabled
+
+ scroll-left
+ list-threads
+ list-timers
+ dired-find-alternate-file
 
  )
 
@@ -212,15 +257,6 @@
 
  )
 
-;;;; Enable commands that are disabled by default
-
-(pew/set-enabled
- 
- scroll-left
- list-threads
- list-timers
-
- )
 
 (provide 'init-custom)
 ;;; init-custom.el ends here

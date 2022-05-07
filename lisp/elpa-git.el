@@ -40,15 +40,5 @@
   (set-face-background 'git-gutter:unchanged "unspecified")
   (set-face-background 'git-gutter:separator "unspecified"))
 
-;;;; Diff tools
-
-;; Builtin diff tool.
-(use-package ediff
-  :ensure nil
-  :defer t
-  :custom
-  (ediff-window-setup-function 'ediff-setup-windows-plain)
-  (ediff-split-window-function 'split-window-vertically))
-
 (provide 'elpa-git)
 ;;; elpa-git.el ends here
