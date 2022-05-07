@@ -234,6 +234,7 @@
 (pew/set-hook
 
  (eshell-mode-hook . pew/term-setup)
+ (after-save-hook . pew/delete-trailing-whitespaces)
 
  )
 

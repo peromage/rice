@@ -65,6 +65,10 @@ loaded from other places.")
   (interactive)
   (find-file default-directory))
 
+(defun pew/delete-trailing-whitespaces ()
+  "Clear trailing whitespaces in current buffer."
+  (delete-trailing-whitespace (point-min) (point-max)))
+
 ;;;; Toggles
 
 (defun pew/toggle-line-number-type ()
