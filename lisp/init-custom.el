@@ -21,6 +21,7 @@
  ([remap next-buffer] . pew/next-buffer)
  ([remap previous-buffer] . pew/prev-buffer)
  ([remap list-buffers] . ibuffer)
+ ([remap isearch-delete-char] . isearch-del-char)
 
  )
 
@@ -131,17 +132,12 @@
  display-fill-column-indicator-column t
  global-display-fill-column-indicator-mode t
 
- ;; Coding system
+ ;; Locale
  current-language-environment "UTF-8"
  default-input-method "chinese-py"
  inhibit-eol-conversion t
  require-final-newline t
  display-raw-bytes-as-hex t
- 
- ;; Pairs
- show-paren-when-point-in-periphery t
- show-paren-when-point-inside-paren t
- show-paren-mode t
 
 ;;;;; QoL
 
@@ -150,6 +146,11 @@
  xterm-mouse-mode t
  shell-command-prompt-show-cwd t
  what-cursor-show-names t
+
+ ;; Pairs
+ show-paren-when-point-in-periphery t
+ show-paren-when-point-inside-paren t
+ show-paren-mode t
 
  ;; Operations
  save-place-mode t
@@ -160,6 +161,9 @@
  create-lockfiles nil
  make-backup-files nil
  
+ ;; Auto refresh buffer
+ global-auto-revert-mode t
+
  ;; TODO: newcomment
  
  ;; Recentf
@@ -188,6 +192,12 @@
                                 ("Git" (name . "magit"))
                                 ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                 ("Special" (starred-name))))
+
+ ;; isearch
+ isearch-lazy-count t
+
+ ;; ispell
+ ispell-dictionary "en_US"
 
  ;; Let Emacs use minibuffer to prompt passphrase
  epg-pinentry-mode 'loopback
