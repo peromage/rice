@@ -230,6 +230,29 @@ The result is equivalent to:
                         `(global-set-key ,k #',c)))
                     keys)))
 
+(defmacro pew/set-map (&rest maps)
+  "A helper macro that set MAPS keybindings.
+MAPS is a list in the form of:
+  (pew/set-map (map1 (binding1a . func1a)
+                     (binding1b . func1b))
+               (map2 (binding2a . func2a)
+                     (binding2b . func2b))
+               ...)
+See `define-key'.
+The result is equivalent to:
+  (define-key map1 binding1a func1a)
+  (define-key map1 binding1b func1b)
+  (define-key map2 binding2a func2a)
+  (define-key map2 binding2b func2b)
+  ..."
+  (let ((rt nil))
+    (dolist (_ maps)
+      (let ((map (car _))
+            (binds (cdr _)))
+        (dolist (__ binds)
+          (push `(define-key ,map ,(car __) #',(cdr __)) rt))))
+    (nreverse rt)))
+
 (defmacro pew/set-enabled (&rest options)
   "A helper macro that enables OPTIONS that are disabled by default.
 OPTIONS is a list in the form of:
