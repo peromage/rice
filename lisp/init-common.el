@@ -19,12 +19,20 @@
   (interactive)
   (find-file user-init-file))
 
+;;;; Common utilities
+
 (defun pew/find-keyname (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
   (message "%s" (help-key-description (vector keycode) nil)))
 
-;;;; Common utilities
+(defun pew/tokey (key)
+  "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
+Possible value could be a string which will be converted with (kbd key).  If KEY
+is a vector then does nothing."
+  (if (vectorp key)
+      key
+    (kbd key)))
 
 (defun pew/show-file-path ()
   "Display current file path in the minibuffer."
@@ -175,20 +183,17 @@ The result is equivalent to:
   (customize-set-variable 'option1 value1)
   (customize-set-variable 'option2 value2)
   ..."
-  ;; Since using `push' would cause configuration lines being read in a reversed
-  ;; way, we reverse the passed-in lines first.
-  ;; NOTE:
-  ;;   - `nreverse' is way faster then `reverse'.
-  ;;   - Prefer using `push' than `add-to-list' since the later checks elements.
-  (unless (zerop (mod (length customs) 2))
-    (error "Incomplete pairs"))
-  (let ((_ (nreverse customs))
-        (r nil))
-    (while _
-      (push `(customize-set-variable ',(cadr _) ,(car _)) r)
-      (setq _ (cddr _)))
-    (push 'progn r)
-    r))
+  (if (cl-oddp (length customs))
+      (error "Incomplete pairs!"))
+  (let ((result '(progn)))
+    (while customs
+      ;; Prefer using `push' than `add-to-list' since the later checks elements
+      (push `(customize-set-variable ',(car customs) ,(cadr customs)) result)
+      (setq customs (cddr customs)))
+    ;; Since `push' causes configuration lines being read in a reversed way we
+    ;; need to fix it to the right order
+    ;; Prefer using `nreverse' because it's way faster then `reverse'
+    (nreverse result)))
 
 (defmacro pew/set-face (&rest faces)
   "A helper macro that set FACES.
@@ -201,15 +206,13 @@ The result is equivalent to:
   (set-face-attribute 'face1 nil attr1a value1a attr1b value1b ...)
   (set-face-attribute 'face2 nil attr2a value2a attr2b value2b ...)
   ..."
-  (unless (zerop (mod (length faces) 2))
-    (error "Incomplete pairs"))
-  (let ((_ (nreverse faces))
-        (r nil))
-    (while _
-      (push `(set-face-attribute ',(cadr _) nil ,@(car _)) r)
-      (setq _ (cddr _)))
-    (push 'progn r)
-    r))
+  (if (cl-oddp (length faces))
+      (error "Incomplete pairs!"))
+  (let ((result '(progn)))
+    (while faces
+      (push `(set-face-attribute ',(car faces) nil ,@(cadr faces)) result)
+      (setq faces (cddr faces)))
+    (nreverse result)))
 
 (defmacro pew/set-key (&rest keys)
   "A helper macro that binds KEYS globally.
@@ -222,12 +225,8 @@ The result is equivalent to:
   (global-set-key \"binding1\" #'func1)
   (global-set-key [binding2] #'func2)
   ..."
-  `(progn ,@(mapcar (lambda (_)
-                      (let ((k (car _))
-                            (c (cdr _)))
-                        (unless (vectorp k)
-                          (setq k (kbd k)))
-                        `(global-set-key ,k #',c)))
+  `(progn ,@(mapcar (lambda (bind)
+                      `(global-set-key ,(pew/tokey (car bind)) #',(cdr bind)))
                     keys)))
 
 (defmacro pew/set-map (&rest maps)
@@ -245,13 +244,11 @@ The result is equivalent to:
   (define-key map2 binding2a func2a)
   (define-key map2 binding2b func2b)
   ..."
-  (let ((rt nil))
-    (dolist (_ maps)
-      (let ((map (car _))
-            (binds (cdr _)))
-        (dolist (__ binds)
-          (push `(define-key ,map ,(car __) #',(cdr __)) rt))))
-    (nreverse rt)))
+  `(progn ,@(mapcan (lambda (map)
+                      (mapcar (lambda (bind)
+                                `(define-key ,(car map) ,(pew/tokey (car bind)) #',(cdr bind)))
+                              (cdr map)))
+                    maps)))
 
 (defmacro pew/set-enabled (&rest options)
   "A helper macro that enables OPTIONS that are disabled by default.
@@ -261,8 +258,8 @@ The result is equivalent to:
   (put 'command1 'disabled nil)
   (put 'command2 'disabled nil)
   ..."
-  `(progn ,@(mapcar (lambda (_)
-                      `(put ',_ 'disabled nil))
+  `(progn ,@(mapcar (lambda (cmd)
+                      `(put ',cmd 'disabled nil))
                     options)))
 
 (defmacro pew/set-hook (&rest hooks)
@@ -276,8 +273,8 @@ The result is equivalent to:
   (add-hook 'hook1 #'func1)
   (add-hook 'hook2 #'func2)
   ..."
-  `(progn ,@(mapcar (lambda (_)
-                      `(add-hook ',(car _) #',(cdr _)))
+  `(progn ,@(mapcar (lambda (hook)
+                      `(add-hook ',(car hook) #',(cdr hook)))
                     hooks)))
 
 (provide 'init-common)
