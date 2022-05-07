@@ -19,6 +19,10 @@
   (interactive)
   (find-file user-init-file))
 
+(defun pew/expand-macro (form)
+  "Expand macro in FORM and print the expanded code (no evaluation)."
+  (message "Expanded macro:\n%S" (macroexpand form)))
+
 ;;;; Common utilities
 
 (defun pew/find-keyname (keycode)
