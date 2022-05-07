@@ -96,8 +96,8 @@
 
 ;; Whitespaces
 ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
- whitespace-style '(trailing space-before-tab tab-mark)
- show-trailing-whitespace nil
+ whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark)
+ show-trailing-whitespace t
  global-whitespace-mode t
 
  ;; Don't wrap by default
