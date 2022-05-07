@@ -25,7 +25,8 @@
          (previous-window))
         (t (delete-window))))
 
-;; Begin search functions
+;;;;; Evil search
+
 (defun pew/evil/escape-region (begin end)
   "Escape region from BEGIN to END for evil-search mode."
   (catch 'result
@@ -93,12 +94,10 @@
     (message "replacement %s" replacement)
     (message "subpattern %S" subpattern)
     (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
-;; End search functions
 
 ;;;; Evil setup
 
 (use-package evil
-  :demand t
   :custom
   (evil-want-integration t)
   (evil-want-keybinding t)
@@ -112,9 +111,9 @@
   (evil-symbol-word-search nil)
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
-  :config
+  :init
   (evil-mode 1)
-
+  :config
   ;; Key bindings in normal and motion state
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((normal-bindings
@@ -160,11 +159,12 @@
 ;;;; Evil enhancement
 
 ;; Extend Evil keybindings to more modes
-;(use-package evil-collection
-;  :custom
-;  (evil-want-keybinding nil)
-;  :config
-;  (evil-collection-init))
+(use-package evil-collection
+  :disabled
+  :custom
+  (evil-want-keybinding nil)
+  :config
+  (evil-collection-init))
 
 ;; Make Evil undo/redo easier
 (use-package undo-tree
