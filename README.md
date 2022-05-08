@@ -24,12 +24,23 @@ Temporary local changes can go into `pew/local.el` including settings by `custom
 
 `local.el` will be applied on top of the default pew configuration.
 
-## Directories
+## List of files and directories
 
-- *lisp*: Pew configurations.
-- *site-lisp*: Third party packages.
-- *snippets*: My snippets.
+```
+pew
+├── lisp/                   # Configuration files
+├── site-lisp/              # Addtional package files written by myself
+├── snippets/               # Snippet files loaded by yasnippet
+├── early-init.el           # Init file loaded before init.el
+├── init.el                 # Main init file
+├── .pew                    # Configuration root placeholder
+├── LICENSE                 # License file
+└── README.md               # This file
+```
 
 ## Credit
 
-This Configuration is inspired by [Steve Purell's emacs.d](https://github.com/purcell/emacs.d)
+This Configuration is inspired by
+
+- [purcell/emacs.d](https://github.com/purcell/emacs.d)
+- [condy0919/.emacs.d](https://github.com/condy0919/.emacs.d)
