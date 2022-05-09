@@ -98,6 +98,7 @@
 ;;;; Evil setup
 
 (use-package evil
+  :demand t
   :custom
   (evil-want-integration t)
   (evil-want-keybinding t)
@@ -111,9 +112,8 @@
   (evil-symbol-word-search nil)
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
-  :init
-  (evil-mode 1)
   :config
+  (evil-mode 1)
   ;; Key bindings in normal and motion state
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (let ((normal-bindings
