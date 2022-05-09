@@ -21,8 +21,13 @@
   :custom
   (lsp-keymap-prefix "C-c l")
   (lsp-enable-snippet t)
-  (lsp-auto-configure t)
   (lsp-enable-symbol-highlighting t)
+  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-folding nil)
+  (lsp-enable-indentation nil)
+  (lsp-auto-configure t)
+  (lsp-auto-guess-root t)
+  (lsp-keep-workspace-alive t)
   (lsp-lens-enable t)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-idle-delay 0.0)
@@ -35,8 +40,6 @@
   (lsp-modeline-code-actions-enable t)
   (lsp-completion-show-detail t)
   (lsp-completion-show-kind t)
-  (lsp-headerline-breadcrumb-enable t)
-  (lsp-enable-on-type-formatting nil)
   :config
   (lsp-enable-which-key-integration 1))
 
