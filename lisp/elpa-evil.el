@@ -27,6 +27,9 @@
 
 ;;;;; Evil search
 
+;; This search action searches words selected in visual mode, escaping any special
+;; characters. Also it provides a quick way to substitute the words just searched.
+
 (defun pew/evil/escape-region (begin end)
   "Escape region from BEGIN to END for evil-search mode."
   (catch 'result
