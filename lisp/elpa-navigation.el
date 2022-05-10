@@ -105,5 +105,8 @@
   :config
   (counsel-projectile-mode 1))
 
+(use-package rg
+  :defer t)
+
 (provide 'elpa-navigation)
 ;;; elpa-navigation.el ends here
