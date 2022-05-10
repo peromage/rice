@@ -251,7 +251,7 @@ SWITCH-FUNC should not take any arguments."
 ;;;; Macros
 
 (defmacro pew/set-custom (&rest customs)
-  "A helper macro that set CUSTOMS from `customize' interface.
+  "A helper macro that sets CUSTOMS from `customize' interface.
 CUSTOMS is an alist in the form of:
   (pew/set-custom option1 value1
                   option2 value2
@@ -274,7 +274,7 @@ The result is equivalent to:
     (reverse result)))
 
 (defmacro pew/set-face (&rest faces)
-  "A helper macro that set FACES.
+  "A helper macro that sets FACES.
 FACES is a list in the form of:
   (pew/set-face face1 (attr1_1 value1_1 attr1_2 value1_2 ...)
                 face2 (attr2_1 value2_1 attr2_2 value2_2 ...)
@@ -292,9 +292,9 @@ The result is equivalent to:
       (setq faces (cddr faces)))
     (reverse result)))
 
-(defmacro pew/set-key (&rest keys)
-  "A helper macro that binds KEYS globally.
-KEYS is an alist in the form of:
+(defmacro pew/set-key (&rest bindings)
+  "A helper macro that binds BINDINGS globally.
+BINDINGS is an alist in the form of:
   (pew/set-key (\"binding1\" . func1)
                ([binding2] . func2)
                ...)
@@ -305,11 +305,11 @@ The result is equivalent to:
   ..."
   `(progn ,@(mapcar (lambda (pair)
                       `(global-set-key ,(pew/tokey (car pair)) #',(cdr pair)))
-                    keys)))
+                    bindings)))
 
-(defmacro pew/set-map (&rest maps)
-  "A helper macro that set MAPS keybindings.
-MAPS is a list in the form of:
+(defmacro pew/set-map (&rest mapbindings)
+  "A helper macro that sets MAPBINDINGS for each map.
+MAPBINDINGS is a list in the form of:
   (pew/set-map map1 ((binding1a . func1a)
                      (binding1b . func1b))
                map2 ((binding2a . func2a)
@@ -322,15 +322,15 @@ The result is equivalent to:
   (define-key map2 binding2a func2a)
   (define-key map2 binding2b func2b)
   ..."
-  (if (pew/oddp (length maps))
+  (if (pew/oddp (length mapbindings))
       (error "Incomplete pairs!"))
   (let ((result '(progn)))
-    (while maps
-      (let ((map (car maps))
-            (pairs (cadr maps)))
+    (while mapbindings
+      (let ((map (car mapbindings))
+            (pairs (cadr mapbindings)))
         (dolist (pair pairs)
           (push `(define-key ,map ,(pew/tokey (car pair)) #',(cdr pair)) result)))
-      (setq maps (cddr maps)))
+      (setq mapbindings (cddr mapbindings)))
     (reverse result)))
 
 (defmacro pew/set-enabled (&rest options)
