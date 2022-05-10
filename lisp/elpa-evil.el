@@ -7,15 +7,56 @@
 ;;; Code:
 ;;;; Evil helper functions and variables
 
-(defun pew/evil/global-set-key (state binding-list)
-  "Set a list of keybindings BINDING-LIST to a STATE globally."
-  (dolist (binding binding-list)
-    (evil-global-set-key state (kbd (car binding)) (cdr binding))))
+(defmacro pew/evil/set-key (state map leader &rest bindings)
+  "A helper macro bind BINDINGS with MAP in Evil STATE.
+LEADER is one of 'leader, 'localleader or nil representating binding
+with global leader key, local leader key or no leader key respectively.
+STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
+'emacs, a list of one or more of these, or nil, which means all of the above.
+BINDINGS is a list of cons consisting keys and bound functions:
+  (pew/evil/set-key-with-leader '(normal motion) 'global nil
+    \"key1\" func1
+    \"key2\" func2
+    \"key3\" func3)
+    ...
+Equivalent to:
+  (evil-define-key '(normal motion) 'global
+    \"<leader>key1\" func1
+    \"<leader>key2\" func2
+    \"<leader>key3\" func3
+    ...)"
+  (let ((bindings-copy bindings)
+        ;; The leader specifier has to be "quoted"
+        (prefix (cond ((and (consp leader) (eq 'leader (cadr leader))) "<leader>")
+                      ((and (consp leader) (eq 'localleader (cadr leader))) "<localleader>")
+                      (t ""))))
+    (while bindings-copy
+      (setcar bindings-copy (kbd (concat prefix (car bindings-copy))))
+      (setq bindings-copy (cddr bindings-copy)))
+    `(evil-define-key ,state ,map ,@bindings)))
 
-(defun pew/evil/set-initial-state (mode-state-list)
-  "Set the initial state for a mode defined in the alist MODE-STATE-LIST."
-  (dolist (mode-state mode-state-list)
-    (evil-set-initial-state (car mode-state) (cdr mode-state))))
+(defmacro pew/evil/set-initial-state (&rest states)
+  "A helper macro that sets initial STATES for modes.
+STATES is a list in the form of:
+  (pew/evil/set-initial-state 'mode1 'normal
+                              'mode2 'visual
+                              'mode3 'insert
+                              ...)
+Equivalent to:
+  (evil-set-initial-state 'mode1 'normal)
+  (evil-set-initial-state 'mode2 'visual)
+  (evil-set-initial-state 'mode3 'insert)
+  ..."
+  (if (pew/oddp (length states))
+      (error "Incomplete mode and state pairs"))
+  (let ((result '(progn)))
+    (while states
+      (let ((mode (pop states))
+            (state (pop states)))
+        (push `(evil-set-initial-state ,mode ,state) result)))
+    (reverse result)))
+
+;;;;; Window functions
 
 (defun pew/evil/close-window ()
   "Close window on conditional.  If there is only one window then close the tab."
@@ -119,47 +160,59 @@
   (evil-search-module 'evil-search)
   :config
   (evil-mode 1)
-  ;; Key bindings in normal and motion state
+  ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC"))
-  (let ((normal-bindings
-         '(("<leader>w" . save-buffer)
-           ("<leader>q" . pew/evil/close-window)
-           ("<leader>h" . evil-window-left)
-           ("<leader>j" . evil-window-down)
-           ("<leader>k" . evil-window-up)
-           ("<leader>l" . evil-window-right)
-           ("<leader>s" . evil-window-split)
-           ("<leader>v" . evil-window-vsplit)
-           ("<leader>t" . tab-bar-new-tab)
-           ("<leader>m" . pew/move-tab-next)
-           ("<leader>M" . pew/move-tab-prev)
-           ("<leader>r" . tab-bar-rename-tab)
-           ("<leader>T" . pew/pop-window-in-new-tab)
-           ("<leader>f" . tab-bar-switch-to-next-tab)
-           ("<leader>b" . tab-bar-switch-to-prev-tab)
-           ("<leader>n" . next-buffer)
-           ("<leader>p" . previous-buffer)
-           ("<leader>g" . pew/show-file-path)
-           ("<leader>cs" . pew/evil/replace-last-search)
-           ("<left>" . evil-window-decrease-width)
-           ("<down>" . evil-window-decrease-height)
-           ("<up>" . evil-window-increase-height)
-           ("<right>" . evil-window-increase-width)
-           ("#" . evil-ex-nohighlight))))
-    (pew/evil/global-set-key 'normal normal-bindings)
-    (pew/evil/global-set-key 'motion normal-bindings))
+  (evil-set-leader '(normal motion) (kbd "\\") 'localleader)
 
-  ;; Key bindings in visual state
-  (pew/evil/global-set-key 'visual '(("*" . pew/evil/visual-search-selected)))
+  ;; Normal and motion state bindings
+  (pew/evil/set-key '(normal motion) 'global 'leader
+    ;; Windows
+    "q" #'pew/evil/close-window
+    "h" #'evil-window-left
+    "j" #'evil-window-down
+    "k" #'evil-window-up
+    "l" #'evil-window-right
+    "s" #'evil-window-split
+    "v" #'evil-window-vsplit
+    ;; Tabs
+    "t" #'tab-bar-new-tab
+    "m" #'pew/move-tab-next
+    "M" #'pew/move-tab-prev
+    "r" #'tab-bar-rename-tab
+    "T" #'pew/pop-window-in-new-tab
+    "f" #'tab-bar-switch-to-next-tab
+    "b" #'tab-bar-switch-to-prev-tab
+    ;; Buffers
+    "w" #'save-buffer
+    "n" #'next-buffer
+    "p" #'previous-buffer
+    "g" #'pew/show-file-path
+    ;; Search and substitution
+    "cs" #'pew/evil/replace-last-search)
+
+  (pew/evil/set-key '(normal motion) 'global nil
+    ;; Windows
+    "<left>" #'evil-window-decrease-width
+    "<down>" #'evil-window-decrease-height
+    "<up>" #'evil-window-increase-height
+    "<right>" #'evil-window-increase-width
+    ;; Search
+    "#" #'evil-ex-nohighlight)
+
+  ;; Visual state bindings
+  (pew/evil/set-key 'visual 'global nil
+    ;; Search
+    "*" #'pew/evil/visual-search-selected)
 
   ;; Explicitly set the initial state for a mode
   ;; States are: emacs, motion, normal, insert, visual
-  (pew/evil/set-initial-state '((help-mode . motion)
-                                (tab-switcher-mode . emacs)
-                                (xref--xref-buffer-mode . emacs)
-                                (flycheck-error-list-mode . emacs)
-                                (ivy-occur-grep-mode . emacs)
-                                (dired-mode . emacs))))
+  (pew/evil/set-initial-state
+     'help-mode 'motion
+     'tab-switcher-mode 'emacs
+     'xref--xref-buffer-mode 'emacs
+     'flycheck-error-list-mode 'emacs
+     'ivy-occur-grep-mode 'emacs
+     'dired-mode 'emacs))
 
 ;;;; Evil enhancement
 
