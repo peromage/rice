@@ -16,15 +16,20 @@
   :ensure nil
   :hook (org-mode . pew/org/setup)
   :custom
-  (org-src-fontify-natively t)
-  (org-startup-folded nil)
-  (org-return-follows-link t)
+  (org-directory (locate-user-emacs-file "org"))
+  (org-default-notes-file (expand-file-name "notes.org" org-directory))
+  (org-agenda-files (expand-file-name "agenda.org" org-directory))
   (org-startup-truncated nil)
   (org-startup-with-inline-images t)
+  (org-startup-folded nil)
+  (org-src-fontify-natively t)
+  (org-return-follows-link t)
   (org-log-done 'time)
   (org-log-into-drawer t)
   (org-indent-mode-turns-on-hiding-stars nil)
-  (org-agenda-files (expand-file-name "orgfiles" user-emacs-directory)))
+
+  ;; Todo
+  (org-todo-keywords '((sequence "TODO(t)" "HOLD(h!)" "WIP(i!)" "WAIT(w!)" "|" "DONE(d!)" "CANCELLED(c@/!)"))))
 
 (provide 'elpa-lang-org)
 ;;; elpa-lang-org.el ends here
