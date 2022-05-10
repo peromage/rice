@@ -45,9 +45,9 @@
 
 (pew/set-hook
 
- (c-mode-common-hook . pew/cc-mode/common-setup)
- (c-mode-hook . pew/cc-mode/c-setup)
- (c++-mode-hook . pew/cc-mode/cpp-setup)
+ c-mode-common-hook #'pew/cc-mode/common-setup
+ c-mode-hook #'pew/cc-mode/c-setup
+ c++-mode-hook #'pew/cc-mode/cpp-setup
 
  )
 

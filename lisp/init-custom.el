@@ -204,29 +204,28 @@
 
 ;;;; Keybindings
 
-(pew/set-key
+(pew/set-key global-map
 
- ("C-x t SPC" . tab-bar-select-tab-by-name)
- ("C-x t f" . tab-bar-switch-to-next-tab)
- ("C-x t b" . tab-bar-switch-to-prev-tab)
- ("C-x t m" . pew/move-tab-next)
- ("C-x t M" . pew/move-tab-prev)
- ("C-x t t" . tab-bar-new-tab)
- ("C-x t T" . pew/pop-window-in-new-tab)
- ("C-x t l" . tab-switcher)
- ("C-x C-d" . pew/open-cwd)
- ([remap next-buffer] . pew/next-buffer)
- ([remap previous-buffer] . pew/prev-buffer)
- ([remap list-buffers] . ibuffer)
- ([remap isearch-delete-char] . isearch-del-char)
+ "C-x t SPC" #'tab-bar-select-tab-by-name
+ "C-x t f" #'tab-bar-switch-to-next-tab
+ "C-x t b" #'tab-bar-switch-to-prev-tab
+ "C-x t m" #'pew/move-tab-next
+ "C-x t M" #'pew/move-tab-prev
+ "C-x t t" #'tab-bar-new-tab
+ "C-x t T" #'pew/pop-window-in-new-tab
+ "C-x t l" #'tab-switcher
+ "C-x C-d" #'pew/open-cwd
+ [remap next-buffer] #'pew/next-buffer
+ [remap previous-buffer] #'pew/prev-buffer
+ [remap list-buffers] #'ibuffer
+ [remap isearch-delete-char] #'isearch-del-char
 
  )
 
-(pew/set-map
+(pew/set-key dired-mode-map
 
- ;; Dired key bindings
- dired-mode-map (("RET" . pew/dired-go-to)
-                 ("DEL" . pew/dired-go-up))
+ "RET" #'pew/dired-go-to
+ "DEL" #'pew/dired-go-up
 
  )
 
@@ -234,8 +233,8 @@
 
 (pew/set-hook
 
- (eshell-mode-hook . pew/term-setup)
- (after-save-hook . pew/delete-trailing-whitespaces)
+ eshell-mode-hook #'pew/term-setup
+ after-save-hook #'pew/delete-trailing-whitespaces
 
  )
 
@@ -243,10 +242,10 @@
 
 (pew/set-enabled
 
- scroll-left
- list-threads
- list-timers
- dired-find-alternate-file
+ 'scroll-left
+ 'list-threads
+ 'list-timers
+ 'dired-find-alternate-file
 
  )
 
@@ -254,7 +253,7 @@
 
 (pew/set-face
 
- tab-bar (:inherit 'default)
+ 'tab-bar (:inherit 'default)
 
  )
 
