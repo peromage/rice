@@ -75,6 +75,8 @@ of STATUS.  Possible values are:
 
 (use-package flycheck
   :diminish flycheck-mode
+  :custom
+  (flycheck-indication-mode 'inherit)
   :config
   (global-flycheck-mode 1))
 
