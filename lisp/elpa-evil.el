@@ -166,53 +166,69 @@ Equivalent to:
 
   ;; Normal and motion state bindings
   (pew/evil/set-key '(normal motion) 'global 'leader
-    ;; Windows
-    "q" #'pew/evil/close-window
-    "h" #'evil-window-left
-    "j" #'evil-window-down
-    "k" #'evil-window-up
-    "l" #'evil-window-right
-    "s" #'evil-window-split
-    "v" #'evil-window-vsplit
-    ;; Tabs
-    "t" #'tab-bar-new-tab
-    "m" #'pew/move-tab-next
-    "M" #'pew/move-tab-prev
-    "r" #'tab-bar-rename-tab
-    "T" #'pew/pop-window-in-new-tab
-    "f" #'tab-bar-switch-to-next-tab
-    "b" #'tab-bar-switch-to-prev-tab
-    ;; Buffers
-    "w" #'save-buffer
-    "n" #'next-buffer
-    "p" #'previous-buffer
-    "g" #'pew/show-file-path
-    ;; Search and substitution
-    "cs" #'pew/evil/replace-last-search)
+
+   ;; Windows
+   "q" #'pew/evil/close-window
+   "h" #'evil-window-left
+   "j" #'evil-window-down
+   "k" #'evil-window-up
+   "l" #'evil-window-right
+   "s" #'evil-window-split
+   "v" #'evil-window-vsplit
+
+   ;; Tabs
+   "t" #'tab-bar-new-tab
+   "m" #'pew/move-tab-next
+   "M" #'pew/move-tab-prev
+   "r" #'tab-bar-rename-tab
+   "T" #'pew/pop-window-in-new-tab
+   "f" #'tab-bar-switch-to-next-tab
+   "b" #'tab-bar-switch-to-prev-tab
+
+   ;; Buffers
+   "w" #'save-buffer
+   "n" #'next-buffer
+   "p" #'previous-buffer
+   "g" #'pew/show-file-path
+
+   ;; Search and substitution
+   "cs" #'pew/evil/replace-last-search
+
+   )
 
   (pew/evil/set-key '(normal motion) 'global nil
-    ;; Windows
-    "<left>" #'evil-window-decrease-width
-    "<down>" #'evil-window-decrease-height
-    "<up>" #'evil-window-increase-height
-    "<right>" #'evil-window-increase-width
-    ;; Search
-    "#" #'evil-ex-nohighlight)
+
+   ;; Windows
+   "<left>" #'evil-window-decrease-width
+   "<down>" #'evil-window-decrease-height
+   "<up>" #'evil-window-increase-height
+   "<right>" #'evil-window-increase-width
+
+   ;; Search
+   "#" #'evil-ex-nohighlight
+
+   )
 
   ;; Visual state bindings
   (pew/evil/set-key 'visual 'global nil
-    ;; Search
-    "*" #'pew/evil/visual-search-selected)
+
+   ;; Search
+   "*" #'pew/evil/visual-search-selected
+
+   )
 
   ;; Explicitly set the initial state for a mode
   ;; States are: emacs, motion, normal, insert, visual
   (pew/evil/set-initial-state
-     'help-mode 'motion
-     'tab-switcher-mode 'emacs
-     'xref--xref-buffer-mode 'emacs
-     'flycheck-error-list-mode 'emacs
-     'ivy-occur-grep-mode 'emacs
-     'dired-mode 'emacs))
+
+   'help-mode 'motion
+   'tab-switcher-mode 'emacs
+   'xref--xref-buffer-mode 'emacs
+   'flycheck-error-list-mode 'emacs
+   'ivy-occur-grep-mode 'emacs
+   'dired-mode 'emacs
+
+   ))
 
 ;;;; Evil enhancement
 
