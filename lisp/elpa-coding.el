@@ -75,8 +75,6 @@ of STATUS.  Possible values are:
 
 (use-package flycheck
   :diminish flycheck-mode
-  :custom
-  (flycheck-emacs-lisp-load-path 'inherit)
   :config
   (global-flycheck-mode 1))
 
