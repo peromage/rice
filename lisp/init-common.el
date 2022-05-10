@@ -266,6 +266,9 @@ The result is equivalent to:
   (let ((result '(progn)))
     (while customs
       ;; Prefer using `push' than `add-to-list' since the later checks elements
+      ;; Thinking of using `pop' instead of `car' `cadr' and `cddr' but I want
+      ;; to make sure the values are extracted in the right order. Plus `pop'
+      ;; updates the list twice, which seems to be a bit slower than this way.
       (push `(customize-set-variable ',(car customs) ,(cadr customs)) result)
       (setq customs (cddr customs)))
     ;; Since `push' causes configuration lines being read in a reversed way we
