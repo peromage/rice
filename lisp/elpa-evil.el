@@ -103,7 +103,9 @@
   (evil-want-integration t)
   (evil-want-keybinding t)
   (evil-want-minibuffer nil)
+  (evil-want-Y-yank-to-eol t)
   (evil-disable-insert-state-bindings t)
+  (evil-cross-lines nil)
   (evil-split-window-below t)
   (evil-vsplit-window-right t)
   (evil-auto-balance-windows t)
@@ -162,8 +164,14 @@
 (use-package evil-collection
   :disabled
   :custom
+  ;; NOTE: evil-collection assumes `evil-want-keybinding' is set to nil and
+  ;; `evil-want-integration' is set to t before loading evil and evil-collection
   (evil-want-keybinding nil)
+  (evil-want-integration t)
   :config
+  ;; Enable evil collection for all support modes
+  ;; Or simply do it for certain modes
+  ;(evil-collection-init '(calendar dired calc ediff))
   (evil-collection-init))
 
 ;; Make Evil undo/redo easier
