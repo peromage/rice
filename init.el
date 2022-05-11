@@ -26,6 +26,7 @@
 (require 'init-package)
 ;; Load ELPA packages (managed by `use-package')
 (require 'elpa-evil)
+(require 'elpa-ivy)
 (require 'elpa-navigation)
 (require 'elpa-coding)
 (require 'elpa-git)

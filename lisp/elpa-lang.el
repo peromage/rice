@@ -90,9 +90,5 @@
   (lsp-ui-imenu-auto-refresh t)
   (lsp-ui-imenu-refresh-delay 0.5))
 
-(use-package lsp-ivy
-  :requires ivy
-  :commands lsp-ivy-workspace-symbol)
-
 (provide 'elpa-lang)
 ;;; elpa-lang.el ends here
