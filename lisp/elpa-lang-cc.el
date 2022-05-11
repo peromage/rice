@@ -35,7 +35,7 @@
                                   "--all-scopes-completion"))
   (lsp-deferred)
   ;; Post LSP mode settings
-  (electric-indent-mode 1))
+  (electric-indent-mode -1))
 
 (defun pew/cc-mode/cpp-setup ()
   "Initialization for C++ mode."

@@ -198,7 +198,7 @@
  electric-pair-preserve-balance t
  electric-pair-delete-adjacent-pairs t
  electric-pair-mode nil ;; Annoying sometimes
- electric-indent-mode t
+ electric-indent-mode nil ;; Same above
 
  )
 
