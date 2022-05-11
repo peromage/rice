@@ -32,6 +32,7 @@
 (require 'elpa-git)
 (require 'elpa-shell)
 (require 'elpa-ui)
+(require 'elpa-lsp)
 (require 'elpa-lang)
 (require 'elpa-lang-cc)
 (require 'elpa-lang-csharp)
