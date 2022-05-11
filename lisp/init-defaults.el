@@ -1,4 +1,4 @@
-;;; init-custom.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
+;;; init-defaults.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;; Vanilla Emacs configuration.
@@ -257,6 +257,5 @@
 
  )
 
-
-(provide 'init-custom)
-;;; init-custom.el ends here
+(provide 'init-defaults)
+;;; init-defaults.el ends here

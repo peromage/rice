@@ -22,7 +22,7 @@
 ;; The load sequence must be in order
 (require 'init-common)
 (require 'init-boot)
-(require 'init-custom)
+(require 'init-defaults)
 (require 'init-package)
 ;; Load ELPA packages (managed by `use-package')
 (require 'elpa-evil)
