@@ -5,10 +5,14 @@
 ;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
 
 ;;; Code:
-;;;; Evil helper functions and variables
+;;;; Evil setup
 
-(defmacro pew/evil/set-key (state map leader &rest bindings)
-  "A helper macro bind BINDINGS with MAP in Evil STATE.
+(use-package evil
+  :demand t
+  :init
+  ;; Key binding macro
+  (defmacro pew/evil/set-key (state map leader &rest bindings)
+    "A helper macro bind BINDINGS with MAP in Evil STATE.
 LEADER is one of 'leader, 'localleader or nil representating binding
 with global leader key, local leader key or no leader key respectively.
 STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
@@ -25,18 +29,19 @@ Equivalent to:
     \"<leader>key2\" func2
     \"<leader>key3\" func3
     ...)"
-  (let ((bindings-copy bindings)
-        ;; The leader specifier has to be "quoted"
-        (prefix (cond ((and (consp leader) (eq 'leader (cadr leader))) "<leader>")
-                      ((and (consp leader) (eq 'localleader (cadr leader))) "<localleader>")
-                      (t ""))))
-    (while bindings-copy
-      (setcar bindings-copy (kbd (concat prefix (car bindings-copy))))
-      (setq bindings-copy (cddr bindings-copy)))
-    `(evil-define-key ,state ,map ,@bindings)))
+    (let ((bindings-copy bindings)
+          ;; The leader specifier has to be "quoted"
+          (prefix (cond ((and (consp leader) (eq 'leader (cadr leader))) "<leader>")
+                        ((and (consp leader) (eq 'localleader (cadr leader))) "<localleader>")
+                        (t ""))))
+      (while bindings-copy
+        (setcar bindings-copy (kbd (concat prefix (car bindings-copy))))
+        (setq bindings-copy (cddr bindings-copy)))
+      `(evil-define-key ,state ,map ,@bindings)))
 
-(defmacro pew/evil/set-initial-state (&rest states)
-  "A helper macro that sets initial STATES for modes.
+  ;; Initial mode macro
+  (defmacro pew/evil/set-initial-state (&rest states)
+    "A helper macro that sets initial STATES for modes.
 STATES is a list in the form of:
   (pew/evil/set-initial-state 'mode1 'normal
                               'mode2 'visual
@@ -47,102 +52,96 @@ Equivalent to:
   (evil-set-initial-state 'mode2 'visual)
   (evil-set-initial-state 'mode3 'insert)
   ..."
-  (if (pew/oddp (length states))
-      (error "Incomplete mode and state pairs"))
-  (let ((result '(progn)))
-    (while states
-      (let ((mode (pop states))
-            (state (pop states)))
-        (push `(evil-set-initial-state ,mode ,state) result)))
-    (reverse result)))
+    (if (pew/oddp (length states))
+        (error "Incomplete mode and state pairs"))
+    (let ((result '(progn)))
+      (while states
+        (let ((mode (pop states))
+              (state (pop states)))
+          (push `(evil-set-initial-state ,mode ,state) result)))
+      (reverse result)))
 
-;;;;; Window functions
+  ;; Adjust Window closing behavior
+  (defun pew/evil/close-window ()
+    "Close window on conditional.  If there is only one window then close the tab."
+    (interactive)
+    (cond ((one-window-p)
+           (tab-bar-close-tab)
+           (previous-window))
+          (t (delete-window))))
 
-(defun pew/evil/close-window ()
-  "Close window on conditional.  If there is only one window then close the tab."
-  (interactive)
-  (cond ((one-window-p)
-         (tab-bar-close-tab)
-         (previous-window))
-        (t (delete-window))))
+  ;; Evil search
+  ;; This search action searches words selected in visual mode, escaping any special
+  ;; characters. Also it provides a quick way to substitute the words just searched.
 
-;;;;; Evil search
+  (defun pew/evil/escape-region (begin end)
+    "Escape region from BEGIN to END for evil-search mode."
+    (catch 'result
+      (let ((selection (buffer-substring-no-properties begin end))
+            (placeholder "_IM_A_PERCENTAGE_"))
+        (if (= (length selection) 0)
+            (throw 'result nil))
+        ;; Replace the % symbols so that `regexp-quote' does not complain
+        (setq selection (replace-regexp-in-string "%" placeholder selection))
+        (setq selection (regexp-quote selection))
+        ;; `regexp-quote' does not escape /. We escape it here so that evil-search
+        ;; can recognize it
+        (setq selection (replace-regexp-in-string "/" "\\\\/" selection)
+              ;; Change the % symbols back
+              selection (replace-regexp-in-string placeholder "%" selection)))))
 
-;; This search action searches words selected in visual mode, escaping any special
-;; characters. Also it provides a quick way to substitute the words just searched.
+  (defun pew/evil/search-selected ()
+    "Use evil-search for the selected region."
+    (when (use-region-p)
+      (setq evil-ex-search-count 1
+            evil-ex-search-direction 'forward)
+      (evil-yank (region-beginning) (region-end))
+      (let* ((quoted-pattern (pew/evil/escape-region (region-beginning) (region-end)))
+             (result (evil-ex-search-full-pattern
+                      quoted-pattern
+                      evil-ex-search-count
+                      evil-ex-search-direction))
+             (success (pop result))
+             (pattern (pop result))
+             (offset (pop result)))
+        (when success
+          ;; From `evil-ex-start-search'
+          (setq evil-ex-search-pattern pattern
+                evil-ex-search-offset offset)
+          ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
+          ;; are more than one candidates. So we jump twice here to go back to the
+          ;; very first one that we selected.
+          (evil-ex-search-previous)
+          (evil-ex-search-previous)))))
 
-(defun pew/evil/escape-region (begin end)
-  "Escape region from BEGIN to END for evil-search mode."
-  (catch 'result
-    (let ((selection (buffer-substring-no-properties begin end))
-          (placeholder "_IM_A_PERCENTAGE_"))
-      (if (= (length selection) 0)
-          (throw 'result nil))
-      ;; Replace the % symbols so that `regexp-quote' does not complain
-      (setq selection (replace-regexp-in-string "%" placeholder selection))
-      (setq selection (regexp-quote selection))
-      ;; `regexp-quote' does not escape /. We escape it here so that evil-search
-      ;; can recognize it
-      (setq selection (replace-regexp-in-string "/" "\\\\/" selection)
-            ;; Change the % symbols back
-            selection (replace-regexp-in-string placeholder "%" selection)))))
+  (defun pew/evil/visual-search-selected ()
+    "Search the selected region visual state and return to normal state."
+    (interactive)
+    (when (evil-visual-state-p)
+      (pew/evil/search-selected)
+      (evil-normal-state)))
 
-(defun pew/evil/search-selected ()
-  "Use evil-search for the selected region."
-  (when (use-region-p)
-    (setq evil-ex-search-count 1
-          evil-ex-search-direction 'forward)
-    (evil-yank (region-beginning) (region-end))
-    (let* ((quoted-pattern (pew/evil/escape-region (region-beginning) (region-end)))
-           (result (evil-ex-search-full-pattern
-                    quoted-pattern
-                    evil-ex-search-count
-                    evil-ex-search-direction))
-           (success (pop result))
-           (pattern (pop result))
-           (offset (pop result)))
-      (when success
-        ;; From `evil-ex-start-search'
-        (setq evil-ex-search-pattern pattern
-              evil-ex-search-offset offset)
-        ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
-        ;; are more than one candidates. So we jump twice here to go back to the
-        ;; very first one that we selected.
-        (evil-ex-search-previous)
-        (evil-ex-search-previous)))))
+  ;; TODO: Fix the register calls
+  (defun pew/evil/normal-search-cursor ()
+    "Search word under the cursor in normal mode."
+    (interactive)
+    (evil-ex-search-word-forward)
+    (evil-set-register "*" (evil-get-register "/")))
 
-(defun pew/evil/visual-search-selected ()
-  "Search the selected region visual state and return to normal state."
-  (interactive)
-  (when (evil-visual-state-p)
-    (pew/evil/search-selected)
-    (evil-normal-state)))
+  (defun pew/evil/replace-last-search ()
+    "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
+    (interactive)
+    (if (not evil-ex-search-pattern)
+        (user-error "No search pattern found"))
+    (let* ((regex (nth 0 evil-ex-search-pattern))
+           (replacement (read-string (concat regex " -> ")))
+           (flags (list ?g ?c))
+           (subpattern (evil-ex-make-substitute-pattern regex flags)))
+      (message "regex %s" regex)
+      (message "replacement %s" replacement)
+      (message "subpattern %S" subpattern)
+      (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
 
-;; TODO: Fix the register calls
-(defun pew/evil/normal-search-cursor ()
-  "Search word under the cursor in normal mode."
-  (interactive)
-  (evil-ex-search-word-forward)
-  (evil-set-register "*" (evil-get-register "/")))
-
-(defun pew/evil/replace-last-search ()
-  "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
-  (interactive)
-  (if (not evil-ex-search-pattern)
-      (user-error "No search pattern found"))
-  (let* ((regex (nth 0 evil-ex-search-pattern))
-         (replacement (read-string (concat regex " -> ")))
-         (flags (list ?g ?c))
-         (subpattern (evil-ex-make-substitute-pattern regex flags)))
-    (message "regex %s" regex)
-    (message "replacement %s" replacement)
-    (message "subpattern %S" subpattern)
-    (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
-
-;;;; Evil setup
-
-(use-package evil
-  :demand t
   :custom
   (evil-want-integration t)
   (evil-want-keybinding t)
@@ -160,6 +159,7 @@ Equivalent to:
   (evil-search-module 'evil-search)
   :config
   (evil-mode 1)
+
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC"))
   (evil-set-leader '(normal motion) (kbd "\\") 'localleader)

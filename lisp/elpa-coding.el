@@ -41,25 +41,26 @@
 
 ;;;;; Company Enhancement
 
-(defun pew/company-box/doc-toggle (&optional status)
-  "Toggle company box doc display if STATUS is omitted.
+(use-package company-box
+  :init
+  (defun pew/company-box/doc-toggle (&optional status)
+    "Toggle company box doc display if STATUS is omitted.
 Otherwise if STATUS is given, the status of doc display depends on the value
 of STATUS.  Possible values are:
   'show: Display doc.
   'hide: Do not display doc.
   Other values: Toggle doc display status."
-  (interactive)
-  (cond ((eq 'show status)
-         (setq company-box-doc-enable t))
-        ((eq 'hide status)
-         (setq company-box-doc-enable nil))
-        (t (setq company-box-doc-enable (not company-box-doc-enable)))))
+    (interactive)
+    (cond ((eq 'show status)
+           (setq company-box-doc-enable t))
+          ((eq 'hide status)
+           (setq company-box-doc-enable nil))
+          (t (setq company-box-doc-enable (not company-box-doc-enable)))))
 
-(defun pew/company-box/on-start ()
-  "Company-box on-start actions."
-  (pew/company-box/doc-toggle 'hide))
+  (defun pew/company-box/on-start ()
+    "Company-box on-start actions."
+    (pew/company-box/doc-toggle 'hide))
 
-(use-package company-box
   :hook (company-mode . company-box-mode)
   :bind (:map company-active-map
          ("C-k" . company-box-doc-manually))

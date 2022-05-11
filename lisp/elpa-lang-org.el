@@ -5,15 +5,16 @@
 
 ;;; Code:
 
-(defun pew/org/setup ()
-  "Setup for Org mode."
-  (org-indent-mode 1)
-  (visual-line-mode 1)
-  (electric-pair-mode -1)
-  (electric-indent-mode -1))
-
 (use-package org
   :ensure nil
+  :init
+  (defun pew/org/setup ()
+    "Setup for Org mode."
+    (org-indent-mode 1)
+    (visual-line-mode 1)
+    (electric-pair-mode -1)
+    (electric-indent-mode -1))
+
   :hook (org-mode . pew/org/setup)
   :custom
   (org-directory (locate-user-emacs-file "org"))

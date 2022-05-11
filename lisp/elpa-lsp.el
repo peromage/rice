@@ -40,24 +40,25 @@
 
 ;;;; LSP experience improvement
 
-(defun pew/lsp-ui/doc-glance ()
-  "Quick peek documentation for the current symbol."
-  (interactive)
-  (if (lsp-ui-doc--frame-visible-p)
-      (lsp-ui-doc-focus-frame)
-    (lsp-ui-doc-glance)))
-
-(defun pew/lsp-ui/doc-toggle ()
-  "Toggle doc frame."
-  (interactive)
-  (lsp-ui-doc-mode 'toggle))
-
-(defun pew/lsp-ui/setup ()
-  "Setup function for lsp-ui."
-  (lsp-ui-mode 1)
-  (lsp-ui-doc-frame-mode -1))
-
 (use-package lsp-ui
+  :init
+  (defun pew/lsp-ui/doc-glance ()
+    "Quick peek documentation for the current symbol."
+    (interactive)
+    (if (lsp-ui-doc--frame-visible-p)
+        (lsp-ui-doc-focus-frame)
+      (lsp-ui-doc-glance)))
+
+  (defun pew/lsp-ui/doc-toggle ()
+    "Toggle doc frame."
+    (interactive)
+    (lsp-ui-doc-mode 'toggle))
+
+  (defun pew/lsp-ui/setup ()
+    "Setup function for lsp-ui."
+    (lsp-ui-mode 1)
+    (lsp-ui-doc-frame-mode -1))
+
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
