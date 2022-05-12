@@ -75,6 +75,7 @@
  ;; Minibuffers
  enable-recursive-minibuffers t
  minibuffer-depth-indicate-mode t
+ minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
 
  ;; Tabbar
  tab-bar-close-button-show nil
@@ -159,6 +160,10 @@
  recentf-auto-cleanup 'never
  recentf-mode t
 
+ ;; Save history
+ savehist-save-minibuffer-history t
+ savehist-mode t
+
  ;; Repeat mode
  repeat-mode t
  repeat-exit-key (kbd "RET")
@@ -206,6 +211,7 @@
 
 (pew/set-key global-map
 
+ ;; Tab bindings
  "C-x t SPC" #'tab-bar-select-tab-by-name
  "C-x t f" #'tab-bar-switch-to-next-tab
  "C-x t b" #'tab-bar-switch-to-prev-tab
@@ -214,7 +220,12 @@
  "C-x t t" #'tab-bar-new-tab
  "C-x t T" #'pew/pop-window-in-new-tab
  "C-x t l" #'tab-switcher
- "C-x C-d" #'pew/open-cwd
+
+ ;; File and directory browsing
+ "C-x f" #'find-file
+ "C-x C-f" #'pew/open-cwd
+
+ ;; Remap for better experience
  [remap next-buffer] #'pew/next-buffer
  [remap previous-buffer] #'pew/prev-buffer
  [remap list-buffers] #'ibuffer
@@ -235,6 +246,9 @@
 
  eshell-mode-hook #'pew/term-setup
  after-save-hook #'pew/delete-trailing-whitespaces
+
+ ;; Don't move cursor to the minibuffer prompt
+ minibuffer-setup-hook #'cursor-intangible-mode
 
  )
 
