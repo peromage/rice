@@ -39,7 +39,7 @@ Equivalent to:
         (setq bindings-copy (cddr bindings-copy)))
       `(evil-define-key ,state ,map ,@bindings)))
 
-  ;; Initial mode macro
+  ;; Initial state for mode macro
   (defmacro pew/evil/set-initial-state (&rest states)
     "A helper macro that sets initial STATES for modes.
 STATES is a list in the form of:
@@ -157,8 +157,25 @@ Equivalent to:
   (evil-symbol-word-search nil)
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
+  ;; Set initial buffer states
+  ;; Use this together with `pew/evil/set-initial-state' below
+  (evil-buffer-regexps '(("*scratch*" . normal)
+                         ("\\`\\*.*\\*" . emacs)))
   :config
   (evil-mode 1)
+
+  ;; Explicitly set the initial state for a mode
+  ;; States are: emacs, motion, normal, insert, visual
+  (pew/evil/set-initial-state
+
+   'help-mode 'motion
+   'tab-switcher-mode 'emacs
+   'xref--xref-buffer-mode 'emacs
+   'flycheck-error-list-mode 'emacs
+   'ivy-occur-grep-mode 'emacs
+   'dired-mode 'emacs
+
+   )
 
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC"))
@@ -214,19 +231,6 @@ Equivalent to:
 
    ;; Search
    "*" #'pew/evil/visual-search-selected
-
-   )
-
-  ;; Explicitly set the initial state for a mode
-  ;; States are: emacs, motion, normal, insert, visual
-  (pew/evil/set-initial-state
-
-   'help-mode 'motion
-   'tab-switcher-mode 'emacs
-   'xref--xref-buffer-mode 'emacs
-   'flycheck-error-list-mode 'emacs
-   'ivy-occur-grep-mode 'emacs
-   'dired-mode 'emacs
 
    ))
 
