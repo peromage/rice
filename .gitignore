@@ -12,11 +12,11 @@ list/**/*.elc
 !site-lisp/**
 site-lisp/**/*.elc
 
-# Include snippet files but not generated elisp files and compiled byte files
-!snippets/
-!snippets/**
-snippets/**/*.el
-snippets/**/*.elc
+# Include yas-snippet files but not generated elisp files and compiled byte files
+!yasnippets/
+!yasnippets/**
+yasnippets/**/*.el
+yasnippets/**/*.elc
 
 # Include files at the repo root
 !.gitignore

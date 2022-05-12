@@ -85,7 +85,7 @@ of STATUS.  Possible values are:
 (use-package yasnippet
   :diminish yas-minor-mode
   :custom
-  (yas-snippet-dirs (list (expand-file-name "snippets" pew/home-dir)))
+  (yas-snippet-dirs (list (expand-file-name "yasnippets" pew/home-dir)))
   :config
   (yas-global-mode 1))
 
