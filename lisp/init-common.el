@@ -125,7 +125,7 @@ loaded from other places.")
 
 ;;;###autoload
 (defvar pew/special-buffers '("\\` "
-                              "\\`\\*"
+                              "\\`\\*.*\\*"
                               "\\`magit-"
                               "\\`magit:")
   "A regex list of special buffer patterns.
