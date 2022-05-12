@@ -21,12 +21,9 @@
 
 ;; Modeline taken from Doom Emacs.
 (use-package doom-modeline
-  ;; https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-508973014
-  :custom-face
-  (mode-line ((t (:height 0.9))))
-  (mode-line-inactive ((t (:height 0.9))))
   :custom
   (doom-modeline-height 1)
+  (doom-modeline-unicode-fallback t)
   :config
   (doom-modeline-mode 1))
 
