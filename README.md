@@ -2,18 +2,25 @@
 
 > A minimalist's Emacs configuration.
 
-This is my personal Emacs configuration. Before using it you should be aware that it might be suitable for you.
+This is my personal Emacs configuration. Be aware that it might not fit your needs.
 
-This configuration intends to be as minimal as possible meaning it "just works" without installing too many packages.
+This configuration intends to be as minimal as possible meaning that it prefers to use Emacs built-in features and optimize them.
 
-I.E. if Emacs already has certain features I'll try to optimize them unless they are far from good-to-use.
+## Features
+
+- Light and quick
+- Terminal friendly
+- Respect Emacs vanilla key bindings
+- Evil mode as the main editing mode (not every buffer)
+- Vertico and its complementary packages as the completion framework
+- LSP support
 
 ## Get Started
 
 Clone this repo and put it to your home directory with folder name `.emacs.d`.
 
 ```bash
-$ git clone https://github.com/peromage/pew.git .emacs.d
+$ git clone https://github.com/peromage/pew.git ~/.emacs.d
 ```
 
 Then Emacs will automatically install everything for you.
@@ -38,9 +45,9 @@ pew
 └── README.md               # This file
 ```
 
-## Credit
+## Acknowledgement
 
-This Configuration is inspired by
+This configuration is inspired by
 
 - [purcell/emacs.d](https://github.com/purcell/emacs.d)
 - [condy0919/.emacs.d](https://github.com/condy0919/.emacs.d)
