@@ -162,8 +162,9 @@ Equivalent to:
   (evil-buffer-regexps '(("*scratch*" . normal)
                          ("*Messages*" . motion)
                          ("*Help*" . motion)
-                         ("\\` *\\*.+\\*" . emacs)
-))
+                         ("\\`magit" . emacs)
+                         ;; General special definitions go last
+                         ("\\` *\\*.*\\*" . emacs)))
   :config
   (evil-mode 1)
 

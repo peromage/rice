@@ -124,10 +124,9 @@ loaded from other places.")
 ;;;; Buffer utilities
 
 ;;;###autoload
-(defvar pew/special-buffers '("\\` "
-                              "\\`\\*.*\\*"
-                              "\\`magit-"
-                              "\\`magit:")
+(defvar pew/special-buffers '("\\`magit"
+                              ;; General special definitions go last
+                              "\\` *\\*.*\\*")
   "A regex list of special buffer patterns.
 Special buffers are usually skipped and ignored from buffer list.")
 
