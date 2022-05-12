@@ -1,12 +1,24 @@
-# Since there are random temporary files introduced by new packages, we use
-# whitelist mode to prevent troubles
+# Since there is random garbage introduced by some packages, it's a hassle to
+# pick our files from it. We use whitelist mode here to avoid troubles.
+
+# First, exclude all files
 *
+
+# Include elisp source files but not compiled byte files
 !lisp/
 !lisp/**
+list/**/*.elc
 !site-lisp/
 !site-lisp/**
+site-lisp/**/*.elc
+
+# Include snippet files but not generated elisp files and compiled byte files
 !snippets/
 !snippets/**
+snippets/**/*.el
+snippets/**/*.elc
+
+# Include files at the repo root
 !.gitignore
 !.pew
 !LICENSE
