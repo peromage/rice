@@ -19,15 +19,15 @@ STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
 'emacs, a list of one or more of these, or nil, which means all of the above.
 BINDINGS is a list of cons consisting keys and bound functions:
   (pew/evil/set-key-with-leader '(normal motion) 'global nil
-    \"key1\" func1
-    \"key2\" func2
-    \"key3\" func3)
+    \"key1\" #'func1
+    \"key2\" #'func2
+    \"key3\" #'func3)
     ...
 Equivalent to:
   (evil-define-key '(normal motion) 'global
-    \"<leader>key1\" func1
-    \"<leader>key2\" func2
-    \"<leader>key3\" func3
+    \"<leader>key1\" #'func1
+    \"<leader>key2\" #'func2
+    \"<leader>key3\" #'func3
     ...)"
     (let ((bindings-copy bindings)
           ;; The leader specifier has to be "quoted"
@@ -48,17 +48,23 @@ STATES is a list in the form of:
                               'mode3 'insert
                               ...)
 Equivalent to:
-  (evil-set-initial-state 'mode1 'normal)
-  (evil-set-initial-state 'mode2 'visual)
-  (evil-set-initial-state 'mode3 'insert)
-  ..."
+  (add-hook 'mode1-hook #'evil-normal-state)
+  (add-hook 'mode2-hook #'evil-visual-state)
+  (add-hook 'mode3-hook #'evil-insert-state)
+  ...
+The mode and state will be completed to their full names.
+Since `evil-set-initial-state' doesn't work for minor modes, `add-hook' takes
+care of the mode initial states.
+NOTE: Buffer names defined in `evil-buffer-regexps' takes precedence over this."
     (if (pew/oddp (length states))
         (error "Incomplete mode and state pairs"))
-    (let ((result '(progn)))
+    (let ((result '(progn))
+          (hook-fmt "%s-hook")
+          (state-fmt "evil-%s-state"))
       (while states
-        (let ((mode (pop states))
-              (state (pop states)))
-          (push `(evil-set-initial-state ,mode ,state) result)))
+        (let ((mode (intern (format hook-fmt (cadr (pop states)))))
+              (state (intern (format state-fmt (cadr (pop states))))))
+          (push `(add-hook ',mode #',state) result)))
       (reverse result)))
 
   ;; Adjust Window closing behavior
@@ -158,7 +164,7 @@ Equivalent to:
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   ;; Set initial buffer states
-  ;; This takes precedence over `pew/evil/set-initial-state' below
+  ;; NOTE: This takes precedence over mode initial states below
   (evil-buffer-regexps '(("*scratch*" . normal)
                          ("*Messages*" . motion)
                          ("*Help*" . motion)
@@ -168,11 +174,12 @@ Equivalent to:
   :config
   (evil-mode 1)
 
-  ;; Explicitly set the initial state for a mode
-  ;; States are: emacs, motion, normal, insert, visual
+  ;; Explicitly set the initial state for a major mode
   (pew/evil/set-initial-state
 
    'dired-mode 'emacs
+   'view-mode 'motion
+   'help-mode 'motion
 
    )
 
