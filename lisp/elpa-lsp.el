@@ -34,9 +34,7 @@
   (lsp-modeline-diagnostics-enable t)
   (lsp-modeline-code-actions-enable t)
   (lsp-completion-show-detail t)
-  (lsp-completion-show-kind t)
-  :config
-  (lsp-enable-which-key-integration 1))
+  (lsp-completion-show-kind t))
 
 ;;;; LSP experience improvement
 
