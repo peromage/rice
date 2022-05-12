@@ -158,9 +158,12 @@ Equivalent to:
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   ;; Set initial buffer states
-  ;; Use this together with `pew/evil/set-initial-state' below
+  ;; This takes precedence over `pew/evil/set-initial-state' below
   (evil-buffer-regexps '(("*scratch*" . normal)
-                         ("\\`\\*.*\\*" . emacs)))
+                         ("*Messages*" . motion)
+                         ("*Help*" . motion)
+                         ("\\` *\\*.+\\*" . emacs)
+))
   :config
   (evil-mode 1)
 
@@ -168,11 +171,6 @@ Equivalent to:
   ;; States are: emacs, motion, normal, insert, visual
   (pew/evil/set-initial-state
 
-   'help-mode 'motion
-   'tab-switcher-mode 'emacs
-   'xref--xref-buffer-mode 'emacs
-   'flycheck-error-list-mode 'emacs
-   'ivy-occur-grep-mode 'emacs
    'dired-mode 'emacs
 
    )
