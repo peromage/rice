@@ -126,6 +126,8 @@
  xterm-mouse-mode t
  shell-command-prompt-show-cwd t
  what-cursor-show-names t
+ ;; Log warnings in the background instead of poping the window up
+ native-comp-async-report-warnings-errors 'silent
 
  ;; Operations
  save-place-mode t
