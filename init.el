@@ -27,7 +27,6 @@
 ;; Load ELPA packages (managed by `use-package')
 (require 'elpa-evil)
 (require 'elpa-vertico)
-;(require 'elpa-ivy)
 (require 'elpa-coding)
 (require 'elpa-utils)
 (require 'elpa-git)
