@@ -274,8 +274,8 @@ The result is equivalent to:
 (defmacro pew/set-face (&rest faces)
   "A helper macro that sets FACES.
 FACES is a list of the form:
-  (pew/set-face 'face1 (attr1_1 value1_1 attr1_2 value1_2 ...)
-                'face2 (attr2_1 value2_1 attr2_2 value2_2 ...)
+  (pew/set-face 'face1 '(attr1_1 value1_1 attr1_2 value1_2 ...)
+                'face2 '(attr2_1 value2_1 attr2_2 value2_2 ...)
                 ...)
 For the attribute plist see `defface'.
 The result is equivalent to:
@@ -286,7 +286,7 @@ The result is equivalent to:
       (error "Incomplete face and attribute list pairs"))
   (let ((result '(progn)))
     (while faces
-      (push `(set-face-attribute ,(car faces) nil ,@(cadr faces)) result)
+      (push `(set-face-attribute ,(car faces) nil ,@(cadr (cadr faces))) result)
       (setq faces (cddr faces)))
     (reverse result)))
 
