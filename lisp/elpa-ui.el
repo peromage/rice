@@ -27,6 +27,11 @@
   :config
   (doom-modeline-mode 1))
 
+;;;; Some sweets
+
+(use-package nyan-mode :defer t)
+(use-package rainbow-delimiters :defer t)
+
 ;;;; Initial setup
 
 (pew/load-theme 'doom-dracula)
