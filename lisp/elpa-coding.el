@@ -15,16 +15,10 @@
   :bind (:map company-mode-map
          ("C-c i" . company-complete)
          ([remap completion-at-point] . company-complete)
-         ([remap indent-for-tab-command] . company-indent-or-complete-common)
          :map company-active-map
          ("TAB" . company-complete-common-or-cycle)
-         ("S-TAB" . company-select-previous-or-abort)
-         ("RET" . company-complete-selection)
-         ("ESC" . company-abort)
-         ("C-SPC" . company-search-abort)
-         ("C-d" . company-show-doc-buffer)
-         ("C-f" . company-show-location)
-         ("C-s" . company-filter-candidates))
+         ("C-c" . company-complete-selection)
+         ("C-k" . company-abort))
   :custom
   (company-tooltip-align-annotations t)
   (company-tooltip-limit 10)
@@ -35,42 +29,12 @@
   (company-minimum-prefix-length 3)
   (company-selection-wrap-around t)
   (company-auto-complete nil)
+  (company-abort-on-unique-match t)
+  (company-require-match nil)
+  (company-search-filtering t)
   :config
   (global-company-mode 1)
-  (company-tng-mode -1))
-
-;;;;; Company Enhancement
-
-(use-package company-box
-  :init
-  (defun pew/company-box/doc-toggle (&optional status)
-    "Toggle company box doc display if STATUS is omitted.
-Otherwise if STATUS is given, the status of doc display depends on the value
-of STATUS.  Possible values are:
-  'show: Display doc.
-  'hide: Do not display doc.
-  Other values: Toggle doc display status."
-    (interactive)
-    (cond ((eq 'show status)
-           (setq company-box-doc-enable t))
-          ((eq 'hide status)
-           (setq company-box-doc-enable nil))
-          (t (setq company-box-doc-enable (not company-box-doc-enable)))))
-
-  (defun pew/company-box/on-start ()
-    "Company-box on-start actions."
-    (pew/company-box/doc-toggle 'hide))
-
-  :hook (company-mode . company-box-mode)
-  :bind (:map company-active-map
-         ("C-k" . company-box-doc-manually))
-  :custom
-  (company-box-doc-enable nil)
-  (company-box-doc-delay 0.0)
-  (company-box-enable-icon t)
-  (company-box-color-icon t)
-  (company-box-show-single-candidate 'always)
-  (company-box-scrollbar t))
+  (company-tng-mode 1))
 
 ;;;; Syntax and spell checker
 
