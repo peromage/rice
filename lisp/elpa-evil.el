@@ -10,62 +10,37 @@
 (use-package evil
   :demand t
   :init
-  ;; Key binding macro
-  (defmacro pew/evil/set-key (state map leader &rest bindings)
-    "A helper macro bind BINDINGS with MAP in Evil STATE.
-LEADER is one of 'leader, 'localleader or nil representating binding
-with global leader key, local leader key or no leader key respectively.
+  ;; Key binding function
+  (defun pew/evil/set-key (state map prefix &rest bindings)
+    "Set BINDINGS with PREFIX in MAP for STATE.
 STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
 'emacs, a list of one or more of these, or nil, which means all of the above.
-BINDINGS is a list of cons consisting keys and bound functions:
-  (pew/evil/set-key-with-leader '(normal motion) 'global nil
-    \"key1\" #'func1
-    \"key2\" #'func2
-    \"key3\" #'func3)
-    ...
-Equivalent to:
-  (evil-define-key '(normal motion) 'global
-    \"<leader>key1\" #'func1
-    \"<leader>key2\" #'func2
-    \"<leader>key3\" #'func3
-    ...)"
-    (let ((bindings-copy bindings)
-          ;; The leader specifier has to be "quoted"
-          (prefix (cond ((and (consp leader) (eq 'leader (cadr leader))) "<leader>")
-                        ((and (consp leader) (eq 'localleader (cadr leader))) "<localleader>")
-                        (t ""))))
-      (while bindings-copy
-        (setcar bindings-copy (kbd (concat prefix (car bindings-copy))))
-        (setq bindings-copy (cddr bindings-copy)))
-      `(evil-define-key ,state ,map ,@bindings)))
+PREFIX could be nil or a string of KEY.
+BINDINGS is a list of the form:
+  (KEY DEF KEY DEF ...)
+The arguments will be collected in pairs and passed to `evil-define-key'.
+"
+    (let ((pfx (if prefix prefix ""))
+          (bd bindings))
+      (while bd
+        (setcar bd (kbd (concat prefix (pop bd))))
+        (pop bd))
+      (apply 'evil-define-key* state map bindings)))
 
-  ;; Initial state for mode macro
-  (defmacro pew/evil/set-initial-state (&rest states)
-    "A helper macro that sets initial STATES for modes.
-STATES is a list in the form of:
-  (pew/evil/set-initial-state 'mode1 'normal
-                              'mode2 'visual
-                              'mode3 'insert
-                              ...)
+  ;; Initial state function
+  (defun pew/evil/set-state (&rest states)
+    "Set initial STATES for major or minor modes.
+STATES is a list of the form:
+  (MODE STATE MODE STATE ...)
+The MODE and STATE will be completed to their full names.
 Equivalent to:
-  (add-hook 'mode1-hook #'evil-normal-state)
-  (add-hook 'mode2-hook #'evil-visual-state)
-  (add-hook 'mode3-hook #'evil-insert-state)
-  ...
-The mode and state will be completed to their full names.
-Since `evil-set-initial-state' doesn't work for minor modes, `add-hook' takes
-care of the mode initial states.
-NOTE: Buffer names defined in `evil-buffer-regexps' takes precedence over this."
-    (if (pew/oddp (length states))
-        (error "Incomplete mode and state pairs"))
-    (let ((result '(progn))
-          (hook-fmt "%s-hook")
-          (state-fmt "evil-%s-state"))
+  (add-hook 'MODE-hook #'evil-STATE-state)
+`evil-set-initial-state' does the similar work but it only works for major modes.
+Hence we use `add-hook' takes care of the mode initial states. "
+    (let ((hookfmt "%s-hook")
+          (statefmt "evil-%s-state"))
       (while states
-        (let ((mode (intern (format hook-fmt (cadr (pop states)))))
-              (state (intern (format state-fmt (cadr (pop states))))))
-          (push `(add-hook ',mode #',state) result)))
-      (reverse result)))
+        (add-hook (intern (format hookfmt (pop states))) (intern (format statefmt (pop states)))))))
 
   ;; Adjust Window closing behavior
   (defun pew/evil/close-window ()
@@ -175,7 +150,7 @@ NOTE: Buffer names defined in `evil-buffer-regexps' takes precedence over this."
   (evil-mode 1)
 
   ;; Explicitly set the initial state for a major mode
-  (pew/evil/set-initial-state
+  (pew/evil/set-state
 
    'dired-mode 'emacs
    'view-mode 'motion
@@ -184,11 +159,11 @@ NOTE: Buffer names defined in `evil-buffer-regexps' takes precedence over this."
    )
 
   ;; Leader keys
-  (evil-set-leader '(normal motion) (kbd "SPC"))
-  (evil-set-leader '(normal motion) (kbd "\\") 'localleader)
+  (evil-set-leader '(normal motion) (kbd "SPC")) ;; <leader>
+  (evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
   ;; Normal and motion state bindings
-  (pew/evil/set-key '(normal motion) 'global 'leader
+  (pew/evil/set-key '(normal motion) 'global "<leader>"
 
    ;; Windows
    "q" #'pew/evil/close-window
