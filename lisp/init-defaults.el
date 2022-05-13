@@ -228,6 +228,11 @@
  "C-x f" #'find-file
  "C-x C-f" #'pew/open-cwd
 
+ ;; Xref
+ "C-c j" #'xref-find-definitions
+ "C-c J" #'xref-find-references
+ "C-c C-j" #'xref-find-apropos
+
  ;; Remap for better experience
  [remap next-buffer] #'pew/next-buffer
  [remap previous-buffer] #'pew/prev-buffer
