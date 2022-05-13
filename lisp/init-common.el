@@ -247,96 +247,73 @@ SWITCH-FUNC should not take any arguments."
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-;;;; Macros
+;;;; Customization functions and macros
 
 (defmacro pew/set-custom (&rest customs)
-  "A helper macro that sets CUSTOMS from `customize' interface in `setq' fashion.
-CUSTOMS is an alist of the form:
-  (pew/set-custom option1 value1
-                  option2 value2
-                  ...)
-The values will be evaluated before passing to `customize-set-variable'.
-The result is equivalent to:
-  (customize-set-variable 'option1 value1)
-  (customize-set-variable 'option2 value2)
-  ..."
-  (if (pew/oddp (length customs))
-      (error "Incomplete option and value pairs"))
-  (let ((result '(progn)))
+  "Set CUSTOMS variables.
+CUSTOMS is a list of the form:
+  (VAR VALUE VAR VALUE ...)
+This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
+  ;; No need to check the number of arguments. If the list length is odd then
+  ;; the last VAR will be set to nil
+  (let ((args nil))
     (while customs
-      ;; Prefer using `push' than `add-to-list' since the later checks elements
-      (push `(customize-set-variable ',(pop customs) ,(pop customs)) result))
-    ;; Since `push' causes configuration lines being read in a reversed way we
-    ;; need to fix it to the right order
-    ;; NOTE: `nreverse' seems to be faster but it doesn't work properly sometims
-    (reverse result)))
+      (push `(,(pop customs) ,(pop customs)) args))
+    `(pew/set-custom* ',(reverse args))))
 
-(defmacro pew/set-face (&rest faces)
-  "A helper macro that sets FACES.
+(defun pew/set-custom* (customs)
+  "Set a list of CUSTOMS.
+Each custom element is a list of the form:
+  (VAR VALUE [COMMENT])
+The VALUE will be evaluated before passing to `customize-set-variable'."
+  (dolist (cus customs)
+    (customize-set-variable (pop cus) (eval (pop cus)) (pop cus))))
+
+(defun pew/set-face (&rest faces)
+  "Set FACES attributes.
 FACES is a list of the form:
-  (pew/set-face 'face1 '(attr1_1 value1_1 attr1_2 value1_2 ...)
-                'face2 '(attr2_1 value2_1 attr2_2 value2_2 ...)
-                ...)
-For the attribute plist see `defface'.
-The result is equivalent to:
-  (set-face-attribute 'face1 nil attr1a value1a attr1b value1b ...)
-  (set-face-attribute 'face2 nil attr2a value2a attr2b value2b ...)
-  ..."
+  (FACE '(ATTR VALUE ATTR VALUE ...) FACE '(ATTR VALUE ATTR VALUE ...) ...)
+The arguments will be collected in pairs and passed to `set-face-attribute'.
+Equivalent to:
+  (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
   (if (pew/oddp (length faces))
-      (error "Incomplete face and attribute list pairs"))
-  (let ((result '(progn)))
-    (while faces
-      (push `(set-face-attribute ,(car faces) nil ,@(cadr (cadr faces))) result)
-      (setq faces (cddr faces)))
-    (reverse result)))
+      (error "Incomplete faces and attributes"))
+  (while faces
+    (apply 'set-face-attribute (pop faces) nil (pop faces))))
 
-(defmacro pew/set-key (map &rest bindings)
-  "A helper macro that binds BINDINGS in MAP.
+(defun pew/set-key (map &rest bindings)
+  "Bind BINDINGS in MAP.
 BINDINGS is a list of the form:
-  (pew/set-key map \"binding1\" #'def1
-                   [binding2] def2
-                   ...)
-See `define-key' for def definitions.
-The result is equivalent to:
-  (define-key map \"binding1\" #'def1)
-  (define-key map [binding2] def2)
-  ..."
+  (KEY DEF KEY DEF ...)
+For DEF's definition see `define-key'.
+The arguments will be collected in pairs and passed to `define-key'.
+Equivalent to:
+  (define-key MAP KEY DEF)"
   (if (pew/oddp (length bindings))
-      (error "Incomplete key and definition pairs"))
-  (let ((result '(progn)))
-    (while bindings
-      (push `(define-key ,map ,(pew/tokey (pop bindings)) ,(pop bindings)) result))
-    (reverse result)))
+      (error "Incomplete keys and definitions"))
+  (while bindings
+    (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
-(defmacro pew/set-enabled (&rest commands)
-  "A helper macro that enables COMMANDS that are disabled by default.
+(defun pew/set-enabled (&rest commands)
+  "Enable disabled COMMANDS by default.
 COMMANDS is a list of the form:
-  (pew/set-enabled 'command1 'command2 ...)
-The result is equivalent to:
-  (put 'command1 'disabled nil)
-  (put 'command2 'disabled nil)
-  ..."
-  `(progn
-     ,@(mapcar
-        (lambda (cmd)
-          `(put ,cmd 'disabled nil))
-        commands)))
+  (CMD CMD ...)
+The arguments will be passed to `put' one by one.
+Equivalent to:
+  (put CMD 'disabled nil)"
+  (dolist (cmd commands)
+    (put cmd 'disabled nil)))
 
-(defmacro pew/set-hook (&rest hooks)
-  "Add function calls to HOOKS.
+(defun pew/set-hook (&rest hooks)
+  "Add HOOKS.
 HOOKS is a list of the form:
-  (pew/set-hook hook1 #'func1)
-                hook2 #'func2)
-                ...)
-See `add-hook'.
-The result is equivalent to:
-  (add-hook 'hook1 #'func1)
-  (add-hook 'hook2 #'func2)
-  ..."
-  (let ((result '(progn)))
-    (while hooks
-      (push `(add-hook ,(pop hooks) ,(pop hooks)) result))
-    (reverse result)))
+  (HOOK FUNC HOOK FUNC ...)
+The arguments will be collected in pairs and passed to `add-hook'.
+Equivalent to:"
+  (if (pew/oddp (length hooks))
+      (error "Incomplete hooks and functions"))
+  (while hooks
+    (add-hook (pop hooks) (pop hooks))))
 
 (provide 'init-common)
 ;;; init-common.el ends here
