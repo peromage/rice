@@ -335,7 +335,7 @@ The result is equivalent to:
   ..."
   (let ((result '(progn)))
     (while hooks
-      (push `(add-hook ',(pop hooks) ,(pop hooks)) result))
+      (push `(add-hook ,(pop hooks) ,(pop hooks)) result))
     (reverse result)))
 
 (provide 'init-common)

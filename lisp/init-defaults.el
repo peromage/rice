@@ -247,11 +247,11 @@
 
 (pew/set-hook
 
- eshell-mode-hook #'pew/term-setup
- after-save-hook #'pew/delete-trailing-whitespaces
+ 'eshell-mode-hook #'pew/term-setup
+ 'after-save-hook #'pew/delete-trailing-whitespaces
 
  ;; Don't move cursor to the minibuffer prompt
- minibuffer-setup-hook #'cursor-intangible-mode
+ 'minibuffer-setup-hook #'cursor-intangible-mode
 
  )
 
