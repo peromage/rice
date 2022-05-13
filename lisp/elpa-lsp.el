@@ -11,8 +11,8 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :bind (:map lsp-mode-map
-         ("C-c j" . lsp-find-definition)
-         ("C-c J" . lsp-find-declaration))
+         ([remap xref-find-definitions] . lsp-find-definition)
+         ([remap xref-find-references] . lsp-find-declaration))
   :custom
   (lsp-keymap-prefix "C-c l")
   (lsp-enable-snippet t)
@@ -61,9 +61,8 @@
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ("C-c u" . lsp-ui-imenu)
-         ("C-c k" . pew/lsp-ui/doc-glance)
-         ("C-c K" . pew/lsp-ui/doc-toggle))
+         ("C-c w" . pew/lsp-ui/doc-glance)
+         ("C-c W" . pew/lsp-ui/doc-toggle))
   :hook (lsp-mode . pew/lsp-ui/setup)
   :custom
   (lsp-ui-peek-enable t)
@@ -82,7 +81,7 @@
   (lsp-ui-doc-delay 0.0)
   (lsp-ui-imenu-window-width 0)
   (lsp-ui-imenu-auto-refresh t)
-  (lsp-ui-imenu-refresh-delay 0.5))
+  (lsp-ui-imenu-auto-refresh-delay 0.5))
 
 (provide 'elpa-lsp)
 ;;; elpa-lsp.el ends here
