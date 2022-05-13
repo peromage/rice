@@ -27,9 +27,10 @@
 
 ;;;;; Windows and frame
 
- display-buffer-base-action '((display-buffer-reuse-window display-buffer-below-selected)
-                              (inhibit-switch-frame . t)
-                              (reusable-frame))
+ display-buffer-base-action '((display-buffer-reuse-window
+                               display-buffer-in-previous-window
+                               display-buffer-below-selected))
+ ;; See `window-splittable-p'
  split-height-threshold 0
  split-width-threshold nil
  frame-resize-pixelwise t
