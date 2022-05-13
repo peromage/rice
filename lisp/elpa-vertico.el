@@ -52,6 +52,13 @@
            (setq pew/consult/preview--key consult-preview-key)
            (setq consult-preview-key 'any))))
 
+  ;; Completion in region replacement
+  (defun pew/consult/completion-in-region (&rest args)
+    (apply (if vertico-mode
+               #'consult-completion-in-region
+             #'completion--in-region)
+           args))
+
   :bind (("C-s" . consult-line)
          ("C-c b l" . consult-line)
          ("C-c b L" . consult-line-multi)
@@ -84,6 +91,7 @@
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
+  (completion-in-region-function #'pew/consult/completion-in-region)
   (consult-async-min-input 2)
   (consult-narrow-key (kbd "<"))
   ;; Disable all auto previews
