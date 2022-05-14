@@ -54,10 +54,16 @@
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)
+    "Use consult for region completion."
     (apply (if vertico-mode
                #'consult-completion-in-region
              #'completion--in-region)
            args))
+
+  ;; CRM indicator
+  (defun pew/consult/crm-indicator (args)
+    "Add an indicator for multi-occur mode."
+    (cons (format "[CRM] %s" (car args)) (cdr args)))
 
   :bind (("C-s" . consult-line)
          ("C-c b l" . consult-line)
@@ -104,7 +110,8 @@
                      :preview-key '(:debounce 0.2 any)
                      consult-line
                      consult-line-multi
-                     :preview-key 'any))
+                     :preview-key 'any)
+  (advice-add #'completing-read-multiple :filter-args #'pew/consult/crm-indicator))
 
 ;; Rich annotations in the minibuffer
 (use-package marginalia
