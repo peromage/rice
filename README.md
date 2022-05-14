@@ -37,10 +37,11 @@ Temporary local changes can go into `pew/local.el` including settings by `custom
 pew
 ├── lisp/                   # Configuration files
 ├── site-lisp/              # Addtional package files written by myself
-├── snippets/               # Snippet files loaded by yasnippet
+├── yasnippets/             # Snippet files loaded by yasnippet
 ├── early-init.el           # Init file loaded before init.el
 ├── init.el                 # Main init file
 ├── .pew                    # Configuration root placeholder
+├── .gitignore              # Git ignore-file
 ├── LICENSE                 # License file
 └── README.md               # This file
 ```
@@ -50,4 +51,5 @@ pew
 This configuration is inspired by
 
 - [purcell/emacs.d](https://github.com/purcell/emacs.d)
+- [Protesilaos Stavrou](https://protesilaos.com/emacs/dotemacs)
 - [condy0919/.emacs.d](https://github.com/condy0919/.emacs.d)
