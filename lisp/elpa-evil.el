@@ -233,20 +233,6 @@ Hence we use `add-hook' takes care of the mode initial states. "
 
 ;;;; Evil enhancement
 
-;; Extend Evil keybindings to more modes
-(use-package evil-collection
-  :disabled
-  :custom
-  ;; NOTE: evil-collection assumes `evil-want-keybinding' is set to nil and
-  ;; `evil-want-integration' is set to t before loading evil and evil-collection
-  (evil-want-keybinding nil)
-  (evil-want-integration t)
-  :config
-  ;; Enable evil collection for all support modes
-  ;; Or simply do it for certain modes
-  ;(evil-collection-init '(calendar dired calc ediff))
-  (evil-collection-init))
-
 ;; Make Evil undo/redo easier
 (use-package undo-tree
   :hook (evil-local-mode . turn-on-undo-tree-mode)
