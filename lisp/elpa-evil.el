@@ -173,6 +173,10 @@ Hence we use `add-hook' takes care of the mode initial states. "
    "l" #'evil-window-right
    "s" #'evil-window-split
    "v" #'evil-window-vsplit
+   "1" #'delete-other-windows
+   "2" #'split-window-below
+   "3" #'split-window-right
+   "0" #'delete-window
 
    ;; Tabs
    "t" #'tab-bar-new-tab
@@ -213,7 +217,21 @@ Hence we use `add-hook' takes care of the mode initial states. "
    ;; Search
    "*" #'pew/evil/visual-search-selected
 
-   ))
+   )
+
+  (let ((bindings (list
+
+   ;; Quick eval
+   "eb" #'eval-buffer
+   "er" #'eval-region
+   "ef" #'eval-defun
+   "ee" #'eval-last-sexp
+
+   )))
+    (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings)
+    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings))
+
+)
 
 ;;;; Evil enhancement
 
