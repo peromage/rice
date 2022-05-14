@@ -229,9 +229,7 @@ Hence we use `add-hook' takes care of the mode initial states. "
 
    )))
     (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings)
-    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings))
-
-)
+    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings)))
 
 ;;;; Evil enhancement
 

@@ -15,9 +15,9 @@
 ;; `customize-set-variable'. It calls those options' setters if they have and
 ;; also prevents writting settings from this file to `custom-file'.
 
-;;;;; Startup
-
 (pew/set-custom
+
+;;;;; Startup
 
  inhibit-startup-buffer-menu t
  inhibit-startup-echo-area-message t
