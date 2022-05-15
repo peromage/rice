@@ -191,7 +191,7 @@ Hence we use `add-hook' takes care of the mode initial states. "
    "w" #'save-buffer
    "n" #'next-buffer
    "p" #'previous-buffer
-   "g" #'pew/show-file-path
+   "g" #'pew/buffer-full-path
 
    ;; Search and substitution
    "cs" #'pew/evil/replace-last-search
