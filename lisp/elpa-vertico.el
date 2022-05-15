@@ -61,7 +61,7 @@
            args))
 
   ;; CRM indicator
-  (defun pew/consult/crm-indicator (args)
+  (define-advice completing-read-multiple (:filter-args (args) pew/consult/crm-indicator)
     "Add an indicator for multi-occur mode."
     (cons (format "[CRM] %s" (car args)) (cdr args)))
 
@@ -110,8 +110,7 @@
                      :preview-key '(:debounce 0.2 any)
                      consult-line
                      consult-line-multi
-                     :preview-key 'any)
-  (advice-add #'completing-read-multiple :filter-args #'pew/consult/crm-indicator))
+                     :preview-key 'any))
 
 ;; Rich annotations in the minibuffer
 (use-package marginalia
