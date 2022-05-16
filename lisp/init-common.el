@@ -115,6 +115,10 @@ Equivalent to:"
   "Determine if NUM is odd."
   (not (pew/evenp num)))
 
+(defmacro pew/swap (a b)
+  "Swap values in A and B."
+  `(setq ,a (prog1 ,b (setq ,b ,a))))
+
 ;;;###autoload
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
@@ -287,7 +291,31 @@ SWITCH-FUNC should not take any arguments."
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-;;;; Toggles
+;;;; Toggle and cycle commands
+
+(defun pew/cycle-list (lst)
+  "Put the first element in the LST to the last.
+This function doesn't modify the passed in LST."
+  (if lst
+      (append (cdr lst) (cons (car lst) nil))
+    nil))
+
+(defun pew/sync-list (lst val)
+  "Cycle LST until the first element equals VAL.
+Return a list with VAL as the first element or nil if no matching element found."
+  (catch 'return
+    (if (equal val (car lst))
+        (throw 'return lst))
+    (let ((uplimit (length lst))
+          (iter 2))
+      ;; Fist one has been checked, skipping
+      (setq lst (pew/cycle-list lst))
+      (while (<= iter uplimit)
+        (if (equal val (car lst))
+            (throw 'return lst))
+        (setq lst (pew/cycle-list lst))
+        (setq iter (1+ iter)))
+      (throw 'return nil))))
 
 ;;;###autoload
 (defun pew/toggle-line-number-type ()
