@@ -85,7 +85,7 @@
  tab-bar-position t
  tab-bar-select-tab-modifiers '(meta)
  tab-bar-tab-hints t
- tab-bar-tab-name-function 'tab-bar-tab-name-all
+ tab-bar-tab-name-function #'tab-bar-tab-name-current-with-count
  tab-bar-show 1
  tab-bar-mode nil ;; Setting to t would cause display issue in terminal mode
 
