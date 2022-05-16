@@ -317,16 +317,24 @@ Return a list with VAL as the first element or nil if no matching element found.
         (setq iter (1+ iter)))
       (throw 'return nil))))
 
+;; Line numbers
+(defvar pew/line-number-styles '(nil t relative) "Line number styles.")
 ;;;###autoload
-(defun pew/toggle-line-number-type ()
+(defun pew/cycle-line-number-style ()
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
-  (cond ((eq 'relative display-line-numbers)
-         (setq display-line-numbers t)
-         (message "Set line numbers to normal"))
-        (t
-         (setq display-line-numbers 'relative)
-         (message "Set line numbers to relative"))))
+  (let ((synced-style (pew/sync-list pew/line-number-styles display-line-numbers))
+        (style-string "Unknown"))
+    (when synced-style
+        (setq pew/line-number-styles (pew/cycle-list synced-style))
+        (setq display-line-numbers (car pew/line-number-styles)))
+    (cond ((eq nil display-line-numbers)
+           (setq style-string "Off"))
+          ((eq t display-line-numbers)
+           (setq style-string "Abusolute"))
+          ((eq 'relative display-line-numbers)
+           (setq style-string "Relative")))
+    (message "Line number style: %s" style-string)))
 
 ;;;###autoload
 (defun pew/toggle-indent-tabs-mode ()
