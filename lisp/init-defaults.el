@@ -208,6 +208,9 @@
  electric-pair-mode nil ;; Annoying sometimes
  electric-indent-mode nil ;; Same above
 
+ ;; TRAMP
+ tramp-default-method "ssh"
+
  )
 
 ;;;; Keybindings
