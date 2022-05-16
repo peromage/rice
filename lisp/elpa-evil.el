@@ -140,9 +140,11 @@ Hence we use `add-hook' takes care of the mode initial states. "
   (evil-search-module 'evil-search)
   ;; Set initial buffer states
   ;; NOTE: This takes precedence over mode initial states below
-  (evil-buffer-regexps '(("*scratch*" . normal)
-                         ("*Messages*" . motion)
-                         ("*Help*" . motion)
+  (evil-buffer-regexps '(("\\*scratch\\*" . normal)
+                         ("\\*Messages\\*" . motion)
+                         ("\\*Help\\*" . motion)
+                         ("\\*.*[Ss]hell\\*" . normal)
+                         ("\\*.*[Tt]erm\\(inal\\)*\\*" . normal)
                          ("\\`magit" . emacs)
                          ;; General special definitions go last
                          ("\\` *\\*.*\\*" . emacs)))
