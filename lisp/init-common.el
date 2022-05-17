@@ -300,12 +300,6 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Toggle and cycle commands
 
-;; Buffer splitting style
-(defun pew/toggle-display-buffer ()
-  "Toggle `display-buffer' between default and customized."
-  (interactive)
-  (pew/toggle-var display-buffer-base-action '(nil)))
-
 ;; Line numbers
 (defvar pew/line-number-styles '(nil t relative) "Line number styles.")
 (defun pew/cycle-line-number-style ()
