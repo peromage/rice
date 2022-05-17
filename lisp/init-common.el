@@ -99,7 +99,7 @@ Equivalent to:"
   user-init-file)
 
 ;;;###autoload
-(defun pew/expand-macro (form all)
+(defun pew/expand-macro (form &optional all)
   "Expand macro the first level (or ALL) in FORM and print the expanded code."
   (let ((expanded (if all (macroexpand-all form) (macroexpand form))))
     (message "Expanded macro:\n%S" expanded)
@@ -316,6 +316,16 @@ Return a list with VAL as the first element or nil if no matching element found.
         (setq lst (pew/cycle-list lst))
         (setq iter (1+ iter)))
       (throw 'return nil))))
+
+(defmacro pew/toggle-var (var default)
+  "Toggle variable VAR between custom value and DEFAULT value.
+If VAR does not equal to DEFAULT, store value of VAR in VAR@pewstore and set
+VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
+  `(let* ((store-symbol (intern ,(concat (symbol-name var) "@pewstore"))))
+     (eval (list 'defvar store-symbol ,default "Store variable set by PEW."))
+     (if (not (equal ,default ,var))
+         (eval (list 'setq store-symbol ,var ',var ,default))
+       (eval (list 'setq ',var (list 'prog1 store-symbol (list 'setq store-symbol ',var)))))))
 
 ;; Line numbers
 (defvar pew/line-number-styles '(nil t relative) "Line number styles.")
