@@ -9,7 +9,7 @@
 
 ;;;; Need to be evaluated at compile-time
 
-(eval-when-compile
+(eval-and-compile
 
   (defmacro pew/set-custom (&rest customs)
     "Set CUSTOMS variables.
@@ -118,9 +118,9 @@ Return a list with VAL as the first element or nil if no matching element found.
 If VAR does not equal to DEFAULT, store value of VAR in VAR@pewstore and set
 VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
     `(let* ((store-symbol (intern ,(concat (symbol-name var) "@pewstore"))))
-       (eval (list 'defvar store-symbol ,default "Store variable set by PEW."))
+       (eval (list 'defvar store-symbol ',default "Store variable set by PEW."))
        (if (not (equal ,default ,var))
-           (eval (list 'setq store-symbol ,var ',var ,default))
+           (eval (list 'setq store-symbol ',var ',var ',default))
          (eval (list 'setq ',var (list 'prog1 store-symbol (list 'setq store-symbol ',var)))))))
 
   )
@@ -299,6 +299,12 @@ SWITCH-FUNC should not take any arguments."
   (display-fill-column-indicator-mode -1))
 
 ;;;; Toggle and cycle commands
+
+;; Buffer splitting style
+(defun pew/toggle-display-buffer ()
+  "Toggle `display-buffer' between default and customized."
+  (interactive)
+  (pew/toggle-var display-buffer-base-action '(nil)))
 
 ;; Line numbers
 (defvar pew/line-number-styles '(nil t relative) "Line number styles.")
