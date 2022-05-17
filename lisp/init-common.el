@@ -293,8 +293,8 @@ SWITCH-FUNC should not take any arguments."
   (setq-local word-wrap nil
               truncate-lines nil
               truncate-partial-width-windows nil
+              show-trailing-whitespace nil
               global-hl-line-mode nil)
-  (hl-line-mode -1)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
