@@ -1,0 +1,65 @@
+## Alacritty doesn't create the config file for you, but it looks for one in the following locations:
+## 
+## $XDG_CONFIG_HOME/alacritty/alacritty.yml
+## $XDG_CONFIG_HOME/alacritty.yml
+## $HOME/.config/alacritty/alacritty.yml
+## $HOME/.alacritty.yml
+##
+## On Windows, the config file should be located at:
+## 
+## %APPDATA%\alacritty\alacritty.yml
+
+# All imports must either be absolute paths starting with `/`, or paths relative
+# to the user's home directory starting with `~/`.
+#import:
+#  - /path/to/alacritty.yml
+
+## Visual
+
+window:
+  dimensions:
+    columns: 100
+    lines: 30
+  padding:
+    x: 2
+    y: 2
+  opacity: 1.0
+  title: owo
+  dynamic_title: false
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  normal:
+    family: Iosevka
+    style: Regular
+  size: 11.0
+
+selection:
+  save_to_clipboard: true
+
+cursor:
+  style:
+    shape: Block
+    blinking: Off
+  vi_mode_style: Block
+  unfocused_hollow: true
+
+## Actions
+env:
+  TERM: xterm-256color
+
+live_config_reload: true
+
+working_directory: None
+
+mouse:
+  hide_when_typing: true
+
+key_bindings:
+  - { key: T, mods: Shift|Control, mode: ~Alt, action: CreateNewWindow }
+  - { key: N, mods: Shift|Control, mode: ~Alt, action: SpawnNewInstance }
+
+

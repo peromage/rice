@@ -1,0 +1,45 @@
+# File list
+set dircounts
+set dirfirst
+set hidden
+set preview
+
+# Appearance
+set color256
+set noicons
+set nodrawbox
+
+# Search
+set anchorfind
+set ignorecase
+set noignoredia
+set globsearch
+set incsearch
+set noreverse
+set smartcase
+set smartdia
+set findlen 1
+
+# Navigation
+set wrapscan
+set nowrapscroll
+
+# Line numeber
+set nonumber
+set norelativenumber
+set scrolloff 4
+
+# Misc
+set period 0
+set tabstop 4
+
+# Keybindings
+#
+# Leader z bindings
+map zp :set preview!
+map zl :set nopreview;set ratios 1
+map zj :set ratios 1:2:3;set preview
+map zk :set ratios 1:1;set preview
+
+# Commands
+

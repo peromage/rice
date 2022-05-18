@@ -1,0 +1,4 @@
+shell:
+  program: pwsh
+  args:
+    - -NoLogo
