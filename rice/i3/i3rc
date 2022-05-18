@@ -1,0 +1,236 @@
+# i3 config file (v4)
+#
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+ 
+# ---Variables--- #
+# Main mod key (Alt)
+set $mod    Mod1
+# Alt mod key
+set $modalt Control 
+
+# Direction keys
+set $left   h
+set $down   j
+set $up     k
+set $right  l
+set $next   n
+set $prev   b
+
+# ---Programs variables--- #
+set $TERMINAL   urxvt
+set $LAUNCHER   dmenu_run
+
+# ---Color variables--- #
+# dark and light
+set_from_resource $CFOCUSED     i3.color10      #285577
+set_from_resource $CINACTIVE    i3.color0       #5F676A
+set_from_resource $CUNFOCUSED   i3.color8       #222222
+set_from_resource $CURGENT      i3.color9       #900000 
+set_from_resource $CBINDING     i3.color15      #009000
+set_from_resource $CPLACEHOLDER i3.color11      #000090
+set_from_resource $CFOREGD      i3.foreground   #FFFFFF
+set_from_resource $CBACKGD      i3.background   #000000
+
+# ---i3 settings--- #
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace    8
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+#workspace_auto_back_and_forth yes
+
+# ---i3 colors--- #
+# <class>               <border>        <bground>       <text>      <indicator> <child_border>
+client.focused          $CFOCUSED       $CFOCUSED       $CFOREGD    $CFOREGD    $CFOCUSED 
+client.focused_inactive $CINACTIVE      $CINACTIVE      $CFOREGD    $CFOREGD    $CINACTIVE
+client.unfocused        $CUNFOCUSED     $CUNFOCUSED     $CFOREGD    $CFOREGD    $CUNFOCUSED 
+client.urgent           $CURGENT        $CURGENT        $CFOREGD    $CFOREGD    $CURGENT 
+client.placeholder      $CPLACEHOLDER   $CPLACEHOLDER   $CFOREGD    $CFOREGD    $CPLACEHOLDER 
+client.background       $CBACKGD 
+
+# ---Key bindings--- #
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier   $mod
+
+# kill focused window
+bindsym $mod+w  kill
+
+# start a terminal
+bindsym $mod+t          exec $TERMINAL
+
+# start dmenu (a program launcher)
+bindsym $mod+c          exec $LAUNCHER
+
+# manually input i3 command
+bindsym $mod+$modalt+c  exec i3-input -F "%s" -P 'i3> '
+
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# ---Window and container--- #
+# change focus
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+$modalt+$left  move left
+bindsym $mod+$modalt+$down  move down
+bindsym $mod+$modalt+$up    move up
+bindsym $mod+$modalt+$right move right
+
+# enter fullscreen mode for the focused container
+bindsym $mod+bracketright  fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+apostrophe         layout toggle stacking tabbed
+bindsym $mod+semicolon          layout toggle split
+bindsym $mod+$modalt+semicolon  split toggle
+
+# toggle tiling / floating
+bindsym $mod+bracketleft           floating toggle
+bindsym $mod+$modalt+bracketleft   sticky toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+u  focus mode_toggle
+
+# focus the parent container
+bindsym $mod+i  focus parent
+
+# focus the child container
+bindsym $mod+o  focus child
+
+# window mark
+bindsym $mod+x  exec i3-input -F "mark --toggle %s" -P "New Window Mark: "
+
+# scratchpad
+bindsym $mod+p          scratchpad show
+bindsym $mod+$modalt+p   move scratchpad
+
+# ---i3 management--- #
+# reload the configuration file
+bindsym $mod+$modalt+Home   reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+$modalt+Prior  restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+$modalt+Next   exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+# ---Workspace--- #
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1      workspace $ws1
+bindsym $mod+2      workspace $ws2
+bindsym $mod+3      workspace $ws3
+bindsym $mod+4      workspace $ws4
+bindsym $mod+5      workspace $ws5
+bindsym $mod+6      workspace $ws6
+bindsym $mod+7      workspace $ws7
+bindsym $mod+8      workspace $ws8
+bindsym $mod+9      workspace $ws9
+bindsym $mod+0      workspace $ws10
+bindsym $mod+$next  workspace next
+bindsym $mod+$prev  workspace prev
+
+# rename workspace
+bindsym $mod+$modalt+x  exec i3-input -F "rename workspace to %s" -P "New Workspace Name: "
+
+# move focused container to workspace
+bindsym $mod+$modalt+1      move container to workspace $ws1
+bindsym $mod+$modalt+2      move container to workspace $ws2
+bindsym $mod+$modalt+3      move container to workspace $ws3
+bindsym $mod+$modalt+4      move container to workspace $ws4
+bindsym $mod+$modalt+5      move container to workspace $ws5
+bindsym $mod+$modalt+6      move container to workspace $ws6
+bindsym $mod+$modalt+7      move container to workspace $ws7
+bindsym $mod+$modalt+8      move container to workspace $ws8
+bindsym $mod+$modalt+9      move container to workspace $ws9
+bindsym $mod+$modalt+0      move container to workspace $ws10
+bindsym $mod+$modalt+$next  move container to workspace next
+bindsym $mod+$modalt+$prev  move container to workspace prev
+
+# ---Mode resize--- #
+# resize window (you can also use the mouse for that)
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
+
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym $left   resize shrink width 5 px or 5 ppt
+    bindsym $down   resize shrink height 5 px or 5 ppt
+    bindsym $up     resize grow height 5 px or 5 ppt
+    bindsym $right  resize grow width 5 px or 5 ppt
+
+    # back to normal: Enter or Escape or $mod+r
+    bindsym Escape  mode "default"
+    bindsym $mod+r  mode "default"
+}
+
+bindsym $mod+r  mode "resize"
+
+# ---i3 gaps--- #
+set $inner 10
+set $outer 10
+#for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border normal
+gaps inner $inner
+gaps outer $outer
+
+mode "resize_gaps" {
+    bindsym j gaps inner current plus 5
+    bindsym k gaps inner current minus 5
+    bindsym h gaps outer current plus 5
+    bindsym l gaps outer current minus 5
+    bindsym i border toggle 
+    bindsym Escape mode "default"
+    bindsym $mod+g mode "default"
+}
+
+bindsym $mod+g mode "resize_gaps"
+
+# ---i3 bar--- #
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+    status_command i3blocks
+    mode dock
+    position top
+    font pango:mono 10 
+    colors {
+        background  $CBACKGD 
+        statusline  $CFOREGD 
+        separator   $CUNFOCUSED 
+        # <class>           <border>    <background>    <text> 
+        focused_workspace   $CFOCUSED   $CFOCUSED       $CFOREGD 
+        active_workspace    $CUNFOCUSED $UNFOCUSED      $CFOREGD 
+        inactive_workspace  $CINACTIVE  $CINACTIVE      $CFOREGD 
+        urgent_workspace    $CURGENT    $CURGENT        $CFOREGD 
+        binding_mode        $CBINDING   $CBINDING       $CFOREGD 
+    }
+}

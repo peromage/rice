@@ -1,0 +1,152 @@
+{
+    "breadcrumbs.filePath": "last",
+    "csharp.semanticHighlighting.enabled": true,
+    "debug.inlineValues": true,
+    "debug.internalConsoleOptions": "neverOpen",
+    "debug.openDebug": "neverOpen",
+    "debug.showBreakpointsInOverviewRuler": true,
+    "debug.showSubSessionsInToolBar": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.accessibilitySupport": "off",
+    "editor.codeLens": false,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.cursorWidth": 2,
+    "editor.detectIndentation": true,
+    "editor.fontFamily": "Iosevka Regular, Cascadia Code PL, Sarasa Term CL, Consolas, monospace",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "normal",
+    "editor.insertSpaces": true,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "editor.minimap.maxColumn": 60,
+    "editor.minimap.renderCharacters": false,
+    "editor.mouseWheelZoom": true,
+    "editor.quickSuggestions": true,
+    "editor.renderControlCharacters": true,
+    "editor.renderLineHighlight": "all",
+    "editor.renderWhitespace": "trailing",
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.showFoldingControls": "always",
+    "editor.smoothScrolling": true,
+    "editor.suggest.localityBonus": true,
+    "editor.suggest.shareSuggestSelections": true,
+    "editor.suggest.showStatusBar": true,
+    "editor.tabSize": 4,
+    "editor.trimAutoWhitespace": false,
+    "editor.unfoldOnClickAfterEndOfLine": true,
+    "explorer.autoReveal": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.openEditors.visible": 10,
+    "extensions.autoCheckUpdates": false,
+    "extensions.autoUpdate": false,
+    "extensions.ignoreRecommendations": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.simpleDialog.enable": true,
+    "files.trimFinalNewlines": true,
+    "git.ignoreMissingGitWarning": true,
+    "powershell.integratedConsole.showOnStartup": false,
+    "powershell.pester.useLegacyCodeLens": false,
+    "powershell.powerShellDefaultVersion": "pwsh.exe",
+    "powershell.promptToUpdatePackageManagement": false,
+    "powershell.promptToUpdatePowerShell": false,
+    "powershell.startAsLoginShell.osx": false,
+    "problems.showCurrentInStatus": true,
+    "python.languageServer": "Pylance",
+    "remote.SSH.remotePlatform": {
+        "vm1": "linux",
+        "vm2": "linux",
+        "vm3": "linux",
+        "vm4": "linux",
+        "vm5": "linux"
+    },
+    "scm.autoReveal": false,
+    "search.experimental.searchInOpenEditors": true,
+    "search.showLineNumbers": true,
+    "search.smartCase": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.windows": "pwsh",
+    "terminal.integrated.fontWeight": "normal",
+    "terminal.integrated.localEchoExcludePrograms": [
+        "vim",
+        "vi",
+        "nano",
+        "tmux",
+        "nvim",
+        "emacs",
+        "emacsclient"
+    ],
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "icon": "terminal-bash",
+            "path": "bash"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "pwsh": {
+            "args": [
+                "-NoLogo"
+            ],
+            "icon": "terminal-powershell",
+            "path": "pwsh"
+        },
+        "tmux": {
+            "icon": "terminal-tmux",
+            "path": "tmux"
+        },
+        "zsh": {
+            "path": "zsh"
+        }
+    },
+    "terminal.integrated.profiles.windows": {
+        "pwsh": {
+            "args": [
+                "-NoLogo"
+            ],
+            "source": "PowerShell"
+        }
+    },
+    "terminal.integrated.rightClickBehavior": "default",
+    "terminal.integrated.sendKeybindingsToShell": true,
+    "update.enableWindowsBackgroundUpdates": false,
+    "update.mode": "manual",
+    "vscode-neovim.mouseSelectionStartVisualMode": true,
+    "vscode-neovim.neovimExecutablePaths.darwin": "nvim",
+    "vscode-neovim.neovimExecutablePaths.linux": "nvim",
+    "vscode-neovim.neovimExecutablePaths.win32": "nvim",
+    "vscode-neovim.revealCursorScrollLine": true,
+    "vscode-neovim.useCtrlKeysForInsertMode": false,
+    "window.autoDetectHighContrast": false,
+    "window.menuBarVisibility": "compact",
+    "window.restoreWindows": "none",
+    "window.title": "${rootName}${separator}${activeEditorLong}${dirty}",
+    "window.titleBarStyle": "custom",
+    "workbench.colorTheme": "Quiet Light",
+    "workbench.editor.enablePreviewFromCodeNavigation": true,
+    "workbench.editor.enablePreviewFromQuickOpen": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.restoreViewState": false,
+    "workbench.editor.splitSizing": "split",
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.enableExperiments": false,
+    "workbench.list.smoothScrolling": true,
+    "workbench.settings.openDefaultKeybindings": true,
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.settingsSearchTocBehavior": "hide",
+    "workbench.settings.useSplitJSON": true,
+    "workbench.startupEditor": "welcomePageInEmptyWorkbench",
+    "workbench.tree.renderIndentGuides": "always",
+    "zenMode.hideLineNumbers": false
+}

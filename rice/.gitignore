@@ -1,0 +1,10 @@
+## Temporary folders
+temp/
+tmp/
+cache/
+.cache/
+
+## Temporary files
+**/local.sh
+**/local.bash
+**/local.ps1

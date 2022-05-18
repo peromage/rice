@@ -1,0 +1,11 @@
+## Supported server options to pass to vncserver upon invocation can be listed
+## in this file. See the following manpages for more: vncserver(1) Xvnc(1).
+## Several common ones are shown below. Uncomment and modify to your liking.
+##
+desktop=arch-awesome
+geometry=1366x768
+depth=24
+securitytypes=none
+#securitytypes=vncauth,tlsvnc
+localhost
+#alwaysshared
