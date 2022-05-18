@@ -12,6 +12,12 @@ update-gpg-agent
 EOF
 }
 
+pwsh_conf() {
+    cat <<EOF | append $HOME/.config/powershell/profile.ps1
+. $RICE_HOME/pwsh/init.ps1
+EOF
+}
+
 git_conf() {
     cat <<EOF | append $HOME/.gitconfig
 [include]
