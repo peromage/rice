@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ ! -f ./install.sh ]]; then
-    echo "Working directory needs to be the root of rice"
-    exit 1
-fi
-
 ### Config commands
 ## Each command function name has to be "NAME_conf"
 
@@ -37,7 +32,7 @@ gnupg_conf() {
 
 ### Utilities
 
-RICE_HOME=$(pwd)
+RICE_HOME=$(dirname $(realpath $BASH_SOURCE))
 
 append() {
     ## $1: File path
