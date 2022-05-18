@@ -1,0 +1,207 @@
+""" init.vim -- Common settings for vanilla Vim
+
+""" Quality of life
+
+set nocompatible
+
+""" Windows
+
+set splitbelow
+set splitright
+set winaltkeys=no
+set nolazyredraw
+
+""" Visual and experience
+
+"" Experience adjustment
+set wildmenu
+set ruler
+set nowrap
+"" Headsup of line length
+set colorcolumn=80,120
+"" Line numbers
+set number
+set relativenumber
+set signcolumn=yes
+"" Colors
+set background=dark
+set notermguicolors
+"" Cursor
+set cursorline
+set scrolloff=0
+set backspace=indent,eol,start
+"" Remove warning when switch buffer that is not saved
+set hidden
+"" Show control characters
+set list
+set listchars=tab:\|\ ,trail:.,extends:>,precedes:<,nbsp:%
+"" Misc
+set conceallevel=0
+set showtabline=1
+set showmode
+set clipboard=
+
+""" Syntax
+
+filetype plugin indent on
+syntax on
+
+""" Searching
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set tagcase=followscs
+set magic
+
+""" Indentation
+
+"" Unify tab width
+set expandtab
+set smarttab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+"" Folding
+set nofoldenable
+set foldmethod=indent
+set foldlevel=99
+set foldnestmax=20
+"" Auto indent
+set autoindent
+set smartindent
+set cindent
+
+""" Format and encoding
+
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,latin1
+set termencoding=utf-8
+set fileformats=unix,dos,mac
+
+""" Files
+
+"" Don't auto flush or read files
+"" Don't keep backup file unless it failed to write
+set autoread
+set noautowrite
+set noautowriteall
+set nobackup
+set writebackup
+set noundofile
+set nobinary
+"" Fix EOL
+set endofline
+set fixendofline
+
+""" Tags
+
+set tags+=./.tags;
+set tags+=.tags
+
+""" Interactive
+
+set mouse=a
+
+""" Status bar view
+
+set laststatus=2
+set statusline=
+"" Fold at begginning
+set statusline+=\ %<
+"" File status
+set statusline+=%-20.120f%<%([%M%R%W]%)
+"" Start folding from right aligned elements
+set statusline+=%=%<
+"" Encoding info
+set statusline+=\ [%Y,%{&fenc!=''?&fenc:&enc}%{(&bomb?\"(BOM)\":\"\")},%{&ff}]
+"" Navigation info
+set statusline+=\ \(%l:%c,%P\)
+
+""" Key bindings
+
+let g:mapleader="\<Space>"
+
+"" Cursor movement
+nnoremap <silent> <Leader>h <C-w>h
+nnoremap <silent> <Leader>j <C-w>j
+nnoremap <silent> <Leader>k <C-w>k
+nnoremap <silent> <Leader>l <C-w>l
+nnoremap <silent> <Leader>o <C-w>p
+inoremap <silent> <C-h> <left>
+inoremap <silent> <C-j> <down>
+inoremap <silent> <C-k> <up>
+inoremap <silent> <C-l> <right>
+inoremap <silent> <C-a> <Home>
+inoremap <silent> <C-e> <End>
+
+"" Splitting
+nnoremap <silent> <Leader>v <C-w>v
+nnoremap <silent> <Leader>s <C-w>s
+nnoremap <silent> <Leader>O <C-w>o
+
+"" Resizing
+nnoremap <silent> <Down> <C-w>-
+nnoremap <silent> <Up> <C-w>+
+nnoremap <silent> <Left> <C-w><
+nnoremap <silent> <Right> <C-w>>
+
+"" Tabs
+nnoremap <silent> <Leader>f :<C-u>tabprevious<CR>
+nnoremap <silent> <Leader>b :<C-u>tabnext<CR>
+nnoremap <silent> <Leader>t :<C-u>tabnew<CR>
+nnoremap <silent> <Leader>> :<C-u>tabmove +<CR>
+nnoremap <silent> <Leader>< :<C-u>tabmove -<CR>
+nnoremap <silent> <Leader>T <C-w>T
+
+"" Buffers
+nnoremap <silent> <Leader>n :<C-u>bn<CR>
+nnoremap <silent> <Leader>p :<C-u>bp<CR>
+nnoremap <silent> <Leader>x <C-u>:bd<CR>
+nnoremap <silent> <Leader>X :<C-u>%bd\|e#<CR>
+
+"" Goto
+nnoremap <silent> <Leader>g" :<C-u>reg<CR>
+nnoremap <silent> <Leader>g: :<C-u>messages<CR>
+nnoremap <silent> <Leader>gt :<C-u>tabs<CR>:tabnext<Space>
+nnoremap <silent> <Leader>gb :<C-u>buffers<CR>:buffer<Space>
+
+"" Quick access
+nnoremap <silent> <Leader>cp :<C-u>set paste!<CR>
+nnoremap <silent> <Leader>cw :<C-u>set wrap!<CR>
+nnoremap <Leader>cf :<C-u>set filetype=
+nnoremap <Leader>cS :<C-u>%s//gc<Left><Left><Left>
+nnoremap <expr> <Leader>cs ':<C-u>%s/' . @/ . '//gc<Left><Left><Left>'
+nnoremap <silent> # :<C-u>noh<CR>
+nnoremap <silent> * *N
+vnoremap <silent> * y/\V<C-r>=escape(@",'/\')<CR><CR>N
+
+"" Save and quit
+nnoremap <silent> <Leader>q :<C-u>q<CR>
+nnoremap <silent> <Leader>Q :<C-u>qa<CR>
+nnoremap <silent> <Leader>w :<C-u>w<CR>
+nnoremap <silent> <Leader>W :<C-u>wa<CR>
+
+"" System Copy and paste
+nnoremap <silent> <Leader>uy "*yy
+nnoremap <silent> <Leader>up :<C-u>set paste<CR>"*p:set nopaste<CR>
+vnoremap <silent> <Leader>uy "*y
+vnoremap <silent> <Leader>up :<C-u>set paste<CR>gv"*p:set nopaste<CR>
+
+"" Terminal related
+tnoremap <Esc><Esc> <C-\><C-n>
+
+""" Commands
+
+" Close all but current buffers
+command! Bdall :%bd|e#
+
+" Toggle line numbers
+command! LineNumbers :set nu rnu scl=yes
+command! NoLineNumbers :set nonu nornu scl=no
+
+" Toggle paste mode
+command! PasteMode :set paste
+command! NoPasteMode :set nopaste

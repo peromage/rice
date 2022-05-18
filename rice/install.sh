@@ -30,18 +30,36 @@ gnupg_conf() {
     cat $RICE_HOME/gnupg/sshcontrol | append $HOME/.gnupg/sshcontrol
 }
 
+vim_conf() {
+    cat <<EOF | append $HOME/.vimrc
+source $RICE_HOME/vim/init.vim
+EOF
+}
+
+neovim_conf() {
+    cat <<EOF | append $HOME/.config/nvim/init.vim
+source $RICE_HOME/vim/init.vim
+EOF
+}
+
 ### Utilities
 
 RICE_HOME=$(dirname $(realpath $BASH_SOURCE))
 
+makedir() {
+    mkdir -p $(dirname $1)
+}
+
 append() {
     ## $1: File path
+    makedir $1
     cat >> $1
     echo "Appended to: $1"
 }
 
 overwrite() {
     ## $1: File path
+    makedir $1
     cat > $1
     echo "Overwrote: $1"
 }
