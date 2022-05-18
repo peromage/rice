@@ -6,6 +6,8 @@ This is my personal Emacs configuration. Be aware that it might not fit your nee
 
 This configuration intends to be as minimal as possible meaning that it prefers to use Emacs built-in features and optimize them.
 
+Additionally, for convenience, I included my config collection for other apps in this repo. They can be found in `rice` directory which is managed by `git subtree`.
+
 ## Features
 
 - Light and quick
@@ -38,6 +40,7 @@ pew
 ├── lisp/                   # Configuration files
 ├── site-lisp/              # Addtional package files written by myself
 ├── yasnippets/             # Snippet files loaded by yasnippet
+├── rice/                   # My config collection for other apps
 ├── early-init.el           # Init file loaded before init.el
 ├── init.el                 # Main init file
 ├── .pew                    # Configuration root placeholder

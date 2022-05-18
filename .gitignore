@@ -18,6 +18,10 @@ site-lisp/**/*.elc
 yasnippets/**/*.el
 yasnippets/**/*.elc
 
+# Include my rice config
+!rice/
+!rice/**
+
 # Include files at the repo root
 !.gitignore
 !.pew
