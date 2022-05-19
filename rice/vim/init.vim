@@ -130,10 +130,11 @@ nnoremap <silent> <Leader>j <C-w>j
 nnoremap <silent> <Leader>k <C-w>k
 nnoremap <silent> <Leader>l <C-w>l
 nnoremap <silent> <Leader>o <C-w>p
-inoremap <silent> <C-h> <left>
-inoremap <silent> <C-j> <down>
-inoremap <silent> <C-k> <up>
-inoremap <silent> <C-l> <right>
+"" In insert mode, C-x C-i to trigger completion
+inoremap <silent> <C-b> <left>
+inoremap <silent> <C-n> <down>
+inoremap <silent> <C-p> <up>
+inoremap <silent> <C-f> <right>
 inoremap <silent> <C-a> <Home>
 inoremap <silent> <C-e> <End>
 
