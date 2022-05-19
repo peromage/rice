@@ -6,8 +6,6 @@
 bash_conf() {
     cat <<EOF | append $HOME/.bashrc
 source $RICE_HOME/bash/init.sh
-EOF
-    cat <<EOF | append $RICE_HOME/bash/local.sh
 update-gpg-agent
 EOF
 }
