@@ -28,8 +28,16 @@ Also sometimes configs are modified for specific purposes but those changes are 
 
 So `Stow` doesn't really work well for me and I prefer to refer my config in the local config file if it supports include-ish syntax.
 
-## Complementary Tools
+## CLI Alternatives
 
-Quick jump
-
-- [z.lua](https://github.com/skywind3000/z.lua)
+- Better `ls`: [exa](https://github.com/ogham/exa)
+- Better `cat`: [bat](https://github.com/sharkdp/bat)
+- Better `grep`: [ripgrep](https://github.com/BurntSushi/ripgrep)
+- Better `find`: [fzf](https://github.com/junegunn/fzf)
+- Quick jump:
+  - [zoxide](https://github.com/ajeetdsouza/zoxide)
+  - [z.lua](https://github.com/skywind3000/z.lua)
+- File manager:
+  - [lf](https://github.com/gokcehan/lf)
+  - [mc](https://midnight-commander.org)
+- Automation: [entr](https://github.com/eradman/entr)
