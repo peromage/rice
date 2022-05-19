@@ -35,4 +35,3 @@ rinclude sh/init-env
 rinclude sh/init-cmd
 rinclude sh/init-cmd-win
 rinclude sh/theme-normal
-rinclude local noerror
