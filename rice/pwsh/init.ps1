@@ -16,9 +16,12 @@ $global:ripwsh = @{
 function rinclude {
     <# Return a string which can be evaluated to source the module file.
 The parameter FILE implies suffix .ps1. #>
-    param ($file)
+    param ($file, $noerror=$null)
     $file = Join-Path $ripwsh.home.FullName "${file}.ps1"
-    return ". ${file} $args"
+    if ($noerror -and (-not (Test-Path -PathType Leaf $file))) {
+        return " "
+    }
+    return ". ${file}"
 }
 
 ### Load modules
@@ -27,4 +30,4 @@ Invoke-Expression (rinclude ps1/init-env)
 Invoke-Expression (rinclude ps1/init-cmd)
 Invoke-Expression (rinclude ps1/init-cmd-win)
 Invoke-Expression (rinclude ps1/theme-mypwsh)
-Invoke-Expression (rinclude local)
+Invoke-Expression (rinclude local noerror)

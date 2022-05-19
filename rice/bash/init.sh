@@ -20,10 +20,13 @@ ribash_home=$(dirname $(realpath "$BASH_SOURCE"))
 
 ## Module source command
 rinclude() {
-    ## Source the given module file
-    ## File name implies suffix ".sh"
-    local file="$ribash_home/${1}.sh" && shift
-    source $file $@
+    ## $1: The module file that is to be sourced. File name implies suffix ".sh"
+    ## $2: If non-empty, ignore errors if the module file doesn't exist
+    local file="$ribash_home/${1}.sh"
+    if [[ -n $2 ]] && [[ ! -f $file ]]; then
+        return
+    fi
+    source $file
 }
 
 ### Load module files
@@ -32,4 +35,4 @@ rinclude sh/init-env
 rinclude sh/init-cmd
 rinclude sh/init-cmd-win
 rinclude sh/theme-normal
-rinclude local
+rinclude local noerror
