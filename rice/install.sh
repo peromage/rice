@@ -48,6 +48,13 @@ source $RICE_HOME/vim/init.vim
 EOF
 }
 
+alacritty_conf() {
+    cat <<EOF | append $HOME/.alacritty.yml
+import:
+  - $RICE_HOME/alacritty/alacritty.yml
+EOF
+}
+
 ### Utilities
 
 RICE_HOME=$(dirname $(realpath $BASH_SOURCE))
