@@ -231,6 +231,7 @@
  "v" #'split-window-right
  "r" #'winner-redo
  "u" #'winner-undo
+ "q" #'pew/close-window
 
  ;; Buffers
  "n" #'pew/next-buffer
@@ -243,6 +244,7 @@
  "T" #'pew/pop-window-in-new-tab
  "m" #'pew/move-tab-next
  "M" #'pew/move-tab-prev
+ "Q" #'tab-bar-close-tab
 
  )
 

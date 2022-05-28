@@ -42,15 +42,6 @@ Hence we use `add-hook' takes care of the mode initial states. "
       (while states
         (add-hook (intern (format hookfmt (pop states))) (intern (format statefmt (pop states)))))))
 
-  ;; Adjust Window closing behavior
-  (defun pew/evil/close-window ()
-    "Close window on conditional.  If there is only one window then close the tab."
-    (interactive)
-    (cond ((one-window-p)
-           (tab-bar-close-tab)
-           (previous-window))
-          (t (delete-window))))
-
   ;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
@@ -168,7 +159,7 @@ Hence we use `add-hook' takes care of the mode initial states. "
   (pew/evil/set-key '(normal motion) 'global "<leader>"
 
    ;; Windows
-   "q" #'pew/evil/close-window
+   "q" #'pew/close-window
    "h" #'evil-window-left
    "j" #'evil-window-down
    "k" #'evil-window-up

@@ -286,6 +286,14 @@ SWITCH-FUNC should not take any arguments."
   (interactive)
   (other-window -1))
 
+(defun pew/close-window ()
+  "Close window and the tab if there is only one window left."
+  (interactive)
+  (cond ((one-window-p)
+         (tab-bar-close-tab)
+         (previous-window))
+        (t (delete-window))))
+
 ;;;; Tabs
 
 (defun pew/move-tab-next ()
