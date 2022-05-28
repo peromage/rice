@@ -221,7 +221,8 @@
 (pew/create-repeat-command 'pewkey
 
  ;; Windows
- "o" #'other-window
+ "o" #'pew/next-window
+ "O" #'pew/prev-window
  "<left>" #'shrink-window-horizontally
  "<down>" #'shrink-window
  "<up>" #'enlarge-window

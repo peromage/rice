@@ -276,6 +276,16 @@ SWITCH-FUNC should not take any arguments."
   (tab-bar-new-tab)
   (delete-other-windows))
 
+(defun pew/next-window ()
+  "Switch to the next window."
+  (interactive)
+  (other-window 1))
+
+(defun pew/prev-window ()
+  "Switch to the previous window."
+  (interactive)
+  (other-window -1))
+
 ;;;; Tabs
 
 (defun pew/move-tab-next ()
