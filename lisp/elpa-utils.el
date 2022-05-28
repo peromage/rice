@@ -5,17 +5,6 @@
 
 ;;; Code:
 
-;;;; Project management
-
-;; Projectile provides a convenient way navigate between different projects.
-(use-package projectile
-  :diminish projectile-mode
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :custom
-  (projectile-enable-caching t)
-  :config
-  (projectile-mode 1))
-
 ;;;; Search
 
 (use-package rg
