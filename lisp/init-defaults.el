@@ -272,6 +272,9 @@
  [remap list-buffers] #'ibuffer
  [remap isearch-delete-char] #'isearch-del-char
 
+ ;; Pewkey
+ "C-x w" #'pewkey
+
  )
 
 (pew/set-key dired-mode-map

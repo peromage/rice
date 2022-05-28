@@ -85,9 +85,12 @@ For DEF's definition see `define-key'. "
       (eval
        `(defun ,name ()
           "Dummy command created by `pew/create-repeat-map'"
-          (interactive)))
-      ;; Enable repeat map for the dummy command whenever it's called
-      (put name 'repeat-map map-symbol)))
+          (interactive)
+          (message "%s activated" ',name)
+          (set-transient-map ,map-symbol t)))
+      ;; For some reason, repeat mode doesn't work well. Transient is still preferred
+      ;(put name 'repeat-map map-symbol)
+      ))
 
   (defun pew/set-property (&rest properties)
     "Set PROPERTIES for symbols.
