@@ -210,6 +210,10 @@
  ;; TRAMP
  tramp-default-method "ssh"
 
+ ;; winner mode
+ winner-mode t
+ winner-dont-bind-my-keys t
+
  )
 
 ;;;; Keybindings
@@ -224,6 +228,8 @@
  "<right>" #'enlarge-window-horizontally
  "s" #'split-window-below
  "v" #'split-window-right
+ "r" #'winner-redo
+ "u" #'winner-undo
 
  ;; Buffers
  "n" #'pew/next-buffer
