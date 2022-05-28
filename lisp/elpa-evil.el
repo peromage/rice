@@ -129,6 +129,7 @@ Hence we use `add-hook' takes care of the mode initial states. "
   (evil-symbol-word-search nil)
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
+  (evil-undo-system 'undo-redo)
   ;; Set initial buffer states
   ;; NOTE: This takes precedence over mode initial states below
   (evil-buffer-regexps '(("\\*scratch\\*" . normal)
@@ -223,16 +224,6 @@ Hence we use `add-hook' takes care of the mode initial states. "
    )))
     (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings)
     (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings)))
-
-;;;; Evil enhancement
-
-;; Make Evil undo/redo easier
-(use-package undo-tree
-  :hook (evil-local-mode . turn-on-undo-tree-mode)
-  :custom
-  (undo-tree-auto-save-history nil)
-  :config
-  (evil-set-undo-system 'undo-tree))
 
 (provide 'elpa-evil)
 ;;; elpa-evil.el ends here
