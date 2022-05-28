@@ -167,7 +167,7 @@
  savehist-mode t
 
  ;; Repeat mode
- repeat-mode t
+ repeat-mode nil
  repeat-exit-key (kbd "C-g")
  repeat-exit-timeout 2
 
