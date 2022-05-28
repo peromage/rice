@@ -20,10 +20,10 @@ This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
     ;; the last VAR will be set to nil
     (let ((args nil))
       (while customs
-        (push `(,(pop customs) ,(pop customs)) args))
-      `(pew/set-custom* ',(reverse args))))
+        (push `'(,(pop customs) ,(pop customs)) args))
+      `(pew/set-custom* ,@(reverse args))))
 
-  (defun pew/set-custom* (customs)
+  (defun pew/set-custom* (&rest customs)
     "Set a list of CUSTOMS.
 Each custom element is a list of the form:
   (VAR VALUE [COMMENT])
