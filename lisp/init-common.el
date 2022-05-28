@@ -56,6 +56,25 @@ Equivalent to:
     (while bindings
       (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
+  (defmacro pew/create-map (mapname &rest bindings)
+    "Create a new map with name MAPNAME and bind key BINDINGS with it.
+BINDINGS is a list of the form:
+  (KEY DEF KEY DEF ...)
+For DEF's definition see `define-key'.
+The arguments will be collected in pairs and passed to `define-key'.
+Equivalent to:
+  (define-key MAPNAME KEY DEF)"
+    (if (pew/oddp (length bindings))
+        (error "Incomplete keys and definitions"))
+    (let ((defs nil))
+      (while bindings
+        (push `(define-key map ,(pew/tokey (pop bindings)) ,(pop bindings)) defs))
+      `(defvar ,mapname
+         (let ((map (make-sparse-keymap)))
+           ,@(reverse defs)
+           map)
+         "Map created by pew/create-map.")))
+
   (defun pew/set-property (&rest properties)
     "Set PROPERTIES for symbols.
 Each element in PROPERTIES is of the form:
@@ -123,6 +142,14 @@ VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
            (eval (list 'setq store-symbol ',var ',var ',default))
          (eval (list 'setq ',var (list 'prog1 store-symbol (list 'setq store-symbol ',var)))))))
 
+  (defun pew/tokey (key)
+    "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
+Possible value could be a string which will be converted with (kbd key).  If KEY
+is a vector then does nothing."
+    (if (vectorp key)
+        key
+      (kbd key)))
+
   )
 
 ;;;; Common functions and commands
@@ -153,14 +180,6 @@ VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
   (let ((string (help-key-description (vector keycode) nil)))
     (message string)
     string))
-
-(defun pew/tokey (key)
-  "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
-Possible value could be a string which will be converted with (kbd key).  If KEY
-is a vector then does nothing."
-  (if (vectorp key)
-      key
-    (kbd key)))
 
 (defun pew/buffer-full-path ()
   "Display current file path in the minibuffer."
