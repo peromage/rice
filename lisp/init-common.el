@@ -71,25 +71,27 @@ Equivalent to:
         (define-key map (pew/tokey (pop bindings)) (pop bindings)))
       (eval `(defvar ,newmap ',map "Map created by `pew/create-map'"))))
 
-  (defun pew/create-repeat-map (name &rest bindings)
-    "Create a repeat map for a dummy command called NAME and its key BINDINGS.
-This macro will create an interactive command NAME and the associated map with
-name NAME-repeat-map. Then set `repeat-map' property to the command after.
+  (defun pew/create-repeat-command (cmd &rest bindings)
+    "Create a repeat map for a dummy command CMD and its key BINDINGS.
+CMD is a symbol of the command.
+This function will create an interactive command CMD and the associated map with
+name CMD-repeat-map.
+OBSOLETE: Set `repeat-map' property to the command after.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 For DEF's definition see `define-key'. "
-    (let ((map-symbol (intern (concat (symbol-name name) "-repeat-map"))))
+    (let ((map-symbol (intern (concat (symbol-name cmd) "-repeat-map"))))
       ;; Create the map used in `repeat-mode'
       (apply 'pew/create-map map-symbol bindings)
       ;; Define the dummy command to invoke the previous repeat map
       (eval
-       `(defun ,name ()
+       `(defun ,cmd ()
           "Dummy command created by `pew/create-repeat-map'"
           (interactive)
-          (message "%s activated" ',name)
+          (message "%s activated" ',cmd)
           (set-transient-map ,map-symbol t)))
       ;; For some reason, repeat mode doesn't work well. Transient is still preferred
-      ;(put name 'repeat-map map-symbol)
+      ;(put cmd 'repeat-map map-symbol)
       ))
 
   (defun pew/set-property (&rest properties)

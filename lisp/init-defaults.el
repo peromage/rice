@@ -218,7 +218,7 @@
 
 ;;;; Keybindings
 
-(pew/create-repeat-map 'pewkey
+(pew/create-repeat-command 'pewkey
 
  ;; Windows
  "o" #'other-window
