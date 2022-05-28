@@ -168,7 +168,7 @@
 
  ;; Repeat mode
  repeat-mode t
- repeat-exit-key (kbd "RET")
+ repeat-exit-key (kbd "C-g")
  repeat-exit-timeout 2
 
  ;; Dired
@@ -214,6 +214,31 @@
 
 ;;;; Keybindings
 
+(pew/create-repeat-map 'pewkey
+
+ ;; Windows
+ "o" #'other-window
+ "<left>" #'shrink-window-horizontally
+ "<down>" #'shrink-window
+ "<up>" #'enlarge-window
+ "<right>" #'enlarge-window-horizontally
+ "s" #'split-window-below
+ "v" #'split-window-right
+
+ ;; Buffers
+ "n" #'pew/next-buffer
+ "p" #'pew/prev-buffer
+
+ ;; Tabs
+ "f" #'tab-bar-switch-to-last-tab
+ "b" #'tab-bar-switch-to-prev-tab
+ "t" #'tab-bar-new-tab
+ "T" #'pew/pop-window-in-new-tab
+ "m" #'pew/move-tab-next
+ "M" #'pew/move-tab-prev
+
+ )
+
 (pew/set-key global-map
 
  ;; Tab bindings
@@ -231,9 +256,9 @@
  "C-x C-f" #'pew/open-cwd
 
  ;; Xref
- "C-c j" #'xref-find-definitions
- "C-c J" #'xref-find-references
- "C-c C-j" #'xref-find-apropos
+ "C-x j" #'xref-find-definitions
+ "C-x J" #'xref-find-references
+ "C-x C-j" #'xref-find-apropos
 
  ;; Remap for better experience
  [remap next-buffer] #'pew/next-buffer
@@ -256,8 +281,10 @@
 
  'eshell-mode-hook #'pew/term-setup
  'after-save-hook #'pew/delete-trailing-whitespaces
+
  ;; Don't move cursor to the minibuffer prompt
  'minibuffer-setup-hook #'cursor-intangible-mode
+
  ;; Don't spawn new windows
  'grep-mode-hook #'pew/reuse-window-setup
 

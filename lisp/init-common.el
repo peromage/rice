@@ -56,24 +56,38 @@ Equivalent to:
     (while bindings
       (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
-  (defmacro pew/create-map (mapname &rest bindings)
-    "Create a new map with name MAPNAME and bind key BINDINGS with it.
+  (defun pew/create-map (newmap &rest bindings)
+    "Create a new map with name NEWMAP and bind key BINDINGS with it.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 For DEF's definition see `define-key'.
 The arguments will be collected in pairs and passed to `define-key'.
 Equivalent to:
-  (define-key MAPNAME KEY DEF)"
+  (define-key NEWMAP KEY DEF)"
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
-    (let ((defs nil))
+    (let ((map (make-sparse-keymap)))
       (while bindings
-        (push `(define-key map ,(pew/tokey (pop bindings)) ,(pop bindings)) defs))
-      `(defvar ,mapname
-         (let ((map (make-sparse-keymap)))
-           ,@(reverse defs)
-           map)
-         "Map created by pew/create-map.")))
+        (define-key map (pew/tokey (pop bindings)) (pop bindings)))
+      (eval `(defvar ,newmap ',map "Map created by `pew/create-map'"))))
+
+  (defun pew/create-repeat-map (name &rest bindings)
+    "Create a repeat map for a dummy command called NAME and its key BINDINGS.
+This macro will create an interactive command NAME and the associated map with
+name NAME-repeat-map. Then set `repeat-map' property to the command after.
+BINDINGS is a list of the form:
+  (KEY DEF KEY DEF ...)
+For DEF's definition see `define-key'. "
+    (let ((map-symbol (intern (concat (symbol-name name) "-repeat-map"))))
+      ;; Create the map used in `repeat-mode'
+      (apply 'pew/create-map map-symbol bindings)
+      ;; Define the dummy command to invoke the previous repeat map
+      (eval
+       `(defun ,name ()
+          "Dummy command created by `pew/create-repeat-map'"
+          (interactive)))
+      ;; Enable repeat map for the dummy command whenever it's called
+      (put name 'repeat-map map-symbol)))
 
   (defun pew/set-property (&rest properties)
     "Set PROPERTIES for symbols.
