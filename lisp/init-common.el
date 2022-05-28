@@ -56,15 +56,15 @@ Equivalent to:
     (while bindings
       (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
-  (defun pew/set-enabled (&rest commands)
-    "Enable disabled COMMANDS by default.
-COMMANDS is a list of the form:
-  (CMD CMD ...)
+  (defun pew/set-property (&rest properties)
+    "Set PROPERTIES for symbols.
+Each element in PROPERTIES is of the form:
+  (SYM PROP VAL)
 The arguments will be passed to `put' one by one.
 Equivalent to:
-  (put CMD 'disabled nil)"
-    (dolist (cmd commands)
-      (put cmd 'disabled nil)))
+  (put SYM PROP VAL)"
+    (dolist (prop properties)
+      (put (pop prop) (pop prop) (pop prop))))
 
   (defun pew/set-hook (&rest hooks)
     "Add HOOKS.

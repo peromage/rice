@@ -263,14 +263,15 @@
 
  )
 
-;;;; Enable commands that are disabled by default
+;;;; Symbol properties
 
-(pew/set-enabled
+(pew/set-property
 
- 'scroll-left
- 'list-threads
- 'list-timers
- 'dired-find-alternate-file
+ ;; Enable commands that are disabled by default
+ '(scroll-left disabled nil)
+ '(list-threads disabled nil)
+ '(list-timers disabled nil)
+ '(dired-find-alternate-file disabled nil)
 
  )
 
