@@ -25,14 +25,13 @@
  inhibit-startup-message t
  initial-scratch-message ""
 
-;;;;; Windows and frame
+;;;;; Windows and frames
 
  display-buffer-base-action '((display-buffer-reuse-window
-                               display-buffer-in-previous-window
                                display-buffer-below-selected))
- ;; See `window-splittable-p'
- split-height-threshold 0
- split-width-threshold nil
+ ;; See `split-window-sensibly' and `window-splittable-p'
+ split-height-threshold 20 ; 10 lines minimal
+ split-width-threshold 160 ; 80 columns minimal
  frame-resize-pixelwise t
  window-resize-pixelwise t
  help-window-select t
@@ -257,9 +256,10 @@
 
  'eshell-mode-hook #'pew/term-setup
  'after-save-hook #'pew/delete-trailing-whitespaces
-
  ;; Don't move cursor to the minibuffer prompt
  'minibuffer-setup-hook #'cursor-intangible-mode
+ ;; Don't spawn new windows
+ 'grep-mode-hook #'pew/reuse-window-setup
 
  )
 

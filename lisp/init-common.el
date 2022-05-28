@@ -287,7 +287,7 @@ SWITCH-FUNC should not take any arguments."
   (interactive)
   (pew/close-other-buffers-with-major-mode 'dired-mode))
 
-;;;;; Terminals
+;;;;; Hook functions
 
 (defun pew/term-setup ()
   "Common setup for terminal on entering."
@@ -298,6 +298,11 @@ SWITCH-FUNC should not take any arguments."
               global-hl-line-mode nil)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
+
+(defun pew/reuse-window-setup ()
+  "Hook for certains modes that keep spawning new windows e.g. `grep-mode'."
+  (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
+  (setq-local display-buffer-alist nil))
 
 ;;;; Toggle and cycle commands
 

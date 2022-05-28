@@ -145,6 +145,7 @@
          :map minibuffer-local-map
          ("M-o" . embark-act)
          ("M-j" . embark-dwim))
+  :hook (embark-collect-mode . pew/reuse-window-setup)
   :custom
   (prefix-help-command #'embark-prefix-help-command))
 
