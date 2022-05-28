@@ -134,7 +134,7 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
-  (orderless-matching-stylesa '(orderless-literal orderless-regexp)))
+  (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
 ;; Minibuffer actions and context menu
 (use-package embark
