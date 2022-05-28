@@ -188,16 +188,17 @@ loaded from other places.")
 
 ;;;; Buffers
 
-(defvar pew/special-buffers '("\\`magit"
-                              ;; General special definitions go last
-                              "\\` *\\*.*\\*")
-  "A regex list of special buffer patterns.
-Special buffers are usually skipped and ignored from buffer list.")
+(defvar pew/hidden-buffers
+  '("\\`magit"
+    ;; General special definitions go last
+    "\\` *\\*.*\\*")
+  "A list of hidden buffer pattern regex.
+These buffers are usually skipped and ignored from buffer list.")
 
-(defun pew/special-buffer-p (name)
+(defun pew/hidden-buffer-p (name)
   "Check if the given buffer NAME is a special buffer."
   (catch 'found-special
-    (dolist (buffer-regex pew/special-buffers)
+    (dolist (buffer-regex pew/hidden-buffers)
       (if (string-match buffer-regex name)
           (throw 'found-special t)))
     nil))
@@ -207,7 +208,7 @@ Special buffers are usually skipped and ignored from buffer list.")
 SWITCH-FUNC should not take any arguments."
   (let ((current-buffer-name (buffer-name)))
     (funcall switch-func)
-    (while (and (pew/special-buffer-p (buffer-name))
+    (while (and (pew/hidden-buffer-p (buffer-name))
                 (not (string= current-buffer-name (buffer-name))))
       (funcall switch-func))))
 

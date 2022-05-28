@@ -103,7 +103,7 @@
   ;; Disable all auto previews
   (consult-preview-key (kbd ">"))
   ;; Don't display special buffers
-  (consult-buffer-filter pew/special-buffers)
+  (consult-buffer-filter pew/hidden-buffers)
   :config
   ;; Enable preview for certain completions
   (consult-customize consult-theme
