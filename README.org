@@ -51,6 +51,21 @@ pew
 └── README.md               # This file
 #+end_example
 
+** Philosophy
+*** Literal Configuration?
+
+No.
+
+Literal programming is a fantastic idea. However, I found that it's a distraction when I read my configuration code because I don't need to explain what I thought to myself.
+
+In general, I believe I've left enough comments in my code at some places where it becomes difficult to understand whenever I go back after a while. My configuration is designed in a modular way and each module is descriptive by its name. Comments are also sectioned with outline format. So browsing and modifying the configuration should be easy.
+
+Also literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. I know I can add hooks to do that automatically but I'm not a big fan of it. When I need my config I just need to clone it and fire up. That's what I need.
+
+Don't forget that in the modular configuration I can add tool packages anytime under =site-list= directory. It might be a hassle if I use literal configuration in one file.
+
+In one word, I prefer to use literal programming when I share snippets or posts but not my day-to-day configuration.
+
 ** Acknowledgement
 
 This configuration is inspired by
