@@ -19,7 +19,9 @@
 
 ;;;; Load modules
 
-;; The load sequence must be in order
+;; NOTE: The load sequence must be in order
+
+;; Minimal system
 (require 'init-common)
 (require 'init-boot)
 (require 'init-defaults)
@@ -39,6 +41,7 @@
 (require 'elpa-lang-powershell)
 (require 'elpa-lang-org)
 (require 'elpa-lang-markdown)
+(require 'elpa-extra)
 
 ;; Load this at the last to prevent local configurations from being overridden
 (load custom-file t)
