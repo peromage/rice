@@ -1,14 +1,16 @@
-# PEW - Peromage's Emacs Workbench
+* PEW - Peromage's Emacs Workbench
 
-> A minimalist's Emacs configuration.
+#+begin_quote
+A minimalist's Emacs configuration.
+#+end_quote
 
 This is my personal Emacs configuration. Be aware that it might not fit your needs.
 
 This configuration intends to be as minimal as possible meaning that it prefers to use Emacs built-in features and optimize them.
 
-Additionally, for convenience, I included my config collection for other apps in this repo. They can be found in `rice` directory which is managed by `git subtree`.
+Additionally, for convenience, I included my config collection for other apps in this repo. They can be found in =rice= directory which is managed by ~git subtree~.
 
-## Features
+** Features
 
 - Light and quick
 - Terminal friendly
@@ -17,25 +19,25 @@ Additionally, for convenience, I included my config collection for other apps in
 - Vertico and its complementary packages as the completion framework
 - LSP support
 
-## Get Started
+** Get Started
 
-Clone this repo and put it to your home directory with folder name `.emacs.d`.
+Clone this repo and put it to your home directory with folder name =.emacs.d=.
 
-```bash
-$ git clone https://github.com/peromage/pew.git ~/.emacs.d
-```
+#+begin_src shell
+git clone https://github.com/peromage/pew.git ~/.emacs.d
+#+end_src
 
 Then Emacs will automatically install everything for you.
 
-## Local Files
+*** Local Files
 
-Temporary local changes can go into `pew/local.el` including settings by `customize`.
+Temporary local changes can go into =pew/local.el= including settings by ~customize~.
 
-`local.el` will be applied on top of the default pew configuration.
+=local.el= will be applied on top of the default pew configuration.
 
-## List of files and directories
+*** List of files and directories
 
-```
+#+begin_example
 pew
 ├── lisp/                   # Configuration files
 ├── site-lisp/              # Addtional package files written by myself
@@ -47,12 +49,11 @@ pew
 ├── .gitignore              # Git ignore-file
 ├── LICENSE                 # License file
 └── README.md               # This file
-```
+#+end_example
 
-## Acknowledgement
+** Acknowledgement
 
 This configuration is inspired by
-
-- [purcell/emacs.d](https://github.com/purcell/emacs.d)
-- [Protesilaos Stavrou](https://protesilaos.com/emacs/dotemacs)
-- [condy0919/.emacs.d](https://github.com/condy0919/.emacs.d)
+- [[https://github.com/purcell/emacs.d][purcell/emacs.d]]
+- [[https://protesilaos.com/emacs/dotemacs][Protesilaos Stavrou]]
+- [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]
