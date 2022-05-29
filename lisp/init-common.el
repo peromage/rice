@@ -294,6 +294,31 @@ SWITCH-FUNC should not take any arguments."
          (previous-window))
         (t (delete-window))))
 
+(defun pew/scroll-other-window-page-down ()
+  "Scroll other window one page down."
+  (interactive)
+  (scroll-other-window))
+
+(defun pew/scroll-other-window-page-up ()
+  "Scroll other window one page down."
+  (interactive)
+  (scroll-other-window-down))
+
+(defun pew/scroll-other-window-line-down ()
+  "Scroll other window one page down."
+  (interactive)
+  (scroll-other-window 1))
+
+(defun pew/scroll-other-window-line-up ()
+  "Scroll other window one page down."
+  (interactive)
+  (scroll-other-window -1))
+
+(defun pew/recenter-other-window ()
+  "Scroll other window one page down."
+  (interactive)
+  (recenter-other-window))
+
 ;;;; Tabs
 
 (defun pew/move-tab-next ()

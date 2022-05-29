@@ -232,6 +232,11 @@
  "r" #'winner-redo
  "u" #'winner-undo
  "q" #'pew/close-window
+ "C-f" #'pew/scroll-other-window-page-down
+ "C-b" #'pew/scroll-other-window-page-up
+ "C-e" #'pew/scroll-other-window-line-down
+ "C-y" #'pew/scroll-other-window-line-up
+ "C-l" #'pew/recenter-other-window
 
  ;; Buffers
  "n" #'pew/next-buffer
