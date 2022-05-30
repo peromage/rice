@@ -165,9 +165,9 @@ VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    (if (vectorp key)
-        key
-      (kbd key)))
+    (if (stringp key)
+        (kbd key)
+      key))
 
   )
 
