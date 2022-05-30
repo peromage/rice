@@ -138,11 +138,11 @@ Hence we use `add-hook' takes care of the mode initial states. "
   (evil-undo-system 'undo-redo)
   ;; Set initial buffer states
   ;; NOTE: This takes precedence over mode initial states below
-  (evil-buffer-regexps '(("\\*scratch\\*" . normal)
-                         ("\\*Messages\\*" . motion)
-                         ("\\*Help\\*" . motion)
+  (evil-buffer-regexps '(("\\`\\*scratch\\*" . normal)
+                         ("\\`\\*Messages\\*" . motion)
+                         ("\\`\\*Help\\*" . motion)
                          ("\\*.*[Ss]hell\\*" . normal)
-                         ("\\*.*[Tt]erm\\(inal\\)*\\*" . normal)
+                         ("\\*.*[Tt]erm\\(inal\\)?\\*" . normal)
                          ("\\`magit" . emacs)
                          ;; General special definitions go last
                          ("\\` *\\*.*\\*" . emacs)))
