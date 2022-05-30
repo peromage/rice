@@ -252,6 +252,15 @@
  "M" #'pew/move-tab-prev
  "Q" #'tab-bar-close-tab
 
+ ;; Edit
+ "C-u" #'undo
+ "C-r" #'undo-redo
+
+ ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
+ "+" #'text-scale-adjust
+ "-" #'text-scale-adjust
+ "0" #'text-scale-adjust
+
  )
 
 (pew/set-key global-map
