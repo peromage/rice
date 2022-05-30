@@ -210,7 +210,7 @@
  ;; TRAMP
  tramp-default-method "ssh"
 
- ;; winner mode
+ ;; Winner mode
  winner-mode t
  winner-dont-bind-my-keys t
 
@@ -306,7 +306,10 @@
 
 (pew/set-hook
 
+ ;; Make eshell clean
  'eshell-mode-hook #'pew/term-setup
+
+ ;; Don't save trailing spaces
  'after-save-hook #'pew/delete-trailing-whitespaces
 
  ;; Don't move cursor to the minibuffer prompt
@@ -314,6 +317,9 @@
 
  ;; Don't spawn new windows
  'grep-mode-hook #'pew/reuse-window-setup
+
+ ;; Enable folding
+ 'prog-mode-hook #'outline-minor-mode
 
  )
 
