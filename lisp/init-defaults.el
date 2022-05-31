@@ -286,8 +286,7 @@
  "C-x t l" #'tab-switcher
 
  ;; File and directory browsing
- "C-x f" #'find-file
- "C-x C-f" #'pew/open-cwd
+ "C-x C-d" #'dired-jump
 
  ;; Xref
  "C-x j" #'xref-find-definitions

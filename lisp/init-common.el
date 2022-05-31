@@ -215,11 +215,6 @@ is a vector then does nothing."
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")
 
-(defun pew/open-cwd ()
-  "Go to the directory where the current file resides."
-  (interactive)
-  (find-file default-directory))
-
 (defun pew/delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
