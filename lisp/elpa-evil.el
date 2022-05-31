@@ -20,6 +20,8 @@ BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 The arguments will be collected in pairs and passed to `evil-define-key'.
 "
+    (if (pew/oddp (length bindings))
+        (error "Incomplete keys and definitions"))
     (let ((pfx (if prefix prefix ""))
           (bd bindings))
       (while bd
@@ -37,6 +39,8 @@ Equivalent to:
   (add-hook 'MODE-hook #'evil-STATE-state)
 `evil-set-initial-state' does the similar work but it only works for major modes.
 Hence we use `add-hook' takes care of the mode initial states. "
+    (if (pew/oddp (length states))
+        (error "Incomplete modes and states"))
     (let ((hookfmt "%s-hook")
           (statefmt "evil-%s-state"))
       (while states
@@ -51,6 +55,8 @@ Equivalent to:
   (push '(REG . STATE) evil-buffer-regexps)
 `evil-set-initial-state' does the similar work but it only works for major modes.
 Hence we use `add-hook' takes care of the mode initial states. "
+    (if (pew/oddp (length states))
+        (error "Incomplete patterns and states"))
     (while states
       (push (cons (pop states) (pop states)) evil-buffer-regexps)))
 

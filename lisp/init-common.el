@@ -16,8 +16,8 @@
 CUSTOMS is a list of the form:
   (VAR VALUE VAR VALUE ...)
 This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
-    ;; No need to check the number of arguments. If the list length is odd then
-    ;; the last VAR will be set to nil
+    (if (pew/oddp (length customs))
+        (error "Incomplete variables and values"))
     (let ((args nil))
       (while customs
         (push `'(,(pop customs) ,(pop customs)) args))
