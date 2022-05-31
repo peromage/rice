@@ -227,9 +227,9 @@ loaded from other places.")
 ;;;; Buffers
 
 (defvar pew/hidden-buffers
-  '("\\`magit"
+  '("^magit"
     ;; General special definitions go last
-    "\\` *\\*.*\\*")
+    "^ *\\*.*\\*")
   "A list of hidden buffer pattern regex.
 These buffers are usually skipped and ignored from buffer list.")
 
