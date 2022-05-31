@@ -173,19 +173,15 @@ is a vector then does nothing."
 
 ;;;; Common functions and commands
 
-(defun pew/reload-initel ()
+(defun pew/reload-init-file ()
   "Reload the config file."
   (interactive)
-  (load-file user-init-file)
-  (message "Reloaded user init file: %s" user-init-file)
-  user-init-file)
+  (load-file user-init-file))
 
-(defun pew/open-initel ()
+(defun pew/open-init-file ()
   "Open the config file."
   (interactive)
-  (find-file user-init-file)
-  (message "Open user init file: %s" user-init-file)
-  user-init-file)
+  (find-file user-init-file))
 
 (defun pew/expand-macro (form &optional all)
   "Expand macro the first level (or ALL) in FORM and print the expanded code."
