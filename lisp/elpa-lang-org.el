@@ -20,6 +20,8 @@
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
+  ;; Take every org files under `org-directory'
+  (org-agenda-files (list org-directory))
 
   ;; Startup actions
   (org-startup-indented t)
@@ -64,11 +66,9 @@
   (org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d!)" "CANCELLED(c@/!)")
                        (sequence "ANALYSIS(a!)" "WIP(w!)" "HOLD(h!)" "|" "FIXED(f!)" "WONT_FIX(u@/!)")))
   (org-enforce-todo-dependencies t)
-  (org-enforce-todo-checkbox-dependencies t))
+  (org-enforce-todo-checkbox-dependencies t)
 
-(use-package org-capture
-  :ensure nil
-  :custom
+  ;; Capture
   (org-capture-templates
    '(;; Todo
      ("t" "Tasks")
@@ -89,12 +89,6 @@
       "* %?\n%i")
      ("nc" "Take a piece of code snippet" entry (file "notes.org")
       "* %?\n#+begin_src\n%i#+end_src"))))
-
-(use-package org-agenda
-  :ensure nil
-  :custom
-  ;; Take every org files under `org-directory'
-  (org-agenda-files (list org-directory)))
 
 (provide 'elpa-lang-org)
 ;;; elpa-lang-org.el ends here
