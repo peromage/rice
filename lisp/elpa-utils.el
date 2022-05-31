@@ -5,6 +5,11 @@
 
 ;;; Code:
 
+;;;; Tree navigation
+
+(use-package treemacs
+  :defer t)
+
 ;;;; Search
 
 (use-package rg
