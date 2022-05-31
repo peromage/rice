@@ -19,7 +19,7 @@
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
-  (org-default-notes-file (expand-file-name "notes.org" org-directory))
+  (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
 
   ;; Startup actions
   (org-startup-indented t)
@@ -70,11 +70,25 @@
   :ensure nil
   :custom
   (org-capture-templates
-   '(("t" "Tasks")
-     ("tt" "Tasks" entry (file+headline "tasks.org" "All Tasks")
+   '(;; Todo
+     ("t" "Tasks")
+     ("tt" "Create a todo item" entry (file+headline "tasks.org" "All Tasks")
       "* TODO %?\n%T")
-     ("tp" "Topic" entry (file+headline "tasks.org" "Topics")
-      "* %?"))))
+     ("tT" "Create a todo item on a certain day" entry (file+headline "tasks.org" "All Tasks")
+      "* TODO %?\n%^{Pick a date}T")
+     ("tp" "Capture a topic" entry (file+headline "tasks.org" "Topics")
+      "* %?\n%i")
+     ;; Agenda
+     ("a" "Agenda")
+     ("aa" "Create a schedule" entry (file+olp+datetree "agenda.org")
+      "* %?\n%T"
+      :time-prompt t)
+     ;; Notes
+     ("n" "Notes")
+     ("nn" "Take a note" entry (file "notes.org")
+      "* %?\n%i")
+     ("nc" "Take a piece of code snippet" entry (file "notes.org")
+      "* %?\n#+begin_src\n%i#+end_src"))))
 
 (use-package org-agenda
   :ensure nil
