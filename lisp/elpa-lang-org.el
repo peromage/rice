@@ -79,7 +79,8 @@
 (use-package org-agenda
   :ensure nil
   :custom
-  (org-agenda-files (expand-file-name "agenda.org" org-directory)))
+  ;; Take every org files under `org-directory'
+  (org-agenda-files (list org-directory)))
 
 (provide 'elpa-lang-org)
 ;;; elpa-lang-org.el ends here
