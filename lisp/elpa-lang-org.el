@@ -54,6 +54,7 @@
   (org-yank-adjusted-subtrees t)
   (org-insert-heading-respect-content t)
   (org-use-fast-todo-selection 'auto)
+  (org-src-preserve-indentation t)
 
   ;; Log
   (org-log-done 'time)
