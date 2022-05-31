@@ -28,7 +28,7 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
       (apply 'evil-define-key* state map bindings)))
 
   ;; Initial state function
-  (defun pew/evil/set-state (&rest states)
+  (defun pew/evil/set-mode-state (&rest states)
     "Set initial STATES for major or minor modes.
 STATES is a list of the form:
   (MODE STATE MODE STATE ...)
@@ -41,6 +41,18 @@ Hence we use `add-hook' takes care of the mode initial states. "
           (statefmt "evil-%s-state"))
       (while states
         (add-hook (intern (format hookfmt (pop states))) (intern (format statefmt (pop states)))))))
+
+  (defun pew/evil/set-buffer-state (&rest states)
+    "Set initial STATES for certain buffer names.
+STATES is a list of the form:
+  (REG STATE REG STATE ...)
+The later buffer regex will have higher priority.
+Equivalent to:
+  (push '(REG . STATE) evil-buffer-regexps)
+`evil-set-initial-state' does the similar work but it only works for major modes.
+Hence we use `add-hook' takes care of the mode initial states. "
+    (while states
+      (push (cons (pop states) (pop states)) evil-buffer-regexps)))
 
   ;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
@@ -136,25 +148,31 @@ Hence we use `add-hook' takes care of the mode initial states. "
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   (evil-undo-system 'undo-redo)
-  ;; Set initial buffer states
-  ;; NOTE: This takes precedence over mode initial states below
-  (evil-buffer-regexps '(("\\`\\*scratch\\*" . normal)
-                         ("\\`\\*Messages\\*" . motion)
-                         ("\\`\\*Help\\*" . motion)
-                         ("\\*.*[Ss]hell\\*" . normal)
-                         ("\\*.*[Tt]erm\\(inal\\)?\\*" . normal)
-                         ("\\`magit" . emacs)
-                         ;; General special definitions go last
-                         ("\\` *\\*.*\\*" . emacs)))
   :config
   (evil-mode 1)
 
   ;; Explicitly set the initial state for a major mode
-  (pew/evil/set-state
+  (pew/evil/set-mode-state
 
    'dired-mode 'emacs
    'view-mode 'motion
    'help-mode 'motion
+
+   )
+
+  ;; NOTE: This takes precedence over the mode initial states above
+  (pew/evil/set-buffer-state
+
+   ;; General special definition has the lowest priority
+   "^ *\\*.*\\*" 'emacs
+
+   ;; Specific buffers
+   "^\\*scratch\\*" 'normal
+   "^\\*Messages\\*" 'motion
+   "^\\*Help\\*" 'motion
+   "\\*.*[Ss]hell\\*" 'normal
+   "\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
+   "^magit" 'emacs
 
    )
 
