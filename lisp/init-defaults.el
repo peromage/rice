@@ -27,8 +27,18 @@
 
 ;;;;; Windows and frames
 
- display-buffer-base-action '((display-buffer-reuse-window
-                               display-buffer-below-selected))
+ display-buffer-alist
+ '(("\\`\\*\\(Messages\\|Help\\|Backtrace\\|Warnings\\|Compile-log\\)\\*"
+    (display-buffer-in-side-window)
+    (window-height . 0.25)
+    (side . bottom)
+    (slot . -1))
+   ("\\*\\(.*[Ss]hell\\|.*[Tt]erm\\(inal\\)?\\)\\*"
+    (display-buffer-in-side-window)
+    (window-height . 0.25)
+    (side . bottom)
+    (slot . 1)))
+
  ;; See `split-window-sensibly' and `window-splittable-p'
  split-height-threshold 20 ; 10 lines minimal
  split-width-threshold 160 ; 80 columns minimal
