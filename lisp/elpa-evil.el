@@ -181,6 +181,7 @@ Hence we use `add-hook' takes care of the mode initial states. "
    "\\*.*[Ss]hell\\*" 'normal
    "\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
    "^magit" 'emacs
+   "^\\*Org Src.*\\*" 'normal
 
    )
 
