@@ -125,18 +125,17 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   (evil-undo-system 'undo-redo)
-  ;; Initial states
+  ;; Initial states for major modes
   (evil-default-state 'normal)
   (evil-emacs-state-modes '(dired-mode))
-  (evil-motion-state-modes '(view-mode
-                             help-mode
+  (evil-motion-state-modes '(help-mode
                              message-mode))
   (evil-normal-state-modes nil)
   (evil-insert-state-modes nil)
   (evil-visual-state-modes nil)
   (evil-replace-state-modes nil)
   (evil-operator-state-modes nil)
-  ;; NOTE: This takes precedence over the mode initial states above
+  ;; NOTE: This takes precedence over the mode initial states
   (evil-buffer-regexps '(;; Emacs buffers
                          ("^magit" . emacs)
                          ;; Motion buffers
@@ -149,6 +148,8 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
                          ("^\\*Org Src.*\\*" . normal)
                          ;; Fallback initial state for all special buffers
                          ("^ *\\*.*\\*" . emacs)))
+  ;; Initial states for minor modes
+  :hook ((view-mode . evil-motion-state))
   :config
   (evil-mode 1)
 
