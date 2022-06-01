@@ -25,9 +25,8 @@
   (defun pew/vterm/new ()
     "Create a new vterm window with a unique name."
     (interactive)
-    (vterm)
-    (set-buffer "*vterm*")
-    (rename-buffer "vterm" t))
+    (with-current-buffer (vterm)
+      (rename-buffer "*pewterm*" t)))
 
   :hook (vterm-mode . pew/term-setup)
   :commands (vterm vterm-other-window)
