@@ -74,9 +74,9 @@
    '(;; Todo
      ("t" "Tasks")
      ("tt" "Create a todo item" entry (file+headline "tasks.org" "Tasks")
-      "* TODO %?\n%T")
+      "* TODO %?\nSCHEDULED: %T")
      ("tT" "Create a todo item on a certain day" entry (file+headline "tasks.org" "Tasks")
-      "* TODO %?\n%^{Pick a date}t")
+      "* TODO %?\nSCHEDULED: %^{Pick a date}t")
      ("tn" "Take a note" entry (file+headline "tasks.org" "Notes")
       "* %?\n%i")
      ("ts" "Take a piece of code snippet" entry (file+headline "tasks.org" "Snippets")
