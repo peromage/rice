@@ -233,6 +233,7 @@
  ;; Windows
  "o" #'pew/next-window
  "O" #'pew/prev-window
+ "i" #'window-toggle-side-windows
  "<left>" #'shrink-window-horizontally
  "<down>" #'shrink-window
  "<up>" #'enlarge-window
