@@ -45,7 +45,7 @@
   (org-hide-macro-markers nil)
   (org-hide-block-startup nil)
 
-  ;; Edit
+  ;; Editing
   (org-return-follows-link t)
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-insert-heading-respect-content t)
@@ -73,23 +73,19 @@
   (org-capture-templates
    '(;; Todo
      ("t" "Tasks")
-     ("tt" "Create a todo item" entry (file+headline "tasks.org" "All Tasks")
+     ("tt" "Create a todo item" entry (file+headline "tasks.org" "Tasks")
       "* TODO %?\n%T")
-     ("tT" "Create a todo item on a certain day" entry (file+headline "tasks.org" "All Tasks")
-      "* TODO %?\n%^{Pick a date}T")
-     ("tp" "Capture a topic" entry (file+headline "tasks.org" "Topics")
+     ("tT" "Create a todo item on a certain day" entry (file+headline "tasks.org" "Tasks")
+      "* TODO %?\n%^{Pick a date}t")
+     ("tn" "Take a note" entry (file+headline "tasks.org" "Notes")
       "* %?\n%i")
-     ;; Agenda
-     ("a" "Agenda")
-     ("aa" "Create a schedule" entry (file+olp+datetree "agenda.org")
-      "* %?\n%T"
-      :time-prompt t)
-     ;; Notes
-     ("n" "Notes")
-     ("nn" "Take a note" entry (file "notes.org")
-      "* %?\n%i")
-     ("nc" "Take a piece of code snippet" entry (file "notes.org")
-      "* %?\n#+begin_src\n%i#+end_src"))))
+     ("ts" "Take a piece of code snippet" entry (file+headline "tasks.org" "Snippets")
+      "* %?\n#+begin_src\n%i\n#+end_src")
+     ;; Journal
+     ("j" "Journal")
+     ("jj" "Create a journal" entry (file+olp+datetree "journal.org")
+      "* %?\n%U"
+      :time-prompt t))))
 
 (provide 'elpa-lang-org)
 ;;; elpa-lang-org.el ends here
