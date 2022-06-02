@@ -44,6 +44,7 @@
   (org-hide-leading-stars t)
   (org-hide-macro-markers nil)
   (org-hide-block-startup nil)
+  (org-ellipsis " +++")
 
   ;; Editing
   (org-return-follows-link t)
