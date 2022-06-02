@@ -15,7 +15,7 @@
     (electric-pair-mode -1)
     (electric-indent-mode -1))
 
-  ;:hook (org-mode . pew/org/setup)
+  :hook (org-mode . pew/org/setup)
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
