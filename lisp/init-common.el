@@ -86,7 +86,7 @@ For DEF's definition see `define-key'. "
       ;; Define the dummy command to invoke the previous repeat map
       (eval
        `(defun ,cmd ()
-          "Dummy command created by `pew/create-repeat-map'"
+          "Dummy command created by `pew/create-repeat-command'"
           (interactive)
           (message "%s activated" ',cmd)
           (set-transient-map ,map-symbol t)))

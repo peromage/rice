@@ -129,7 +129,8 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
   (evil-default-state 'normal)
   (evil-emacs-state-modes '(dired-mode))
   (evil-motion-state-modes '(help-mode
-                             message-mode))
+                             message-mode
+                             compilation-mode))
   (evil-normal-state-modes nil)
   (evil-insert-state-modes nil)
   (evil-visual-state-modes nil)
@@ -139,13 +140,17 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
   (evil-buffer-regexps '(;; Emacs buffers
                          ("^magit" . emacs)
                          ;; Motion buffers
-                         ("^\\*[Mm]essages\\*" . motion)
-                         ("^\\*[Hh]elp\\*" . motion)
+                         ("^ *\\*.*[Hh]elp\\*" . motion)
+                         ("^ *\\*.*[Mm]essages\\*" . motion)
+                         ("^ *\\*.*[Bb]acktrace\\*" . motion)
+                         ("^ *\\*.*[Ww]arnings\\*" . motion)
+                         ("^ *\\*.*[Ll]og\\*" . motion)
+                         ("^ *\\*.*[Cc]ompilation\\*" . motion)
                          ;; Normal buffers
-                         ("^\\*[Ss]cratch\\*" . normal)
-                         ("\\*.*[Ss]hell\\*" . normal)
-                         ("\\*.*[Tt]erm\\(inal\\)?\\*" . normal)
-                         ("^\\*Org Src.*\\*" . normal)
+                         ("^ *\\*[Ss]cratch\\*" . normal)
+                         ("^ *\\*.*[Ss]hell\\*" . normal)
+                         ("^ *\\*.*[Tt]erm\\(inal\\)?\\*" . normal)
+                         ("^ *\\*Org Src.*\\*" . normal)
                          ;; Fallback initial state for all special buffers
                          ("^ *\\*.*\\*" . emacs)))
   ;; Initial states for minor modes

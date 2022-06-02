@@ -28,12 +28,13 @@
 ;;;;; Windows and frames
 
  display-buffer-alist
- '(("\\`\\*\\(Messages\\|Help\\|Backtrace\\|Warnings\\|Compile-log\\)\\*"
+ ;; Over-3-side-window causes troubles when toggling (I don't know)
+ '(("^ *\\*.*\\([Hh]elp\\|[Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
     (display-buffer-in-side-window)
     (window-height . 0.25)
     (side . bottom)
-    (slot . -1))
-   ("\\*\\(.*[Ss]hell\\|.*[Tt]erm\\(inal\\)?\\)\\*"
+    (slot . 0))
+   ("^ *\\*.*\\([Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\)\\*"
     (display-buffer-in-side-window)
     (window-height . 0.25)
     (side . bottom)
@@ -233,7 +234,7 @@
  ;; Windows
  "o" #'pew/next-window
  "O" #'pew/prev-window
- "i" #'window-toggle-side-windows
+ "w" #'window-toggle-side-windows
  "<left>" #'shrink-window-horizontally
  "<down>" #'shrink-window
  "<up>" #'enlarge-window
