@@ -198,7 +198,9 @@
                                              (mode . eshell-mode)
                                              (mode . term-mode)
                                              (mode . vterm-mode)))
-                                ("Git" (name . "magit"))
+                                ("Git" (name . "^[Mm]agit"))
+                                ("Ediff" (name . "^ *\\*[Ee]diff.*\\*"))
+                                ("VC" (name . "^ *\\*[Vv][Cc].*\\*"))
                                 ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                 ("Special" (starred-name))))
 
