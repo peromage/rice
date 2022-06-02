@@ -6,17 +6,17 @@ A minimalist's Emacs configuration.
 
 This is my personal Emacs configuration. Be aware that it might not fit your needs.
 
-This configuration intends to be as minimal as possible meaning that it prefers to use Emacs built-in features and optimize them.
+This configuration intends to be as minimal as possible. It also prioritize using Emacs built-in functionalities.
 
-Additionally, for convenience, I included my config collection for other apps in this repo. They can be found in =rice= directory which is managed by ~git subtree~.
+Additionally for convenience, I included my personal configuration collection for other apps in this repo. They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
 
 ** Features
 
 - Light and quick
 - Terminal friendly
 - Respect Emacs vanilla key bindings
-- Evil mode as the main editing mode (not every buffer)
-- Vertico and its complementary packages as the completion framework
+- Evil mode (~evil-motion-state~ and ~evil-emacs-state~ are used out side of editing buffers)
+- Vertico and its complementary packages (Utilize Emacs built-in completion)
 - LSP support
 
 ** Get Started
@@ -24,14 +24,14 @@ Additionally, for convenience, I included my config collection for other apps in
 Clone this repo and put it to your home directory with folder name =.emacs.d=.
 
 #+begin_src shell
-git clone https://github.com/peromage/pew.git ~/.emacs.d
+$ git clone https://github.com/peromage/pew.git ~/.emacs.d
 #+end_src
 
 Then Emacs will automatically install everything for you.
 
 *** Local Files
 
-Temporary local changes can go into =pew/local.el= including settings by ~customize~.
+Disposable changes can go into =local.el= including settings from ~customize~.
 
 =local.el= will be applied on top of the default pew configuration.
 
@@ -46,7 +46,7 @@ pew
 ├── early-init.el           # Init file loaded before init.el
 ├── init.el                 # Main init file
 ├── .pew                    # Configuration root placeholder
-├── .gitignore              # Git ignore-file
+├── .gitignore              # Git ignore file
 ├── LICENSE                 # License file
 └── README.md               # This file
 #+end_example
@@ -58,13 +58,13 @@ No.
 
 Literal programming is a fantastic idea. However, I found that it's a distraction when I read my configuration code because I don't need to explain what I thought to myself.
 
-In general, I believe I've left enough comments in my code at some places where it becomes difficult to understand whenever I go back after a while. My configuration is designed in a modular way and each module is descriptive by its name. Comments are also sectioned with outline format. So browsing and modifying the configuration should be easy.
+In general, I believe proper comments left in the code could improve readability good enough. Also this configuration is designed in a modular way where each module is descriptive by its name, and comments are also sectioned with outline format, so browsing and modifying the configuration should be with ease.
 
-Also literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. I know I can add hooks to do that automatically but I'm not a big fan of it. When I need my config I just need to clone it and fire up. That's what I need.
+Also literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. Hook might be a solution but undeniably it still requires additional setup for the first time. In my concept, day-to-day productivity tool configuration should be ready out of the box.
 
-Don't forget that in the modular configuration I can add tool packages anytime under =site-list= directory. It might be a hassle if I use literal configuration in one file.
+Don't forget that in the modular configuration tool packages can be added anytime under =site-list= directory. It might be a hassle for literal configuration with everything in one file.
 
-In one word, I prefer to use literal programming when I share snippets or posts but not my day-to-day configuration.
+In one word, when it comes to sharing and note taking, literal programming is a perfect way to do it but for daily tools configuration files are easier to use.
 
 ** Acknowledgement
 
