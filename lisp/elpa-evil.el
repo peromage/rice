@@ -190,7 +190,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    "^ *\\*[Ss]cratch\\*" 'normal
    "^ *\\*.*[Ss]hell\\*" 'normal
    "^ *\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
-   "^ *\\*Org Src.*\\*" 'normal
+   "^ *\\*[Oo]rg .*\\*" 'normal
    ;; Fallback initial state for all special buffers
    "^ *\\*.*\\*" 'emacs
 
