@@ -306,7 +306,8 @@
  [remap isearch-delete-char] #'isearch-del-char
 
  ;; Pewkey
- "C-x w" #'pewkey
+ "C-x g" #'pewkey
+ "C-x C-g" #'pewkey-repeat
 
  )
 

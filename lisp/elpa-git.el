@@ -8,9 +8,15 @@
 ;;;; Frontend
 
 ;; Magit is a powerful git frontend.
-;; No special configuration needed usually.
 (use-package magit
-  :commands magit-status)
+  :commands magit-status
+  :bind (("C-c g g" . magit-status)
+         ("C-c g f" . magit-file-dispatch)
+         ("C-c g d" . magit-dispatch)
+         ("C-c g p" . magit-project-status))
+  :custom
+  ;; Don't use the default bindings under "C-x" prefix
+  (magit-define-global-key-bindings nil))
 
 ;;;; Status
 
