@@ -233,7 +233,7 @@
 
 ;;;; Keybindings
 
-(pew/create-repeat-command 'pewkey
+(pew/create-transient-command 'pewkey
 
  ;; Windows
  "o" #'pew/next-window

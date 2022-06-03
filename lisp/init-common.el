@@ -56,7 +56,7 @@ Equivalent to:
     (while bindings
       (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
-  (defun pew/create-map (newmap &rest bindings)
+  (defun pew/create-keymap (newmap &rest bindings)
     "Create a new map with name NEWMAP and bind key BINDINGS with it.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
@@ -69,30 +69,39 @@ Equivalent to:
     (let ((map (make-sparse-keymap)))
       (while bindings
         (define-key map (pew/tokey (pop bindings)) (pop bindings)))
-      (eval `(defvar ,newmap ',map "Map created by `pew/create-map'"))))
+      (eval `(defvar ,newmap ',map "Keymap created by `pew/create-keymap'"))))
 
-  (defun pew/create-repeat-command (cmd &rest bindings)
-    "Create a repeat map for a dummy command CMD and its key BINDINGS.
+  (defun pew/create-transient-command (cmd &rest bindings)
+    "Create a transient map for a dummy command CMD and its key BINDINGS.
 CMD is a symbol of the command.
-This function will create an interactive command CMD and the associated map with
-name CMD-repeat-map.
-OBSOLETE: Set `repeat-map' property to the command after.
+This function will create two interactive commands CMD and CMD-repeat as well as
+a keymap CMD-map.
+Once CMD is invoked CMD-map will be temporarily activated.  The difference
+between CMD and CMD-repeat is CMD only receive one followed key press while
+CMD-repeat keeps receiving key press until an undefined key passed.
+See `set-transient-map'.
+Obsoleted `repeat-map' property method in Emacs 28 since it didn't work well for
+some reason:
+  (put cmd 'repeat-map map-symbol)
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
-For DEF's definition see `define-key'. "
-    (let ((map-symbol (intern (concat (symbol-name cmd) "-repeat-map"))))
-      ;; Create the map used in `repeat-mode'
-      (apply 'pew/create-map map-symbol bindings)
-      ;; Define the dummy command to invoke the previous repeat map
+For DEF's definition see `define-key'."
+    (let ((map-symbol (intern (concat (symbol-name cmd) "-map")))
+          (cmd-repeat-symbol (intern (concat (symbol-name cmd) "-repeat")))
+          (cmd-doc-string "Command created by `pew/create-transient-command'"))
+      ;; Create the map used in transient mode
+      (apply 'pew/create-keymap map-symbol bindings)
+      ;; Create the commands
       (eval
-       `(defun ,cmd ()
-          "Dummy command created by `pew/create-repeat-command'"
+       `(defun ,cmd () ,cmd-doc-string
           (interactive)
           (message "%s activated" ',cmd)
-          (set-transient-map ,map-symbol t)))
-      ;; For some reason, repeat mode doesn't work well. Transient is still preferred
-      ;(put cmd 'repeat-map map-symbol)
-      ))
+          (set-transient-map ,map-symbol nil)))
+      (eval
+       `(defun ,cmd-repeat-symbol () ,cmd-doc-string
+          (interactive)
+          (message "%s activated" ',cmd-repeat-symbol)
+          (set-transient-map ,map-symbol t)))))
 
   (defun pew/set-property (&rest properties)
     "Set PROPERTIES for symbols.
