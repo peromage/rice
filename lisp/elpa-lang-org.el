@@ -12,6 +12,7 @@
     "Setup for Org mode."
     (visual-line-mode 1)
     (flyspell-mode 1)
+    (display-line-numbers-mode -1)
     (electric-pair-mode -1)
     (electric-indent-mode -1))
 
