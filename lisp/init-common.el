@@ -34,14 +34,12 @@ The VALUE will be evaluated before passing to `customize-set-variable'."
   (defun pew/set-face (&rest faces)
     "Set FACES attributes.
 FACES is a list of the form:
-  (FACE '(ATTR VALUE ATTR VALUE ...) FACE '(ATTR VALUE ATTR VALUE ...) ...)
-The arguments will be collected in pairs and passed to `set-face-attribute'.
+  ('(FACE ATTR VALUE ATTR VALUE ...) '(FACE ATTR VALUE ATTR VALUE ...) ...)
+Each element will be passed to `set-face-attribute'.
 Equivalent to:
   (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
-    (if (pew/oddp (length faces))
-        (error "Incomplete faces and attributes"))
-    (while faces
-      (apply 'set-face-attribute (pop faces) nil (pop faces))))
+    (dolist (attr faces)
+      (apply 'set-face-attribute (pop attr) nil attr)))
 
   (defun pew/set-key (map &rest bindings)
     "Bind BINDINGS in MAP.

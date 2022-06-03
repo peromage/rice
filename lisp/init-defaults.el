@@ -355,7 +355,7 @@
 
 (pew/set-face
 
- 'tab-bar '(:inherit default)
+ '(tab-bar :inherit default)
 
  )
 
