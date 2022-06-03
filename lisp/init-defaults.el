@@ -193,14 +193,16 @@
  ibuffer-movement-cycle nil
  ;; Check `ibuffer-filtering-alist' for quilifiers.
  ibuffer-saved-filter-groups '(("PEW"
+                                ("Doc" (or (mode . org-mode)
+                                           (mode . markdown-mode)))
                                 ("Dired" (mode . dired-mode))
                                 ("Shell" (or (mode . shell-mode)
                                              (mode . eshell-mode)
                                              (mode . term-mode)
                                              (mode . vterm-mode)))
                                 ("Git" (name . "^[Mm]agit"))
-                                ("Ediff" (name . "^ *\\*[Ee]diff.*\\*"))
                                 ("VC" (name . "^ *\\*[Vv][Cc].*\\*"))
+                                ("Ediff" (name . "^ *\\*[Ee]diff.*\\*"))
                                 ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                 ("Special" (starred-name))))
 
