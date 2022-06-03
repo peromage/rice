@@ -54,7 +54,7 @@ Equivalent to:
     (while bindings
       (define-key map (pew/tokey (pop bindings)) (pop bindings))))
 
-  (defun pew/create-keymap (newmap &rest bindings)
+  (defmacro pew/create-keymap (newmap &rest bindings)
     "Create a new map with name NEWMAP and bind key BINDINGS with it.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
@@ -62,16 +62,15 @@ For DEF's definition see `define-key'.
 The arguments will be collected in pairs and passed to `define-key'.
 Equivalent to:
   (define-key NEWMAP KEY DEF)"
-    (if (pew/oddp (length bindings))
-        (error "Incomplete keys and definitions"))
-    (let ((map (make-sparse-keymap)))
-      (while bindings
-        (define-key map (pew/tokey (pop bindings)) (pop bindings)))
-      (eval `(defvar ,newmap ',map "Keymap created by `pew/create-keymap'"))))
+    `(let ((map_ (make-sparse-keymap))
+           (bindings_ (list ,@bindings)))
+       (while bindings_
+         (define-key map_ (pew/tokey (pop bindings_)) (pop bindings_)))
+       (defvar ,newmap map_ "Keymap created by `pew/create-keymap'")))
 
-  (defun pew/create-transient-command (cmd &rest bindings)
+  (defmacro pew/create-transient-command (cmd &rest bindings)
     "Create a transient map for a dummy command CMD and its key BINDINGS.
-CMD is a symbol of the command.
+CMD is the name of the command.
 This function will create two interactive commands CMD and CMD-repeat as well as
 a keymap CMD-map.
 Once CMD is invoked CMD-map will be temporarily activated.  The difference
@@ -84,22 +83,23 @@ some reason:
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 For DEF's definition see `define-key'."
-    (let ((map-symbol (intern (concat (symbol-name cmd) "-map")))
-          (cmd-repeat-symbol (intern (concat (symbol-name cmd) "-repeat")))
-          (cmd-doc-string "Command created by `pew/create-transient-command'"))
-      ;; Create the map used in transient mode
-      (apply 'pew/create-keymap map-symbol bindings)
-      ;; Create the commands
-      (eval
-       `(defun ,cmd () ,cmd-doc-string
-          (interactive)
-          (message "%s activated" ',cmd)
-          (set-transient-map ,map-symbol nil)))
-      (eval
-       `(defun ,cmd-repeat-symbol () ,cmd-doc-string
-          (interactive)
-          (message "%s activated" ',cmd-repeat-symbol)
-          (set-transient-map ,map-symbol t)))))
+    (let ((map-symbol_ (intern (concat (symbol-name cmd) "-map")))
+          (cmd-repeat-symbol_ (intern (concat (symbol-name cmd) "-repeat")))
+          (cmd-doc-string_ "Command created by `pew/create-transient-command'"))
+      `(progn
+         ;; Create the map used in transient mode
+         (pew/create-keymap ,map-symbol_ ,@bindings)
+         ;; Create the commands
+         (defun ,cmd ()
+           ,cmd-doc-string_
+           (interactive)
+           (message "%s activated" ',cmd)
+           (set-transient-map ,map-symbol_ nil))
+         (defun ,cmd-repeat-symbol_ ()
+           ,cmd-doc-string_
+           (interactive)
+           (message "%s activated" ',cmd-repeat-symbol_)
+           (set-transient-map ,map-symbol_ t)))))
 
   (defun pew/set-property (&rest properties)
     "Set PROPERTIES for symbols.
