@@ -1,16 +1,12 @@
 ;;; init-common.el --- Common library -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; This is the PEW common library file.
 ;; It might be splitted into several files if it's needed in the future.
 ;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-
 ;;;; Need to be evaluated at compile-time
-
 (eval-and-compile
-
   (defmacro pew/set-custom (&rest customs)
     "Set CUSTOMS variables.
 CUSTOMS is a list of the form:
@@ -178,12 +174,9 @@ Otherwise, swap VAR and VAR@pewstore."
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    (if (stringp key) (kbd key) key))
-
-  )
+    (if (stringp key) (kbd key) key)))
 
 ;;;; Debugging
-
 (defun pew/reload-init-file ()
   "Reload the config file."
   (interactive)
@@ -227,7 +220,6 @@ loaded from other places.")
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;;; Buffers
-
 (defvar pew/hidden-buffers
   '("^magit"
     ;; General special definitions go last
@@ -274,7 +266,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
           (kill-buffer buffer_)))))
 
 ;;;; Windows
-
 (defun pew/pop-window-in-new-tab ()
   "Pop current window into a new tab."
   (interactive)
@@ -325,7 +316,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (recenter-other-window))
 
 ;;;; Tabs
-
 (defun pew/move-tab-next ()
   "Move current tab to the next."
   (interactive)
@@ -337,7 +327,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (tab-bar-move-tab -1))
 
 ;;;; Themes
-
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '_INTERACT_))
@@ -352,7 +341,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
 
 ;;;; Builtin package utilities
 ;;;;; Dired
-
 (defun pew/dired-go-to ()
   "Go into the current directory/file under the cursor without creating a new buffer."
   (interactive)
@@ -370,8 +358,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (interactive)
   (pew/close-other-buffers-in-major-mode 'dired-mode))
 
-;;;;; Hook functions
-
+;;;; Hook functions
 (defun pew/term-setup ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
@@ -397,7 +384,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-alist nil))
 
 ;;;; Toggle and cycle commands
-
 ;; Line numbers
 (defvar pew/line-number-styles '(nil t relative) "Line number styles.")
 (defun pew/cycle-line-number-style ()

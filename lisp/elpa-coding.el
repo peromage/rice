@@ -1,13 +1,10 @@
 ;;; elpa-coding.el --- Packages for coding tasks -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; This module configures for common coding needs including syntax checker, completion and language support.
 
 ;;; Code:
-
 ;;;; Completion
 ;;;;; Company
-
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
   :demand t
@@ -37,14 +34,12 @@
   (company-tng-mode 1))
 
 ;;;; Syntax and spell checker
-
 (use-package flycheck
   :diminish flycheck-mode
   :config
   (global-flycheck-mode 1))
 
 ;;;; Snippets
-
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet
   :diminish yas-minor-mode

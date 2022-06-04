@@ -1,15 +1,14 @@
 ;;; elpa-evil.el --- Vim layer -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
 ;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
 
 ;;; Code:
-;;;; Evil setup
-
+;;;; Evil
 (use-package evil
   :demand t
   :init
+;;;;; Utilities
   ;; Key binding function
   (defun pew/evil/set-key (state map prefix &rest bindings)
     "Set BINDINGS with PREFIX in MAP for STATE.
@@ -66,10 +65,9 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
               (regex_ (pop states_)))
           (push (cons regex_ state_) evil-buffer-regexps)))))
 
-  ;; Evil search
+;;;;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
-
   (defun pew/evil/escape-region (begin end)
     "Escape special chars in region from BEGIN to END for evil-search mode."
     (catch 'return_
@@ -172,9 +170,9 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   :config
   (evil-mode 1)
 
+;;;;; Initial states
   ;; NOTE: This takes precedence over the mode initial states below
   (pew/evil/set-buffer-state
-
    ;; Emacs buffers
    "^magit" 'emacs
    ;; Motion buffers
@@ -190,29 +188,24 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    "^ *\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
    "^ *\\*[Oo]rg .*\\*" 'normal
    ;; Fallback initial state for all special buffers
-   "^ *\\*.*\\*" 'emacs
-
-   )
+   "^ *\\*.*\\*" 'emacs)
 
   (pew/evil/set-mode-state
-
    ;; Major modes
    'dired-mode 'emacs
    'help-mode 'motion
    'message-mode 'motion
    'compilation-mode 'motion
    ;; Minor modes
-   'view-mode 'motion
+   'view-mode 'motion)
 
-   )
-
+;;;;; Keybindings
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC")) ;; <leader>
   (evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
   ;; Normal and motion state bindings
   (pew/evil/set-key '(normal motion) 'global "<leader>"
-
    ;; Windows
    "q" #'pew/close-window
    "h" #'evil-window-left
@@ -242,12 +235,9 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    "g" #'pew/buffer-full-path
 
    ;; Search and substitution
-   "cs" #'pew/evil/replace-last-search
-
-   )
+   "cs" #'pew/evil/replace-last-search)
 
   (pew/evil/set-key '(normal motion) 'global nil
-
    ;; Windows
    "<left>" #'evil-window-decrease-width
    "<down>" #'evil-window-decrease-height
@@ -255,29 +245,20 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    "<right>" #'evil-window-increase-width
 
    ;; Search
-   "#" #'evil-ex-nohighlight
-
-   )
+   "#" #'evil-ex-nohighlight)
 
   ;; Visual state bindings
   (pew/evil/set-key 'visual 'global nil
-
    ;; Search
-   "*" #'pew/evil/visual-search-region
-
-   )
+   "*" #'pew/evil/visual-search-region)
 
   (eval-after-load 'elisp-mode
     (let ((bindings_ (list
-
      ;; Quick eval
      "eb" #'eval-buffer
      "er" #'eval-region
      "ef" #'eval-defun
-     "ee" #'eval-last-sexp
-
-     )))
-
+     "ee" #'eval-last-sexp)))
       (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings_)
       (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings_))))
 

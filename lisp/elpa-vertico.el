@@ -1,12 +1,10 @@
 ;;; elpa-vertico.el --- Vertico completion framework -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; Vertico and its related packages
 ;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
 
 ;;; Code:
-
-;; Vertico itself
+;;;; Vertico itself
 (use-package vertico
   :demand t
   :init
@@ -36,7 +34,7 @@
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 
-;; Search and navigation commands
+;;;; Search and navigation commands
 (use-package consult
   :init
   ;; Toggle auto preview
@@ -109,7 +107,7 @@
                      consult-line-multi
                      :preview-key 'any))
 
-;; Rich annotations in the minibuffer
+;;;; Rich annotations in the minibuffer
 (use-package marginalia
   :after vertico
   ;; :bind would cause lazy loading which is not we expect
@@ -119,7 +117,7 @@
   :config
   (marginalia-mode 1))
 
-;; Completion matching
+;;;; Completion matching
 (use-package orderless
   :init
   ;; Don't use orderless in company completion
@@ -133,7 +131,7 @@
   (completion-category-overrides '((file (styles basic partial-completion))))
   (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
-;; Minibuffer actions and context menu
+;;;; Minibuffer actions and context menu
 (use-package embark
   :demand t
   :bind (("C-c o o" . embark-act)
@@ -146,7 +144,7 @@
   :custom
   (prefix-help-command #'embark-prefix-help-command))
 
-;; Consult and embark integration
+;;;; Consult and embark integration
 (use-package embark-consult
   :after (consult embark))
 

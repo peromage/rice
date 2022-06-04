@@ -1,11 +1,9 @@
 ;;; elpa-lang-powershell.el --- PowerShell mode  -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; PowerShell script LSP support.
 ;; NOTE: PowerShell has to be installed first.
 
 ;;; Code:
-
 (use-package powershell
   :hook (powershell-mode . lsp-deferred)
   ;:custom

@@ -1,11 +1,8 @@
 ;;; elpa-lang-python.el --- Python mode -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; Python LSP support.
 
 ;;; Code:
-
-
 (use-package lsp-python-ms
   :init
   (defun pew/python-mode/setup ()

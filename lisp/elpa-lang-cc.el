@@ -1,11 +1,9 @@
 ;;; elpa-lang-cc.el --- C/C++ mode -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; This file configures C/C++ modes including LSP support.
 
 ;;; Code:
 ;;;; Setup functions
-
 (use-package cc-mode
   :init
   ;; Setup functions

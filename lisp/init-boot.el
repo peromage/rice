@@ -1,10 +1,8 @@
 ;;; init-boot.el --- Early initialization -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; This file should be required at the beginning of the entire initialization.
 
 ;;; Code:
-
 ;; Check minimal version
 (let ((minimal-emacs-version_ "28.1"))
   (when (version< emacs-version minimal-emacs-version_)

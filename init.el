@@ -1,13 +1,10 @@
 ;;; init.el --- PEW entry -*- lexical-binding: t -*-
-
 ;;; Commentary:
-
 ;; This file bootstraps the PEW configuration which is divided into a number of
 ;; other files.  Templates was from purcell/emacs.d
 
 ;;; Code:
 ;;;; Preparation
-
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (let ((home_ (file-name-directory load-file-name)))
   (add-to-list 'load-path (expand-file-name "lisp" home_))
@@ -18,9 +15,7 @@
 (setq custom-file (locate-user-emacs-file "local.el"))
 
 ;;;; Load modules
-
 ;; NOTE: The load sequence must be in order
-
 ;; Minimal system
 (require 'init-common)
 (require 'init-boot)

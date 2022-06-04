@@ -1,10 +1,8 @@
 ;;; elpa-lang-org.el --- Org mode -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; Configuration for `org-mode' to fit my own taste.
 
 ;;; Code:
-
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
   :hook (org-mode . pew/text-setup)

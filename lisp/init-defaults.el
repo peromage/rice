@@ -1,12 +1,10 @@
 ;;; init-defaults.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; Vanilla Emacs configuration.
 ;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
 
 ;;; Code:
 ;;;; Custom settingis
-
 ;; IMPORTANT NOTE:
 ;; Most of vanilla options are defined with `defcustom', which means if they are
 ;; set directly by `setq' they might NOT work as expected. However, if we use
@@ -16,9 +14,7 @@
 ;; also prevents writting settings from this file to `custom-file'.
 
 (pew/set-custom
-
 ;;;;; Startup
-
  inhibit-startup-buffer-menu t
  inhibit-startup-echo-area-message t
  inhibit-startup-screen t
@@ -26,7 +22,6 @@
  initial-scratch-message ""
 
 ;;;;; Windows and frames
-
  display-buffer-alist
  ;; Over-3-side-window causes troubles when toggling (I don't know)
  '(("^ *\\*.*\\([Hh]elp\\|[Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
@@ -64,7 +59,6 @@
  line-move-visual nil
 
 ;;;;; Interface elements
-
  ;; Cursor
  cursor-type 'box
  blink-cursor-mode nil
@@ -100,14 +94,13 @@
  tab-bar-mode nil ;; Setting to t would cause display issue in terminal mode
 
 ;;;;; Formatting
-
-;; Indentation
+ ;; Indentation
  tab-width 4
  indent-tabs-mode nil
  backward-delete-char-untabify-method 'hungry
 
-;; Whitespaces
-;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
+ ;; Whitespaces
+ ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
  whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark)
  show-trailing-whitespace t
  global-whitespace-mode t
@@ -131,7 +124,6 @@
  display-raw-bytes-as-hex t
 
 ;;;;; QoL
-
  ;; Sanity
  use-short-answers t
  xterm-mouse-mode t
@@ -160,9 +152,7 @@
  epg-pinentry-mode 'loopback
 
 ;;;;; Some useful builtin packages
-
  ;; TODO: newcomment
-
  ;; Pairs
  show-paren-when-point-in-periphery t
  show-paren-when-point-inside-paren t
@@ -227,15 +217,11 @@
 
  ;; Winner mode
  winner-mode t
- winner-dont-bind-my-keys t
+ winner-dont-bind-my-keys t)
 
- )
-
-;;;; Keybindings
-
+;;;; My keybindings
 (pew/create-transient-command pewkey
-
- ;; Windows
+;;;;; Windows
  "o" #'pew/next-window
  "O" #'pew/prev-window
  "w" #'window-toggle-side-windows
@@ -255,11 +241,11 @@
  "M-y" #'pew/scroll-other-window-line-up
  "M-l" #'pew/recenter-other-window
 
- ;; Buffers
+;;;;; Buffers
  "n" #'pew/next-buffer
  "p" #'pew/prev-buffer
 
- ;; Tabs
+;;;;; Tabs
  "f" #'tab-bar-switch-to-last-tab
  "b" #'tab-bar-switch-to-prev-tab
  "t" #'tab-bar-new-tab
@@ -268,20 +254,18 @@
  "M" #'pew/move-tab-prev
  "Q" #'tab-bar-close-tab
 
- ;; Edit
+;;;;; Edit
  "C-u" #'undo
  "C-r" #'undo-redo
 
- ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
+;;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
  "+" #'text-scale-adjust
  "-" #'text-scale-adjust
- "0" #'text-scale-adjust
+ "0" #'text-scale-adjust)
 
- )
-
+;;;; Global keybindings
 (pew/set-key global-map
-
- ;; Tab bindings
+;;;;; Tab bindings
  "C-x t SPC" #'tab-bar-select-tab-by-name
  "C-x t f" #'tab-bar-switch-to-next-tab
  "C-x t b" #'tab-bar-switch-to-prev-tab
@@ -291,37 +275,31 @@
  "C-x t T" #'pew/pop-window-in-new-tab
  "C-x t l" #'tab-switcher
 
- ;; File and directory browsing
+;;;;; File and directory browsing
  "C-x C-d" #'dired-jump
 
- ;; Xref
+;;;;; Xref
  "C-x j" #'xref-find-definitions
  "C-x J" #'xref-find-references
  "C-x C-j" #'xref-find-apropos
 
- ;; Remap for better experience
+;;;;; Remap for better experience
  [remap next-buffer] #'pew/next-buffer
  [remap previous-buffer] #'pew/prev-buffer
  [remap list-buffers] #'ibuffer
  [remap isearch-delete-char] #'isearch-del-char
 
- ;; Pewkey
+;;;;; Pewkey
  "C-x g" #'pewkey
- "C-x C-g" #'pewkey-repeat
+ "C-x C-g" #'pewkey-repeat)
 
- )
-
+;;;; Dired keybindings
 (pew/set-key dired-mode-map
-
  "RET" #'pew/dired-go-to
- "DEL" #'pew/dired-go-up
-
- )
+ "DEL" #'pew/dired-go-up)
 
 ;;;; Mode hooks
-
 (pew/set-hook
-
  ;; Make shell clean
  'eshell-mode-hook #'pew/term-setup
  'shell-mode-hook #'pew/term-setup
@@ -336,29 +314,19 @@
  'grep-mode-hook #'pew/reuse-window-setup
 
  ;; Enable folding
- 'prog-mode-hook #'outline-minor-mode
-
- )
+ 'prog-mode-hook #'outline-minor-mode)
 
 ;;;; Symbol properties
-
 (pew/set-property
-
  ;; Enable commands that are disabled by default
  '(scroll-left disabled nil)
  '(list-threads disabled nil)
  '(list-timers disabled nil)
- '(dired-find-alternate-file disabled nil)
-
- )
+ '(dired-find-alternate-file disabled nil))
 
 ;;;; Face settings
-
 (pew/set-face
-
- '(tab-bar :inherit default)
-
- )
+ '(tab-bar :inherit default))
 
 (provide 'init-defaults)
 ;;; init-defaults.el ends here

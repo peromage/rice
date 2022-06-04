@@ -1,12 +1,9 @@
 ;;; elpa-lsp.el --- Language Server Protocol -*- lexical-binding: t -*-
 ;;; Commentary:
-
 ;; LSP configuration
 
 ;;; Code:
-
 ;;;; LSP package
-
 ;; For specific language LSP supports, they should go into the major mode modules.
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -38,7 +35,6 @@
   (lsp-completion-show-kind t))
 
 ;;;; LSP experience improvement
-
 (use-package lsp-ui
   :init
   (defun pew/lsp-ui/doc-glance ()
