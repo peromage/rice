@@ -6,13 +6,7 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :init
-  (defun pew/markdown-mode/setup ()
-    "My markdown mode hook."
-    (setq line-move-visual t)
-    (visual-line-mode))
-
-  :hook (markdown-mode . pew/markdown-mode/setup))
+  :hook (markdown-mode . pew/text-setup))
 
 (provide 'elpa-lang-markdown)
 ;;; elpa-lang-markdown.el ends here

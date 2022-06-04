@@ -13,9 +13,9 @@
   ;; File sorting
   (defun pew/vertico/sort-directories-first (files)
     "Sort directories before files."
-    (setq files (vertico-sort-history-length-alpha files))
-    (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
-           (seq-remove (lambda (x) (string-suffix-p "/" x)) files)))
+    (setq files_ (vertico-sort-history-length-alpha files))
+    (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files_)
+           (seq-remove (lambda (x) (string-suffix-p "/" x)) files_)))
 
   :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
@@ -40,25 +40,22 @@
 (use-package consult
   :init
   ;; Toggle auto preview
-  (defvar pew/consult/preview--key 'any "Stored consult preview key.")
+  (defvar pew/consult/stored--preview-key 'any "Stored consult preview key.")
   (defun pew/consult/toggle-preview ()
     "Toggle Consult auto preview function."
     (interactive)
     ;; Assume `consult-preview-key' is not 'any by default or this does nothing
     (cond ((eq 'any consult-preview-key)
-           (setq consult-preview-key pew/consult/preview--key)
-           (setq pew/consult/preview--key nil))
+           (setq consult-preview-key pew/consult/stored--preview-key)
+           (setq pew/consult/stored--preview-key nil))
           (t
-           (setq pew/consult/preview--key consult-preview-key)
+           (setq pew/consult/stored--preview-key consult-preview-key)
            (setq consult-preview-key 'any))))
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)
     "Use consult for region completion."
-    (apply (if vertico-mode
-               #'consult-completion-in-region
-             #'completion--in-region)
-           args))
+    (apply (if vertico-mode #'consult-completion-in-region #'completion--in-region) args))
 
   ;; CRM indicator
   (define-advice completing-read-multiple (:filter-args (args) pew/consult/crm-indicator)

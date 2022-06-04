@@ -40,13 +40,14 @@ Minor mode uses `add-hook' which is equivalent to:
   (add-hook 'MODE-hook #'evil-STATE-state)"
     (if (pew/oddp (length states))
         (error "Incomplete modes and states"))
-    (while states
-      (let ((mode_ (pop states))
-            (state_ (pop states)))
-        (cond ((memq mode_ minor-mode-list)
-               (add-hook (intern (format "%s-hook" mode_)) (intern (format "evil-%s-state" state_))))
-              (t
-               (evil-set-initial-state mode_ state_))))))
+    (let ((states_ states))
+      (while states_
+        (let ((mode_ (pop states_))
+              (state_ (pop states_)))
+          (cond ((memq mode_ minor-mode-list)
+                 (add-hook (intern (format "%s-hook" mode_)) (intern (format "evil-%s-state" state_))))
+                (t
+                 (evil-set-initial-state mode_ state_)))))))
 
   (defun pew/evil/set-buffer-state (&rest states)
     "Set initial STATES for certain buffer names.
@@ -58,43 +59,43 @@ Equivalent to:
 NOTE: Setting by buffer name patterns takes precedence over the mode based methods."
     (if (pew/oddp (length states))
         (error "Incomplete patterns and states"))
+    ;; Backwards iterating so that the order is consistent with the written list
     (let ((states_ (reverse states)))
       (while states_
         (let ((state_ (pop states_))
-              (reg_ (pop states_)))
-          (push (cons reg_ state_) evil-buffer-regexps)))))
+              (regex_ (pop states_)))
+          (push (cons regex_ state_) evil-buffer-regexps)))))
 
   ;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
 
   (defun pew/evil/escape-region (begin end)
-    "Escape region from BEGIN to END for evil-search mode."
-    (catch 'result
-      (let ((selection_ (buffer-substring-no-properties begin end))
+    "Escape special chars in region from BEGIN to END for evil-search mode."
+    (catch 'return_
+      (let ((region_ (buffer-substring-no-properties begin end))
             (placeholder_ "_IM_A_PERCENTAGE_"))
-        (if (= (length selection_) 0)
-            (throw 'result nil))
+        (if (= (length region_) 0)
+            (throw 'return_ nil))
         ;; Replace the % symbols so that `regexp-quote' does not complain
-        (setq selection_ (replace-regexp-in-string "%" placeholder_ selection_))
-        (setq selection_ (regexp-quote selection_))
+        (setq region_ (replace-regexp-in-string "%" placeholder_ region_))
+        (setq region_ (regexp-quote region_))
         ;; `regexp-quote' does not escape /. We escape it here so that evil-search
         ;; can recognize it
-        (setq selection_ (replace-regexp-in-string "/" "\\\\/" selection_)
-              ;; Change the % symbols back
-              selection_ (replace-regexp-in-string placeholder_ "%" selection_)))))
+        (setq region_ (replace-regexp-in-string "/" "\\\\/" region_))
+        ;; Change the % symbols back
+        (setq region_ (replace-regexp-in-string placeholder_ "%" region_))
+        (throw 'return_ region_))))
 
-  (defun pew/evil/search-selected ()
+  (defun pew/evil/search-region ()
     "Use evil-search for the selected region."
     (when (use-region-p)
       (setq evil-ex-search-count 1
             evil-ex-search-direction 'forward)
+      ;; Copy region text
       (evil-yank (region-beginning) (region-end))
       (let* ((quoted-pattern_ (pew/evil/escape-region (region-beginning) (region-end)))
-             (result_ (evil-ex-search-full-pattern
-                      quoted-pattern_
-                      evil-ex-search-count
-                      evil-ex-search-direction))
+             (result_ (evil-ex-search-full-pattern quoted-pattern_ evil-ex-search-count evil-ex-search-direction))
              (success_ (pop result_))
              (pattern_ (pop result_))
              (offset_ (pop result_)))
@@ -108,15 +109,15 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
           (evil-ex-search-previous)
           (evil-ex-search-previous)))))
 
-  (defun pew/evil/visual-search-selected ()
+  (defun pew/evil/visual-search-region ()
     "Search the selected region visual state and return to normal state."
     (interactive)
     (when (evil-visual-state-p)
-      (pew/evil/search-selected)
+      (pew/evil/search-region)
       (evil-normal-state)))
 
   ;; TODO: Fix the register calls
-  (defun pew/evil/normal-search-cursor ()
+  (defun pew/evil/normal-search-at-point ()
     "Search word under the cursor in normal mode."
     (interactive)
     (evil-ex-search-word-forward)
@@ -131,10 +132,8 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
            (replacement_ (read-string (concat regex_ " -> ")))
            (flags_ (list ?g ?c))
            (subpattern_ (evil-ex-make-substitute-pattern regex_ flags_)))
-      (message "regex %s" regex_)
-      (message "replacement %s" replacement_)
-      (message "subpattern %S" subpattern_)
-      (evil-ex-substitute (point-min) (point-max) subpattern_ replacement_ flags_)))
+      ;; Substitute from current position
+      (evil-ex-substitute (point) (point-max) subpattern_ replacement_ flags_)))
 
   :custom
   (evil-want-integration t)
@@ -264,21 +263,23 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   (pew/evil/set-key 'visual 'global nil
 
    ;; Search
-   "*" #'pew/evil/visual-search-selected
+   "*" #'pew/evil/visual-search-region
 
    )
 
-  (let ((bindings_ (list
+  (eval-after-load 'elisp-mode
+    (let ((bindings_ (list
 
-   ;; Quick eval
-   "eb" #'eval-buffer
-   "er" #'eval-region
-   "ef" #'eval-defun
-   "ee" #'eval-last-sexp
+     ;; Quick eval
+     "eb" #'eval-buffer
+     "er" #'eval-region
+     "ef" #'eval-defun
+     "ee" #'eval-last-sexp
 
-   )))
-    (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings_)
-    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings_)))
+     )))
+
+      (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings_)
+      (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings_))))
 
 (provide 'elpa-evil)
 ;;; elpa-evil.el ends here

@@ -322,8 +322,9 @@
 
 (pew/set-hook
 
- ;; Make eshell clean
+ ;; Make shell clean
  'eshell-mode-hook #'pew/term-setup
+ 'shell-mode-hook #'pew/term-setup
 
  ;; Don't save trailing spaces
  'after-save-hook #'pew/delete-trailing-whitespaces

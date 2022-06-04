@@ -7,16 +7,7 @@
 
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :init
-  (defun pew/org/setup ()
-    "Setup for Org mode."
-    (visual-line-mode 1)
-    (flyspell-mode 1)
-    (display-line-numbers-mode -1)
-    (electric-pair-mode -1)
-    (electric-indent-mode -1))
-
-  :hook (org-mode . pew/org/setup)
+  :hook (org-mode . pew/text-setup)
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))

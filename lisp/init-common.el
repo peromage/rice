@@ -18,9 +18,10 @@ CUSTOMS is a list of the form:
 This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
     (if (pew/oddp (length customs))
         (error "Incomplete variables and values"))
-    (let ((args_ nil))
-      (while customs
-        (push `'(,(pop customs) ,(pop customs)) args_))
+    (let ((customs_ customs)
+          (args_ nil))
+      (while customs_
+        (push `'(,(pop customs_) ,(pop customs_)) args_))
       `(pew/set-custom* ,@(reverse args_))))
 
   (defun pew/set-custom* (&rest customs)
@@ -51,8 +52,9 @@ Equivalent to:
   (define-key MAP KEY DEF)"
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
-    (while bindings
-      (define-key map (pew/tokey (pop bindings)) (pop bindings))))
+    (let ((bindings_ bindings))
+      (while bindings_
+        (define-key map (pew/tokey (pop bindings_)) (pop bindings_)))))
 
   (defmacro pew/create-keymap (newmap &rest bindings)
     "Create a new map with name NEWMAP and bind key BINDINGS with it.
@@ -119,8 +121,9 @@ The arguments will be collected in pairs and passed to `add-hook'.
 Equivalent to:"
     (if (pew/oddp (length hooks))
         (error "Incomplete hooks and functions"))
-    (while hooks
-      (add-hook (pop hooks) (pop hooks))))
+    (let ((hooks_ hooks))
+      (while hooks_
+        (add-hook (pop hooks_) (pop hooks_)))))
 
   (defun pew/evenp (num)
     "Determine if NUM is odd."
@@ -136,49 +139,50 @@ Equivalent to:"
 
   (defun pew/cycle-list (lst)
     "Put the first element in the LST to the last.
-This function doesn't modify the passed in LST."
-    (if lst
-        (append (cdr lst) (cons (car lst) nil))
-      nil))
+This function doesn't modify the passed-in LST."
+    (if lst (append (cdr lst) (cons (car lst) nil)) nil))
 
   (defun pew/sync-list (lst val)
     "Cycle LST until the first element equals VAL.
-Return a list with VAL as the first element or nil if no matching element found."
-    (catch 'return
+Return a list with VAL as the first element or nil if no matching element found.
+This function doesn't modify the passed-in LST."
+    (catch 'return_
       (if (equal val (car lst))
-          (throw 'return lst))
-      (let ((uplimit_ (length lst))
-            (iter_ 2))
-        ;; Fist one has been checked, skipping
-        (setq lst (pew/cycle-list lst))
-        (while (<= iter_ uplimit_)
-          (if (equal val (car lst))
-              (throw 'return lst))
-          (setq lst (pew/cycle-list lst))
-          (setq iter_ (1+ iter_)))
-        (throw 'return nil))))
+          (throw 'return_ lst))
+      ;; Fist one has been checked, skipping
+      (let ((index_ 1)
+            (list_ (pew/cycle-list lst))
+            (max_ (length lst)))
+        (while (< index_ max_)
+          (if (equal val (car list_))
+              (throw 'return_ list_))
+          (setq list_ (pew/cycle-list list_))
+          (setq index_ (1+ index_)))
+        (throw 'return_ nil))))
 
   (defmacro pew/toggle-var (var default)
     "Toggle variable VAR between custom value and DEFAULT value.
 If VAR does not equal to DEFAULT, store value of VAR in VAR@pewstore and set
-VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
-    `(let* ((store-symbol_ (intern ,(concat (symbol-name var) "@pewstore"))))
-       (eval (list 'defvar store-symbol_ ',default "Store variable set by PEW."))
-       (if (not (equal ,default ,var))
-           (eval (list 'setq store-symbol_ ',var ',var ',default))
-         (eval (list 'setq ',var (list 'prog1 store-symbol_ (list 'setq store-symbol_ ',var)))))))
+VAR to DEFAULT.
+Otherwise, swap VAR and VAR@pewstore."
+    (let ((store-symbol_ (intern (concat (symbol-name var) "@pewstore"))))
+      `(progn
+         (defvar ,store-symbol_ ,default "Store variable set by `pew/toggle-var'.")
+         (cond ((not (equal ,default ,var))
+                (setq ,store-symbol_ ,var)
+                (setq ,var ,default))
+               (t
+                (pew/swap ,var ,store-symbol_))))))
 
   (defun pew/tokey (key)
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    (if (stringp key)
-        (kbd key)
-      key))
+    (if (stringp key) (kbd key) key))
 
   )
 
-;;;; Common functions and commands
+;;;; Debugging
 
 (defun pew/reload-init-file ()
   "Reload the config file."
@@ -193,25 +197,25 @@ is a vector then does nothing."
 (defun pew/expand-macro (form &optional all)
   "Expand macro the first level (or ALL) in FORM and print the expanded code."
   (let ((expanded_ (if all (macroexpand-all form) (macroexpand form))))
-    (message "Expanded macro:\n%S" expanded_)
+    (message "Expanded macro: %S" expanded_)
     expanded_))
 
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
   (let ((name_ (help-key-description (vector keycode) nil)))
-    (message name_)
-    name_))
+    (message name_)))
 
 (defun pew/buffer-full-path ()
   "Display current file path in the minibuffer."
   (interactive)
-  (message buffer-file-name)
-  buffer-file-name)
+  (message buffer-file-name))
+
+;;;; Common functions and commands
 
 (defun pew/parent-directory (path)
   "Get the parent directory of the PATH."
-    (file-name-directory (directory-file-name path)))
+  (file-name-directory (directory-file-name path)))
 
 (defvar pew/home-dir (pew/parent-directory (pew/parent-directory load-file-name))
   "The PEW configuration's home directory.
@@ -232,16 +236,18 @@ loaded from other places.")
 These buffers are usually skipped and ignored from buffer list.")
 
 (defun pew/hidden-buffer-p (name)
-  "Check if the given buffer NAME is a special buffer."
-  (catch 'found-special
+  "Check if the given buffer NAME is a hidden buffer.
+Return t if NAME matches one of patterns defined in `pew/hidden-buffers' or nil
+if there is not match."
+  (catch 'return_
     (dolist (buffer-regex_ pew/hidden-buffers)
       (if (string-match buffer-regex_ name)
-          (throw 'found-special t)))
+          (throw 'return_ t)))
     nil))
 
 (defun pew/switch-buffer (switch-func)
-  "Switch to the buffer by SWITCH-FUNC but skip special buffers.
-SWITCH-FUNC should not take any arguments."
+  "Switch to the buffer by SWITCH-FUNC but skip hidden buffers.
+Use `pew/hidden-buffer-p' to filter buffers."
   (let ((current-buffer-name_ (buffer-name)))
     (funcall switch-func)
     (while (and (pew/hidden-buffer-p (buffer-name))
@@ -249,21 +255,22 @@ SWITCH-FUNC should not take any arguments."
       (funcall switch-func))))
 
 (defun pew/next-buffer ()
-  "Switch to the next buffer but skip special buffers."
+  "Switch to the next buffer but skip hidden buffers."
   (interactive)
   (pew/switch-buffer #'next-buffer))
 
 (defun pew/prev-buffer ()
-  "Switch to the previous buffer but skip special buffers."
+  "Switch to the previous buffer but skip hidden buffers."
   (interactive)
   (pew/switch-buffer #'previous-buffer))
 
-(defun pew/close-other-buffers-with-major-mode (majormode)
-  "Close all other buffers in MAJORMODE but thie one."
+(defun pew/close-other-buffers-in-major-mode (mode)
+  "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
   (let ((this-buffer_ (current-buffer)))
     (dolist (buffer_ (buffer-list))
-      (if (and (eq majormode (buffer-local-value 'major-mode buffer_)) (not (eq this-buffer_ buffer_)))
+      (if (and (eq mode (buffer-local-value 'major-mode buffer_))
+               (not (eq this-buffer_ buffer_)))
           (kill-buffer buffer_)))))
 
 ;;;; Windows
@@ -331,11 +338,6 @@ SWITCH-FUNC should not take any arguments."
 
 ;;;; Themes
 
-(defun pew/disable-theme-list (disabled-themes)
-  "Disable all themes in the DISABLED-THEMES."
-  (dolist (theme_ disabled-themes)
-    (disable-theme theme_)))
-
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '_INTERACT_))
@@ -343,8 +345,10 @@ SWITCH-FUNC should not take any arguments."
    ((eq '_INTERACT_ theme)
     (call-interactively #'load-theme))
    (t (load-theme theme t)))
+  ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
-      (pew/disable-theme-list (cdr custom-enabled-themes))))
+      (dolist (theme_ (cdr custom-enabled-themes))
+        (disable-theme theme_))))
 
 ;;;; Builtin package utilities
 ;;;;; Dired
@@ -364,12 +368,12 @@ SWITCH-FUNC should not take any arguments."
 (defun pew/dired-close-others ()
   "Close other Dired buffers but this one."
   (interactive)
-  (pew/close-other-buffers-with-major-mode 'dired-mode))
+  (pew/close-other-buffers-in-major-mode 'dired-mode))
 
 ;;;;; Hook functions
 
 (defun pew/term-setup ()
-  "Common setup for terminal on entering."
+  "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
               truncate-lines nil
               truncate-partial-width-windows nil
@@ -377,6 +381,15 @@ SWITCH-FUNC should not take any arguments."
               global-hl-line-mode nil)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
+
+(defun pew/text-setup ()
+  "Common setup for text processing modes."
+  (setq-local line-move-visual t)
+  (visual-line-mode 1)
+  (flyspell-mode 1)
+  (display-line-numbers-mode -1)
+  (electric-pair-mode -1)
+  (electric-indent-mode -1))
 
 (defun pew/reuse-window-setup ()
   "Hook for certains modes that keep spawning new windows e.g. `grep-mode'."
@@ -390,11 +403,10 @@ SWITCH-FUNC should not take any arguments."
 (defun pew/cycle-line-number-style ()
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
-  (let ((synced-style_ (pew/sync-list pew/line-number-styles display-line-numbers))
+  (let ((synced-styles_ (pew/sync-list pew/line-number-styles display-line-numbers))
         (style-string_ "Unknown"))
-    (when synced-style_
-        (setq pew/line-number-styles (pew/cycle-list synced-style_))
-        (setq display-line-numbers (car pew/line-number-styles)))
+    (when synced-styles_
+      (setq display-line-numbers (car (pew/cycle-list synced-styles_))))
     (cond ((eq nil display-line-numbers)
            (setq style-string_ "Off"))
           ((eq t display-line-numbers)
@@ -408,24 +420,24 @@ SWITCH-FUNC should not take any arguments."
   (interactive)
   (setq indent-tabs-mode (not indent-tabs-mode))
   (if indent-tabs-mode
-      (message "Enabled indent tabs mode")
-    (message "Disabled indent tabs mode")))
+      (message "Indent tabs mode enabled")
+    (message "Indent tabs mode disabled")))
 
 (defun pew/toggle-show-trailing-whitespace ()
   "Toggle to show trailing spaces."
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace))
   (if show-trailing-whitespace
-      (message "Show trailing whitespaces")
-    (message "Hide trailing whitespaces")))
+      (message "Trailing whitespaces enabled")
+    (message "Trailing whitespaces disabled")))
 
 (defun pew/toggle-visual-line-move ()
   "Toggle visual line movement."
   (interactive)
   (setq line-move-visual (not line-move-visual))
   (if line-move-visual
-      (message "Visual line move on")
-    (message "Visual line move off")))
+      (message "Visual line move enabled")
+    (message "Visual line move disabled")))
 
 (provide 'init-common)
 ;;; init-common.el ends here

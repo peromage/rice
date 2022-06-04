@@ -10,8 +10,8 @@
   :init
   (defun pew/python-mode/setup ()
     "Python LSP mode setup."
-    (setq indent-tabs-mode nil
-          tab-width 4)
+    (setq-local indent-tabs-mode nil
+                tab-width 4)
     (lsp-deferred))
 
   :hook (python-mode . pew/python-mode/setup)
