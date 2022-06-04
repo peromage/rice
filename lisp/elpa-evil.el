@@ -22,11 +22,10 @@ The arguments will be collected in pairs and passed to `evil-define-key'.
 "
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
-    (let ((pfx (if prefix prefix ""))
-          (bd bindings))
-      (while bd
-        (setcar bd (kbd (concat prefix (pop bd))))
-        (pop bd))
+    (let ((bindings_ bindings))
+      (while bindings_
+        (setcar bindings_ (kbd (concat prefix (pop bindings_))))
+        (pop bindings_))
       (apply 'evil-define-key* state map bindings)))
 
   ;; Initial state function
@@ -42,12 +41,12 @@ Minor mode uses `add-hook' which is equivalent to:
     (if (pew/oddp (length states))
         (error "Incomplete modes and states"))
     (while states
-      (let ((mode (pop states))
-            (state (pop states)))
-        (cond ((memq mode minor-mode-list)
-               (add-hook (intern (format "%s-hook" mode)) (intern (format "evil-%s-state" state))))
+      (let ((mode_ (pop states))
+            (state_ (pop states)))
+        (cond ((memq mode_ minor-mode-list)
+               (add-hook (intern (format "%s-hook" mode_)) (intern (format "evil-%s-state" state_))))
               (t
-               (evil-set-initial-state mode state))))))
+               (evil-set-initial-state mode_ state_))))))
 
   (defun pew/evil/set-buffer-state (&rest states)
     "Set initial STATES for certain buffer names.
@@ -59,11 +58,11 @@ Equivalent to:
 NOTE: Setting by buffer name patterns takes precedence over the mode based methods."
     (if (pew/oddp (length states))
         (error "Incomplete patterns and states"))
-    (let ((states (reverse states)))
-      (while states
-        (let ((state (pop states))
-              (reg (pop states)))
-          (push (cons reg state) evil-buffer-regexps)))))
+    (let ((states_ (reverse states)))
+      (while states_
+        (let ((state_ (pop states_))
+              (reg_ (pop states_)))
+          (push (cons reg_ state_) evil-buffer-regexps)))))
 
   ;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
@@ -72,18 +71,18 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   (defun pew/evil/escape-region (begin end)
     "Escape region from BEGIN to END for evil-search mode."
     (catch 'result
-      (let ((selection (buffer-substring-no-properties begin end))
-            (placeholder "_IM_A_PERCENTAGE_"))
-        (if (= (length selection) 0)
+      (let ((selection_ (buffer-substring-no-properties begin end))
+            (placeholder_ "_IM_A_PERCENTAGE_"))
+        (if (= (length selection_) 0)
             (throw 'result nil))
         ;; Replace the % symbols so that `regexp-quote' does not complain
-        (setq selection (replace-regexp-in-string "%" placeholder selection))
-        (setq selection (regexp-quote selection))
+        (setq selection_ (replace-regexp-in-string "%" placeholder_ selection_))
+        (setq selection_ (regexp-quote selection_))
         ;; `regexp-quote' does not escape /. We escape it here so that evil-search
         ;; can recognize it
-        (setq selection (replace-regexp-in-string "/" "\\\\/" selection)
+        (setq selection_ (replace-regexp-in-string "/" "\\\\/" selection_)
               ;; Change the % symbols back
-              selection (replace-regexp-in-string placeholder "%" selection)))))
+              selection_ (replace-regexp-in-string placeholder_ "%" selection_)))))
 
   (defun pew/evil/search-selected ()
     "Use evil-search for the selected region."
@@ -91,18 +90,18 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
       (setq evil-ex-search-count 1
             evil-ex-search-direction 'forward)
       (evil-yank (region-beginning) (region-end))
-      (let* ((quoted-pattern (pew/evil/escape-region (region-beginning) (region-end)))
-             (result (evil-ex-search-full-pattern
-                      quoted-pattern
+      (let* ((quoted-pattern_ (pew/evil/escape-region (region-beginning) (region-end)))
+             (result_ (evil-ex-search-full-pattern
+                      quoted-pattern_
                       evil-ex-search-count
                       evil-ex-search-direction))
-             (success (pop result))
-             (pattern (pop result))
-             (offset (pop result)))
-        (when success
+             (success_ (pop result_))
+             (pattern_ (pop result_))
+             (offset_ (pop result_)))
+        (when success_
           ;; From `evil-ex-start-search'
-          (setq evil-ex-search-pattern pattern
-                evil-ex-search-offset offset)
+          (setq evil-ex-search-pattern pattern_
+                evil-ex-search-offset offset_)
           ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
           ;; are more than one candidates. So we jump twice here to go back to the
           ;; very first one that we selected.
@@ -128,14 +127,14 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
     (interactive)
     (if (not evil-ex-search-pattern)
         (user-error "No search pattern found"))
-    (let* ((regex (nth 0 evil-ex-search-pattern))
-           (replacement (read-string (concat regex " -> ")))
-           (flags (list ?g ?c))
-           (subpattern (evil-ex-make-substitute-pattern regex flags)))
-      (message "regex %s" regex)
-      (message "replacement %s" replacement)
-      (message "subpattern %S" subpattern)
-      (evil-ex-substitute (point-min) (point-max) subpattern replacement flags)))
+    (let* ((regex_ (nth 0 evil-ex-search-pattern))
+           (replacement_ (read-string (concat regex_ " -> ")))
+           (flags_ (list ?g ?c))
+           (subpattern_ (evil-ex-make-substitute-pattern regex_ flags_)))
+      (message "regex %s" regex_)
+      (message "replacement %s" replacement_)
+      (message "subpattern %S" subpattern_)
+      (evil-ex-substitute (point-min) (point-max) subpattern_ replacement_ flags_)))
 
   :custom
   (evil-want-integration t)
@@ -269,7 +268,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
 
    )
 
-  (let ((bindings (list
+  (let ((bindings_ (list
 
    ;; Quick eval
    "eb" #'eval-buffer
@@ -278,8 +277,8 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    "ee" #'eval-last-sexp
 
    )))
-    (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings)
-    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings)))
+    (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings_)
+    (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings_)))
 
 (provide 'elpa-evil)
 ;;; elpa-evil.el ends here

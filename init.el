@@ -9,9 +9,9 @@
 ;;;; Preparation
 
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(let ((home (file-name-directory load-file-name)))
-  (add-to-list 'load-path (expand-file-name "lisp" home))
-  (add-to-list 'load-path (expand-file-name "site-lisp" home)))
+(let ((home_ (file-name-directory load-file-name)))
+  (add-to-list 'load-path (expand-file-name "lisp" home_))
+  (add-to-list 'load-path (expand-file-name "site-lisp" home_)))
 
 ;; Configurations from the interactive `customize' interfaces.
 ;; Any disposable code can be put in this file.

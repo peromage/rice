@@ -6,15 +6,15 @@
 ;;; Code:
 
 ;; Check minimal version
-(let ((minimal-emacs-version "28.1"))
-  (when (version< emacs-version minimal-emacs-version)
-    (error "PEW only supports Emacs version %s and above" minimal-emacs-version)))
+(let ((minimal-emacs-version_ "28.1"))
+  (when (version< emacs-version minimal-emacs-version_)
+    (error "PEW only supports Emacs version %s and above" minimal-emacs-version_)))
 
 ;; Adjust garbage collection thresholds during startup, and thereafter
-(let ((normal-gc-cons-threshold (* 20 1024 1024))
-      (init-gc-cons-threshold (* 128 1024 1024)))
-  (setq gc-cons-threshold init-gc-cons-threshold)
-  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+(let ((normal-gc-cons-threshold_ (* 20 1024 1024))
+      (init-gc-cons-threshold_ (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold_)
+  (add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold normal-gc-cons-threshold_))))
 
 ;; Start a daemon if it is not running yet
 (defun pew/start--daemon()

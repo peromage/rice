@@ -18,18 +18,18 @@ CUSTOMS is a list of the form:
 This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
     (if (pew/oddp (length customs))
         (error "Incomplete variables and values"))
-    (let ((args nil))
+    (let ((args_ nil))
       (while customs
-        (push `'(,(pop customs) ,(pop customs)) args))
-      `(pew/set-custom* ,@(reverse args))))
+        (push `'(,(pop customs) ,(pop customs)) args_))
+      `(pew/set-custom* ,@(reverse args_))))
 
   (defun pew/set-custom* (&rest customs)
     "Set a list of CUSTOMS.
 Each custom element is a list of the form:
   (VAR VALUE [COMMENT])
 The VALUE will be evaluated before passing to `customize-set-variable'."
-    (dolist (cus customs)
-      (customize-set-variable (pop cus) (eval (pop cus)) (pop cus))))
+    (dolist (custom_ customs)
+      (customize-set-variable (pop custom_) (eval (pop custom_)) (pop custom_))))
 
   (defun pew/set-face (&rest faces)
     "Set FACES attributes.
@@ -38,8 +38,8 @@ FACES is a list of the form:
 Each element will be passed to `set-face-attribute'.
 Equivalent to:
   (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
-    (dolist (attr faces)
-      (apply 'set-face-attribute (pop attr) nil attr)))
+    (dolist (attr_ faces)
+      (apply 'set-face-attribute (pop attr_) nil attr_)))
 
   (defun pew/set-key (map &rest bindings)
     "Bind BINDINGS in MAP.
@@ -108,8 +108,8 @@ Each element in PROPERTIES is of the form:
 The arguments will be passed to `put' one by one.
 Equivalent to:
   (put SYM PROP VAL)"
-    (dolist (prop properties)
-      (put (pop prop) (pop prop) (pop prop))))
+    (dolist (prop_ properties)
+      (put (pop prop_) (pop prop_) (pop prop_))))
 
   (defun pew/set-hook (&rest hooks)
     "Add HOOKS.
@@ -147,26 +147,26 @@ Return a list with VAL as the first element or nil if no matching element found.
     (catch 'return
       (if (equal val (car lst))
           (throw 'return lst))
-      (let ((uplimit (length lst))
-            (iter 2))
+      (let ((uplimit_ (length lst))
+            (iter_ 2))
         ;; Fist one has been checked, skipping
         (setq lst (pew/cycle-list lst))
-        (while (<= iter uplimit)
+        (while (<= iter_ uplimit_)
           (if (equal val (car lst))
               (throw 'return lst))
           (setq lst (pew/cycle-list lst))
-          (setq iter (1+ iter)))
+          (setq iter_ (1+ iter_)))
         (throw 'return nil))))
 
   (defmacro pew/toggle-var (var default)
     "Toggle variable VAR between custom value and DEFAULT value.
 If VAR does not equal to DEFAULT, store value of VAR in VAR@pewstore and set
 VAR to DEFAULT.  Otherwise, swap VAR and VAR@pewstore."
-    `(let* ((store-symbol (intern ,(concat (symbol-name var) "@pewstore"))))
-       (eval (list 'defvar store-symbol ',default "Store variable set by PEW."))
+    `(let* ((store-symbol_ (intern ,(concat (symbol-name var) "@pewstore"))))
+       (eval (list 'defvar store-symbol_ ',default "Store variable set by PEW."))
        (if (not (equal ,default ,var))
-           (eval (list 'setq store-symbol ',var ',var ',default))
-         (eval (list 'setq ',var (list 'prog1 store-symbol (list 'setq store-symbol ',var)))))))
+           (eval (list 'setq store-symbol_ ',var ',var ',default))
+         (eval (list 'setq ',var (list 'prog1 store-symbol_ (list 'setq store-symbol_ ',var)))))))
 
   (defun pew/tokey (key)
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
@@ -192,16 +192,16 @@ is a vector then does nothing."
 
 (defun pew/expand-macro (form &optional all)
   "Expand macro the first level (or ALL) in FORM and print the expanded code."
-  (let ((expanded (if all (macroexpand-all form) (macroexpand form))))
-    (message "Expanded macro:\n%S" expanded)
-    expanded))
+  (let ((expanded_ (if all (macroexpand-all form) (macroexpand form))))
+    (message "Expanded macro:\n%S" expanded_)
+    expanded_))
 
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
-  (let ((string (help-key-description (vector keycode) nil)))
-    (message string)
-    string))
+  (let ((name_ (help-key-description (vector keycode) nil)))
+    (message name_)
+    name_))
 
 (defun pew/buffer-full-path ()
   "Display current file path in the minibuffer."
@@ -234,18 +234,18 @@ These buffers are usually skipped and ignored from buffer list.")
 (defun pew/hidden-buffer-p (name)
   "Check if the given buffer NAME is a special buffer."
   (catch 'found-special
-    (dolist (buffer-regex pew/hidden-buffers)
-      (if (string-match buffer-regex name)
+    (dolist (buffer-regex_ pew/hidden-buffers)
+      (if (string-match buffer-regex_ name)
           (throw 'found-special t)))
     nil))
 
 (defun pew/switch-buffer (switch-func)
   "Switch to the buffer by SWITCH-FUNC but skip special buffers.
 SWITCH-FUNC should not take any arguments."
-  (let ((current-buffer-name (buffer-name)))
+  (let ((current-buffer-name_ (buffer-name)))
     (funcall switch-func)
     (while (and (pew/hidden-buffer-p (buffer-name))
-                (not (string= current-buffer-name (buffer-name))))
+                (not (string= current-buffer-name_ (buffer-name))))
       (funcall switch-func))))
 
 (defun pew/next-buffer ()
@@ -261,10 +261,10 @@ SWITCH-FUNC should not take any arguments."
 (defun pew/close-other-buffers-with-major-mode (majormode)
   "Close all other buffers in MAJORMODE but thie one."
   (interactive "SMajor mode: ")
-  (let ((this-buf (current-buffer)))
-    (dolist (buf (buffer-list))
-      (if (and (eq majormode (buffer-local-value 'major-mode buf)) (not (eq this-buf buf)))
-          (kill-buffer buf)))))
+  (let ((this-buffer_ (current-buffer)))
+    (dolist (buffer_ (buffer-list))
+      (if (and (eq majormode (buffer-local-value 'major-mode buffer_)) (not (eq this-buffer_ buffer_)))
+          (kill-buffer buffer_)))))
 
 ;;;; Windows
 
@@ -333,8 +333,8 @@ SWITCH-FUNC should not take any arguments."
 
 (defun pew/disable-theme-list (disabled-themes)
   "Disable all themes in the DISABLED-THEMES."
-  (dolist (theme disabled-themes)
-    (disable-theme theme)))
+  (dolist (theme_ disabled-themes)
+    (disable-theme theme_)))
 
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
@@ -390,18 +390,18 @@ SWITCH-FUNC should not take any arguments."
 (defun pew/cycle-line-number-style ()
   "Switch line number type between relative and absolute for current buffer."
   (interactive)
-  (let ((synced-style (pew/sync-list pew/line-number-styles display-line-numbers))
-        (style-string "Unknown"))
-    (when synced-style
-        (setq pew/line-number-styles (pew/cycle-list synced-style))
+  (let ((synced-style_ (pew/sync-list pew/line-number-styles display-line-numbers))
+        (style-string_ "Unknown"))
+    (when synced-style_
+        (setq pew/line-number-styles (pew/cycle-list synced-style_))
         (setq display-line-numbers (car pew/line-number-styles)))
     (cond ((eq nil display-line-numbers)
-           (setq style-string "Off"))
+           (setq style-string_ "Off"))
           ((eq t display-line-numbers)
-           (setq style-string "Abusolute"))
+           (setq style-string_ "Abusolute"))
           ((eq 'relative display-line-numbers)
-           (setq style-string "Relative")))
-    (message "Line number style: %s" style-string)))
+           (setq style-string_ "Relative")))
+    (message "Line number style: %s" style-string_)))
 
 (defun pew/toggle-indent-tabs-mode ()
   "Switch between tab mode or space mode."
