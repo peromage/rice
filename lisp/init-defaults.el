@@ -258,6 +258,10 @@
  "C-u" #'undo
  "C-r" #'undo-redo
 
+;;;;; Org
+ "c" #'org-capture
+ "a" #'org-agenda
+
 ;;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
  "+" #'text-scale-adjust
  "-" #'text-scale-adjust
