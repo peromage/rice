@@ -11,7 +11,6 @@ This configuration intends to be as minimal as possible. It also prioritize usin
 Additionally for convenience, I included my personal configuration collection for other apps in this repo. They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
 
 ** Features
-
 - Light and quick
 - Terminal friendly
 - Respect Emacs vanilla key bindings
@@ -20,7 +19,6 @@ Additionally for convenience, I included my personal configuration collection fo
 - LSP support
 
 ** Get Started
-
 Clone this repo and put it to your home directory with folder name =.emacs.d=.
 
 #+begin_src shell
@@ -30,7 +28,6 @@ $ git clone https://github.com/peromage/pew.git ~/.emacs.d
 Then Emacs will automatically install everything for you.
 
 *** Local Files
-
 Disposable changes can go into =local.el= including settings from ~customize~.
 
 =local.el= will be applied on top of the default pew configuration.
@@ -52,8 +49,18 @@ pew
 #+end_example
 
 ** Philosophy
-*** Literal Configuration?
+*** Consideration of design
+The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration. But when I write my own files I keep these points in mind:
 
+1. Keep simple and minimal
+I don't want to make my Emacs become some sort of IDE monster so main focus is the speed. When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them so the start up time should be fast. Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and built-in completion. They can handle my daily work well without problems.
+
+2. Keep modular
+Each modular doesn't have cross references to each other so any of them can be plugged in and out at any time (except for the =init-common= which is a common library).
+
+If there is no Internet to download packages it's possible to keep =init-common= and =init-default= only in =init.el= to enhance vanilla Emacs experience.
+
+*** Literal configuration?
 No.
 
 Literal programming is a fantastic idea. However, I found that it's a distraction when I read my configuration code because I don't need to explain what I thought to myself.
@@ -67,7 +74,6 @@ Don't forget that in the modular configuration tool packages can be added anytim
 In one word, when it comes to sharing and note taking, literal programming is a perfect way to do it but for daily tools configuration files are easier to use.
 
 ** Acknowledgement
-
 This configuration is inspired by
 - [[https://github.com/purcell/emacs.d][purcell/emacs.d]]
 - [[https://protesilaos.com/emacs/dotemacs][Protesilaos Stavrou]]
