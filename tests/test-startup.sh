@@ -20,8 +20,12 @@ emacs -nw --batch --eval \
            (run-hooks (quote after-init-hook))
            (run-hooks (quote emacs-startup-hook))))'
 
-if [ $? -eq 0 ]; then
+ec=$?
+
+if [ $ec -eq 0 ]; then
     echo "Successfully started Emacs"
 else
     echo "Failed to start Emacs" 1>&2
 fi
+
+exit $ec
