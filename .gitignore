@@ -22,6 +22,14 @@ yasnippets/**/*.elc
 !rice/
 !rice/**
 
+# Include tests
+!tests/
+!tests/**
+
+# Include GitHub workflows
+!.github/
+!.github/**
+
 # Include files at the repo root
 !.gitignore
 !.pew

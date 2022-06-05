@@ -1,0 +1,33 @@
+name: Emacs Config Sanity Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  emacs_config_sanity_check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        emacs_version:
+          - 28.1
+          - snapshot
+
+    runs-on: ${{ matrix.os }}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
+    steps:
+      - name: Setup Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs_version }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test Startup
+        run: ./tests/test-startup.sh
