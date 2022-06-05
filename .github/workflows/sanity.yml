@@ -29,5 +29,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Test Startup
+      - name: Startup - Package Installation
+        run: ./tests/test-startup.sh
+
+      - name: Startup - Normal
         run: ./tests/test-startup.sh
