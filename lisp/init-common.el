@@ -52,7 +52,7 @@ Equivalent to:
       (while bindings_
         (define-key map (pew/tokey (pop bindings_)) (pop bindings_)))))
 
-  (defmacro pew/create-keymap (newmap &rest bindings)
+  (defmacro pew/define-keymap (newmap &rest bindings)
     "Create a new map with name NEWMAP and bind key BINDINGS with it.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
@@ -64,9 +64,9 @@ Equivalent to:
            (bindings_ (list ,@bindings)))
        (while bindings_
          (define-key map_ (pew/tokey (pop bindings_)) (pop bindings_)))
-       (defvar ,newmap map_ "Keymap created by `pew/create-keymap'")))
+       (defvar ,newmap map_ "Keymap created by `pew/define-keymap'")))
 
-  (defmacro pew/create-transient-command (cmd &rest bindings)
+  (defmacro pew/define-transient-command (cmd &rest bindings)
     "Create a transient map for a dummy command CMD and its key BINDINGS.
 CMD is the name of the command.
 This function will create two interactive commands CMD and CMD-repeat as well as
@@ -83,10 +83,10 @@ BINDINGS is a list of the form:
 For DEF's definition see `define-key'."
     (let ((map-symbol_ (intern (concat (symbol-name cmd) "-map")))
           (cmd-repeat-symbol_ (intern (concat (symbol-name cmd) "-repeat")))
-          (cmd-doc-string_ "Command created by `pew/create-transient-command'"))
+          (cmd-doc-string_ "Command created by `pew/define-transient-command'"))
       `(progn
          ;; Create the map used in transient mode
-         (pew/create-keymap ,map-symbol_ ,@bindings)
+         (pew/define-keymap ,map-symbol_ ,@bindings)
          ;; Create the commands
          (defun ,cmd ()
            ,cmd-doc-string_

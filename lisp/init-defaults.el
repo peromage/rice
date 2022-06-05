@@ -220,7 +220,7 @@
  winner-dont-bind-my-keys t)
 
 ;;;; My keybindings
-(pew/create-transient-command pewkey
+(pew/define-transient-command pewkey
 ;;;;; Windows
  "o" #'pew/next-window
  "O" #'pew/prev-window
