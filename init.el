@@ -39,7 +39,7 @@
 (require 'elpa-extra)
 
 ;; Load this at the last to prevent local configurations from being overridden
-(load custom-file t)
+(load custom-file :noerror)
 
 (provide 'init)
 ;;; Local Variables:
