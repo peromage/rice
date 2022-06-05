@@ -40,6 +40,7 @@ pew
 ├── site-lisp/              # Addtional package files written by myself
 ├── yasnippets/             # Snippet files loaded by yasnippet
 ├── rice/                   # My config collection for other apps
+├── tests/                  # Test scripts
 ├── early-init.el           # Init file loaded before init.el
 ├── init.el                 # Main init file
 ├── .pew                    # Configuration root placeholder
@@ -47,6 +48,44 @@ pew
 ├── LICENSE                 # License file
 └── README.md               # This file
 #+end_example
+
+** Key Bindings
+*** Emacs State
+To respect Emacs key bindings, there are only a few modification on the original ones. Most of them are just enhancement without changing the meanings.
+
+For the personal key bindings, they are defined in a transient map by calling either =pewkey= or =pewkey-repeat=.
+
+See [[./lisp/init-defaults.el][init-default.el]]
+
+*** Evil Mode
+Evil key bindings are defined with leader key =SPC=. There are not too many. Most of Vim bindings are good enough.
+
+See [[./lisp/elpa-evil.el][elpa-evil.el]]
+
+*** Principles
+When binding keys I follow these principles to make them mnemonic.
+
+| Key | Meaning                   |
+|-----+---------------------------|
+| q   | Quit; Close window        |
+| Q   | Quit; Close all           |
+| s   | Split horizontally        |
+| v   | Split vertically          |
+| t   | New tab                   |
+| w   | Write file                |
+|-----+---------------------------|
+| h   | Move focus left           |
+| j   | Move focus down           |
+| k   | Move focus up             |
+| l   | Move focus right          |
+| m   | Move tab forward          |
+| M   | Move tab backward         |
+| f   | Move tab focus forward    |
+| b   | Move tab focus backward   |
+| n   | Switch to next buffer     |
+| p   | Switch to previous buffer |
+| u   | Undo                      |
+| r   | Redo                      |
 
 ** Philosophy
 *** Consideration of design
