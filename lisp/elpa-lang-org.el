@@ -44,7 +44,8 @@
   (org-ctrl-k-protect-subtree t)
   (org-yank-adjusted-subtrees t)
   (org-insert-heading-respect-content t)
-  (org-use-fast-todo-selection 'auto)
+  (org-use-fast-todo-selection 'expert) ;; No popup window
+  (org-use-fast-tag-selection nil) ;; Always use list selection
   (org-src-preserve-indentation t)
 
   ;; Log
