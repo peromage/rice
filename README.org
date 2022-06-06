@@ -17,6 +17,7 @@ Additionally for convenience, I included my personal configuration collection fo
 - Evil mode (~evil-motion-state~ and ~evil-emacs-state~ are used out side of editing buffers)
 - Vertico and its complementary packages (Utilize Emacs built-in completion)
 - LSP support
+- For Emacs 28+ only
 
 ** Get Started
 Clone this repo and put it to your home directory with folder name =.emacs.d=.
@@ -84,36 +85,36 @@ When binding keys I follow these principles to make them mnemonic.
 | b   | Move tab focus backward   |
 | n   | Switch to next buffer     |
 | p   | Switch to previous buffer |
-| u   | Undo                      |
-| r   | Redo                      |
+| u   | Undo (actions)            |
+| r   | Redo (actions)            |
 
 ** Philosophy
 *** Consideration of design
 The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration. But when I write my own files I keep these points in mind:
 
-1. Keep simple and minimal
-I don't want to make my Emacs become some sort of IDE monster so main focus is the speed. When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them so the start up time should be fast. Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and built-in completion. They can handle my daily work well without problems.
+1. Keep it simple and minimal
+I don't want to make my Emacs become some sort of IDE monster so the main focus is the speed. When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them. Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and the built-in completion. They can handle my daily work well without problems.
 
-2. Keep modular
-Each modular doesn't have cross references to each other so any of them can be plugged in and out at any time (except for the =init-common= which is a common library).
+2. Keep it modular
+Each module doesn't have cross references to each other so any one of them can be plugged in and out at any time (except for the =init-common= which is a common library used by other modules).
 
-If there is no Internet to download packages it's possible to keep =init-common= and =init-default= only in =init.el= to enhance vanilla Emacs experience.
+If there is no Internet to download packages it's possible to keep only =init-common= and =init-default= in =init.el= to bring some sweet stuff to vanilla Emacs.
 
 *** Literal configuration?
 No.
 
-Literal programming is a fantastic idea. However, I found that it's a distraction when I read my configuration code because I don't need to explain what I thought to myself.
+Literal programming is a fantastic idea. However, It's a distraction for me when reading the code because most of the time I'm not presenting my configuration to others. Making commentary text as the main body instead code itself seems to be a little anti-instinctive.
 
 In general, I believe proper comments left in the code could improve readability good enough. Also this configuration is designed in a modular way where each module is descriptive by its name, and comments are also sectioned with outline format, so browsing and modifying the configuration should be with ease.
 
-Also literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. Hook might be a solution but undeniably it still requires additional setup for the first time. In my concept, day-to-day productivity tool configuration should be ready out of the box.
+Literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. Hook might be a solution but undeniably it still requires additional setup for the first time. In my concept, day-to-day productivity tool configuration should be ready out of the box.
 
-Don't forget that in the modular configuration tool packages can be added anytime under =site-list= directory. It might be a hassle for literal configuration with everything in one file.
+Don't forget that in the modular configuration tool packages can be added anytime under =site-list= directory. It might be a hassle for literal configuration with everything in one file (if that's the preferred way).
 
 In one word, when it comes to sharing and note taking, literal programming is a perfect way to do it but for daily tools configuration files are easier to use.
 
 ** Acknowledgement
 This configuration is inspired by
 - [[https://github.com/purcell/emacs.d][purcell/emacs.d]]
-- [[https://protesilaos.com/emacs/dotemacs][Protesilaos Stavrou]]
+- [[https://github.com/protesilaos/dotfiles][protesilaos/dotfiles]]
 - [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]
