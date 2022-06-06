@@ -24,12 +24,12 @@
 ;;;;; Windows and frames
  display-buffer-alist
  ;; Over-3-side-window causes troubles when toggling (I don't know)
- '(("^ *\\*.*\\([Hh]elp\\|[Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
+ '(("^ *\\*.*\\([Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
     (display-buffer-in-side-window)
     (window-height . 0.25)
     (side . bottom)
     (slot . 0))
-   ("^ *\\*.*\\([Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\)\\*"
+   ("^ *\\*.*\\([Hh]elp\\|[Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\)\\*"
     (display-buffer-in-side-window)
     (window-height . 0.25)
     (side . bottom)
