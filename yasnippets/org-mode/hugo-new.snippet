@@ -2,7 +2,7 @@
 # name: Hugo new article
 # key: hugonew
 # --
-** DRAFT ${1:TITLE}
+* DRAFT ${1:TITLE}
 :PROPERTIES:
 :EXPORT_FILE_NAME: ${1:$(replace-regexp-in-string "[^A-Za-z0-9._-]" "" (replace-regexp-in-string " " "-" (downcase yas-text)))}
 :END:
