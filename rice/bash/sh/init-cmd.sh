@@ -63,18 +63,3 @@ brewenv() {
 brew() {
     env HOMEBREW_NO_AUTO_UPDATE=1 PATH=/home/linuxbrew/.linuxbrew/bin:$PATH /home/linuxbrew/.linuxbrew/bin/brew @args
 }
-
-## Authentication agents
-update-ssh-agent() {
-    export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
-    if [[ ! -e $SSH_AUTH_SOCK ]]; then
-        eval $(ssh-agent -a $SSH_AUTH_SOCK)
-    fi
-}
-
-update-gpg-agent() {
-    unset SSH_AGENT_PID
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-    export GPG_TTY=$(tty)
-    gpg-connect-agent updatestartuptty /bye > /dev/null
-}
