@@ -4,11 +4,11 @@
 A minimalist's Emacs configuration.
 #+end_quote
 
-This is my personal Emacs configuration. Be aware that it might not fit your needs.
+This is my personal Emacs configuration.  Be aware that it might not fit your needs.
 
-This configuration intends to be as minimal as possible. It also prioritize using Emacs built-in functionalities.
+This configuration intends to be as minimal as possible.  It also prioritize using Emacs built-in functionalities.
 
-Additionally for convenience, I included my personal configuration collection for other apps in this repo. They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
+Additionally for convenience, I included my personal configuration collection for other apps in this repo.  They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
 
 ** Features
 - Light and quick
@@ -52,14 +52,14 @@ pew
 
 ** Key Bindings
 *** Emacs State
-To respect Emacs key bindings, there are only a few modification on the original ones. Most of them are just enhancement without changing the meanings.
+To respect Emacs key bindings, there are only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
 
 For the personal key bindings, they are defined in a transient map by calling either =pewkey= or =pewkey-repeat=.
 
 See [[./lisp/init-defaults.el][init-default.el]]
 
 *** Evil Mode
-Evil key bindings are defined with leader key =SPC=. There are not too many. Most of Vim bindings are good enough.
+Evil key bindings are defined with leader key =SPC=.  There are not too many.  Most of Vim bindings are good enough.
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]]
 
@@ -90,10 +90,10 @@ When binding keys I follow these principles to make them mnemonic.
 
 ** Philosophy
 *** Consideration of design
-The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration. But when I write my own files I keep these points in mind:
+The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.  But when I write my own files I keep these points in mind:
 
 1. Keep it simple and minimal
-I don't want to make my Emacs become some sort of IDE monster so the main focus is the speed. When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them. Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and the built-in completion. They can handle my daily work well without problems.
+I don't want to make my Emacs become some sort of IDE monster so the main focus is the speed.  When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them.  Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and the built-in completion.  They can handle my daily work well without problems.
 
 2. Keep it modular
 Each module doesn't have cross references to each other so any one of them can be plugged in and out at any time (except for the =init-common= which is a common library used by other modules).
@@ -101,17 +101,21 @@ Each module doesn't have cross references to each other so any one of them can b
 If there is no Internet to download packages it's possible to keep only =init-common= and =init-default= in =init.el= to bring some sweet stuff to vanilla Emacs.
 
 *** Literal configuration?
-No.
+No.  A short answer is it's not my style.
 
-Literal programming is a fantastic idea. However, It's a distraction for me when reading the code because most of the time I'm not presenting my configuration to others. Making commentary text as the main body instead code itself seems to be a little anti-instinctive.
+Don't give me wrong.  I'm an Org user and I use =ox-hugo= to manage my blog articles.  I've heard a lot people talking about literal configuration and how good it is then I gave it a try, but it didn't work well for me.
 
-In general, I believe proper comments left in the code could improve readability good enough. Also this configuration is designed in a modular way where each module is descriptive by its name, and comments are also sectioned with outline format, so browsing and modifying the configuration should be with ease.
+First thing is, when writing configuration in Org file the, the main focus has changed.  Usually code is the first class citizen and commentary text comes after it.  But in literal configuration they are put in the opposite position.  When I browse my code, my focus got constantly broken because I have to skip the text and find the next code block in most times.  Some people may argue using keybindings to jump between code blocks but I'm talking about visual and feeling here.
 
-Literal configuration is a bit hard to debug and test since it has to be tangled each time it's updated. Hook might be a solution but undeniably it still requires additional setup for the first time. In my concept, day-to-day productivity tool configuration should be ready out of the box.
+Then I found coding in the code block is kind of awkward since the completion doesn't work well and you have to use a special buffer to edit the code.
 
-Don't forget that in the modular configuration tool packages can be added anytime under =site-list= directory. It might be a hassle for literal configuration with everything in one file (if that's the preferred way).
+Besides the editing, adding a third party package into my configuration feels strange.  Since all of my configuration code is in an Org file, does that mean I have to put other's code into my Org file too because now it's a part of my configurations?  What if the package has multiple files?  People may say "Well you don't have to.  Just copy and paste in it's module files.  If that's true, you then just went against the belief that using one Org file to manage personal configuration.  If you break the Org file into pieces and what's the difference if I use the traditional and modular way?
 
-In one word, when it comes to sharing and note taking, literal programming is a perfect way to do it but for daily tools configuration files are easier to use.
+As of sectioning, I can use =outline-minor-mode= with proper comments to achieve the same effect.
+
+Tangling and speed is not a problem since you can always tangle into a single init file and byte compile it but when it comes to debug, it's not very efficient.
+
+Overall, I like =org-mode= and I use it for my blog and documentation but not for my daily driver's configuration.
 
 ** Acknowledgement
 This configuration is inspired by
