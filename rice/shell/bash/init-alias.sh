@@ -1,15 +1,17 @@
-### init-cmd.sh -- Commands
+### init-alias.sh -- Aliases for applications
 
-## Common aliases
+### Common aliases
+## ls
 alias ll="ls -lahF --color=auto"
 
-## Emacs: Open files in the terminal
+### Emacs
+## Open files in the terminal
 alias em="emacsclient -c -nw"
-## Emacs: Open files in the current frame
+## Open files in the current frame
 alias emm="emacsclient -c -n"
-## Emacs: Daemon
+## Daemon
 alias emdaemon="emacs --daemon"
-## Emacs: Dired
+## Dired
 ef() {
     if [ -n "$1" ]; then
         emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$1\"))"
@@ -18,7 +20,7 @@ ef() {
     fi
 }
 
-## lf
+### lf
 lfcd() {
     local tmp=$(mktemp)
     lf -last-dir-path=$tmp $@
@@ -28,7 +30,7 @@ lfcd() {
     [[ -d $target && $target != $(pwd) ]] && cd $target
 }
 
-## ranger
+### ranger
 rf() {
     if [[ -n $RANGER_LEVEL ]]; then
         echo "Nested ranger!"
@@ -37,7 +39,7 @@ rf() {
     ranger $@
 }
 
-## fzf
+### fzf
 ffdo() {
     if [[ -z $1 ]]; then
         echo "Usage: ffdo <cmd> [arguments]"
@@ -53,7 +55,7 @@ ffcd() {
     [[ -n $target ]] && cd $target
 }
 
-## linuxbrew
+### linuxbrew
 brewenv() {
     alias brew=/home/linuxbrew/.linuxbrew/bin/brew
     eval "$(brew shellenv)"

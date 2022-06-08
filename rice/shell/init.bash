@@ -2,7 +2,6 @@
 ### init.bash -- Bootstrap for Bash
 
 ### Prerequisites
-
 ## Source guard
 if [[ -z $BASH_VERSION ]] || [[ -n $LOADED_RICE_BASH ]]; then
     return
@@ -15,6 +14,7 @@ case "$-" in
     *) return;;
 esac
 
+### Initialization
 ## Directory where this script is
 ribash_home=$(dirname $(realpath "$BASH_SOURCE"))
 
@@ -30,8 +30,7 @@ rinclude() {
 }
 
 ### Load module files
-
-rinclude sh/init-env
-rinclude sh/init-cmd
-rinclude sh/init-cmd-win
-rinclude sh/theme-normal
+rinclude bash/init-default
+rinclude bash/init-alias
+rinclude bash/init-alias-win
+rinclude bash/theme-canonical
