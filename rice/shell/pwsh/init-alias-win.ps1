@@ -1,13 +1,9 @@
-### init-aliases-win.ps1 -- Utilities for Windows Only
+### init-alias-win.ps1 -- Utilities for Windows Only
 
 ### Skips on non-Windows platform
-
-if (-not $IsWindows) {
-    return
-}
+if ($IsWindows) {
 
 ### Admin related
-
 function testAdmin {
     return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
         [Security.Principal.WindowsBuiltinRole]::Administrator)
@@ -49,7 +45,7 @@ function evaltoAdmin {
 Set-Alias su evaltoAdmin
 
 ### Operation of path
-
+## These functions permanently change the environment variables
 function getEnvUserPath {
     $path = [Environment]::GetEnvironmentVariable(
         "Path", [EnvironmentVariableTarget]::User)
@@ -126,7 +122,6 @@ function removeEnvUserPath {
 }
 
 ### Operation of environment variables
-
 function setEnvUserVars {
     param([hashtable]$envVarHash)
     foreach ($_ in $envVarHash.GetEnumerator()) {
@@ -143,8 +138,9 @@ function removeEnvUserVars {
     }
 }
 
-### Others
-
+### Cygwin
 function cygwin-install {
     cygwin-setup --no-admin --no-shortcuts @args
 }
+
+} ## Windows
