@@ -12,7 +12,7 @@
          ([remap xref-find-references] . lsp-find-declaration))
   :custom
   (lsp-keymap-prefix "C-c l")
-  (lsp-enable-snippet t)
+  (lsp-enable-snippet nil)
   (lsp-enable-symbol-highlighting t)
   (lsp-enable-on-type-formatting nil)
   (lsp-enable-folding t)
@@ -20,7 +20,7 @@
   (lsp-enable-links nil)
   (lsp-auto-configure t)
   (lsp-auto-guess-root t)
-  (lsp-keep-workspace-alive t)
+  (lsp-keep-workspace-alive nil)
   (lsp-lens-enable nil)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-headerline-breadcrumb-segments '(symbols))
