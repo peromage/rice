@@ -199,10 +199,6 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    ;; Minor modes
    'view-mode 'motion)
 
-  ;; Make modes that default to emacs state initialized with insert state for
-  ;; switching convenience between vim and original keybindings
-  (pew/swap evil-emacs-state-modes evil-insert-state-modes)
-
 ;;;;; Keybindings
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC")) ;; <leader>
