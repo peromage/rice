@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: Desktop entry
+# key: desktopentry
+# --
+## 1. Save to: $HOME/.local/share/applications/NAME.desktop
+## 2. Refresh: update-desktop-database
+[Desktop Entry]
+Type=Application
+Name=${1:#NAME#}
+Version=${2:1.0}
+TryExec=
+Exec=${3:#EXE_PATH#}
+Icon=${4:#ICON_PATH#}
+Terminal=false
+Comment=
+Categories=
+MimeType=
+Actions=New;
+
+[Desktop Action New]
+Name=$1
+Exec=$3
+Icon=$4
