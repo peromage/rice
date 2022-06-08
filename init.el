@@ -25,13 +25,12 @@
 (require 'elpa-evil)
 (require 'elpa-vertico)
 (require 'elpa-coding)
+(require 'elpa-writing)
 (require 'elpa-utils)
 (require 'elpa-git)
 (require 'elpa-ui)
 (require 'elpa-lsp)
 (require 'elpa-lang)
-(require 'elpa-lang-org)
-(require 'elpa-lang-markdown)
 (require 'elpa-extra)
 
 ;; Load this at the last to prevent local configurations from being overridden

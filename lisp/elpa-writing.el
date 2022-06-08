@@ -1,8 +1,9 @@
-;;; elpa-lang-org.el --- Org mode -*- lexical-binding: t -*-
+;;; elpa-writing.el --- Writing support -*- lexical-binding: t -*-
 ;;; Commentary:
-;; Configuration for `org-mode' to fit my own taste.
+;; Configuration used for writing tasks
 
 ;;; Code:
+;;;; Org mode for my own taste
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
   :hook (org-mode . pew/text-setup)
@@ -79,5 +80,9 @@
       "* %?\n%U"
       :time-prompt t))))
 
-(provide 'elpa-lang-org)
-;;; elpa-lang-org.el ends here
+;;;; Markdown mode
+(use-package markdown-mode
+  :hook (markdown-mode . pew/text-setup))
+
+(provide 'elpa-writing)
+;;; elpa-writing.el ends here
