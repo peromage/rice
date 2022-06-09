@@ -3,7 +3,7 @@
 ;; This module contains git related packages and configurations
 
 ;;; Code:
-;;;; Frontend
+;;; Frontend
 ;; Magit is a powerful git frontend.
 (use-package magit
   :commands magit-status
@@ -15,7 +15,7 @@
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))
 
-;;;; Status
+;;; Status
 ;; `git-gutter-mode' displays line changes on the left margin.
 (use-package git-gutter
   :diminish git-gutter-mode

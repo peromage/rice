@@ -4,11 +4,11 @@
 ;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
 
 ;;; Code:
-;;;; Evil
+;;; Evil
 (use-package evil
   :demand t
   :init
-;;;;; Utilities
+;;;; Evil utilities
   ;; Key binding function
   (defun pew/evil/set-key (state map prefix &rest bindings)
     "Set BINDINGS with PREFIX in MAP for STATE.
@@ -65,7 +65,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
               (regex_ (pop states_)))
           (push (cons regex_ state_) evil-buffer-regexps)))))
 
-;;;;; Evil search
+;;;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
   (defun pew/evil/escape-region (begin end)
@@ -133,6 +133,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
       ;; Substitute from current position
       (evil-ex-substitute (point) (point-max) subpattern_ replacement_ flags_)))
 
+;;;; Evil custom
   :custom
   (evil-want-integration t)
   (evil-want-keybinding t)
@@ -170,7 +171,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   :config
   (evil-mode 1)
 
-;;;;; Initial states
+;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below
   (pew/evil/set-buffer-state
    ;; Emacs buffers
@@ -199,7 +200,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
    ;; Minor modes
    'view-mode 'motion)
 
-;;;;; Keybindings
+;;;; Evil keybindings
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "SPC")) ;; <leader>
   (evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>

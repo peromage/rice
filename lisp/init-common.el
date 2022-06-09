@@ -5,7 +5,7 @@
 ;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-;;;; Need to be evaluated at compile-time
+;;; Need to be evaluated at compile-time
 (eval-and-compile
   (defmacro pew/set-custom (&rest customs)
     "Set CUSTOMS variables.
@@ -176,7 +176,7 @@ Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
     (if (stringp key) (kbd key) key)))
 
-;;;; Debugging
+;;; Debugging
 (defun pew/reload-init-file ()
   "Reload the config file."
   (interactive)
@@ -204,8 +204,7 @@ is a vector then does nothing."
   (interactive)
   (message buffer-file-name))
 
-;;;; Common functions and commands
-
+;;; Common functions and commands
 (defun pew/parent-directory (path)
   "Get the parent directory of the PATH."
   (file-name-directory (directory-file-name path)))
@@ -219,7 +218,7 @@ loaded from other places.")
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
 
-;;;; Buffers
+;;; Buffers
 (defvar pew/hidden-buffers
   '("^magit"
     ;; General special definitions go last
@@ -265,7 +264,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
                (not (eq this-buffer_ buffer_)))
           (kill-buffer buffer_)))))
 
-;;;; Windows
+;;; Windows
 (defun pew/pop-window-in-new-tab ()
   "Pop current window into a new tab."
   (interactive)
@@ -315,7 +314,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (interactive)
   (recenter-other-window))
 
-;;;; Tabs
+;;; Tabs
 (defun pew/move-tab-next ()
   "Move current tab to the next."
   (interactive)
@@ -326,7 +325,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (interactive)
   (tab-bar-move-tab -1))
 
-;;;; Themes
+;;; Themes
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '_INTERACT_))
@@ -339,8 +338,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
       (dolist (theme_ (cdr custom-enabled-themes))
         (disable-theme theme_))))
 
-;;;; Builtin package utilities
-;;;;; Dired
+;;; Dired
 (defun pew/dired-go-to ()
   "Go into the current directory/file under the cursor without creating a new buffer."
   (interactive)
@@ -358,7 +356,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (interactive)
   (pew/close-other-buffers-in-major-mode 'dired-mode))
 
-;;;; Hook functions
+;;; Hook functions
 (defun pew/term-setup ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
@@ -383,7 +381,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
-;;;; Toggle and cycle commands
+;;; Toggle and cycle commands
 ;; Line numbers
 (defvar pew/line-number-styles '(nil t relative) "Line number styles.")
 (defun pew/cycle-line-number-style ()

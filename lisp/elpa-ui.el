@@ -4,17 +4,17 @@
 ;; If the theme needs to be configured, move it to an individual module.
 
 ;;; Code:
-;;;; Colors schemes
+;;; Colors schemes
 (use-package doom-themes :defer t)
 (use-package dracula-theme :defer t)
 (use-package moe-theme :defer t)
 (use-package modus-themes :defer t)
 (use-package spacemacs-theme :defer t)
 
-;;;; Icons
+;;; Icons
 (use-package all-the-icons :defer t)
 
-;;;; Modeline
+;;; Modeline
 ;; Modeline taken from Doom Emacs.
 (use-package doom-modeline
   :custom
@@ -24,7 +24,7 @@
   :config
   (doom-modeline-mode 1))
 
-;;;; Initial setup
+;;; Default looking
 (pew/load-theme 'doom-dracula)
 
 (provide 'elpa-ui)

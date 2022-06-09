@@ -3,7 +3,7 @@
 ;; This ELPA initialization configuration should be loaded before any other package configurations.
 
 ;;; Code:
-;;;; Emacs builtin package manager
+;;; Emacs builtin package manager
 ;; Initialize package manager
 (require 'package)
 
@@ -24,7 +24,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-;;;; Use `use-package' to simplify package configuration
+;;; Use `use-package' to simplify package configuration
 ;; Install `use-package'
 (eval-when-compile
   (unless (package-installed-p 'use-package)

@@ -3,7 +3,7 @@
 ;; Configuration used for writing tasks
 
 ;;; Code:
-;;;; Org mode for my own taste
+;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
   :hook (org-mode . pew/text-setup)
@@ -80,7 +80,7 @@
       "* %?\n%U"
       :time-prompt t))))
 
-;;;; Markdown mode
+;;; Markdown mode
 (use-package markdown-mode
   :hook (markdown-mode . pew/text-setup))
 

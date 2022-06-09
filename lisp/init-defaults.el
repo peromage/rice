@@ -4,7 +4,7 @@
 ;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
 
 ;;; Code:
-;;;; Custom settingis
+;;; Custom settingis
 ;; IMPORTANT NOTE:
 ;; Most of vanilla options are defined with `defcustom', which means if they are
 ;; set directly by `setq' they might NOT work as expected. However, if we use
@@ -14,14 +14,14 @@
 ;; also prevents writting settings from this file to `custom-file'.
 
 (pew/set-custom
-;;;;; Startup
+;;;; Startup
  inhibit-startup-buffer-menu t
  inhibit-startup-echo-area-message t
  inhibit-startup-screen t
  inhibit-startup-message t
  initial-scratch-message ""
 
-;;;;; Windows and frames
+;;;; Windows and frames
  display-buffer-alist
  ;; Over-3-side-window causes troubles when toggling (I don't know)
  '(("^ *\\*.*\\([Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
@@ -58,7 +58,7 @@
  line-move-ignore-invisible nil
  line-move-visual nil
 
-;;;;; Interface elements
+;;;; Interface elements
  ;; Cursor
  cursor-type 'box
  blink-cursor-mode nil
@@ -93,7 +93,7 @@
  tab-bar-show 1
  tab-bar-mode nil ;; Setting to t would cause display issue in terminal mode
 
-;;;;; Formatting
+;;;; Formatting
  ;; Indentation
  tab-width 4
  indent-tabs-mode nil
@@ -123,7 +123,7 @@
  require-final-newline t
  display-raw-bytes-as-hex t
 
-;;;;; QoL
+;;;; QoL
  ;; Sanity
  use-short-answers t
  xterm-mouse-mode t
@@ -151,7 +151,7 @@
  ;; Let Emacs use minibuffer to prompt passphrase
  epg-pinentry-mode 'loopback
 
-;;;;; Some useful builtin packages
+;;;; Some useful builtin packages
  ;; TODO: newcomment
  ;; Pairs
  show-paren-when-point-in-periphery t
@@ -219,9 +219,9 @@
  winner-mode t
  winner-dont-bind-my-keys t)
 
-;;;; My keybindings
+;;; My keybindings
 (pew/define-transient-command pewkey
-;;;;; Windows
+ ;; Windows
  "o" #'pew/next-window
  "O" #'pew/prev-window
  "w" #'window-toggle-side-windows
@@ -241,11 +241,11 @@
  "M-y" #'pew/scroll-other-window-line-up
  "M-l" #'pew/recenter-other-window
 
-;;;;; Buffers
+ ;; Buffers
  "n" #'pew/next-buffer
  "p" #'pew/prev-buffer
 
-;;;;; Tabs
+ ;; Tabs
  "f" #'tab-bar-switch-to-last-tab
  "b" #'tab-bar-switch-to-prev-tab
  "t" #'tab-bar-new-tab
@@ -254,22 +254,22 @@
  "M" #'pew/move-tab-prev
  "Q" #'tab-bar-close-tab
 
-;;;;; Edit
+ ;; Edit
  "C-u" #'undo
  "C-r" #'undo-redo
 
-;;;;; Org
+ ;; Org
  "c" #'org-capture
  "a" #'org-agenda
 
-;;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
+ ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
  "+" #'text-scale-adjust
  "-" #'text-scale-adjust
  "0" #'text-scale-adjust)
 
-;;;; Global keybindings
+;;; Global keybindings
 (pew/set-key global-map
-;;;;; Tab bindings
+ ;; Tab bindings
  "C-x t SPC" #'tab-bar-select-tab-by-name
  "C-x t f" #'tab-bar-switch-to-next-tab
  "C-x t b" #'tab-bar-switch-to-prev-tab
@@ -279,30 +279,30 @@
  "C-x t T" #'pew/pop-window-in-new-tab
  "C-x t l" #'tab-switcher
 
-;;;;; File and directory browsing
+ ;; File and directory browsing
  "C-x C-d" #'dired-jump
 
-;;;;; Xref
+ ;; Xref
  "C-x j" #'xref-find-definitions
  "C-x J" #'xref-find-references
  "C-x C-j" #'xref-find-apropos
 
-;;;;; Remap for better experience
+ ;; Remap for better experience
  [remap next-buffer] #'pew/next-buffer
  [remap previous-buffer] #'pew/prev-buffer
  [remap list-buffers] #'ibuffer
  [remap isearch-delete-char] #'isearch-del-char
 
-;;;;; Pewkey
+ ;; Pewkey
  "C-x g" #'pewkey
  "C-x C-g" #'pewkey-repeat)
 
-;;;; Dired keybindings
+;;; Dired keybindings
 (pew/set-key dired-mode-map
  "RET" #'pew/dired-go-to
  "DEL" #'pew/dired-go-up)
 
-;;;; Mode hooks
+;;; Mode hooks
 (pew/set-hook
  ;; Make shell clean
  'eshell-mode-hook #'pew/term-setup
@@ -320,7 +320,7 @@
  ;; Enable folding
  'prog-mode-hook #'outline-minor-mode)
 
-;;;; Symbol properties
+;;; Symbol properties
 (pew/set-property
  ;; Enable commands that are disabled by default
  '(scroll-left disabled nil)
@@ -330,7 +330,7 @@
  '(upcase-region 'disabled nil)
  '(downcase-region 'disabled nil))
 
-;;;; Face settings
+;;; Face settings
 (pew/set-face
  '(tab-bar :inherit default))
 

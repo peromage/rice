@@ -3,7 +3,7 @@
 ;; LSP configuration
 
 ;;; Code:
-;;;; LSP package
+;;; LSP mode
 ;; For specific language LSP supports, they should go into the major mode modules.
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -38,7 +38,7 @@
   (lsp-ui-peek-always-show :flycheck)
   (lsp-log-io nil))
 
-;;;; LSP experience improvement
+;;; LSP experience improvement
 (use-package lsp-ui
   :init
   (defun pew/lsp-ui/doc-glance ()

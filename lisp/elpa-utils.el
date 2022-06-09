@@ -3,15 +3,15 @@
 ;; Utilities that provide convenience and enhance experience
 
 ;;; Code:
-;;;; Tree navigation
+;;; Tree navigation
 (use-package treemacs
   :defer t)
 
-;;;; Search
+;;; Search
 (use-package rg
   :defer t)
 
-;;;; Terminal
+;;; Terminal
 ;; Vterm is a decent terminal emulator inside of Emacs.
 ;; NOTE: Not available on Windows.
 (use-package vterm

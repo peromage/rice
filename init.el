@@ -4,7 +4,7 @@
 ;; other files.  Templates was from purcell/emacs.d
 
 ;;; Code:
-;;;; Preparation
+;;; Preparation
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (let ((home_ (file-name-directory load-file-name)))
   (add-to-list 'load-path (expand-file-name "lisp" home_))
@@ -14,7 +14,7 @@
 ;; Any disposable code can be put in this file.
 (setq custom-file (locate-user-emacs-file "local.el"))
 
-;;;; Load modules
+;;; Load modules
 ;; NOTE: The load sequence must be in order
 ;; Minimal system
 (require 'init-common)

@@ -3,12 +3,12 @@
 ;; Configuration for programming languages
 
 ;;; Code:
-;;;; No brainer modes
+;;; No brainer modes
 (use-package vimrc-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package json-mode :defer t)
 
-;;;; C/C++ mode
+;;; C/C++ mode
 (use-package cc-mode
   :init
   ;; Setup functions
@@ -52,15 +52,15 @@
   :hook ((c-mode . pew/cc-mode/c-setup)
          (c++-mode . pew/cc-mode/cpp-setup)))
 
-;;;; C# mode
+;;; C# mode
 (use-package csharp-mode
   :hook (csharp-mode . lsp-deferred))
 
-;;;; PowerShell mode
+;;; PowerShell mode
 (use-package powershell
   :hook (powershell-mode . lsp-deferred))
 
-;;;; Python mode
+;;; Python mode
 (use-package lsp-python-ms
   :init
   (defun pew/python-mode/setup ()
