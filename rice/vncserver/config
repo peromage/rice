@@ -1,0 +1,4 @@
+## Minimal config to start a VNC session
+geometry=1366x768
+localhost
+alwaysshared

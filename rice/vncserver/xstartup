@@ -1,0 +1,19 @@
+#!/bin/sh
+
+## Hints:
+## To disable local graphical interface, set the default target
+##  # systemctl set-default multi-user.target
+## To enable it, set
+##  # systemctl set-default graphical.target
+
+## Template to start a VNC session
+## To avoid conflict with the local running session, use:
+##  # dbus-launch --exit-with-session WINDOW_MANAGER ARGS
+## See `man dbus-launch' automatic launching
+unset DBUS_SESSION_BUS_ADDRESS
+
+## VNC widget
+vncconfig -iconic &
+
+## Gnome on Ubuntu
+dbus-launch --exit-with-session /usr/bin/gnome-session --session=ubuntu
