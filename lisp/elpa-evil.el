@@ -174,8 +174,9 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
 ;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below
   (pew/evil/set-buffer-state
-   ;; Emacs buffers
-   "^magit" 'emacs
+   ;; VC buffers
+   "^ *\\*vc-.*\\*" 'emacs
+   "^ *magit" 'emacs
    ;; Motion buffers
    "^ *\\*.*[Hh]elp\\*" 'motion
    "^ *\\*.*[Mm]essages\\*" 'motion
