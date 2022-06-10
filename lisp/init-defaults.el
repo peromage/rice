@@ -223,6 +223,7 @@
 (pew/define-switch indent-tabs-mode)
 (pew/define-switch show-trailing-whitespace)
 (pew/define-switch line-move-visual)
+(pew/define-switch debug-on-error)
 (pew/define-switch display-line-numbers '(nil t relative))
 
 ;;; My keybindings
