@@ -38,17 +38,8 @@
 (use-package consult
   :init
   ;; Toggle auto preview
-  (defvar pew/consult/stored--preview-key 'any "Stored consult preview key.")
-  (defun pew/consult/toggle-preview ()
-    "Toggle Consult auto preview function."
-    (interactive)
-    ;; Assume `consult-preview-key' is not 'any by default or this does nothing
-    (cond ((eq 'any consult-preview-key)
-           (setq consult-preview-key pew/consult/stored--preview-key)
-           (setq pew/consult/stored--preview-key nil))
-          (t
-           (setq pew/consult/stored--preview-key consult-preview-key)
-           (setq consult-preview-key 'any))))
+  ;; The value is (kbd "C-M-n") see custom `consult-preview-key' below
+  (pew/define-switch consult-preview-key '([134217742] any))
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)
