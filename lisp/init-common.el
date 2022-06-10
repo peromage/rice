@@ -367,7 +367,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
-;;; Switch commands
+;;; Switch command macro
 (defmacro pew/define-switch (var &optional vals)
   "Define a command to switch VAR from values VALS.
 VALS is a list of values.  If VALS is not provided, VAR will be switched between
@@ -393,11 +393,6 @@ Created by `pew/define-switch'." var vals)
                (setq ,var (car (pew/cycle-list matches_)))
              (setq ,var (car vals_)))
            (message "%s: %s" ',var ,var))))))
-
-(pew/define-switch indent-tabs-mode)
-(pew/define-switch show-trailing-whitespace)
-(pew/define-switch line-move-visual)
-(pew/define-switch display-line-numbers '(nil t relative))
 
 (provide 'init-common)
 ;;; init-common.el ends here

@@ -219,6 +219,12 @@
  winner-mode t
  winner-dont-bind-my-keys t)
 
+;;; My commands
+(pew/define-switch indent-tabs-mode)
+(pew/define-switch show-trailing-whitespace)
+(pew/define-switch line-move-visual)
+(pew/define-switch display-line-numbers '(nil t relative))
+
 ;;; My keybindings
 (pew/define-transient-command pewkey
  ;; Windows
