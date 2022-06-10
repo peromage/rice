@@ -156,20 +156,6 @@ This function doesn't modify the passed-in LST."
           (setq index_ (1+ index_)))
         (throw 'return_ nil))))
 
-  (defmacro pew/toggle-var (var default)
-    "Toggle variable VAR between custom value and DEFAULT value.
-If VAR does not equal to DEFAULT, store value of VAR in VAR@pewstore and set
-VAR to DEFAULT.
-Otherwise, swap VAR and VAR@pewstore."
-    (let ((store-symbol_ (intern (concat (symbol-name var) "@pewstore"))))
-      `(progn
-         (defvar ,store-symbol_ ,default "Store variable set by `pew/toggle-var'.")
-         (cond ((not (equal ,default ,var))
-                (setq ,store-symbol_ ,var)
-                (setq ,var ,default))
-               (t
-                (pew/swap ,var ,store-symbol_))))))
-
   (defun pew/tokey (key)
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
