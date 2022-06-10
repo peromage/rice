@@ -381,8 +381,8 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
-;;; Toggle and cycle commands
-;; Line numbers
+;;; Switch and cycle commands
+;; Cycle Line numbers
 (defun pew/cycle-line-number-style (style)
   "Cycle or set current buffer's line number type with STYLE.
 STYLE can be one of:
@@ -406,32 +406,20 @@ Cycle those styles when called interactively."
           (t
            (message style-message_ "Unknown")))))
 
-(defun pew/toggle-indent-tabs (on)
-  "Toggle variable `indent-tabs-mode' ON and off."
-  (interactive (list indent-tabs-mode))
-  (setq indent-tabs-mode (not on))
-  ;; Display status
-  (if indent-tabs-mode
-      (message "Indent tabs mode enabled")
-    (message "Indent tabs mode disabled")))
+;; Switch commands
+(defmacro pew/define-switch (var)
+  "Define a command to switch VAR between nil and non-nil."
+  `(defun ,(intern (concat "switch/" (symbol-name var))) (on)
+     ,(format "Switch variable `%s' ON and off.
+Created by `pew/define-switch'." var)
+     (interactive (list ,var))
+     (setq ,var (not on))
+     ;; Display status
+     (if ,var (message "%s enabled" ',var) (message "%s disabled" ',var))))
 
-(defun pew/toggle-trailing-whitespace (on)
-  "Toggle variable `show-trailing-whitespace' ON and off."
-  (interactive (list show-trailing-whitespace))
-  (setq show-trailing-whitespace (not on))
-  ;; Display status
-  (if show-trailing-whitespace
-      (message "Trailing whitespaces enabled")
-    (message "Trailing whitespaces disabled")))
-
-(defun pew/toggle-visual-line-move (on)
-  "Toggle variable `line-move-visual' ON and off."
-  (interactive (list line-move-visual))
-  (setq line-move-visual (not on))
-  ;; Display status
-  (if line-move-visual
-      (message "Visual line move enabled")
-    (message "Visual line move disabled")))
+(pew/define-switch indent-tabs-mode)
+(pew/define-switch show-trailing-whitespace)
+(pew/define-switch line-move-visual)
 
 (provide 'init-common)
 ;;; init-common.el ends here
