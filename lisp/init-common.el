@@ -383,42 +383,52 @@ Use `pew/hidden-buffer-p' to filter buffers."
 
 ;;; Toggle and cycle commands
 ;; Line numbers
-(defvar pew/line-number-styles '(nil t relative) "Line number styles.")
-(defun pew/cycle-line-number-style ()
-  "Switch line number type between relative and absolute for current buffer."
-  (interactive)
-  (let ((synced-styles_ (pew/sync-list pew/line-number-styles display-line-numbers))
-        (style-string_ "Unknown"))
+(defun pew/cycle-line-number-style (style)
+  "Cycle or set current buffer's line number type with STYLE.
+STYLE can be one of:
+  nil      - Disable line numbers
+  t        - Enable absolute line numbers
+  relative - Enable relative line numbers
+Cycle those styles when called interactively."
+  (interactive (list display-line-numbers))
+  (let* ((line-number-styles_ '(nil t relative))
+         (synced-styles_ (pew/sync-list line-number-styles_ style))
+         (style-message_ "Line number style: %s"))
     (when synced-styles_
       (setq display-line-numbers (car (pew/cycle-list synced-styles_))))
+    ;; Display status
     (cond ((eq nil display-line-numbers)
-           (setq style-string_ "Off"))
+           (message style-message_ "Off"))
           ((eq t display-line-numbers)
-           (setq style-string_ "Abusolute"))
+           (message style-message_ "Abusolute"))
           ((eq 'relative display-line-numbers)
-           (setq style-string_ "Relative")))
-    (message "Line number style: %s" style-string_)))
+           (message style-message_ "Relative"))
+          (t
+           (message style-message_ "Unknown")))))
 
-(defun pew/toggle-indent-tabs-mode ()
-  "Switch between tab mode or space mode."
-  (interactive)
-  (setq indent-tabs-mode (not indent-tabs-mode))
+(defun pew/toggle-indent-tabs (on)
+  "Toggle variable `indent-tabs-mode' ON and off."
+  (interactive (list indent-tabs-mode))
+  (setq indent-tabs-mode (not on))
+  ;; Display status
   (if indent-tabs-mode
       (message "Indent tabs mode enabled")
     (message "Indent tabs mode disabled")))
 
-(defun pew/toggle-show-trailing-whitespace ()
-  "Toggle to show trailing spaces."
-  (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace))
+(defun pew/toggle-trailing-whitespace (on)
+  "Toggle variable `show-trailing-whitespace' ON and off."
+  (interactive (list show-trailing-whitespace))
+  (setq show-trailing-whitespace (not on))
+  ;; Display status
   (if show-trailing-whitespace
       (message "Trailing whitespaces enabled")
     (message "Trailing whitespaces disabled")))
 
-(defun pew/toggle-visual-line-move ()
-  "Toggle visual line movement."
-  (interactive)
-  (setq line-move-visual (not line-move-visual))
+(defun pew/toggle-visual-line-move (on)
+  "Toggle variable `line-move-visual' ON and off."
+  (interactive (list line-move-visual))
+  (setq line-move-visual (not on))
+  ;; Display status
   (if line-move-visual
       (message "Visual line move enabled")
     (message "Visual line move disabled")))
