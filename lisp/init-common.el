@@ -136,7 +136,7 @@ Equivalent to:"
   (defun pew/cycle-list (lst)
     "Put the first element in the LST to the last.
 This function doesn't modify the passed-in LST."
-    (if lst (append (cdr lst) (cons (car lst) nil)) nil))
+    (if (listp lst) (append (cdr lst) (cons (car lst) nil)) nil))
 
   (defun pew/sync-list (lst val)
     "Cycle LST until the first element equals VAL.
@@ -367,45 +367,37 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
-;;; Switch and cycle commands
-;; Cycle Line numbers
-(defun pew/cycle-line-number-style (style)
-  "Cycle or set current buffer's line number type with STYLE.
-STYLE can be one of:
-  nil      - Disable line numbers
-  t        - Enable absolute line numbers
-  relative - Enable relative line numbers
-Cycle those styles when called interactively."
-  (interactive (list display-line-numbers))
-  (let* ((line-number-styles_ '(nil t relative))
-         (synced-styles_ (pew/sync-list line-number-styles_ style))
-         (style-message_ "Line number style: %s"))
-    (when synced-styles_
-      (setq display-line-numbers (car (pew/cycle-list synced-styles_))))
-    ;; Display status
-    (cond ((eq nil display-line-numbers)
-           (message style-message_ "Off"))
-          ((eq t display-line-numbers)
-           (message style-message_ "Abusolute"))
-          ((eq 'relative display-line-numbers)
-           (message style-message_ "Relative"))
-          (t
-           (message style-message_ "Unknown")))))
-
-;; Switch commands
-(defmacro pew/define-switch (var)
-  "Define a command to switch VAR between nil and non-nil."
-  `(defun ,(intern (concat "switch/" (symbol-name var))) (on)
-     ,(format "Switch variable `%s' ON and off.
+;;; Switch commands
+(defmacro pew/define-switch (var &optional vals)
+  "Define a command to switch VAR from values VALS.
+VALS is a list of values.  If VALS is not provided, VAR will be switched between
+non-nil and nil."
+  (let ((switch-symbol_ (intern (concat "switch/" (symbol-name var)))))
+    (if (not vals)
+        `(defun ,switch-symbol_ ()
+           ,(format "Switch variable `%s' between non-nil and nil.
 Created by `pew/define-switch'." var)
-     (interactive (list ,var))
-     (setq ,var (not on))
-     ;; Display status
-     (if ,var (message "%s enabled" ',var) (message "%s disabled" ',var))))
+           (interactive)
+           (setq ,var (not ,var))
+           ;; Display status
+           (message "%s: %s" ',var (if ,var "enabled" "disabled")))
+      `(defun ,switch-symbol_ ()
+         ,(format "Switch variable `%s' in the following values
+  %S
+Created by `pew/define-switch'." var vals)
+         (interactive)
+         (let* ((vals_ ,vals)
+                (matches_ (pew/sync-list vals_ ,var)))
+           (message "matches: %s" matches_)
+           (if matches_
+               (setq ,var (car (pew/cycle-list matches_)))
+             (setq ,var (car vals_)))
+           (message "%s: %s" ',var ,var))))))
 
 (pew/define-switch indent-tabs-mode)
 (pew/define-switch show-trailing-whitespace)
 (pew/define-switch line-move-visual)
+(pew/define-switch display-line-numbers '(nil t relative))
 
 (provide 'init-common)
 ;;; init-common.el ends here
