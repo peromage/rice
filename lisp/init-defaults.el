@@ -224,7 +224,7 @@
 (pew/define-switch show-trailing-whitespace)
 (pew/define-switch line-move-visual)
 (pew/define-switch debug-on-error)
-(pew/define-switch display-line-numbers '(nil t relative))
+(pew/define-switch display-line-numbers '(nil absolute relative visual))
 
 ;;; My keybindings
 (pew/define-transient-command pewkey
