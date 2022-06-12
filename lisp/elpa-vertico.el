@@ -125,13 +125,19 @@
 ;;; Minibuffer actions and context menu
 (use-package embark
   :demand t
+  :init
+  (defun pew/embark/collect-setup ()
+    "Setup function for embark-collect-mode."
+    (pew/reuse-window-setup)
+    (setq-local show-trailing-whitespace nil))
+
   :bind (("C-c o o" . embark-act)
          ("C-c o j" . embark-dwim)
          ([remap describe-bindings] . embark-bindings)
          :map minibuffer-local-map
          ("M-o" . embark-act)
          ("M-j" . embark-dwim))
-  :hook (embark-collect-mode . pew/reuse-window-setup)
+  :hook (embark-collect-mode . pew/embark/collect-setup)
   :custom
   (prefix-help-command #'embark-prefix-help-command))
 
