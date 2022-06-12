@@ -364,7 +364,8 @@ Use `pew/hidden-buffer-p' to filter buffers."
 
 (defun pew/reuse-window-setup ()
   "Hook for certains modes that keep spawning new windows e.g. `grep-mode'."
-  (setq-local display-buffer-base-action '((display-buffer-use-some-window)))
+  (setq-local display-buffer-base-action '((display-buffer-reuse-window
+                                            display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
 ;;; Switch command macro
