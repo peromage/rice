@@ -133,6 +133,10 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
       ;; Substitute from current position
       (evil-ex-substitute (point) (point-max) subpattern_ replacement_ flags_)))
 
+  ;; Don't allow Evil to kill selected region when yanking
+  ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
+  (define-advice evil-visual-update-x-selection (:override (&rest args) pew/evil/visual-update-x-selection))
+
 ;;;; Evil custom
   :custom
   (evil-want-integration t)
