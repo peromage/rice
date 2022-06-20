@@ -333,8 +333,11 @@ Use `pew/hidden-buffer-p' to filter buffers."
 (defun pew/dired-go-up ()
   "Go to the parent directory without creating a new buffer."
   (interactive)
+  ;; Create a new buffer of the parent path
   (dired-up-directory)
+  ;; Go back to the current path
   (dired-find-file)
+  ;; Go up and close the current path buffer then the cursor will be on the current path
   (find-alternate-file ".."))
 
 (defun pew/dired-close-others ()
