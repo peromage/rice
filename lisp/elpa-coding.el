@@ -38,6 +38,16 @@
   :config
   (global-flycheck-mode 1))
 
+;;; Tree navigation
+(use-package treemacs
+  :defer t
+  :init
+  (defun pew/treemacs/setup ()
+    "Treemacs mode setup."
+    (setq-local display-line-numbers nil))
+
+  :hook (treemacs-mode . pew/treemacs/setup))
+
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet

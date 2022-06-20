@@ -3,10 +3,6 @@
 ;; Utilities that provide convenience and enhance experience
 
 ;;; Code:
-;;; Tree navigation
-(use-package treemacs
-  :defer t)
-
 ;;; Search
 (use-package rg
   :defer t)
