@@ -253,7 +253,7 @@
  "p" #'pew/prev-buffer
 
  ;; Tabs
- "f" #'tab-bar-switch-to-last-tab
+ "f" #'tab-bar-switch-to-next-tab
  "b" #'tab-bar-switch-to-prev-tab
  "t" #'tab-bar-new-tab
  "T" #'pew/pop-window-in-new-tab
