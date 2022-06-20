@@ -307,7 +307,11 @@
 ;;; Dired keybindings
 (pew/set-key dired-mode-map
  "RET" #'pew/dired-go-to
- "DEL" #'pew/dired-go-up)
+ "DEL" #'pew/dired-go-up
+ "f" #'dired-find-file
+ "b" #'dired-up-directory
+ "<left>" #'dired-up-directory
+ "<right>" #'dired-find-file)
 
 ;;; Mode hooks
 (pew/set-hook
