@@ -46,6 +46,8 @@
     "Treemacs mode setup."
     (setq-local display-line-numbers nil))
 
+  :custom
+  (treemacs-wrap-around nil)
   :hook (treemacs-mode . pew/treemacs/setup))
 
 ;;; Snippets
