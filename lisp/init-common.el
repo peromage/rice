@@ -12,6 +12,7 @@
 CUSTOMS is a list of the form:
   (VAR VALUE VAR VALUE ...)
 This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
+    (declare (indent 0))
     (if (pew/oddp (length customs))
         (error "Incomplete variables and values"))
     (let ((customs_ customs)
@@ -25,6 +26,7 @@ This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
 Each custom element is a list of the form:
   (VAR VALUE [COMMENT])
 The VALUE will be evaluated before passing to `customize-set-variable'."
+    (declare (indent 0))
     (dolist (custom_ customs)
       (customize-set-variable (pop custom_) (eval (pop custom_)) (pop custom_))))
 
@@ -35,6 +37,7 @@ FACES is a list of the form:
 Each element will be passed to `set-face-attribute'.
 Equivalent to:
   (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
+    (declare (indent 0))
     (dolist (attr_ faces)
       (apply 'set-face-attribute (pop attr_) nil attr_)))
 
@@ -46,6 +49,7 @@ For DEF's definition see `define-key'.
 The arguments will be collected in pairs and passed to `define-key'.
 Equivalent to:
   (define-key MAP KEY DEF)"
+    (declare (indent 1))
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
     (let ((bindings_ bindings))
@@ -60,6 +64,7 @@ For DEF's definition see `define-key'.
 The arguments will be collected in pairs and passed to `define-key'.
 Equivalent to:
   (define-key NEWMAP KEY DEF)"
+    (declare (indent 1))
     `(let ((map_ (make-sparse-keymap))
            (bindings_ (list ,@bindings)))
        (while bindings_
@@ -81,6 +86,7 @@ some reason:
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 For DEF's definition see `define-key'."
+    (declare (indent 1))
     (let ((map-symbol_ (intern (concat (symbol-name cmd) "-map")))
           (cmd-repeat-symbol_ (intern (concat (symbol-name cmd) "-repeat")))
           (cmd-doc-string_ "Command created by `pew/define-transient-command'"))
@@ -106,6 +112,7 @@ Each element in PROPERTIES is of the form:
 The arguments will be passed to `put' one by one.
 Equivalent to:
   (put SYM PROP VAL)"
+    (declare (indent 0))
     (dolist (prop_ properties)
       (put (pop prop_) (pop prop_) (pop prop_))))
 
@@ -115,6 +122,7 @@ HOOKS is a list of the form:
   (HOOK FUNC HOOK FUNC ...)
 The arguments will be collected in pairs and passed to `add-hook'.
 Equivalent to:"
+    (declare (indent 0))
     (if (pew/oddp (length hooks))
         (error "Incomplete hooks and functions"))
     (let ((hooks_ hooks))

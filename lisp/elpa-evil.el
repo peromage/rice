@@ -19,6 +19,7 @@ BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 The arguments will be collected in pairs and passed to `evil-define-key'.
 "
+    (declare (indent 3))
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
     (let ((bindings_ bindings))
@@ -37,6 +38,7 @@ Major mode uses `evil-set-initial-state' which is equivalent to:
   (evil-set-initial-state MODE STATE)
 Minor mode uses `add-hook' which is equivalent to:
   (add-hook 'MODE-hook #'evil-STATE-state)"
+    (declare (indent 0))
     (if (pew/oddp (length states))
         (error "Incomplete modes and states"))
     (let ((states_ states))
@@ -56,6 +58,7 @@ The later buffer regex will have higher priority.
 Equivalent to:
   (push '(REG . STATE) evil-buffer-regexps)
 NOTE: Setting by buffer name patterns takes precedence over the mode based methods."
+    (declare (indent 0))
     (if (pew/oddp (length states))
         (error "Incomplete patterns and states"))
     ;; Backwards iterating so that the order is consistent with the written list
