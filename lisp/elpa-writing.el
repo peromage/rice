@@ -103,9 +103,10 @@
          ("\\.plantuml\\'" . plantuml-mode))
   :config
   (use-package? org
-    :config
-    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (add-to-list 'org-babel-load-languages '(plantuml . t)))
+    :custom
+    ;; `org-babel-load-languages' must be set via either `custom' or `org-babel-do-load-languages'
+    (org-babel-load-languages (cons '(plantuml . t) org-babel-load-languages)))
+
   (use-package? ob-plantuml
     :custom
     (org-plantuml-jar-path plantuml-jar-path)
