@@ -92,15 +92,11 @@
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
   :config
-  (use-package org
-    :defer t
-    :ensure nil
+  (use-package? org
     :config
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
     (add-to-list 'org-babel-load-languages '(plantuml . t)))
-  (use-package ob-plantuml
-    :defer t
-    :ensure nil
+  (use-package? ob-plantuml
     :custom
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)))
