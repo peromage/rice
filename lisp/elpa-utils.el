@@ -4,8 +4,7 @@
 
 ;;; Code:
 ;;; Search
-(use-package rg
-  :defer t)
+(use-package rg :defer t)
 
 ;;; Terminal
 ;; Vterm is a decent terminal emulator inside of Emacs.

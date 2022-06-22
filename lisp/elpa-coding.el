@@ -46,9 +46,9 @@
     "Treemacs mode setup."
     (setq-local display-line-numbers nil))
 
+  :hook (treemacs-mode . pew/treemacs/setup)
   :custom
-  (treemacs-wrap-around nil)
-  :hook (treemacs-mode . pew/treemacs/setup))
+  (treemacs-wrap-around nil))
 
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
