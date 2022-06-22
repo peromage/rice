@@ -30,14 +30,13 @@
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
   (message "[pew] Loading use-package")
-  (require 'use-package))
-
-(defmacro use-package? (name &rest args)
-  "Configure a package but defer loading and don't install automatically.
+  (require 'use-package)
+  (defmacro use-package? (name &rest args)
+    "Configure a package but defer loading and don't install automatically.
 This is useful when a package also requires some configurations in other packages
 without modifying other packages' `use-package' forms but can keep using the same
 syntax from `use-package' (unlike `eval-after-load')."
-  `(use-package ,name :ensure nil :defer t ,@args))
+    `(use-package ,name :ensure nil :defer t ,@args)))
 
 ;; Default `use-package' behaviors
 (setq use-package-always-ensure t
