@@ -6,7 +6,14 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :hook (org-mode . pew/text-setup)
+  :init
+  (defun pew/org/refresh-image ()
+    "Redisplay inline images if they exist in the current buffer."
+    (if org-inline-image-overlays
+        (org-redisplay-inline-images)))
+
+  :hook ((org-mode . pew/text-setup)
+         (org-babel-after-execute . pew/org/refresh-image))
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
@@ -20,6 +27,9 @@
   (org-startup-truncated nil)
   (org-startup-numerated nil)
   (org-startup-with-inline-images t)
+
+  ;; Image displaying
+  (org-display-remote-inline-images 'skip)
 
   ;; Fontify
   (org-src-fontify-natively t)
