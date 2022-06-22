@@ -17,8 +17,7 @@ STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
 PREFIX could be nil or a string of KEY.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
-The arguments will be collected in pairs and passed to `evil-define-key'.
-"
+The arguments will be collected in pairs and passed to `evil-define-key'."
     (declare (indent 3))
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))

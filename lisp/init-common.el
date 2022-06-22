@@ -6,7 +6,7 @@
 
 ;;; Code:
 ;;; Need to be evaluated at compile-time
-(eval-and-compile
+(eval-when-compile
   (defmacro pew/set-custom (&rest customs)
     "Set CUSTOMS variables.
 CUSTOMS is a list of the form:
@@ -128,6 +128,33 @@ Equivalent to:"
     (let ((hooks_ hooks))
       (while hooks_
         (add-hook (pop hooks_) (pop hooks_)))))
+
+  ;; Switch command macro
+  (defmacro pew/define-switch (var &optional vals)
+    "Define a command to switch VAR from values VALS.
+VALS is a list of values.  If VALS is not provided, VAR will be switched between
+non-nil and nil."
+    (let ((switch-symbol_ (intern (concat "switch/" (symbol-name var)))))
+      (if (not vals)
+          `(defun ,switch-symbol_ ()
+             ,(format "Switch variable `%s' between non-nil and nil.
+Created by `pew/define-switch'." var)
+             (interactive)
+             (setq ,var (not ,var))
+             ;; Display status
+             (message "%s: %s" ',var (if ,var "enabled" "disabled")))
+        `(defun ,switch-symbol_ ()
+           ,(format "Switch variable `%s' in the following values
+  %S
+Created by `pew/define-switch'." var vals)
+           (interactive)
+           (let* ((vals_ ,vals)
+                  (matches_ (pew/sync-list vals_ ,var)))
+             (message "matches: %s" matches_)
+             (if matches_
+                 (setq ,var (car (pew/cycle-list matches_)))
+               (setq ,var (car vals_)))
+             (message "%s: %s" ',var ,var))))))
 
   (defun pew/evenp (num)
     "Determine if NUM is odd."
@@ -384,33 +411,6 @@ Use `pew/hidden-buffer-p' to filter buffers."
   (setq-local display-buffer-base-action '((display-buffer-reuse-window
                                             display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
-
-;;; Switch command macro
-(defmacro pew/define-switch (var &optional vals)
-  "Define a command to switch VAR from values VALS.
-VALS is a list of values.  If VALS is not provided, VAR will be switched between
-non-nil and nil."
-  (let ((switch-symbol_ (intern (concat "switch/" (symbol-name var)))))
-    (if (not vals)
-        `(defun ,switch-symbol_ ()
-           ,(format "Switch variable `%s' between non-nil and nil.
-Created by `pew/define-switch'." var)
-           (interactive)
-           (setq ,var (not ,var))
-           ;; Display status
-           (message "%s: %s" ',var (if ,var "enabled" "disabled")))
-      `(defun ,switch-symbol_ ()
-         ,(format "Switch variable `%s' in the following values
-  %S
-Created by `pew/define-switch'." var vals)
-         (interactive)
-         (let* ((vals_ ,vals)
-                (matches_ (pew/sync-list vals_ ,var)))
-           (message "matches: %s" matches_)
-           (if matches_
-               (setq ,var (car (pew/cycle-list matches_)))
-             (setq ,var (car vals_)))
-           (message "%s: %s" ',var ,var))))))
 
 (provide 'init-common)
 ;;; init-common.el ends here
