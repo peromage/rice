@@ -35,7 +35,7 @@
     "Configure a package but defer loading and don't install automatically.
 This is useful when a package also requires some configurations in other packages
 without modifying other packages' `use-package' forms but can keep using the same
-syntax from `use-package' (unlike `eval-after-load')."
+syntax from `use-package' (unlike `with-eval-after-load')."
     (declare (indent 1))
     `(use-package ,name :ensure nil :defer t ,@args)))
 

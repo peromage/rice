@@ -261,7 +261,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
     ;; Search
     "*" #'pew/evil/visual-search-region)
 
-  (eval-after-load 'elisp-mode
+  (with-eval-after-load 'elisp-mode
     (let ((bindings_
            (list
            ;; Quick eval
