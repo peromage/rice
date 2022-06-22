@@ -199,11 +199,17 @@ is a vector then does nothing."
   (message buffer-file-name))
 
 ;;; Common functions and commands
-(defun pew/parent-directory (path)
-  "Get the parent directory of the PATH."
-  (file-name-directory (directory-file-name path)))
+(defun pew/normalize-path (base &optional component follow)
+  "Normalize path BASE by removing relative representations.
+If BASE is a relative path the result will be a path which is relative to the
+current path.
+When COMPONENT is given it will be appended at the end of BASE.
+When FOLLOW is non-nil the result will an absolute path with all symlink
+resolved."
+  (let ((result_ (expand-file-name (file-name-concat base component))))
+    (if follow (file-truename result_) result_)))
 
-(defvar pew/home-dir (pew/parent-directory (pew/parent-directory load-file-name))
+(defvar pew/home-dir (pew/normalize-path load-file-name "../..")
   "The PEW configuration's home directory.
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")

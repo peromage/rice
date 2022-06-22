@@ -55,7 +55,7 @@
 (use-package yasnippet
   :diminish yas-minor-mode
   :custom
-  (yas-snippet-dirs (list (expand-file-name "yasnippets" pew/home-dir)))
+  (yas-snippet-dirs (list (pew/normalize-path pew/home-dir "yasnippets")))
   :config
   (yas-global-mode 1))
 
