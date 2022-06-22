@@ -84,5 +84,26 @@
 (use-package markdown-mode
   :hook (markdown-mode . pew/text-setup))
 
+;;; PlantUML mode
+(use-package plantuml-mode
+  :custom
+  (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
+  (plantuml-default-exec-mode 'jar)
+  :mode (("\\.puml\\'" . plantuml-mode)
+         ("\\.plantuml\\'" . plantuml-mode))
+  :config
+  (use-package org
+    :defer t
+    :ensure nil
+    :config
+    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+    (add-to-list 'org-babel-load-languages '(plantuml . t)))
+  (use-package ob-plantuml
+    :defer t
+    :ensure nil
+    :custom
+    (org-plantuml-jar-path plantuml-jar-path)
+    (org-plantuml-exec-mode plantuml-default-exec-mode)))
+
 (provide 'elpa-writing)
 ;;; elpa-writing.el ends here
