@@ -202,6 +202,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   (pew/evil/set-mode-state
     ;; Major modes
     'dired-mode 'emacs
+    'image-mode 'emacs
     'help-mode 'motion
     'message-mode 'motion
     'compilation-mode 'motion
