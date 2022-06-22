@@ -29,7 +29,7 @@
      (window-height . 0.25)
      (side . bottom)
      (slot . 0))
-    ("^ *\\*.*\\([Hh]elp\\|[Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\)\\*"
+    ("^ *\\*.*\\([Hh]elp\\|[Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\|[Oo]utput\\)\\*"
      (display-buffer-in-side-window)
      (window-height . 0.25)
      (side . bottom)
