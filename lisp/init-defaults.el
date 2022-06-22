@@ -264,6 +264,7 @@
   ;; Edit
   "C-u" #'undo
   "C-r" #'undo-redo
+  ";" #'comment-line
 
   ;; Org
   "c" #'org-capture
