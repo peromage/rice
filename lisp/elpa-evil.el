@@ -181,32 +181,32 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
 ;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below
   (pew/evil/set-buffer-state
-   ;; VC buffers
-   "^ *\\*vc-.*\\*" 'emacs
-   "^ *magit" 'emacs
-   ;; Motion buffers
-   "^ *\\*.*[Hh]elp\\*" 'motion
-   "^ *\\*.*[Mm]essages\\*" 'motion
-   "^ *\\*.*[Bb]acktrace\\*" 'motion
-   "^ *\\*.*[Ww]arnings\\*" 'motion
-   "^ *\\*.*[Ll]og\\*" 'motion
-   "^ *\\*.*[Cc]ompilation\\*" 'motion
-   ;; Normal buffers
-   "^ *\\*[Ss]cratch\\*" 'normal
-   "^ *\\*.*[Ss]hell\\*" 'normal
-   "^ *\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
-   "^ *\\*[Oo]rg [Ss]rc .*\\*" 'normal
-   ;; Fallback initial state for all special buffers
-   "^ *\\*.*\\*" 'emacs)
+    ;; VC buffers
+    "^ *\\*vc-.*\\*" 'emacs
+    "^ *magit" 'emacs
+    ;; Motion buffers
+    "^ *\\*.*[Hh]elp\\*" 'motion
+    "^ *\\*.*[Mm]essages\\*" 'motion
+    "^ *\\*.*[Bb]acktrace\\*" 'motion
+    "^ *\\*.*[Ww]arnings\\*" 'motion
+    "^ *\\*.*[Ll]og\\*" 'motion
+    "^ *\\*.*[Cc]ompilation\\*" 'motion
+    ;; Normal buffers
+    "^ *\\*[Ss]cratch\\*" 'normal
+    "^ *\\*.*[Ss]hell\\*" 'normal
+    "^ *\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
+    "^ *\\*[Oo]rg [Ss]rc .*\\*" 'normal
+    ;; Fallback initial state for all special buffers
+    "^ *\\*.*\\*" 'emacs)
 
   (pew/evil/set-mode-state
-   ;; Major modes
-   'dired-mode 'emacs
-   'help-mode 'motion
-   'message-mode 'motion
-   'compilation-mode 'motion
-   ;; Minor modes
-   'view-mode 'motion)
+    ;; Major modes
+    'dired-mode 'emacs
+    'help-mode 'motion
+    'message-mode 'motion
+    'compilation-mode 'motion
+    ;; Minor modes
+    'view-mode 'motion)
 
 ;;;; Evil keybindings
   ;; Leader keys
@@ -215,59 +215,60 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
 
   ;; Normal and motion state bindings
   (pew/evil/set-key '(normal motion) 'global "<leader>"
-   ;; Windows
-   "q" #'pew/close-window
-   "h" #'evil-window-left
-   "j" #'evil-window-down
-   "k" #'evil-window-up
-   "l" #'evil-window-right
-   "s" #'evil-window-split
-   "v" #'evil-window-vsplit
-   "1" #'delete-other-windows
-   "2" #'split-window-below
-   "3" #'split-window-right
-   "0" #'delete-window
+    ;; Windows
+    "q" #'pew/close-window
+    "h" #'evil-window-left
+    "j" #'evil-window-down
+    "k" #'evil-window-up
+    "l" #'evil-window-right
+    "s" #'evil-window-split
+    "v" #'evil-window-vsplit
+    "1" #'delete-other-windows
+    "2" #'split-window-below
+    "3" #'split-window-right
+    "0" #'delete-window
 
-   ;; Tabs
-   "t" #'tab-bar-new-tab
-   "m" #'pew/move-tab-next
-   "M" #'pew/move-tab-prev
-   "r" #'tab-bar-rename-tab
-   "T" #'pew/pop-window-in-new-tab
-   "f" #'tab-bar-switch-to-next-tab
-   "b" #'tab-bar-switch-to-prev-tab
+    ;; Tabs
+    "t" #'tab-bar-new-tab
+    "m" #'pew/move-tab-next
+    "M" #'pew/move-tab-prev
+    "r" #'tab-bar-rename-tab
+    "T" #'pew/pop-window-in-new-tab
+    "f" #'tab-bar-switch-to-next-tab
+    "b" #'tab-bar-switch-to-prev-tab
 
-   ;; Buffers
-   "w" #'save-buffer
-   "n" #'next-buffer
-   "p" #'previous-buffer
-   "g" #'pew/buffer-full-path
+    ;; Buffers
+    "w" #'save-buffer
+    "n" #'next-buffer
+    "p" #'previous-buffer
+    "g" #'pew/buffer-full-path
 
-   ;; Search and substitution
-   "cs" #'pew/evil/replace-last-search)
+    ;; Search and substitution
+    "cs" #'pew/evil/replace-last-search)
 
   (pew/evil/set-key '(normal motion) 'global nil
-   ;; Windows
-   "<left>" #'evil-window-decrease-width
-   "<down>" #'evil-window-decrease-height
-   "<up>" #'evil-window-increase-height
-   "<right>" #'evil-window-increase-width
+    ;; Windows
+    "<left>" #'evil-window-decrease-width
+    "<down>" #'evil-window-decrease-height
+    "<up>" #'evil-window-increase-height
+    "<right>" #'evil-window-increase-width
 
-   ;; Search
-   "#" #'evil-ex-nohighlight)
+    ;; Search
+    "#" #'evil-ex-nohighlight)
 
   ;; Visual state bindings
   (pew/evil/set-key 'visual 'global nil
-   ;; Search
-   "*" #'pew/evil/visual-search-region)
+    ;; Search
+    "*" #'pew/evil/visual-search-region)
 
   (eval-after-load 'elisp-mode
-    (let ((bindings_ (list
-     ;; Quick eval
-     "eb" #'eval-buffer
-     "er" #'eval-region
-     "ef" #'eval-defun
-     "ee" #'eval-last-sexp)))
+    (let ((bindings_
+           (list
+           ;; Quick eval
+           "eb" #'eval-buffer
+           "er" #'eval-region
+           "ef" #'eval-defun
+           "ee" #'eval-last-sexp)))
       (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" bindings_)
       (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" bindings_))))
 
