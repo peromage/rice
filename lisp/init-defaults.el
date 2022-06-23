@@ -230,18 +230,19 @@
 ;;; My keybindings
 (pew/define-transient-command pewkey
   ;; Windows
+  "q" #'pew/close-window
   "o" #'pew/next-window
   "O" #'pew/prev-window
-  "w" #'window-toggle-side-windows
   "<left>" #'shrink-window-horizontally
   "<down>" #'shrink-window
   "<up>" #'enlarge-window
   "<right>" #'enlarge-window-horizontally
   "s" #'split-window-below
+  "S" #'window-toggle-side-windows
   "v" #'split-window-right
-  "r" #'winner-redo
-  "u" #'winner-undo
-  "q" #'pew/close-window
+  ;; Layout
+  "y" #'winner-undo
+  "Y" #'winner-redo
   ;; Other window
   "M-f" #'pew/scroll-other-window-page-down
   "M-b" #'pew/scroll-other-window-page-up
@@ -250,11 +251,17 @@
   "M-l" #'pew/recenter-other-window
 
   ;; Buffers
+  "r" #'rename-buffer
+  "w" #'save-buffer
   "n" #'pew/next-buffer
   "p" #'pew/prev-buffer
+  "g" #'pew/buffer-full-path
+  "B" #'display-buffer
 
   ;; Tabs
+  "R" #'tab-bar-rename-tab
   "f" #'tab-bar-switch-to-next-tab
+  "F" #'tab-bar-select-tab-by-name
   "b" #'tab-bar-switch-to-prev-tab
   "t" #'tab-bar-new-tab
   "T" #'pew/pop-window-in-new-tab
@@ -263,8 +270,8 @@
   "Q" #'tab-bar-close-tab
 
   ;; Edit
-  "C-u" #'undo
-  "C-r" #'undo-redo
+  "u" #'undo
+  "U" #'undo-redo
   ";" #'comment-line
 
   ;; Org
@@ -278,16 +285,6 @@
 
 ;;; Global keybindings
 (pew/set-key global-map
-  ;; Tab bindings
-  "C-x t SPC" #'tab-bar-select-tab-by-name
-  "C-x t f" #'tab-bar-switch-to-next-tab
-  "C-x t b" #'tab-bar-switch-to-prev-tab
-  "C-x t m" #'pew/move-tab-next
-  "C-x t M" #'pew/move-tab-prev
-  "C-x t t" #'tab-bar-new-tab
-  "C-x t T" #'pew/pop-window-in-new-tab
-  "C-x t l" #'tab-switcher
-
   ;; File and directory browsing
   "C-x C-d" #'dired-jump
 

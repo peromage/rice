@@ -223,29 +223,27 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
     "l" #'evil-window-right
     "s" #'evil-window-split
     "v" #'evil-window-vsplit
-    "1" #'delete-other-windows
-    "2" #'split-window-below
-    "3" #'split-window-right
-    "0" #'delete-window
 
     ;; Tabs
+    "R" #'tab-bar-rename-tab
     "t" #'tab-bar-new-tab
-    "m" #'pew/move-tab-next
-    "M" #'pew/move-tab-prev
-    "r" #'tab-bar-rename-tab
     "T" #'pew/pop-window-in-new-tab
     "f" #'tab-bar-switch-to-next-tab
     "b" #'tab-bar-switch-to-prev-tab
+    "m" #'pew/move-tab-next
+    "M" #'pew/move-tab-prev
 
     ;; Buffers
+    "r" #'rename-buffer
     "w" #'save-buffer
     "n" #'next-buffer
     "p" #'previous-buffer
     "g" #'pew/buffer-full-path
+    "B" #'display-buffer
 
     ;; Jump
     "o" #'evil-jump-backward
-    "i" #'evil-jump-forward
+    "O" #'evil-jump-forward
 
     ;; Search and substitution
     "cs" #'pew/evil/replace-last-search)
