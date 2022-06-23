@@ -195,7 +195,43 @@ This function doesn't modify the passed-in LST."
     "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    (if (stringp key) (kbd key) key)))
+    (if (stringp key) (kbd key) key))
+
+  (defvar pew/special-buffer-alist
+    '((magit . "^ *magit")
+      (vc . "^ *\\*vc-.*\\*$")
+      (shell . "^ *\\*.*[Ss]hell\\*$")
+      (term . "^ *\\*.*[Tt]erm\\(inal\\)?\\*$")
+      (help . "^ *\\*.*[Hh]elp\\*$")
+      (message . "^ *\\*.*[Mm]essages\\*$")
+      (backtrace . "^ *\\*.*[Bb]acktrace\\*$")
+      (warning . "^ *\\*.*[Ww]arnings\\*$")
+      (log . "^ *\\*.*[Ll]og\\*$")
+      (compilation . "^ *\\*.*[Cc]ompilation\\*$")
+      (output . "^ *\\*.*[Oo]utput\\*$")
+      (scratch . "^ *\\*[Ss]cratch\\*$")
+      (orgsrc . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+      ;; General special definitions go last
+      (starred . "^ *\\*.*\\*$"))
+    "An alist of special buffer pattern regex.")
+
+  (defmacro pew/special-buffer (name)
+    "List the given NAME as the corresponding buffer pattern.
+NAME is supposed to be quoted.  The value is from `pew/special-buffer-alist'.
+If NAME is a list then the result will be a list of matching patterns instead."
+    (let ((real-name_ (cadr name))
+          (result_ nil)
+          (match_ nil))
+      (if (listp real-name_)
+          (dolist (name_ real-name_)
+            (setq match_ (assoc name_ pew/special-buffer-alist))
+            (if match_ (push (cdr match_) result_)
+              (error "No matching special buffer for %s" name_)))
+        (setq match_ (assoc real-name_ pew/special-buffer-alist))
+        (if match_ (setq result_ (cdr match_))
+          (error "No matching special buffer for %s" real-name_)))
+      ;; Expand results
+      (if (listp result_) `'(,@(reverse result_)) result_))))
 
 ;;; Debugging
 (defun pew/reload-init-file ()
@@ -246,42 +282,7 @@ loaded from other places.")
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew/special-buffers
-  '((magit . "^ *magit")
-    (vc . "^ *\\*vc-.*\\*$")
-    (shell . "^ *\\*.*[Ss]hell\\*$")
-    (term . "^ *\\*.*[Tt]erm\\(inal\\)?\\*$")
-    (help . "^ *\\*.*[Hh]elp\\*$")
-    (message . "^ *\\*.*[Mm]essages\\*$")
-    (backtrace . "^ *\\*.*[Bb]acktrace\\*$")
-    (warning . "^ *\\*.*[Ww]arnings\\*$")
-    (log . "^ *\\*.*[Ll]og\\*$")
-    (compilation . "^ *\\*.*[Cc]ompilation\\*$")
-    (output . "^ *\\*.*[Oo]utput\\*$")
-    (scratch . "^ *\\*[Ss]cratch\\*$")
-    (orgsrc . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
-    ;; General special definitions go last
-    (starred . "^ *\\*.*\\*$"))
-  "An alist of special buffer pattern regex.")
-
-(defun pew/get-special-buffer (name)
-  "Return the special buffer pattern by given NAME.
-The value is from `pew/special-buffers'.
-If NAME is a list then return a list of matching patterns."
-  (let ((result_ nil)
-        (match_ nil))
-    (if (listp name)
-        (dolist (name_ name)
-          (setq match_ (assoc name_ pew/special-buffers))
-          (if match_ (push (cdr match_) result_)
-            (error "No matching special buffer for %s" name_)))
-      (setq match_ (assoc name pew/special-buffers))
-      (if match_ (setq result_ (cdr match_))
-        (error "No matching special buffer for %s" name)))
-    ;; Return results
-    (if (listp result_) (reverse result_) result_)))
-
-(defvar pew/hidden-buffers (pew/get-special-buffer '(magit starred))
+(defvar pew/hidden-buffers (pew/special-buffer '(magit starred))
   "Buffers that are hiddens in general scenarios.")
 
 (defun pew/hidden-buffer-p (name)
