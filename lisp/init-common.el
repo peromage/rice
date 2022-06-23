@@ -5,56 +5,21 @@
 ;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-;;; Need to be evaluated at compile-time
-(eval-when-compile
+;;; Things which need to be evaluated at compile-time
+(eval-and-compile
   (defmacro pew/set-custom (&rest customs)
     "Set CUSTOMS variables.
 CUSTOMS is a list of the form:
   (VAR VALUE VAR VALUE ...)
 This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
     (declare (indent 0))
-    (if (pew/oddp (length customs))
-        (error "Incomplete variables and values"))
+    (unless (zerop (mod (length customs) 2))
+      (error "Incomplete variables and values"))
     (let ((customs_ customs)
           (args_ nil))
       (while customs_
         (push `'(,(pop customs_) ,(pop customs_)) args_))
       `(pew/set-custom* ,@(reverse args_))))
-
-  (defun pew/set-custom* (&rest customs)
-    "Set a list of CUSTOMS.
-Each custom element is a list of the form:
-  (VAR VALUE [COMMENT])
-The VALUE will be evaluated before passing to `customize-set-variable'."
-    (declare (indent 0))
-    (dolist (custom_ customs)
-      (customize-set-variable (pop custom_) (eval (pop custom_)) (pop custom_))))
-
-  (defun pew/set-face (&rest faces)
-    "Set FACES attributes.
-FACES is a list of the form:
-  ('(FACE ATTR VALUE ATTR VALUE ...) '(FACE ATTR VALUE ATTR VALUE ...) ...)
-Each element will be passed to `set-face-attribute'.
-Equivalent to:
-  (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
-    (declare (indent 0))
-    (dolist (attr_ faces)
-      (apply 'set-face-attribute (pop attr_) nil attr_)))
-
-  (defun pew/set-key (map &rest bindings)
-    "Bind BINDINGS in MAP.
-BINDINGS is a list of the form:
-  (KEY DEF KEY DEF ...)
-For DEF's definition see `define-key'.
-The arguments will be collected in pairs and passed to `define-key'.
-Equivalent to:
-  (define-key MAP KEY DEF)"
-    (declare (indent 1))
-    (if (pew/oddp (length bindings))
-        (error "Incomplete keys and definitions"))
-    (let ((bindings_ bindings))
-      (while bindings_
-        (define-key map (pew/tokey (pop bindings_)) (pop bindings_)))))
 
   (defmacro pew/define-keymap (newmap &rest bindings)
     "Create a new map with name NEWMAP and bind key BINDINGS with it.
@@ -105,30 +70,6 @@ For DEF's definition see `define-key'."
            (message "%s activated" ',cmd-repeat-symbol_)
            (set-transient-map ,map-symbol_ t)))))
 
-  (defun pew/set-property (&rest properties)
-    "Set PROPERTIES for symbols.
-Each element in PROPERTIES is of the form:
-  (SYM PROP VAL)
-The arguments will be passed to `put' one by one.
-Equivalent to:
-  (put SYM PROP VAL)"
-    (declare (indent 0))
-    (dolist (prop_ properties)
-      (put (pop prop_) (pop prop_) (pop prop_))))
-
-  (defun pew/set-hook (&rest hooks)
-    "Add HOOKS.
-HOOKS is a list of the form:
-  (HOOK FUNC HOOK FUNC ...)
-The arguments will be collected in pairs and passed to `add-hook'.
-Equivalent to:"
-    (declare (indent 0))
-    (if (pew/oddp (length hooks))
-        (error "Incomplete hooks and functions"))
-    (let ((hooks_ hooks))
-      (while hooks_
-        (add-hook (pop hooks_) (pop hooks_)))))
-
   ;; Switch command macro
   (defmacro pew/define-switch (var &optional vals)
     "Define a command to switch VAR from values VALS.
@@ -155,47 +96,6 @@ Created by `pew/define-switch'." var vals)
                  (setq ,var (car (pew/cycle-list matches_)))
                (setq ,var (car vals_)))
              (message "%s: %s" ',var ,var))))))
-
-  (defun pew/evenp (num)
-    "Determine if NUM is odd."
-    (zerop (mod num 2)))
-
-  (defun pew/oddp (num)
-    "Determine if NUM is odd."
-    (not (pew/evenp num)))
-
-  (defmacro pew/swap (a b)
-    "Swap values in A and B."
-    `(setq ,a (prog1 ,b (setq ,b ,a))))
-
-  (defun pew/cycle-list (lst)
-    "Put the first element in the LST to the last.
-This function doesn't modify the passed-in LST."
-    (if (listp lst) (append (cdr lst) (cons (car lst) nil)) nil))
-
-  (defun pew/sync-list (lst val)
-    "Cycle LST until the first element equals VAL.
-Return a list with VAL as the first element or nil if no matching element found.
-This function doesn't modify the passed-in LST."
-    (catch 'return_
-      (if (equal val (car lst))
-          (throw 'return_ lst))
-      ;; Fist one has been checked, skipping
-      (let ((index_ 1)
-            (list_ (pew/cycle-list lst))
-            (max_ (length lst)))
-        (while (< index_ max_)
-          (if (equal val (car list_))
-              (throw 'return_ list_))
-          (setq list_ (pew/cycle-list list_))
-          (setq index_ (1+ index_)))
-        (throw 'return_ nil))))
-
-  (defun pew/tokey (key)
-    "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
-Possible value could be a string which will be converted with (kbd key).  If KEY
-is a vector then does nothing."
-    (if (stringp key) (kbd key) key))
 
   (defvar pew/special-buffer-alist
     '((magit . "^ *magit")
@@ -232,6 +132,108 @@ If NAME is a list then the result will be a list of matching patterns instead."
           (error "No matching special buffer for %s" real-name_)))
       ;; Expand results
       (if (listp result_) `'(,@(reverse result_)) result_))))
+
+;;; Setting helpers
+(defun pew/set-custom* (&rest customs)
+  "Set a list of CUSTOMS.
+Each custom element is a list of the form:
+  (VAR VALUE [COMMENT])
+The VALUE will be evaluated before passing to `customize-set-variable'."
+  (declare (indent 0))
+  (dolist (custom_ customs)
+    (customize-set-variable (pop custom_) (eval (pop custom_)) (pop custom_))))
+
+(defun pew/set-face (&rest faces)
+  "Set FACES attributes.
+FACES is a list of the form:
+  ('(FACE ATTR VALUE ATTR VALUE ...) '(FACE ATTR VALUE ATTR VALUE ...) ...)
+Each element will be passed to `set-face-attribute'.
+Equivalent to:
+  (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
+  (declare (indent 0))
+  (dolist (attr_ faces)
+    (apply 'set-face-attribute (pop attr_) nil attr_)))
+
+(defun pew/set-key (map &rest bindings)
+  "Bind BINDINGS in MAP.
+BINDINGS is a list of the form:
+  (KEY DEF KEY DEF ...)
+For DEF's definition see `define-key'.
+The arguments will be collected in pairs and passed to `define-key'.
+Equivalent to:
+  (define-key MAP KEY DEF)"
+  (declare (indent 1))
+  (if (pew/oddp (length bindings))
+      (error "Incomplete keys and definitions"))
+  (let ((bindings_ bindings))
+    (while bindings_
+      (define-key map (pew/tokey (pop bindings_)) (pop bindings_)))))
+
+(defun pew/set-property (&rest properties)
+  "Set PROPERTIES for symbols.
+Each element in PROPERTIES is of the form:
+  (SYM PROP VAL)
+The arguments will be passed to `put' one by one.
+Equivalent to:
+  (put SYM PROP VAL)"
+  (declare (indent 0))
+  (dolist (prop_ properties)
+    (put (pop prop_) (pop prop_) (pop prop_))))
+
+(defun pew/set-hook (&rest hooks)
+  "Add HOOKS.
+HOOKS is a list of the form:
+  (HOOK FUNC HOOK FUNC ...)
+The arguments will be collected in pairs and passed to `add-hook'.
+Equivalent to:"
+  (declare (indent 0))
+  (if (pew/oddp (length hooks))
+      (error "Incomplete hooks and functions"))
+  (let ((hooks_ hooks))
+    (while hooks_
+      (add-hook (pop hooks_) (pop hooks_)))))
+
+;;; Utilities
+(defun pew/evenp (num)
+  "Determine if NUM is odd."
+  (zerop (mod num 2)))
+
+(defun pew/oddp (num)
+  "Determine if NUM is odd."
+  (not (pew/evenp num)))
+
+(defmacro pew/swap (a b)
+  "Swap values in A and B."
+  `(setq ,a (prog1 ,b (setq ,b ,a))))
+
+(defun pew/cycle-list (lst)
+  "Put the first element in the LST to the last.
+This function doesn't modify the passed-in LST."
+  (if (listp lst) (append (cdr lst) (cons (car lst) nil)) nil))
+
+(defun pew/sync-list (lst val)
+  "Cycle LST until the first element equals VAL.
+Return a list with VAL as the first element or nil if no matching element found.
+This function doesn't modify the passed-in LST."
+  (catch 'return_
+    (if (equal val (car lst))
+        (throw 'return_ lst))
+    ;; Fist one has been checked, skipping
+    (let ((index_ 1)
+          (list_ (pew/cycle-list lst))
+          (max_ (length lst)))
+      (while (< index_ max_)
+        (if (equal val (car list_))
+            (throw 'return_ list_))
+        (setq list_ (pew/cycle-list list_))
+        (setq index_ (1+ index_)))
+      (throw 'return_ nil))))
+
+(defun pew/tokey (key)
+  "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
+Possible value could be a string which will be converted with (kbd key).  If KEY
+is a vector then does nothing."
+  (if (stringp key) (kbd key) key))
 
 ;;; Debugging
 (defun pew/reload-init-file ()
