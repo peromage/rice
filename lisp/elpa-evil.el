@@ -243,6 +243,10 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
     "p" #'previous-buffer
     "g" #'pew/buffer-full-path
 
+    ;; Jump
+    "o" #'evil-jump-backward
+    "i" #'evil-jump-forward
+
     ;; Search and substitution
     "cs" #'pew/evil/replace-last-search)
 
