@@ -138,6 +138,57 @@ function removeEnvUserVars {
     }
 }
 
+### Common
+function listDirectory {
+    [CmdletBinding(PositionalBinding=$false, DefaultParameterSetName="sortByDefault")]
+    param ([Parameter(Position=0)][string]$path=$PWD.Path,
+           [Parameter(Mandatory=$false, ParameterSetName="sortByWriteTime")][switch]$write,
+           [Parameter(Mandatory=$false, ParameterSetName="sortByAccessTime")][switch]$access,
+           [Parameter(Mandatory=$false, ParameterSetName="sortByCreationTime")][switch]$creation,
+           [Parameter(Mandatory=$false, ParameterSetName="sortByName")][switch]$name,
+           [Parameter(Mandatory=$false, ParameterSetName="sortBySize")][switch]$size)
+    if ($write) {
+        Get-ChildItem $path `
+            | Sort-Object LastWriteTime `
+            | Select-Object Mode,Length,LastWriteTime,Name,Target `
+            | Format-Table -AutoSize
+        return
+    }
+    if ($access) {
+        Get-ChildItem $path `
+            | Sort-Object LastAccessTime `
+            | Select-Object Mode,Length,LastAccessTime,Name,Target `
+            | Format-Table -AutoSize
+        return
+    }
+    if ($creation) {
+        Get-ChildItem $path `
+            | Sort-Object CreationTime `
+            | Select-Object Mode,Length,CreationTime,Name,Target `
+            | Format-Table -AutoSize
+        return
+    }
+    if ($name) {
+        Get-ChildItem $path `
+            | Sort-Object Name `
+            | Select-Object Mode,Length,LastWriteTime,Name,Target `
+            | Format-Table -AutoSize
+        return
+    }
+    if ($size) {
+        Get-ChildItem $path `
+            | Sort-Object Length `
+            | Select-Object Mode,Length,LastWriteTime,Name,Target `
+            | Format-Table -AutoSize
+        return
+    }
+    ## Fallback
+    Get-ChildItem $path `
+        | Select-Object Mode,Length,LastWriteTime,Name,Target `
+        | Format-Table -AutoSize
+}
+Set-Alias ll listDirectory
+
 ### Cygwin
 function cygwin-install {
     cygwin-setup --no-admin --no-shortcuts @args
