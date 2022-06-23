@@ -246,22 +246,53 @@ loaded from other places.")
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew/hidden-buffers
-  '("^magit"
+(defvar pew/special-buffers
+  '((magit . "^ *magit")
+    (vc . "^ *\\*vc-.*\\*$")
+    (shell . "^ *\\*.*[Ss]hell\\*$")
+    (term . "^ *\\*.*[Tt]erm\\(inal\\)?\\*$")
+    (help . "^ *\\*.*[Hh]elp\\*$")
+    (message . "^ *\\*.*[Mm]essages\\*$")
+    (backtrace . "^ *\\*.*[Bb]acktrace\\*$")
+    (warning . "^ *\\*.*[Ww]arnings\\*$")
+    (log . "^ *\\*.*[Ll]og\\*$")
+    (compilation . "^ *\\*.*[Cc]ompilation\\*$")
+    (output . "^ *\\*.*[Oo]utput\\*$")
+    (scratch . "^ *\\*[Ss]cratch\\*$")
+    (orgsrc . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
     ;; General special definitions go last
-    "^ *\\*.*\\*")
-  "A list of hidden buffer pattern regex.
-These buffers are usually skipped and ignored from buffer list.")
+    (starred . "^ *\\*.*\\*$"))
+  "An alist of special buffer pattern regex.")
+
+(defun pew/get-special-buffer (name)
+  "Return the special buffer pattern by given NAME.
+The value is from `pew/special-buffers'.
+If NAME is a list then return a list of matching patterns."
+  (let ((result_ nil)
+        (match_ nil))
+    (if (listp name)
+        (dolist (name_ name)
+          (setq match_ (assoc name_ pew/special-buffers))
+          (if match_ (push (cdr match_) result_)
+            (error "No matching special buffer for %s" name_)))
+      (setq match_ (assoc name pew/special-buffers))
+      (if match_ (setq result_ (cdr match_))
+        (error "No matching special buffer for %s" name)))
+    ;; Return results
+    (if (listp result_) (reverse result_) result_)))
+
+(defvar pew/hidden-buffers (pew/get-special-buffer '(magit starred))
+  "Buffers that are hiddens in general scenarios.")
 
 (defun pew/hidden-buffer-p (name)
   "Check if the given buffer NAME is a hidden buffer.
 Return t if NAME matches one of patterns defined in `pew/hidden-buffers' or nil
 if there is not match."
-  (catch 'return_
-    (dolist (buffer-regex_ pew/hidden-buffers)
-      (if (string-match buffer-regex_ name)
-          (throw 'return_ t)))
-    nil))
+  (let ((hiddens_ pew/hidden-buffers)
+        (matched_ nil))
+    (while (and (not matched_) hiddens_)
+      (setq matched_ (string-match (pop hiddens_) name)))
+    matched_))
 
 (defun pew/switch-buffer (switch-func)
   "Switch to the buffer by SWITCH-FUNC but skip hidden buffers.
