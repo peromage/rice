@@ -127,6 +127,7 @@
   ;; Sanity
   use-short-answers t
   xterm-mouse-mode t
+  context-menu-mode t
   shell-command-prompt-show-cwd t
   what-cursor-show-names t
   ;; Log warnings in the background instead of poping the window up
