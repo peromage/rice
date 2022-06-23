@@ -10,7 +10,9 @@ alias em="emacsclient -c -nw"
 ## Open files in the current frame
 alias emm="emacsclient -c -n"
 ## Daemon
-alias emdaemon="emacs --daemon"
+emdaemon() {
+    emacsclient -e 't' &>/dev/null || emacs --daemon
+}
 ## Dired
 ef() {
     if [ -n "$1" ]; then
