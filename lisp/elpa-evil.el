@@ -72,11 +72,9 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   ;; characters. Also it provides a quick way to substitute the words just searched.
   (defun pew/evil/escape-region (begin end)
     "Escape special chars in region from BEGIN to END for evil-search mode."
-    (catch 'return_
-      (let ((region_ (buffer-substring-no-properties begin end))
-            (placeholder_ "_IM_A_PERCENTAGE_"))
-        (if (= (length region_) 0)
-            (throw 'return_ nil))
+    (let ((region_ (buffer-substring-no-properties begin end))
+          (placeholder_ "_IM_A_PERCENTAGE_"))
+      (if (zerop (length region_)) nil
         ;; Replace the % symbols so that `regexp-quote' does not complain
         (setq region_ (replace-regexp-in-string "%" placeholder_ region_))
         (setq region_ (regexp-quote region_))
@@ -85,7 +83,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
         (setq region_ (replace-regexp-in-string "/" "\\\\/" region_))
         ;; Change the % symbols back
         (setq region_ (replace-regexp-in-string placeholder_ "%" region_))
-        (throw 'return_ region_))))
+        region_)))
 
   (defun pew/evil/search-region ()
     "Use evil-search for the selected region."

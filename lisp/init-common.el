@@ -91,8 +91,7 @@ Created by `pew/define-switch'." var)
 Created by `pew/define-switch'." var vals)
            (interactive)
            (let* ((vals_ ,vals)
-                  (matches_ (pew/sync-list vals_ ,var)))
-             (message "matches: %s" matches_)
+                  (matches_ (pew/sync-list ,var vals_)))
              (if matches_
                  (setq ,var (car (pew/cycle-list matches_)))
                (setq ,var (car vals_)))
@@ -222,23 +221,19 @@ Equivalent to:"
 This function doesn't modify the passed-in LST."
   (if (listp lst) (append (cdr lst) (cons (car lst) nil)) nil))
 
-(defun pew/sync-list (lst val)
+(defun pew/sync-list (val lst)
   "Cycle LST until the first element equals VAL.
 Return a list with VAL as the first element or nil if no matching element found.
 This function doesn't modify the passed-in LST."
-  (catch 'return_
-    (if (equal val (car lst))
-        (throw 'return_ lst))
-    ;; Fist one has been checked, skipping
-    (let ((index_ 1)
-          (list_ (pew/cycle-list lst))
-          (max_ (length lst)))
-      (while (< index_ max_)
-        (if (equal val (car list_))
-            (throw 'return_ list_))
+  (let* ((list_ (pew/cycle-list lst))
+         (max_ (length list_))
+         (index_ 0)
+         (result_ nil))
+    (while (and (not result_) (< index_ max_))
+      (if (equal val (car list_)) (setq result_ list_)
         (setq list_ (pew/cycle-list list_))
-        (setq index_ (1+ index_)))
-      (throw 'return_ nil))))
+        (setq index_ (1+ index_))))
+    result_))
 
 (defun pew/tokey (key)
   "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
