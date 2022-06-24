@@ -337,8 +337,8 @@
   '(list-threads disabled nil)
   '(list-timers disabled nil)
   '(dired-find-alternate-file disabled nil)
-  '(upcase-region 'disabled nil)
-  '(downcase-region 'disabled nil))
+  '(upcase-region disabled nil)
+  '(downcase-region disabled nil))
 
 ;;; Face settings
 (pew/set-face
