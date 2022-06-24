@@ -74,6 +74,12 @@
   mode-line-position-line-format '(" L%l")
   mode-line-position-column-line-format '(" [%l,%C]")
 
+  ;; Window
+  window-divider-default-right-width 1
+  window-divider-default-bottom-width 1
+  window-divider-default-places t ;; Right and bottom
+  window-divider-mode nil ;; Disabled by default
+
   ;; Line numbers
   display-line-numbers 'relative
   display-line-numbers-type 'relative
