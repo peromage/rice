@@ -7,7 +7,6 @@
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
   :demand t
-  :diminish (ivy-mode counsel-mode)
   :bind (("C-s" . swiper)
          ("C-x d" . counsel-dired)
          ("C-x f" . counsel-find-file)
@@ -81,7 +80,6 @@
 
 ;; Which-key is very informative to show keybindings when you forget them.
 (use-package which-key
-  :diminish which-key-mode
   :custom
   (which-key-popup-type 'side-window)
   (which-key-show-early-on-C-h nil)

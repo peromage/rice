@@ -18,7 +18,6 @@
 ;;; Status
 ;; `git-gutter-mode' displays line changes on the left margin.
 (use-package git-gutter
-  :diminish git-gutter-mode
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")

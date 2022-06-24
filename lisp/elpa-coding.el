@@ -7,7 +7,6 @@
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
   :demand t
-  :diminish company-mode
   :bind (:map company-mode-map
          ("C-c i" . company-complete)
          ([remap completion-at-point] . company-complete)
@@ -34,7 +33,6 @@
 
 ;;; Syntax and spell checker
 (use-package flycheck
-  :diminish flycheck-mode
   :config
   (global-flycheck-mode 1))
 
@@ -53,7 +51,6 @@
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet
-  :diminish yas-minor-mode
   :custom
   (yas-snippet-dirs (list (pew/normalize-path pew/home-dir "yasnippets")))
   :config

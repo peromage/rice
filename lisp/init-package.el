@@ -47,8 +47,5 @@ using the same syntax from `use-package' (unlike `with-eval-after-load')."
       use-package-compute-statistics nil
       use-package-verbose nil)
 
-;; `use-package' complementary packages
-(use-package diminish :ensure t)
-
 (provide 'init-package)
 ;;; init-package.el ends here
