@@ -1,40 +1,40 @@
-# Since there is random garbage introduced by some packages, it's a hassle to
-# pick our files from it. We use whitelist mode here to avoid troubles.
+# Emacs user directory is usually filled with random files. It would be a hassle
+# to exclude them all.  Thus whitelist mode is used in this gitignore file.
 
 # First, exclude all files
 *
 
 # Include elisp source files but not compiled byte files
-!lisp/
-!lisp/**
-list/**/*.elc
-!site-lisp/
-!site-lisp/**
-site-lisp/**/*.elc
+!/lisp/
+!/lisp/**
+/lisp/**/*.elc
+!/site-lisp/
+!/site-lisp/**
+/site-lisp/**/*.elc
 
 # Include yas-snippet files but not generated elisp files and compiled byte files
-!yasnippets/
-!yasnippets/**
-yasnippets/**/*.el
-yasnippets/**/*.elc
+!/yasnippets/
+!/yasnippets/**
+/yasnippets/**/*.el
+/yasnippets/**/*.elc
 
 # Include my rice config
-!rice/
-!rice/**
+!/rice/
+!/rice/**
 
 # Include tests
-!tests/
-!tests/**
+!/tests/
+!/tests/**
 
 # Include GitHub workflows
-!.github/
-!.github/**
+!/.github/
+!/.github/**
 
 # Include files at the repo root
-!.gitignore
-!.pew
-!LICENSE
-!README.md
-!README.org
-!early-init.el
-!init.el
+!/.gitignore
+!/.pew
+!/LICENSE
+!/README.md
+!/README.org
+!/early-init.el
+!/init.el
