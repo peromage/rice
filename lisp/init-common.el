@@ -407,7 +407,7 @@ Use `pew/hidden-buffer-p' to filter buffers."
 
 ;;; Dired
 (defun pew/dired-go-to ()
-  "Go into the current directory/file under the cursor without creating a new buffer."
+  "Go into the target under the cursor without creating a new buffer."
   (interactive)
   (dired-find-alternate-file))
 

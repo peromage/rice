@@ -56,7 +56,7 @@ STATES is a list of the form:
 The later buffer regex will have higher priority.
 Equivalent to:
   (push '(REG . STATE) evil-buffer-regexps)
-NOTE: Setting by buffer name patterns takes precedence over the mode based methods."
+NOTE: Buffer name patterns takes precedence over the mode based methods."
     (declare (indent 0))
     (if (pew/oddp (length states))
         (error "Incomplete patterns and states"))
@@ -122,7 +122,7 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
     (evil-set-register "*" (evil-get-register "/")))
 
   (defun pew/evil/replace-last-search ()
-    "Replace the PATTERN with REPLACEMENT, which is currently searched by evil ex search."
+    "Replace the currect Evil EX search."
     (interactive)
     (if (not evil-ex-search-pattern)
         (user-error "No search pattern found"))

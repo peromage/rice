@@ -46,7 +46,7 @@
 
 (provide 'init)
 ;;; Local Variables:
-;;; mode: ELisp
+;;; mode: emacs-lisp
 ;;; coding: utf-8
 ;;; no-byte-compile: t
 ;;; End:
