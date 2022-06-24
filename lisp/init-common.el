@@ -18,7 +18,7 @@ This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
     (let ((customs_ customs)
           (args_ nil))
       (while customs_
-        (push `'(,(pop customs_) ,(pop customs_)) args_))
+        (push `(list ',(pop customs_) ,(pop customs_)) args_))
       `(pew/set-custom* ,@(reverse args_))))
 
   (defmacro pew/define-keymap (newmap &rest bindings)
@@ -148,10 +148,10 @@ This macro calls `pew/special-buffer*' to evaluate given NAME at compile time. "
   "Set a list of CUSTOMS.
 Each custom element is a list of the form:
   (VAR VALUE [COMMENT])
-The VALUE will be evaluated before passing to `customize-set-variable'."
+Equivalent to calling `customize-set-variable'."
   (declare (indent 0))
   (dolist (custom_ customs)
-    (customize-set-variable (pop custom_) (eval (pop custom_)) (pop custom_))))
+    (customize-set-variable (pop custom_) (pop custom_) (pop custom_))))
 
 (defun pew/set-face (&rest faces)
   "Set FACES attributes.
