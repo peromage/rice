@@ -131,7 +131,7 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
             (push (cdr match_) result_)
           (error "No matching special buffer for %s" name_)))
       ;; Expand results
-      (or (and list-names_ concated (string-join result_ "\\|"))
+      (or (and list-names_ concated (mapconcat #'identity result_ "\\|"))
           (and list-names_ result_)
           (car result_))))
 
