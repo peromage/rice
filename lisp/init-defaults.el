@@ -64,11 +64,15 @@
   mouse-yank-at-point t
 
   ;; Status
-  column-number-indicator-zero-based nil
   column-number-mode t
   line-number-mode t
   size-indication-mode t
   ring-bell-function 'ignore
+  column-number-indicator-zero-based nil ;; Required by `doom-modeline'
+  ;; Modeline
+  mode-line-position-column-format '(" C%C") ;; one-based column number
+  mode-line-position-line-format '(" L%l")
+  mode-line-position-column-line-format '(" [%l,%C]")
 
   ;; Line numbers
   display-line-numbers 'relative
@@ -82,9 +86,10 @@
   minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
 
   ;; Tabbar
+  tab-bar-format '(tab-bar-format-tabs tab-bar-separator)
   tab-bar-close-button-show nil
   tab-bar-new-button-show nil
-  tab-bar-new-tab-choice nil
+  tab-bar-new-tab-choice nil ;; Duplicate current tab
   tab-bar-position t
   tab-bar-select-tab-modifiers '(meta)
   tab-bar-tab-hints t
