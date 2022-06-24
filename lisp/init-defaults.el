@@ -4,15 +4,14 @@
 ;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
 
 ;;; Code:
-;;; Custom settingis
-;; IMPORTANT NOTE:
-;; Most of vanilla options are defined with `defcustom', which means if they are
-;; set directly by `setq' they might NOT work as expected. However, if we use
+;; NOTE: Most of vanilla options are defined with `defcustom', which means if they
+;; are set directly by `setq' they might NOT work as expected. However, if we use
 ;; `custom-set-variables' they would work but `custom-file' would produce a bunch
 ;; of duplicated settings. To address this issue, we can use
 ;; `customize-set-variable'. It calls those options' setters if they have and
 ;; also prevents writting settings from this file to `custom-file'.
 
+;;; Custom settingis
 (pew/set-custom
 ;;;; Startup
   inhibit-startup-buffer-menu t
@@ -24,12 +23,12 @@
 ;;;; Windows and frames
   display-buffer-alist
   ;; Over-3-side-window causes troubles when toggling (I don't know)
-  '(("^ *\\*.*\\([Ss]hell\\|[Tt]erm\\(inal\\)?\\)\\*"
+  `((,(pew/special-buffer '(shell term help) t)
      (display-buffer-in-side-window)
      (window-height . 0.25)
      (side . bottom)
      (slot . 0))
-    ("^ *\\*.*\\([Hh]elp\\|[Mm]essages\\|[Bb]acktrace\\|[Ww]arnings\\|[Ll]og\\|[Cc]ompilation\\|[Oo]utput\\)\\*"
+    (,(pew/special-buffer '(message backtrace warning log compilation output) t)
      (display-buffer-in-side-window)
      (window-height . 0.25)
      (side . bottom)
@@ -183,19 +182,20 @@
   ;; ibuffer
   ibuffer-movement-cycle nil
   ;; Check `ibuffer-filtering-alist' for quilifiers.
-  ibuffer-saved-filter-groups '(("PEW"
-                                 ("Doc" (or (mode . org-mode)
-                                            (mode . markdown-mode)))
-                                 ("Dired" (mode . dired-mode))
-                                 ("Shell" (or (mode . shell-mode)
-                                              (mode . eshell-mode)
-                                              (mode . term-mode)
-                                              (mode . vterm-mode)))
-                                 ("Git" (name . "^[Mm]agit"))
-                                 ("VC" (name . "^ *\\*[Vv][Cc].*\\*"))
-                                 ("Ediff" (name . "^ *\\*[Ee]diff.*\\*"))
-                                 ;; Putting to last to avoid buffers being wrongly categorized as "special"
-                                 ("Special" (starred-name))))
+  ibuffer-saved-filter-groups
+  `(("PEW"
+     ("Doc" (or (mode . org-mode)
+                (mode . markdown-mode)))
+     ("Dired" (mode . dired-mode))
+     ("Shell" (or (mode . shell-mode)
+                  (mode . eshell-mode)
+                  (mode . term-mode)
+                  (mode . vterm-mode)))
+     ("Git" (name . ,(pew/special-buffer 'magit)))
+     ("VC" (name . ,(pew/special-buffer 'vc)))
+     ("Ediff" (name . ,(pew/special-buffer 'ediff)))
+     ;; Putting to last to avoid buffers being wrongly categorized as "special"
+     ("Special" (starred-name))))
 
   ;; isearch
   isearch-lazy-count t

@@ -75,6 +75,7 @@ For DEF's definition see `define-key'."
     "Define a command to switch VAR from values VALS.
 VALS is a list of values.  If VALS is not provided, VAR will be switched between
 non-nil and nil."
+    (declare (indent 1))
     (let ((switch-symbol_ (intern (concat "switch/" (symbol-name var)))))
       (if (not vals)
           `(defun ,switch-symbol_ ()
@@ -98,8 +99,9 @@ Created by `pew/define-switch'." var vals)
              (message "%s: %s" ',var ,var))))))
 
   (defvar pew/special-buffer-alist
-    '((magit . "^ *magit")
-      (vc . "^ *\\*vc-.*\\*$")
+    '((magit . "^ *[Mm]agit")
+      (vc . "^ *\\*[Vv][Cc]-.*\\*$")
+      (ediff . "^ *\\*[Ee]diff.*\\*$")
       (shell . "^ *\\*.*[Ss]hell\\*$")
       (term . "^ *\\*.*[Tt]erm\\(inal\\)?\\*$")
       (help . "^ *\\*.*[Hh]elp\\*$")
@@ -110,28 +112,37 @@ Created by `pew/define-switch'." var vals)
       (compilation . "^ *\\*.*[Cc]ompilation\\*$")
       (output . "^ *\\*.*[Oo]utput\\*$")
       (scratch . "^ *\\*[Ss]cratch\\*$")
-      (orgsrc . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+      (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
       ;; General special definitions go last
       (starred . "^ *\\*.*\\*$"))
     "An alist of special buffer pattern regex.")
 
-  (defmacro pew/special-buffer (name)
-    "List the given NAME as the corresponding buffer pattern.
-NAME is supposed to be quoted.  The value is from `pew/special-buffer-alist'.
-If NAME is a list then the result will be a list of matching patterns instead."
-    (let ((real-name_ (cadr name))
-          (result_ nil)
-          (match_ nil))
-      (if (listp real-name_)
-          (dolist (name_ real-name_)
-            (setq match_ (assoc name_ pew/special-buffer-alist))
-            (if match_ (push (cdr match_) result_)
-              (error "No matching special buffer for %s" name_)))
-        (setq match_ (assoc real-name_ pew/special-buffer-alist))
-        (if match_ (setq result_ (cdr match_))
-          (error "No matching special buffer for %s" real-name_)))
+  (defun pew/special-buffer* (name &optional concated)
+    "Return the corresponding buffer pattern with given NAME.
+NAME should be one of the keys from `pew/special-buffer-alist'.
+If NAME is a list then the result will be a list of matching patterns instead.
+If CONCATED is non-nil the result will be concatenated with '\\|'."
+    (declare (indent 0))
+    (let* ((list-names_ (listp name))
+           (names_ (if list-names_ (reverse name) (list name)))
+           (result_ nil)
+           (match_ nil))
+      (dolist (name_ names_)
+        (if (setq match_ (assoc name_ pew/special-buffer-alist))
+            (push (cdr match_) result_)
+          (error "No matching special buffer for %s" name_)))
       ;; Expand results
-      (if (listp result_) `'(,@(reverse result_)) result_))))
+      (or (and list-names_ concated (string-join result_ "\\|"))
+          (and list-names_ result_)
+          (car result_))))
+
+  (defmacro pew/special-buffer (name &optional concat)
+    "Expand given NAME to the corresponding buffer pattern.
+If CONCATED is non-nil the result will be concatenated with '\\|'.
+This macro calls `pew/special-buffer*' to evaluate given NAME at compile time. "
+    (declare (indent 0))
+    (let* ((result_ (pew/special-buffer* (cadr name) concat)))
+      (if (listp result_) `(quote ,result_) result_))))
 
 ;;; Setting helpers
 (defun pew/set-custom* (&rest customs)

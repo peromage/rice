@@ -181,22 +181,24 @@ NOTE: Setting by buffer name patterns takes precedence over the mode based metho
   ;; NOTE: This takes precedence over the mode initial states below
   (pew/evil/set-buffer-state
     ;; VC buffers
-    "^ *\\*vc-.*\\*" 'emacs
-    "^ *magit" 'emacs
+    (pew/special-buffer 'vc) 'emacs
+    (pew/special-buffer 'magit) 'emacs
+    (pew/special-buffer 'ediff) 'emacs
     ;; Motion buffers
-    "^ *\\*.*[Hh]elp\\*" 'motion
-    "^ *\\*.*[Mm]essages\\*" 'motion
-    "^ *\\*.*[Bb]acktrace\\*" 'motion
-    "^ *\\*.*[Ww]arnings\\*" 'motion
-    "^ *\\*.*[Ll]og\\*" 'motion
-    "^ *\\*.*[Cc]ompilation\\*" 'motion
+    (pew/special-buffer 'help) 'motion
+    (pew/special-buffer 'message) 'motion
+    (pew/special-buffer 'backtrace) 'motion
+    (pew/special-buffer 'warning) 'motion
+    (pew/special-buffer 'log) 'motion
+    (pew/special-buffer 'compilation) 'motion
+    (pew/special-buffer 'output) 'motion
     ;; Normal buffers
-    "^ *\\*[Ss]cratch\\*" 'normal
-    "^ *\\*.*[Ss]hell\\*" 'normal
-    "^ *\\*.*[Tt]erm\\(inal\\)?\\*" 'normal
-    "^ *\\*[Oo]rg [Ss]rc .*\\*" 'normal
+    (pew/special-buffer 'scratch) 'normal
+    (pew/special-buffer 'shell) 'normal
+    (pew/special-buffer 'term) 'normal
+    (pew/special-buffer 'org-src) 'normal
     ;; Fallback initial state for all special buffers
-    "^ *\\*.*\\*" 'emacs)
+    (pew/special-buffer 'starred) 'emacs)
 
   (pew/evil/set-mode-state
     ;; Major modes
