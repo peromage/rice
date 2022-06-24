@@ -52,8 +52,8 @@ BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 For DEF's definition see `define-key'."
     (declare (indent 1))
-    (let ((map-symbol_ (intern (concat (symbol-name cmd) "-map")))
-          (cmd-repeat-symbol_ (intern (concat (symbol-name cmd) "-repeat")))
+    (let ((map-symbol_ (intern (format "%s-map" cmd)))
+          (cmd-repeat-symbol_ (intern (format "%s-repeat" cmd)))
           (cmd-doc-string_ "Command created by `pew/define-transient-command'"))
       `(progn
          ;; Create the map used in transient mode
@@ -76,7 +76,7 @@ For DEF's definition see `define-key'."
 VALS is a list of values.  If VALS is not provided, VAR will be switched between
 non-nil and nil."
     (declare (indent 1))
-    (let ((switch-symbol_ (intern (concat "switch/" (symbol-name var)))))
+    (let ((switch-symbol_ (intern (format "switch/%s" var))))
       (if (not vals)
           `(defun ,switch-symbol_ ()
              ,(format "Switch variable `%s' between non-nil and nil.
