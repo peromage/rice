@@ -5,10 +5,10 @@
 
 ;;; Code:
 ;; NOTE: Most of vanilla options are defined with `defcustom', which means if they
-;; are set directly by `setq' they might NOT work as expected. However, if we use
+;; are set directly by `setq' they might NOT work as expected.  However, if we use
 ;; `custom-set-variables' they would work but `custom-file' would produce a bunch
-;; of duplicated settings. To address this issue, we can use
-;; `customize-set-variable'. It calls those options' setters if they have and
+;; of duplicated settings.  To address this issue, we can use
+;; `customize-set-variable'.  It calls those options' setters if they have and
 ;; also prevents writting settings from this file to `custom-file'.
 
 ;;; Custom settingis
@@ -63,16 +63,17 @@
   blink-cursor-mode nil
   mouse-yank-at-point t
 
-  ;; Status
+  ;; Misc
+  ring-bell-function 'ignore
+
+  ;; Modeline
+  column-number-indicator-zero-based nil ;; Required by `doom-modeline'
   column-number-mode t
   line-number-mode t
   size-indication-mode t
-  ring-bell-function 'ignore
-  column-number-indicator-zero-based nil ;; Required by `doom-modeline'
-  ;; Modeline
   mode-line-position-column-format '(" C%C") ;; one-based column number
   mode-line-position-line-format '(" L%l")
-  mode-line-position-column-line-format '(" [%l,%C]")
+  mode-line-position-column-line-format '(" %l:%C")
 
   ;; Window
   window-divider-default-right-width 1
