@@ -56,7 +56,8 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
       (:switch . pew/set-switch)
       (:face . pew/set-face)
       (:property . pew/set-property)
-      (:hook . pew/set-hook))
+      (:hook . pew/set-hook)
+      (:eval . pew/set-eval))
     "An alist of keywords used in `pew/config' to specify sections.
 The value of each element is the expansion helper of that section.")
 
@@ -206,6 +207,10 @@ Where HOOK implies suffix '-hook'."
     (let ((hook_ (intern (format "%s-hook" (car form))))
           (func_ (cdr form)))
       `(add-hook ',hook_ #',func_)))
+
+  (defmacro pew/set-eval (form)
+    "Simply evaluate FORM and nothing else."
+    form)
 
 ;;;; Macro utilities
   (defmacro pew/swap (a b)
