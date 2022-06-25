@@ -7,96 +7,7 @@
 ;;; Code:
 ;;; Things which need to be evaluated at compile-time
 (eval-and-compile
-  (defmacro pew/set-custom (&rest customs)
-    "Set CUSTOMS variables.
-CUSTOMS is a list of the form:
-  (VAR VALUE VAR VALUE ...)
-This macro quotes VAR, constructs a list and passes it to `pew/set-custom*'."
-    (declare (indent 0))
-    (unless (zerop (mod (length customs) 2))
-      (error "Incomplete variables and values"))
-    (let ((customs_ customs)
-          (args_ nil))
-      (while customs_
-        (push `(list ',(pop customs_) ,(pop customs_)) args_))
-      `(pew/set-custom* ,@(reverse args_))))
-
-  (defmacro pew/define-keymap (newmap &rest bindings)
-    "Create a new map with name NEWMAP and bind key BINDINGS with it.
-BINDINGS is a list of the form:
-  (KEY DEF KEY DEF ...)
-For DEF's definition see `define-key'.
-The arguments will be collected in pairs and passed to `define-key'.
-Equivalent to:
-  (define-key NEWMAP KEY DEF)"
-    (declare (indent 1))
-    `(let ((map_ (make-sparse-keymap))
-           (bindings_ (list ,@bindings)))
-       (while bindings_
-         (define-key map_ (pew/tokey (pop bindings_)) (pop bindings_)))
-       (defvar ,newmap map_ "Keymap created by `pew/define-keymap'")))
-
-  (defmacro pew/define-transient-command (cmd &rest bindings)
-    "Create a transient map for a dummy command CMD and its key BINDINGS.
-CMD is the name of the command.
-This function will create two interactive commands CMD and CMD-repeat as well as
-a keymap CMD-map.
-Once CMD is invoked CMD-map will be temporarily activated.  The difference
-between CMD and CMD-repeat is CMD only receive one followed key press while
-CMD-repeat keeps receiving key press until an undefined key passed.
-See `set-transient-map'.
-Obsoleted `repeat-map' property method in Emacs 28 since it didn't work well for
-some reason:
-  (put cmd 'repeat-map map-symbol)
-BINDINGS is a list of the form:
-  (KEY DEF KEY DEF ...)
-For DEF's definition see `define-key'."
-    (declare (indent 1))
-    (let ((map-symbol_ (intern (format "%s-map" cmd)))
-          (cmd-repeat-symbol_ (intern (format "%s-repeat" cmd)))
-          (cmd-doc-string_ "Command created by `pew/define-transient-command'"))
-      `(progn
-         ;; Create the map used in transient mode
-         (pew/define-keymap ,map-symbol_ ,@bindings)
-         ;; Create the commands
-         (defun ,cmd ()
-           ,cmd-doc-string_
-           (interactive)
-           (message "%s activated" ',cmd)
-           (set-transient-map ,map-symbol_ nil))
-         (defun ,cmd-repeat-symbol_ ()
-           ,cmd-doc-string_
-           (interactive)
-           (message "%s activated" ',cmd-repeat-symbol_)
-           (set-transient-map ,map-symbol_ t)))))
-
-  ;; Switch command macro
-  (defmacro pew/define-switch (var &optional vals)
-    "Define a command to switch VAR from values VALS.
-VALS is a list of values.  If VALS is not provided, VAR will be switched between
-non-nil and nil."
-    (declare (indent 1))
-    (let ((switch-symbol_ (intern (format "switch/%s" var))))
-      (if (not vals)
-          `(defun ,switch-symbol_ ()
-             ,(format "Switch variable `%s' between non-nil and nil.
-Created by `pew/define-switch'." var)
-             (interactive)
-             (setq ,var (not ,var))
-             ;; Display status
-             (message "%s: %s" ',var (if ,var "enabled" "disabled")))
-        `(defun ,switch-symbol_ ()
-           ,(format "Switch variable `%s' in the following values
-  %S
-Created by `pew/define-switch'." var vals)
-           (interactive)
-           (let* ((vals_ ,vals)
-                  (matches_ (pew/sync-list ,var vals_)))
-             (if matches_
-                 (setq ,var (car (pew/cycle-list matches_)))
-               (setq ,var (car vals_)))
-             (message "%s: %s" ',var ,var))))))
-
+;;;; Buffer definitions
   (defvar pew/special-buffer-alist
     '((magit . "^ *[Mm]agit")
       (vc . "^ *\\*[Vv][Cc]-.*\\*$")
@@ -141,105 +52,217 @@ If CONCATED is non-nil the result will be concatenated with '\\|'.
 This macro calls `pew/special-buffer*' to evaluate given NAME at compile time. "
     (declare (indent 0))
     (let* ((result_ (pew/special-buffer* (cadr name) concat)))
-      (if (listp result_) `(quote ,result_) result_))))
+      (if (listp result_) `(quote ,result_) result_)))
 
-;;; Setting helpers
-(defun pew/set-custom* (&rest customs)
-  "Set a list of CUSTOMS.
-Each custom element is a list of the form:
+;;;; Configuration helpers
+  (defvar pew/config-keywords
+    '((:custom . pew/set-custom)
+      (:map . pew/set-map)
+      (:bind . pew/set-bind)
+      (:transient . pew/set-transient)
+      (:switch . pew/set-switch)
+      (:face . pew/set-face)
+      (:property . pew/set-property)
+      (:hook . pew/set-hook))
+    "An alist of keywords used in `pew/config' to specify sections.
+The value of each element is the expansion helper of that section.")
+
+  (defmacro pew/config (&rest args)
+    "Configuration helper.
+The available keywords are registered in `pew/config-keywords'.
+ARGS is a list of forms.  See section helpers for the form definitions."
+    (declare (indent 0))
+    (if (not (symbolp (car args)))
+        (error "Missing keyword"))
+    (let ((helper_ nil)
+          (section_ nil)
+          (result_ '(progn)))
+      (dolist (item_ args)
+        (cond ((and (symbolp item_) (setq section_ (assoc item_ pew/config-keywords)))
+               (setq helper_ (cdr section_)))
+              ((and (symbolp item_) (not section_))
+               (error "Wrong keyword: %s" item_))
+              (t
+               (push (list helper_ item_) result_))))
+      (reverse result_)))
+
+  (defmacro pew/set-custom (form)
+    "Set custom variables or regular variables.
+FORM is of the form:
   (VAR VALUE [COMMENT])
-Equivalent to calling `customize-set-variable'."
-  (declare (indent 0))
-  (dolist (custom_ customs)
-    (customize-set-variable (pop custom_) (pop custom_) (pop custom_))))
+Underlying implementation uses `customize-set-variable'."
+    (declare (indent 0))
+    `(customize-set-variable ',(pop form) ,(pop form) ,(pop form)))
 
-(defun pew/set-face (&rest faces)
-  "Set FACES attributes.
-FACES is a list of the form:
-  ('(FACE ATTR VALUE ATTR VALUE ...) '(FACE ATTR VALUE ATTR VALUE ...) ...)
-Each element will be passed to `set-face-attribute'.
-Equivalent to:
-  (set-face-attribute FACE nil ATTR VALUE ATTR VALUE ...)"
-  (declare (indent 0))
-  (dolist (attr_ faces)
-    (apply 'set-face-attribute (pop attr_) nil attr_)))
-
-(defun pew/set-key (map &rest bindings)
-  "Bind BINDINGS in MAP.
-BINDINGS is a list of the form:
-  (KEY DEF KEY DEF ...)
+  (defmacro pew/set-map (form)
+    "Create a new map and bind keys with it.
+FORM is of the form:
+  (MAP BINDINGS)
+Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
+  (KEY . DEF)
 For DEF's definition see `define-key'.
-The arguments will be collected in pairs and passed to `define-key'.
-Equivalent to:
-  (define-key MAP KEY DEF)"
-  (declare (indent 1))
-  (if (pew/oddp (length bindings))
-      (error "Incomplete keys and definitions"))
-  (let ((bindings_ bindings))
-    (while bindings_
-      (define-key map (pew/tokey (pop bindings_)) (pop bindings_)))))
+Note: Unlike `pew/set-bind' this macro creates a new map.  It will not be
+effective if the map already exists."
+    (declare (indent 0))
+    (let ((map_ (intern (format "%s-map" (car form))))
+          (bindings_ (cdr form)))
+      `(let ((keymap_ (make-sparse-keymap)))
+         (dolist (bind_ ',bindings_)
+           (define-key keymap_ (pew/tokey (car bind_)) (cdr bind_)))
+         (defvar ,map_ keymap_ "Created by `pew/set-map'"))))
 
-(defun pew/set-property (&rest properties)
-  "Set PROPERTIES for symbols.
-Each element in PROPERTIES is of the form:
-  (SYM PROP VAL)
-The arguments will be passed to `put' one by one.
-Equivalent to:
-  (put SYM PROP VAL)"
-  (declare (indent 0))
-  (dolist (prop_ properties)
-    (put (pop prop_) (pop prop_) (pop prop_))))
+  (defmacro pew/set-bind (form)
+    "Bind keys with an existing map.
+FORM is of the form:
+  (MAP BINDINGS)
+Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
+  (KEY . DEF)
+For DEF's definition see `define-key'."
+    (declare (indent 0))
+    (let ((map_ (intern (format "%s-map" (car form))))
+          (bindings_ (cdr form)))
+      `(dolist (bind_ ',bindings_)
+         (define-key ,map_ (pew/tokey (car bind_)) (cdr bind_)))))
 
-(defun pew/set-hook (&rest hooks)
-  "Add HOOKS.
-HOOKS is a list of the form:
-  (HOOK FUNC HOOK FUNC ...)
-The arguments will be collected in pairs and passed to `add-hook'.
-Equivalent to:"
-  (declare (indent 0))
-  (if (pew/oddp (length hooks))
-      (error "Incomplete hooks and functions"))
-  (let ((hooks_ hooks))
-    (while hooks_
-      (add-hook (pop hooks_) (pop hooks_)))))
+  (defmacro pew/set-transient (form)
+    "Create a command that enters transient mode when invoked.
+FORM is of the form:
+  (CMD BINDINGS)
+Where CMD is the name of the command and BINDINGS is an alist whose element is:
+  (KEY . DEF)
+For DEF's definition see `define-key'.
+A map CMD-map and two commands CMD and CMD-repeat will be created.
+Once CMD is invoked CMD-map will be temporarily activated.  The difference
+between CMD and CMD-repeat is CMD only receive one followed key press while
+CMD-repeat keeps receiving key press until an undefined key passed.
+See `set-transient-map'.
+Note: Obsoleted `repeat-map' property method in Emacs 28 since it didn't work
+well for some reason:
+  (put cmd 'repeat-map map-symbol)"
+    (declare (indent 0))
+    (let* ((cmd_ (car form))
+           (cmd-repeat_ (intern (format "%s-repeat" cmd_)))
+           (cmd-doc-string_ "Created by `pew/set-transient'"))
+      `(let ((map_ (pew/set-map ,form)))
+         (defun ,cmd_ ()
+           ,cmd-doc-string_
+           (interactive)
+           (message "%s activated" ',cmd_)
+           (set-transient-map map_ nil))
+         (defun ,cmd-repeat_ ()
+           ,cmd-doc-string_
+           (interactive)
+           (message "%s activated" ',cmd-repeat_)
+           (set-transient-map map_ t)))))
 
-;;; Utilities
-(defun pew/evenp (num)
-  "Determine if NUM is odd."
-  (zerop (mod num 2)))
+  (defmacro pew/set-switch (form)
+    "Create a command to switch variable between values.
+FORM is of the form:
+  (VAR VAL)
+Where VAL can be nil or a list.  If VAL is nil then VAR will be switched between
+non-nil and nil each time the command is called, otherwise cycle values from the
+list.
+The created command will be 'switch/VAR'."
+    (declare (indent 0))
+    (let* ((var_ (car form))
+           (val_ (cadr form))
+           (switch_ (intern (format "switch/%s" var_))))
+      (if (not val_)
+          ;; On-off switch
+          `(defun ,switch_ ()
+             ,(format "Switch variable `%s' between non-nil and nil.
+Created by `pew/set-switch'." var_)
+             (interactive)
+             (setq ,var_ (not ,var_))
+             (message "%s: %s" ',var_ (if ,var_ "enabled" "disabled")))
+        ;; Rotate switch
+        `(defun ,switch_ ()
+           ,(format "Switch variable `%s' in the following values
+  %S
+Created by `pew/set-switch'." var_ val_)
+           (interactive)
+           (let* ((list_ ,val_)
+                  (match_ (pew/rotate-head list_ ,var_ 'next)))
+             (if match_ (setq ,var (car match_))
+               ;; Reset the variable if no match
+               (setq ,var (car list_)))
+             (message "%s: %s" ',var_ ,var_))))))
 
-(defun pew/oddp (num)
-  "Determine if NUM is odd."
-  (not (pew/evenp num)))
+  (defmacro pew/set-face (form)
+    "Set face attributes.
+FORM is of the form:
+  (FACE ARGS)
+Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
+See `set-face-attribute'."
+    (declare (indent 0))
+    `(set-face-attribute ,(car form) nil ,@(cdr form)))
 
-(defmacro pew/swap (a b)
-  "Swap values in A and B."
-  `(setq ,a (prog1 ,b (setq ,b ,a))))
+  (defmacro pew/set-property (form)
+    "Set symbol's property.
+FORM is of the form:
+  (SYM PROP VAL)"
+    (declare (indent 0))
+    `(put ',(pop prop_) ',(pop prop_) ,(pop prop_)))
 
-(defun pew/cycle-list (lst)
-  "Put the first element in the LST to the last.
-This function doesn't modify the passed-in LST."
-  (if (listp lst) (append (cdr lst) (cons (car lst) nil)) nil))
+  (defmacro pew/set-hook (form)
+    "Set function to a hook.
+FORM is a cons:
+  (HOOK . FUNC)
+Where HOOK implies suffix '-hook'."
+    (declare (indent 0))
+    (let ((hook_ (intern (format "%s-hook" (car form))))
+          (func_ (cdr form)))
+      `(add-hook ',hook_ #',func_)))
 
-(defun pew/sync-list (val lst)
-  "Cycle LST until the first element equals VAL.
-Return a list with VAL as the first element or nil if no matching element found.
-This function doesn't modify the passed-in LST."
-  (let* ((list_ (pew/cycle-list lst))
-         (max_ (length list_))
-         (index_ 0)
-         (result_ nil))
-    (while (and (not result_) (< index_ max_))
-      (if (equal val (car list_)) (setq result_ list_)
-        (setq list_ (pew/cycle-list list_))
-        (setq index_ (1+ index_))))
-    result_))
+;;;; Macro utilities
+  (defmacro pew/swap (a b)
+    "Swap values in A and B."
+    `(setq ,a (prog1 ,b (setq ,b ,a))))
 
-(defun pew/tokey (key)
-  "Convert KEY to the form that can be bound with `global-set-key' or `define-key'.
+  (defmacro pew/tokey (key)
+    "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-  (if (stringp key) (kbd key) key))
+    (if (vectorp key) key
+      `(kbd ,key)))
+
+  (defmacro pew/evenp (num)
+    "Determine if NUM is odd."
+    `(zerop (mod ,num 2)))
+
+  (defmacro pew/oddp (num)
+    "Determine if NUM is odd."
+    `(not (zerop (mod ,num 2))))
+
+  (defmacro pew/rotate (list &optional reverse)
+    "Rotate the LIST by putting the first element to the last.
+If REVERSE is non-nil the do it in a opposite way by putting the last element
+to the first.
+Return a new list or nil if LIST is nil."
+    (cond ((not list) nil)
+          ((not reverse)
+           `(let ((list_ ,list)) (append (cdr list_) (cons (car list_) nil))))
+          (t
+           `(let ((list_ ,list)) (append (last list_) (butlast list_))))))
+
+  (defmacro pew/rotate-head (list value &optional next)
+    "Rotate LIST and find the matching VALUE.
+When NEXT is non-nil the returned list head will be the followed value of the
+matching one (VALUE will be on the tail).
+Return a new list with VALUE is the first element.  Or nil when either LIST is
+nil or VALUE is not found."
+    `(let* ((list_ ,list)
+            (cond_ list_)
+            (value_ ,value)
+            (tail_ nil))
+       (while cond_
+         (if (equal value_ (car cond_))
+             (setq tail_ cond_
+                   cond_ nil)
+           (pop cond_)))
+       (if (not tail_) nil
+         (setq tail_ (append tail_ (butlast list_ (length tail_))))
+         ,(if next '(pew/rotate tail_) 'tail_)))))
 
 ;;; Debugging
 (defun pew/reload-init-file ()
