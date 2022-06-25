@@ -76,16 +76,20 @@
   (mode-line-position-line-format '(" L%l"))
   (mode-line-position-column-line-format '(" %l:%C"))
   (mode-line-percent-position '(-3 "%o"))
+  (mode-line-defining-kbd-macro '(:propertize " Macro" face mode-line-emphasis))
   ;; Simplify mode display
   (mode-line-modes (mapcar (lambda (x)
-                             (cond ((and (listp x)
-                                         (listp (cadr x))
-                                         (eq 'minor-mode-alist (cadr (cadr x))))
-                                    nil)
-                                   ((and (stringp x)
-                                         (string-match-p "^[()]$" x))
-                                    nil)
-                                   (t x)))
+                             (cond
+                              ;; Minimize minor mode indicator
+                              ((and (listp x)
+                                    (listp (cadr x))
+                                    (eq 'minor-mode-alist (cadr (cadr x))))
+                               '((defining-kbd-macro mode-line-defining-kbd-macro)))
+                              ;; Remove parens around mode indicator
+                              ((and (stringp x)
+                                    (string-match-p "^[()]$" x))
+                               nil)
+                              (t x)))
                            mode-line-modes))
 
   ;; Window
