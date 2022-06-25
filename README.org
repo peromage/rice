@@ -11,7 +11,9 @@ This configuration intends to be as minimal as possible.  It also prioritize usi
 Additionally for convenience, I included my personal configuration collection for other apps in this repo.  They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
 
 ** Features
+- Modular
 - Light and quick
+- Minimal init support
 - Terminal friendly
 - Respect Emacs vanilla key bindings
 - Evil mode (~evil-motion-state~ and ~evil-emacs-state~ are used out side of editing buffers)
@@ -33,7 +35,7 @@ Disposable changes can go into =local.el= including settings from ~customize~.
 
 =local.el= will be applied on top of the default pew configuration.
 
-*** List of files and directories
+*** List of Files and Directories
 
 #+begin_example
 pew
@@ -56,6 +58,8 @@ To respect Emacs key bindings, there are only a few modification on the original
 
 For the personal key bindings, they are defined in a transient map by calling either =pewkey= or =pewkey-repeat=.
 
+The principle is to keep keybindings mnemonic.
+
 See [[./lisp/init-defaults.el][init-default.el]]
 
 *** Evil Mode
@@ -63,33 +67,8 @@ Evil key bindings are defined with leader key =SPC=.  There are not too many.  M
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]]
 
-*** Principles
-When binding keys I follow these principles to make them mnemonic.
-
-| Key | Meaning                   |
-|-----+---------------------------|
-| q   | Quit; Close window        |
-| Q   | Quit; Close all           |
-| s   | Split horizontally        |
-| v   | Split vertically          |
-| t   | New tab                   |
-| w   | Write file                |
-|-----+---------------------------|
-| h   | Move focus left           |
-| j   | Move focus down           |
-| k   | Move focus up             |
-| l   | Move focus right          |
-| m   | Move tab forward          |
-| M   | Move tab backward         |
-| f   | Move tab focus forward    |
-| b   | Move tab focus backward   |
-| n   | Switch to next buffer     |
-| p   | Switch to previous buffer |
-| u   | Undo (actions)            |
-| r   | Redo (actions)            |
-
 ** Philosophy
-*** Consideration of design
+*** Consideration of Design
 The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.  But when I write my own files I keep these points in mind:
 
 1. Keep it simple and minimal
@@ -98,9 +77,14 @@ I don't want to make my Emacs become some sort of IDE monster so the main focus 
 2. Keep it modular
 Each module doesn't have cross references to each other so any one of them can be plugged in and out at any time (except for the =init-common= which is a common library used by other modules).
 
-If there is no Internet to download packages it's possible to keep only =init-common= and =init-default= in =init.el= to bring some sweet stuff to vanilla Emacs.
+If there is no Internet to download packages it's possible to keep only =init-common= and =init-default= in =init.el= to bring some sweet stuff to vanilla Emacs.  Or alternatively define =pew/mini-init= as non-nil and load [[./init.el][init.el]] from your own init file.
 
-*** Literal configuration?
+3. Configuration management
+Packages are managed by =use-package= with =use-package-always-ensure= enabled so packages should be installed automatically, which is straight forward.  However, I do manage to keep vanilla Emacs at one place without involving third party packages so it can be used independently.  This has been mentioned above.
+
+For this purpose, I do have a personal customization helper called =pew/config= which is a replicate of =use-package= but adapted into my personal taste.  With this helper the configuration syntax is unified and elegant.
+
+*** Literal Configuration?
 No.  A short answer is it's not my style.
 
 Don't give me wrong.  I'm an Org user and I use =ox-hugo= to manage my blog articles.  I've heard a lot people talking about literal configuration and how good it is then I gave it a try, but it didn't work well for me.
