@@ -27,32 +27,25 @@
       (starred . "^ *\\*.*\\*$"))
     "An alist of special buffer pattern regex.")
 
-  (defun pew/special-buffer* (name &optional concated)
+  (defmacro pew/special-buffer (name &optional concated)
     "Return the corresponding buffer pattern with given NAME.
 NAME should be one of the keys from `pew/special-buffer-alist'.
 If NAME is a list then the result will be a list of matching patterns instead.
 If CONCATED is non-nil the result will be concatenated with '\\|'."
     (declare (indent 0))
-    (let* ((list-names_ (listp name))
-           (names_ (if list-names_ (reverse name) (list name)))
-           (result_ nil)
-           (match_ nil))
-      (dolist (name_ names_)
-        (if (setq match_ (assoc name_ pew/special-buffer-alist))
-            (push (cdr match_) result_)
-          (error "No matching special buffer for %s" name_)))
-      ;; Expand results
-      (or (and list-names_ concated (mapconcat #'identity result_ "\\|"))
-          (and list-names_ result_)
-          (car result_))))
-
-  (defmacro pew/special-buffer (name &optional concat)
-    "Expand given NAME to the corresponding buffer pattern.
-If CONCATED is non-nil the result will be concatenated with '\\|'.
-This macro calls `pew/special-buffer*' to evaluate given NAME at compile time. "
-    (declare (indent 0))
-    (let* ((result_ (pew/special-buffer* (cadr name) concat)))
-      (if (listp result_) `(quote ,result_) result_)))
+    (if (symbolp name)
+        ;; Single output
+        (cdr (assoc name pew/special-buffer-alist))
+      (let ((result_ nil)
+            (match_ nil))
+        (dolist (name_ name)
+          (if (setq match_ (assoc name_ pew/special-buffer-alist))
+              (push (cdr match_) result_)
+            (error "No matching special buffer for %s" name_)))
+        (setq result_ (reverse result_))
+        (if concated
+            (mapconcat #'identity result_ "\\|")
+          `(list ,@result_)))))
 
 ;;;; Configuration helpers
   (defvar pew/config-keywords
@@ -312,7 +305,7 @@ loaded from other places.")
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew/hidden-buffers (pew/special-buffer '(magit starred))
+(defvar pew/hidden-buffers (pew/special-buffer (magit starred))
   "Buffers that are hiddens in general scenarios.")
 
 (defun pew/hidden-buffer-p (name)
