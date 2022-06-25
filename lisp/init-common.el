@@ -267,11 +267,18 @@ nil or VALUE is not found."
   (interactive)
   (find-file user-init-file))
 
-(defun pew/expand-macro (form &optional all)
-  "Expand macro the first level (or ALL) in FORM and print the expanded code."
-  (let ((expanded_ (if all (macroexpand-all form) (macroexpand form))))
-    (message "Expanded macro: %S" expanded_)
-    expanded_))
+(defmacro pew/expand-macro (form &optional all)
+  "Expand the macro in FORM and print the expanded results.
+Possible value for ALL:
+  nil              - call `macroexpand'
+  1                - call `macroexpand-1'
+  any other values - call `macroexpand-all'
+The result will be shown in message buffer.  Return nil to reduce confusion."
+  (let ((helper_ (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
+    (pcase all
+        ('nil `(,helper_ 'macroexpand ',form))
+        ('1 `(,helper_ 'macroexpand-1 ',form))
+        (_ `(,helper_ 'macroexpand-all ',form)))))
 
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
