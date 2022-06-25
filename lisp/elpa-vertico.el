@@ -38,8 +38,8 @@
 (use-package consult
   :init
   ;; Toggle auto preview
-  ;; The value is (kbd "C-M-n") see custom `consult-preview-key' below
-  (pew/define-switch consult-preview-key '([134217742] any))
+  ;; The value is (kbd "C-o") see custom `consult-preview-key' below
+  (pew/set-switch (consult-preview-key '("" any)))
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)

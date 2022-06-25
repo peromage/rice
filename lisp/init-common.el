@@ -92,7 +92,7 @@ FORM is of the form:
   (VAR VALUE [COMMENT])
 Underlying implementation uses `customize-set-variable'."
     (declare (indent 0))
-    `(customize-set-variable ',(pop form) ,(pop form) ,(pop form)))
+    `(customize-set-variable ',(nth 0 form) ,(nth 1 form) ,(nth 2 form)))
 
   (defmacro pew/set-map (form)
     "Create a new map and bind keys with it.
@@ -148,12 +148,12 @@ well for some reason:
            ,cmd-doc-string_
            (interactive)
            (message "%s activated" ',cmd_)
-           (set-transient-map map_ nil))
+           (set-transient-map (symbol-value map_) nil))
          (defun ,cmd-repeat_ ()
            ,cmd-doc-string_
            (interactive)
            (message "%s activated" ',cmd-repeat_)
-           (set-transient-map map_ t)))))
+           (set-transient-map (symbol-value map_) t)))))
 
   (defmacro pew/set-switch (form)
     "Create a command to switch variable between values.
@@ -183,9 +183,9 @@ Created by `pew/set-switch'." var_ val_)
            (interactive)
            (let* ((list_ ,val_)
                   (match_ (pew/rotate-head list_ ,var_ 'next)))
-             (if match_ (setq ,var (car match_))
+             (if match_ (setq ,var_ (car match_))
                ;; Reset the variable if no match
-               (setq ,var (car list_)))
+               (setq ,var_ (car list_)))
              (message "%s: %s" ',var_ ,var_))))))
 
   (defmacro pew/set-face (form)
@@ -195,14 +195,14 @@ FORM is of the form:
 Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
 See `set-face-attribute'."
     (declare (indent 0))
-    `(set-face-attribute ,(car form) nil ,@(cdr form)))
+    `(set-face-attribute ',(car form) nil ,@(cdr form)))
 
   (defmacro pew/set-property (form)
     "Set symbol's property.
 FORM is of the form:
   (SYM PROP VAL)"
     (declare (indent 0))
-    `(put ',(pop prop_) ',(pop prop_) ,(pop prop_)))
+    `(put ',(nth 0 form) ',(nth 1 form) ,(nth 2 form)))
 
   (defmacro pew/set-hook (form)
     "Set function to a hook.
@@ -223,8 +223,7 @@ Where HOOK implies suffix '-hook'."
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    (if (vectorp key) key
-      `(kbd ,key)))
+    `(let ((key_ ,key)) (if (vectorp key_) key_ (kbd key_))))
 
   (defmacro pew/evenp (num)
     "Determine if NUM is odd."
