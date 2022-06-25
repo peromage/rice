@@ -135,7 +135,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
 
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
-  (define-advice evil-visual-update-x-selection (:override (&rest args) pew/evil/visual-update-x-selection))
+  (define-advice evil-visual-update-x-selection (:override (&rest _) pew/evil/visual-update-x-selection))
 
 ;;;; Evil custom
   :custom

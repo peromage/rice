@@ -76,15 +76,15 @@
   mode-line-position-column-line-format '(" %l:%C")
   mode-line-percent-position '(-3 "%o")
   ;; Simplify mode display
-  mode-line-modes (mapcar (lambda (_)
-                            (cond ((and (listp _)
-                                        (listp (cadr _))
-                                        (eq 'minor-mode-alist (cadr (cadr _))))
+  mode-line-modes (mapcar (lambda (x)
+                            (cond ((and (listp x)
+                                        (listp (cadr x))
+                                        (eq 'minor-mode-alist (cadr (cadr x))))
                                    nil)
-                                  ((and (stringp _)
-                                        (string-match-p "^[()]$" _))
+                                  ((and (stringp x)
+                                        (string-match-p "^[()]$" x))
                                    nil)
-                                  (t _)))
+                                  (t x)))
                           mode-line-modes)
 
   ;; Window
