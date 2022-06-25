@@ -26,7 +26,7 @@
 
 ;;; Use `use-package' to simplify package configuration
 ;; Install `use-package'
-(eval-when-compile
+(eval-and-compile
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
   (message "[pew] Loading use-package")
