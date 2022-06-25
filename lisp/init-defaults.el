@@ -71,9 +71,24 @@
   column-number-mode t
   line-number-mode t
   size-indication-mode t
+  mode-line-compact 'long
   mode-line-position-column-format '(" C%C") ;; one-based column number
   mode-line-position-line-format '(" L%l")
   mode-line-position-column-line-format '(" %l:%C")
+  mode-line-percent-position '(-3 "%o")
+  ;; Simplify mode display
+  mode-line-modes
+  (mapcar
+   (lambda (_)
+     (cond ((and (listp _)
+                 (listp (cadr _))
+                 (eq 'minor-mode-alist (cadr (cadr _))))
+            nil)
+           ((and (stringp _)
+                 (string-match-p "^[()]$" _))
+            nil)
+           (t _)))
+   mode-line-modes)
 
   ;; Window
   window-divider-default-right-width 1
