@@ -21,18 +21,17 @@
   initial-scratch-message ""
 
 ;;;; Windows and frames
-  display-buffer-alist
-  ;; Over-3-side-window causes troubles when toggling (I don't know)
-  `((,(pew/special-buffer '(shell term help) t)
-     (display-buffer-in-side-window)
-     (window-height . 0.25)
-     (side . bottom)
-     (slot . 0))
-    (,(pew/special-buffer '(message backtrace warning log compilation output) t)
-     (display-buffer-in-side-window)
-     (window-height . 0.25)
-     (side . bottom)
-     (slot . 1)))
+  ;; Over-3-side-window causes troubles when toggling (I don't know why)
+  display-buffer-alist `((,(pew/special-buffer '(shell term help) t)
+                          (display-buffer-in-side-window)
+                          (window-height . 0.25)
+                          (side . bottom)
+                          (slot . 0))
+                         (,(pew/special-buffer '(message backtrace warning log compilation output) t)
+                          (display-buffer-in-side-window)
+                          (window-height . 0.25)
+                          (side . bottom)
+                          (slot . 1)))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
   split-height-threshold 20 ; 10 lines minimal
@@ -77,18 +76,16 @@
   mode-line-position-column-line-format '(" %l:%C")
   mode-line-percent-position '(-3 "%o")
   ;; Simplify mode display
-  mode-line-modes
-  (mapcar
-   (lambda (_)
-     (cond ((and (listp _)
-                 (listp (cadr _))
-                 (eq 'minor-mode-alist (cadr (cadr _))))
-            nil)
-           ((and (stringp _)
-                 (string-match-p "^[()]$" _))
-            nil)
-           (t _)))
-   mode-line-modes)
+  mode-line-modes (mapcar (lambda (_)
+                            (cond ((and (listp _)
+                                        (listp (cadr _))
+                                        (eq 'minor-mode-alist (cadr (cadr _))))
+                                   nil)
+                                  ((and (stringp _)
+                                        (string-match-p "^[()]$" _))
+                                   nil)
+                                  (t _)))
+                          mode-line-modes)
 
   ;; Window
   window-divider-default-right-width 1
@@ -209,20 +206,19 @@
   ;; ibuffer
   ibuffer-movement-cycle nil
   ;; Check `ibuffer-filtering-alist' for quilifiers.
-  ibuffer-saved-filter-groups
-  `(("PEW"
-     ("Doc" (or (mode . org-mode)
-                (mode . markdown-mode)))
-     ("Dired" (mode . dired-mode))
-     ("Shell" (or (mode . shell-mode)
-                  (mode . eshell-mode)
-                  (mode . term-mode)
-                  (mode . vterm-mode)))
-     ("Git" (name . ,(pew/special-buffer 'magit)))
-     ("VC" (name . ,(pew/special-buffer 'vc)))
-     ("Ediff" (name . ,(pew/special-buffer 'ediff)))
-     ;; Putting to last to avoid buffers being wrongly categorized as "special"
-     ("Special" (starred-name))))
+  ibuffer-saved-filter-groups `(("PEW"
+                                 ("Doc" (or (mode . org-mode)
+                                            (mode . markdown-mode)))
+                                 ("Dired" (mode . dired-mode))
+                                 ("Shell" (or (mode . shell-mode)
+                                              (mode . eshell-mode)
+                                              (mode . term-mode)
+                                              (mode . vterm-mode)))
+                                 ("Git" (name . ,(pew/special-buffer 'magit)))
+                                 ("VC" (name . ,(pew/special-buffer 'vc)))
+                                 ("Ediff" (name . ,(pew/special-buffer 'ediff)))
+                                 ;; Putting to last to avoid buffers being wrongly categorized as "special"
+                                 ("Special" (starred-name))))
 
   ;; isearch
   isearch-lazy-count t
