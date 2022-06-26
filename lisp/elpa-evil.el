@@ -21,11 +21,12 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
     (declare (indent 3))
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
-    (let ((Lbindings bindings))
+    (let ((Lbindings bindings)
+          (Lresult nil))
       (while Lbindings
-        (setcar Lbindings (kbd (concat prefix (pop Lbindings))))
-        (pop Lbindings))
-      (apply 'evil-define-key* state map bindings)))
+        (push (kbd (concat prefix (pop Lbindings))) Lresult)
+        (push (pop Lbindings) Lresult))
+      (apply 'evil-define-key* state map (reverse Lresult))))
 
   ;; Initial state function
   (defun pew/evil/set-mode-state (&rest states)
