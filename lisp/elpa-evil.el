@@ -14,6 +14,7 @@
     "Set BINDINGS with PREFIX in MAP for STATE.
 STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
 'emacs, a list of one or more of these, or nil, which means all of the above.
+MAP is either a single map or a list of maps.
 PREFIX could be nil or a string of KEY.
 BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
@@ -26,7 +27,14 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
       (while Lbindings
         (push (kbd (concat prefix (pop Lbindings))) Lresult)
         (push (pop Lbindings) Lresult))
-      (apply 'evil-define-key* state map (reverse Lresult))))
+      (let ((Lsetter (lambda (m) (apply 'evil-define-key* state m (reverse Lresult)))))
+        (cond ((keymapp map)
+               (funcall Lsetter map))
+              ((listp map)
+               (mapc Lsetter map))
+              ;; The map could be a symbol i.e. 'global
+              (t
+               (funcall Lsetter map))))))
 
   ;; Initial state function
   (defun pew/evil/set-mode-state (&rest states)
@@ -266,15 +274,12 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     "*" #'pew/evil/visual-search-region)
 
   (with-eval-after-load 'elisp-mode
-    (let ((Lbindings
-           (list
-            ;; Quick eval
-            "eb" #'eval-buffer
-            "er" #'eval-region
-            "ef" #'eval-defun
-            "ee" #'eval-last-sexp)))
-      (apply 'pew/evil/set-key '(visual normal) emacs-lisp-mode-map "<leader>" Lbindings)
-      (apply 'pew/evil/set-key '(visual normal) lisp-interaction-mode-map "<leader>" Lbindings))))
+    (pew/evil/set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
+      ;; Quick eval
+      "eb" #'eval-buffer
+      "er" #'eval-region
+      "ef" #'eval-defun
+      "ee" #'eval-last-sexp)))
 
 (provide 'elpa-evil)
 ;;; elpa-evil.el ends here
