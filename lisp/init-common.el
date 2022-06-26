@@ -33,19 +33,24 @@ NAME should be one of the keys from `pew/special-buffer-alist'.
 If NAME is a list then the result will be a list of matching patterns instead.
 If CONCATED is non-nil the result will be concatenated with '\\|'."
     (declare (indent 0))
-    (if (symbolp name)
-        ;; Single output
-        (cdr (assoc name pew/special-buffer-alist))
-      (let ((result_ nil)
-            (match_ nil))
+    (let ((result_ nil)
+          (match_ nil)
+          (getter_ (lambda (x) (assoc x pew/special-buffer-alist)))
+          (error_ (lambda (x) (error "No matching special buffer for %s" x))))
+      ;; Single output
+      (if (symbolp name)
+           (if (setq match_ (funcall getter_ name))
+               (setq result_ (cdr match_))
+             (funcall error_ name))
+        ;; Multiple output
         (dolist (name_ name)
-          (if (setq match_ (assoc name_ pew/special-buffer-alist))
+          (if (setq match_ (funcall getter_ name_))
               (push (cdr match_) result_)
-            (error "No matching special buffer for %s" name_)))
+            (funcall error_ name_)))
         (setq result_ (reverse result_))
         (if concated
             (mapconcat #'identity result_ "\\|")
-          `(list ,@result_)))))
+          (cons 'list result_)))))
 
 ;;;; Configuration helpers
   (defvar pew/config-keywords
@@ -72,12 +77,11 @@ ARGS is a list of forms.  See section helpers for the form definitions."
           (section_ nil)
           (result_ '(progn)))
       (dolist (item_ args)
-        (cond ((and (symbolp item_) (setq section_ (assoc item_ pew/config-keywords)))
-               (setq helper_ (cdr section_)))
-              ((and (symbolp item_) (not section_))
-               (error "Wrong keyword: %s" item_))
-              (t
-               (push (list helper_ item_) result_))))
+        (if (symbolp item_)
+            (if (setq section_ (assoc item_ pew/config-keywords))
+                (setq helper_ (cdr section_))
+              (error "Wrong keyword: %s" item_))
+          (push (list helper_ item_) result_)))
       (reverse result_)))
 
   (defmacro pew/set-custom (form)
@@ -422,11 +426,10 @@ Use `pew/hidden-buffer-p' to filter buffers."
 ;;; Themes
 (defun pew/load-theme (theme)
   "Load THEME but make sure it is the only one active."
-  (interactive (list '_INTERACT_))
-  (cond
-   ((eq '_INTERACT_ theme)
-    (call-interactively #'load-theme))
-   (t (load-theme theme t)))
+  (interactive (list '__PEW_LOAD_THEME__))
+  (if (eq '__PEW_LOAD_THEME__ theme)
+      (call-interactively #'load-theme)
+    (load-theme theme t))
   ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
       (dolist (theme_ (cdr custom-enabled-themes))
