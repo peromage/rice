@@ -37,12 +37,9 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
           (Lmatch nil)
           (Lgetter (lambda (x) (assoc x pew/special-buffer-alist)))
           (Lerror (lambda (x) (error "No matching special buffer for %s" x))))
-      ;; Single output
-      (if (symbolp name)
-          (if (setq Lmatch (funcall Lgetter name))
-              (setq Lresult (cdr Lmatch))
-            (funcall Lerror name))
-        ;; Multiple output
+      (cond
+       ;; Multiple output
+       ((not (symbolp name))
         (dolist (Lname name)
           (if (setq Lmatch (funcall Lgetter Lname))
               (push (cdr Lmatch) Lresult)
@@ -50,7 +47,11 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
         (setq Lresult (reverse Lresult))
         (if concated
             (mapconcat #'identity Lresult "\\|")
-          (cons 'list Lresult)))))
+          (cons 'list Lresult)))
+       ;; Single output
+       ((setq Lmatch (funcall Lgetter name))
+        (setq Lresult (cdr Lmatch)))
+       (t (funcall Lerror name)))))
 
 ;;;; Configuration helpers
   (defvar pew/config-keywords
@@ -77,11 +78,14 @@ ARGS is a list of forms.  See section helpers for the form definitions."
           (Lsection nil)
           (Lresult '(progn)))
       (dolist (Litem args)
-        (if (symbolp Litem)
-            (if (setq Lsection (assoc Litem pew/config-keywords))
-                (setq Lhelper (cdr Lsection))
-              (error "Wrong keyword: %s" Litem))
-          (push (list Lhelper Litem) Lresult)))
+        (cond
+         ;; Expand form with its helper
+         ((not (symbolp Litem))
+          (push (list Lhelper Litem) Lresult))
+         ;; Check keyword
+         ((setq Lsection (assoc Litem pew/config-keywords))
+          (setq Lhelper (cdr Lsection)))
+         (t (error "Wrong keyword: %s" Litem))))
       (reverse Lresult)))
 
   (defmacro pew/set-custom (form)
