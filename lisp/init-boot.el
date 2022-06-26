@@ -4,9 +4,9 @@
 
 ;;; Code:
 ;; Check minimal version
-(let ((minimal-emacs-version_ "28.1"))
-  (when (version< emacs-version minimal-emacs-version_)
-    (error "PEW only supports Emacs version %s and above" minimal-emacs-version_)))
+(let ((LminimalEmacsVersion "28.1"))
+  (if (version< emacs-version LminimalEmacsVersion)
+      (error "PEW only supports Emacs version %s and above" LminimalEmacsVersion)))
 
 ;; Performance optimization
 (setq gc-cons-threshold (* 128 1024 1024)    ;; 128mb

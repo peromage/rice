@@ -6,9 +6,9 @@
 ;;; Code:
 ;;; Preparation
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(let ((home_ (file-name-directory load-file-name)))
-  (add-to-list 'load-path (expand-file-name "lisp" home_))
-  (add-to-list 'load-path (expand-file-name "site-lisp" home_)))
+(let ((Lhome (file-name-directory load-file-name)))
+  (add-to-list 'load-path (expand-file-name "lisp" Lhome))
+  (add-to-list 'load-path (expand-file-name "site-lisp" Lhome)))
 
 (defvar pew/mini-init nil
   "When non-nil load PEW with the minimal configuration.")

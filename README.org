@@ -82,7 +82,7 @@ If there is no Internet to download packages it's possible to keep only =init-co
 3. Configuration management
 Packages are managed by =use-package= with =use-package-always-ensure= enabled so packages should be installed automatically, which is straight forward.  However, I do manage to keep vanilla Emacs at one place without involving third party packages so it can be used independently.  This has been mentioned above.
 
-For this purpose, I do have a personal customization helper called =pew/config= which is a replicate of =use-package= but adapted into my personal taste.  With this helper the configuration syntax is unified and elegant.
+For this purpose, I have a personal customization helper called =pew/config= which is a replicate of =use-package= but adapted into my personal taste.  With this helper the configuration syntax is unified and elegant.
 
 *** Literal Configuration?
 No.  A short answer is it's not my style.
@@ -100,6 +100,24 @@ As of sectioning, I can use =outline-minor-mode= with proper comments to achieve
 Tangling and speed is not a problem since you can always tangle into a single init file and byte compile it but when it comes to debug, it's not very efficient.
 
 Overall, I like =org-mode= and I use it for my blog and documentation but not for my daily driver's configuration.
+
+** Naming Convention
+Since Elisp doesn't support namespace, it's a little painful to distinguish from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
+
+I decided to add some personal preferences (I can do whatever in my configuration anyway) but I try to keep it simple in case I can't remember them all ending up with inconsistency.
+
+| Scope                                  | Convention                               | Example                             |
+|----------------------------------------+------------------------------------------+-------------------------------------|
+| Namespace separator                    | /                                        | pew/foo/bar                         |
+| Function name separator                | -                                        | pew/some-func                       |
+| Function parameters                    | Follow normal variable naming convention | (defun foo (one-param another-one)) |
+| Let bound variables                    | Prefix with =L= and use lower camel case   | (let (LthisIsLocal))                |
+| Let bound variables in macro expansion | Prefix with =LL= and use lower camel case  | `(let (LLmacroLetBound))            |
+| Unused variables                       | Prefix with =_=                            | (defun bar (first _ignored))        |
+
+It seems to work fine and compiler doesn't complain.
+
+Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
 ** Acknowledgement
 This configuration is inspired by

@@ -11,9 +11,9 @@
   ;; File sorting
   (defun pew/vertico/sort-directories-first (files)
     "Sort directories before files."
-    (let ((files_ (vertico-sort-history-length-alpha files)))
-      (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files_)
-             (seq-remove (lambda (x) (string-suffix-p "/" x)) files_))))
+    (let ((Lfiles (vertico-sort-history-length-alpha files)))
+      (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) Lfiles)
+             (seq-remove (lambda (x) (string-suffix-p "/" x)) Lfiles))))
 
   :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
