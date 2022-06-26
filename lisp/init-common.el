@@ -225,7 +225,7 @@ Where HOOK implies suffix '-hook'."
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    `(let ((key_ ,key)) (if (vectorp key_) key_ (kbd key_))))
+    `(let ((key_ ,key)) (if (stringp key_) (kbd key_) key_)))
 
   (defmacro pew/evenp (num)
     "Determine if NUM is odd."
