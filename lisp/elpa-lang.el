@@ -27,16 +27,15 @@
                 adaptive-fill-mode nil)
     (setq lsp-enable-on-type-formatting nil
           ;; Prevent Clangd from inserting headers itself
-          lsp-clients-clangd-args
-          '("-j=8"
-            "--background-index"
-            "--clang-tidy"
-            "--completion-style=detailed"
-            "--pch-storage=disk"
-            "--header-insertion=never"
-            "--header-insertion-decorators=0"
-            "--suggest-missing-includes"
-            "--all-scopes-completion"))
+          lsp-clients-clangd-args '("-j=8"
+                                    "--background-index"
+                                    "--clang-tidy"
+                                    "--completion-style=detailed"
+                                    "--pch-storage=disk"
+                                    "--header-insertion=never"
+                                    "--header-insertion-decorators=0"
+                                    "--suggest-missing-includes"
+                                    "--all-scopes-completion"))
     (lsp-deferred)
     ;; Post LSP mode settings
     (electric-indent-mode -1))

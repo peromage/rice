@@ -75,21 +75,22 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (let ((Lregion (buffer-substring-no-properties begin end))
           (Lplaceholder "__PEW_EVIL_ESCAPE_REGION__"))
       (if (zerop (length Lregion)) nil
-        ;; Replace the % symbols so that `regexp-quote' does not complain
-        (setq Lregion (replace-regexp-in-string "%" Lplaceholder Lregion))
-        (setq Lregion (regexp-quote Lregion))
-        ;; `regexp-quote' does not escape /. We escape it here so that evil-search
-        ;; can recognize it
-        (setq Lregion (replace-regexp-in-string "/" "\\\\/" Lregion))
-        ;; Change the % symbols back
-        (setq Lregion (replace-regexp-in-string Lplaceholder "%" Lregion))
+        (setq
+         ;; Replace the % symbols so that `regexp-quote' does not complain
+         Lregion (replace-regexp-in-string "%" Lplaceholder Lregion)
+         Lregion (regexp-quote Lregion)
+         ;; `regexp-quote' does not escape /. We escape it here so that evil-search
+         ;; can recognize it
+         Lregion (replace-regexp-in-string "/" "\\\\/" Lregion)
+         ;; Change the % symbols back
+         Lregion (replace-regexp-in-string Lplaceholder "%" Lregion))
         Lregion)))
 
   (defun pew/evil/search-region ()
     "Use evil-search for the selected region."
     (when (use-region-p)
-      (setq evil-ex-search-count 1)
-      (setq evil-ex-search-direction 'forward)
+      (setq evil-ex-search-count 1
+            evil-ex-search-direction 'forward)
       ;; Copy region text
       (evil-yank (region-beginning) (region-end))
       (let* ((LquotedPattern (pew/evil/escape-region (region-beginning) (region-end)))
@@ -99,8 +100,8 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
              (Loffset (pop Lresult)))
         (when Lsuccess
           ;; From `evil-ex-start-search'
-          (setq evil-ex-search-pattern Lpattern)
-          (setq evil-ex-search-offset Loffset)
+          (setq evil-ex-search-pattern Lpattern
+                evil-ex-search-offset Loffset)
           ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
           ;; are more than one candidates. So we jump twice here to go back to the
           ;; very first one that we selected.
