@@ -368,9 +368,18 @@ Use `pew/hidden-buffer-p' to filter buffers."
 
 ;;; Windows
 (defun pew/pop-window-in-new-tab ()
-  "Pop current window into a new tab."
+  "Pop current window into a new tab.
+Side window can also be poped."
   (interactive)
   (tab-bar-new-tab)
+  (if (window-at-side-p (selected-window))
+      (let ((LcurrentBuffer (current-buffer))
+            (LcurrentWindow (selected-window)))
+        (select-window (next-window LcurrentWindow))
+        (while (and (window-at-side-p (selected-window))
+                    (not (eq LcurrentWindow (selected-window))))
+          (select-window (next-window (selected-window))))
+        (switch-to-buffer LcurrentBuffer)))
   (delete-other-windows))
 
 (defun pew/next-window ()
