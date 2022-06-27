@@ -227,6 +227,7 @@
 
   ;; isearch
   (isearch-lazy-count t)
+  (isearch-lazy-highlight t)
 
   ;; ispell
   (ispell-dictionary "en_US")
