@@ -16,5 +16,8 @@
 ;; Highlight current line
 (use-package beacon :defer t)
 
+;; Simplify S-expression editing
+(use-package paredit :defer t)
+
 (provide 'elpa-extra)
 ;;; elpa-extra.el ends here
