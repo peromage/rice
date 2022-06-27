@@ -31,13 +31,22 @@
     (package-install 'use-package))
   (message "[pew] Loading use-package")
   (require 'use-package)
-  (defmacro use-package? (name &rest args)
+
+  (defmacro use-package~ (name &rest args)
     "Configure a package but defer loading and don't install automatically.
-This is useful when a package also requires some configurations in other
-packages without modifying other packages' `use-package' forms but can keep
-using the same syntax from `use-package' (unlike `with-eval-after-load')."
+This is equivalent to `use-package' but with ':ensure nil' and ':defer t' set.
+Useful when configuring builtin packages or other third party packages in
+a `use-package' form without hacking other's form."
     (declare (indent 1))
-    `(use-package ,name :ensure nil :defer t ,@args)))
+    `(use-package ,name :ensure nil :defer t ,@args))
+
+  (defmacro use-package? (&rest args)
+    "Declare using some packages but defer loading.
+This is equivalent to `use-package' but only with ':defer t' set.
+Useful for some less used packages.
+Note: parameters are package names."
+    (declare (indent 0))
+    (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) args))))
 
 ;; Default `use-package' behaviors
 (setq use-package-always-ensure t

@@ -102,12 +102,12 @@
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
   :config
-  (use-package? org
+  (use-package~ org
     :custom
     ;; `org-babel-load-languages' must be set via either `custom' or `org-babel-do-load-languages'
     (org-babel-load-languages (cons '(plantuml . t) org-babel-load-languages)))
 
-  (use-package? ob-plantuml
+  (use-package~ ob-plantuml
     :custom
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)))

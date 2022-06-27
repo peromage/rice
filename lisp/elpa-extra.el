@@ -4,20 +4,17 @@
 ;; not be used in every-day work.
 
 ;;; Code:
-;; Rainbow cat buffer progress bar
-(use-package nyan-mode :defer t)
-
-;; Colorful parenthesises
-(use-package rainbow-delimiters :defer t)
-
-;; Colorize color code
-(use-package rainbow-mode :defer t)
-
-;; Highlight current line
-(use-package beacon :defer t)
-
-;; Simplify S-expression editing
-(use-package paredit :defer t)
+(use-package?
+  ;; Rainbow cat buffer progress bar
+  nyan-mode
+  ;; Colorful parenthesises
+  rainbow-delimiters
+  ;; Colorize color code
+  rainbow-mode
+  ;; Highlight current line
+  beacon
+  ;; Simplify S-expression editing
+  paredit)
 
 (provide 'elpa-extra)
 ;;; elpa-extra.el ends here
