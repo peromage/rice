@@ -27,7 +27,8 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
       (while Lbindings
         (push (kbd (concat prefix (pop Lbindings))) Lresult)
         (push (pop Lbindings) Lresult))
-      (let ((Lsetter (lambda (m) (apply 'evil-define-key* state m (reverse Lresult)))))
+      (setq Lresult (reverse Lresult))
+      (let ((Lsetter (lambda (m) (apply 'evil-define-key* state m Lresult))))
         (cond ((keymapp map)
                (funcall Lsetter map))
               ((listp map)
