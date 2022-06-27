@@ -338,24 +338,26 @@ if there is not match."
       (setq Lmatched (string-match (pop Lhiddens) name)))
     Lmatched))
 
-(defun pew/switch-buffer (switch-func)
-  "Switch to the buffer by SWITCH-FUNC but skip hidden buffers.
+(defun pew/switch-buffer (&optional prev)
+  "Switch to the next buffer and skip hidden buffers.
+If PREV is non-nil switch to the previous buffer.
 Use `pew/hidden-buffer-p' to filter buffers."
-  (let ((LcurrentBufferName (buffer-name)))
-    (funcall switch-func)
+  (let ((LcurrentBuffer (current-buffer))
+        (LswitchFunc (if prev #'previous-buffer #'next-buffer)))
+    (funcall LswitchFunc)
     (while (and (pew/hidden-buffer-p (buffer-name))
-                (not (string= LcurrentBufferName (buffer-name))))
-      (funcall switch-func))))
+                (not (eq LcurrentBuffer (current-buffer))))
+      (funcall LswitchFunc))))
 
 (defun pew/next-buffer ()
   "Switch to the next buffer but skip hidden buffers."
   (interactive)
-  (pew/switch-buffer #'next-buffer))
+  (pew/switch-buffer))
 
 (defun pew/prev-buffer ()
   "Switch to the previous buffer but skip hidden buffers."
   (interactive)
-  (pew/switch-buffer #'previous-buffer))
+  (pew/switch-buffer t))
 
 (defun pew/close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
