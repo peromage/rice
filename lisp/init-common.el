@@ -145,17 +145,17 @@ well for some reason:
     (let* ((Lcmd (car form))
            (LcmdRepeat (intern (format "%s-repeat" Lcmd)))
            (LcmdDocString "Created by `pew/set-transient'"))
-      `(let ((LLmap (pew/set-map ,form)))
+      `(let ((LLmap (symbol-value (pew/set-map ,form))))
          (defun ,Lcmd ()
            ,LcmdDocString
            (interactive)
            (message "%s activated" ',Lcmd)
-           (set-transient-map (symbol-value LLmap) nil))
+           (set-transient-map LLmap nil))
          (defun ,LcmdRepeat ()
            ,LcmdDocString
            (interactive)
            (message "%s activated" ',LcmdRepeat)
-           (set-transient-map (symbol-value LLmap) t)))))
+           (set-transient-map LLmap t)))))
 
   (defmacro pew/set-switch (form)
     "Create a command to switch variable between values.
