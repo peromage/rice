@@ -12,7 +12,7 @@
          ([remap xref-find-references] . lsp-find-declaration))
   :custom
   (lsp-keymap-prefix "C-c l")
-  (lsp-enable-snippet nil)
+  (lsp-enable-snippet nil) ;; Non-nil to enable parameter insertion
   (lsp-enable-symbol-highlighting t)
   (lsp-enable-on-type-formatting nil)
   (lsp-enable-folding t)
@@ -31,9 +31,12 @@
   (lsp-signature-render-documentation nil)
   (lsp-modeline-diagnostics-enable t)
   (lsp-modeline-code-actions-enable t)
+  (lsp-completion-enable t)
+  (lsp-completion-enable-additional-text-edit nil)
   (lsp-completion-show-detail t)
   (lsp-completion-show-kind t)
-  (lsp-completion-enable-additional-text-edit nil)
+  (lsp-completion-show-label-description t)
+  (lsp-completion-no-cache nil)
   (lsp-completion-provider :capf)
   (lsp-ui-peek-always-show :flycheck)
   (lsp-log-io nil))
