@@ -112,5 +112,11 @@
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)))
 
+;;; Visual fill column mode
+(use-package visual-fill-column
+  :custom
+  (visual-fill-column-center-text t)
+  (visual-fill-column-fringes-outside-margins nil))
+
 (provide 'elpa-writing)
 ;;; elpa-writing.el ends here
