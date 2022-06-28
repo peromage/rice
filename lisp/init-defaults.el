@@ -375,6 +375,7 @@
 
 ;;; Face settings
   :face
+  (default :family "Iosevka" :foundry "UKWN" :slant 'normal :weight 'normal :height 120 :width 'normal)
   (tab-bar :inherit 'default))
 
 (provide 'init-defaults)
