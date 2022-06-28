@@ -388,18 +388,37 @@ Use `pew/hidden-buffer-p' to filter buffers."
           (kill-buffer Lbuffer)))))
 
 ;;; Windows
+(defun pew/side-window-p (window)
+  "Return non-nil if WINDOW is a side window."
+  (window-parameter window 'window-side))
+
+(defun pew/side-window-exists-p (&optional side)
+  "Return the first side window if there are otherwise nil.
+If SIDE is given and is one of 'top' 'bottom' 'left' and 'right', check for that
+specified side.  If SIDE is nil it means check all sides."
+  (window-with-parameter 'window-side side))
+
+(defun pew/window-list-side ()
+  "Return a list of side windows."
+  (seq-filter
+   (lambda (x) (pew/side-window-p x))
+   (window-list)))
+
+(defun pew/window-list-normal ()
+  "Return a list of normal (non-side) windows."
+  (seq-filter
+   (lambda (x) (not (pew/side-window-p x)))
+   (window-list)))
+
 (defun pew/pop-window-in-new-tab ()
   "Pop current window into a new tab.
 Side window can also be poped."
   (interactive)
   (tab-bar-new-tab)
-  (if (window-at-side-p (selected-window))
-      (let ((LcurrentBuffer (current-buffer))
-            (LcurrentWindow (selected-window)))
-        (select-window (next-window LcurrentWindow))
-        (while (and (window-at-side-p (selected-window))
-                    (not (eq LcurrentWindow (selected-window))))
-          (select-window (next-window (selected-window))))
+  (if (pew/side-window-p (selected-window))
+      ;; Side window cannot be maximized so pick a normal window and switch to it
+      (let ((LcurrentBuffer (current-buffer)))
+        (select-window (car (pew/window-list-normal)))
         (switch-to-buffer LcurrentBuffer)))
   (delete-other-windows))
 
@@ -416,10 +435,11 @@ Side window can also be poped."
 (defun pew/close-window ()
   "Close window and the tab if there is only one window left."
   (interactive)
-  (cond ((one-window-p)
-         (tab-bar-close-tab)
-         (previous-window))
-        (t (delete-window))))
+  ;; If there is only one normal window left and side windows exist, close the tab
+  (if (and (not (pew/side-window-p (selected-window)))
+           (equal 1 (length (pew/window-list-normal))))
+      (tab-bar-close-tab)
+    (delete-window)))
 
 (defun pew/scroll-other-window-page-down ()
   "Scroll other window one page down."
