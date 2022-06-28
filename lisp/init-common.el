@@ -267,7 +267,13 @@ nil or VALUE is not found."
            (pop LLcond)))
        (if (not LLtail) nil
          (setq LLtail (append LLtail (butlast LLlist (length LLtail))))
-         ,(if next '(pew/rotate LLtail) 'LLtail)))))
+         ,(if next '(pew/rotate LLtail) 'LLtail))))
+
+  (defmacro pew/font (&rest args)
+    "Return a font object is it's found on the current system.
+ARGS is the same as the ones defined in `fond-spec'.
+Return nil if no match."
+    `(find-font (font-spec ,@args))))
 
 ;;; Debugging
 (defun pew/reload-init-file ()
