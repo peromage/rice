@@ -312,7 +312,11 @@
    ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("+" . text-scale-adjust)
    ("-" . text-scale-adjust)
-   ("0" . text-scale-adjust))
+   ("0" . text-scale-adjust)
+
+   ;; Frame Transparency
+   ("]" . pew/increase-frame-opacity)
+   ("[" . pew/decrease-frame-opacity))
 
 ;;; Mode keybindings
   :bind

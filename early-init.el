@@ -12,7 +12,8 @@
                  (tool-bar-lines . nil)
                  (tab-bar-lines . nil)
                  (vertical-scroll-bars . nil)
-                 (horizontal-scroll-bars . nil)))
+                 (horizontal-scroll-bars . nil)
+                 (alpha . (100 . 100))))
   (push param default-frame-alist))
 
 ;; Manually configure packages

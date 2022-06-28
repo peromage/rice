@@ -489,6 +489,35 @@ Side window can also be poped."
       (dolist (Ltheme (cdr custom-enabled-themes))
         (disable-theme Ltheme))))
 
+;;; Frames
+(defun pew/set-frame-opacity (val)
+  "Set the opacity of the current frame.
+VAL is a number between 0 and 100.  0=transparent/100=opaque"
+  (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
+  (let ((Lvalue (cond ((> val 100) 100)
+                      ((< val 0) 0)
+                      (t val))))
+    (message "Frame opacity: %d" Lvalue)
+    (set-frame-parameter (selected-frame) 'alpha (cons Lvalue Lvalue))))
+
+(defvar pew/frame-opacity-change-step 10
+  "The amount of opacity changed each time.
+Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
+
+(defun pew/increase-frame-opacity ()
+  "Increase frame opacity."
+  (interactive)
+  (let ((Lvalue (frame-parameter (selected-frame) 'alpha)))
+    (if (consp Lvalue) (setq Lvalue (car Lvalue)))
+    (pew/set-frame-opacity (+ Lvalue pew/frame-opacity-change-step))))
+
+(defun pew/decrease-frame-opacity ()
+  "Decrease frame opacity."
+  (interactive)
+  (let ((Lvalue (frame-parameter (selected-frame) 'alpha)))
+    (if (consp Lvalue) (setq Lvalue (car Lvalue)))
+    (pew/set-frame-opacity (- Lvalue pew/frame-opacity-change-step))))
+
 ;;; Dired
 (defun pew/dired-go-to ()
   "Go into the target under the cursor without creating a new buffer."
