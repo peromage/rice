@@ -236,6 +236,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     "v" #'evil-window-vsplit
 
     ;; Tabs
+    "Q" #'tab-bar-close-tab
     "R" #'tab-bar-rename-tab
     "t" #'tab-bar-new-tab
     "T" #'pew/pop-window-in-new-tab
