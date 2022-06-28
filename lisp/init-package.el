@@ -17,7 +17,8 @@
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/"))
       package-archive-priorities '(("melpa" . 100)
-                                   ("gnu" . 99)))
+                                   ("gnu" . 99)
+                                   ("nongnu" . 98)))
 
 ;; Fire up package.el
 (package-initialize)
