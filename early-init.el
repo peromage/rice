@@ -8,11 +8,12 @@
 ;; Frame setup
 ;; Remove useless UI elements also avoid errors when some features don't exist in TUI mode
 ;; See: https://www.gnu.org/software/emacs/manual/html_node/elisp/Layout-Parameters.html
-(push '(menu-bar-lines . nil) default-frame-alist)
-(push '(tool-bar-lines . nil) default-frame-alist)
-(push '(tab-bar-lines . nil) default-frame-alist)
-(push '(vertical-scroll-bars . nil) default-frame-alist)
-(push '(horizontal-scroll-bars . nil) default-frame-alist)
+(dolist (param '((menu-bar-lines . nil)
+                 (tool-bar-lines . nil)
+                 (tab-bar-lines . nil)
+                 (vertical-scroll-bars . nil)
+                 (horizontal-scroll-bars . nil)))
+  (push param default-frame-alist))
 
 ;; Manually configure packages
 (setq package-enable-at-startup nil)
