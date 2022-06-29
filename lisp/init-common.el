@@ -303,6 +303,7 @@ Possible value for ALL:
   1                - call `macroexpand-1'
   any other values - call `macroexpand-all'
 The result will be shown in message buffer.  Return nil to reduce confusion."
+  (declare (indent 0))
   (let ((Lhelper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
     (pcase all
       ('nil `(,Lhelper 'macroexpand ',form))
