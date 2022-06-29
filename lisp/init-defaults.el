@@ -28,7 +28,7 @@
                            (window-height . 0.25)
                            (side . bottom)
                            (slot . 0))
-                          (,(pew/special-buffer (message backtrace warning log compilation output) t)
+                          (,(pew/special-buffer (message backtrace warning log compilation output command) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (window-height . 0.25)
                            (side . bottom)

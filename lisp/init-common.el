@@ -9,21 +9,25 @@
 (eval-and-compile
 ;;;; Buffer definitions
   (defvar pew/special-buffer-alist
-    '((magit . "^ *[Mm]agit")
+    '(;; VC
+      (magit . "^ *[Mm]agit")
       (vc . "^ *\\*[Vv][Cc]-.*\\*$")
       (ediff . "^ *\\*[Ee]diff.*\\*$")
+      ;; Interactive
       (shell . "^ *\\*.*[Ss]hell\\*$")
       (term . "^ *\\*.*[Tt]erm\\(inal\\)?\\*$")
+      (scratch . "^ *\\*[Ss]cratch\\*$")
+      (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+      ;; Message and output
       (help . "^ *\\*.*[Hh]elp\\*$")
-      (message . "^ *\\*.*[Mm]essages\\*$")
+      (message . "^ *\\*.*[Mm]essages?\\*$")
       (backtrace . "^ *\\*.*[Bb]acktrace\\*$")
-      (warning . "^ *\\*.*[Ww]arnings\\*$")
+      (warning . "^ *\\*.*[Ww]arnings?\\*$")
       (log . "^ *\\*.*[Ll]og\\*$")
       (compilation . "^ *\\*.*[Cc]ompilation\\*$")
       (output . "^ *\\*.*[Oo]utput\\*$")
-      (scratch . "^ *\\*[Ss]cratch\\*$")
-      (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
-      ;; General special definitions go last
+      (command . "^ *\\*.*[Cc]ommands?\\*$")
+      ;; Generic
       (starred . "^ *\\*.*\\*$"))
     "An alist of special buffer pattern regex.")
 
