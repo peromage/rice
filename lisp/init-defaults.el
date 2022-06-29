@@ -310,6 +310,8 @@
    ("u" . undo)
    ("U" . undo-redo)
    (";" . comment-line)
+   ("c" . isearch-forward-regexp)
+   ("C" . isearch-query-replace-regexp)
 
    ;; Org
    ("i" . org-capture)
