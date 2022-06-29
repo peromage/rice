@@ -225,9 +225,15 @@
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
-  ;; isearch
+  ;; isearch and search
   (isearch-lazy-count t)
   (isearch-lazy-highlight t)
+  (search-highlight t)
+  (search-highlight-submatches t)
+  (query-replace-highlight t)
+  (query-replace-lazy-highlight t)
+  (query-replace-highlight-submatches t)
+  (query-replace-show-replacement t)
 
   ;; ispell
   (ispell-dictionary "en_US")
