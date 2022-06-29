@@ -75,14 +75,14 @@
   ;; Capture
   (org-capture-templates
    '(;; Todo
-     ("c" "Tasks")
-     ("cc" "Create a todo item" entry (file+headline "inbox.org" "Tasks")
+     ("t" "Tasks")
+     ("tt" "Create a todo item" entry (file+headline "inbox.org" "Tasks")
       "* TODO %?\nSCHEDULED: %T")
-     ("ct" "Create a todo item on a certain day" entry (file+headline "inbox.org" "Tasks")
+     ("td" "Create a todo item on a certain day" entry (file+headline "inbox.org" "Tasks")
       "* TODO %?\nSCHEDULED: %^{Pick a date}t")
-     ("cn" "Take a note" entry (file+headline "inbox.org" "Notes")
+     ("tn" "Take a note" entry (file+headline "inbox.org" "Notes")
       "* %?\n%i")
-     ("cs" "Take a piece of code snippet" entry (file+headline "inbox.org" "Snippets")
+     ("ts" "Take a piece of code snippet" entry (file+headline "inbox.org" "Snippets")
       "* %?\n#+begin_src\n%i\n#+end_src")
      ;; Journal
      ("j" "Journal")

@@ -312,8 +312,8 @@
    (";" . comment-line)
 
    ;; Org
-   ("c" . org-capture)
-   ("a" . org-agenda)
+   ("i" . org-capture)
+   ("I" . org-agenda)
 
    ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("+" . text-scale-adjust)
