@@ -39,7 +39,7 @@
   :init
   ;; Toggle auto preview
   ;; The value is (kbd "C-o") see custom `consult-preview-key' below
-  (pew/set-switch (consult-preview-key '("" any)))
+  (pew/set-switch (consult-preview-key '("" any)))
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)
@@ -117,6 +117,7 @@
     (define-advice company-capf--candidates (:around (oldfunc &rest args) pew/orderless/company-completing)
       (let ((completion-styles pew/orderless/default-completion-styles))
         (apply oldfunc args))))
+
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
@@ -133,6 +134,8 @@
 
   :bind (("C-c o o" . embark-act)
          ("C-c o j" . embark-dwim)
+         ("C-c o e" . embark-export)
+         ("C-c o c" . embark-collect)
          ([remap describe-bindings] . embark-bindings)
          :map minibuffer-local-map
          ("M-o" . embark-act)
