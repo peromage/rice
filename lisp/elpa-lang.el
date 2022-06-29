@@ -74,5 +74,14 @@
   (lsp-python-ms-python-executable (executable-find "python3"))
   (lsp-python-ms-python-executable-cmd "python3"))
 
+;; Java mode
+(use-package lsp-java
+  :init
+  (defun pew/java-mode/setup ()
+    "Java LSP mode setup"
+    (lsp-deferred))
+
+  :hook (java-mode . pew/java-mode/setup))
+
 (provide 'elpa-lang)
 ;;; elpa-lang.el ends here
