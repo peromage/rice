@@ -195,22 +195,19 @@ Created by `pew/set-switch'." Lvar Lval)
 FORM is of the form:
   (FACE ARGS)
 Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
-See `set-face-attribute'.
-Search for the font before setting if any one of the keywords specified:
-  ':family' ':name'.
-If no such a font found then the FACE will not be set."
+See `set-face-attribute'."
     (declare (indent 0))
     (let ((Lface (car form))
           (Largs (cdr form))
-          (Lfont nil))
-      (cond ((setq Lfont (plist-get Largs :family))
-             (setq Lfont (list :family Lfont)))
-            ((setq Lfont (plist-get Largs :name))
-             (setq Lfont (list :name Lfont))))
-      (if (not Lfont)
-          `(set-face-attribute ',Lface nil ,@Largs)
-        `(if (not (pew/font ,@Lfont)) nil
-           (set-face-attribute ',Lface nil ,@Largs)))))
+          (Lprops nil))
+      (while Largs
+        (push (pop Largs) Lprops)
+        ;; Quote symbols
+        (push (if (symbolp (car Largs))
+                  (list 'quote (pop Largs))
+                (pop Largs))
+              Lprops))
+      `(set-face-attribute ',Lface nil ,@(reverse Lprops))))
 
   (defmacro pew/set-property (form)
     "Set symbol's property.
