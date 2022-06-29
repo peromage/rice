@@ -44,29 +44,18 @@
 ;;; LSP experience improvement
 (use-package lsp-ui
   :init
-  (defun pew/lsp-ui/doc-glance ()
-    "Quick peek documentation for the current symbol."
-    (interactive)
-    (if (lsp-ui-doc--frame-visible-p)
-        (lsp-ui-doc-focus-frame)
-      (lsp-ui-doc-glance)))
-
-  (defun pew/lsp-ui/doc-toggle ()
-    "Toggle doc frame."
-    (interactive)
-    (lsp-ui-doc-mode 'toggle))
-
   (defun pew/lsp-ui/setup ()
     "Setup function for lsp-ui."
     (lsp-ui-mode 1)
-    (lsp-ui-doc-frame-mode -1))
+    (lsp-ui-doc-frame-mode 1))
 
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ("C-c w" . pew/lsp-ui/doc-glance)
-         ("C-c W" . pew/lsp-ui/doc-toggle))
+         ("C-c w w" . lsp-ui-doc-glance)
+         ("C-c w e" . lsp-ui-doc-show)
+         ("C-c w j" . lsp-ui-doc-focus-frame))
   :hook (lsp-mode . pew/lsp-ui/setup)
   :custom
   (lsp-ui-peek-enable t)
@@ -80,10 +69,11 @@
   (lsp-ui-sideline-update-mode 'point)
   (lsp-ui-sideline-delay 0.5)
   (lsp-ui-doc-enable nil)
-  (lsp-ui-doc-position 'bottom)
+  (lsp-ui-doc-position 'top)
   (lsp-ui-doc-show-with-cursor t)
   (lsp-ui-doc-show-with-mouse t)
   (lsp-ui-doc-delay 0.5)
+  (lsp-ui-doc-use-childframe t)
   (lsp-ui-imenu-window-width 0)
   (lsp-ui-imenu-auto-refresh t)
   (lsp-ui-imenu-auto-refresh-delay 0.5))
