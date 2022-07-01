@@ -473,11 +473,6 @@
         <Control>Files Panel</Control>
       </Hotkey>
       <Hotkey>
-        <Shortcut>V</Shortcut>
-        <Command>cm_View</Command>
-        <Control>Files Panel</Control>
-      </Hotkey>
-      <Hotkey>
         <Shortcut>E</Shortcut>
         <Command>cm_Edit</Command>
         <Control>Files Panel</Control>
@@ -490,11 +485,6 @@
       <Hotkey>
         <Shortcut>H</Shortcut>
         <Command>cm_DirHotList</Command>
-        <Control>Files Panel</Control>
-      </Hotkey>
-      <Hotkey>
-        <Shortcut>Alt+W</Shortcut>
-        <Command>cm_CopyFullNamesToClip</Command>
         <Control>Files Panel</Control>
       </Hotkey>
       <Hotkey>
@@ -553,7 +543,17 @@
         <Control>Files Panel</Control>
       </Hotkey>
       <Hotkey>
-        <Shortcut>Shift+V</Shortcut>
+        <Shortcut>W</Shortcut>
+        <Command>cm_CopyFullNamesToClip</Command>
+        <Control>Files Panel</Control>
+      </Hotkey>
+      <Hotkey>
+        <Shortcut>V</Shortcut>
+        <Command>cm_View</Command>
+        <Control>Files Panel</Control>
+      </Hotkey>
+      <Hotkey>
+        <Shortcut>F</Shortcut>
         <Command>cm_QuickView</Command>
         <Control>Files Panel</Control>
       </Hotkey>

@@ -79,9 +79,46 @@
         </Command>
       </Row>
     </MainToolbar>
+    <MiddleToolbar>
+      <Row>
+        <Command>
+          <ID>{16289DBF-0043-4B81-8562-98A151187F35}</ID>
+          <Icon>cm_view</Icon>
+          <Command>cm_View</Command>
+        </Command>
+        <Command>
+          <ID>{D7C5A990-6622-45FF-AEAC-C9C11D580D0F}</ID>
+          <Icon>cm_edit</Icon>
+          <Command>cm_Edit</Command>
+        </Command>
+        <Command>
+          <ID>{AAF7E10D-126C-4C60-B3E7-DA1B39B63BE8}</ID>
+          <Icon>cm_copy</Icon>
+          <Command>cm_Copy</Command>
+        </Command>
+        <Command>
+          <ID>{F1DD0B70-BF92-47A2-B992-859E49C1F1A3}</ID>
+          <Icon>cm_rename</Icon>
+          <Command>cm_Rename</Command>
+        </Command>
+        <Separator>
+          <Style>True</Style>
+        </Separator>
+        <Command>
+          <ID>{E18E0B40-E900-4A28-8798-A990EBCAE26A}</ID>
+          <Icon>cm_packfiles</Icon>
+          <Command>cm_PackFiles</Command>
+        </Command>
+        <Command>
+          <ID>{67C11D72-8BF4-4DD5-85C6-2F76AA1ED056}</ID>
+          <Icon>cm_makedir</Icon>
+          <Command>cm_MakeDir</Command>
+        </Command>
+      </Row>
+    </MiddleToolbar>
   </Toolbars>
   <Configuration Save="True" SortOrder="1" TreeType="0">
-    <FolderTabs Save="True"/>
+    <FolderTabs Save="False"/>
     <UseConfigInProgramDir>False</UseConfigInProgramDir>
   </Configuration>
   <Language>
@@ -421,10 +458,10 @@
     <Options>1023</Options>
   </Log>
   <History>
-    <SearchReplaceHistory Save="True"/>
-    <DirHistory Save="True"/>
-    <CmdLineHistory Save="True"/>
-    <FileMaskHistory Save="True"/>
+    <SearchReplaceHistory Save="False"/>
+    <DirHistory Save="False"/>
+    <CmdLineHistory Save="False"/>
+    <FileMaskHistory Save="False"/>
   </History>
   <QuickSearch>
     <MatchBeginning>True</MatchBeginning>
@@ -637,6 +674,7 @@
     <DfltRightGoTo>1</DfltRightGoTo>
     <DfltKeep>5</DfltKeep>
     <DfltSaveDirHistory>False</DfltSaveDirHistory>
+    <FavTabsLastUniqueID>{8350F0B0-3018-4A30-8ED2-F336E352980E}</FavTabsLastUniqueID>
   </FavoriteTabsOptions>
   <Lua>
     <PathToLibrary>lua5.1.dll</PathToLibrary>
@@ -1017,4 +1055,10 @@
   <MainWindow>
     <Position Save="False"/>
   </MainWindow>
+  <Tabs>
+    <Options>49937</Options>
+    <CharacterLimit>32</CharacterLimit>
+    <Position>0</Position>
+    <ActionOnDoubleClick>1</ActionOnDoubleClick>
+  </Tabs>
 </doublecmd>
