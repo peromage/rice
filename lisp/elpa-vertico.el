@@ -49,7 +49,7 @@
   ;; CRM indicator
   (define-advice completing-read-multiple (:filter-args (args) pew/consult/crm-indicator)
     "Add an indicator for multi-occur mode."
-    (cons (format "[CRM] %s" (car args)) (cdr args)))
+    (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))
 
   :bind (("C-s" . consult-line)
          ("C-c b l" . consult-line)
