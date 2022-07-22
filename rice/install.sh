@@ -1,60 +1,58 @@
 #!/bin/bash
 
-### Config commands
-## Each command function name has to be "NAME_conf"
-
-bash_conf() {
+## Config commands
+## Each command function name has to be "my_NAME"
+my_bash() {
     cat <<EOF | append $HOME/.bashrc
 source $RICE_HOME/bash/init.sh
 update-gpg-agent
 EOF
 }
 
-pwsh_conf() {
+my_pwsh() {
     cat <<EOF | append $HOME/.config/powershell/profile.ps1
 . $RICE_HOME/pwsh/init.ps1
 EOF
 }
 
-git_conf() {
+my_git() {
     cat <<EOF | append $HOME/.gitconfig
 [include]
     path = $RICE_HOME/git/.gitconfig
 EOF
 }
 
-tmux_conf() {
+my_tmux() {
     cat <<EOF | append $HOME/.tmux.conf
 source $RICE_HOME/tmux/.tmux.conf
 EOF
 }
 
-gnupg_conf() {
+my_gnupg() {
     cat $RICE_HOME/gnupg/gpg-agent.conf | append $HOME/.gnupg/gpg-agent.conf
     cat $RICE_HOME/gnupg/sshcontrol | append $HOME/.gnupg/sshcontrol
 }
 
-vim_conf() {
+my_vim() {
     cat <<EOF | append $HOME/.vimrc
 source $RICE_HOME/vim/init.vim
 EOF
 }
 
-neovim_conf() {
+my_neovim() {
     cat <<EOF | append $HOME/.config/nvim/init.vim
 source $RICE_HOME/vim/init.vim
 EOF
 }
 
-alacritty_conf() {
+my_alacritty() {
     cat <<EOF | append $HOME/.alacritty.yml
 import:
   - $RICE_HOME/alacritty/alacritty.yml
 EOF
 }
 
-### Utilities
-
+## Utilities
 RICE_HOME=$(dirname $(realpath $BASH_SOURCE))
 
 makedir() {
@@ -75,27 +73,42 @@ overwrite() {
     echo "Overwrote: $1"
 }
 
-config() {
-    ## $1: Config name
-    ## NOTE: Name implies "_conf" suffix
-    if [[ "function" == $(type -t "$1_conf") ]]; then
-        eval "$1_conf"
+## CLI
+SUBCMD_PREFIX="my_"
+
+exec_subcmd() {
+    local subcmd="$SUBCMD_PREFIX$1" && shift
+    if [[ "function" == $(type -t $subcmd) ]]; then
+        eval "$subcmd $@"
     else
-        echo "Unknown: $1"
+        echo "Not found: $subcmd"
     fi
 }
 
-### Main entry
-
-## List all available config if no components supplied
-if [[ $# -eq 0 ]]; then
-    echo "Usage: $(basename $0) CONFIG CONFIG ..."
-    echo "Available configs:"
-    declare -F | grep -Po '(?<=declare -f )[a-zA-Z0-9_-]+(?=_conf$)'
+print_subcmd() {
+    echo "Available CMD:"
+    declare -F | grep -Po "(?<=declare -f $SUBCMD_PREFIX)[a-zA-Z0-9._-]+"
     exit 1
-fi
+}
 
-## Iterate components
-for i in $@; do
-    config $i
-done
+run() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: $(basename $0) CMD ARGS"
+        print_subcmd
+    fi
+    exec_subcmd $@
+}
+
+runn() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: $(basename $0) CMD CMD ..."
+        print_subcmd
+    fi
+    ## Iterate through subcommands
+    for i in $@; do
+        exec_subcmd $i
+    done
+}
+
+## Start script
+runn $@
