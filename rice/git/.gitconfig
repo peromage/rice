@@ -1,3 +1,4 @@
+##
 ## How to include this file:
 ##
 ## [include]
@@ -8,10 +9,6 @@
 ## [includeIf "gitdir:/path/to/project/.git"]
 ## path = "/path/to/this/file"
 ##
-
-[user]
-name = peromage
-email = peromage@outlook.com
 
 [core]
 autocrlf = input
