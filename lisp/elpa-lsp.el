@@ -47,7 +47,8 @@
   (defun pew/lsp-ui/setup ()
     "Setup function for lsp-ui."
     (lsp-ui-mode 1)
-    (lsp-ui-doc-frame-mode 1))
+    ;; Disabled since it occupies 'q'
+    (lsp-ui-doc-frame-mode -1))
 
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
