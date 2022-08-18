@@ -104,13 +104,11 @@
   :config
   (use-package~ org
     :custom
-    ;; `org-babel-load-languages' must be set via either `custom' or `org-babel-do-load-languages'
-    (org-babel-load-languages (cons '(plantuml . t) org-babel-load-languages)))
-
-  (use-package~ ob-plantuml
-    :custom
     (org-plantuml-jar-path plantuml-jar-path)
-    (org-plantuml-exec-mode plantuml-default-exec-mode)))
+    (org-plantuml-exec-mode plantuml-default-exec-mode)
+    :config
+    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+    (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))))
 
 ;;; Visual fill column mode
 (use-package visual-fill-column
