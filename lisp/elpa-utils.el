@@ -22,7 +22,9 @@
   :commands (vterm vterm-other-window)
   :custom
   (vterm-kill-buffer-on-exit t)
-  (vterm-max-scrollback 10000))
+  (vterm-max-scrollback 10000)
+  (vterm-tramp-shells '(("ssh" "/bin/bash")
+                        ("plink" "/bin/bash"))))
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
