@@ -14,6 +14,12 @@ case "$-" in
     *) return;;
 esac
 
+## Emacs TRAMP mode
+if [[ "$TERM" == "dumb" ]]; then
+    PS1="$ "
+    return
+fi
+
 ### Initialization
 ## Directory where this script is
 ribash_home=$(dirname $(realpath "$BASH_SOURCE"))
