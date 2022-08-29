@@ -4,20 +4,20 @@
 ### Prerequisites
 ## Source guard
 if [[ -z $BASH_VERSION ]] || [[ -n $LOADED_RICE_BASH ]]; then
-    return
+    return 1
 fi
 LOADED_RICE_BASH=1
 
 ## Interactive mode only
 case "$-" in
     *i*) ;;
-    *) return;;
+    *) return 2 ;;
 esac
 
 ## Emacs TRAMP mode
 if [[ "$TERM" == "dumb" ]]; then
     PS1="$ "
-    return
+    return 3
 fi
 
 ### Initialization
@@ -30,7 +30,7 @@ rinclude() {
     ## $2: If non-empty, ignore errors if the module file doesn't exist
     local file="$ribash_home/${1}.sh"
     if [[ -n $2 ]] && [[ ! -f $file ]]; then
-        return
+        return 100
     fi
     source $file
 }
