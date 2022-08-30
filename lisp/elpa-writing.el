@@ -55,7 +55,6 @@
   (org-ctrl-k-protect-subtree t)
   (org-yank-adjusted-subtrees t)
   (org-insert-heading-respect-content t)
-  (org-use-fast-todo-selection 'expert) ;; No popup window
   (org-use-fast-tag-selection nil) ;; Always use list selection
   (org-src-preserve-indentation t)
 
@@ -67,26 +66,32 @@
   (org-refile-allow-creating-parent-nodes 'confirm)
 
   ;; Todo
-  (org-todo-keywords '((sequence "TODO(t)" "IN_PROGRESS(p)" "|" "DONE(d!)" "CANCELLED(c@/!)")
-                       (sequence "ANALYSIS(a!)" "WIP(w!)" "HOLD(h!)" "|" "FIXED(f!)" "WONT_FIX(u@/!)")))
+  (org-use-fast-todo-selection 'expert) ;; No popup window
+  ;; Omit selection characters after the first general sequence to let Org
+  ;; generate them automatically
+  (org-todo-keywords
+   '(;; General
+     (sequence "TODO(t)" "PROGRESSING(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+     ;; Jira style
+     (sequence "ANALYSIS(!)" "DEVELOPMENT(!)" "INTEGRATION(!)" "HOLD(!)" "CP(!)"
+               "|"
+               "FIXED(!/!)" "DUPLICATE(!/!)" "INVALID(!/!)" "WONT-FIX(@/!)")))
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
 
   ;; Capture
   (org-capture-templates
-   '(;; Todo
-     ("t" "Tasks")
-     ("tt" "Create a todo item" entry (file+headline "inbox.org" "Tasks")
-      "* TODO %?\nSCHEDULED: %T")
-     ("td" "Create a todo item on a certain day" entry (file+headline "inbox.org" "Tasks")
+   '(;; Daily tasks
+     ("t" "Todo" entry (file+headline "inbox.org" "Tasks")
+      "* TODO %?\n")
+     ("T" "Todo with Schedule" entry (file+headline "inbox.org" "Tasks")
       "* TODO %?\nSCHEDULED: %^{Pick a date}t")
-     ("tn" "Take a note" entry (file+headline "inbox.org" "Notes")
+     ("n" "Note" entry (file+headline "inbox.org" "Notes")
       "* %?\n%i")
-     ("ts" "Take a piece of code snippet" entry (file+headline "inbox.org" "Snippets")
+     ("s" "Code Snippet" entry (file+headline "inbox.org" "Snippets")
       "* %?\n#+begin_src\n%i\n#+end_src")
      ;; Journal
-     ("j" "Journal")
-     ("jj" "Create a journal" entry (file+olp+datetree "journal.org")
+     ("j" "Create a journal" entry (file+olp+datetree "journal.org")
       "* %?\n%U"
       :time-prompt t))))
 
