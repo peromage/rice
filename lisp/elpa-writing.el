@@ -7,13 +7,32 @@
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
   :init
-  (defun pew/org/refresh-image ()
+  (defun pew/org/refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
+    (interactive)
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
+  (defun pew/org/marker-visible (&optional show)
+    "Pass SHOW with non-nil to make markers visible or vice versa."
+    (setq-default
+     org-hide-emphasis-markers (not show)
+     org-hide-leading-stars (not show)
+     org-link-descriptive (not show))
+    (org-mode-restart))
+
+  (defun pew/org/show-markers ()
+    "Interactive command to show markers."
+    (interactive)
+    (pew/org/marker-visible t))
+
+  (defun pew/org/hide-markers ()
+    "Interactive command to hide markers."
+    (interactive)
+    (pew/org/marker-visible nil))
+
   :hook ((org-mode . pew/text-setup)
-         (org-babel-after-execute . pew/org/refresh-image))
+         (org-babel-after-execute . pew/org/refresh-images))
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
@@ -21,12 +40,19 @@
   ;; Take every org files under `org-directory'
   (org-agenda-files (list org-directory))
 
-  ;; Startup actions
+  ;; Visual on startup
   (org-startup-indented t)
-  (org-startup-folded nil)
+  (org-startup-folded 'showeverything)
   (org-startup-truncated nil)
   (org-startup-numerated nil)
-  (org-startup-with-inline-images t)
+  (org-startup-with-inline-images nil)
+  (org-hide-emphasis-markers nil)
+  (org-hide-leading-stars nil)
+  (org-indent-mode-turns-on-hiding-stars nil)
+  (org-hide-macro-markers nil)
+  (org-hide-block-startup nil)
+  (org-link-descriptive nil)
+  (org-ellipsis " ...")
 
   ;; Image displaying
   (org-display-remote-inline-images 'skip)
@@ -40,16 +66,8 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-fontify-whole-block-delimiter-line t)
 
-  ;; Visual
-  (org-hide-emphasis-markers t)
-  (org-hide-leading-stars t)
-  (org-hide-macro-markers nil)
-  (org-hide-block-startup nil)
-  (org-ellipsis " +++")
-
   ;; Editing
   (org-return-follows-link t)
-  (org-indent-mode-turns-on-hiding-stars nil)
   (org-insert-heading-respect-content t)
   (org-catch-invisible-edits 'show)
   (org-ctrl-k-protect-subtree t)
