@@ -164,6 +164,7 @@
   ;; Operations
   (save-place-mode t)
   (delete-selection-mode t)
+  (delete-by-moving-to-trash nil)
 
   ;; Don't write files automatically
   (auto-save-default nil)
