@@ -75,6 +75,8 @@
   (org-insert-heading-respect-content t)
   (org-use-fast-tag-selection nil) ;; Always use list selection
   (org-src-preserve-indentation t)
+  (org-refile-targets '((nil :maxlevel . 10)))
+  (org-odd-levels-only nil)
 
   ;; Log
   (org-log-done 'time)
