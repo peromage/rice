@@ -144,7 +144,9 @@
   (display-fill-column-indicator-column t)
   (global-display-fill-column-indicator-mode t)
 
-  ;; Locale
+  ;; Encoding and locale
+  (coding-system-for-write 'utf-8-unix)
+  (buffer-file-coding-system 'utf-8-unix)
   (current-language-environment "UTF-8")
   (default-input-method "chinese-py")
   (inhibit-eol-conversion t)
