@@ -1,52 +1,86 @@
-#!/bin/sh
-
-## This script must be executed in a archiso environment
+#!/bin/bash
+##
+## This script must be executed in an archiso environment
+##
 ## Notice: Beforing running this script, disks should be partitioned and mounted
 ## under /mnt (default)
+##
 
-## Some config variables
+## Some config variables #######################################################
+## Root
 MY_ARCH_ROOT=/mnt
+
+## User information
 MY_NAME=fang
 MY_UID=1234
-MY_HOSTNAME=ARCHMAGE
-## From timedatectl list-timezones
+MY_HOSTNAME=saffyyre
+
+## From /usr/share/zoneinfo
 MY_TIMEZONE=America/Detroit
-MY_SWAPFILE_SIZE_MB=8192
 
-## Package lists
+## Swap file. Set a value that is greater than 0 to enable.
+MY_SWAPFILE_SIZE_MB=0
 
-BASE_PACKAGES="
+## Arch core packages
+PACKAGE_BASE=(
 base
 linux
 linux-firmware
 intel-ucode
-"
+)
 
-SYS_PACKAGES="
+## System utility packages
+PACKAGE_SYSTEM=(
+### Boot loader
+grub
+grub-btrfs
+
+### File system
+btrfs-progs
+ntfs-3g
+
+### Shell
+bash
+bash-completion
+
+### System tools
 sudo
+man
+man-db
+man-pages
+rsync
+mkinitcpio
+
+### System services
 iw
 iwd
-man
-grub
 efibootmgr
 pulseaudio
 pulseaudio-alsa
 pavucontrol
-ntfs-3g
-"
+openssh
+)
 
-DE_PACKAGES="
+## Desktop environment packages
+PACKAGE_DESKTOP=(
 xorg
 xfce4
 xfce4-goodies
-"
+)
 
-DEV_PACKAGES="
-cmake
+## Development packages
+PACKAGE_DEVEL=(
 base-devel
-"
+git
+make
+cmake
+vim
+emacs
+tmux
+)
 
-FONT_PACKAGES="
+## Font packages
+PACKAGE_FONT=(
 adobe-source-han-sans-cn-fonts
 adobe-source-han-serif-cn-fonts
 noto-fonts
@@ -55,79 +89,83 @@ noto-fonts-emoji
 noto-fonts-extra
 otf-cascadia-code
 ttc-iosevka
-"
+)
 
-MY_PACKAGES="
-git
-vim
-emacs
-tmux
-openssh
-bash
-bash-completion
+## Some random packages
+PACKAGE_CUSTOM=(
 firefox
 fcitx-im
 fcitx-configtool
 fcitx-cloudpinyin
 fcitx-sunpinyin
-rsync
 pass
 xclip
-"
+)
 
-chdo() {
+##
+## Steps below follow Arch wiki: https://wiki.archlinux.org/title/installation_guide
+##
+
+## Install packages ############################################################
+echo ">> Installing Arch Linux base system..."
+pacstrap -KG $MY_ARCH_ROOT $PACKAGE_BASE $PACKAGE_SYSTEM $PACKAGE_DESKTOP $PACKAGE_DEVEL $PACKAGE_FONT $PACKAGE_CUSTOM
+
+## Configure the system ########################################################
+## Chroot ######################################################################
+chrootdo() {
     arch-chroot $MY_ARCH_ROOT $@
 }
 
-echo "## Installing Arch Linux base system..."
-pacstrap $MY_ARCH_ROOT $BASE_PACKAGES
+## Time zone ###################################################################
+echo ">> Configuring time zone..."
+chrootdo ln -sf /usr/share/zoneinfo/$MY_TIMEZONE /etc/localtime
+chrootdo hwclock --systohc
+#chrootdo timedatectl set-ntp true
 
-## Begin arch-chroot
-echo "## Now entering arch-chroot..."
-
-echo "## Syncing package..."
-chdo pacman -Syy
-chdo pacman -S $SYS_PACKAGES $DE_PACKAGES $DEV_PACKAGES $FONT_PACKAGES $MY_PACKAGES
-
-echo "## Configuring date and time..."
-chdo hwclock --systohc
-chdo timedatectl set-timezone $MY_TIMEZONE
-chdo timedatectl set-ntp true
-
-echo "## Configuring locale..."
+## Localization ################################################################
+echo ">> Configuring locale..."
 echo en_US.UTF-8 UTF-8 >> $MY_ARCH_ROOT/etc/locale.gen
 echo zh_CN.UTF-8 UTF-8 >> $MY_ARCH_ROOT/etc/locale.gen
-chdo locale-gen
+chrootdo locale-gen
+echo LANG=en_US.UTF-8 >> $MY_ARCH_ROOT/etc/locale.conf
 
-echo "## Configuring hostname..."
+## Network configuration #######################################################
+echo ">> Configuring hostname..."
 echo $MY_HOSTNAME > $MY_ARCH_ROOT/etc/hostname
 
-echo "## Configuring logins..."
-echo "## Updating password for root..."
-chdo passwd root
-echo "## Adding user $MY_NAME..."
-chdo useradd -m -s /bin/bash -u $MY_UID $MY_NAME
-chdo usermod -aG wheel $MY_NAME
-chdo passwd $MY_NAME
+## Login #######################################################################
+echo ">> Configuring logins..."
+echo ">> Setting root password..."
+chrootdo passwd root
+echo ">> Adding user $MY_NAME..."
+chrootdo useradd -m -s /bin/bash -u $MY_UID $MY_NAME
+chrootdo usermod -aG wheel $MY_NAME
+chrootdo passwd $MY_NAME
 echo "$MY_NAME ALL=(ALL:ALL) ALL" > $MY_ARCH_ROOT/etc/sudoers.d/$MY_NAME
 
-echo "## Configuring system services..."
-chdo systemctl enable iwd
-chdo systemctl enable systemd-resolved
+## Services ####################################################################
+echo ">> Configuring system services..."
+chrootdo systemctl enable iwd
+chrootdo systemctl enable systemd-resolved
 
-echo "## Configuring bootloader..."
-chdo mkinitcpio -P
-chdo grub-install --efi-directory=/boot --boot-directory=/boot --target=x86_64-efi --bootloader-id=$MY_HOSTNAME
-chdo grub-mkconfig -o /boot/grub/grub.cfg
-
-echo "## arch-chroot done!"
-## End arch-chroot
-
-echo "Generating swapfile..."
-dd if=/dev/zero of=$MY_ARCH_ROOT/swapfile bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
-chmod 600 $MY_ARCH_ROOT/swapfile
-mkswap $MY_ARCH_ROOT/swapfile
-swapon $MY_ARCH_ROOT/swapfile
-
-echo "Generating fstab..."
+## System Boot #################################################################
+## Fstab #######################################################################
+echo ">> Generating fstab..."
 genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
+
+## Bootloader ##################################################################
+echo ">> Configuring bootloader..."
+chrootdo mkinitcpio -P
+chrootdo grub-install --efi-directory=/boot --boot-directory=/boot --target=x86_64-efi --bootloader-id=$MY_HOSTNAME
+chrootdo grub-mkconfig -o /boot/grub/grub.cfg
+
+## Swap file ###################################################################
+if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
+    echo ">> Generating swapfile..."
+    dd if=/dev/zero of=$MY_ARCH_ROOT/swapfile bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
+    chmod 600 $MY_ARCH_ROOT/swapfile
+    mkswap $MY_ARCH_ROOT/swapfile
+    swapon $MY_ARCH_ROOT/swapfile
+else
+    echo ">> Swap file disabled"
+fi
