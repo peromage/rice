@@ -23,149 +23,174 @@ MY_SWAPFILE_SIZE_MB=0
 
 ## Arch core packages
 PACKAGE_BASE=(
-base
-linux
-linux-firmware
-intel-ucode
+    base
+    linux
+    linux-firmware
+    intel-ucode
 )
 
 ## System utility packages
 PACKAGE_SYSTEM=(
-### Boot loader
-grub
-grub-btrfs
+    ## Boot loader
+    grub
+    grub-btrfs
 
-### File system
-btrfs-progs
-ntfs-3g
+    ## File system
+    btrfs-progs
+    ntfs-3g
 
-### Shell
-bash
-bash-completion
+    ## Shell
+    bash
+    bash-completion
 
-### System tools
-sudo
-man
-man-db
-man-pages
-rsync
-mkinitcpio
+    ## System tools
+    sudo
+    man
+    man-db
+    man-pages
+    rsync
 
-### System services
-iw
-iwd
-efibootmgr
-pulseaudio
-pulseaudio-alsa
-pavucontrol
-openssh
+    ## System services
+    iw
+    iwd
+    efibootmgr
+    pulseaudio
+    pulseaudio-alsa
+    pavucontrol
+    openssh
 )
 
 ## Desktop environment packages
 PACKAGE_DESKTOP=(
-xorg
-xfce4
-xfce4-goodies
+    xorg
+    xfce4
+    xfce4-goodies
 )
 
 ## Development packages
 PACKAGE_DEVEL=(
-base-devel
-git
-make
-cmake
-vim
-emacs
-tmux
+    base-devel
+    git
+    make
+    cmake
+    vim
+    emacs
+    tmux
 )
 
 ## Font packages
 PACKAGE_FONT=(
-adobe-source-han-sans-cn-fonts
-adobe-source-han-serif-cn-fonts
-noto-fonts
-noto-fonts-cjk
-noto-fonts-emoji
-noto-fonts-extra
-otf-cascadia-code
-ttc-iosevka
+    adobe-source-han-sans-cn-fonts
+    adobe-source-han-serif-cn-fonts
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-extra
+    otf-cascadia-code
+    ttc-iosevka
 )
 
 ## Some random packages
 PACKAGE_CUSTOM=(
-firefox
-fcitx-im
-fcitx-configtool
-fcitx-cloudpinyin
-fcitx-sunpinyin
-pass
-xclip
+    firefox
+    fcitx-im
+    fcitx-configtool
+    fcitx-cloudpinyin
+    fcitx-sunpinyin
+    pass
+    xclip
 )
+
+## Helper functions ############################################################
+chrootdo() {
+    arch-chroot $MY_ARCH_ROOT $@
+}
+
+stdout_color_reset() {
+    echo -ne '\e[0m'
+}
+
+stdout_color_bright_white() {
+    echo -ne "\e[37;1m"
+}
+
+stdout_color_bright_red() {
+    echo -ne '\e[31;1m'
+}
+
+logi() {
+    stdout_color_bright_white
+    echo "[ INFO ]" "$@"
+    stdout_color_reset
+}
+
+loge() {
+    stdout_color_bright_red
+    echo "[ ERROR ]" "$@"
+    stdout_color_reset
+}
 
 ##
 ## Steps below follow Arch wiki: https://wiki.archlinux.org/title/installation_guide
 ##
 
 ## Install packages ############################################################
-echo ">> Installing Arch Linux base system..."
-pacstrap -KG $MY_ARCH_ROOT $PACKAGE_BASE $PACKAGE_SYSTEM $PACKAGE_DESKTOP $PACKAGE_DEVEL $PACKAGE_FONT $PACKAGE_CUSTOM
+logi "Installing Arch Linux base system..."
+pacstrap -KG $MY_ARCH_ROOT ${PACKAGE_BASE[@]} ${PACKAGE_SYSTEM[@]} ${PACKAGE_DESKTOP[@]} ${PACKAGE_DEVEL[@]} ${PACKAGE_FONT[@]} ${PACKAGE_CUSTOM[@]}
 
 ## Configure the system ########################################################
-## Chroot ######################################################################
-chrootdo() {
-    arch-chroot $MY_ARCH_ROOT $@
-}
-
 ## Time zone ###################################################################
-echo ">> Configuring time zone..."
+logi "Configuring time zone..."
 chrootdo ln -sf /usr/share/zoneinfo/$MY_TIMEZONE /etc/localtime
 chrootdo hwclock --systohc
 #chrootdo timedatectl set-ntp true
 
 ## Localization ################################################################
-echo ">> Configuring locale..."
+logi "Configuring locale..."
 echo en_US.UTF-8 UTF-8 >> $MY_ARCH_ROOT/etc/locale.gen
 echo zh_CN.UTF-8 UTF-8 >> $MY_ARCH_ROOT/etc/locale.gen
 chrootdo locale-gen
 echo LANG=en_US.UTF-8 >> $MY_ARCH_ROOT/etc/locale.conf
 
 ## Network configuration #######################################################
-echo ">> Configuring hostname..."
+logi "Configuring hostname..."
 echo $MY_HOSTNAME > $MY_ARCH_ROOT/etc/hostname
 
 ## Login #######################################################################
-echo ">> Configuring logins..."
-echo ">> Setting root password..."
+logi "Configuring logins..."
+logi "Setting root password..."
 chrootdo passwd root
-echo ">> Adding user $MY_NAME..."
+logi "Adding user $MY_NAME..."
 chrootdo useradd -m -s /bin/bash -u $MY_UID $MY_NAME
 chrootdo usermod -aG wheel $MY_NAME
 chrootdo passwd $MY_NAME
 echo "$MY_NAME ALL=(ALL:ALL) ALL" > $MY_ARCH_ROOT/etc/sudoers.d/$MY_NAME
 
 ## Services ####################################################################
-echo ">> Configuring system services..."
+logi "Configuring system services..."
 chrootdo systemctl enable iwd
 chrootdo systemctl enable systemd-resolved
 
 ## System Boot #################################################################
 ## Fstab #######################################################################
-echo ">> Generating fstab..."
+logi "Generating fstab..."
 genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
 
 ## Bootloader ##################################################################
-echo ">> Configuring bootloader..."
+logi "Configuring bootloader..."
 chrootdo mkinitcpio -P
 chrootdo grub-install --efi-directory=/boot --boot-directory=/boot --target=x86_64-efi --bootloader-id=$MY_HOSTNAME
 chrootdo grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Swap file ###################################################################
 if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
-    echo ">> Generating swapfile..."
+    logi "Generating swapfile..."
     dd if=/dev/zero of=$MY_ARCH_ROOT/swapfile bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
     chmod 600 $MY_ARCH_ROOT/swapfile
     mkswap $MY_ARCH_ROOT/swapfile
     swapon $MY_ARCH_ROOT/swapfile
 else
-    echo ">> Swap file disabled"
+    logi "Swap file disabled"
 fi
+
+logi "Arch installation completed!"
