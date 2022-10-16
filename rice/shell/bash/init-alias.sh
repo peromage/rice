@@ -9,6 +9,8 @@ alias ll="ls -lahF --color=auto"
 alias em="emacsclient -c -nw"
 ## Open files in the current frame
 alias emm="emacsclient -c -n"
+## Open files quickly
+alias emq="emacs -Q"
 ## Daemon
 emdaemon() {
     emacsclient -e 't' &>/dev/null || emacs --daemon
