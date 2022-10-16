@@ -21,6 +21,9 @@ MY_TIMEZONE=America/Detroit
 ## Swap file. Set a value that is greater than 0 to enable.
 MY_SWAPFILE_SIZE_MB=0
 
+## Some random packages
+PACKAGE_CUSTOM=()
+
 ## Arch core packages
 PACKAGE_BASE=(
     base
@@ -29,9 +32,10 @@ PACKAGE_BASE=(
     intel-ucode
 )
 
-## System utility packages
+## System packages
 PACKAGE_SYSTEM=(
     ## Boot loader
+    efibootmgr
     grub
     grub-btrfs
 
@@ -39,36 +43,28 @@ PACKAGE_SYSTEM=(
     btrfs-progs
     ntfs-3g
 
-    ## Shell
-    bash
-    bash-completion
+    ## Services
+    iw
+    iwd
+    pulseaudio
+    pulseaudio-alsa
+    pavucontrol
+    openssh
 
-    ## System tools
+    ## Tools
     sudo
     man
     man-db
     man-pages
     rsync
+    xclip
+    pass
 
-    ## System services
-    iw
-    iwd
-    efibootmgr
-    pulseaudio
-    pulseaudio-alsa
-    pavucontrol
-    openssh
-)
+    ## Shell
+    bash
+    bash-completion
 
-## Desktop environment packages
-PACKAGE_DESKTOP=(
-    xorg
-    xfce4
-    xfce4-goodies
-)
-
-## Development packages
-PACKAGE_DEVEL=(
+    ## Development
     base-devel
     git
     make
@@ -76,10 +72,8 @@ PACKAGE_DEVEL=(
     vim
     emacs
     tmux
-)
 
-## Font packages
-PACKAGE_FONT=(
+    ## Fonts
     adobe-source-han-sans-cn-fonts
     adobe-source-han-serif-cn-fonts
     noto-fonts
@@ -88,17 +82,20 @@ PACKAGE_FONT=(
     noto-fonts-extra
     otf-cascadia-code
     ttc-iosevka
-)
 
-## Some random packages
-PACKAGE_CUSTOM=(
+    ## Desktop
+    xorg
+    xfce4
+    xfce4-goodies
+
+    ## GUI applications
     firefox
+
+    ## Input methods
     fcitx-im
     fcitx-configtool
     fcitx-cloudpinyin
     fcitx-sunpinyin
-    pass
-    xclip
 )
 
 ## Helper functions ############################################################
@@ -136,7 +133,7 @@ loge() {
 
 ## Install packages ############################################################
 logi "Installing Arch Linux base system..."
-pacstrap -KG $MY_ARCH_ROOT ${PACKAGE_BASE[@]} ${PACKAGE_SYSTEM[@]} ${PACKAGE_DESKTOP[@]} ${PACKAGE_DEVEL[@]} ${PACKAGE_FONT[@]} ${PACKAGE_CUSTOM[@]}
+pacstrap -KG $MY_ARCH_ROOT ${PACKAGE_BASE[@]} ${PACKAGE_SYSTEM[@]} ${PACKAGE_CUSTOM[@]}
 
 ## Configure the system ########################################################
 ## Time zone ###################################################################
