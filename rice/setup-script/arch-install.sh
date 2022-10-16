@@ -44,8 +44,7 @@ PACKAGE_SYSTEM=(
     ntfs-3g
 
     ## Services
-    iw
-    iwd
+    networkmanager
     pulseaudio
     pulseaudio-alsa
     pavucontrol
@@ -58,6 +57,8 @@ PACKAGE_SYSTEM=(
     man-pages
     rsync
     xclip
+    zip
+    unzip
     pass
 
     ## Shell
