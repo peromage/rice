@@ -4,14 +4,14 @@
 ## Each command function name has to be "my_NAME"
 my_bash() {
     cat <<EOF | append $HOME/.bashrc
-source $RICE_HOME/bash/init.sh
+source $RICE_HOME/shell/init.bash
 update-gpg-agent
 EOF
 }
 
 my_pwsh() {
     cat <<EOF | append $HOME/.config/powershell/profile.ps1
-. $RICE_HOME/pwsh/init.ps1
+. $RICE_HOME/shell/init.ps1
 EOF
 }
 
