@@ -34,6 +34,9 @@ PACKAGE_BASE=(
 
 ## System packages
 PACKAGE_SYSTEM=(
+    ## Pacman
+    reflector
+
     ## Boot loader
     efibootmgr
     grub
@@ -43,11 +46,19 @@ PACKAGE_SYSTEM=(
     btrfs-progs
     ntfs-3g
 
-    ## Services
-    networkmanager
+    ## Power
+    cpupower
+    tlp
+    htop
+    s-tui
+
+    ## Audio
     pulseaudio
     pulseaudio-alsa
     pavucontrol
+
+    ## Network
+    networkmanager
     openssh
 
     ## Tools
@@ -178,8 +189,11 @@ echo "$MY_NAME ALL=(ALL:ALL) ALL" > $MY_ARCH_ROOT/etc/sudoers.d/$MY_NAME
 
 ## Services ####################################################################
 logi "Configuring system services..."
-chrootdo systemctl enable iwd
-chrootdo systemctl enable systemd-resolved
+chrootdo systemctl enable NetworkManager.service
+chrootdo systemctl enable systemd-resolved.service
+chrootdo systemctl enable sshd.service
+chrootdo systemctl enable cpupower.service
+chrootdo systemctl enable tlp.service
 
 ## System Boot #################################################################
 ## Fstab #######################################################################
