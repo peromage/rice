@@ -252,6 +252,13 @@ fi
 logi "Generating fstab"
 genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
 
+### Some nice settings #########################################################
+cat <<EOF >> $MY_ARCH_ROOT/etc/pacman.conf
+[options]
+ILoveCandy
+Color
+EOF
+
 ### Custom installation process ################################################
 logi "Starting custom installation"
 
