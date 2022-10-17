@@ -63,6 +63,8 @@ SYSTEM_PACKAGES=(
 
     ## Network
     networkmanager=1
+    nm-connection-editor
+    network-manager-applet
     openssh=1
 
     ## Tools
