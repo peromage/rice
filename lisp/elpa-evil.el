@@ -193,7 +193,10 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (pew/special-buffer vc) 'emacs
     (pew/special-buffer magit) 'emacs
     (pew/special-buffer ediff) 'emacs
-    ;; Motion buffers
+    ;; Shell buffers
+    (pew/special-buffer shell) 'emacs
+    (pew/special-buffer terminal) 'emacs
+    ;; Buffers in motion
     (pew/special-buffer help) 'motion
     (pew/special-buffer message) 'motion
     (pew/special-buffer backtrace) 'motion
@@ -202,10 +205,8 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (pew/special-buffer compilation) 'motion
     (pew/special-buffer output) 'motion
     (pew/special-buffer command) 'motion
-    ;; Normal buffers
+    ;; Buffer in normal
     (pew/special-buffer scratch) 'normal
-    (pew/special-buffer shell) 'normal
-    (pew/special-buffer term) 'normal
     (pew/special-buffer org-src) 'normal
     ;; Fallback initial state for all special buffers
     (pew/special-buffer starred) 'emacs)
@@ -217,6 +218,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     'help-mode 'motion
     'message-mode 'motion
     'compilation-mode 'motion
+    'vterm-mode 'emacs
     ;; Minor modes
     'view-mode 'motion)
 
