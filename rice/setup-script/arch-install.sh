@@ -56,9 +56,9 @@ SYSTEM_PACKAGES=(
     s-tui
 
     ## Audio
-    pulseaudio
-    pulseaudio-alsa
-    pavucontrol
+    pipewire
+    pipewire-alsa
+    pipewire-pulse
 
     ## Network
     networkmanager=1
@@ -74,10 +74,12 @@ SYSTEM_PACKAGES=(
     zip
     unzip
     pass
+    ispell
 
-    ## Shell
+    ## Terminal and shell
     bash
     bash-completion
+    alacritty
 
     ## Development
     base-devel
@@ -260,7 +262,7 @@ fi
 
 ### Install packages ###########################################################
 logi "Installing Arch Linux base system"
-pacstrap -KG $MY_ARCH_ROOT ${SYSTEM_PACKAGES[@]}
+pacstrap -KG $MY_ARCH_ROOT $(system_package_normalized_list)
 
 ### Configure packages #########################################################
 for func in $(system_package_configure_list); do
