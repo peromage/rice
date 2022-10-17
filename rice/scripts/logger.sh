@@ -20,18 +20,72 @@ declare -A COLORS=(
     "bright_white"    "\e[37;1m"
 )
 
-echo_color() {
+set_color() {
     echo -ne ${COLORS[$1]}
 }
 
+echo_black() {
+    set_color bright_black
+    echo "$@"
+    set_color reset
+}
+
+echo_red() {
+    set_color bright_red
+    echo "$@"
+    set_color reset
+}
+
+echo_green() {
+    set_color bright_green
+    echo "$@"
+    set_color reset
+}
+
+echo_yellow() {
+    set_color bright_yellow
+    echo "$@"
+    set_color reset
+}
+
+echo_blue() {
+    set_color bright_blue
+    echo "$@"
+    set_color reset
+}
+
+echo_magenta() {
+    set_color bright_magenta
+    echo "$@"
+    set_color reset
+}
+
+echo_cyan() {
+    set_color bright_cyan
+    echo "$@"
+    set_color reset
+}
+
+echo_white() {
+    set_color bright_white
+    echo "$@"
+    set_color reset
+}
+
 logi() {
-    echo_color bright_white
+    set_color bright_white
     echo "[ INFO ]" "$@"
-    echo_color reset
+    set_color reset
+}
+
+logw() {
+    set_color bright_yellow
+    echo "[ WARNING ]" "$@"
+    set_color reset
 }
 
 loge() {
-    echo_color bright_red
+    set_color bright_red
     echo "[ ERROR ]" "$@"
-    echo_color reset
+    set_color reset
 }
