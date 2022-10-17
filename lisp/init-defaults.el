@@ -23,7 +23,7 @@
 
 ;;;; Windows and frames
   ;; Over-3-side-window causes troubles when toggling (I don't know why)
-  (display-buffer-alist `((,(pew/special-buffer (shell term help) t)
+  (display-buffer-alist `((,(pew/special-buffer (shell terminal help) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (window-height . 0.25)
                            (side . bottom)
