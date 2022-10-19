@@ -115,6 +115,10 @@
       "* %?\n%U"
       :time-prompt t))))
 
+;;; Org export
+(use-package ox-hugo
+  :defer t)
+
 ;;; Markdown mode
 (use-package markdown-mode
   :hook (markdown-mode . pew/text-setup))
