@@ -16,7 +16,7 @@ function run_as_admin {
     }
     $proc = New-Object -TypeName System.Diagnostics.Process
     $proc.StartInfo.FileName = "${PSHOME}/pwsh.exe"
-    $proc.StartInfo.Arguments = "-noexit -command cd $pwd;" + ($args -join ' ')
+    $proc.StartInfo.Arguments = $args.Count -gt 0 ? "-command cd $pwd; $($args -join ' ')" : "-noexit -command cd $pwd"
     $proc.StartInfo.UseShellExecute = $true
     $proc.StartInfo.Verb = "runas"
     $proc.Start() | Out-Null
