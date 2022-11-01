@@ -8,13 +8,17 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 }
 
 ### Initialization
-$global:rice = @{
+## Rice variables
+$rice = @{
     home = Get-Item $PSScriptRoot
-    root = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
-    os_windows = $IsWindows ? $true : $false
+    privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
+    platform_windows = $IsWindows ? $true : $false
 }
 
-### Source other modules relative to this file.
+## Environment variables
+$env:PATH += [IO.Path]::PathSeparator + (Join-Path $rice.home.Parent.FullName "scripts")
+$env:EDITOR = "vim"
+
 ## Return a string with dot sourcing syntax.
 function rice_include {
     param ($file, $noerror=$null)
@@ -28,8 +32,23 @@ function rice_include {
     return ". ${file_full_path}"
 }
 
+## PSReadLine
+&{
+    $my_psreadline_options = @{
+        EditMode = "Emacs"
+        HistoryNoDuplicates = $true
+        HistorySearchCursorMovesToEnd = $true
+        HistorySearchCaseSensitive = $false
+        HistorySaveStyle = "SaveIncrementally"
+        PredictionSource = "History"
+    }
+    Set-PSReadLineOption @my_psreadline_options
+    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+}
+
 ### Load modules
-Invoke-Expression (rice_include modules/init-default.ps1)
 Invoke-Expression (rice_include modules/init-alias.ps1)
-Invoke-Expression (rice_include modules/init-alias-win.ps1)
 Invoke-Expression (rice_include modules/theme-minimalist.ps1)
+if ($rice.platform_windows) {
+    Invoke-Expression (rice_include modules/init-alias-windows.ps1)
+}
