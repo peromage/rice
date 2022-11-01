@@ -1,18 +1,19 @@
 ### init-alias-win.ps1 -- Utilities for Windows Only
 
 ### Skips on non-Windows platform
-if ($IsWindows) {
+if (-not $rice.os_windows) {
+    return
+}
 
-### Admin related
-function testAdmin {
+### Privileged operations
+function test_admin {
     return ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
         [Security.Principal.WindowsBuiltinRole]::Administrator)
 }
-Set-Alias issu testAdmin
 
-function runasAdmin {
-    if (testAdmin) {
-        Write-Output "You are admin already!"
+function run_as_admin {
+    if (test_admin) {
+        Write-Output "Current session is running with admin privilege already."
     } else {
         if ($args.Length -eq 0) {
             Write-Output "Usage: runasAdmin <command> [arguments]"
@@ -27,11 +28,12 @@ function runasAdmin {
         }
     }
 }
-Set-Alias sudo runasAdmin
+Set-Alias sudo run_as_admin
 
-function evaltoAdmin {
-    if (testAdmin) {
+function open_admin_session {
+    if (test_admin) {
         Write-Output "You are admin already!"
+        Write-Output "Current session is running with admin privilege already."
     } else {
         $commands = "-noexit -command cd $pwd;"
         $proc = New-Object -TypeName System.Diagnostics.Process
@@ -42,7 +44,7 @@ function evaltoAdmin {
         $proc.Start() | Out-Null
     }
 }
-Set-Alias su evaltoAdmin
+Set-Alias su open_admin_session
 
 ### Operation of path
 ## These functions permanently change the environment variables
@@ -138,7 +140,7 @@ function removeEnvUserVars {
     }
 }
 
-### Common
+### Directory listing
 function listDirectory {
     [CmdletBinding(PositionalBinding=$false, DefaultParameterSetName="sortByDefault")]
     param ([Parameter(Position=0)][string]$path=$PWD.Path,
@@ -193,5 +195,3 @@ Set-Alias ll listDirectory
 function cygwin-install {
     cygwin-setup --no-admin --no-shortcuts @args
 }
-
-} ## Windows
