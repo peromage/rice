@@ -53,8 +53,7 @@ function brew {
 }
 
 ### Function decoration
-## Behavior definitions follow Emacs "define_advice"
-## Only function is supported
+## Behavior definitions follow Emacs "define_advice". Only function is supported
 function define_advice {
     param([Parameter(Mandatory, Position=0, ParameterSetName="before")]
           [Parameter(Mandatory, Position=0, ParameterSetName="after")]
@@ -62,9 +61,7 @@ function define_advice {
           [Parameter(Mandatory, Position=0, ParameterSetName="override")]
           [Parameter(Mandatory, Position=0, ParameterSetName="filter_args")]
           [Parameter(Mandatory, Position=0, ParameterSetName="filter_return")]
-          [Parameter(Mandatory, Position=0, ParameterSetName="restore")]
           [string]
-          ## Can be a function, cmdlet or alias
           $funcname,
 
           [Parameter(Mandatory, Position=1, ParameterSetName="before")]
@@ -98,50 +95,28 @@ function define_advice {
 
           [Parameter(Mandatory, ParameterSetName="filter_return")]
           [switch]
-          $filter_return,
-
-          [Parameter(Mandatory, ParameterSetName="restore")]
-          [switch]
-          $restore
+          $filter_return
          )
 
     $function_funcname = "function:${funcname}"
-
     if (-not (Get-Item $function_funcname -ErrorAction SilentlyContinue)) {
         "$function_funcname does not exist."
         return
     }
-
-    $saved_funcname = "saved_${funcname}"
-    $function_saved_funcname = "function:${saved_funcname}"
-
-    ## Check restoration before proceeding advice
-    if ($restore) {
-        if (-not (Get-Item $function_saved_funcname -ErrorAction SilentlyContinue)) {
-            "No advice defined for $funcname"
-            return
-        }
-        Copy-Item $function_saved_funcname $function_funcname
-        Remove-Item $function_saved_funcname
-        return
-    }
-
-    ## Backup old function definition
-    Invoke-Expression "function global:${saved_funcname} {}"
-    Copy-Item $function_funcname $function_saved_funcname
+    $original_func = (Get-Item $function_funcname).ScriptBlock
 
     ## Process advice
     if ($before) {
         Set-Item $function_funcname {
             &$advice @args
-            &$saved_funcname @args
+            &$original_func @args
         }.GetNewClosure()
         return
     }
 
     if ($after) {
         Set-Item $function_funcname {
-            &$saved_funcname @args
+            &$original_func @args
             &$advice @args
         }.GetNewClosure()
         return
@@ -149,7 +124,7 @@ function define_advice {
 
     if ($around) {
         Set-Item $function_funcname {
-            &$advice (Get-Item $function_saved_funcname) @args
+            &$advice $original_func @args
         }.GetNewClosure()
         return
     }
@@ -163,14 +138,16 @@ function define_advice {
 
     if ($filter_args) {
         Set-Item $function_funcname {
-            &$saved_funcname (&$advice @args)
+            $result = &$advice @args
+            &$original_func @result
         }.GetNewClosure()
         return
     }
 
     if ($filter_return) {
         Set-Item $function_funcname {
-            &$advice (&$saved_funcname @args)
+            $result = &$original_func @args
+            &$advice @result
         }.GetNewClosure()
         return
     }
