@@ -53,3 +53,15 @@ brewenv() {
 brew() {
     env HOMEBREW_NO_AUTO_UPDATE=1 PATH=/home/linuxbrew/.linuxbrew/bin:$PATH /home/linuxbrew/.linuxbrew/bin/brew @args
 }
+
+### Directory syncing
+rsync_dir() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: rsync_dir SRC DEST [EXCLUDE1,EXCLUDE2...]"
+        return 1
+    fi
+    local src="$1"
+    local dest="$2"
+    local excludes="$([[ -n $3 ]] && echo --exclude={$3})"
+    eval "rsync -avP --delete $excludes $src $dest" ## Prevent loss of curly braces
+}
