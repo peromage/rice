@@ -106,13 +106,13 @@ Since Elisp doesn't support namespace, it's a little painful to distinguish from
 
 I decided to add some personal preferences (I can do whatever in my configuration anyway) but I try to keep it simple in case I can't remember them all ending up with inconsistency.
 
-| Scope                                  | Convention                               | Example                             |
-|----------------------------------------+------------------------------------------+-------------------------------------|
-| Namespace separator                    | /                                        | pew/foo/bar                         |
-| Function name separator                | -                                        | pew/some-func                       |
-| Function parameters                    | Follow normal variable naming convention | (defun foo (one-param another-one)) |
-| Let bound variables                    | Prefix with =L= and use lower camel case   | (let (LthisIsLocal))                |
-| Let bound variables in macro expansion | Prefix with =LL= and use lower camel case  | `(let (LLmacroLetBound))            |
+| Scope                                  | Convention                                 | Example                             |
+|----------------------------------------+--------------------------------------------+-------------------------------------|
+| Namespace separator                    | /                                          | pew/foo/bar                         |
+| Function name separator                | -                                          | pew/some-func                       |
+| Function parameters                    | Follow normal variable naming convention   | (defun foo (one-param another-one)) |
+| Let bound variables                    | Prefix with =l/= and use =-= as separator  | (let (l/local-bound))               |
+| Let bound variables in macro expansion | Prefix with =lm/= and use =-= as separator | `(let (lm/local-bound-in-macro))    |
 | Unused variables                       | Prefix with =_=                            | (defun bar (first _ignored))        |
 
 It seems to work fine and compiler doesn't complain.

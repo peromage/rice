@@ -37,25 +37,25 @@ NAME should be one of the keys from `pew/special-buffer-alist'.
 If NAME is a list then the result will be a list of matching patterns instead.
 If CONCATED is non-nil the result will be concatenated with '\\|'."
     (declare (indent 0))
-    (let ((Lresult nil)
-          (Lmatch nil)
-          (Lgetter (lambda (x) (assoc x pew/special-buffer-alist)))
-          (Lerror (lambda (x) (error "No matching special buffer for %s" x))))
+    (let ((l/result nil)
+          (l/match nil)
+          (l/getter (lambda (x) (assoc x pew/special-buffer-alist)))
+          (l/error (lambda (x) (error "No matching special buffer for %s" x))))
       (cond
        ;; Multiple output
        ((not (symbolp name))
-        (dolist (Lname name)
-          (if (setq Lmatch (funcall Lgetter Lname))
-              (push (cdr Lmatch) Lresult)
-            (funcall Lerror Lname)))
-        (setq Lresult (reverse Lresult))
+        (dolist (l/name name)
+          (if (setq l/match (funcall l/getter l/name))
+              (push (cdr l/match) l/result)
+            (funcall l/error l/name)))
+        (setq l/result (reverse l/result))
         (if concated
-            (mapconcat #'identity Lresult "\\|")
-          (cons 'list Lresult)))
+            (mapconcat #'identity l/result "\\|")
+          (cons 'list l/result)))
        ;; Single output
-       ((setq Lmatch (funcall Lgetter name))
-        (setq Lresult (cdr Lmatch)))
-       (t (funcall Lerror name)))))
+       ((setq l/match (funcall l/getter name))
+        (setq l/result (cdr l/match)))
+       (t (funcall l/error name)))))
 
 ;;;; Configuration helpers
   (defvar pew/config-keywords
@@ -78,19 +78,19 @@ ARGS is a list of forms.  See section helpers for the form definitions."
     (declare (indent 0))
     (if (not (symbolp (car args)))
         (error "Missing keyword"))
-    (let ((Lhelper nil)
-          (Lsection nil)
-          (Lresult '(progn)))
-      (dolist (Litem args)
+    (let ((l/helper nil)
+          (l/section nil)
+          (l/result '(progn)))
+      (dolist (l/item args)
         (cond
          ;; Expand form with its helper
-         ((not (symbolp Litem))
-          (push (list Lhelper Litem) Lresult))
+         ((not (symbolp l/item))
+          (push (list l/helper l/item) l/result))
          ;; Check keyword
-         ((setq Lsection (assoc Litem pew/config-keywords))
-          (setq Lhelper (cdr Lsection)))
-         (t (error "Wrong keyword: %s" Litem))))
-      (reverse Lresult)))
+         ((setq l/section (assoc l/item pew/config-keywords))
+          (setq l/helper (cdr l/section)))
+         (t (error "Wrong keyword: %s" l/item))))
+      (reverse l/result)))
 
   (defmacro pew/set-custom (form)
     "Set custom variables or regular variables.
@@ -110,12 +110,12 @@ For DEF's definition see `define-key'.
 Note: Unlike `pew/set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
-    (let ((Lmap (intern (format "%s-map" (car form))))
-          (Lbindings (cdr form)))
-      `(let ((LLkeyMap (make-sparse-keymap)))
-         (dolist (LLbind ',Lbindings)
-           (define-key LLkeyMap (pew/tokey (car LLbind)) (cdr LLbind)))
-         (defvar ,Lmap LLkeyMap "Created by `pew/set-map'"))))
+    (let ((l/map (intern (format "%s-map" (car form))))
+          (l/bindings (cdr form)))
+      `(let ((lm/key-map (make-sparse-keymap)))
+         (dolist (lm/bind ',l/bindings)
+           (define-key lm/key-map (pew/tokey (car lm/bind)) (cdr lm/bind)))
+         (defvar ,l/map lm/key-map "Created by `pew/set-map'"))))
 
   (defmacro pew/set-bind (form)
     "Bind keys with an existing map.
@@ -125,10 +125,10 @@ Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'."
     (declare (indent 0))
-    (let ((Lmap (intern (format "%s-map" (car form))))
-          (Lbindings (cdr form)))
-      `(dolist (LLbind ',Lbindings)
-         (define-key ,Lmap (pew/tokey (car LLbind)) (cdr LLbind)))))
+    (let ((l/map (intern (format "%s-map" (car form))))
+          (l/bindings (cdr form)))
+      `(dolist (lm/bind ',l/bindings)
+         (define-key ,l/map (pew/tokey (car lm/bind)) (cdr lm/bind)))))
 
   (defmacro pew/set-transient (form)
     "Create a command that enters transient mode when invoked.
@@ -146,20 +146,20 @@ Note: Obsoleted `repeat-map' property method in Emacs 28 since it didn't work
 well for some reason:
   (put cmd 'repeat-map map-symbol)"
     (declare (indent 0))
-    (let* ((Lcmd (car form))
-           (LcmdRepeat (intern (format "%s-repeat" Lcmd)))
-           (LcmdDocString "Created by `pew/set-transient'"))
-      `(let ((LLmap (symbol-value (pew/set-map ,form))))
-         (defun ,Lcmd ()
-           ,LcmdDocString
+    (let* ((l/cmd (car form))
+           (l/cmd-repeat (intern (format "%s-repeat" l/cmd)))
+           (l/cmd-doc-string "Created by `pew/set-transient'"))
+      `(let ((lm/map (symbol-value (pew/set-map ,form))))
+         (defun ,l/cmd ()
+           ,l/cmd-doc-string
            (interactive)
-           (message "%s activated" ',Lcmd)
-           (set-transient-map LLmap nil))
-         (defun ,LcmdRepeat ()
-           ,LcmdDocString
+           (message "%s activated" ',l/cmd)
+           (set-transient-map lm/map nil))
+         (defun ,l/cmd-repeat ()
+           ,l/cmd-doc-string
            (interactive)
-           (message "%s activated" ',LcmdRepeat)
-           (set-transient-map LLmap t)))))
+           (message "%s activated" ',l/cmd-repeat)
+           (set-transient-map lm/map t)))))
 
   (defmacro pew/set-switch (form)
     "Create a command to switch variable between values.
@@ -170,29 +170,29 @@ non-nil and nil each time the command is called, otherwise cycle values from the
 list.
 The created command will be 'switch/VAR'."
     (declare (indent 0))
-    (let* ((Lvar (car form))
-           (Lval (cadr form))
-           (Lswitch (intern (format "switch/%s" Lvar))))
-      (if (not Lval)
+    (let* ((l/var (car form))
+           (l/val (cadr form))
+           (l/switch (intern (format "switch/%s" l/var))))
+      (if (not l/val)
           ;; On-off switch
-          `(defun ,Lswitch ()
+          `(defun ,l/switch ()
              ,(format "Switch variable `%s' between non-nil and nil.
-Created by `pew/set-switch'." Lvar)
+Created by `pew/set-switch'." l/var)
              (interactive)
-             (setq ,Lvar (not ,Lvar))
-             (message "%s: %s" ',Lvar (if ,Lvar "enabled" "disabled")))
+             (setq ,l/var (not ,l/var))
+             (message "%s: %s" ',l/var (if ,l/var "enabled" "disabled")))
         ;; Rotate switch
-        `(defun ,Lswitch ()
+        `(defun ,l/switch ()
            ,(format "Switch variable `%s' in the following values
   %S
-Created by `pew/set-switch'." Lvar Lval)
+Created by `pew/set-switch'." l/var l/val)
            (interactive)
-           (let* ((LLlist ,Lval)
-                  (LLmatch (pew/rotate-head LLlist ,Lvar 'next)))
-             (if LLmatch (setq ,Lvar (car LLmatch))
+           (let* ((lm/list ,l/val)
+                  (lm/match (pew/rotate-head lm/list ,l/var 'next)))
+             (if lm/match (setq ,l/var (car lm/match))
                ;; Reset the variable if no match
-               (setq ,Lvar (car LLlist)))
-             (message "%s: %s" ',Lvar ,Lvar))))))
+               (setq ,l/var (car lm/list)))
+             (message "%s: %s" ',l/var ,l/var))))))
 
   (defmacro pew/set-face (form)
     "Set face attributes.
@@ -201,17 +201,17 @@ FORM is of the form:
 Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
 See `set-face-attribute'."
     (declare (indent 0))
-    (let ((Lface (car form))
-          (Largs (cdr form))
-          (Lprops nil))
-      (while Largs
-        (push (pop Largs) Lprops)
+    (let ((l/face (car form))
+          (l/args (cdr form))
+          (l/props nil))
+      (while l/args
+        (push (pop l/args) l/props)
         ;; Quote symbols
-        (push (if (symbolp (car Largs))
-                  (list 'quote (pop Largs))
-                (pop Largs))
-              Lprops))
-      `(set-face-attribute ',Lface nil ,@(reverse Lprops))))
+        (push (if (symbolp (car l/args))
+                  (list 'quote (pop l/args))
+                (pop l/args))
+              l/props))
+      `(set-face-attribute ',l/face nil ,@(reverse l/props))))
 
   (defmacro pew/set-property (form)
     "Set symbol's property.
@@ -226,9 +226,9 @@ FORM is a cons:
   (HOOK . FUNC)
 Where HOOK implies suffix '-hook'."
     (declare (indent 0))
-    (let ((Lhook (intern (format "%s-hook" (car form))))
-          (Lfunc (cdr form)))
-      `(add-hook ',Lhook #',Lfunc)))
+    (let ((l/hook (intern (format "%s-hook" (car form))))
+          (l/func (cdr form)))
+      `(add-hook ',l/hook #',l/func)))
 
   (defmacro pew/set-eval (form)
     "Simply evaluate FORM and nothing else."
@@ -243,7 +243,7 @@ Where HOOK implies suffix '-hook'."
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    `(let ((LLkey ,key)) (if (stringp LLkey) (kbd LLkey) LLkey)))
+    `(let ((lm/key ,key)) (if (stringp lm/key) (kbd lm/key) lm/key)))
 
   (defmacro pew/evenp (num)
     "Determine if NUM is odd."
@@ -260,9 +260,9 @@ to the first.
 Return a new list or nil if LIST is nil."
     (cond ((not list) nil)
           ((not reverse)
-           `(let ((LLlist ,list)) (append (cdr LLlist) (cons (car LLlist) nil))))
+           `(let ((lm/list ,list)) (append (cdr lm/list) (cons (car lm/list) nil))))
           (t
-           `(let ((LLlist ,list)) (append (last LLlist) (butlast LLlist))))))
+           `(let ((lm/list ,list)) (append (last lm/list) (butlast lm/list))))))
 
   (defmacro pew/rotate-head (list value &optional next)
     "Rotate LIST and find the matching VALUE.
@@ -270,18 +270,18 @@ When NEXT is non-nil the returned list head will be the followed value of the
 matching one (VALUE will be on the tail).
 Return a new list with VALUE is the first element.  Or nil when either LIST is
 nil or VALUE is not found."
-    `(let* ((LLlist ,list)
-            (LLcond LLlist)
-            (LLvalue ,value)
-            (LLtail nil))
-       (while LLcond
-         (if (equal LLvalue (car LLcond))
-             (setq LLtail LLcond
-                   LLcond nil)
-           (pop LLcond)))
-       (if (not LLtail) nil
-         (setq LLtail (append LLtail (butlast LLlist (length LLtail))))
-         ,(if next '(pew/rotate LLtail) 'LLtail))))
+    `(let* ((lm/list ,list)
+            (lm/cond lm/list)
+            (lm/value ,value)
+            (lm/tail nil))
+       (while lm/cond
+         (if (equal lm/value (car lm/cond))
+             (setq lm/tail lm/cond
+                   lm/cond nil)
+           (pop lm/cond)))
+       (if (not lm/tail) nil
+         (setq lm/tail (append lm/tail (butlast lm/list (length lm/tail))))
+         ,(if next '(pew/rotate lm/tail) 'lm/tail))))
 
   (defmacro pew/font (&rest args)
     "Return a font object is it's found on the current system.
@@ -308,17 +308,17 @@ Possible value for ALL:
   any other values - call `macroexpand-all'
 The result will be shown in message buffer.  Return nil to reduce confusion."
   (declare (indent 0))
-  (let ((Lhelper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
+  (let ((l/helper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
     (pcase all
-      ('nil `(,Lhelper 'macroexpand ',form))
-      ('1 `(,Lhelper 'macroexpand-1 ',form))
-      (_ `(,Lhelper 'macroexpand-all ',form)))))
+      ('nil `(,l/helper 'macroexpand ',form))
+      ('1 `(,l/helper 'macroexpand-1 ',form))
+      (_ `(,l/helper 'macroexpand-all ',form)))))
 
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
-  (let ((Lname (help-key-description (vector keycode) nil)))
-    (message Lname)))
+  (let ((l/name (help-key-description (vector keycode) nil)))
+    (message l/name)))
 
 (defun pew/buffer-full-path ()
   "Display current file path in the minibuffer."
@@ -333,8 +333,8 @@ current path.
 When COMPONENT is given it will be appended at the end of BASE.
 When FOLLOW is non-nil the result will an absolute path with all symlink
 resolved."
-  (let ((Lresult (expand-file-name (file-name-concat base component))))
-    (if follow (file-truename Lresult) Lresult)))
+  (let ((l/result (expand-file-name (file-name-concat base component))))
+    (if follow (file-truename l/result) l/result)))
 
 (defvar pew/home-dir (pew/normalize-path load-file-name "../..")
   "The PEW configuration's home directory.
@@ -353,22 +353,22 @@ loaded from other places.")
   "Check if the given buffer NAME is a hidden buffer.
 Return t if NAME matches one of patterns defined in `pew/hidden-buffers' or nil
 if there is not match."
-  (let ((Lhiddens pew/hidden-buffers)
-        (Lmatched nil))
-    (while (and (not Lmatched) Lhiddens)
-      (setq Lmatched (string-match (pop Lhiddens) name)))
-    Lmatched))
+  (let ((l/hiddens pew/hidden-buffers)
+        (l/matched nil))
+    (while (and (not l/matched) l/hiddens)
+      (setq l/matched (string-match (pop l/hiddens) name)))
+    l/matched))
 
 (defun pew/switch-buffer (&optional prev)
   "Switch to the next buffer and skip hidden buffers.
 If PREV is non-nil switch to the previous buffer.
 Use `pew/hidden-buffer-p' to filter buffers."
-  (let ((LcurrentBuffer (current-buffer))
-        (LswitchFunc (if prev #'previous-buffer #'next-buffer)))
-    (funcall LswitchFunc)
+  (let ((l/current-buffer (current-buffer))
+        (l/switch-func (if prev #'previous-buffer #'next-buffer)))
+    (funcall l/switch-func)
     (while (and (pew/hidden-buffer-p (buffer-name))
-                (not (eq LcurrentBuffer (current-buffer))))
-      (funcall LswitchFunc))))
+                (not (eq l/current-buffer (current-buffer))))
+      (funcall l/switch-func))))
 
 (defun pew/next-buffer ()
   "Switch to the next buffer but skip hidden buffers."
@@ -383,11 +383,11 @@ Use `pew/hidden-buffer-p' to filter buffers."
 (defun pew/close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
-  (let ((LthisBuffer (current-buffer)))
-    (dolist (Lbuffer (buffer-list))
-      (if (and (eq mode (buffer-local-value 'major-mode Lbuffer))
-               (not (eq LthisBuffer Lbuffer)))
-          (kill-buffer Lbuffer)))))
+  (let ((l/this-buffer (current-buffer)))
+    (dolist (l/buffer (buffer-list))
+      (if (and (eq mode (buffer-local-value 'major-mode l/buffer))
+               (not (eq l/this-buffer l/buffer)))
+          (kill-buffer l/buffer)))))
 
 ;;; Windows
 (defun pew/side-window-p (window)
@@ -419,9 +419,9 @@ Side window can also be poped."
   (tab-bar-new-tab)
   (if (pew/side-window-p (selected-window))
       ;; Side window cannot be maximized so pick a normal window and switch to it
-      (let ((LcurrentBuffer (current-buffer)))
+      (let ((l/current-buffer (current-buffer)))
         (select-window (car (pew/window-list-normal)))
-        (switch-to-buffer LcurrentBuffer)))
+        (switch-to-buffer l/current-buffer)))
   (delete-other-windows))
 
 (defun pew/next-window ()
@@ -488,19 +488,19 @@ Side window can also be poped."
     (load-theme theme t))
   ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
-      (dolist (Ltheme (cdr custom-enabled-themes))
-        (disable-theme Ltheme))))
+      (dolist (l/theme (cdr custom-enabled-themes))
+        (disable-theme l/theme))))
 
 ;;; Frames
 (defun pew/set-frame-opacity (val)
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
-  (let ((Lvalue (cond ((> val 100) 100)
+  (let ((l/value (cond ((> val 100) 100)
                       ((< val 0) 0)
                       (t val))))
-    (message "Frame opacity: %d" Lvalue)
-    (set-frame-parameter (selected-frame) 'alpha (cons Lvalue Lvalue))))
+    (message "Frame opacity: %d" l/value)
+    (set-frame-parameter (selected-frame) 'alpha (cons l/value l/value))))
 
 (defvar pew/frame-opacity-change-step 10
   "The amount of opacity changed each time.
@@ -509,16 +509,16 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
 (defun pew/increase-frame-opacity ()
   "Increase frame opacity."
   (interactive)
-  (let ((Lvalue (frame-parameter (selected-frame) 'alpha)))
-    (if (consp Lvalue) (setq Lvalue (car Lvalue)))
-    (pew/set-frame-opacity (+ Lvalue pew/frame-opacity-change-step))))
+  (let ((l/value (frame-parameter (selected-frame) 'alpha)))
+    (if (consp l/value) (setq l/value (car l/value)))
+    (pew/set-frame-opacity (+ l/value pew/frame-opacity-change-step))))
 
 (defun pew/decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
-  (let ((Lvalue (frame-parameter (selected-frame) 'alpha)))
-    (if (consp Lvalue) (setq Lvalue (car Lvalue)))
-    (pew/set-frame-opacity (- Lvalue pew/frame-opacity-change-step))))
+  (let ((l/value (frame-parameter (selected-frame) 'alpha)))
+    (if (consp l/value) (setq l/value (car l/value)))
+    (pew/set-frame-opacity (- l/value pew/frame-opacity-change-step))))
 
 ;;; Dired
 (defun pew/dired-go-to ()
