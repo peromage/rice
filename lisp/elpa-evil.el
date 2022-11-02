@@ -80,69 +80,46 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
 ;;;; Evil search
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
-  (defun pew/evil/escape-region (begin end)
-    "Escape special chars in region from BEGIN to END for evil-search mode."
-    (let ((Lregion (buffer-substring-no-properties begin end))
-          (Lplaceholder "__PEW_EVIL_ESCAPE_REGION__"))
-      (if (zerop (length Lregion)) nil
-        (setq
-         ;; Replace the % symbols so that `regexp-quote' does not complain
-         Lregion (replace-regexp-in-string "%" Lplaceholder Lregion)
-         Lregion (regexp-quote Lregion)
-         ;; `regexp-quote' does not escape /. We escape it here so that evil-search
-         ;; can recognize it
-         Lregion (replace-regexp-in-string "/" "\\\\/" Lregion)
-         ;; Change the % symbols back
-         Lregion (replace-regexp-in-string Lplaceholder "%" Lregion))
-        Lregion)))
+  (defun pew/evil/escape-pattern (pattern)
+    "Escape special characters in PATTERN which is used by evil search."
+    (if (zerop (length pattern)) pattern
+      ;; `regexp-quote' does not escape /
+      (replace-regexp-in-string "/" "\\\\/" (regexp-quote pattern))))
 
-  (defun pew/evil/search-region ()
-    "Use evil-search for the selected region."
-    (when (use-region-p)
-      (setq evil-ex-search-count 1
-            evil-ex-search-direction 'forward)
-      ;; Copy region text
-      (evil-yank (region-beginning) (region-end))
-      (let* ((LquotedPattern (pew/evil/escape-region (region-beginning) (region-end)))
-             (Lresult (evil-ex-search-full-pattern LquotedPattern evil-ex-search-count evil-ex-search-direction))
-             (Lsuccess (pop Lresult))
-             (Lpattern (pop Lresult))
-             (Loffset (pop Lresult)))
-        (when Lsuccess
-          ;; From `evil-ex-start-search'
-          (setq evil-ex-search-pattern Lpattern
-                evil-ex-search-offset Loffset)
-          ;; `evil-ex-search-full-pattern' jumps to the end of the next one if there
-          ;; are more than one candidates. So we jump twice here to go back to the
-          ;; very first one that we selected.
-          (evil-ex-search-previous)
-          (evil-ex-search-previous)))))
+  (defun pew/evil/search-region-text (beg end)
+    "Use evil-search for text in the region from BEG to END."
+    ;; Copy region text
+    (setq evil-ex-search-pattern
+          (evil-ex-make-pattern
+           (pew/evil/escape-pattern (buffer-substring-no-properties beg end))
+           'sensitive
+           t))
+    (evil-yank beg end)
+    (ignore-error 'search-failed
+      (evil-ex-search-next)))
 
-  (defun pew/evil/visual-search-region ()
-    "Search the selected region visual state and return to normal state."
+  (defun pew/evil/visual-search-region-text ()
+    "Search the text selected in visual state."
     (interactive)
     (when (evil-visual-state-p)
-      (pew/evil/search-region)
+      (setq evil-ex-search-count 1)
+      (setq evil-ex-search-direction 'forward)
+      (when (pew/evil/search-region-text (region-beginning) (region-end))
+        (evil-ex-search-previous))
       (evil-normal-state)))
 
-  ;; TODO: Fix the register calls
-  (defun pew/evil/normal-search-at-point ()
-    "Search word under the cursor in normal mode."
-    (interactive)
-    (evil-ex-search-word-forward)
-    (evil-set-register "*" (evil-get-register "/")))
-
   (defun pew/evil/replace-last-search ()
-    "Replace the currect Evil EX search."
+    "Replace the last Evil EX search."
     (interactive)
     (if (not evil-ex-search-pattern)
         (user-error "No search pattern found"))
-    (let* ((Lregex (nth 0 evil-ex-search-pattern))
-           (Lreplacement (read-string (concat Lregex " -> ")))
-           (Lflags (list ?g ?c))
-           (Lsubpattern (evil-ex-make-substitute-pattern Lregex Lflags)))
-      ;; Substitute from current position
-      (evil-ex-substitute (point) (point-max) Lsubpattern Lreplacement Lflags)))
+    ;; Substitute from current position
+    (evil-ex-substitute
+     (point)
+     (point-max)
+     evil-ex-search-pattern
+     (read-string (concat (car evil-ex-search-pattern) " -> "))
+     (list ?g ?c)))
 
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
@@ -276,7 +253,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; Visual state bindings
   (pew/evil/set-key 'visual 'global nil
     ;; Search
-    "*" #'pew/evil/visual-search-region)
+    "*" #'pew/evil/visual-search-region-text)
 
   (with-eval-after-load 'elisp-mode
     (pew/evil/set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
