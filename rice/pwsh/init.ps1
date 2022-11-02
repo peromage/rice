@@ -47,4 +47,4 @@ $Env:EDITOR = "vim"
     if ($rice.platform_windows) {
         rice_include modules/init-alias-windows.ps1
     }
-} | ForEach-Object {Invoke-Expression $_}
+} | ForEach-Object { Invoke-Expression $_ }

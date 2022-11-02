@@ -11,7 +11,7 @@ function test_admin {
 
 function run_as_admin {
     if (test_admin) {
-        Write-Output "Current session is running with admin privilege already."
+        "Current session is running with admin privilege already."
         return
     }
     $proc = New-Object -TypeName System.Diagnostics.Process
@@ -41,7 +41,7 @@ Set-Alias pkill kill_process
 ### Create empty files
 function create_file {
     if ($args.Count -lt 1) {
-        Write-Output "No file name specified."
+        "No file name specified."
         return
     }
     $args | ForEach-Object {
