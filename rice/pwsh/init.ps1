@@ -15,21 +15,11 @@ $rice = @{
     platform_windows = $IsWindows ? $true : $false
 }
 
-## Environment variables
-$env:PATH += [IO.Path]::PathSeparator + (Join-Path $rice.home.Parent.FullName "scripts")
-$env:EDITOR = "vim"
-
-## Return a string with dot sourcing syntax.
+## Return a string with dot sourcing syntax
+## Due to the limitation, sourcing has to be done in the global scope
 function rice_include {
-    param ($file, $noerror=$null)
-    $file_full_path = Join-Path $rice.home.FullName $file
-    if (Test-Path -PathType Leaf $file_full_path) {
-        return ". ${file_full_path}"
-    }
-    if ($noerror) {
-        return " "
-    }
-    return ". ${file_full_path}"
+    param ($file)
+    return ". $(Join-Path $rice.home.FullName $file) $args"
 }
 
 ## PSReadLine
@@ -46,9 +36,15 @@ function rice_include {
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 }
 
+### Environment variables
+$Env:PATH += [IO.Path]::PathSeparator + (Join-Path $rice.home.Parent.FullName "scripts")
+$Env:EDITOR = "vim"
+
 ### Load modules
-Invoke-Expression (rice_include modules/init-alias.ps1)
-Invoke-Expression (rice_include modules/theme-minimalist.ps1)
-if ($rice.platform_windows) {
-    Invoke-Expression (rice_include modules/init-alias-windows.ps1)
-}
+&{
+    rice_include modules/init-alias.ps1
+    rice_include modules/theme-minimalist.ps1
+    if ($rice.platform_windows) {
+        rice_include modules/init-alias-windows.ps1
+    }
+} | ForEach-Object {Invoke-Expression $_}
