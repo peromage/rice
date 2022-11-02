@@ -7,7 +7,7 @@
 ##
 ## Any customization should go to the end of this file.
 ##
-source ${BASH_SOURCE%/*}/../logger.sh
+source ${BASH_SOURCE%/*}/../source/logger.sh
 
 ### Some config variables ######################################################
 ## Root
