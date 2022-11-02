@@ -1,7 +1,7 @@
 ### env.sh -- Selective environment variables
 
-for _sel in "$@"; do
-case "$_sel" in
+for i in "$@"; do
+case "$i" in
 xdg)
     export XDG_DATA_HOME="$HOME/.local/share"
     export XDG_STATE_HOME="$HOME/.local/state"
@@ -18,8 +18,8 @@ gpg-agent)
     export GPG_TTY="$(tty)"
     ;;
 *)
-    echo "Nothing happened"
+    echo "No definition for $i"
     ;;
 esac
 done
-unset _sel
+unset i

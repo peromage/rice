@@ -24,39 +24,23 @@ ef() {
     fi
 }
 
-### lf
-lfcd() {
-    local tmp=$(mktemp)
-    lf -last-dir-path=$tmp $@
-    [[ ! -f $tmp ]] && return
-    local target=$(cat $tmp)
-    rm -f $tmp
-    [[ -d $target && $target != $(pwd) ]] && cd $target
-}
-
-### ranger
-rf() {
-    if [[ -n $RANGER_LEVEL ]]; then
-        echo "Nested ranger!"
-        return
+### Authentication agents
+update_ssh_agent() {
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+    if [ ! -e $SSH_AUTH_SOCK ]; then
+        eval $(ssh-agent -a $SSH_AUTH_SOCK)
     fi
-    ranger $@
 }
 
-### fzf
-ffdo() {
-    if [[ -z $1 ]]; then
-        echo "Usage: ffdo <cmd> [arguments]"
-        return
+update_gpg_agent() {
+    if [[ "x$1" = "x-f" ]]; then
+        echo "Restarting gpg-agent..."
+        gpgconf --kill gpg-agent
     fi
-    local cmd=$1 && shift
-    local target="$(fzf)"
-    [[ -n $target ]] && eval "$cmd $@ $target"
-}
-
-ffcd() {
-    local target="$(fzf)"
-    [[ -n $target ]] && cd $target
+    unset SSH_AGENT_PID
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+    export GPG_TTY="$(tty)"
+    gpg-connect-agent updatestartuptty /bye > /dev/null
 }
 
 ### linuxbrew
