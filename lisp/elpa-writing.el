@@ -32,7 +32,7 @@
     (interactive)
     (pew/org/marker-visible nil))
 
-  :hook ((org-mode . pew/text-setup)
+  :hook ((org-mode . pew/text-common-setup)
          (org-babel-after-execute . pew/org/refresh-images))
   :custom
   ;; Org files
@@ -122,7 +122,7 @@
 
 ;;; Markdown mode
 (use-package markdown-mode
-  :hook (markdown-mode . pew/text-setup))
+  :hook (markdown-mode . pew/text-common-setup))
 
 ;;; PlantUML mode
 (use-package plantuml-mode

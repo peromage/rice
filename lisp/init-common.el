@@ -541,7 +541,7 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
   (pew/close-other-buffers-in-major-mode 'dired-mode))
 
 ;;; Hook functions
-(defun pew/term-setup ()
+(defun pew/terminal-common-setup ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil)
   (setq-local truncate-lines nil)
@@ -551,7 +551,7 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun pew/text-setup ()
+(defun pew/text-common-setup ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)

@@ -46,12 +46,12 @@
     "Initialization for C mode."
     (pew/cc-mode/common-setup))
 
-  (defun pew/cc-mode/cpp-setup ()
+  (defun pew/cc-mode/c++-setup ()
     "Initialization for C++ mode."
     (pew/cc-mode/common-setup))
 
   :hook ((c-mode . pew/cc-mode/c-setup)
-         (c++-mode . pew/cc-mode/cpp-setup)))
+         (c++-mode . pew/cc-mode/c++-setup)))
 
 ;;; C# mode
 (use-package csharp-mode

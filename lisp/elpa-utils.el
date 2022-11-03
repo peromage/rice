@@ -20,7 +20,7 @@
     (with-current-buffer (vterm)
       (rename-buffer "*pewterm*" t)))
 
-  :hook (vterm-mode . pew/term-setup)
+  :hook (vterm-mode . pew/terminal-common-setup)
   :commands (vterm vterm-other-window)
   :bind (:map vterm-mode-map
          ("ESC" . vterm-send-escape))

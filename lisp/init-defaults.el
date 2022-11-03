@@ -365,8 +365,8 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode . pew/term-setup)
-  (shell-mode . pew/term-setup)
+  (eshell-mode . pew/terminal-common-setup)
+  (shell-mode . pew/terminal-common-setup)
 
   ;; Don't save trailing spaces
   (after-save . pew/delete-trailing-whitespaces)
