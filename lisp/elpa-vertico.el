@@ -39,6 +39,22 @@
 ;;; Search and navigation commands
 (use-package consult
   :init
+  ;; Customized search
+  (defun pew/consult/rg (dir args)
+    "Like `consult-ripgrep' but with additional arguments.
+If DIR is given by prefix, a prompt will show up to enter a searching directory.
+ARGS should be a string of arguments passed to ripgrep."
+    (interactive "P\nsrg args (-t/--type, -g/--glob ...): ")
+    (let ((consult-ripgrep-args
+           (format
+            ;; Default arguments from `consult-ripgrep-args'
+            "rg \
+--null --line-buffered --color=never --max-columns=1000 \
+--path-separator / --smart-case --no-heading --line-number \
+%s ."
+            args)))
+      (consult-ripgrep dir)))
+
   ;; Toggle auto preview
   ;; The value is (kbd "C-o") see custom `consult-preview-key' below
   (pew/set-switch (consult-preview-key '("" any)))
