@@ -1,7 +1,8 @@
-;;; elpa-coding.el --- Packages for coding tasks -*- lexical-binding: t -*-
+;;; elpa-editing.el --- Editing support -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; This module configures for common coding needs including syntax checker, completion and language support.
+;; Editing related configurations including completion, syntax checker, search
+;; and snippet etc.
 
 ;;; Code:
 
@@ -38,18 +39,6 @@
   :config
   (global-flycheck-mode 1))
 
-;;; Tree navigation
-(use-package treemacs
-  :defer t
-  :init
-  (defun pew/treemacs/setup ()
-    "Treemacs mode setup."
-    (setq-local display-line-numbers nil))
-
-  :hook (treemacs-mode . pew/treemacs/setup)
-  :custom
-  (treemacs-wrap-around nil))
-
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet
@@ -58,5 +47,9 @@
   :config
   (yas-global-mode 1))
 
-(provide 'elpa-coding)
-;;; elpa-coding.el ends here
+;;; Search
+(use-package rg
+  :defer t)
+
+(provide 'elpa-editing)
+;;; elpa-editing.el ends here

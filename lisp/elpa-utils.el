@@ -5,9 +5,6 @@
 
 ;;; Code:
 
-;;; Search
-(use-package rg :defer t)
-
 ;;; Terminal
 ;; Vterm is a decent terminal emulator inside of Emacs.
 ;; NOTE: Not available on Windows.
@@ -29,6 +26,18 @@
   (vterm-max-scrollback 10000)
   (vterm-tramp-shells '(("ssh" "/bin/bash")
                         ("plink" "/bin/bash"))))
+
+;;; Tree navigation
+(use-package treemacs
+  :defer t
+  :init
+  (defun pew/treemacs/setup ()
+    "Treemacs mode setup."
+    (setq-local display-line-numbers nil))
+
+  :hook (treemacs-mode . pew/treemacs/setup)
+  :custom
+  (treemacs-wrap-around nil))
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
