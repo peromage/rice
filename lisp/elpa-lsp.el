@@ -83,9 +83,10 @@ MODES is a list of major mode symbols."
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ("C-c w w" . lsp-ui-doc-glance)
-         ("C-c w e" . lsp-ui-doc-show)
-         ("C-c w j" . lsp-ui-doc-focus-frame))
+         ;; Same prefix with lsp-mode-map
+         ("C-c l l" . lsp-ui-doc-glance)
+         ("C-c l L" . lsp-ui-doc-show)
+         ("C-c l j" . lsp-ui-doc-focus-frame))
   :hook (lsp-mode . pew/lsp-ui/setup)
   :custom
   ;; Sideline
