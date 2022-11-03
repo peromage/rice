@@ -544,11 +544,11 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
 ;;; Hook functions
 (defun pew/term-setup ()
   "Common setup for terminal/shell modes."
-  (setq-local word-wrap nil
-              truncate-lines nil
-              truncate-partial-width-windows nil
-              show-trailing-whitespace nil
-              global-hl-line-mode nil)
+  (setq-local word-wrap nil)
+  (setq-local truncate-lines nil)
+  (setq-local truncate-partial-width-windows nil)
+  (setq-local show-trailing-whitespace nil)
+  (setq-local global-hl-line-mode nil)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
@@ -564,9 +564,10 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
 
 (defun pew/reuse-window-setup ()
   "Hook for certains modes that keep spawning new windows e.g. `grep-mode'."
-  (setq-local display-buffer-base-action '((display-buffer-reuse-window
-                                            display-buffer-use-some-window))
-              display-buffer-alist nil))
+  (setq-local display-buffer-base-action
+              '((display-buffer-reuse-window
+                 display-buffer-use-some-window)))
+  (setq-local display-buffer-alist nil))
 
 (provide 'init-common)
 ;;; init-common.el ends here

@@ -15,10 +15,9 @@
 
   (defun pew/org/marker-visible (&optional show)
     "Pass SHOW with non-nil to make markers visible or vice versa."
-    (setq-default
-     org-hide-emphasis-markers (not show)
-     org-hide-leading-stars (not show)
-     org-link-descriptive (not show))
+    (setq-default org-hide-emphasis-markers (not show))
+    (setq-default org-hide-leading-stars (not show))
+    (setq-default org-link-descriptive (not show))
     (org-mode-restart))
 
   (defun pew/org/show-markers ()

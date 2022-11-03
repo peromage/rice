@@ -16,18 +16,18 @@
     "Common CC mode setup."
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)
-    (setq-local c++-tab-always-indent t
-                c-basic-offset 4
-                ;c-syntactic-indentation nil
-                ;c-syntactic-indentation-in-macros nil
-                c-indent-level 4
-                tab-width 4
-                tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
-                indent-tabs-mode nil
-                adaptive-fill-mode nil)
-    (setq lsp-enable-on-type-formatting nil
-          ;; Prevent Clangd from inserting headers itself
-          lsp-clients-clangd-args '("-j=8"
+    (setq-local c++-tab-always-indent t)
+    (setq-local c-basic-offset 4)
+    ;(setq-local c-syntactic-indentation nil)
+    ;(setq-local c-syntactic-indentation-in-macros nil)
+    (setq-local c-indent-level 4)
+    (setq-local tab-width 4)
+    (setq-local tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
+    (setq-local indent-tabs-mode nil)
+    (setq-local adaptive-fill-mode nil)
+    (setq lsp-enable-on-type-formatting nil)
+    ;; Prevent Clangd from inserting headers itself
+    (setq lsp-clients-clangd-args '("-j=8"
                                     "--background-index"
                                     "--clang-tidy"
                                     "--completion-style=detailed"
@@ -64,8 +64,8 @@
   :init
   (defun pew/python-mode/setup ()
     "Python LSP mode setup."
-    (setq-local indent-tabs-mode nil
-                tab-width 4)
+    (setq-local indent-tabs-mode nil)
+    (setq-local tab-width 4)
     (lsp-deferred))
 
   :hook (python-mode . pew/python-mode/setup)

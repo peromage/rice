@@ -9,8 +9,8 @@
       (error "PEW only supports Emacs version %s and above" l/minimal-emacs-version)))
 
 ;; Performance optimization
-(setq gc-cons-threshold 100000000      ;; 128mb
-      read-process-output-max 1000000) ;; 1mb
+(setq gc-cons-threshold 100000000)     ;; 128mb
+(setq read-process-output-max 1000000) ;; 1mb
 
 ;; Start a daemon if it is not running yet
 (defun pew/start--daemon()

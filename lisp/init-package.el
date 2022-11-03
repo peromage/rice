@@ -8,15 +8,15 @@
 (require 'package)
 
 ;; Package contents
-(setq package-enable-at-startup nil
-      ;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
-      package-user-dir (locate-user-emacs-file (format "elpa-%s.%s" emacs-major-version emacs-minor-version))
-      ;; Package repositories
-      package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+(setq package-enable-at-startup nil)
+;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
+(setq package-user-dir (locate-user-emacs-file (format "elpa-%s.%s" emacs-major-version emacs-minor-version)))
+;; Package repositories
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/"))
-      package-archive-priorities '(("melpa" . 100)
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+(setq package-archive-priorities '(("melpa" . 100)
                                    ("gnu" . 99)
                                    ("nongnu" . 98)))
 
@@ -50,12 +50,12 @@ Note: parameters are package names."
     (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) args))))
 
 ;; Default `use-package' behaviors
-(setq use-package-always-ensure t
-      use-package-always-defer nil
-      use-package-always-demand nil
-      use-package-always-pin nil
-      use-package-compute-statistics nil
-      use-package-verbose nil)
+(setq use-package-always-ensure t)
+(setq use-package-always-defer nil)
+(setq use-package-always-demand nil)
+(setq use-package-always-pin nil)
+(setq use-package-compute-statistics nil)
+(setq use-package-verbose nil)
 
 (provide 'init-package)
 ;;; init-package.el ends here
