@@ -186,6 +186,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (pew/special-buffer compilation) 'motion
     (pew/special-buffer output) 'motion
     (pew/special-buffer command) 'motion
+    (pew/special-buffer man) 'motion
     ;; Buffer in normal
     (pew/special-buffer scratch) 'normal
     (pew/special-buffer org-src) 'normal

@@ -20,6 +20,8 @@
       (terminal . "^ *\\*.*\\b[Tt]erm\\(inal\\)?\\*$")
       (scratch . "^ *\\*[Ss]cratch\\*$")
       (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+      ;; Man page
+      (man . "^ *\\*[Mm]an .*\\*$")
       ;; Message and output
       (help . "^ *\\*.*\\b[Hh]elp\\*$")
       (message . "^ *\\*.*\\b[Mm]essages?\\*$")
@@ -29,7 +31,7 @@
       (compilation . "^ *\\*.*\\b[Cc]ompilation\\*$")
       (output . "^ *\\*.*\\b[Oo]utput\\*$")
       (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
-      ;; Generic
+      ;; Starred
       (starred . "^ *\\*.*\\*$"))
     "An alist of special buffer pattern regex.")
 
