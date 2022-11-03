@@ -4,27 +4,31 @@
 ;; module files.  Inspired by purcell/emacs.d
 
 ;;; Code:
-;;; Preparation
+;;; Prerequisite
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (let ((l/home (file-name-directory load-file-name)))
   (add-to-list 'load-path (expand-file-name "lisp" l/home))
   (add-to-list 'load-path (expand-file-name "site-lisp" l/home)))
 
+;;; Config variables
 (defvar pew/mini-init nil
   "When non-nil load PEW with the minimal configuration.")
 
-(if pew/mini-init
-    (progn
-      (message "[pew] Loading minimal init")
-      (require 'init-common)
-      (require 'init-defaults))
+;;; Module loading
+(cond
+ ;; Minimal setup
+ (pew/mini-init
+  (message "[pew] Loading minimal init")
+  (require 'init-common)
+  (require 'init-defaults))
 
-;;; Set custom file
+ ;; Regular setup
+ (t
   ;; Configurations from the interactive `customize' interfaces.
   ;; Any disposable code can be put in this file.
   (setq custom-file (locate-user-emacs-file "local.el"))
-;;; Load modules
-  ;; NOTE: The load sequence must be in order
+  ;; Load init files
+  ;; NOTE: The load sequence must be in this order
   (require 'init-common)
   (require 'init-boot)
   (require 'init-defaults)
@@ -40,9 +44,8 @@
   (require 'elpa-lsp)
   (require 'elpa-lang)
   (require 'elpa-extra)
-;;; Load custom
-  ;; Load this at the last to prevent local configurations from being overridden
-  (load custom-file :noerror))
+  ;; Load custom configuration which takes the highest precedence
+  (load custom-file :noerror)))
 
 (provide 'init)
 ;;; Local Variables:
