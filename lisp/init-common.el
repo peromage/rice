@@ -339,11 +339,6 @@ resolved."
   (let ((l/result (expand-file-name (file-name-concat base component))))
     (if follow (file-truename l/result) l/result)))
 
-(defvar pew/home-dir (pew/normalize-path load-file-name "../..")
-  "The PEW configuration's home directory.
-Not necessarily to be `user-emacs-directory' since this configuration can be
-loaded from other places.")
-
 ;;; Editor
 (defun pew/delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."

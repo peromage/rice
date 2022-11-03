@@ -6,15 +6,19 @@
 
 ;;; Code:
 
-;;; Prerequisite
-;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(let ((l/home (file-name-directory load-file-name)))
-  (add-to-list 'load-path (expand-file-name "lisp" l/home))
-  (add-to-list 'load-path (expand-file-name "site-lisp" l/home)))
-
 ;;; Config variables
 (defvar pew/mini-init nil
   "When non-nil load PEW with the minimal configuration.")
+
+(defvar pew/home-dir (file-name-directory load-file-name)
+  "The PEW configuration's home directory.
+Not necessarily to be `user-emacs-directory' since this configuration can be
+loaded from other places.")
+
+;;; Runtime path
+;; The runtime path should be relative to this file instead of `user-emacs-directory'
+(add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
+(add-to-list 'load-path (expand-file-name "site-lisp" pew/home-dir))
 
 ;;; Module loading
 (cond
