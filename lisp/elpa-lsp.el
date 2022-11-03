@@ -8,6 +8,20 @@
 ;;; LSP mode
 ;; For specific language LSP supports, they should go into the major mode modules.
 (use-package lsp-mode
+  :init
+  (defmacro pew/lsp/define-remote (server modes)
+    "A shortcut to define LSP remote client.
+SERVER is the base name of the server executable.
+MODES is a list of major mode symbols."
+    (let ((l/server-id (intern (format "%s-remote" server))))
+      `(with-eval-after-load 'lsp-mode
+         (lsp-register-client
+          (make-lsp-client
+           :new-connection (lsp-tramp-connection ,server)
+           :major-modes ',modes
+           :remote? t
+           :server-id ',l/server-id)))))
+
   :commands (lsp lsp-deferred)
   :bind (:map lsp-mode-map
          ([remap xref-find-definitions] . lsp-find-definition)
