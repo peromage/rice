@@ -28,25 +28,37 @@ MODES is a list of major mode symbols."
          ([remap xref-find-references] . lsp-find-declaration))
   :custom
   (lsp-keymap-prefix "C-c l")
-  (lsp-enable-snippet nil) ;; Non-nil to enable parameter insertion
+
+  ;; Features
+  (lsp-enable-snippet t) ;; Non-nil to enable parameter insertion
   (lsp-enable-symbol-highlighting t)
-  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-on-type-formatting nil) ;; No auto insertion (headers)
   (lsp-enable-folding t)
-  (lsp-enable-indentation nil)
-  (lsp-enable-links nil)
+  (lsp-enable-indentation nil) ;; Don't get indented by server
+  (lsp-enable-links nil) ;; Remove underline
   (lsp-auto-configure t)
   (lsp-auto-guess-root t)
+
+  ;; Shutdown server automatically
   (lsp-keep-workspace-alive nil)
+
+  ;; User interface
   (lsp-lens-enable nil)
   (lsp-headerline-breadcrumb-enable t)
   (lsp-headerline-breadcrumb-segments '(symbols))
-  (lsp-idle-delay 0.5)
-  (lsp-eldoc-enable-hover t)
-  (lsp-eldoc-render-all nil)
-  (lsp-signature-doc-lines 1)
-  (lsp-signature-render-documentation nil)
   (lsp-modeline-diagnostics-enable t)
   (lsp-modeline-code-actions-enable t)
+  (lsp-modeline-workspace-status-enable t)
+  (lsp-idle-delay 0.5)
+
+  ;; Documentation and signature
+  ;; M-n/M-p to scroll
+  (lsp-eldoc-enable-hover t)
+  (lsp-eldoc-render-all nil)
+  (lsp-signature-doc-lines 1) ;; Show some brief
+  (lsp-signature-render-documentation t)
+
+  ;; Completion
   (lsp-completion-enable t)
   (lsp-completion-enable-additional-text-edit nil)
   (lsp-completion-show-detail t)
@@ -54,7 +66,8 @@ MODES is a list of major mode symbols."
   (lsp-completion-show-label-description t)
   (lsp-completion-no-cache nil)
   (lsp-completion-provider :capf)
-  (lsp-ui-peek-always-show :flycheck)
+
+  ;; Other
   (lsp-log-io nil))
 
 ;;; LSP experience improvement
@@ -75,25 +88,37 @@ MODES is a list of major mode symbols."
          ("C-c w j" . lsp-ui-doc-focus-frame))
   :hook (lsp-mode . pew/lsp-ui/setup)
   :custom
-  (lsp-ui-peek-enable t)
-  (lsp-ui-peek-show-directory t)
-  (lsp-ui-peek-always-show nil)
+  ;; Sideline
   (lsp-ui-sideline-enable t)
   (lsp-ui-sideline-show-hover nil)
   (lsp-ui-sideline-show-symbol nil)
   (lsp-ui-sideline-show-diagnostics t)
   (lsp-ui-sideline-show-code-actions t)
-  (lsp-ui-sideline-update-mode 'point)
+  (lsp-ui-sideline-update-mode 'line)
   (lsp-ui-sideline-delay 0.5)
+
+  ;; Peek
+  (lsp-ui-peek-enable t)
+  (lsp-ui-peek-show-directory t)
+  (lsp-ui-peek-always-show t)
+
+  ;; Doc
   (lsp-ui-doc-enable nil)
   (lsp-ui-doc-position 'top)
   (lsp-ui-doc-show-with-cursor t)
   (lsp-ui-doc-show-with-mouse t)
   (lsp-ui-doc-delay 0.5)
   (lsp-ui-doc-use-childframe t)
-  (lsp-ui-imenu-window-width 0)
+  (lsp-ui-doc-use-webkit t)
+
+  ;; imenu
   (lsp-ui-imenu-auto-refresh t)
-  (lsp-ui-imenu-auto-refresh-delay 0.5))
+  (lsp-ui-imenu-auto-refresh-delay 0.5)
+  (lsp-ui-imenu-window-fix-width nil)
+  (lsp-ui-imenu-window-width 0)
+  (lsp-ui-imenu-buffer-position 'right)
+  (lsp-ui-imenu-kind-position 'top)
+)
 
 ;;; Debug
 (use-package dap-mode
