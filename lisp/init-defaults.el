@@ -202,9 +202,9 @@
   (savehist-mode t)
 
   ;; Repeat mode
-  (repeat-mode nil)
   (repeat-exit-key (kbd "C-g"))
   (repeat-exit-timeout 2)
+  (repeat-mode t)
 
   ;; Dired
   (dired-listing-switches "-alFD --group-directories-first")
