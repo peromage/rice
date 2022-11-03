@@ -255,6 +255,7 @@
 
   ;; TRAMP
   (tramp-default-method "ssh")
+  (tramp-remote-path '(tramp-own-remote-path tramp-default-remote-path))
 
   ;; Winner mode
   (winner-mode t)
