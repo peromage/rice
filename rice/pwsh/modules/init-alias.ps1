@@ -30,7 +30,7 @@ function update_gpg_agent {
         "Restarting gpg-agent..."
         gpgconf --kill gpg-agent
     }
-    Remove-Item Env:SSH_AGENT_PID
+    Remove-Item Env:SSH_AGENT_PID -ErrorAction SilentlyContinue
     $Env:SSH_AUTH_SOCK = "$(gpgconf --list-dirs agent-ssh-socket)"
     $Env:GPG_TTY = "$(tty)"
     gpg-connect-agent updatestartuptty /bye > /dev/null
