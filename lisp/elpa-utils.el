@@ -1,8 +1,10 @@
 ;;; elpa-utils.el --- Utilities -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Utilities that provide convenience and enhance experience
 
 ;;; Code:
+
 ;;; Search
 (use-package rg :defer t)
 

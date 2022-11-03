@@ -1,8 +1,10 @@
 ;;; elpa-git.el --- Git packages -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; This module contains git related packages and configurations
 
 ;;; Code:
+
 ;;; Frontend
 ;; Magit is a powerful git frontend.
 (use-package magit
@@ -15,7 +17,7 @@
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))
 
-;;; Status
+;;; Status line
 ;; `git-gutter-mode' displays line changes on the left margin.
 (use-package git-gutter
   :custom

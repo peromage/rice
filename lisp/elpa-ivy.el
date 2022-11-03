@@ -1,8 +1,10 @@
 ;;; elpa-ivy.el --- Ivy completion framework -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Configuration for Ivy and its related packages
 
 ;;; Code:
+
 ;; Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel

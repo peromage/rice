@@ -1,14 +1,16 @@
 ;;; elpa-evil.el --- Vim layer -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
 ;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
 
 ;;; Code:
+
 ;;; Evil
 (use-package evil
   :demand t
   :init
-;;;; Evil utilities
+;;;; Evil keybinding functions
   ;; Key binding function
   (defun pew/evil/set-key (state map prefix &rest bindings)
     "Set BINDINGS with PREFIX in MAP for STATE.
@@ -37,6 +39,7 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
               (t
                (funcall l/setter map))))))
 
+;;;; Evil state setting functions
   ;; Initial state function
   (defun pew/evil/set-mode-state (&rest states)
     "Set initial STATES for major or minor modes.
@@ -77,7 +80,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
               (l/regex (pop l/states)))
           (push (cons l/regex l/state) evil-buffer-regexps)))))
 
-;;;; Evil search
+;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
   (defun pew/evil/escape-pattern (pattern)
@@ -121,6 +124,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
      (read-string (concat (car evil-ex-search-pattern) " -> "))
      (list ?g ?c)))
 
+;;;; Evil X settings
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew/evil/visual-update-x-selection))

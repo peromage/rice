@@ -1,9 +1,11 @@
 ;;; init.el --- PEW entry -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; This file bootstraps the PEW configuration which is divided into a number of
 ;; module files.  Inspired by purcell/emacs.d
 
 ;;; Code:
+
 ;;; Prerequisite
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (let ((l/home (file-name-directory load-file-name)))

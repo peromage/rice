@@ -1,9 +1,11 @@
 ;;; elpa-vertico.el --- Vertico completion framework -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Vertico and its related packages
 ;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
 
 ;;; Code:
+
 ;;; Vertico
 (use-package vertico
   :demand t

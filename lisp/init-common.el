@@ -1,13 +1,15 @@
 ;;; init-common.el --- Common library -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; This is the PEW common library file.
 ;; It might be splitted into several files if it's needed in the future.
 ;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-;;; Things which need to be evaluated at compile-time
+
+;; Things which need to be evaluated at compile-time
 (eval-and-compile
-;;;; Buffer definitions
+;;; Buffer definitions
   (defvar pew/special-buffer-alist
     '(;; VC
       (magit . "^ *[Mm]agit")
@@ -57,7 +59,7 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
         (setq l/result (cdr l/match)))
        (t (funcall l/error name)))))
 
-;;;; Configuration helpers
+;;; Configuration helpers
   (defvar pew/config-keywords
     '((:custom . pew/set-custom)
       (:map . pew/set-map)
@@ -234,7 +236,7 @@ Where HOOK implies suffix '-hook'."
     "Simply evaluate FORM and nothing else."
     form)
 
-;;;; Macro utilities
+;;; Macro utilities
   (defmacro pew/swap (a b)
     "Swap values in A and B."
     `(setq ,a (prog1 ,b (setq ,b ,a))))
@@ -288,6 +290,7 @@ nil or VALUE is not found."
 ARGS is the same as the ones defined in `fond-spec'.
 Return nil if no match."
     `(find-font (font-spec ,@args))))
+;; Compile done
 
 ;;; Debugging
 (defun pew/reload-init-file ()
@@ -325,7 +328,7 @@ The result will be shown in message buffer.  Return nil to reduce confusion."
   (interactive)
   (message buffer-file-name))
 
-;;; Common functions and commands
+;;; Paths
 (defun pew/normalize-path (base &optional component follow)
   "Normalize path BASE by removing relative representations.
 If BASE is a relative path the result will be a path which is relative to the
@@ -341,6 +344,7 @@ resolved."
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")
 
+;;; Editor
 (defun pew/delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))

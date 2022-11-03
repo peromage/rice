@@ -1,8 +1,10 @@
 ;;; elpa-lsp.el --- Language Server Protocol -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; LSP configuration
 
 ;;; Code:
+
 ;;; LSP mode
 ;; For specific language LSP supports, they should go into the major mode modules.
 (use-package lsp-mode

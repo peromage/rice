@@ -1,8 +1,10 @@
 ;;; elpa-writing.el --- Writing support -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Configuration used for writing tasks
 
 ;;; Code:
+
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org

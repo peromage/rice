@@ -1,8 +1,10 @@
 ;;; elpa-lang.el --- Programming language support -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; Configuration for programming languages
 
 ;;; Code:
+
 ;;; No brainer modes
 (use-package vimrc-mode :defer t)
 (use-package yaml-mode :defer t)
@@ -74,7 +76,7 @@
   (lsp-python-ms-python-executable (executable-find "python3"))
   (lsp-python-ms-python-executable-cmd "python3"))
 
-;; Java mode
+;;; Java mode
 (use-package lsp-java
   :init
   (defun pew/java-mode/setup ()

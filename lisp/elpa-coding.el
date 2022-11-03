@@ -1,8 +1,10 @@
 ;;; elpa-coding.el --- Packages for coding tasks -*- lexical-binding: t -*-
+
 ;;; Commentary:
 ;; This module configures for common coding needs including syntax checker, completion and language support.
 
 ;;; Code:
+
 ;;; Company for completion
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
