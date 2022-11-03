@@ -24,7 +24,6 @@
 
   (defun pew/cc-mode/lsp-setup ()
     "LSP setup for CC mode."
-    (setq lsp-enable-on-type-formatting nil)
     ;; Prevent Clangd from inserting headers itself
     (setq lsp-clients-clangd-args '("-j=8"
                                     "--background-index"
