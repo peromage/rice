@@ -1,7 +1,7 @@
-;;; elpa-writing.el --- Writing support -*- lexical-binding: t -*-
+;;; elpa-org.el --- Org writing support -*- lexical-binding: t -*-
 
 ;;; Commentary:
-;; Configuration used for writing tasks
+;; Configuration used for Org writing tasks.
 
 ;;; Code:
 
@@ -120,31 +120,11 @@
 (use-package ox-hugo
   :defer t)
 
-;;; Markdown mode
-(use-package markdown-mode
-  :hook (markdown-mode . pew/text-common-setup))
-
-;;; PlantUML mode
-(use-package plantuml-mode
-  :custom
-  (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
-  (plantuml-default-exec-mode 'jar)
-  :mode (("\\.puml\\'" . plantuml-mode)
-         ("\\.plantuml\\'" . plantuml-mode))
-  :config
-  (use-package~ org
-    :custom
-    (org-plantuml-jar-path plantuml-jar-path)
-    (org-plantuml-exec-mode plantuml-default-exec-mode)
-    :config
-    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))))
-
-;;; Visual fill column mode
+;;; Enable focused view
 (use-package visual-fill-column
   :custom
   (visual-fill-column-center-text t)
   (visual-fill-column-fringes-outside-margins nil))
 
-(provide 'elpa-writing)
-;;; elpa-writing.el ends here
+(provide 'elpa-org)
+;;; elpa-org.el ends here
