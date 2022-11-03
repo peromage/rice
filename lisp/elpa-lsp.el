@@ -95,5 +95,11 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-auto-refresh t)
   (lsp-ui-imenu-auto-refresh-delay 0.5))
 
+;;; Debug
+(use-package dap-mode
+  :defer t
+  :custom
+  (dap-python-executable "python3"))
+
 (provide 'elpa-lsp)
 ;;; elpa-lsp.el ends here
