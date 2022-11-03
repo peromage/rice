@@ -46,6 +46,9 @@ loaded from other places.")
   (require 'elpa-git)
   (require 'elpa-org)
   (require 'elpa-utils)
+  (require 'elpa-ui)
+  (require 'elpa-extra)
+  ;; Language packages may depend on the packages required previously
   (require 'elpa-lsp)
   (require 'elpa-lang)
   (require 'elpa-lang-c)
@@ -55,8 +58,6 @@ loaded from other places.")
   (require 'elpa-lang-java)
   (require 'elpa-lang-markdown)
   (require 'elpa-lang-plantuml)
-  (require 'elpa-extra)
-  (require 'elpa-ui)
   ;; Load custom configuration which takes the highest precedence
   (load custom-file :noerror)))
 
