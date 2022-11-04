@@ -9,8 +9,6 @@
 ## Any customization should go to the end of this file.
 ##
 
-ANSI=${BASH_SOURCE%/*}/../ansi.sh
-
 ### Some config variables ######################################################
 ## Root
 MY_ARCH_ROOT=/mnt
@@ -194,11 +192,11 @@ configure_sudo() {
 
 ### Helper functions ###########################################################
 logi() {
-    echo -e $($ANSI :blue1 "[ INFO ] " $@ :reset)
+    echo -e "\e[34;1m[ INFO ] $@\e[0m"
 }
 
 loge() {
-    echo -e $($ANSI :red1 "[ ERROR ] " $@ :reset)
+    echo -e "\e[31;1m[ ERROR ] $@\e[0m"
 }
 
 chrootdo() {
