@@ -1,0 +1,28 @@
+{
+    "schemes": 
+    [
+        {
+            "background": "#000000",
+            "black": "#000000",
+            "blue": "#2186EC",
+            "brightBlack": "#000000",
+            "brightBlue": "#2F9DED",
+            "brightCyan": "#19CDE6",
+            "brightGreen": "#25C141",
+            "brightPurple": "#F97137",
+            "brightRed": "#F841A0",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#FDF454",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#12C3E2",
+            "foreground": "#DAD9C7",
+            "green": "#1EBB2B",
+            "name": "synthwave",
+            "purple": "#F85A21",
+            "red": "#F6188F",
+            "selectionBackground": "#FFFFFF",
+            "white": "#FFFFFF",
+            "yellow": "#FDF834"
+        }
+    ]
+}

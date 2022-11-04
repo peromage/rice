@@ -1,0 +1,28 @@
+{
+    "schemes": 
+    [
+        {
+            "background": "#181818",
+            "black": "#242424",
+            "blue": "#063B8C",
+            "brightBlack": "#4B4B4B",
+            "brightBlue": "#0955FF",
+            "brightCyan": "#3EA8FC",
+            "brightGreen": "#6BC219",
+            "brightPurple": "#FB0050",
+            "brightRed": "#FC1C18",
+            "brightWhite": "#8C00EC",
+            "brightYellow": "#FEC80E",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#2595E1",
+            "foreground": "#EFEFEF",
+            "green": "#5AA513",
+            "name": "Elementary",
+            "purple": "#E40038",
+            "red": "#D71C15",
+            "selectionBackground": "#FFFFFF",
+            "white": "#EFEFEF",
+            "yellow": "#FDB40C"
+        }
+    ]
+}
