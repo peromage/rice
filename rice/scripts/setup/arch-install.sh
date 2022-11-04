@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ##
 ## This script must be executed in an archiso environment
 ##
@@ -7,7 +8,8 @@
 ##
 ## Any customization should go to the end of this file.
 ##
-source ${BASH_SOURCE%/*}/../source/logger.sh
+
+ANSI=${BASH_SOURCE%/*}/../ansi.sh
 
 ### Some config variables ######################################################
 ## Root
@@ -191,6 +193,14 @@ configure_sudo() {
 }
 
 ### Helper functions ###########################################################
+logi() {
+    echo -e $($ANSI :blue1 "[ INFO ] " $@ :reset)
+}
+
+loge() {
+    echo -e $($ANSI :red1 "[ ERROR ] " $@ :reset)
+}
+
 chrootdo() {
     arch-chroot $MY_ARCH_ROOT "$@"
 }
