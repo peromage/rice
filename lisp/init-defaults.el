@@ -274,18 +274,24 @@
   (pewkey
    ;; Windows
    ("q" . pew/close-window)
+   ("2" . split-window-below)
+   ("3" . split-window-right)
+   ("9" . window-toggle-side-windows)
    ("o" . pew/next-window)
    ("O" . pew/prev-window)
-   ("<left>" . shrink-window-horizontally)
-   ("<down>" . shrink-window)
-   ("<up>" . enlarge-window)
-   ("<right>" . enlarge-window-horizontally)
-   ("s" . split-window-below)
-   ("S" . window-toggle-side-windows)
-   ("v" . split-window-right)
+   ("h" . windmove-left)
+   ("j" . windmove-down)
+   ("k" . windmove-up)
+   ("l" . windmove-right)
+   ("C-h" . shrink-window-horizontally)
+   ("C-j" . shrink-window)
+   ("C-k" . enlarge-window)
+   ("C-l" . enlarge-window-horizontally)
+
    ;; Layout
    ("y" . winner-undo)
    ("Y" . winner-redo)
+
    ;; Other window
    ("M-f" . pew/scroll-other-window-page-down)
    ("M-b" . pew/scroll-other-window-page-up)
@@ -293,15 +299,8 @@
    ("M-y" . pew/scroll-other-window-line-up)
    ("M-l" . pew/recenter-other-window)
 
-   ;; Buffers
-   ("r" . rename-buffer)
-   ("w" . save-buffer)
-   ("n" . pew/next-buffer)
-   ("p" . pew/prev-buffer)
-   ("g" . pew/buffer-full-path)
-   ("B" . display-buffer)
-
    ;; Tabs
+   ("Q" . tab-bar-close-tab)
    ("R" . tab-bar-rename-tab)
    ("f" . tab-bar-switch-to-next-tab)
    ("F" . tab-bar-select-tab-by-name)
@@ -310,27 +309,40 @@
    ("T" . pew/pop-window-in-new-tab)
    ("m" . pew/move-tab-next)
    ("M" . pew/move-tab-prev)
-   ("Q" . tab-bar-close-tab)
+
+   ;; Buffers
+   ("r" . rename-buffer)
+   ("w" . save-buffer)
+   ("n" . pew/next-buffer)
+   ("p" . pew/prev-buffer)
+   ("i" . pew/buffer-full-path)
+   ("B" . display-buffer)
+
+   ;; Jump
+   ("C-o" . pop-global-mark)
+   ("." . xref-find-definitions)
+   ("?" . xref-find-references)
+   ("'" . xref-find-apropos)
 
    ;; Edit
    ("u" . undo)
    ("U" . undo-redo)
    (";" . comment-line)
-   ("c" . isearch-forward-regexp)
-   ("C" . isearch-query-replace-regexp)
+   ("/" . isearch-forward-regexp)
+   ("," . isearch-query-replace-regexp)
 
    ;; Org
-   ("i" . org-capture)
-   ("I" . org-agenda)
+   ("c" . org-capture)
+   ("C" . org-agenda)
 
    ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
-   ("+" . text-scale-adjust)
-   ("-" . text-scale-adjust)
-   ("0" . text-scale-adjust)
+   ("C-=" . text-scale-adjust)
+   ("C--" . text-scale-adjust)
+   ("C-0" . text-scale-adjust)
 
    ;; Frame Transparency
-   ("]" . pew/increase-frame-opacity)
-   ("[" . pew/decrease-frame-opacity))
+   ("M-=" . pew/increase-frame-opacity)
+   ("M--" . pew/decrease-frame-opacity))
 
 ;;; Mode keybindings
   :bind

@@ -206,52 +206,18 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
 
 ;;;; Evil keybindings
   ;; Leader keys
-  (evil-set-leader '(normal motion) (kbd "SPC")) ;; <leader>
+  (evil-set-leader '(normal motion) (kbd "DEL")) ;; <leader>
   (evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
-  ;; Normal and motion state bindings
+  ;; Normal and motion state bindings with leader key
   (pew/evil/set-key '(normal motion) 'global "<leader>"
-    ;; Windows
-    "q" #'pew/close-window
-    "h" #'evil-window-left
-    "j" #'evil-window-down
-    "k" #'evil-window-up
-    "l" #'evil-window-right
-    "s" #'evil-window-split
-    "v" #'evil-window-vsplit
-
-    ;; Tabs
-    "Q" #'tab-bar-close-tab
-    "R" #'tab-bar-rename-tab
-    "t" #'tab-bar-new-tab
-    "T" #'pew/pop-window-in-new-tab
-    "f" #'tab-bar-switch-to-next-tab
-    "b" #'tab-bar-switch-to-prev-tab
-    "m" #'pew/move-tab-next
-    "M" #'pew/move-tab-prev
-
-    ;; Buffers
-    "r" #'rename-buffer
-    "w" #'save-buffer
-    "n" #'next-buffer
-    "p" #'previous-buffer
-    "g" #'pew/buffer-full-path
-    "B" #'display-buffer
-
-    ;; Jump
-    "o" #'evil-jump-backward
-    "O" #'evil-jump-forward
-
     ;; Search and substitution
     "cs" #'pew/evil/replace-last-search)
 
+  ;; Normal and motion state bindings
   (pew/evil/set-key '(normal motion) 'global nil
-    ;; Windows
-    "<left>" #'evil-window-decrease-width
-    "<down>" #'evil-window-decrease-height
-    "<up>" #'evil-window-increase-height
-    "<right>" #'evil-window-increase-width
-
+    "SPC" #'pewkey
+    "RET" #'pewkey-repeat
     ;; Search
     "#" #'evil-ex-nohighlight)
 
@@ -260,6 +226,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     ;; Search
     "*" #'pew/evil/visual-search-region-text)
 
+  ;; Elisp with leader
   (with-eval-after-load 'elisp-mode
     (pew/evil/set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
       ;; Quick eval
