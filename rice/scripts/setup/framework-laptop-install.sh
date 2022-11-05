@@ -1,7 +1,11 @@
 #!/bin/bash
+
 ### This script is for Framework laptop specifically.
 ## Collocted from https://wiki.archlinux.org/title/Framework_Laptop
-source ${BASH_SOURCE%/*}/../logger.sh
+
+echo_green() {
+    echo -e "\e[34;1m$@\e[0m"
+}
 
 sudo pacman -Syy
 
@@ -25,7 +29,7 @@ echo_green "[ Touchpad two/three finger clicks ]
 1. Get touchpad device id
   $ xinput
 2. Add to .xinitrc
-  $ xinput set-prop 'device' 'libinput Click Method Enabled' 0 1
+  $ xinput set-prop <device> 'libinput Click Method Enabled' 0 1
 "
 
 ### Brightness buttons
