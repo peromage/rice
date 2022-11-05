@@ -53,6 +53,7 @@ SYSTEM_PACKAGES=(
     ## Power
     cpupower=1
     tlp=1
+    thermald=1
     htop
     s-tui
 
@@ -170,6 +171,11 @@ configure_cpupower() {
 configure_tlp() {
     logi "Enabling service: tlp"
     chrootdo systemctl enable tlp.service
+}
+
+configure_thermald() {
+    logi "Enabling service: thermald"
+    chrootdo systemctl enable thermald.service
 }
 
 configure_networkmanager() {
