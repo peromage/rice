@@ -130,6 +130,7 @@ nnoremap <silent> <Leader>j <C-w>j
 nnoremap <silent> <Leader>k <C-w>k
 nnoremap <silent> <Leader>l <C-w>l
 nnoremap <silent> <Leader>o <C-w>p
+
 "" In insert mode, C-x C-i to trigger completion
 inoremap <silent> <C-b> <left>
 inoremap <silent> <C-n> <down>
@@ -139,23 +140,23 @@ inoremap <silent> <C-a> <Home>
 inoremap <silent> <C-e> <End>
 
 "" Splitting
-nnoremap <silent> <Leader>v <C-w>v
-nnoremap <silent> <Leader>s <C-w>s
-nnoremap <silent> <Leader>O <C-w>o
+nnoremap <silent> <Leader>1 <C-w>o
+nnoremap <silent> <Leader>2 <C-w>s
+nnoremap <silent> <Leader>3 <C-w>v
 
 "" Resizing
-nnoremap <silent> <Down> <C-w>-
-nnoremap <silent> <Up> <C-w>+
-nnoremap <silent> <Left> <C-w><
-nnoremap <silent> <Right> <C-w>>
+vnoremap <silent> <C-h> <C-w><
+vnoremap <silent> <C-j> <C-w>-
+vnoremap <silent> <C-k> <C-w>+
+vnoremap <silent> <C-l> <C-w>>
 
 "" Tabs
-nnoremap <silent> <Leader>f :<C-u>tabprevious<CR>
-nnoremap <silent> <Leader>b :<C-u>tabnext<CR>
+nnoremap <silent> <Leader>f :<C-u>tabnext<CR>
+nnoremap <silent> <Leader>b :<C-u>tabprevious<CR>
 nnoremap <silent> <Leader>t :<C-u>tabnew<CR>
-nnoremap <silent> <Leader>> :<C-u>tabmove +<CR>
-nnoremap <silent> <Leader>< :<C-u>tabmove -<CR>
 nnoremap <silent> <Leader>T <C-w>T
+nnoremap <silent> <Leader>m :<C-u>tabmove +<CR>
+nnoremap <silent> <Leader>M :<C-u>tabmove -<CR>
 
 "" Buffers
 nnoremap <silent> <Leader>n :<C-u>bn<CR>
@@ -181,7 +182,7 @@ vnoremap <silent> * y/\V<C-r>=escape(@",'/\')<CR><CR>N
 
 "" Save and quit
 nnoremap <silent> <Leader>q :<C-u>q<CR>
-nnoremap <silent> <Leader>Q :<C-u>qa<CR>
+nnoremap <silent> <Leader>X :<C-u>qa<CR>
 nnoremap <silent> <Leader>w :<C-u>w<CR>
 nnoremap <silent> <Leader>W :<C-u>wa<CR>
 
