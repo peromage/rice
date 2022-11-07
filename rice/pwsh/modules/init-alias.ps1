@@ -13,7 +13,9 @@ function emdaemon { emacsclient -e "t" 2>$null || emacs --daemon }
 ## Quickly open
 function emq { emacs -Q }
 ## Dired
-function ef { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired `"$(Get-Location)`"))" }
+function ef { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \`"$(Get-Location)\`"))" }
+## Quick evaluation
+function ee { emacs -Q --batch --eval "(message \`"%s\`" $args)" }
 
 ### Authentication agents
 function update_ssh_agent {

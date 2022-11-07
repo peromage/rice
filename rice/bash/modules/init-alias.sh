@@ -10,11 +10,13 @@ alias em="emacsclient -c -nw"
 ## Open files in the current frame
 alias emm="emacsclient -c -n"
 ## Open files quickly
-alias emq="emacs -Q"
+alias emq="emacs -Q -nw"
 ## Daemon
 emdaemon() { emacsclient -e 't' &>/dev/null || emacs --daemon; }
 ## Dired
 ef() { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$(pwd)\"))"; }
+## Quick evaluation
+ee() { emacs -Q --batch --eval "(message \"%s\" $@)"; }
 
 ### Authentication agents
 update_ssh_agent() {
