@@ -23,7 +23,14 @@ rice_include() {
 }
 
 ### Environment
-export PATH="$PATH:$(dirname ${rice[home]})/scripts"
+export PATH=$(perl <<EOF
+print(join(":",
+"$PATH",
+"$(dirname ${rice[home]})/scripts",
+"${HOME}/.dotnet/tools"
+))
+EOF
+)
 export EDITOR="vim"
 
 ### Load module files

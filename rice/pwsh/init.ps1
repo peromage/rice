@@ -37,7 +37,11 @@ function rice_include {
 }
 
 ### Environment variables
-$Env:PATH += [IO.Path]::PathSeparator + (Join-Path $rice.home.Parent.FullName "scripts")
+$Env:PATH = @(
+    $Env:PATH
+    (Join-Path $rice.home.Parent.FullName "scripts")
+    (Join-Path $HOME ".dotnet/tools")
+) -join [IO.Path]::PathSeparator
 $Env:EDITOR = "vim"
 
 ### Load modules
