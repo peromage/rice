@@ -1,114 +1,41 @@
 #!/bin/bash
 
-## Config commands
-## Each command function name has to be "my_NAME"
-my_bash() {
-    cat <<EOF | append $HOME/.bashrc
-source $RICE_HOME/shell/init.bash
-update-gpg-agent
-EOF
+cd "$(dirname $BASH_SOURCE)"
+INSTALL_SCRIPT="install.sh"
+
+scan_modules() {
+    for i in $(ls */$INSTALL_SCRIPT); do
+        echo "${i%%/$INSTALL_SCRIPT}"
+    done
 }
 
-my_pwsh() {
-    cat <<EOF | append $HOME/.config/powershell/profile.ps1
-. $RICE_HOME/shell/init.ps1
-EOF
-}
-
-my_git() {
-    cat <<EOF | append $HOME/.gitconfig
-[include]
-    path = $RICE_HOME/git/.gitconfig
-EOF
-}
-
-my_tmux() {
-    cat <<EOF | append $HOME/.tmux.conf
-source $RICE_HOME/tmux/.tmux.conf
-EOF
-}
-
-my_gnupg() {
-    cat $RICE_HOME/gnupg/gpg-agent.conf | append $HOME/.gnupg/gpg-agent.conf
-    cat $RICE_HOME/gnupg/sshcontrol | append $HOME/.gnupg/sshcontrol
-}
-
-my_vim() {
-    cat <<EOF | append $HOME/.vimrc
-source $RICE_HOME/vim/init.vim
-EOF
-}
-
-my_neovim() {
-    cat <<EOF | append $HOME/.config/nvim/init.vim
-source $RICE_HOME/vim/init.vim
-EOF
-}
-
-my_alacritty() {
-    cat <<EOF | append $HOME/.alacritty.yml
-import:
-  - $RICE_HOME/alacritty/alacritty.yml
-EOF
-}
-
-## Utilities
-RICE_HOME=$(dirname $(realpath $BASH_SOURCE))
-
-makedir() {
-    mkdir -p $(dirname $1)
-}
-
-append() {
-    ## $1: File path
-    makedir $1
-    cat >> $1
-    echo "Appended to: $1"
-}
-
-overwrite() {
-    ## $1: File path
-    makedir $1
-    cat > $1
-    echo "Overwrote: $1"
-}
-
-## CLI
-SUBCMD_PREFIX="my_"
-
-exec_subcmd() {
-    local subcmd="$SUBCMD_PREFIX$1" && shift
-    if [[ "function" == $(type -t $subcmd) ]]; then
-        eval "$subcmd $@"
-    else
-        echo "Not found: $subcmd"
-    fi
-}
-
-print_subcmd() {
-    echo "Available CMD:"
-    declare -F | grep -Po "(?<=declare -f $SUBCMD_PREFIX)[a-zA-Z0-9._-]+"
-    exit 1
-}
-
-run() {
+main() {
+    ## Print available modules when none specified
     if [[ $# -eq 0 ]]; then
-        echo "Usage: $(basename $0) CMD ARGS"
-        print_subcmd
+        cat <<EOF
+Usage: $(basename $0) MODULE1 MODULE2 ...
+Available modules to be installed:
+$(scan_modules)
+EOF
+        exit 1
     fi
-    exec_subcmd $@
-}
-
-runn() {
-    if [[ $# -eq 0 ]]; then
-        echo "Usage: $(basename $0) CMD CMD ..."
-        print_subcmd
-    fi
-    ## Iterate through subcommands
+    ## Validate input modules before running installation scripts
+    local stop=0
+    local modules=$(scan_modules)
+    ## Stupid but works
     for i in $@; do
-        exec_subcmd $i
+        for j in $modules; do
+            [[ $j =~ ^$i$ ]] && continue 2
+        done
+        echo "$i: No installation script found. $i/$INSTALL_SCRIPT has to be provided."
+        stop=1
+    done
+    [[ $stop -ne 0 ]] && exit 1
+
+    for i in $@; do
+        $i/$INSTALL_SCRIPT
     done
 }
 
 ## Start script
-runn $@
+main $@
