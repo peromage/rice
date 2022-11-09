@@ -42,9 +42,9 @@
   ;; Customized search
   (defun pew/consult/rg (dir args)
     "Like `consult-ripgrep' but with additional arguments.
-If DIR is given by prefix, a prompt will show up to enter a searching directory.
+Search directory DIR will be selected by a prompt.
 ARGS should be a string of arguments passed to ripgrep."
-    (interactive "P\nsrg args (-t/--type, -g/--glob ...): ")
+    (interactive "DSearch directory: \nsrg args (-t/--type, -g/--glob ...): ")
     (let ((consult-ripgrep-args
            (format
             ;; Default arguments from `consult-ripgrep-args'
