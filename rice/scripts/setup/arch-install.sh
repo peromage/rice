@@ -78,7 +78,8 @@ SYSTEM_PACKAGES=(
     zip
     unzip
     pass
-    ispell
+    aspell
+    aspell-en
 
     ## Terminal and shell
     bash
@@ -103,6 +104,9 @@ SYSTEM_PACKAGES=(
     noto-fonts-extra
     otf-cascadia-code
     ttc-iosevka
+
+    ## Flatpak
+    flatpak
 
     ## Desktop
     xorg
