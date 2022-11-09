@@ -19,7 +19,9 @@
       (shell . "^ *\\*.*\\b[Ss]hell\\*$")
       (terminal . "^ *\\*.*\\b[Tt]erm\\(inal\\)?\\*$")
       (scratch . "^ *\\*[Ss]cratch\\*$")
+      ;; Org mode
       (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+      (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
       ;; Man page
       (man . "^ *\\*[Mm]an .*\\*$")
       ;; Message and output
