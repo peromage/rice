@@ -27,7 +27,8 @@ export PATH=$(perl <<EOF
 print(join(":",
 "$PATH",
 "$(dirname ${rice[home]})/scripts",
-"${HOME}/.dotnet/tools"
+"${HOME}/.dotnet/tools",
+"${HOME}/bin"
 ))
 EOF
 )

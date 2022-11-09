@@ -41,6 +41,7 @@ $Env:PATH = @(
     $Env:PATH
     (Join-Path $rice.home.Parent.FullName "scripts")
     (Join-Path $HOME ".dotnet/tools")
+    (Join-Path $HOME "bin")
 ) -join [IO.Path]::PathSeparator
 $Env:EDITOR = "vim"
 
