@@ -382,6 +382,7 @@
         "defaults":
         {
             "antialiasingMode": "cleartype",
+            "bellStyle": "none",
             "colorScheme": "Campbell",
             "cursorShape": "filledBox",
             "font":
