@@ -86,6 +86,11 @@
   ;; Refile
   (org-refile-allow-creating-parent-nodes 'confirm)
 
+  ;; Babel
+  (org-babel-load-languages '((emacs-lisp . t)
+                              (shell . t)))
+  ;;(org-confirm-babel-evaluate nil)
+
   ;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
