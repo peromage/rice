@@ -121,8 +121,12 @@
       "* %?\n%U"
       :time-prompt t))))
 
-;;; Org export
+;;; Export for Hugo
 (use-package ox-hugo
+  :defer t)
+
+;;; GitHub flavored Markdown
+(use-package ox-gfm
   :defer t)
 
 ;;; Enable focused view
