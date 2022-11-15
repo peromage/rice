@@ -2,11 +2,10 @@
 # name: Hugo new article
 # key: hugonew
 # --
-* DRAFT ${1:TITLE}
-:PROPERTIES:
-:EXPORT_FILE_NAME: ${1:$(replace-regexp-in-string "[^A-Za-z0-9._-]" "" (replace-regexp-in-string " " "-" (downcase yas-text)))}
-:END:
-:LOGBOOK:
-- State "CREATED"    from              [`(string-trim (format-time-string (cdr org-time-stamp-formats)) "<" ">")`]
-:END:
+#+title: ${1:`(capitalize (replace-regexp-in-string "[_-]" " " (string-trim (file-name-nondirectory (buffer-file-name)) "[0-9]\\{4\\}-[0-9]\\{1,2\\}-[0-9]\\{1,2\\}-" "\.org")))`}
+#+date: ${2:`(format-time-string (cdr org-time-stamp-formats))`}
+#+hugo_lastmod: $2
+#+hugo_tags:
+#+setupfile: ./blog.conf
+
 $0
