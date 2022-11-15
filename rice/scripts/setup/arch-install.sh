@@ -117,8 +117,10 @@ SYSTEM_PACKAGES=(
 
     ## Desktop
     xorg
-    xfce4
-    xfce4-goodies
+    xorg-xinit
+    plasma-meta
+    kde-system-meta
+    kde-utilities-meta
 
     ## GUI applications
     firefox
