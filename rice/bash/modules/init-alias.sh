@@ -19,7 +19,7 @@ ef() { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$(pwd)\"))"; }
 ee() { emacs -Q --batch --eval "(message \"%s\" $@)"; }
 
 ### Authentication agents
-update_ssh_agent() {
+reload_ssh_agent() {
     export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
     if [[ -e $SSH_AUTH_SOCK ]]; then
         return
@@ -27,7 +27,7 @@ update_ssh_agent() {
     eval $(ssh-agent -a $SSH_AUTH_SOCK)
 }
 
-update_gpg_agent() {
+reload_gpg_agent() {
     if [[ "x$1" = "x-f" ]]; then
         echo "Restarting gpg-agent..."
         gpgconf --kill gpg-agent

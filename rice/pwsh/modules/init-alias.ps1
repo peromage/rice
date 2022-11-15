@@ -18,7 +18,7 @@ function ef { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \`"$(Get-L
 function ee { emacs -Q --batch --eval "(message \`"%s\`" $args)" }
 
 ### Authentication agents
-function update_ssh_agent {
+function reload_ssh_agent {
     $Env:SSH_AUTH_SOCK = "${XDG_RUNTIME_DIR}/ssh-agent.socket"
     if (Test-Path $Env:SSH_AUTH_SOCK) {
         return
@@ -26,7 +26,7 @@ function update_ssh_agent {
     Invoke-Expression (ssh-agent -a $Env:SSH_AUTH_SOCK)
 }
 
-function update_gpg_agent {
+function reload_gpg_agent {
     param([switch]$f)
     if ($f) {
         "Restarting gpg-agent..."
