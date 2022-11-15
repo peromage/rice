@@ -50,6 +50,13 @@ SYSTEM_PACKAGES=(
     btrfs-progs
     ntfs-3g
 
+    ## Auto-mounting
+    gvfs
+    gvfs-mtp
+    gvfs-nfs
+    gvfs-smb
+    udisks2
+
     ## Power
     cpupower=1
     tlp=1
