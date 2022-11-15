@@ -59,8 +59,12 @@ SYSTEM_PACKAGES=(
 
     ## Power
     cpupower=1
-    tlp=1
     thermald=1
+    ## TLP and power-profiles-daemon conflicts with each other.
+    ## PPD is easier for daily use without involving too much tweak and it's
+    ## supported by KDE and GNOME out of the box.
+    #tlp=1
+    power-profiles-daemon
     htop
     s-tui
 
@@ -101,6 +105,11 @@ SYSTEM_PACKAGES=(
     vim
     emacs
     tmux
+
+    ## SDK
+    python
+    python-gobject
+    dotnet-sdk
 
     ## Fonts
     adobe-source-han-sans-cn-fonts
