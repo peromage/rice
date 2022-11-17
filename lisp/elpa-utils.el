@@ -19,8 +19,6 @@
 
   :hook (vterm-mode . pew/terminal-common-setup)
   :commands (vterm vterm-other-window)
-  :bind (:map vterm-mode-map
-         ("ESC" . vterm-send-escape))
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
