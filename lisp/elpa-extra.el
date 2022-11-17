@@ -14,9 +14,7 @@
   ;; Colorize color code
   rainbow-mode
   ;; Highlight current line
-  beacon
-  ;; Simplify S-expression editing
-  paredit)
+  beacon)
 
 (provide 'elpa-extra)
 ;;; elpa-extra.el ends here

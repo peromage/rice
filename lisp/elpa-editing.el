@@ -51,5 +51,17 @@
 (use-package rg
   :defer t)
 
+;;; Separate edit
+(use-package separedit
+  :defer t)
+
+;;; Simplify S-expression editing
+(use-package paredit
+  :defer t)
+
+;;; Jump around
+(use-package avy
+  :defer t)
+
 (provide 'elpa-editing)
 ;;; elpa-editing.el ends here

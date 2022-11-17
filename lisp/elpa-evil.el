@@ -236,5 +236,9 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
       "ef" #'eval-defun
       "ee" #'eval-last-sexp)))
 
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+
 (provide 'elpa-evil)
 ;;; elpa-evil.el ends here
