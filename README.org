@@ -67,17 +67,17 @@ For =use-package=, =use-package-always-ensure= is enabled so packages will be in
 ** pew/config
 I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
 
-| Keyword    | Description                                                           |
-|------------+-----------------------------------------------------------------------|
-| :custom    | Set variable values that can be configured with custom interface.     |
-| :map       | Set key bindings in a map.                                            |
-| :bind      | Set key bindings.                                                     |
-| :transient | Similar with :map but also define a command to trigger transient map. |
-| :switch    | Define a command to toggle variable values.                           |
-| :face      | Set face attributes.                                                  |
-| :property  | Set variable properties.                                              |
-| :hook      | Set hook functions.                                                   |
-| :eval      | Evaluate forms.                                                       |
+| Keyword      | Description                                                           |
+|--------------+-----------------------------------------------------------------------|
+| ~:custom~    | Set variable values that can be configured with custom interface.     |
+| ~:map~       | Set key bindings in a map.                                            |
+| ~:bind~      | Set key bindings.                                                     |
+| ~:transient~ | Similar with :map but also define a command to trigger transient map. |
+| ~:switch~    | Define a command to toggle variable values.                           |
+| ~:face~      | Set face attributes.                                                  |
+| ~:property~  | Set variable properties.                                              |
+| ~:hook~      | Set hook functions.                                                   |
+| ~:eval~      | Evaluate forms.                                                       |
 
 Examples see [[./lisp/init-defaults.el][init-defaults.el]]
 
@@ -118,14 +118,14 @@ Since Elisp doesn't support namespace, it's a little painful to distinguish symb
 
 I decided to add some personal tastes but I try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
 
-| Scope                                  | Convention                                 | Example                             |
-|----------------------------------------+--------------------------------------------+-------------------------------------|
-| Namespace separator                    | /                                          | pew/foo/bar                         |
-| Function name separator                | -                                          | pew/some-func                       |
-| Function parameters                    | Follow normal variable naming convention   | (defun foo (one-param another-one)) |
-| Let bound variables                    | Prefix with ~l/~ and use ~-~ as separator  | (let ((l/local-bound)))             |
-| Let bound variables in macro expansion | Prefix with ~lm/~ and use ~-~ as separator | `(let ((lm/local-bound-in-macro)))  |
-| Unused variables                       | Prefix with ~_~                            | (defun bar (first _ignored))        |
+| Scope                                  | Convention                                 | Example                               |
+|----------------------------------------+--------------------------------------------+---------------------------------------|
+| Namespace separator                    | ~/~                                        | ~pew/foo/bar~                         |
+| Function name separator                | ~-~                                        | ~pew/some-func~                       |
+| Function parameters                    | Follow normal variable naming convention   | ~(defun foo (one-param another-one))~ |
+| Let bound variables                    | Prefix with ~l/~ and use ~-~ as separator  | ~(let ((l/local-bound)))~             |
+| Let bound variables in macro expansion | Prefix with ~lm/~ and use ~-~ as separator | ~`(let ((lm/local-bound-in-macro)))~  |
+| Unused variables                       | Prefix with ~_~                            | ~(defun bar (first _ignored))~        |
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
@@ -134,28 +134,28 @@ I prefer this declaration order when configuring with =use-package=.
 
 If a keyword occupies more than one line, put an empty line before and after it.
 
-|------------------+-----------|
-| Description      | Keyword   |
-|------------------+-----------|
-| Always enabled   | :demand   |
-|                  | :ensure   |
-|------------------+-----------|
-| Cause deferral   | :defer    |
-|                  | :if       |
-|                  | :requires |
-|                  | :after    |
-|                  | :commands |
-|------------------+-----------|
-| Bindings         | :mode     |
-|                  | :bind     |
-|                  | :hook     |
-|------------------+-----------|
-| Loaded anyway    | :init     |
-|------------------+-----------|
-| Customization    | :custom   |
-|------------------+-----------|
-| On module loaded | :config   |
-|------------------+-----------|
+|------------------+-------------|
+| Description      | Keyword     |
+|------------------+-------------|
+| Always enabled   | ~:demand~   |
+|                  | ~:ensure~   |
+|------------------+-------------|
+| Cause deferral   | ~:defer~    |
+|                  | ~:if~       |
+|                  | ~:requires~ |
+|                  | ~:after~    |
+|                  | ~:commands~ |
+|------------------+-------------|
+| Bindings         | ~:mode~     |
+|                  | ~:bind~     |
+|                  | ~:hook~     |
+|------------------+-------------|
+| Loaded anyway    | ~:init~     |
+|------------------+-------------|
+| Customization    | ~:custom~   |
+|------------------+-------------|
+| On module loaded | ~:config~   |
+|------------------+-------------|
 
 * Literal configuration?
 Short answer is no.
