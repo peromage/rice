@@ -82,28 +82,30 @@ I developed this macro to help myself configure Emacs built-in functionalities i
 Examples see [[./lisp/init-defaults.el][init-defaults.el]]
 
 ** Emacs state key bindings
-To respect Emacs key bindings, there are only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
+To respect Emacs key bindings, I've tried only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
 
 My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey= and =pewkey-repeat=.
 
-| Command       | Key binding |
-|---------------+-------------|
-| pewkey        | C-x g       |
-| pewkey-repeat | C-x G       |
+Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemonic.
 
-The principle is to keep it mnemonic.
-
-Please see [[./lisp/init-defaults.el][init-default.el]] for bindings in this map.
+| Command                                             | Prefix      | Definition                                   |
+|-----------------------------------------------------+-------------+----------------------------------------------|
+| ~pewkey~                                            | ~C-x g~     | [[./lisp/init-defaults.el][init-default.el]] |
+| ~pewkey-repeat~                                     | ~C-x G~     | [[./lisp/init-defaults.el][init-default.el]] |
+| Line @@html:<b>@@S@@html:</b>@@earch with ~consult~ | ~C-c s~     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| Mini@@html:<b>@@B@@html:</b>@@uffer with ~consult~  | ~C-c b ...~ | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| @@html:<b>@@G@@html:</b>@@it with ~magit~           | ~C-c g ...~ | [[./lisp/elpa-git.el][elpa-git.el]]          |
+| @@html:<b>@@L@@html:</b>@@SP with ~lsp-mode~        | ~C-c l ...~ | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
 
 ** Evil mode key bindings
 Evil leader key is bound with ~DEL~ and local leader key with ~\~.  Most of bindings is the same with =pewkey=.
 
-| Command       | Key binding (normal and visual state) |
-|---------------+---------------------------------------|
-| Leader        | DEL                                   |
-| Local leader  | \                                     |
-| pewkey        | SPC                                   |
-| pewkey-repeat | RET                                   |
+| Command         | Key binding (normal and visual state) |
+|-----------------+---------------------------------------|
+| Leader          | ~DEL~                                 |
+| Local leader    | ~\~                                   |
+| ~pewkey~        | ~SPC~                                 |
+| ~pewkey-repeat~ | ~RET~                                 |
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
@@ -117,9 +119,9 @@ I decided to add some personal tastes but I try to keep it simple. Complicated r
 | Namespace separator                    | /                                          | pew/foo/bar                         |
 | Function name separator                | -                                          | pew/some-func                       |
 | Function parameters                    | Follow normal variable naming convention   | (defun foo (one-param another-one)) |
-| Let bound variables                    | Prefix with =l/= and use =-= as separator  | (let ((l/local-bound)))             |
-| Let bound variables in macro expansion | Prefix with =lm/= and use =-= as separator | `(let ((lm/local-bound-in-macro)))  |
-| Unused variables                       | Prefix with =_=                            | (defun bar (first _ignored))        |
+| Let bound variables                    | Prefix with ~l/~ and use ~-~ as separator  | (let ((l/local-bound)))             |
+| Let bound variables in macro expansion | Prefix with ~lm/~ and use ~-~ as separator | `(let ((lm/local-bound-in-macro)))  |
+| Unused variables                       | Prefix with ~_~                            | (defun bar (first _ignored))        |
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
