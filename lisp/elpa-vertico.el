@@ -95,7 +95,7 @@
     "Like `consult-ripgrep' but with additional arguments.
 Search directory DIR will be selected by a prompt.
 ARGS should be a string of arguments passed to ripgrep."
-    (interactive "DSearch directory: \nsrg args (-t/--type, -g/--glob ...): ")
+    (interactive "DSearch directory: \nsrg args (-t/--type, -g/--glob, -./--hidden, --no-ignore ...): ")
     (let ((consult-ripgrep-args
            (format
             ;; Default arguments from `consult-ripgrep-args'
