@@ -6,12 +6,12 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :init
+  :hook (markdown-mode . pew/markdown-mode/setup)
+
+  :config
   (defun pew/markdown-mode/setup ()
     "Markdown mode steup."
-    (pew/text-common-setup))
-
-  :hook (markdown-mode . pew/markdown-mode/setup))
+    (pew/text-common-setup)))
 
 (provide 'elpa-lang-markdown)
 ;;; elpa-lang-markdown.el ends here

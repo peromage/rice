@@ -9,7 +9,46 @@
 ;;; Evil
 (use-package evil
   :demand t
-  :init
+
+;;;; Evil custom
+  :custom
+  (evil-want-integration t)
+  (evil-want-keybinding t)
+  (evil-want-minibuffer nil)
+  (evil-want-Y-yank-to-eol t)
+  (evil-want-C-i-jump nil)
+  (evil-want-C-u-scroll nil)
+  (evil-want-C-d-scroll nil)
+  (evil-want-C-u-delete nil)
+  (evil-want-C-g-bindings nil)
+  (evil-want-C-h-delete nil)
+  (evil-want-C-w-delete nil)
+  (evil-want-C-w-in-emacs-state nil)
+  (evil-disable-insert-state-bindings t)
+  (evil-cross-lines nil)
+  (evil-split-window-below t)
+  (evil-vsplit-window-right t)
+  (evil-auto-balance-windows t)
+  (evil-ex-search-highlight-all t)
+  (evil-ex-search-persistent-highlight t)
+  (evil-symbol-word-search nil)
+  (evil-kill-on-visual-paste t)
+  (evil-search-module 'evil-search)
+  (evil-undo-system 'undo-redo)
+  ;; Initial states for major modes
+  (evil-default-state 'normal)
+  ;; Make less suprise and keep `evil-emacs-state-modes' as is
+  (evil-motion-state-modes nil)
+  (evil-normal-state-modes nil)
+  (evil-insert-state-modes nil)
+  (evil-visual-state-modes nil)
+  (evil-replace-state-modes nil)
+  (evil-operator-state-modes nil)
+  (evil-buffer-regexps nil)
+
+  :config
+  (evil-mode 1)
+
 ;;;; Evil keybinding functions
   ;; Key binding function
   (defun pew/evil/set-key (state map prefix &rest bindings)
@@ -128,44 +167,6 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew/evil/visual-update-x-selection))
-
-;;;; Evil custom
-  :custom
-  (evil-want-integration t)
-  (evil-want-keybinding t)
-  (evil-want-minibuffer nil)
-  (evil-want-Y-yank-to-eol t)
-  (evil-want-C-i-jump nil)
-  (evil-want-C-u-scroll nil)
-  (evil-want-C-d-scroll nil)
-  (evil-want-C-u-delete nil)
-  (evil-want-C-g-bindings nil)
-  (evil-want-C-h-delete nil)
-  (evil-want-C-w-delete nil)
-  (evil-want-C-w-in-emacs-state nil)
-  (evil-disable-insert-state-bindings t)
-  (evil-cross-lines nil)
-  (evil-split-window-below t)
-  (evil-vsplit-window-right t)
-  (evil-auto-balance-windows t)
-  (evil-ex-search-highlight-all t)
-  (evil-ex-search-persistent-highlight t)
-  (evil-symbol-word-search nil)
-  (evil-kill-on-visual-paste t)
-  (evil-search-module 'evil-search)
-  (evil-undo-system 'undo-redo)
-  ;; Initial states for major modes
-  (evil-default-state 'normal)
-  ;; Make less suprise and keep `evil-emacs-state-modes' as is
-  (evil-motion-state-modes nil)
-  (evil-normal-state-modes nil)
-  (evil-insert-state-modes nil)
-  (evil-visual-state-modes nil)
-  (evil-replace-state-modes nil)
-  (evil-operator-state-modes nil)
-  (evil-buffer-regexps nil)
-  :config
-  (evil-mode 1)
 
 ;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below

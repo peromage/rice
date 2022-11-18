@@ -8,32 +8,9 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :init
-  (defun pew/org/refresh-images ()
-    "Redisplay inline images if they exist in the current buffer."
-    (interactive)
-    (if org-inline-image-overlays
-        (org-redisplay-inline-images)))
-
-  (defun pew/org/marker-visible (&optional show)
-    "Pass SHOW with non-nil to make markers visible or vice versa."
-    (setq-default org-hide-emphasis-markers (not show))
-    (setq-default org-hide-leading-stars (not show))
-    (setq-default org-link-descriptive (not show))
-    (org-mode-restart))
-
-  (defun pew/org/show-markers ()
-    "Interactive command to show markers."
-    (interactive)
-    (pew/org/marker-visible t))
-
-  (defun pew/org/hide-markers ()
-    "Interactive command to hide markers."
-    (interactive)
-    (pew/org/marker-visible nil))
-
   :hook ((org-mode . pew/text-common-setup)
          (org-babel-after-execute . pew/org/refresh-images))
+
   :custom
   ;; Org files
   (org-directory (locate-user-emacs-file "org"))
@@ -119,7 +96,31 @@
      ;; Journal
      ("j" "Create a journal" entry (file+olp+datetree "journal.org")
       "* %?\n%U"
-      :time-prompt t))))
+      :time-prompt t)))
+
+  :config
+  (defun pew/org/refresh-images ()
+    "Redisplay inline images if they exist in the current buffer."
+    (interactive)
+    (if org-inline-image-overlays
+        (org-redisplay-inline-images)))
+
+  (defun pew/org/marker-visible (&optional show)
+    "Pass SHOW with non-nil to make markers visible or vice versa."
+    (setq-default org-hide-emphasis-markers (not show))
+    (setq-default org-hide-leading-stars (not show))
+    (setq-default org-link-descriptive (not show))
+    (org-mode-restart))
+
+  (defun pew/org/show-markers ()
+    "Interactive command to show markers."
+    (interactive)
+    (pew/org/marker-visible t))
+
+  (defun pew/org/hide-markers ()
+    "Interactive command to hide markers."
+    (interactive)
+    (pew/org/marker-visible nil)))
 
 ;;; Export for Hugo
 (use-package ox-hugo

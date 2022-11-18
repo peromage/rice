@@ -23,6 +23,7 @@
   (doom-modeline-height 1)
   (doom-modeline-unicode-fallback t)
   (doom-modeline-modal-icon t)
+
   :config
   (doom-modeline-mode 1))
 

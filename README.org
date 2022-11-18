@@ -119,6 +119,34 @@ It seems to work fine and compiler doesn't complain.
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
+** use-package keyword order
+I prefer this declaration order when configuring with =use-package=.
+
+If a keyword occupies more than one line, put an empty line before and after it.
+
+|------------------+-----------|
+| Rationale        | Keywords  |
+|------------------+-----------|
+| Always enabled   | :demand   |
+|                  | :ensure   |
+|------------------+-----------|
+| Cause deferral   | :defer    |
+|                  | :if       |
+|                  | :requires |
+|                  | :after    |
+|                  | :commands |
+|------------------+-----------|
+| Bindings         | :mode     |
+|                  | :bind     |
+|                  | :hook     |
+|------------------+-----------|
+| Loaded anyway    | :init     |
+|------------------+-----------|
+| Customization    | :custom   |
+|------------------+-----------|
+| On module loaded | :config   |
+|------------------+-----------|
+
 ** Acknowledgement
 This configuration is inspired by
 - [[https://github.com/purcell/emacs.d][purcell/emacs.d]]

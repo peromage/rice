@@ -6,12 +6,12 @@
 ;;; Code:
 
 (use-package powershell
-  :init
+  :hook (powershell-mode . pew/powershell-mode/setup)
+
+  :config
   (defun pew/powershell-mode/setup ()
     "PowerShell mode setup."
-    (lsp-deferred))
-
-  :hook (powershell-mode . pew/powershell-mode/setup))
+    (lsp-deferred)))
 
 (provide 'elpa-lang-powershell)
 ;;; elpa-lang-powershell.el ends here

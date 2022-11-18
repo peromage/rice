@@ -8,6 +8,12 @@
 ;;; LSP mode
 ;; For specific language LSP supports, they should go into the major mode modules.
 (use-package lsp-mode
+  :commands (lsp lsp-deferred)
+
+  :bind (:map lsp-mode-map
+         ([remap xref-find-definitions] . lsp-find-definition)
+         ([remap xref-find-references] . lsp-find-declaration))
+
   :init
   (defmacro pew/lsp/define-remote (server modes)
     "A shortcut to define LSP remote client.
@@ -22,10 +28,6 @@ MODES is a list of major mode symbols."
            :remote? t
            :server-id ',l/server-id)))))
 
-  :commands (lsp lsp-deferred)
-  :bind (:map lsp-mode-map
-         ([remap xref-find-definitions] . lsp-find-definition)
-         ([remap xref-find-references] . lsp-find-declaration))
   :custom
   (lsp-keymap-prefix "C-c l")
 
@@ -72,14 +74,8 @@ MODES is a list of major mode symbols."
 
 ;;; LSP experience improvement
 (use-package lsp-ui
-  :init
-  (defun pew/lsp-ui/setup ()
-    "Setup function for lsp-ui."
-    (lsp-ui-mode 1)
-    ;; Disabled since it occupies 'q'
-    (lsp-ui-doc-frame-mode -1))
-
   :commands lsp-ui-mode
+
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -87,7 +83,9 @@ MODES is a list of major mode symbols."
          ("C-c l l" . lsp-ui-doc-glance)
          ("C-c l L" . lsp-ui-doc-show)
          ("C-c l j" . lsp-ui-doc-focus-frame))
+
   :hook (lsp-mode . pew/lsp-ui/setup)
+
   :custom
   ;; Sideline
   (lsp-ui-sideline-enable t)
@@ -119,11 +117,18 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-window-width 0)
   (lsp-ui-imenu-buffer-position 'right)
   (lsp-ui-imenu-kind-position 'top)
-)
+
+  :config
+  (defun pew/lsp-ui/setup ()
+    "Setup function for lsp-ui."
+    (lsp-ui-mode 1)
+    ;; Disabled since it occupies 'q'
+    (lsp-ui-doc-frame-mode -1)))
 
 ;;; Debug
 (use-package dap-mode
   :defer t
+
   :custom
   (dap-python-executable "python3"))
 

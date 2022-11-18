@@ -6,12 +6,12 @@
 ;;; Code:
 
 (use-package csharp-mode
-  :init
+  :hook (csharp-mode . pew/csharp-mode/setup)
+
+  :config
   (defun pew/csharp-mode/setup ()
     "Python mode setup."
-    (lsp-deferred))
-
-  :hook (csharp-mode . pew/csharp-mode/setup))
+    (lsp-deferred)))
 
 (provide 'elpa-lang-csharp)
 ;;; elpa-lang-csharp.el ends here

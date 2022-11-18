@@ -9,10 +9,12 @@
 ;; Magit is a powerful git frontend.
 (use-package magit
   :commands magit-status
+
   :bind (("C-c g g" . magit-status)
          ("C-c g f" . magit-file-dispatch)
          ("C-c g d" . magit-dispatch)
          ("C-c g p" . magit-project-status))
+
   :custom
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))
@@ -30,6 +32,7 @@
   (git-gutter:visual-line nil)
   (git-gutter:hide-gutter nil)
   (git-gutter:verbosity 0)
+
   :config
   (global-git-gutter-mode 1)
   (set-face-foreground 'git-gutter:modified "yellow")

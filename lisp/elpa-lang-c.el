@@ -6,7 +6,10 @@
 ;;; Code:
 
 (use-package cc-mode
-  :init
+  :hook ((c-mode . pew/cc-mode/c-setup)
+         (c++-mode . pew/cc-mode/c++-setup))
+
+  :config
   ;; Setup functions
   (defun pew/cc-mode/common-setup ()
     "Common CC mode setup."
@@ -14,8 +17,8 @@
     (c-set-offset 'innamespace 0)
     (setq-local c++-tab-always-indent t)
     (setq-local c-basic-offset 4)
-    ;(setq-local c-syntactic-indentation nil)
-    ;(setq-local c-syntactic-indentation-in-macros nil)
+                                        ;(setq-local c-syntactic-indentation nil)
+                                        ;(setq-local c-syntactic-indentation-in-macros nil)
     (setq-local c-indent-level 4)
     (setq-local tab-width 4)
     (setq-local tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
@@ -46,10 +49,7 @@
   (defun pew/cc-mode/c++-setup ()
     "Initialization for C++ mode."
     (pew/cc-mode/common-setup)
-    (pew/cc-mode/lsp-setup))
-
-  :hook ((c-mode . pew/cc-mode/c-setup)
-         (c++-mode . pew/cc-mode/c++-setup)))
+    (pew/cc-mode/lsp-setup)))
 
 (provide 'elpa-lang-c)
 ;;; elpa-lang-c.el ends here

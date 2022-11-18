@@ -6,11 +6,13 @@
 ;;; Code:
 
 (use-package plantuml-mode
+  :mode (("\\.puml\\'" . plantuml-mode)
+         ("\\.plantuml\\'" . plantuml-mode))
+
   :custom
   (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
   (plantuml-default-exec-mode 'jar)
-  :mode (("\\.puml\\'" . plantuml-mode)
-         ("\\.plantuml\\'" . plantuml-mode))
+
   :config
   (use-package~ org
     :custom

@@ -10,6 +10,7 @@
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
   :demand t
+
   :bind (:map company-mode-map
          ("C-c i" . company-complete)
          ([remap completion-at-point] . company-complete)
@@ -17,6 +18,7 @@
          ("TAB" . company-complete-common-or-cycle)
          ("C-c" . company-complete-selection)
          ("C-k" . company-abort))
+
   :custom
   (company-tooltip-align-annotations t)
   (company-tooltip-limit 10)
@@ -30,6 +32,7 @@
   (company-abort-on-unique-match t)
   (company-require-match nil)
   (company-search-filtering t)
+
   :config
   (global-company-mode 1)
   (company-tng-mode 1))
@@ -44,6 +47,7 @@
 (use-package yasnippet
   :custom
   (yas-snippet-dirs (list (expand-file-name "yasnippets" pew/home-dir)))
+
   :config
   (yas-global-mode 1))
 
