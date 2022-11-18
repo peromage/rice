@@ -1,6 +1,5 @@
 #+title: RICE - Rice Is a Configuration collEction
 #+author: Peromage
-*
 
 #+begin_quote
 > Keep ricing
