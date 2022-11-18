@@ -57,15 +57,20 @@
 
 ;;; Separate edit
 (use-package separedit
-  :defer t)
+  :bind ("C-c '" . separedit-dwim))
 
 ;;; Simplify S-expression editing
 (use-package paredit
-  :defer t)
+  :hook (lisp-interaction-mode . paredit-mode))
 
-;;; Jump around
+;;; Jump among texts
 (use-package avy
-  :defer t)
+  :bind (("C-c f" . avy-goto-char)
+         ("C-c j" . avy-goto-line)))
+
+;;; Jump between windows
+(use-package ace-window
+  :bind ("C-c w" . ace-window))
 
 (provide 'elpa-editing)
 ;;; elpa-editing.el ends here

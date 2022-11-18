@@ -192,6 +192,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (pew/special-buffer scratch) 'normal
     (pew/special-buffer org-src) 'normal
     (pew/special-buffer org-export) 'normal
+    (pew/special-buffer edit-indirect) 'normal
     ;; Fallback initial state for all special buffers
     (pew/special-buffer starred) 'emacs)
 

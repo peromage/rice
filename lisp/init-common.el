@@ -22,6 +22,8 @@
       ;; Org mode
       (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
       (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
+      ;; Edit mode
+      (edit-indirect . "^ *\\*edit-indirect .*\\*$")
       ;; Man page
       (man . "^ *\\*[Mm]an .*\\*$")
       ;; Message and output
