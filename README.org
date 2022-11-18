@@ -1,28 +1,30 @@
-* PEW - Peromage's Emacs Workbench
+#+title: PEW - Peromage's Emacs Workbench
+#+author: Peromage
 
 #+begin_quote
 A minimalist's Emacs configuration.
 #+end_quote
 
+* About
 This is my personal Emacs configuration.  Be aware that it might not fit your needs.
 
-This configuration intends to be as minimal as possible.  It also prioritize using Emacs built-in functionalities.
+This configuration intends to be as minimal as possible so it prioritizes using Emacs built-in functionalities.
 
-Additionally for convenience, I included my personal configuration collection for other apps in this repo.  They can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
+For convenience, I've included my personal configuration collection in this repository.  It can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
 
-** Features
+* Features
 - Modular
-- Light and quick
-- Minimal init support
+- Lightweight and quick
+- Minimal init support (Emacs built-int packages only)
 - Terminal friendly
 - Respect Emacs vanilla key bindings
-- Evil mode (~evil-motion-state~ and ~evil-emacs-state~ are used out side of editing buffers)
-- Vertico and its complementary packages (Utilize Emacs built-in completion)
-- LSP support
-- For Emacs 28+ only
+- Evil mode enabled mainly for editing buffers (no =evil-collection=)
+- Vertico and its complementary packages as completion framework
+- LSP enabled
+- Emacs 28+ only
 
-** Get Started
-Clone this repo and put it to your home directory with folder name =.emacs.d=.
+* Get started
+Clone this repository to =~/.emacs.d=.
 
 #+begin_src shell
 $ git clone https://github.com/peromage/pew.git ~/.emacs.d
@@ -30,12 +32,12 @@ $ git clone https://github.com/peromage/pew.git ~/.emacs.d
 
 Then Emacs will automatically install everything for you.
 
-*** Local Files
-Disposable changes can go into =local.el= including settings from ~customize~.
+** Temporary file
+Disposable changes will be in =~/.emacs.d/local.el= including settings from ~customize~.
 
 =local.el= will be applied on top of the default pew configuration.
 
-*** List of Files and Directories
+** List of files and directories
 
 #+begin_example
 pew
@@ -52,70 +54,72 @@ pew
 └── README.md               # This file
 #+end_example
 
-** Key Bindings
-*** Emacs State
+* My customizations
+The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.
+
+** Package management
+I've tried my best to avoid cross references between modules so they can be used individually (except =init-common.el=).
+
+Package management uses built-in =package.el= and helper macro [[https://github.com/jwiegley/use-package][use-package]].  I might switch to use [[https://github.com/radian-software/straight.el][straight.el]] if there are demands in the future.
+
+For =use-package=, =use-package-always-ensure= is enabled so packages will be installed automatically.
+
+** pew/config
+I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
+
+| Keyword    | Description                                                           |
+|------------+-----------------------------------------------------------------------|
+| :custom    | Set variable values that can be configured with custom interface.     |
+| :map       | Set key bindings in a map.                                            |
+| :bind      | Set key bindings.                                                     |
+| :transient | Similar with :map but also define a command to trigger transient map. |
+| :switch    | Define a command to toggle variable values.                           |
+| :face      | Set face attributes.                                                  |
+| :property  | Set variable properties.                                              |
+| :hook      | Set hook functions.                                                   |
+| :eval      | Evaluate forms.                                                       |
+
+Examples see [[./lisp/init-defaults.el][init-defaults.el]]
+
+** Emacs state key bindings
 To respect Emacs key bindings, there are only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
 
-For the personal key bindings, they are defined in a transient map by calling either =pewkey= or =pewkey-repeat=.
+My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey= and =pewkey-repeat=.
 
-The principle is to keep keybindings mnemonic.
+| Command       | Key bindings |
+|---------------+--------------|
+| pewkey        | C-x g        |
+| pewkey-repeat | C-x G        |
 
-See [[./lisp/init-defaults.el][init-default.el]]
+The principle is to keep it mnemonic.
 
-*** Evil Mode
-Evil key bindings are defined with leader key =SPC=.  There are not too many.  Most of Vim bindings are good enough.
+Please see [[./lisp/init-defaults.el][init-default.el]] for bindings in this map.
 
-See [[./lisp/elpa-evil.el][elpa-evil.el]]
+** Evil mode key bindings
+Evil leader key is bound with ~DEL~ and local leader key with ~\~.  Most of bindings is the same with =pewkey=.
 
-** Philosophy
-*** Consideration of Design
-The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.  But when I write my own files I keep these points in mind:
+| Command       | Key bindings (normal and visual state) |
+|---------------+----------------------------------------|
+| Leader        | DEL                                    |
+| Local leader  | \                                      |
+| pewkey        | SPC                                    |
+| pewkey-repeat | RET                                    |
 
-1. Keep it simple and minimal
-I don't want to make my Emacs become some sort of IDE monster so the main focus is the speed.  When try keeping a minimal number of packages I use [[https://github.com/jwiegley/use-package][use-package]] to lazily load most them.  Meanwhile starting from Emacs 28, most of the built-in package is good enough like =flymake= =project= and the built-in completion.  They can handle my daily work well without problems.
-
-2. Keep it modular
-Each module doesn't have cross references to each other so any one of them can be plugged in and out at any time (except for the =init-common= which is a common library used by other modules).
-
-If there is no Internet to download packages it's possible to keep only =init-common= and =init-default= in =init.el= to bring some sweet stuff to vanilla Emacs.  Or alternatively define =pew/mini-init= as non-nil and load [[./init.el][init.el]] from your own init file.
-
-3. Configuration management
-Packages are managed by =use-package= with =use-package-always-ensure= enabled so packages should be installed automatically, which is straight forward.  However, I do manage to keep vanilla Emacs at one place without involving third party packages so it can be used independently.  This has been mentioned above.
-
-For this purpose, I have a personal customization helper called =pew/config= which is a replicate of =use-package= but adapted into my personal taste.  With this helper the configuration syntax is unified and elegant.
-
-*** Literal Configuration?
-No.  A short answer is it's not my style.
-
-Don't give me wrong.  I'm an Org user and I use =ox-hugo= to manage my blog articles.  I've heard a lot people talking about literal configuration and how good it is then I gave it a try, but it didn't work well for me.
-
-First thing is, when writing configuration in Org file the, the main focus has changed.  Usually code is the first class citizen and commentary text comes after it.  But in literal configuration they are put in the opposite position.  When I browse my code, my focus got constantly broken because I have to skip the text and find the next code block in most times.  Some people may argue using keybindings to jump between code blocks but I'm talking about visual and feeling here.
-
-Then I found coding in the code block is kind of awkward since the completion doesn't work well and you have to use a special buffer to edit the code.
-
-Besides the editing, adding a third party package into my configuration feels strange.  Since all of my configuration code is in an Org file, does that mean I have to put other's code into my Org file too because now it's a part of my configurations?  What if the package has multiple files?  People may say "Well you don't have to.  Just copy and paste in it's module files.  If that's true, you then just went against the belief that using one Org file to manage personal configuration.  If you break the Org file into pieces and what's the difference if I use the traditional and modular way?
-
-As of sectioning, I can use =outline-minor-mode= with proper comments to achieve the same effect.
-
-Tangling and speed is not a problem since you can always tangle into a single init file and byte compile it but when it comes to debug, it's not very efficient.
-
-Overall, I like =org-mode= and I use it for my blog and documentation but not for my daily driver's configuration.
+See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
 ** Naming Convention
 Since Elisp doesn't support namespace, it's a little painful to distinguish from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
 
-I decided to add some personal preferences (I can do whatever in my configuration anyway) but I try to keep it simple in case I can't remember them all ending up with inconsistency.
+I decided to add some personal tastes but I try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
 
 | Scope                                  | Convention                                 | Example                             |
 |----------------------------------------+--------------------------------------------+-------------------------------------|
 | Namespace separator                    | /                                          | pew/foo/bar                         |
 | Function name separator                | -                                          | pew/some-func                       |
 | Function parameters                    | Follow normal variable naming convention   | (defun foo (one-param another-one)) |
-| Let bound variables                    | Prefix with =l/= and use =-= as separator  | (let (l/local-bound))               |
-| Let bound variables in macro expansion | Prefix with =lm/= and use =-= as separator | `(let (lm/local-bound-in-macro))    |
+| Let bound variables                    | Prefix with =l/= and use =-= as separator  | (let ((l/local-bound)))             |
+| Let bound variables in macro expansion | Prefix with =lm/= and use =-= as separator | `(let ((lm/local-bound-in-macro)))  |
 | Unused variables                       | Prefix with =_=                            | (defun bar (first _ignored))        |
-
-It seems to work fine and compiler doesn't complain.
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
@@ -147,7 +151,12 @@ If a keyword occupies more than one line, put an empty line before and after it.
 | On module loaded | :config   |
 |------------------+-----------|
 
-** Acknowledgement
+* Literal configuration?
+Short answer is no.
+
+I've seen a lot people put their configs in a giant org file and render it in a nice web page.  Looks cool but I think I'm still an old-fashioned guy who likes to code in a traditional way.  Code re-usability is important for me.  And haven't mentioned that proper comments with =outline-mode= can also make code easy to navigate.
+
+* Acknowledgement
 This configuration is inspired by
 - [[https://github.com/purcell/emacs.d][purcell/emacs.d]]
 - [[https://github.com/protesilaos/dotfiles][protesilaos/dotfiles]]
