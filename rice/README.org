@@ -1,38 +1,33 @@
-* RICE - Rice Is a Configuration collEction
+#+title: RICE - Rice Is a Configuration collEction
+#+author: Peromage
+*
 
 #+begin_quote
 > Keep ricing
 #+end_quote
 
+* About
 This is a collection of my daily tool configurations.
 
-** Get Started
-
+* Get started
 Simply use =install.sh= script to install supported configs.
 
 #+begin_src shell
 # List supported configs
 $ ./install.sh
 
-# Install selected ones
+# Install configurations for applications
 $ ./install.sh bash pwsh git tmux
 #+end_src
 
-To add a new config installation, define a function in =install.sh= with name =NAME_conf=. Check the [[./install.sh][script]] for details.
+To add a new config installation, put a =install.sh= script in the application's folder.
 
-** Philosophy
-*** Why not use GNU Stow to manage dotfiles?
+* Why not just use GNU Stow?
+=stow= is really good.  However, sometimes applications might accidentally change the configurations then the repository would become dirty.
 
-=Stow= is ideally good for a clean installation like Arch Linux where there are minimal files created in user's home directory. However, most of popular distros like to create a bunch of files by default, then =Stow= will have a hard time to link the files.
+I like to have some flexibility to control how the installation behaves.  Also I find that in order to use =stow= the folder structure may become ugly (I have to keep the same hierarchy).  That's why I like to use my own scripts.
 
-Unfortunately I have to work on those distros most of the time.
-
-Also sometimes configuration is modified for some specific purposes but those changes are not intended to be tracked.
-
-A better solution in this case is to use the import-ish feature if this kind of syntax is supported.
-
-** A List of CLI Alternatives
-
+* Appendix: a list of CLI alternatives
 - Better ~ls~: [[https://github.com/ogham/exa][exa]]
 - Better ~cat~: [[https://github.com/sharkdp/bat][bat]]
 - Better ~grep~: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
