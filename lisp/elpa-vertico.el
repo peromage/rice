@@ -39,6 +39,8 @@
 
 ;;; Search and navigation commands
 (use-package consult
+  :demand t
+
   :bind (("C-s" . consult-line)
          ("C-c b l" . consult-line)
          ("C-c b L" . consult-line-multi)
