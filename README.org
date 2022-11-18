@@ -10,7 +10,7 @@ This is my personal Emacs configuration.  Be aware that it might not fit your ne
 
 This configuration intends to be as minimal as possible so it prioritizes using Emacs built-in functionalities.
 
-For convenience, I've included my personal configuration collection in this repository.  It can be found in [[./rice][rice]] directory which is managed by ~git subtree~.
+For convenience, I've included my [[https://github.com/peromage/rice][personal configuration collection]] in [[./rice][rice]] directory which is synchronized regularly via =git subtree=.
 
 * Features
 - Modular
@@ -86,10 +86,10 @@ To respect Emacs key bindings, there are only a few modification on the original
 
 My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey= and =pewkey-repeat=.
 
-| Command       | Key bindings |
-|---------------+--------------|
-| pewkey        | C-x g        |
-| pewkey-repeat | C-x G        |
+| Command       | Key binding |
+|---------------+-------------|
+| pewkey        | C-x g       |
+| pewkey-repeat | C-x G       |
 
 The principle is to keep it mnemonic.
 
@@ -98,17 +98,17 @@ Please see [[./lisp/init-defaults.el][init-default.el]] for bindings in this map
 ** Evil mode key bindings
 Evil leader key is bound with ~DEL~ and local leader key with ~\~.  Most of bindings is the same with =pewkey=.
 
-| Command       | Key bindings (normal and visual state) |
-|---------------+----------------------------------------|
-| Leader        | DEL                                    |
-| Local leader  | \                                      |
-| pewkey        | SPC                                    |
-| pewkey-repeat | RET                                    |
+| Command       | Key binding (normal and visual state) |
+|---------------+---------------------------------------|
+| Leader        | DEL                                   |
+| Local leader  | \                                     |
+| pewkey        | SPC                                   |
+| pewkey-repeat | RET                                   |
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
 ** Naming Convention
-Since Elisp doesn't support namespace, it's a little painful to distinguish from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
+Since Elisp doesn't support namespace, it's a little painful to distinguish symbol names from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
 
 I decided to add some personal tastes but I try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
 
@@ -129,7 +129,7 @@ I prefer this declaration order when configuring with =use-package=.
 If a keyword occupies more than one line, put an empty line before and after it.
 
 |------------------+-----------|
-| Rationale        | Keywords  |
+| Description      | Keyword   |
 |------------------+-----------|
 | Always enabled   | :demand   |
 |                  | :ensure   |
