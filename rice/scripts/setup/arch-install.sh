@@ -139,6 +139,14 @@ SYSTEM_PACKAGES=(
     fcitx-configtool
     fcitx-cloudpinyin
     fcitx-sunpinyin
+
+    ## QEMU + KVM
+    qemu-full
+    libvirt=1
+    virt-manager
+    edk2-ovmf
+    dnsmasq
+    iptables-nft
 )
 
 ### Package configurations #####################################################
@@ -218,6 +226,26 @@ configure_sudo() {
     chrootdo "echo '$MY_NAME ALL=(ALL:ALL) ALL' > /etc/sudoers.d/$MY_NAME"
 }
 
+configure_libvirt() {
+    logi "Configuring libvirt for $MY_NAME"
+
+    local libvirt_group="libvirt"
+    local libvirtd_conf
+    logi "Enabling authentication for group $libvirt_group"
+    chrootdo perl -i -pe "s/^(#(unix_sock_group)(.*))$/\$1\n\$2 = \"${libvirt_group}\"" $libvirtd_conf
+
+    local qemu_conf="/etc/libvirt/qemu.conf"
+    logi "Adding user and group to $qemu_conf"
+    chrootdo perl -i -pe "s/^(#(user)(.*))$/\$1\n\$2 = \"${MY_NAME}\"" $qemu_conf
+    chrootdo perl -i -pe "s/^(#(group)(.*))$/\$1\n\$2 = \"${MY_NAME}\"" $qemu_conf
+
+    logi "Adding user $MY_NAME to group ${libvirt_group}"
+    chrootdo usermod -aG $libvirt_group $MY_NAME
+
+    logi "Enabling service: libvirtd"
+    chrootdo systemctl enable libvirtd.service
+}
+
 ### Helper functions ###########################################################
 logi() {
     echo -e "\e[34;1m[ INFO ] $@\e[0m"
@@ -256,6 +284,10 @@ validate_functions() {
     done
     return $bad
 }
+
+################################################################################
+### Script starts here #########################################################
+################################################################################
 
 ### Sanity checks ##############################################################
 if ! validate_functions $(system_package_configure_list); then
