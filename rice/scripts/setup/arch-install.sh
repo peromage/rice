@@ -230,14 +230,14 @@ configure_libvirt() {
     logi "Configuring libvirt for $MY_NAME"
 
     local libvirt_group="libvirt"
-    local libvirtd_conf
+    local libvirtd_conf="/etc/libvirt/libvirtd.conf"
     logi "Enabling authentication for group $libvirt_group"
-    chrootdo perl -i -pe "s/^(#(unix_sock_group)(.*))$/\$1\n\$2 = \"${libvirt_group}\"" $libvirtd_conf
+    chrootdo perl -i -pe "print \"\$1 = ${libvirt_group}\n\" if /^#(unix_sock_group) *=/" $libvirtd_conf
 
     local qemu_conf="/etc/libvirt/qemu.conf"
     logi "Adding user and group to $qemu_conf"
-    chrootdo perl -i -pe "s/^(#(user)(.*))$/\$1\n\$2 = \"${MY_NAME}\"" $qemu_conf
-    chrootdo perl -i -pe "s/^(#(group)(.*))$/\$1\n\$2 = \"${MY_NAME}\"" $qemu_conf
+    chrootdo perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(user) *=/" $qemu_conf
+    chrootdo perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(group) *=/" $qemu_conf
 
     logi "Adding user $MY_NAME to group ${libvirt_group}"
     chrootdo usermod -aG $libvirt_group $MY_NAME
