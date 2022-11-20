@@ -150,24 +150,33 @@ Once CMD is invoked CMD-map will be temporarily activated.  The difference
 between CMD and CMD-repeat is CMD only receive one followed key press while
 CMD-repeat keeps receiving key press until an undefined key passed.
 See `set-transient-map'.
-Note: Obsoleted `repeat-map' property method in Emacs 28 since it didn't work
-well for some reason:
+Note: Discouraged `repeat-map' property method in Emacs 28 since it didn't work
+well for some reason.  If `repeat-map' needs to be enabled, do:
   (put cmd 'repeat-map map-symbol)"
     (declare (indent 0))
     (let* ((l/cmd (car form))
            (l/cmd-repeat (intern (format "%s-repeat" l/cmd)))
            (l/cmd-doc-string "Created by `pew/set-transient'"))
       `(let ((lm/map (symbol-value (pew/set-map ,form))))
-         (defun ,l/cmd ()
-           ,l/cmd-doc-string
-           (interactive)
-           (message "%s activated" ',l/cmd)
-           (set-transient-map lm/map nil))
+         (defun ,l/cmd (arg)
+           "Temporarily activate a transient map.
+Normally, when a key binding is invoked in the transient map, it will end and
+return the previous key map.
+ARG is a prefix argument.  If it is given, the transient map will keep activated
+until `C-g' is pressed.
+Created by `pew/set-transient'."
+           (interactive "P")
+           (cond (arg
+                  (message "%s activated in repeat mode" ',l/cmd)
+                  (set-transient-map lm/map t))
+                 (t
+                  (message "%s activated" ',l/cmd)
+                  (set-transient-map lm/map nil))))
          (defun ,l/cmd-repeat ()
-           ,l/cmd-doc-string
+           "Temporarily activate a transient map in repeat mode.
+Created by `pew/set-transient'."
            (interactive)
-           (message "%s activated" ',l/cmd-repeat)
-           (set-transient-map lm/map t)))))
+           (,l/cmd :repeat)))))
 
   (defmacro pew/set-switch (form)
     "Create a command to switch variable between values.
