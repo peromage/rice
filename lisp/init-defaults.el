@@ -323,6 +323,9 @@
    ("." . xref-find-definitions)
    ("?" . xref-find-references)
    ("'" . xref-find-apropos)
+   ("C-x" . exchang-and-mark)
+   ("x" . set-mark-command)
+   ("X" . rectangle-mark-mode)
 
    ;; Edit
    ("u" . undo)
@@ -350,11 +353,6 @@
   (global
    ;; File and directory browsing
    ("C-x C-d" . dired-jump)
-
-   ;; Xref
-   ("C-x j" . xref-find-definitions)
-   ("C-x J" . xref-find-references)
-   ("C-x C-j" . xref-find-apropos)
 
    ;; Remap for better experience
    ([remap next-buffer] . pew/next-buffer)
