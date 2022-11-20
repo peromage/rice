@@ -361,8 +361,8 @@
    ([remap isearch-delete-char] . isearch-del-char)
 
    ;; Pewkey
-   ("C-x g" . pewkey)
-   ("C-x C-g" . pewkey-repeat))
+   ;; To invoke repeat mode, prefix with `C-u'
+   ("C-x C-x" . pewkey))
 
 ;;;; Dired
   (dired-mode
