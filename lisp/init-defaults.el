@@ -323,7 +323,7 @@
    ("." . xref-find-definitions)
    ("?" . xref-find-references)
    ("'" . xref-find-apropos)
-   ("C-x" . exchang-and-mark)
+   ("C-x" . exchange-point-and-mark)
    ("x" . set-mark-command)
    ("X" . rectangle-mark-mode)
 
