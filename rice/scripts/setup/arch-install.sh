@@ -147,6 +147,7 @@ SYSTEM_PACKAGES=(
     edk2-ovmf
     dnsmasq
     iptables-nft
+    swtpm
 )
 
 ### Package configurations #####################################################
