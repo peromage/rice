@@ -90,8 +90,8 @@ Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemoni
 
 | Command                                                    | Prefix      | Definition                                   |
 |------------------------------------------------------------+-------------+----------------------------------------------|
-| ~pewkey~                                                   | ~C-x g~     | [[./lisp/init-defaults.el][init-default.el]] |
-| ~pewkey-repeat~                                            | ~C-x G~     | [[./lisp/init-defaults.el][init-default.el]] |
+| ~pewkey~                                                   | ~C-x C-x~   | [[./lisp/init-defaults.el][init-default.el]] |
+| ~pewkey-repeat~                                            | ~C-u C-x C-x~ | [[./lisp/init-defaults.el][init-default.el]] |
 | Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | ~C-c s~     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
 | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | ~C-c b ...~ | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
 | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | ~C-c g ...~ | [[./lisp/elpa-git.el][elpa-git.el]]          |
