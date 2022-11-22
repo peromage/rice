@@ -43,8 +43,8 @@ SYSTEM_PACKAGES=(
 
     ## Boot loader
     efibootmgr
-    grub=1
-    grub-btrfs
+    #grub=1
+    #grub-btrfs
 
     ## File system
     btrfs-progs
@@ -184,8 +184,13 @@ configure_base() {
 }
 
 configure_linux() {
+    ## RAM disk
     logi "Generating ramdisk"
     chrootdo mkinitcpio -P
+
+    ## Boot manager
+    logi "Installing boot manager"
+    chrootdo bootctl install
 }
 
 configure_grub() {
@@ -306,7 +311,6 @@ for func in $(system_package_configure_list); do
 done
 
 ### Mount ######################################################################
-logi "Mouting partitions"
 ## Swap file
 if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
     logi "Generating swapfile"
