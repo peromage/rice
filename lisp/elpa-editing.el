@@ -12,7 +12,6 @@
   :demand t
 
   :bind (:map company-mode-map
-         ("C-c i" . company-complete)
          ([remap completion-at-point] . company-complete)
          :map company-active-map
          ("TAB" . company-complete-common-or-cycle)
