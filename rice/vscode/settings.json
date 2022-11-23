@@ -42,8 +42,8 @@
     "extensions.autoUpdate": false,
     "extensions.ignoreRecommendations": true,
     "files.eol": "\n",
+    "files.hotExit": "off",
     "files.insertFinalNewline": true,
-    "files.simpleDialog.enable": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "git.ignoreMissingGitWarning": true,
@@ -71,9 +71,6 @@
             "icon": "terminal-bash",
             "path": "bash"
         },
-        "fish": {
-            "path": "fish"
-        },
         "pwsh": {
             "args": [
                 "-NoLogo"
@@ -84,9 +81,6 @@
         "tmux": {
             "icon": "terminal-tmux",
             "path": "tmux"
-        },
-        "zsh": {
-            "path": "zsh"
         }
     },
     "terminal.integrated.profiles.windows": {
@@ -94,15 +88,15 @@
             "args": [
                 "-NoLogo"
             ],
-            "source": "PowerShell"
+            "icon": "terminal-powershell",
+            "path": "pwsh"
         }
     },
-    "terminal.integrated.rightClickBehavior": "default",
+    "terminal.integrated.rightClickBehavior": "nothing",
     "terminal.integrated.sendKeybindingsToShell": true,
     "update.enableWindowsBackgroundUpdates": false,
     "update.mode": "manual",
     "window.autoDetectHighContrast": false,
-    "window.confirmBeforeClose": "always",
     "window.enableMenuBarMnemonics": false,
     "window.menuBarVisibility": "visible",
     "window.restoreWindows": "none",
@@ -127,5 +121,6 @@
     "workbench.tree.renderIndentGuides": "always",
     "workbench.view.alwaysShowHeaderActions": true,
     "workbench.welcomePage.walkthroughs.openOnInstall": false,
-    "zenMode.hideLineNumbers": false
+    "zenMode.hideLineNumbers": false,
+    "zenMode.restore": false
 }
