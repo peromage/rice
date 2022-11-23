@@ -274,6 +274,7 @@
   (pewkey
    ;; Windows
    ("q" . pew/close-window)
+   ("1" . delete-other-windows)
    ("2" . split-window-below)
    ("3" . split-window-right)
    ("9" . window-toggle-side-windows)
