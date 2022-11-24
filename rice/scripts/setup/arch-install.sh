@@ -49,6 +49,7 @@ SYSTEM_PACKAGES=(
     ## File system
     btrfs-progs
     ntfs-3g
+    exfatprogs
 
     ## Auto-mounting
     gvfs
