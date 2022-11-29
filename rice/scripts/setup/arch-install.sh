@@ -9,7 +9,9 @@
 ## Any customization should go to the end of this file.
 ##
 
+################################################################################
 ### Some config variables ######################################################
+################################################################################
 ## Root
 MY_ARCH_ROOT=/mnt
 
@@ -45,6 +47,7 @@ SYSTEM_PACKAGES=(
     efibootmgr
     #grub=1
     #grub-btrfs
+    tpm2-tss
 
     ## File system
     btrfs-progs
@@ -68,6 +71,7 @@ SYSTEM_PACKAGES=(
     power-profiles-daemon
     htop
     s-tui
+    powertop
 
     ## Audio
     pipewire
@@ -151,7 +155,7 @@ SYSTEM_PACKAGES=(
     swtpm
 )
 
-### Package configurations #####################################################
+## Package configurations
 configure_base() {
     logi "Configuring Arch base system"
     ## Configure the system
@@ -253,7 +257,9 @@ configure_libvirt() {
     chrootdo systemctl enable libvirtd.service
 }
 
+################################################################################
 ### Helper functions ###########################################################
+################################################################################
 logi() {
     echo -e "\e[34;1m[ INFO ] $@\e[0m"
 }
