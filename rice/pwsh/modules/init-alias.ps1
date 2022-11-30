@@ -17,6 +17,27 @@ function ef { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \`"$(Get-L
 ## Quick evaluation
 function ee { emacs -Q --batch --eval "(message \`"%s\`" $args)" }
 
+### Hash calculation
+function hash_md5 {
+    param($file)
+    (Get-FileHash -Algorithm MD5 $file).Hash
+}
+
+function hash_sha1 {
+    param($file)
+    (Get-FileHash -Algorithm SHA1 $file).Hash
+}
+
+function hash_sha256 {
+    param($file)
+    (Get-FileHash -Algorithm SHA256 $file).Hash
+}
+
+function hash_sha512 {
+    param($file)
+    (Get-FileHash -Algorithm SHA512 $file).Hash
+}
+
 ### Authentication agents
 function reload_ssh_agent {
     $Env:SSH_AUTH_SOCK = "${XDG_RUNTIME_DIR}/ssh-agent.socket"
