@@ -41,7 +41,7 @@
   (split-width-threshold 160 "80 columns minimal")
   (frame-resize-pixelwise t)
   (window-resize-pixelwise t)
-  (help-window-select t)
+  (help-window-select 'never)
 
   ;; Scrolling
   (scroll-conservatively 101)
