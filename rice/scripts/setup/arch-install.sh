@@ -10,7 +10,7 @@
 ##
 
 ################################################################################
-### Some config variables ######################################################
+### Installation Customization
 ################################################################################
 ## Root
 MY_ARCH_ROOT=/mnt
@@ -186,6 +186,13 @@ configure_base() {
     chrootdo useradd -m -s /bin/bash -u $MY_UID $MY_NAME
     chrootdo usermod -aG wheel $MY_NAME
     chrootdo passwd $MY_NAME
+
+    ## Some nice settings for pacman
+    cat <<EOF >> $MY_ARCH_ROOT/etc/pacman.conf
+[options]
+ILoveCandy
+Color
+EOF
 }
 
 configure_linux() {
@@ -258,7 +265,7 @@ configure_libvirt() {
 }
 
 ################################################################################
-### Helper functions ###########################################################
+### Helper functions
 ################################################################################
 logi() {
     echo -e "\e[34;1m[ INFO ] $@\e[0m"
@@ -299,25 +306,25 @@ validate_functions() {
 }
 
 ################################################################################
-### Script starts here #########################################################
+### Script starts here
 ################################################################################
 
-### Sanity checks ##############################################################
+## Sanity checks
 if ! validate_functions $(system_package_configure_list); then
     loge "One or more configuration functions missing. Aborting..."
     exit
 fi
 
-### Install packages ###########################################################
+## Install packages
 logi "Installing Arch Linux base system"
 pacstrap -KG $MY_ARCH_ROOT $(system_package_normalized_list)
 
-### Configure packages #########################################################
+## Configure packages
 for func in $(system_package_configure_list); do
     eval $func
 done
 
-### Mount ######################################################################
+## Mount
 ## Swap file
 if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
     logi "Generating swapfile"
@@ -328,19 +335,9 @@ if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
 else
     logi "Swap file disabled"
 fi
+
 ## Fstab
 logi "Generating fstab"
 genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
-
-### Some nice settings #########################################################
-cat <<EOF >> $MY_ARCH_ROOT/etc/pacman.conf
-[options]
-ILoveCandy
-Color
-EOF
-
-### Custom installation process ################################################
-logi "Starting custom installation"
-
 
 logi "Arch installation completed!"
