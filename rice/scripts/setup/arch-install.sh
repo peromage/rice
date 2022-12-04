@@ -32,8 +32,9 @@ MY_SWAPFILE_SIZE_MB=0
 ## The configuration function will be called after all the packages in this list
 ## are installed. Calling order dependends on the package declaration order.
 ## If the value is missing or anything other than 1 to install the package only.
-SYSTEM_PACKAGE_CONFIGURE_PREFIX="configure_"
-SYSTEM_PACKAGES=(
+MY_PACKAGE_CONFIGURE_FUNCTION_PREFIX="configure_"
+MY_PACKAGE_REGEX="([^=]+)=(\d+)"
+MY_PACKAGES=(
     ## Arch base packages
     base=1
     linux=1
@@ -279,17 +280,17 @@ chrootdo() {
     arch-chroot $MY_ARCH_ROOT "$@"
 }
 
-## Get package names without trailing "=*"
-system_package_normalized_list() {
-    for package in "${SYSTEM_PACKAGES[@]}"; do
-        echo $package | perl -pe 's/(.*)(=.*)/$1/g'
+## Get package names without trailing "=1"
+generate_package_list() {
+    for package in "${MY_PACKAGES[@]}"; do
+        echo $package | perl -pe "s/${MY_PACKAGE_REGEX}/\$1/g"
     done
 }
 
 ## Get configuration functions of packages that have trailing "=1"
-system_package_configure_list() {
-    for package in "${SYSTEM_PACKAGES[@]}"; do
-        echo $package | perl -ne "print \"${SYSTEM_PACKAGE_CONFIGURE_PREFIX}\$1\\n\" if /(.*)=.*/"
+generate_package_configure_function_list() {
+    for package in "${MY_PACKAGES[@]}"; do
+        echo $package | perl -ne "print \"${MY_PACKAGE_CONFIGURE_FUNCTION_PREFIX}\$1\\n\" if /${MY_PACKAGE_REGEX}/"
     done
 }
 
@@ -309,18 +310,18 @@ validate_functions() {
 ### Script starts here
 ################################################################################
 
-## Sanity checks
-if ! validate_functions $(system_package_configure_list); then
+## Configure functions must be presented
+if ! validate_functions $(generate_package_configure_function_list); then
     loge "One or more configuration functions missing. Aborting..."
     exit
 fi
 
 ## Install packages
 logi "Installing Arch Linux base system"
-pacstrap -KG $MY_ARCH_ROOT $(system_package_normalized_list)
+pacstrap -KG $MY_ARCH_ROOT $(generate_package_list)
 
 ## Configure packages
-for func in $(system_package_configure_list); do
+for func in $(generate_package_configure_function_list); do
     eval $func
 done
 
