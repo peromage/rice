@@ -50,6 +50,7 @@ MY_PACKAGES=(
     #grub=1
     #grub-btrfs
     tpm2-tss
+    sbctl
 
     ## File system
     btrfs-progs
@@ -155,6 +156,11 @@ MY_PACKAGES=(
     dnsmasq
     iptables-nft
     swtpm
+
+    ## Laptop related
+    iio-sensor-proxy
+    fprintd
+    bluez-utils=1
 )
 
 ## Package configurations
@@ -305,6 +311,12 @@ EOF
     logi "Enabling service: libvirtd"
     chrootdo <<EOF
 systemctl enable libvirtd.service
+EOF
+}
+
+configure-bluez-utils() {
+    chrootdo <<EOF
+systemctl enable bluetooth.service
 EOF
 }
 
