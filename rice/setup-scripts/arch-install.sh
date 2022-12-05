@@ -4,7 +4,7 @@
 ## This script must be executed in an archiso environment
 ##
 ## Notice: Beforing running this script, disks should be partitioned and mounted
-## under /mnt (default)
+## under /mnt/arch (default)
 ##
 ## Any customization should go to the end of this file.
 ##
@@ -13,7 +13,7 @@
 ### Installation Customization
 ################################################################################
 ## Root
-MY_ARCH_ROOT=/mnt
+MY_ARCH_ROOT=/mnt/arch
 
 ## User information
 MY_NAME=fang
@@ -23,7 +23,8 @@ MY_HOSTNAME=saffyyre
 ## From /usr/share/zoneinfo
 MY_TIMEZONE=America/Detroit
 
-## Swap file. Set a value that is greater than 0 to enable.
+## Swap file. Set the file path and a value that is greater than 0 to enable.
+MY_SWAPFILE_PATH=
 MY_SWAPFILE_SIZE_MB=0
 
 ## System packages
@@ -164,85 +165,119 @@ configure_base() {
 
     ## Time zone
     logi "Time zone"
-    chrootdo ln -sf /usr/share/zoneinfo/$MY_TIMEZONE /etc/localtime
-    chrootdo hwclock --systohc
-    #chrootdo timedatectl set-ntp true
+    chrootdo <<EOF
+ln -sf /usr/share/zoneinfo/$MY_TIMEZONE /etc/localtime
+hwclock --systohc
+#timedatectl set-ntp true
+EOF
 
     ## Localization
     logi "Locale"
-    chrootdo "echo en_US.UTF-8 UTF-8 >> /etc/locale.gen"
-    chrootdo "echo zh_CN.UTF-8 UTF-8 >> /etc/locale.gen"
-    chrootdo locale-gen
-    chrootdo "echo LANG=en_US.UTF-8 >> /etc/locale.conf"
+    chrootdo <<EOF
+echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
+echo zh_CN.UTF-8 UTF-8 >> /etc/locale.gen
+locale-gen
+echo LANG=en_US.UTF-8 >> /etc/locale.conf
+EOF
 
     ## Network configuration
     logi "Hostname: $MY_HOSTNAME"
-    chrootdo "echo $MY_HOSTNAME > /etc/hostname"
+    chrootdo <<EOF
+echo $MY_HOSTNAME > /etc/hostname
+EOF
 
     ## Login
     logi "Logins"
-    logi "Setting root password"
-    chrootdo passwd root
-    logi "Adding user: $MY_NAME"
-    chrootdo useradd -m -s /bin/bash -u $MY_UID $MY_NAME
-    chrootdo usermod -aG wheel $MY_NAME
-    chrootdo passwd $MY_NAME
+    logi "Updating root password"
+    logw "Using default password \"root\".  Consider updating it after installation. "
+    chrootdo <<EOF
+echo "root:root" | chpasswd
+EOF
+    logi "Adding user $MY_NAME"
+    logw "Using default password \"${MY_NAME}\".  Consider updating it after installation. "
+    chrootdo <<EOF
+useradd -m -s /bin/bash -u $MY_UID $MY_NAME
+usermod -aG wheel $MY_NAME
+echo "$MY_NAME:$MY_NAME" | chpasswd
+EOF
 
     ## Some nice settings for pacman
-    cat <<EOF >> $MY_ARCH_ROOT/etc/pacman.conf
+    chrootdo <<EOF
+cat <<INNER_EOF >> /etc/pacman.conf
 [options]
 ILoveCandy
 Color
+INNER_EOF
 EOF
 }
 
 configure_linux() {
     ## RAM disk
     logi "Generating ramdisk"
-    chrootdo mkinitcpio -P
+    chrootdo <<EOF
+mkinitcpio -P
+EOF
 
     ## Boot manager
     logi "Installing boot manager"
-    chrootdo bootctl install
+    chrootdo <<EOF
+bootctl install
+EOF
 }
 
 configure_grub() {
     logi "Configuring GRUB"
-    chrootdo grub-install --efi-directory=/boot --boot-directory=/boot --target=x86_64-efi --bootloader-id=$MY_HOSTNAME
-    chrootdo grub-mkconfig -o /boot/grub/grub.cfg
+    chrootdo <<EOF
+grub-install --efi-directory=/boot --boot-directory=/boot --target=x86_64-efi --bootloader-id=$MY_HOSTNAME
+grub-mkconfig -o /boot/grub/grub.cfg
+EOF
 }
 
 configure_cpupower() {
     logi "Enabling service: cpupower"
-    chrootdo systemctl enable cpupower.service
+    chrootdo <<EOF
+systemctl enable cpupower.service
+EOF
 }
 
 configure_tlp() {
     logi "Enabling service: tlp"
-    chrootdo systemctl enable tlp.service
+    chrootdo <<EOF
+systemctl enable tlp.service
+EOF
 }
 
 configure_thermald() {
     logi "Enabling service: thermald"
-    chrootdo systemctl enable thermald.service
+    chrootdo <<EOF
+systemctl enable thermald.service
+EOF
 }
 
 configure_networkmanager() {
     logi "Enabling service: NetworkManager"
-    chrootdo systemctl enable NetworkManager.service
+    chrootdo <<EOF
+systemctl enable NetworkManager.service
+EOF
 
     logi "Enabling service: systemd-resolved"
-    chrootdo systemctl enable systemd-resolved.service
+    chrootdo <<EOF
+systemctl enable systemd-resolved.service
+EOF
 }
 
 configure_openssh() {
     logi "Enabling service: sshd"
-    chrootdo systemctl enable sshd.service
+    chrootdo <<EOF
+systemctl enable sshd.service
+EOF
 }
 
 configure_sudo() {
     logi "Making $MY_NAME as a sudoer"
-    chrootdo "echo '$MY_NAME ALL=(ALL:ALL) ALL' > /etc/sudoers.d/$MY_NAME"
+    chrootdo <<EOF
+echo "$MY_NAME ALL=(ALL:ALL) ALL" > /etc/sudoers.d/$MY_NAME
+EOF
 }
 
 configure_libvirt() {
@@ -251,18 +286,26 @@ configure_libvirt() {
     local libvirt_group="libvirt"
     local libvirtd_conf="/etc/libvirt/libvirtd.conf"
     logi "Enabling authentication for group $libvirt_group"
-    chrootdo perl -i -pe "print \"\$1 = ${libvirt_group}\n\" if /^#(unix_sock_group) *=/" $libvirtd_conf
+    chrootdo <<EOF
+perl -i -pe "print \"\$1 = ${libvirt_group}\n\" if /^#(unix_sock_group) *=/" $libvirtd_conf
+EOF
 
     local qemu_conf="/etc/libvirt/qemu.conf"
     logi "Adding user and group to $qemu_conf"
-    chrootdo perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(user) *=/" $qemu_conf
-    chrootdo perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(group) *=/" $qemu_conf
+    chrootdo <<EOF
+perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(user) *=/" $qemu_conf
+perl -i -pe "print \"\$1 = ${MY_NAME}\n\" if /^#(group) *=/" $qemu_conf
+EOF
 
     logi "Adding user $MY_NAME to group ${libvirt_group}"
-    chrootdo usermod -aG $libvirt_group $MY_NAME
+    chrootdo <<EOF
+usermod -aG $libvirt_group $MY_NAME
+EOF
 
     logi "Enabling service: libvirtd"
-    chrootdo systemctl enable libvirtd.service
+    chrootdo <<EOF
+systemctl enable libvirtd.service
+EOF
 }
 
 ################################################################################
@@ -272,12 +315,16 @@ logi() {
     echo -e "\e[34;1m[ INFO ] $@\e[0m"
 }
 
+logw() {
+    echo -e "\e[33;1m[ WARNING ] $@\e[0m"
+}
+
 loge() {
     echo -e "\e[31;1m[ ERROR ] $@\e[0m"
 }
 
 chrootdo() {
-    arch-chroot $MY_ARCH_ROOT "$@"
+    cat | arch-chroot $MY_ARCH_ROOT
 }
 
 ## Get package names without trailing "=1"
@@ -312,7 +359,7 @@ validate_functions() {
 
 ## Configure functions must be presented
 if ! validate_functions $(generate_package_configure_function_list); then
-    loge "One or more configuration functions missing. Aborting..."
+    loge "One or more configuration functions missing.  Aborting..."
     exit
 fi
 
@@ -325,20 +372,23 @@ for func in $(generate_package_configure_function_list); do
     eval $func
 done
 
-## Mount
 ## Swap file
-if [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
-    logi "Generating swapfile"
-    dd if=/dev/zero of=$MY_ARCH_ROOT/swapfile bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
-    chmod 600 $MY_ARCH_ROOT/swapfile
-    mkswap $MY_ARCH_ROOT/swapfile
-    swapon $MY_ARCH_ROOT/swapfile
+if [[ -n $MY_SWAPFILE_PATH ]] &&
+   [[ ! -f $MY_SWAPFILE_PATH ]] &&
+   [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
+    logi "Generating swapfile ($MY_SWAPFILE_SIZE_MB MB): $MY_SWAPFILE_PATH"
+    dd if=/dev/zero of=$MY_SWAPFILE_PATH bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
+    sync
+    chmod 600 $MY_SWAPFILE_PATH
+    mkswap $MY_SWAPFILE_PATH
+    swapon $MY_SWAPFILE_PATH
 else
-    logi "Swap file disabled"
+    logi "No swap file configured"
 fi
 
 ## Fstab
 logi "Generating fstab"
+logw "genfstab may not recognize <pass> field for btrfs subvolumes.  Double check it before reboot."
 genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
 
 logi "Arch installation completed!"
