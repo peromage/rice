@@ -314,7 +314,7 @@ systemctl enable libvirtd.service
 EOF
 }
 
-configure-bluez-utils() {
+configure_bluez-utils() {
     chrootdo <<EOF
 systemctl enable bluetooth.service
 EOF
@@ -366,41 +366,69 @@ validate_functions() {
 }
 
 ################################################################################
+### Subcommands
+################################################################################
+validate() {
+    ## Configure functions must be presented
+    if ! validate_functions $(generate_package_configure_function_list); then
+        loge "One or more configuration functions missing.  Aborting..."
+        return 1
+    fi
+}
+
+packages() {
+    ## Install packages
+    logi "Installing Arch Linux base system"
+    pacstrap -KG $MY_ARCH_ROOT $(generate_package_list)
+}
+
+configure() {
+    ## Configure packages
+    for func in $(generate_package_configure_function_list); do
+        eval $func
+    done
+}
+
+gen-swap() {
+    ## Swap file
+    if [[ -n $MY_SWAPFILE_PATH ]] &&
+           [[ ! -f $MY_SWAPFILE_PATH ]] &&
+           [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
+        logi "Generating swapfile ($MY_SWAPFILE_SIZE_MB MB): $MY_SWAPFILE_PATH"
+        dd if=/dev/zero of=$MY_SWAPFILE_PATH bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
+        sync
+        chmod 600 $MY_SWAPFILE_PATH
+        mkswap $MY_SWAPFILE_PATH
+        swapon $MY_SWAPFILE_PATH
+    else
+        logi "No swap file configured"
+    fi
+}
+
+gen-fstab() {
+    ## Fstab
+    logi "Generating fstab"
+    logw "genfstab may not recognize <pass> field for btrfs subvolumes.  Double check it before reboot."
+    genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
+}
+
+all() {
+    logi "Starting full Arch installation..."
+    validate &&
+    packages &&
+    configure &&
+    gen-swap &&
+    gen-fstab
+    logi "Arch installation completed!"
+}
+
+################################################################################
 ### Script starts here
 ################################################################################
 
-## Configure functions must be presented
-if ! validate_functions $(generate_package_configure_function_list); then
-    loge "One or more configuration functions missing.  Aborting..."
-    exit
+if [[ $# -eq 0 ]]; then
+    all
+    exit $?
 fi
 
-## Install packages
-logi "Installing Arch Linux base system"
-pacstrap -KG $MY_ARCH_ROOT $(generate_package_list)
-
-## Configure packages
-for func in $(generate_package_configure_function_list); do
-    eval $func
-done
-
-## Swap file
-if [[ -n $MY_SWAPFILE_PATH ]] &&
-   [[ ! -f $MY_SWAPFILE_PATH ]] &&
-   [[ $MY_SWAPFILE_SIZE_MB -gt 0 ]]; then
-    logi "Generating swapfile ($MY_SWAPFILE_SIZE_MB MB): $MY_SWAPFILE_PATH"
-    dd if=/dev/zero of=$MY_SWAPFILE_PATH bs=1M count=$MY_SWAPFILE_SIZE_MB status=progress
-    sync
-    chmod 600 $MY_SWAPFILE_PATH
-    mkswap $MY_SWAPFILE_PATH
-    swapon $MY_SWAPFILE_PATH
-else
-    logi "No swap file configured"
-fi
-
-## Fstab
-logi "Generating fstab"
-logw "genfstab may not recognize <pass> field for btrfs subvolumes.  Double check it before reboot."
-genfstab -U $MY_ARCH_ROOT >> $MY_ARCH_ROOT/etc/fstab
-
-logi "Arch installation completed!"
+eval "$@"
