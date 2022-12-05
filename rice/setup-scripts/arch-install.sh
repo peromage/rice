@@ -128,6 +128,7 @@ MY_PACKAGES=(
     noto-fonts-extra
     otf-cascadia-code
     ttc-iosevka
+    ttf-liberation
 
     ## Flatpak
     flatpak
