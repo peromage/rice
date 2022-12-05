@@ -1,41 +1,49 @@
 #!/bin/bash
 
-cd "$(dirname $BASH_SOURCE)"
-INSTALL_SCRIPT="install.sh"
+### Configuration
+INSTALL_SCRIPT_NAME="install.sh"
 
-scan_modules() {
-    for i in $(ls */$INSTALL_SCRIPT); do
-        echo "${i%%/$INSTALL_SCRIPT}"
-    done
-}
-
-main() {
-    ## Print available modules when none specified
-    if [[ $# -eq 0 ]]; then
-        cat <<EOF
+### Function definitions
+help() {
+    cat <<EOF
 Usage: $(basename $0) MODULE1 MODULE2 ...
 Available modules to be installed:
-$(scan_modules)
+$(generate_installable_module_list)
 EOF
-        exit 1
-    fi
-    ## Validate input modules before running installation scripts
-    local stop=0
-    local modules=$(scan_modules)
-    ## Stupid but works
-    for i in $@; do
-        for j in $modules; do
-            [[ $j =~ ^$i$ ]] && continue 2
-        done
-        echo "$i: No installation script found. $i/$INSTALL_SCRIPT has to be provided."
-        stop=1
-    done
-    [[ $stop -ne 0 ]] && exit 1
+}
 
-    for i in $@; do
-        $i/$INSTALL_SCRIPT
+generate_installable_module_list() {
+    for i in $(ls */$INSTALL_SCRIPT_NAME); do
+        echo "${i%%/$INSTALL_SCRIPT_NAME}"
     done
 }
 
-## Start script
-main $@
+validate_module_support() {
+    ## Validate if input modules have install scripts defined
+    local error=0
+    local supported_modules=$(generate_installable_module_list)
+    ## Stupid loop but works
+    for i in $@; do
+        for j in $supported_modules; do
+            [[ $j =~ ^$i$ ]] && continue 2
+        done
+        echo "$i: No installation script found.  $i/$INSTALL_SCRIPT_NAME has to be provided."
+        error=1
+    done
+    return $error
+}
+
+### Script starts here
+## Change working directory
+cd "$(dirname $BASH_SOURCE)"
+
+## Print available modules when none specified
+[[ $# -eq 0 ]] && help && exit 1
+
+## Abort if one of the modules doesn't have install script defined
+validate_module_support $@ || exit 1
+
+## Install modules
+for i in $@; do
+    $i/$INSTALL_SCRIPT_NAME
+done
