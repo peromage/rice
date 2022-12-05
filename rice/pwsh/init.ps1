@@ -48,6 +48,7 @@ $Env:EDITOR = "vim"
 ### Load modules
 &{
     rice_include modules/init-alias.ps1
+    rice_include modules/init-hack.ps1
     rice_include modules/theme-minimalist.ps1
     if ($rice.platform_windows) {
         rice_include modules/init-alias-windows.ps1
