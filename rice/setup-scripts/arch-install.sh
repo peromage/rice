@@ -99,6 +99,7 @@ MY_PACKAGES=(
     pass
     aspell
     aspell-en
+    neofetch
 
     ## Terminal and shell
     bash
