@@ -17,6 +17,13 @@ gpg-agent)
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
     export GPG_TTY="$(tty)"
     ;;
+firefox-wayland)
+    export MOZ_ENABLE_WAYLAND=1
+    ;;
+firefox-x11)
+    ## Fix touchpad kinetic scrolling
+    export MOZ_USE_XINPUT2=1
+    ;;
 *)
     echo "No definition for $i"
     ;;
