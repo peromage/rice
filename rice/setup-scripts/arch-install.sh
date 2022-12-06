@@ -136,6 +136,9 @@ MY_PACKAGES=(
     ## Desktop
     xorg
     xorg-xinit
+    wayland
+    wayland-utils
+    xorg-xwayland
     plasma-meta
     kde-system-meta
     kde-utilities-meta
