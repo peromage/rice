@@ -5,14 +5,10 @@
 alias ll="ls -lahF --color=auto"
 
 ### Emacs
-## Launch a client in terminal
-alias ec="emacsclient -c -nw"
-## Launch a client in frame
-alias ecc="emacsclient -c -n"
-## Launch a new instance in terminal
-alias em="emacs -nw"
-## Launch a new instance in frame
-alias emm="emacs"
+## Launch a client in current terminal and start server if it hasn't
+alias em="emacsclient -c -nw -a="
+## Launch a client in a frame and start server if it hasn't
+alias emm="emacsclient -c -a="
 ## Open files quickly
 alias emq="emacs -Q -nw"
 ## Dired

@@ -4,14 +4,10 @@
 function ll { ls -lahF --color=auto @args }
 
 ### Emacs
-## Launch a client in terminal
-function ec { emacsclient -c -nw @args }
-## Launch a client in frame
-function ecc { emacsclient -c -n @args }
-## Launch a new instance in terminal
-function em { emacs -nw @args }
-## Launch a new instance in frame
-function emm { emacs @args }
+## Launch a client in current terminal and start server if it hasn't
+function em { emacsclient -c -nw -a= @args }
+## Launch a client in a frame and start server if it hasn't
+function emm { emacsclient -c -a= @args }
 ## Quickly open
 function emq { emacs -Q -nw @args }
 ## Dired
