@@ -5,18 +5,22 @@
 alias ll="ls -lahF --color=auto"
 
 ### Emacs
-## Open files in the terminal
-alias em="emacsclient -c -nw"
-## Open files in the current frame
-alias emm="emacsclient -c -n"
+## Launch a client in terminal
+alias ec="emacsclient -c -nw"
+## Launch a client in frame
+alias ecc="emacsclient -c -n"
+## Launch a new instance in terminal
+alias em="emacs -nw"
+## Launch a new instance in frame
+alias emm="emacs"
 ## Open files quickly
 alias emq="emacs -Q -nw"
+## Dired
+emf() { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$(pwd)\"))"; }
+## Quick evaluation
+eme() { emacs -Q --batch --eval "(message \"%s\" $@)"; }
 ## Daemon
 emdaemon() { emacsclient -e 't' &>/dev/null || emacs --daemon; }
-## Dired
-ef() { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$(pwd)\"))"; }
-## Quick evaluation
-ee() { emacs -Q --batch --eval "(message \"%s\" $@)"; }
 
 ### Authentication agents
 reload-ssh-agent() {

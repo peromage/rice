@@ -4,18 +4,22 @@
 function ll { ls -lahF --color=auto @args }
 
 ### Emacs
-## Open files in the terminal
-function em { emacsclient -c -nw @args }
-## Open files in the current frame
-function emm { emacsclient -c -n @args }
+## Launch a client in terminal
+function ec { emacsclient -c -nw @args }
+## Launch a client in frame
+function ecc { emacsclient -c -n @args }
+## Launch a new instance in terminal
+function em { emacs -nw @args }
+## Launch a new instance in frame
+function emm { emacs @args }
+## Quickly open
+function emq { emacs -Q -nw @args }
+## Dired
+function emf { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \`"$(Get-Location)\`"))" }
+## Quick evaluation
+function eme { emacs -Q --batch --eval "(message \`"%s\`" $args)" }
 ## Daemon
 function emdaemon { emacsclient -e "t" 2>$null || emacs --daemon }
-## Quickly open
-function emq { emacs -Q }
-## Dired
-function ef { emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \`"$(Get-Location)\`"))" }
-## Quick evaluation
-function ee { emacs -Q --batch --eval "(message \`"%s\`" $args)" }
 
 ### Hash calculation
 function hash-md5 {
