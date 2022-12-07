@@ -22,9 +22,9 @@
 !/rice/
 !/rice/**
 
-# Include tests
-!/tests/
-!/tests/**
+# Include scripts
+!/scripts/
+!/scripts/**
 
 # Include GitHub workflows
 !/.github/
