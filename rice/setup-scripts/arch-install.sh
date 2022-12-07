@@ -134,7 +134,7 @@ MY_PACKAGES=(
     ## Flatpak
     flatpak
 
-    ## Desktop
+    ## Desktop Environment
     xorg
     xorg-xinit
     wayland
@@ -148,10 +148,10 @@ MY_PACKAGES=(
     firefox
 
     ## Input methods
-    fcitx-im
-    fcitx-configtool
-    fcitx-cloudpinyin
-    fcitx-sunpinyin
+    fcitx5-im
+    fcitx5-rime
+    rime-double-pinyin
+    rime-emoji
 
     ## QEMU + KVM
     qemu-full

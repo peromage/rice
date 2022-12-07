@@ -1,0 +1,5 @@
+# Default Rime config
+patch:
+  schema_list:
+    - schema: double_pinyin
+    - schema: bopomofo
