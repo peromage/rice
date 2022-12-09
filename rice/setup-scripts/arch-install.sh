@@ -139,6 +139,7 @@ MY_PACKAGES=(
     xorg-xinit
     wayland
     wayland-utils
+    wl-clipboard
     xorg-xwayland
     plasma-meta
     kde-system-meta
