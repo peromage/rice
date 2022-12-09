@@ -295,18 +295,17 @@ EOF
 configure_libvirt() {
     logi "Configuring libvirt for $MY_NAME"
 
-    local libvirt_group="libvirt"
     local libvirtd_conf="/etc/libvirt/libvirtd.conf"
-    logi "Enabling authentication for group $libvirt_group"
+    logi "Configuring $libvirtd_conf"
     chrootdo <<EOF
-perl -i -pe "print \"\\\$1 = ${libvirt_group}\n\" if /^#(unix_sock_group) *=/" $libvirtd_conf
+echo "unix_sock_group = \"libvirt\"" >> $libvirtd_conf
 EOF
 
     local qemu_conf="/etc/libvirt/qemu.conf"
-    logi "Adding user and group to $qemu_conf"
+    logi "Configuring $qemu_conf"
     chrootdo <<EOF
-perl -i -pe "print \"\\\$1 = ${MY_NAME}\n\" if /^#(user) *=/" $qemu_conf
-perl -i -pe "print \"\\\$1 = ${MY_NAME}\n\" if /^#(group) *=/" $qemu_conf
+echo "user = \"$MY_NAME\"" >> $qemu_conf
+echo "group = \"$MY_NAME\"" >> $qemu_conf
 EOF
 
     logi "Adding user $MY_NAME to group ${libvirt_group}"
