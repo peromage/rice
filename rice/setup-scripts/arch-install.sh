@@ -41,6 +41,7 @@ MY_PACKAGES=(
     linux=1
     linux-firmware
     intel-ucode
+    dkms
 
     ## Pacman
     reflector
