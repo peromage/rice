@@ -1,4 +1,4 @@
-#+title: RICE - Rice Is a Configuration collEction
+#+title: RICE - Rice Is a Complex Enchantment
 #+author: Peromage
 
 #+begin_quote
