@@ -6,8 +6,6 @@ INSTALL_SCRIPT_NAME="install.sh"
 ### Function definitions
 help() {
     cat <<EOF
-Usage: $(basename $0) MODULE1 MODULE2 ...
-Available modules to be installed:
 $(generate_installable_module_list)
 EOF
 }

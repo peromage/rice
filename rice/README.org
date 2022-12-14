@@ -17,6 +17,9 @@ $ ./install.sh
 
 # Install configurations for applications
 $ ./install.sh bash pwsh git tmux
+
+# Install all
+$ ./install.sh $(./install.sh)
 #+end_src
 
 To add a new config installation, put a =install.sh= script in the application's folder.
