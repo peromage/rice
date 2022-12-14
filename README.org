@@ -1,4 +1,4 @@
-#+title: PEW - Peromage's Emacs Workbench
+#+title: PEW - Peromage's Emacs Workspace
 #+author: Peromage
 
 #+begin_quote
