@@ -101,6 +101,7 @@ MY_PACKAGES=(
     aspell
     aspell-en
     neofetch
+    usbutils
 
     ## Terminal and shell
     bash
