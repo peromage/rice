@@ -147,9 +147,11 @@ MY_PACKAGES=(
     wayland-utils
     wl-clipboard
     xorg-xwayland
+    ## KDE
     plasma-meta
     kde-system-meta
     kde-utilities-meta
+    kde-graphics-meta
 
     ## GUI applications
     firefox
