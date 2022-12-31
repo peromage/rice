@@ -88,6 +88,10 @@ MY_PACKAGES=(
     network-manager-applet
     openssh=1
 
+    ## Devices
+    cups
+    cups-pdf
+
     ## Tools
     sudo=1
     man
