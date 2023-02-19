@@ -14,7 +14,9 @@
   ;; Colorize color code
   rainbow-mode
   ;; Highlight current line
-  beacon)
+  beacon
+  ;; Sometimes useful to get prompted for LSP commands
+  which-key)
 
 (provide 'elpa-extra)
 ;;; elpa-extra.el ends here
