@@ -88,13 +88,14 @@ ra = remote add
 
 # log
 l = log --graph --pretty=format:'%C(red)%h%C(reset) %C(green)[%an]%C(reset) - %s %C(blue)(%cd) %C(yellow)%d' --date=rfc
-ll = log --graph --pretty=format:'%C(red)%h%C(reset) %C(green)[%an]%C(reset) - %s %C(blue)(%cd) %C(yellow)%d' --numstat
+lclean = log --graph --pretty=format:'%C(red)%h%C(reset) %C(green)[%an]%C(reset) - %s %C(blue)(%cd) %C(yellow)%d' --date=rfc --decorate-refs=refs/heads
+lstat = log --graph --pretty=format:'%C(red)%h%C(reset) %C(green)[%an]%C(reset) - %s %C(blue)(%cd) %C(yellow)%d' --numstat
 ldiff = log --pretty=format:'%C(red)%h%C(reset)  %C(green)%an%C(reset)  %s'
 ln = log -n 3
 
 # update-index
-isw = update-index --skip-worktree
-noisw = update-index --no-skip-worktree
+uisw = update-index --skip-worktree
+uinsw = update-index --no-skip-worktree
 
 # ls-files
-fsw = ls-files -v
+lsf = ls-files -v
