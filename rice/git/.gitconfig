@@ -9,10 +9,6 @@
 ## path = "/path/to/this/file"
 ##
 
-[user]
-name = peromage
-email = peromage@outlook.com
-
 [core]
 autocrlf = input
 quotepath = false
