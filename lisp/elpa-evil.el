@@ -209,8 +209,8 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
 
 ;;;; Evil keybindings
   ;; Leader keys
-  (evil-set-leader '(normal motion) (kbd "DEL")) ;; <leader>
-  (evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
+  (evil-set-leader '(normal motion) (kbd "\\")) ;; <leader>
+  ;;(evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
   ;; Normal and motion state bindings with leader key
   (pew/evil/set-key '(normal motion) 'global "<leader>"
@@ -220,7 +220,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; Normal and motion state bindings
   (pew/evil/set-key '(normal motion) 'global nil
     "SPC" #'pewkey
-    "RET" #'pewkey-repeat
+    "|" #'pewkey-repeat
     ;; Search
     "#" #'evil-ex-nohighlight)
 
