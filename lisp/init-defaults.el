@@ -254,7 +254,7 @@
   (electric-indent-mode nil "Annoying sometimes")
 
   ;; TRAMP
-  (tramp-default-method "ssh")
+  (tramp-default-method "scp")
   (tramp-remote-path '(tramp-own-remote-path tramp-default-remote-path))
 
   ;; Winner mode
