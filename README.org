@@ -64,7 +64,7 @@ Package management uses built-in =package.el= and helper macro [[https://github.
 
 For =use-package=, =use-package-always-ensure= is enabled so packages will be installed automatically.
 
-** pew/config
+** pewconfig
 I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
 
 | Keyword      | Description                                                           |

@@ -26,6 +26,7 @@ loaded from other places.")
  (pew/mini-init
   (message "[pew] Loading minimal init")
   (require 'init-common)
+  (require 'init-pewconfig)
   (require 'init-defaults))
 
  ;; Regular setup
@@ -36,6 +37,7 @@ loaded from other places.")
   ;; Load init files
   ;; NOTE: The load sequence must be in this order
   (require 'init-common)
+  (require 'init-pewconfig)
   (require 'init-boot)
   (require 'init-defaults)
   (require 'init-package)

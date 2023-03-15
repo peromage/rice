@@ -8,7 +8,7 @@
 
 ;;; Code:
 
-(pew/config
+(pewconfig
   :eval
   (message "[pew] Loading workaround")
   :custom

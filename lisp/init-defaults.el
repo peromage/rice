@@ -13,7 +13,7 @@
 ;; `customize-set-variable'.  It calls those options' setters if they have and
 ;; also prevents writting settings from this file to `custom-file'.
 
-(pew/config
+(pewconfig
 ;;; Custom
   :custom
 ;;;; Startup
