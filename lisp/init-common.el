@@ -342,5 +342,20 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
                  display-buffer-use-some-window)))
   (setq-local display-buffer-alist nil))
 
+;;; String functions
+(defun pew/file-to-string (path)
+  "Read the file content at PATH and return a string.
+From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
+  (with-temp-buffer
+    (insert-file-contents path)
+    (buffer-string)))
+
+(defun pew/file-to-string-lines (path)
+  "Read the file content at PATH and return a list of lines.
+From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
+  (with-temp-buffer
+    (insert-file-contents path)
+    (split-string (buffer-string) "\n" t)))
+
 (provide 'init-common)
 ;;; init-common.el ends here
