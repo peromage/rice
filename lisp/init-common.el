@@ -358,4 +358,15 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
     (split-string (buffer-string) "\n" t)))
 
 (provide 'init-common)
+
+;;; Data functions
+(defun pew/gethash (table &rest keys)
+  "Access a hashtable TABLE recursively with a list of KEYS.
+This functions is similar to `gethash' but it allows user to specify a list of
+keys in one go.
+Especially useful when accessing a JSON object."
+  (if (= 1 (length keys))
+      (gethash (car keys) table)
+    (apply #'pew/gethash (gethash (car keys) table) (cdr keys))))
+
 ;;; init-common.el ends here
