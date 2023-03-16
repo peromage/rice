@@ -76,9 +76,9 @@
   (xref-show-definitions-function #'consult-xref)
   (completion-in-region-function #'pew/consult/completion-in-region)
   (consult-async-min-input 2)
-  (consult-narrow-key (kbd "C-l"))
+  (consult-narrow-key "C-l")
   ;; Disable all auto previews
-  (consult-preview-key (kbd "C-o"))
+  (consult-preview-key "C-o")
   ;; Don't display special buffers
   (consult-buffer-filter pew/hidden-buffers)
 
