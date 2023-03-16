@@ -65,7 +65,7 @@
 ;;;; Babel
   (org-babel-load-languages '((emacs-lisp . t)
                               (shell . t)))
-  ;(org-confirm-babel-evaluate nil)
+  ;;(org-confirm-babel-evaluate nil)
 
 ;;;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window

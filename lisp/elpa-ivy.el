@@ -20,7 +20,7 @@
   :custom
   (ivy-use-virtual-buffers t)
   ;; enable this if you want `swiper' to use it
-  ;(search-default-mode #'char-fold-to-regexp)
+  ;;(search-default-mode #'char-fold-to-regexp)
   (ivy-count-format "(%d/%d) ")
   (ivy-on-del-error-function #'ignore)
   (ivy-display-style 'fancy)
@@ -63,7 +63,7 @@
   (ivy-prescient-enable-filtering nil)
   :config
   ;; Uncomment the following line to have sorting remembered across sessions!
-  ;(prescient-persist-mode 1)
+  ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
 ;; Ivy projectile integration
@@ -88,7 +88,7 @@
   :config
   (which-key-mode 1)
   ;; Minibuffer usually causes display problems
-  ;(which-key-setup-minibuffer)
+  ;;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
 (provide 'elpa-ivy)
