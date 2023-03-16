@@ -129,7 +129,15 @@ I decided to add some personal tastes but I try to keep it simple. Complicated r
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
-** use-package keyword order
+** Format convention
+*** Comments
+In-line comment starts with two semicolons followed by a space at the same indentation of the code. e.g. =;; something=.
+
+If commenting out a line of code, prepend two semicolons without spaces. e.g. =;;(form)=.
+
+Divider comment start at least three semicolons followed by a space. The number of semicolons depends on the depth. e.g. =;;; A divider line=.
+
+*** use-package keyword order
 I prefer this declaration order when configuring with =use-package=.
 
 If a keyword occupies more than one line, put an empty line before and after it.
@@ -156,6 +164,26 @@ If a keyword occupies more than one line, put an empty line before and after it.
 |------------------+-------------|
 | On module loaded | ~:config~   |
 |------------------+-------------|
+
+*** use-package keyword spacing
+Usually each keyword section should be surrounded by an empty line if it takes more than one line.
+
+However, if the keyword section takes only one line, then multiple keywords that follow the same fashion can be put together without spacing. For example
+
+#+begin_src elisp
+(use-package foo
+  :ensure t
+  :defer nil
+  :requires bar
+
+  :init
+  (form1)
+  (form2)
+
+  :config
+  (form3)
+  (form4))
+#+end_src
 
 * Literal configuration?
 Short answer is no.
