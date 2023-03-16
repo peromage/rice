@@ -1,11 +1,9 @@
-;;; init-defaults.el --- Vanilla Emacs configurations -*- lexical-binding: t -*-
+;;; init-defaults.el --- Vanilla Emacs configurations -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Vanilla Emacs configuration.
 ;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
-
-;;; Code:
-
+;;
 ;; NOTE: Most of vanilla options are defined with `defcustom', which means if they
 ;; are set directly by `setq' they might NOT work as expected.  However, if we use
 ;; `custom-set-variables' they would work but `custom-file' would produce a bunch
@@ -13,6 +11,7 @@
 ;; `customize-set-variable'.  It calls those options' setters if they have and
 ;; also prevents writting settings from this file to `custom-file'.
 
+;;; Code:
 (pewconfig
 ;;; Custom
   :custom
@@ -42,8 +41,12 @@
   (frame-resize-pixelwise t)
   (window-resize-pixelwise t)
   (help-window-select t "Always select the window")
+  (window-divider-default-right-width 1)
+  (window-divider-default-bottom-width 1)
+  (window-divider-default-places t "Right and bottom")
+  (window-divider-mode nil "Disabled by default")
 
-  ;; Scrolling
+;;;; Scrolling
   (scroll-conservatively 101)
   (scroll-step 1)
   (scroll-margin 2)
@@ -59,16 +62,15 @@
   (line-move-ignore-invisible nil)
   (line-move-visual nil)
 
-;;;; Interface elements
-  ;; Cursor
+;;;;; Cursor
   (cursor-type 'box)
   (blink-cursor-mode nil)
   (mouse-yank-at-point t)
 
-  ;; Misc
+;;;; Misc
   (ring-bell-function 'ignore)
 
-  ;; Modeline
+;;;; Modeline
   (column-number-indicator-zero-based nil "Required by `doom-modeline'")
   (column-number-mode t)
   (line-number-mode t)
@@ -94,24 +96,18 @@
                               (t x)))
                            mode-line-modes))
 
-  ;; Window
-  (window-divider-default-right-width 1)
-  (window-divider-default-bottom-width 1)
-  (window-divider-default-places t "Right and bottom")
-  (window-divider-mode nil "Disabled by default")
-
-  ;; Line numbers
+;;;; Line numbers
   (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
   (global-display-line-numbers-mode t)
   (global-hl-line-mode t)
 
-  ;; Minibuffers
+;;;; Minibuffers
   (enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode t)
   (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
 
-  ;; Tabbar
+;;;; Tabbar
   (tab-bar-format '(tab-bar-format-tabs tab-bar-separator))
   (tab-bar-close-button-show nil)
   (tab-bar-new-button-show nil)
@@ -123,30 +119,30 @@
   (tab-bar-show 1)
   (tab-bar-mode nil "Setting to t would cause display issue in terminal mode")
 
-;;;; Formatting
-  ;; Indentation
+;;;; Indentation
   (tab-width 4)
   (indent-tabs-mode nil)
   (backward-delete-char-untabify-method 'hungry)
 
-  ;; Whitespaces
+;;;; Whitespaces
   ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
   (whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark))
   (show-trailing-whitespace t)
   (global-whitespace-mode t)
 
+;;;; Wrapping
   ;; Don't wrap by default
   (truncate-lines t)
   (truncate-partial-width-windows nil)
 
-  ;; Column and fill
+;;;; Column and fill
   (fill-column 80)
   (adaptive-fill-mode nil)
   (display-fill-column-indicator t)
   (display-fill-column-indicator-column t)
   (global-display-fill-column-indicator-mode t)
 
-  ;; Encoding and locale
+;;;; Encoding and locale
   (coding-system-for-write 'utf-8-unix)
   (buffer-file-coding-system 'utf-8-unix)
   (current-language-environment "UTF-8")
@@ -155,8 +151,7 @@
   (require-final-newline t)
   (display-raw-bytes-as-hex t)
 
-;;;; QoL
-  ;; Sanity
+;;;; Sanity
   (use-short-answers t)
   (xterm-mouse-mode t)
   (context-menu-mode t)
@@ -165,55 +160,53 @@
   ;; Log warnings in the background instead of poping the window up
   (native-comp-async-report-warnings-errors 'silent)
 
-  ;; Operations
+;;;; Operations
   (save-place-mode t)
   (delete-selection-mode t)
   (delete-by-moving-to-trash nil)
 
-  ;; Don't write files automatically
+;;;; Don't write files automatically
   (auto-save-default nil)
   (create-lockfiles nil)
   (make-backup-files nil)
 
-  ;; Auto refresh buffer
+;;;; Auto refresh buffer
   (global-auto-revert-mode t)
 
-  ;; Clipboard
+;;;; Clipboard
   (select-enable-clipboard t)
   (select-enable-primary t)
 
-  ;; Let Emacs use minibuffer to prompt passphrase
+;;;; Let Emacs use minibuffer to prompt passphrase
   (epg-pinentry-mode 'loopback)
 
-;;;; Some useful builtin packages
-  ;; TODO: newcomment
-  ;; Pairs
+;;;; Pairs
   (show-paren-when-point-in-periphery t)
   (show-paren-when-point-inside-paren t)
   (show-paren-mode t)
 
-  ;; Recentf
+;;;; Recentf
   (recentf-max-saved-items 250)
   (recentf-auto-cleanup 'never)
   (recentf-mode t)
 
-  ;; Save history
+;;;; Save history
   (savehist-save-minibuffer-history t)
   (savehist-mode t)
 
-  ;; Repeat mode
+;;;; Repeat mode
   (repeat-exit-key (kbd "C-g"))
   (repeat-exit-timeout 2)
   (repeat-mode t)
 
-  ;; Dired
+;;;; Dired
   (dired-listing-switches "-alFD --group-directories-first")
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
   (dired-kill-when-opening-new-dired-buffer nil "Cannot open multiple dired windows if on")
 
-  ;; ibuffer
+;;;; ibuffer
   (ibuffer-movement-cycle nil)
   ;; Check `ibuffer-filtering-alist' for quilifiers.
   (ibuffer-saved-filter-groups `(("PEW"
@@ -230,7 +223,7 @@
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
-  ;; isearch and search
+;;;; isearch and search
   (isearch-lazy-count t)
   (isearch-lazy-highlight t)
   (search-highlight t)
@@ -240,24 +233,24 @@
   (query-replace-highlight-submatches t)
   (query-replace-show-replacement t)
 
-  ;; ispell
+;;;; ispell
   (ispell-dictionary "en_US")
 
-  ;; ediff
+;;;; ediff
   (ediff-window-setup-function 'ediff-setup-windows-plain)
   (ediff-split-window-function 'split-window-vertically)
 
-  ;; electric
+;;;; electric
   (electric-pair-preserve-balance t)
   (electric-pair-delete-adjacent-pairs t)
   (electric-pair-mode nil "Annoying sometimes")
   (electric-indent-mode nil "Annoying sometimes")
 
-  ;; TRAMP
+;;;; TRAMP
   (tramp-default-method "scp")
   (tramp-remote-path '(tramp-own-remote-path tramp-default-remote-path))
 
-  ;; Winner mode
+;;;; Winner mode
   (winner-mode t)
   (winner-dont-bind-my-keys t)
 
@@ -272,7 +265,7 @@
 ;;; Transient keybindings
   :transient
   (pewkey
-   ;; Windows
+;;;; Windows
    ("q" . pew/close-window)
    ("1" . delete-other-windows)
    ("2" . split-window-below)
@@ -289,18 +282,18 @@
    ("C-k" . enlarge-window)
    ("C-l" . enlarge-window-horizontally)
 
-   ;; Layout
+;;;; Layout
    ("y" . winner-undo)
    ("Y" . winner-redo)
 
-   ;; Other window
+;;;; Other window
    ("M-f" . pew/scroll-other-window-page-down)
    ("M-b" . pew/scroll-other-window-page-up)
    ("M-e" . pew/scroll-other-window-line-down)
    ("M-y" . pew/scroll-other-window-line-up)
    ("M-l" . pew/recenter-other-window)
 
-   ;; Tabs
+;;;; Tabs
    ("Q" . tab-bar-close-tab)
    ("R" . tab-bar-rename-tab)
    ("f" . tab-bar-switch-to-next-tab)
@@ -311,7 +304,7 @@
    ("m" . pew/move-tab-next)
    ("M" . pew/move-tab-prev)
 
-   ;; Buffers
+;;;; Buffers
    ("r" . rename-buffer)
    ("w" . save-buffer)
    ("n" . pew/next-buffer)
@@ -319,7 +312,7 @@
    ("i" . pew/buffer-full-path)
    ("B" . display-buffer)
 
-   ;; Jump
+;;;; Jump
    ("C-o" . pop-global-mark)
    ("." . xref-find-definitions)
    ("?" . xref-find-references)
@@ -328,23 +321,23 @@
    ("x" . set-mark-command)
    ("X" . rectangle-mark-mode)
 
-   ;; Edit
+;;;; Edit
    ("u" . undo)
    ("U" . undo-redo)
    (";" . comment-line)
    ("/" . isearch-forward-regexp)
    ("," . isearch-query-replace-regexp)
 
-   ;; Org
+;;;; Org
    ("c" . org-capture)
    ("C" . org-agenda)
 
-   ;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
+;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("C-=" . text-scale-adjust)
    ("C--" . text-scale-adjust)
    ("C-0" . text-scale-adjust)
 
-   ;; Frame Transparency
+;;;; Frame Transparency
    ("M-=" . pew/increase-frame-opacity)
    ("M--" . pew/decrease-frame-opacity))
 

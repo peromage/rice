@@ -1,10 +1,9 @@
-;;; elpa-org.el --- Org writing support -*- lexical-binding: t -*-
+;;; elpa-org.el --- Org writing support -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Configuration used for Org writing tasks.
 
 ;;; Code:
-
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
@@ -12,13 +11,13 @@
          (org-babel-after-execute . pew/org/refresh-images))
 
   :custom
-  ;; Org files
+;;;; Org files
   (org-directory (locate-user-emacs-file "org"))
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
   ;; Take every org files under `org-directory'
   (org-agenda-files (list org-directory))
 
-  ;; Visual on startup
+;;;; Visual on startup
   (org-startup-indented t)
   (org-startup-folded 'showeverything)
   (org-startup-truncated nil)
@@ -32,10 +31,10 @@
   (org-link-descriptive nil)
   (org-ellipsis " ...")
 
-  ;; Image displaying
+;;;; Image displaying
   (org-display-remote-inline-images 'skip)
 
-  ;; Fontify
+;;;; Fontify
   (org-src-fontify-natively t)
   (org-fontify-done-headline t)
   (org-fontify-todo-headline t)
@@ -44,7 +43,7 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-fontify-whole-block-delimiter-line t)
 
-  ;; Editing
+;;;; Editing
   (org-return-follows-link t)
   (org-insert-heading-respect-content t)
   (org-catch-invisible-edits 'show)
@@ -56,19 +55,19 @@
   (org-refile-targets '((nil :maxlevel . 10)))
   (org-odd-levels-only nil)
 
-  ;; Log
+;;;; Log
   (org-log-done 'time)
   (org-log-into-drawer t)
 
-  ;; Refile
+;;;; Refile
   (org-refile-allow-creating-parent-nodes 'confirm)
 
-  ;; Babel
+;;;; Babel
   (org-babel-load-languages '((emacs-lisp . t)
                               (shell . t)))
-  ;;(org-confirm-babel-evaluate nil)
+  ;(org-confirm-babel-evaluate nil)
 
-  ;; Todo
+;;;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
   ;; generate them automatically
@@ -82,7 +81,7 @@
   (org-enforce-todo-dependencies t)
   (org-enforce-todo-checkbox-dependencies t)
 
-  ;; Capture
+;;;; Capture
   (org-capture-templates
    '(;; Daily tasks
      ("t" "Todo" entry (file+headline "inbox.org" "Tasks")
@@ -98,6 +97,7 @@
       "* %?\n%U"
       :time-prompt t)))
 
+;;;; Helper functions
   :config
   (defun pew/org/refresh-images ()
     "Redisplay inline images if they exist in the current buffer."

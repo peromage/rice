@@ -1,11 +1,10 @@
-;;; elpa-evil.el --- Vim layer -*- lexical-binding: t -*-
+;;; elpa-evil.el --- Vim layer -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
 ;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
 
 ;;; Code:
-
 ;;; Evil
 (use-package evil
   :demand t
@@ -238,6 +237,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
       "ef" #'eval-defun
       "ee" #'eval-last-sexp)))
 
+;;; Evil surround
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))

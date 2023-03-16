@@ -1,11 +1,10 @@
-;;; elpa-ui.el --- Theme collection -*- lexical-binding: t -*-
+;;; elpa-ui.el --- Theme collection -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This file is a simple collection of theme related stuff.
 ;; If the theme needs to be configured, move it to an individual module.
 
 ;;; Code:
-
 ;;; Colors schemes
 (use-package doom-themes :defer t)
 (use-package dracula-theme :defer t)

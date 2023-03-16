@@ -1,10 +1,9 @@
-;;; elpa-git.el --- Git packages -*- lexical-binding: t -*-
+;;; elpa-git.el --- Git packages -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This module contains git related packages and configurations
 
 ;;; Code:
-
 ;;; Frontend
 ;; Magit is a powerful git frontend.
 (use-package magit

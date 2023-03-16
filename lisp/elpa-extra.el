@@ -1,11 +1,10 @@
-;;; elpa-extra.el --- Extra interesting packages -*- lexical-binding: t -*-
+;;; elpa-extra.el --- Extra interesting packages -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This collection is used to keep some interesting packages which however may
 ;; not be used in every-day work.
 
 ;;; Code:
-
 (use-package?
   ;; Rainbow cat buffer progress bar
   nyan-mode

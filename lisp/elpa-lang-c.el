@@ -1,10 +1,9 @@
-;;; elpa-lang-c.el --- C/C++ mode -*- lexical-binding: t -*-
+;;; elpa-lang-c.el --- C/C++ mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; C/C++ major mode configuration.
 
 ;;; Code:
-
 (use-package cc-mode
   :hook ((c-mode . pew/cc-mode/c-setup)
          (c++-mode . pew/cc-mode/c++-setup))

@@ -1,12 +1,11 @@
-;;; elpa-editing.el --- Editing support -*- lexical-binding: t -*-
+;;; elpa-editing.el --- Editing support -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Editing related configurations including completion, syntax checker, search
 ;; and snippet etc.
 
 ;;; Code:
-
-;;; Company for completion
+;;; Completion
 ;; This configures `company-mode' and enhances its experience.
 (use-package company
   :demand t

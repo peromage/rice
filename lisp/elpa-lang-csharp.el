@@ -1,10 +1,9 @@
-;;; elpa-lang-csharp.el --- C# mode -*- lexical-binding: t -*-
+;;; elpa-lang-csharp.el --- C# mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; C# major mode configuration.
 
 ;;; Code:
-
 (use-package csharp-mode
   :hook (csharp-mode . pew/csharp-mode/setup)
 

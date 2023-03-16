@@ -1,10 +1,9 @@
-;;; elpa-lang-markdown.el --- Markdown mode -*- lexical-binding: t -*-
+;;; elpa-lang-markdown.el --- Markdown mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Markdown major mode configuration.
 
 ;;; Code:
-
 (use-package markdown-mode
   :hook (markdown-mode . pew/markdown-mode/setup)
 

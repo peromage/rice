@@ -1,10 +1,9 @@
-;;; elpa-lang-python.el --- Python mode -*- lexical-binding: t -*-
+;;; elpa-lang-python.el --- Python mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Python major mode configuration.
 
 ;;; Code:
-
 (use-package lsp-pyright
   :hook (python-mode . pew/python-mode/setup)
 

@@ -1,10 +1,9 @@
-;;; elpa-utils.el --- Utilities -*- lexical-binding: t -*-
+;;; elpa-utils.el --- Utilities -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Utilities that provide convenience and enhance experience
 
 ;;; Code:
-
 ;;; Terminal
 ;; Vterm is a decent terminal emulator inside of Emacs.
 ;; NOTE: Not available on Windows.

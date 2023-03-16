@@ -1,4 +1,4 @@
-;;; workaround.el --- Additional workaround -*- lexical-binding: t -*-
+;;; workaround.el --- Additional workaround -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This file contains temporary fixes for some configurations which do not take
@@ -7,7 +7,6 @@
 ;; Can be loaded by `(load (locate-user-emacs-file "workaround.el"))'
 
 ;;; Code:
-
 (pewconfig
   :eval
   (message "[pew] Loading workaround")

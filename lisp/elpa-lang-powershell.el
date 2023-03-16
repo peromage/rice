@@ -1,10 +1,9 @@
-;;; elpa-lang-powershell.el --- PowerShell mode -*- lexical-binding: t -*-
+;;; elpa-lang-powershell.el --- PowerShell mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; PowerShell major mode configuration.
 
 ;;; Code:
-
 (use-package powershell
   :hook (powershell-mode . pew/powershell-mode/setup)
 

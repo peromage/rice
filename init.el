@@ -1,11 +1,10 @@
-;;; init.el --- PEW entry -*- lexical-binding: t -*-
+;;; init.el --- PEW entry -*- lexical-binding: t; coding: utf-8; no-byte-compile: t; -*-
 
 ;;; Commentary:
 ;; This file bootstraps the PEW configuration which is divided into a number of
 ;; module files.  Inspired by purcell/emacs.d
 
 ;;; Code:
-
 ;;; Config variables
 (defvar pew/mini-init nil
   "When non-nil load PEW with the minimal configuration.")
@@ -22,14 +21,14 @@ loaded from other places.")
 
 ;;; Module loading
 (cond
- ;; Minimal setup
+;;;; Minimal setup
  (pew/mini-init
   (message "[pew] Loading minimal init")
   (require 'init-common)
   (require 'init-pewconfig)
   (require 'init-defaults))
 
- ;; Regular setup
+;;;; Regular setup
  (t
   ;; Configurations from the interactive `customize' interfaces.
   ;; Any disposable code can be put in this file.
@@ -64,9 +63,4 @@ loaded from other places.")
   (load custom-file :noerror)))
 
 (provide 'init)
-;;; Local Variables:
-;;; mode: emacs-lisp
-;;; coding: utf-8
-;;; no-byte-compile: t
-;;; End:
 ;;; init.el ends here

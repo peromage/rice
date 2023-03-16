@@ -1,4 +1,4 @@
-;;; init-common.el --- Common library -*- lexical-binding: t -*-
+;;; init-common.el --- Common library -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This is the Pew common library file.
@@ -6,8 +6,7 @@
 ;; NOTE: This file should be loaded before any other packages.
 
 ;;; Code:
-
-;; Things which need to be evaluated at compile-time
+;;; Start eval-and-compile
 (eval-and-compile
 ;;; Buffer definitions
   (defvar pew/special-buffer-alist
@@ -64,7 +63,7 @@ If CONCATED is non-nil the result will be concatenated with '\\|'."
        ((setq l/match (funcall l/getter name))
         (setq l/result (cdr l/match)))
        (t (funcall l/error name))))))
-;; End eval-and-compile
+;;; End eval-and-compile
 
 ;;; Debugging
 (defun pew/reload-init-file ()

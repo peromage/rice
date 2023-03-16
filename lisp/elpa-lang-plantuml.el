@@ -1,10 +1,9 @@
-;;; elpa-lang-plantuml.el --- PlantUML mode -*- lexical-binding: t -*-
+;;; elpa-lang-plantuml.el --- PlantUML mode -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; PlantUML major mode configuration.
 
 ;;; Code:
-
 (use-package plantuml-mode
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))

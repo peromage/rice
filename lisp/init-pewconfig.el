@@ -1,12 +1,12 @@
-;;; init-pewconfig.el --- Pew configurator -*- lexical-binding: t -*-
+;;; init-pewconfig.el --- Pew configurator -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Code for Pew configurator.
 
 ;;; Code:
-
+;;; Start eval-and-compile
 (eval-and-compile
-;;; Configuration helpers
+;;; The list of keywords
   (defvar pewconfig/keywords
     '((:custom . pewconfig/set-custom)
       (:map . pewconfig/set-map)
@@ -20,6 +20,7 @@
     "An alist of keywords used in `pewconfig' to specify sections.
 The value of each element is the expansion helper of that section.")
 
+;;; Main entry
   (defmacro pewconfig (&rest args)
     "Configuration helper.
 The available keywords are registered in `pewconfig/keywords'.
@@ -41,6 +42,7 @@ ARGS is a list of forms.  See section helpers for the form definitions."
          (t (error "Wrong keyword: %s" l/item))))
       (reverse l/result)))
 
+;;; :custom
   (defmacro pewconfig/set-custom (form)
     "Set custom variables or regular variables.
 FORM is of the form:
@@ -49,6 +51,7 @@ Underlying implementation uses `customize-set-variable'."
     (declare (indent 0))
     `(customize-set-variable ',(nth 0 form) ,(nth 1 form) ,(nth 2 form)))
 
+;;; :map
   (defmacro pewconfig/set-map (form)
     "Create a new map and bind keys with it.
 FORM is of the form:
@@ -66,6 +69,7 @@ effective if the map already exists."
            (define-key lm/key-map (pew/tokey (car lm/bind)) (cdr lm/bind)))
          (defvar ,l/map lm/key-map "Created by `pewconfig/set-map'"))))
 
+;;; :bind
   (defmacro pewconfig/set-bind (form)
     "Bind keys with an existing map.
 FORM is of the form:
@@ -79,6 +83,7 @@ For DEF's definition see `define-key'."
       `(dolist (lm/bind ',l/bindings)
          (define-key ,l/map (pew/tokey (car lm/bind)) (cdr lm/bind)))))
 
+;;; :transient
   (defmacro pewconfig/set-transient (form)
     "Create a command that enters transient mode when invoked.
 FORM is of the form:
@@ -119,6 +124,7 @@ Created by `pewconfig/set-transient'."
            (interactive)
            (,l/cmd :repeat)))))
 
+;;; :switch
   (defmacro pewconfig/set-switch (form)
     "Create a command to switch variable between values.
 FORM is of the form:
@@ -152,6 +158,7 @@ Created by `pewconfig/set-switch'." l/var l/val)
                (setq ,l/var (car lm/list)))
              (message "%s: %s" ',l/var ,l/var))))))
 
+;;; :face
   (defmacro pewconfig/set-face (form)
     "Set face attributes.
 FORM is of the form:
@@ -171,6 +178,7 @@ See `set-face-attribute'."
               l/props))
       `(set-face-attribute ',l/face nil ,@(reverse l/props))))
 
+;;; :property
   (defmacro pewconfig/set-property (form)
     "Set symbol's property.
 FORM is of the form:
@@ -178,6 +186,7 @@ FORM is of the form:
     (declare (indent 0))
     `(put ',(nth 0 form) ',(nth 1 form) ,(nth 2 form)))
 
+;;; :hook
   (defmacro pewconfig/set-hook (form)
     "Set function to a hook.
 FORM is a cons:
@@ -188,6 +197,7 @@ Where HOOK implies suffix '-hook'."
           (l/func (cdr form)))
       `(add-hook ',l/hook #',l/func)))
 
+;;; :eval
   (defmacro pewconfig/set-eval (form)
     "Simply evaluate FORM and nothing else."
     form)
@@ -246,7 +256,7 @@ nil or VALUE is not found."
 ARGS is the same as the ones defined in `fond-spec'.
 Return nil if no match."
     `(find-font (font-spec ,@args))))
-;; End eval-and-compile
+;;; End eval-and-compile
 
 (provide 'init-pewconfig)
 ;;; init-pewconfig.el ends here
