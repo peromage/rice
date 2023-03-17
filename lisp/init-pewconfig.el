@@ -16,6 +16,7 @@
       (:face . pewconfig/set-face)
       (:property . pewconfig/set-property)
       (:hook . pewconfig/set-hook)
+      (:automode . pewconfig/set-automode)
       (:eval . pewconfig/set-eval))
     "An alist of keywords used in `pewconfig' to specify sections.
 The value of each element is the expansion helper of that section.")
@@ -196,6 +197,15 @@ Where HOOK implies suffix '-hook'."
     (let ((l/hook (intern (format "%s-hook" (car form))))
           (l/func (cdr form)))
       `(add-hook ',l/hook #',l/func)))
+
+;;; :automode
+  (defmacro pewconfig/set-automode (form)
+    "Set `auto-mode-alist'.
+FORM is a cons:
+  (MATCHER . MODE)
+Where MATCHER is usually a string of regex."
+    (declare (indent 0))
+    `(add-to-list 'auto-mode-alist ',form))
 
 ;;; :eval
   (defmacro pewconfig/set-eval (form)
