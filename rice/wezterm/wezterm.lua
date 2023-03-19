@@ -1,7 +1,7 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 
-local my_keys = {
+local rice_keys = {
    -- Active all the time
    { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
    { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
@@ -15,10 +15,10 @@ local my_keys = {
    { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
    -- Mode shift
    { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateCopyMode },
-   { mods = "CTRL|SHIFT",  key = "J",      action = act.ActivateKeyTable{ name = "my_transient_mode_table", one_shot = true, timeout_milliseconds = 1000 }},
-   { mods = "CTRL|SHIFT",  key = "K",      action = act.ActivateKeyTable{ name = "my_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
+   { mods = "CTRL|SHIFT",  key = "J",      action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = true, timeout_milliseconds = 1000 }},
+   { mods = "CTRL|SHIFT",  key = "K",      action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
 }
-local my_transient_mode_table = {
+local rice_transient_mode_table = {
    -- Exit keys
    { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
    { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
@@ -47,7 +47,7 @@ local my_transient_mode_table = {
    { mods = "CTRL",  key = "o",       action = act.RotatePanes "Clockwise" },
 }
 
-local my_copy_mode_table = {
+local rice_copy_mode_table = {
    -- Exit
    { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
    { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
@@ -95,7 +95,7 @@ local my_copy_mode_table = {
    { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
 }
 
-local my_search_mode_table = {
+local rice_search_mode_table = {
    -- Switch back to the CopyMode when the search pattern is accepted or canceled
    -- Avoid accidentally exiting the CopyMode
    { mods = "NONE",  key = "Enter",   action = act.ActivateCopyMode },
@@ -108,7 +108,7 @@ local my_search_mode_table = {
    { mods = "CTRL",  key = "k",       action = act.CopyMode "ClearPattern" },
 }
 
-local my_launcher_menu = {
+local rice_launcher_menu = {
    {
       label = "Pwsh",
       args = { "pwsh", "-NoLogo" },
@@ -119,7 +119,7 @@ local my_launcher_menu = {
    }
 }
 
-return {
+local riceconf = {
    -- Window appearance
    enable_tab_bar = true,
    use_fancy_tab_bar = true,
@@ -136,12 +136,41 @@ return {
    disable_default_key_bindings = true,
    key_map_preference = "Mapped",
    -- leader = { mods = "CTRL", key = "`" },
-   keys = my_keys,
+   keys = rice_keys,
    key_tables = {
-      search_mode = my_search_mode_table,
-      copy_mode = my_copy_mode_table,
-      my_transient_mode_table = my_transient_mode_table,
+      search_mode = rice_search_mode_table,
+      copy_mode = rice_copy_mode_table,
+      rice_transient_mode_table = rice_transient_mode_table,
    },
    -- Launcher
-   launch_menu = my_launcher_menu,
+   launch_menu = rice_launcher_menu,
 }
+
+-- Since the config for Wezterm cannot have any function property, use meta table
+-- to provide some additional functionalities.
+local riceconf_meta = {
+   -- Bind the meta table
+   rice_bind = function(self, conf)
+      setmetatable(conf, self)
+      self.__index = self
+      return conf
+   end,
+
+   -- A utility function to merge a list of tables to the current one in place.
+   -- Configs in the later tables will overwrite the former ones if they share
+   -- the same keys.
+   -- Return self after merging.
+   rice_merge = function (self, ...)
+      for _,tbl in ipairs({...}) do
+         for k,v in pairs(tbl) do
+            self[k] = v
+         end
+      end
+      return self
+   end,
+
+   -- Some meta data
+   rice_platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
+}
+
+return riceconf_meta:rice_bind(riceconf)
