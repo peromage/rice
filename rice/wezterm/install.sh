@@ -6,8 +6,9 @@ CONFIG_DIR="$HOME/.config/wezterm"
 mkdir -p $CONFIG_DIR
 cat <<EOF >>$CONFIG_DIR/wezterm.vim
 local conf = dofile("$THIS_DIR/init.lua")
-return conf:rice_merge({
+conf = conf:rice_merge({
     -- Custom config goes here
     -- default_prog = {"pwsh", "-NoLogo"}
 })
+return conf
 EOF
