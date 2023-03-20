@@ -10,28 +10,13 @@
 [[ "$TERM" =~ "[Dd]umb" ]] && PS1="$ " && return 3
 
 ### Initialization
-## Rice variables
-declare -A rice=(
-    [home]=$(dirname $(realpath "$BASH_SOURCE"))
-    [platform_windows]=$([[ "$OS" =~ "[Ww]indows" ]] && echo 1)
-)
-
-## Source a module whose path is relative to this file
-rice_include() {
-    local file="$1"
-    source "${rice[home]}/${file}" $@
-}
+source "${BASH_SOURCE%/*}/modules/init-base.sh"
 
 ### Environment
-export PATH=$(perl <<EOF
-print(join(":",
-"$PATH",
-"$(dirname ${rice[home]})/scripts",
-"${HOME}/.dotnet/tools",
-"${HOME}/bin"
-))
-EOF
-)
+export PATH=$(rice_join ":" "$PATH" \
+    "$(realpath -s ${rice[home]}/../scripts)" \
+    "${HOME}/.dotnet/tools" \
+    "${HOME}/bin")
 export EDITOR="vim"
 
 ### Load module files
