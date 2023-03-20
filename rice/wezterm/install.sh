@@ -4,7 +4,7 @@ THIS_DIR=$(cd "$(dirname $BASH_SOURCE)" && pwd)
 CONFIG_DIR="$HOME/.config/wezterm"
 
 mkdir -p $CONFIG_DIR
-cat <<EOF >>$CONFIG_DIR/wezterm.vim
+cat <<EOF >>$CONFIG_DIR/wezterm.lua
 local conf = dofile("$THIS_DIR/init.lua")
 conf = conf:rice_merge({
     -- Custom config goes here

@@ -11,7 +11,7 @@ local rice_keys = {
     { mods = "CTRL|SHIFT",  key = "S",      action = act.QuickSelect },
     { mods = "CTRL|SHIFT",  key = "U",      action = act.CharSelect{ copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }},
     -- Most of the less used commands can be accessed from the palette or the launcher
-    { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
+    -- { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
     { mods = "CTRL|SHIFT",  key = "L",      action = act.ShowLauncher },
     { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
     -- Mode shift
@@ -58,7 +58,7 @@ local rice_copy_mode_table = {
     { mods = "NONE",   key = "k",       action = act.CopyMode "MoveUp" },
     { mods = "NONE",   key = "l",       action = act.CopyMode "MoveRight" },
     { mods = "NONE",   key = "w",       action = act.CopyMode "MoveForwardWord" },
-    { mods = "NONE",   key = "e",       action = act.CopyMode "MoveForwardWordEnd" },
+    -- { mods = "NONE",   key = "e",       action = act.CopyMode "MoveForwardWordEnd" },
     { mods = "NONE",   key = "b",       action = act.CopyMode "MoveBackwardWord" },
     { mods = "NONE",   key = "0",       action = act.CopyMode "MoveToStartOfLine" },
     { mods = "SHIFT",  key = "^",       action = act.CopyMode "MoveToStartOfLine" },
@@ -170,7 +170,7 @@ local riceconf = {
     window_close_confirmation = 'AlwaysPrompt',
     hide_mouse_cursor_when_typing = true,
     enable_wayland = true,
-    front_end = "WebGpu",
+    front_end = "OpenGL",
     webgpu_power_preference = "LowPower",
     webgpu_force_fallback_adapter = false,
     use_ime = true,
