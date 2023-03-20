@@ -15,9 +15,8 @@ local rice_keys = {
     { mods = "CTRL|SHIFT",  key = "L",      action = act.ShowLauncher },
     { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
     -- Mode shift
-    { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateCopyMode },
-    { mods = "CTRL|SHIFT",  key = "J",      action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = true, timeout_milliseconds = 1000 }},
-    { mods = "CTRL|SHIFT",  key = "K",      action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
+    { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
+    { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
 }
 local rice_transient_mode_table = {
     -- Exit keys
@@ -26,6 +25,8 @@ local rice_transient_mode_table = {
     -- Tabs
     { mods = "NONE",  key = "t",       action = act.SpawnTab "CurrentPaneDomain" },
     { mods = "NONE",  key = "Q",       action = act.CloseCurrentTab{ confirm = true }},
+    { mods = "NONE",  key = "f",       action = act.ActivateTabRelative(1) },
+    { mods = "NONE",  key = "b",       action = act.ActivateTabRelative(-1) },
     -- Panes
     { mods = "NONE",  key = "2",       action = act.SplitVertical{ domain = "CurrentPaneDomain" }},
     { mods = "NONE",  key = "3",       action = act.SplitHorizontal{ domain = "CurrentPaneDomain" }},
