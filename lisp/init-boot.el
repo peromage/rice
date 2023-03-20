@@ -4,11 +4,6 @@
 ;; This file should be required at the beginning of the entire initialization.
 
 ;;; Code:
-;;; Minimal version
-(let ((l/minimal-emacs-version "28.1"))
-  (if (version< emacs-version l/minimal-emacs-version)
-      (error "PEW only supports Emacs version %s and above" l/minimal-emacs-version)))
-
 ;;; Performance optimization
 (setq gc-cons-threshold 100000000)     ;; 128mb
 (setq read-process-output-max 1000000) ;; 1mb

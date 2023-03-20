@@ -5,6 +5,11 @@
 ;; module files.  Inspired by purcell/emacs.d
 
 ;;; Code:
+;;; Minimal version
+(let ((l/minimal-emacs-version "28.1"))
+  (if (version< emacs-version l/minimal-emacs-version)
+      (error "[pew] Emacs version %s+ is required" l/minimal-emacs-version)))
+
 ;;; Config variables
 (defvar pew/mini-init nil
   "When non-nil load PEW with the minimal configuration.")
