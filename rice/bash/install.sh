@@ -3,7 +3,7 @@
 THIS_DIR=$(cd "$(dirname $BASH_SOURCE)" && pwd)
 
 cat <<EOF >>$HOME/.bashrc
-source $THIS_DIR/init.sh
+source $THIS_DIR/init.bash
 reload-gpg-agent
 EOF
 

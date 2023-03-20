@@ -1,5 +1,5 @@
 #!/bin/bash
-### init.sh -- Bootstrap for Bash
+### init.bash -- Bootstrap for Bash
 
 ### Prerequisites
 ## Source guard
@@ -10,7 +10,7 @@
 [[ "$TERM" =~ "[Dd]umb" ]] && PS1="$ " && return 3
 
 ### Initialization
-source "${BASH_SOURCE%/*}/modules/init-base.sh"
+source "${BASH_SOURCE%/*}/modules/init-base.bash"
 
 ### Environment
 export PATH=$(rice_join ":" "$PATH" \
