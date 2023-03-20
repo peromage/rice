@@ -57,6 +57,7 @@ loaded from other places.")
   (require 'elpa-lang-powershell)
   (require 'elpa-lang-python)
   (require 'elpa-lang-java)
+  (require 'elpa-lang-lua)
   (require 'elpa-lang-markdown)
   (require 'elpa-lang-plantuml)
   ;; Load custom configuration which takes the highest precedence
