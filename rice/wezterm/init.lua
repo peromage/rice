@@ -164,7 +164,9 @@ local riceconf = {
     automatically_reload_config = false,
     adjust_window_size_when_changing_font_size = false,
     audible_bell = "Disabled",
-    exit_behavior = "CloseOnCleanExit",
+    -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually
+    -- close the window
+    exit_behavior = "Close",
     window_close_confirmation = 'AlwaysPrompt',
     hide_mouse_cursor_when_typing = true,
     enable_wayland = true,
