@@ -31,6 +31,8 @@ local rice_transient_mode_table = {
     { mods = "NONE",  key = "Q",       action = act.CloseCurrentTab{ confirm = true }},
     { mods = "NONE",  key = "f",       action = act.ActivateTabRelative(1) },
     { mods = "NONE",  key = "b",       action = act.ActivateTabRelative(-1) },
+    { mods = "NONE",  key = "m",       action = act.MoveTabRelative(1) },
+    { mods = "NONE",  key = "M",       action = act.MoveTabRelative(-1) },
     -- Panes
     { mods = "NONE",  key = "2",       action = act.SplitVertical{ domain = "CurrentPaneDomain" }},
     { mods = "NONE",  key = "3",       action = act.SplitHorizontal{ domain = "CurrentPaneDomain" }},
@@ -74,8 +76,8 @@ local rice_copy_mode_table = {
     -- Scroll
     { mods = "CTRL",   key = "b",       action = act.CopyMode "PageUp" },
     { mods = "CTRL",   key = "f",       action = act.CopyMode "PageDown" },
-    { mods = "CTRL",   key = "e",       action = act.CopyMode "MoveToViewportTop" },
-    { mods = "CTRL",   key = "y",       action = act.CopyMode "MoveToViewportBottom" },
+    { mods = "CTRL",   key = "y",       action = act.CopyMode "MoveToViewportTop" },
+    { mods = "CTRL",   key = "e",       action = act.CopyMode "MoveToViewportBottom" },
     { mods = "CTRL",   key = "l",       action = act.CopyMode "MoveToViewportMiddle" },
 
     -- Selection
