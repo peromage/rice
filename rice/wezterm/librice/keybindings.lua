@@ -46,6 +46,8 @@ local rice_transient_mode_table = ricemeta:rice_bind({
     { mods = "NONE",  key = "n",       action = act.SwitchWorkspaceRelative(1) },
     { mods = "NONE",  key = "p",       action = act.SwitchWorkspaceRelative(-1) },
     -- Keys that are used repeatedly most of the time
+    { mods = "ALT",   key = "=",       action = act.EmitEvent "rice-increase-opacity" },
+    { mods = "ALT",   key = "-",       action = act.EmitEvent "rice-decrease-opacity" },
     { mods = "CTRL",  key = "0",       action = act.ResetFontSize },
     { mods = "CTRL",  key = "=",       action = act.IncreaseFontSize },
     { mods = "CTRL",  key = "-",       action = act.DecreaseFontSize },
