@@ -3,9 +3,9 @@
 local wezterm = require "wezterm"
 local utility = {}
 
--- Make some modifications on a builtin color scheme and return a new color
--- scheme object.
-function utility.color_scheme(scheme_name)
+-- Load a builtin color scheme and return the object with some personal flavors.
+-- Returned value is a color scheme object.
+function utility.custom_color_scheme(scheme_name)
     local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
     -- Make the scrollbar more visible (lightness less than 0.6 considered as
     -- a dark theme)
@@ -15,13 +15,15 @@ function utility.color_scheme(scheme_name)
 end
 
 -- Return a random color scheme from `wezterm.color.get_builtin_schemes'.
+-- Returned values are the color scheme's name and the object itself.
 function utility.random_color_scheme()
     local schemes = wezterm.color.get_builtin_schemes()
     local scheme_names = {}
     for k,_ in pairs(schemes) do
         table.insert(scheme_names, k)
     end
-    return schemes[scheme_names[math.random(#scheme_names)]]
+    local name = scheme_names[math.random(#scheme_names)]
+    return name, schemes[name]
 end
 
 -- Increment/decrement the value based on the step.

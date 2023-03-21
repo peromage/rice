@@ -41,7 +41,7 @@ return ricemeta:rice_bind({
     font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
     font_size = 12,
     -- Overwrites `color_scheme'
-    colors = ricemeta.util.color_scheme("Galaxy"),
+    colors = ricemeta.util.custom_color_scheme("Galaxy"),
     cursor_blink_rate = 0,
     default_cursor_style = "SteadyBlock",
     window_background_opacity = 0.9,
