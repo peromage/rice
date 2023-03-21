@@ -8,7 +8,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 }
 
 ### Initialization
-. $PSScriptRoot/modules/init-base.ps1
+. $PSScriptRoot/librice/base.ps1
 
 ### PSReadLine
 &{
@@ -35,10 +35,10 @@ $Env:EDITOR = "vim"
 
 ### Load modules
 &{
-    rice_include_expr modules/init-alias.ps1
-    rice_include_expr modules/init-hack.ps1
-    rice_include_expr modules/theme-minimalist.ps1
+    rice_include_expr librice/alias.ps1
+    rice_include_expr librice/hack.ps1
+    rice_include_expr theme/minimalist.ps1
     if ($rice.platform_windows) {
-        rice_include_expr modules/init-alias-windows.ps1
+        rice_include_expr librice/alias-windows.ps1
     }
 } | ForEach-Object { Invoke-Expression $_ }

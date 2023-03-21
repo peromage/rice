@@ -1,4 +1,4 @@
-### init-alias.ps1 -- Common aliases
+### alias.ps1 -- Common aliases
 
 ### Common
 function ll { ls -lahF --color=auto @args }

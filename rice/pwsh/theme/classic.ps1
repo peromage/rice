@@ -1,4 +1,4 @@
-### theme-classic.ps1 -- Normal mediocre prompt
+### classic.ps1 -- Normal mediocre prompt
 
 function simplify_path {
     ## Replace home prefix with "~"

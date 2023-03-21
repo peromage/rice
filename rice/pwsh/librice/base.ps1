@@ -1,4 +1,4 @@
-### init-base.ps1 -- The first script to be sourced
+### base.ps1 -- The first script to be sourced
 
 ### Rice variables
 $rice = @{

@@ -1,4 +1,4 @@
-### theme-minimalist.ps1 -- My pwsh prompt. It is lite
+### minimalist.ps1 -- My pwsh prompt. It is lite
 
 function simplify_path {
     ## Replace home prefix with "~"

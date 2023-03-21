@@ -1,4 +1,4 @@
-### init-alias-windows.ps1 -- Utilities for Windows Only
+### alias-windows.ps1 -- Utilities for Windows Only
 
 ### Privileged operations
 function test_admin {
