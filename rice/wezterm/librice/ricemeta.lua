@@ -4,7 +4,7 @@ local wezterm = require "wezterm"
 
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
-local ricemeta = {
+return {
     -- Bind the meta table
     rice_bind = function(self, conf)
         setmetatable(conf, self)
@@ -39,5 +39,3 @@ local ricemeta = {
     -- Some meta data
     rice_platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 }
-
-return ricemeta

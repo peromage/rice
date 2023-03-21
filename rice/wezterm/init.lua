@@ -1,6 +1,6 @@
 --- init.lua --- Bootstrap -*- lua-indent-level: 4; tab-width: 4; -*-
 
-local ricemeta = require "ricemeta"
+local ricemeta = require "librice.ricemeta"
 local wezterm = require "wezterm"
 local act = wezterm.action
 
