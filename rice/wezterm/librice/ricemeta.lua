@@ -14,6 +14,15 @@ local utility = {
         return scheme
     end,
 
+    random_color_scheme = function()
+        local schemes = wezterm.color.get_builtin_schemes()
+        local scheme_names = {}
+        for k,_ in pairs(schemes) do
+            table.insert(scheme_names, k)
+        end
+        return schemes[scheme_names[math.random(#scheme_names)]]
+    end,
+
     -- Some meta data
     platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 }
