@@ -2,6 +2,22 @@
 
 local wezterm = require "wezterm"
 
+local utility = {
+    -- Make some modifications on a builtin color scheme and return a new color
+    -- scheme object.
+    color_scheme = function(scheme_name)
+        local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
+        -- Make the scrollbar more visible (lightness less than 0.6 considered as
+        -- a dark theme)
+        local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
+        scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
+        return scheme
+    end,
+
+    -- Some meta data
+    platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
+}
+
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
 return {
@@ -25,17 +41,15 @@ return {
         return self
     end,
 
-    -- Make some modifications on a builtin color scheme and return a new color
-    -- scheme object.
-    rice_color_scheme = function(scheme_name)
-        local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
-        -- Make the scrollbar more visible (lightness less than 0.6 considered as
-        -- a dark theme)
-        local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
-        scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
-        return scheme
+    -- A utility function to push a list of elements to the end of the table in
+    -- place.
+    -- Return self after pushing.
+    rice_push = function(self, ...)
+        for _,elem in ipairs({...}) do
+            table.insert(self, elem)
+        end
+        return self
     end,
 
-    -- Some meta data
-    rice_platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
+    util = utility,
 }

@@ -6,7 +6,7 @@ local act = wezterm.action
 
 -- Start Configuration
 
-local rice_keys = {
+local rice_keys = ricemeta:rice_bind({
     -- Active all the time
     { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
     { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
@@ -21,8 +21,9 @@ local rice_keys = {
     -- Mode shift
     { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
     { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
-}
-local rice_transient_mode_table = {
+})
+
+local rice_transient_mode_table = ricemeta:rice_bind({
     -- Exit keys
     { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
     { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
@@ -53,9 +54,9 @@ local rice_transient_mode_table = {
     { mods = "CTRL",  key = "k",       action = act.AdjustPaneSize{ "Up",     1}},
     { mods = "CTRL",  key = "l",       action = act.AdjustPaneSize{ "Right",  1}},
     { mods = "CTRL",  key = "o",       action = act.RotatePanes "Clockwise" },
-}
+})
 
-local rice_copy_mode_table = {
+local rice_copy_mode_table = ricemeta:rice_bind({
     -- Exit
     { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
     { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
@@ -101,9 +102,9 @@ local rice_copy_mode_table = {
     { mods = "SHIFT",  key = "N",       action = act.CopyMode "PriorMatch" },
     { mods = "NONE",   key = ",",       action = act.CopyMode "JumpReverse" },
     { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
-}
+})
 
-local rice_search_mode_table = {
+local rice_search_mode_table = ricemeta:rice_bind({
     -- Switch back to the CopyMode when the search pattern is accepted or canceled
     -- Avoid accidentally exiting the CopyMode
     { mods = "NONE",  key = "Enter",   action = act.ActivateCopyMode },
@@ -114,9 +115,9 @@ local rice_search_mode_table = {
     { mods = "CTRL",  key = "s",       action = act.CopyMode "NextMatch" },
     { mods = "CTRL",  key = "r",       action = act.CopyMode "PriorMatch" },
     { mods = "CTRL",  key = "k",       action = act.CopyMode "ClearPattern" },
-}
+})
 
-local rice_launch_menu = {
+local rice_launch_menu = ricemeta:rice_bind({
     {
         label = "Pwsh",
         args = { "pwsh", "-NoLogo" },
@@ -125,9 +126,9 @@ local rice_launch_menu = {
         label = "Bash",
         args = { "bash", "-i" },
     }
-}
+})
 
-local riceconf = {
+return ricemeta:rice_bind({
     -- System
     check_for_updates = false,
     automatically_reload_config = false,
@@ -165,7 +166,7 @@ local riceconf = {
     font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
     font_size = 12,
     -- Overwrites `color_scheme'
-    colors = ricemeta.rice_color_scheme("Galaxy"),
+    colors = ricemeta.util.color_scheme("Galaxy"),
     cursor_blink_rate = 0,
     default_cursor_style = "SteadyBlock",
     window_background_opacity = 0.9,
@@ -186,7 +187,4 @@ local riceconf = {
 
     -- Launcher
     launch_menu = rice_launch_menu,
-}
-
--- Export module
-return ricemeta:rice_bind(riceconf)
+})
