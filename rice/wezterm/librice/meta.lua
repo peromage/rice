@@ -1,4 +1,4 @@
---- ricemeta.lua --- Meta table -*- lua-indent-level: 4; tab-width: 4; -*-
+--- meta.lua --- Meta table -*- lua-indent-level: 4; tab-width: 4; -*-
 
 local wezterm = require "wezterm"
 
