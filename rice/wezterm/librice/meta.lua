@@ -1,31 +1,57 @@
 --- meta.lua --- Meta table -*- lua-indent-level: 4; -*-
 
 local wezterm = require "wezterm"
+local utility = {}
 
-local utility = {
-    -- Make some modifications on a builtin color scheme and return a new color
-    -- scheme object.
-    color_scheme = function(scheme_name)
-        local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
-        -- Make the scrollbar more visible (lightness less than 0.6 considered as
-        -- a dark theme)
-        local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
-        scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
-        return scheme
-    end,
+-- Make some modifications on a builtin color scheme and return a new color
+-- scheme object.
+function utility.color_scheme(scheme_name)
+    local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
+    -- Make the scrollbar more visible (lightness less than 0.6 considered as
+    -- a dark theme)
+    local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
+    scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
+    return scheme
+end
 
-    random_color_scheme = function()
-        local schemes = wezterm.color.get_builtin_schemes()
-        local scheme_names = {}
-        for k,_ in pairs(schemes) do
-            table.insert(scheme_names, k)
-        end
-        return schemes[scheme_names[math.random(#scheme_names)]]
-    end,
+-- Return a random color scheme from `wezterm.color.get_builtin_schemes'.
+function utility.random_color_scheme()
+    local schemes = wezterm.color.get_builtin_schemes()
+    local scheme_names = {}
+    for k,_ in pairs(schemes) do
+        table.insert(scheme_names, k)
+    end
+    return schemes[scheme_names[math.random(#scheme_names)]]
+end
 
-    -- Some meta data
-    platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
-}
+-- Increment/decrement the value based on the step.
+-- The returned value always falls between min_val and max_val.
+-- If input value is nil , nil is returned.
+-- If input value is out of range, it will be stepped from the closest boundary.
+function utility.step(val, min_val, max_val, step)
+    if nil == val or nil == min_val or nil == max_val or nil == step then
+        return nil
+    end
+    -- Step the value
+    if val < min_val then
+        val = min_val + step
+    elseif val > max_val then
+        val = max_val + step
+    else
+        val = val + step
+    end
+    -- Boundary check
+    if val < min_val then
+        return min_val
+    end
+    if val > max_val then
+        return max_val
+    end
+    return val
+end
+
+-- Some meta data
+utility.platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix"
 
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
