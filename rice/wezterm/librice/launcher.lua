@@ -1,4 +1,4 @@
---- launch-menu.lua --- Launch menu -*- lua-indent-level: 4; -*-
+--- launcher.lua --- Launch menu -*- lua-indent-level: 4; -*-
 
 local ricemeta = require "librice.meta"
 
