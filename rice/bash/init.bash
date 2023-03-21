@@ -10,7 +10,7 @@
 [[ "$TERM" =~ "[Dd]umb" ]] && PS1="$ " && return 3
 
 ### Initialization
-source "${BASH_SOURCE%/*}/modules/init-base.bash"
+source "${BASH_SOURCE%/*}/librice/base.bash"
 
 ### Environment
 export PATH=$(rice_join ":" "$PATH" \
@@ -20,9 +20,9 @@ export PATH=$(rice_join ":" "$PATH" \
 export EDITOR="vim"
 
 ### Load module files
-rice_include modules/init-alias.sh
-rice_include modules/theme-classic.sh
+rice_include librice/alias.sh
+rice_include theme/classic.sh
 
 if [[ -n "${rice[platform_windows]}" ]]; then
-    rice_include modules/init-alias-win.sh
+    rice_include librice/alias-win.sh
 fi

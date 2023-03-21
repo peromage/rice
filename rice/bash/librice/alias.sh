@@ -1,4 +1,4 @@
-### init-alias.sh -- Aliases for applications
+### alias.sh -- Aliases for applications
 
 ### Common aliases
 ## ls

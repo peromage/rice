@@ -1,4 +1,4 @@
-### init-base.bash -- The fist script to be sourced
+### base.bash -- The fist script to be sourced
 
 ### Rice variables
 declare -A rice=(
