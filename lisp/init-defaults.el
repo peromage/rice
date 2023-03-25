@@ -161,7 +161,6 @@
   (native-comp-async-report-warnings-errors 'silent)
 
 ;;;; Operations
-  (save-place-mode t)
   (delete-selection-mode t)
   (delete-by-moving-to-trash nil)
 
@@ -185,14 +184,17 @@
   (show-paren-when-point-inside-paren t)
   (show-paren-mode t)
 
-;;;; Recentf
+;;;; History persistence
+  ;; Recentf mode
   (recentf-max-saved-items 250)
   (recentf-auto-cleanup 'never)
   (recentf-mode t)
-
-;;;; Save history
+  ;; Save history mode
   (savehist-save-minibuffer-history t)
+  (savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
   (savehist-mode t)
+  ;; Save place mode
+  (save-place-mode t)
 
 ;;;; Repeat mode
   (repeat-exit-key (kbd "C-g"))
