@@ -62,14 +62,6 @@
   (line-move-ignore-invisible nil)
   (line-move-visual nil)
 
-;;;;; Cursor
-  (cursor-type 'box)
-  (blink-cursor-mode nil)
-  (mouse-yank-at-point t)
-
-;;;; Misc
-  (ring-bell-function 'ignore)
-
 ;;;; Modeline
   (column-number-indicator-zero-based nil "Required by `doom-modeline'")
   (column-number-mode t)
@@ -119,6 +111,12 @@
   (tab-bar-show 1)
   (tab-bar-mode nil "Setting to t would cause display issue in terminal mode")
 
+;;;;; Cursor
+  (cursor-type 'box)
+  (blink-cursor-mode nil)
+  (mouse-yank-at-point t)
+  (delete-selection-mode t)
+
 ;;;; Indentation
   (tab-width 4)
   (indent-tabs-mode nil)
@@ -129,13 +127,13 @@
   (whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark))
   (show-trailing-whitespace t)
   (global-whitespace-mode t)
+  (require-final-newline t)
 
-;;;; Wrapping
-  ;; Don't wrap by default
+;;;; Line fold
+  ;; No wrapping
   (truncate-lines t)
   (truncate-partial-width-windows nil)
-
-;;;; Column and fill
+  ;; Fill columns
   (fill-column 80)
   (adaptive-fill-mode nil)
   (display-fill-column-indicator t)
@@ -148,7 +146,6 @@
   (current-language-environment "UTF-8")
   (default-input-method "chinese-py")
   (inhibit-eol-conversion t)
-  (require-final-newline t)
   (display-raw-bytes-as-hex t)
 
 ;;;; Sanity
@@ -157,27 +154,24 @@
   (context-menu-mode t)
   (shell-command-prompt-show-cwd t)
   (what-cursor-show-names t)
+  (ring-bell-function 'ignore)
+  (delete-by-moving-to-trash nil)
   ;; Log warnings in the background instead of poping the window up
   (native-comp-async-report-warnings-errors 'silent)
+  ;; Pinentry -- Let Emacs use minibuffer to prompt passphrase
+  (epg-pinentry-mode 'loopback)
 
-;;;; Operations
-  (delete-selection-mode t)
-  (delete-by-moving-to-trash nil)
-
-;;;; Don't write files automatically
+;;;; File save
   (auto-save-default nil)
   (create-lockfiles nil)
   (make-backup-files nil)
 
-;;;; Auto refresh buffer
+;;;; Buffer auto refresh
   (global-auto-revert-mode t)
 
 ;;;; Clipboard
   (select-enable-clipboard t)
   (select-enable-primary t)
-
-;;;; Let Emacs use minibuffer to prompt passphrase
-  (epg-pinentry-mode 'loopback)
 
 ;;;; Pairs
   (show-paren-when-point-in-periphery t)
