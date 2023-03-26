@@ -19,6 +19,7 @@ return ricemeta:rice_bind({
     webgpu_power_preference = "LowPower",
     webgpu_force_fallback_adapter = false,
     use_ime = true,
+    pane_focus_follows_mouse = true,
 
     -- Appearance
     initial_cols = 100,
