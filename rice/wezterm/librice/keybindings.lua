@@ -4,10 +4,8 @@ local ricemeta = require "librice.meta"
 local wezterm = require "wezterm"
 local act = wezterm.action
 
--- Start Configuration
-
+--- Active all the time
 local rice_keys = ricemeta:rice_bind({
-    -- Active all the time
     { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
     { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
     { mods = "CTRL|SHIFT",  key = "C",      action = act.CopyTo "Clipboard" },
@@ -23,10 +21,12 @@ local rice_keys = ricemeta:rice_bind({
     { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
 })
 
+--- Keys that can be used repeatedly
 local rice_transient_mode_table = ricemeta:rice_bind({
     -- Exit keys
     { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
     { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
+
     -- Tabs
     { mods = "NONE",  key = "t",       action = act.SpawnTab "CurrentPaneDomain" },
     { mods = "NONE",  key = "Q",       action = act.CloseCurrentTab{ confirm = true }},
@@ -34,17 +34,21 @@ local rice_transient_mode_table = ricemeta:rice_bind({
     { mods = "NONE",  key = "b",       action = act.ActivateTabRelative(-1) },
     { mods = "NONE",  key = "m",       action = act.MoveTabRelative(1) },
     { mods = "NONE",  key = "M",       action = act.MoveTabRelative(-1) },
+
     -- Panes
     { mods = "NONE",  key = "2",       action = act.SplitVertical{ domain = "CurrentPaneDomain" }},
     { mods = "NONE",  key = "3",       action = act.SplitHorizontal{ domain = "CurrentPaneDomain" }},
     { mods = "NONE",  key = "z",       action = act.TogglePaneZoomState },
     { mods = "NONE",  key = "o",       action = act.PaneSelect{ mode =  "Activate" }},
     { mods = "NONE",  key = "q",       action = act.CloseCurrentPane{ confirm = true }},
+
     -- Windows
     { mods = "NONE",  key = "N",       action = act.SpawnWindow },
+
     -- Workspace
     { mods = "NONE",  key = "n",       action = act.SwitchWorkspaceRelative(1) },
     { mods = "NONE",  key = "p",       action = act.SwitchWorkspaceRelative(-1) },
+
     -- Keys that are used repeatedly most of the time
     { mods = "ALT",   key = "=",       action = act.EmitEvent "rice-increase-opacity" },
     { mods = "ALT",   key = "-",       action = act.EmitEvent "rice-decrease-opacity" },
@@ -58,10 +62,12 @@ local rice_transient_mode_table = ricemeta:rice_bind({
     { mods = "CTRL",  key = "o",       action = act.RotatePanes "Clockwise" },
 })
 
+--- Copy mode
 local rice_copy_mode_table = ricemeta:rice_bind({
     -- Exit
     { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
     { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
+
     -- Cursor movement
     { mods = "NONE",   key = "h",       action = act.CopyMode "MoveLeft" },
     { mods = "NONE",   key = "j",       action = act.CopyMode "MoveDown" },
@@ -76,6 +82,7 @@ local rice_copy_mode_table = ricemeta:rice_bind({
     { mods = "SHIFT",  key = "$",       action = act.CopyMode "MoveToEndOfLineContent" },
     { mods = "NONE",   key = "g",       action = act.CopyMode "MoveToScrollbackTop" },
     { mods = "SHIFT",  key = "G",       action = act.CopyMode "MoveToScrollbackBottom" },
+
     -- Scroll
     { mods = "CTRL",   key = "b",       action = act.CopyMode "PageUp" },
     { mods = "CTRL",   key = "f",       action = act.CopyMode "PageDown" },
@@ -106,6 +113,7 @@ local rice_copy_mode_table = ricemeta:rice_bind({
     { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
 })
 
+--- Search mode
 local rice_search_mode_table = ricemeta:rice_bind({
     -- Switch back to the CopyMode when the search pattern is accepted or canceled
     -- Avoid accidentally exiting the CopyMode
@@ -119,6 +127,7 @@ local rice_search_mode_table = ricemeta:rice_bind({
     { mods = "CTRL",  key = "k",       action = act.CopyMode "ClearPattern" },
 })
 
+--- Module table
 return {
     -- Use my own keybindings
     disable_default_key_bindings = true,

@@ -3,6 +3,7 @@
 local wezterm = require "wezterm"
 local utility = {}
 
+--- Utility functions
 -- Load a builtin color scheme and return the object with some personal flavors.
 -- Returned value is a color scheme object.
 function utility.custom_color_scheme(scheme_name)
@@ -52,9 +53,10 @@ function utility.step(val, min_val, max_val, step)
     return val
 end
 
--- Some meta data
+--- Some meta data
 utility.platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix"
 
+--- Module table
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
 return {

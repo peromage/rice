@@ -2,6 +2,7 @@
 
 local ricemeta = require "librice.meta"
 
+--- Custom launch menu
 local rice_launch_menu = ricemeta:rice_bind({
     {
         label = "Pwsh",
@@ -13,6 +14,7 @@ local rice_launch_menu = ricemeta:rice_bind({
     },
 })
 
+--- Module table
 return {
     launch_menu = rice_launch_menu,
 }

@@ -3,8 +3,9 @@
 local ricemeta = require "librice.meta"
 local wezterm = require "wezterm"
 
+--- Module table
 return ricemeta:rice_bind({
-    -- System
+--- System
     check_for_updates = false,
     automatically_reload_config = false,
     adjust_window_size_when_changing_font_size = false,
@@ -21,7 +22,7 @@ return ricemeta:rice_bind({
     use_ime = true,
     pane_focus_follows_mouse = true,
 
-    -- Appearance
+--- Appearance
     initial_cols = 100,
     initial_rows = 20,
     window_decorations = "RESIZE",
@@ -38,7 +39,7 @@ return ricemeta:rice_bind({
         bottom = "0.5cell",
     },
 
-    -- Visual
+--- Visual
     font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
     font_size = 12,
     -- Overwrites `color_scheme'

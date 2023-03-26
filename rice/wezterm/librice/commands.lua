@@ -3,7 +3,7 @@
 local ricemeta = require "librice.meta"
 local wezterm = require "wezterm"
 
--- Randomize current color scheme.
+--- Randomize current color scheme.
 -- Note: This is effective to all the present windows.
 function rice_randomize_colors()
     local new_color_name, _ = ricemeta.util.random_color_scheme()
@@ -16,4 +16,5 @@ function rice_randomize_colors()
     wezterm.log_info("New colors: " .. new_color_name)
 end
 
+--- Module table
 return {}
