@@ -162,7 +162,14 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
      (read-string (concat (car evil-ex-search-pattern) " -> "))
      (list ?g ?c)))
 
-;;;; Evil X settings
+  (defun pew/evil/search-word()
+    "Search and highlight the word under cursor but don't jumpt to the next."
+    (interactive)
+    (evil-ex-search-word-forward)
+    (evil-ex-search-previous))
+
+;;;; Workaround
+  ;; Evil X settings
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew/evil/visual-update-x-selection))
@@ -221,7 +228,8 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     "SPC" #'pewkey
     "|" #'pewkey-repeat
     ;; Search
-    "#" #'evil-ex-nohighlight)
+    "#" #'evil-ex-nohighlight
+    "*" #'pew/evil/search-word)
 
   ;; Visual state bindings
   (pew/evil/set-key 'visual 'global nil
