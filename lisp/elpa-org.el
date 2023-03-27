@@ -46,12 +46,11 @@
   (org-fontify-whole-block-delimiter-line t)
 
 ;;;; Editing
-  (org-return-follows-link t)
+  (org-return-follows-link nil)
   (org-insert-heading-respect-content t)
   (org-catch-invisible-edits 'smart)
   (org-ctrl-k-protect-subtree t)
   (org-yank-adjusted-subtrees t)
-  (org-insert-heading-respect-content t)
   (org-use-fast-tag-selection nil) ;; Always use list selection
   (org-src-preserve-indentation t)
   (org-refile-targets '((nil :maxlevel . 10)))
