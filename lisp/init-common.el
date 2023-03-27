@@ -264,6 +264,10 @@ Side window can also be poped."
         (disable-theme l/theme))))
 
 ;;; Frames
+(defvar pew/frame-opacity-adjust-step 10
+  "The amount of opacity changed each time.
+Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
+
 (defun pew/set-frame-opacity (val)
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
@@ -271,26 +275,20 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (let ((l/value (cond ((> val 100) 100)
                       ((< val 0) 0)
                       (t val))))
-    (message "Frame opacity: %d" l/value)
+    (message "Set Frame opacity: %d%%" l/value)
     (set-frame-parameter (selected-frame) 'alpha (cons l/value l/value))))
-
-(defvar pew/frame-opacity-change-step 10
-  "The amount of opacity changed each time.
-Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
 
 (defun pew/increase-frame-opacity ()
   "Increase frame opacity."
   (interactive)
-  (let ((l/value (frame-parameter (selected-frame) 'alpha)))
-    (if (consp l/value) (setq l/value (car l/value)))
-    (pew/set-frame-opacity (+ l/value pew/frame-opacity-change-step))))
+  (pew/set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                            pew/frame-opacity-adjust-step)))
 
 (defun pew/decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
-  (let ((l/value (frame-parameter (selected-frame) 'alpha)))
-    (if (consp l/value) (setq l/value (car l/value)))
-    (pew/set-frame-opacity (- l/value pew/frame-opacity-change-step))))
+  (pew/set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                            pew/frame-opacity-adjust-step)))
 
 ;;; Dired
 (defun pew/dired-go-to ()
