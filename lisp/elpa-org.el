@@ -23,6 +23,7 @@
   (org-startup-truncated nil)
   (org-startup-numerated nil)
   (org-startup-with-inline-images nil)
+  ;; Show all markers by default
   (org-hide-emphasis-markers nil)
   (org-hide-leading-stars nil)
   (org-indent-mode-turns-on-hiding-stars nil)
@@ -53,7 +54,11 @@
   (org-use-fast-tag-selection nil) ;; Always use list selection
   (org-src-preserve-indentation t)
   (org-refile-targets '((nil :maxlevel . 10)))
+
+;;;; Indentation
+  ;; No hard indentation: https://orgmode.org/manual/Hard-indentation.html
   (org-odd-levels-only nil)
+  (org-adapt-indentation nil)
 
 ;;;; Log
   (org-log-done 'time)
