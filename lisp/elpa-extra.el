@@ -5,7 +5,7 @@
 ;; not be used in every-day work.
 
 ;;; Code:
-(use-package?
+(pew/use-package-later
   ;; Rainbow cat buffer progress bar
   nyan-mode
   ;; Colorful parenthesises
