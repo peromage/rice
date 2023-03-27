@@ -127,15 +127,27 @@
     (interactive)
     (pew/org/marker-visible nil)))
 
-;;; Export for Hugo
+;;; Export backend
+;;;; Export for Hugo
 (use-package ox-hugo
   :defer t)
 
-;;; GitHub flavored Markdown
+;;;; GitHub flavored Markdown
 (use-package ox-gfm
   :defer t)
 
-;;; Enable focused view
+;;; Visual improvement
+;;;; Nicer headlines
+(use-package org-bullets
+  :after org
+  :hook (org-mode . pew/org-bullets/setup)
+
+  :config
+  (defun pew/org-bullets/setup ()
+    "`org-bullets' setup function."
+    (org-bullets-mode 1)))
+
+;;;; Enable focused view
 (use-package visual-fill-column
   :custom
   (visual-fill-column-center-text t)
