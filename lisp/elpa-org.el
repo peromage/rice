@@ -18,19 +18,20 @@
   (org-agenda-files (list org-directory))
 
 ;;;; Visual on startup
+  (org-indent-mode-turns-on-hiding-stars nil)
   (org-startup-indented t)
   (org-startup-folded 'showeverything)
   (org-startup-truncated nil)
   (org-startup-numerated nil)
   (org-startup-with-inline-images nil)
-  ;; Show all markers by default
-  (org-hide-emphasis-markers nil)
-  (org-hide-leading-stars nil)
-  (org-indent-mode-turns-on-hiding-stars nil)
-  (org-hide-macro-markers nil)
   (org-hide-block-startup nil)
-  (org-link-descriptive nil)
+  ;; Default marker visibility
   (org-ellipsis " ...")
+  (org-hide-emphasis-markers t)
+  (org-hide-leading-stars t)
+  (org-hide-macro-markers t)
+  (org-link-descriptive t)
+  (org-pretty-entities t)
 
 ;;;; Image displaying
   (org-display-remote-inline-images 'skip)
@@ -47,7 +48,7 @@
 ;;;; Editing
   (org-return-follows-link t)
   (org-insert-heading-respect-content t)
-  (org-catch-invisible-edits 'show)
+  (org-catch-invisible-edits 'smart)
   (org-ctrl-k-protect-subtree t)
   (org-yank-adjusted-subtrees t)
   (org-insert-heading-respect-content t)
@@ -110,22 +111,20 @@
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
-  (defun pew/org/marker-visible (&optional show)
+  (defvar pew/org/marker--hidden t
+    "`org-mode' Marker visibility.")
+
+  (defun pew/org/toggle-marker ()
     "Pass SHOW with non-nil to make markers visible or vice versa."
-    (setq-default org-hide-emphasis-markers (not show))
-    (setq-default org-hide-leading-stars (not show))
-    (setq-default org-link-descriptive (not show))
-    (org-mode-restart))
-
-  (defun pew/org/show-markers ()
-    "Interactive command to show markers."
     (interactive)
-    (pew/org/marker-visible t))
-
-  (defun pew/org/hide-markers ()
-    "Interactive command to hide markers."
-    (interactive)
-    (pew/org/marker-visible nil)))
+    (setq pew/org/marker--hidden (not pew/org/marker--hidden))
+    ;; Those variables are global
+    (setq-default org-hide-emphasis-markers pew/org/marker--hidden)
+    (setq-default org-hide-leading-stars pew/org/marker--hidden)
+    (setq-default org-hide-macro-markers pew/org/marker--hidden)
+    (setq-default org-link-descriptive pew/org/marker--hidden)
+    (setq-default org-pretty-entities pew/org/marker--hidden)
+    (org-mode-restart)))
 
 ;;; Export backend
 ;;;; Export for Hugo
