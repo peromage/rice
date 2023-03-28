@@ -41,7 +41,7 @@ users to specify the shell to start with."
   :config
   (defun pew/treemacs/setup ()
     "Treemacs mode setup."
-    (setq-local display-line-numbers nil)))
+    (display-line-numbers-mode -1)))
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
