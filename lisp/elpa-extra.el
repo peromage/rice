@@ -6,14 +6,19 @@
 
 ;;; Code:
 (pew/use-package-later
-  ;; Rainbow cat buffer progress bar
+  ;; Nyanyanya!!!
   nyan-mode
+  zone-nyan
+
   ;; Colorful parenthesises
   rainbow-delimiters
+
   ;; Colorize color code
   rainbow-mode
+
   ;; Highlight current line
   beacon
+
   ;; Sometimes useful to get prompted for LSP commands
   which-key)
 
