@@ -83,8 +83,8 @@
      (sequence "ANALYSIS(!)" "DEVELOPMENT(!)" "INTEGRATION(!)" "HOLD(!)" "CP(!)"
                "|"
                "FIXED(!/!)" "DUPLICATE(!/!)" "INVALID(!/!)" "WONT-FIX(@/!)")))
-  (org-enforce-todo-dependencies t)
-  (org-enforce-todo-checkbox-dependencies t)
+  (org-enforce-todo-dependencies nil)
+  (org-enforce-todo-checkbox-dependencies nil)
 
 ;;;; Capture
   (org-capture-templates
