@@ -88,18 +88,18 @@ My personal key bindings mostly are bound in =pewkey-map=. It can be activated b
 
 Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemonic.
 
-| Command                                                    | Prefix      | Definition                                   |
-|------------------------------------------------------------+-------------+----------------------------------------------|
-| ~pewkey~                                                   | ~C-x C-x~   | [[./lisp/init-defaults.el][init-default.el]] |
+| Command                                                    | Prefix        | Definition                                   |
+|------------------------------------------------------------+---------------+----------------------------------------------|
+| ~pewkey~                                                   | ~C-x C-x~     | [[./lisp/init-defaults.el][init-default.el]] |
 | ~pewkey-repeat~                                            | ~C-u C-x C-x~ | [[./lisp/init-defaults.el][init-default.el]] |
-| Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | ~C-c s~     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | ~C-c b ...~ | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | ~C-c g ...~ | [[./lisp/elpa-git.el][elpa-git.el]]          |
-| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | ~C-c l ...~ | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | ~C-c w~     | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
-| Find @@html:<b>@@C@@html:</b>@@haracter by ~avy-goto-char~ | ~C-c f~     | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
-| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | ~C-c j~     | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
-| Separate edit by ~separedit~                               | ~C-c '~     | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
+| Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | ~C-c s~       | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | ~C-c b ...~   | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | ~C-c g ...~   | [[./lisp/elpa-git.el][elpa-git.el]]          |
+| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | ~C-c l ...~   | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
+| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | ~C-c w~       | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
+| Find @@html:<b>@@C@@html:</b>@@haracter by ~avy-goto-char~ | ~C-c f~       | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
+| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | ~C-c j~       | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
+| Separate edit by ~separedit~                               | ~C-c '~       | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
 
 ** Evil mode key bindings
 Evil leader key is bound with ~DEL~ and local leader key with ~\~.  Most of bindings is the same with =pewkey=.
@@ -118,14 +118,14 @@ Since Elisp doesn't support namespace, it's a little painful to distinguish symb
 
 I decided to add some personal tastes but I try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
 
-| Scope                                  | Convention                                 | Example                               |
-|----------------------------------------+--------------------------------------------+---------------------------------------|
-| Namespace separator                    | ~/~                                        | ~pew/foo/bar~                         |
-| Function name separator                | ~-~                                        | ~pew/some-func~                       |
-| Function parameters                    | Follow normal variable naming convention   | ~(defun foo (one-param another-one))~ |
-| Let bound variables                    | Prefix with ~l/~ and use ~-~ as separator  | ~(let ((l/local-bound)))~             |
-| Let bound variables in macro expansion | Prefix with ~lm/~ and use ~-~ as separator | ~`(let ((lm/local-bound-in-macro)))~  |
-| Unused variables                       | Prefix with ~_~                            | ~(defun bar (first _ignored))~        |
+| Scope                       | Convention                                                    | Example                               |
+|-----------------------------+---------------------------------------------------------------+---------------------------------------|
+| Namespace separator         | ~/~                                                           | ~pew/foo/bar~                         |
+| Variable and function names | Follow ELisp naming convention and prefix namespace if needed | ~pew/some-func~                       |
+| Function parameters         | Same above                                                    | ~(defun foo (one-param another-one))~ |
+| Let bound variables         | Prefix with ~l:~                                              | ~(let ((l:local-bound)))~             |
+| Quoted let bound variables  | Prefix with ~ql:~                                             | ~`(let ((ql:local-bound-in-macro)))~  |
+| Unused variables            | Prefix with ~_~                                               | ~(defun bar (first _ignored))~        |
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
 
