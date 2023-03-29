@@ -7,7 +7,7 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :hook ((org-mode . pew/text-common-setup)
+  :hook ((org-mode . pew/text-mode-on-init)
          (org-babel-after-execute . pew/org/refresh-images))
 
   :custom

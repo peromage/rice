@@ -10,7 +10,7 @@
   :config
   (defun pew/markdown-mode/setup ()
     "Markdown mode steup."
-    (pew/text-common-setup)))
+    (pew/text-mode-on-init)))
 
 (provide 'elpa-lang-markdown)
 ;;; elpa-lang-markdown.el ends here

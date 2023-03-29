@@ -366,8 +366,8 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode . pew/terminal-common-setup)
-  (shell-mode . pew/terminal-common-setup)
+  (eshell-mode . pew/terminal-mode-on-init)
+  (shell-mode . pew/terminal-mode-on-init)
 
   ;; Don't save trailing spaces
   (after-save . pew/delete-trailing-whitespaces)
@@ -376,7 +376,7 @@
   (minibuffer-setup . cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode . pew/reuse-window-setup)
+  (grep-mode . pew/reuse-window-in-buffer)
 
   ;; Enable folding
   (prog-mode . outline-minor-mode)

@@ -10,7 +10,7 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pew/terminal-common-setup)
+  :hook (vterm-mode . pew/terminal-mode-on-init)
 
   :init
   (defun pew/vterm/new (arg)

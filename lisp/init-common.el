@@ -312,7 +312,7 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (pew/close-other-buffers-in-major-mode 'dired-mode))
 
 ;;; Hook functions
-(defun pew/terminal-common-setup ()
+(defun pew/terminal-mode-on-init ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil)
   (setq-local truncate-lines nil)
@@ -322,7 +322,7 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun pew/text-common-setup ()
+(defun pew/text-mode-on-init ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)
@@ -332,8 +332,9 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (electric-pair-mode -1)
   (electric-indent-mode -1))
 
-(defun pew/reuse-window-setup ()
-  "Hook for certains modes that keep spawning new windows e.g. `grep-mode'."
+(defun pew/reuse-window-in-buffer ()
+  "Make new spawned windows atttempt to reuse current ones.
+This is usually useful in some major modes like `grep-mode'."
   (setq-local display-buffer-base-action
               '((display-buffer-reuse-window
                  display-buffer-use-some-window)))

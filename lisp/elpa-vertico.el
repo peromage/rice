@@ -169,7 +169,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :config
   (defun pew/embark/collect-setup ()
     "Setup function for embark-collect-mode."
-    (pew/reuse-window-setup)
+    (pew/reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
 ;;; Consult and embark integration
