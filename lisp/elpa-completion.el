@@ -1,8 +1,8 @@
-;;; elpa-editing.el --- Editing support -*- lexical-binding: t; -*-
+;;; elpa-completion.el --- Editing support -*- lexical-binding: t; -*-
 
 ;;; Commentary:
-;; Editing related configurations including completion, syntax checker, search
-;; and snippet etc.
+;; Completion related packages including typing prompt, syntax checker, and
+;; snippet etc..
 
 ;;; Code:
 ;;; Completion
@@ -49,26 +49,5 @@
   :config
   (yas-global-mode 1))
 
-;;; Search
-(use-package rg
-  :defer t)
-
-;;; Separate edit
-(use-package separedit
-  :bind ("C-c '" . separedit-dwim))
-
-;;; Simplify S-expression editing
-(use-package paredit
-  :hook (lisp-interaction-mode . paredit-mode))
-
-;;; Jump among texts
-(use-package avy
-  :bind (("C-c f" . avy-goto-char)
-         ("C-c j" . avy-goto-line)))
-
-;;; Jump between windows
-(use-package ace-window
-  :bind ("C-c w" . ace-window))
-
-(provide 'elpa-editing)
-;;; elpa-editing.el ends here
+(provide 'elpa-completion)
+;;; elpa-completion.el ends here

@@ -43,5 +43,26 @@ users to specify the shell to start with."
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 
+;;; Search
+(use-package rg
+  :defer t)
+
+;;; Separate edit
+(use-package separedit
+  :bind ("C-c '" . separedit-dwim))
+
+;;; Simplify S-expression editing
+(use-package paredit
+  :hook (lisp-interaction-mode . paredit-mode))
+
+;;; Jump among texts
+(use-package avy
+  :bind (("C-c f" . avy-goto-char)
+         ("C-c j" . avy-goto-line)))
+
+;;; Jump between windows
+(use-package ace-window
+  :bind ("C-c w" . ace-window))
+
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
