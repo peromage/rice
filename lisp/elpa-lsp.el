@@ -18,14 +18,14 @@
     "A shortcut to define LSP remote client.
 SERVER is the base name of the server executable.
 MODES is a list of major mode symbols."
-    (let ((l/server-id (intern (format "%s-remote" server))))
+    (let ((l:server-id (intern (format "%s-remote" server))))
       `(with-eval-after-load 'lsp-mode
          (lsp-register-client
           (make-lsp-client
            :new-connection (lsp-tramp-connection ,server)
            :major-modes ',modes
            :remote? t
-           :server-id ',l/server-id)))))
+           :server-id ',l:server-id)))))
 
   :custom
   (lsp-keymap-prefix "C-c l")

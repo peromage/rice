@@ -30,9 +30,9 @@
   ;; File sorting
   (defun pew/vertico/sort-directories-first (files)
     "Sort directories before files."
-    (let ((l/files (vertico-sort-history-length-alpha files)))
-      (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) l/files)
-             (seq-remove (lambda (x) (string-suffix-p "/" x)) l/files))))
+    (let ((l:files (vertico-sort-history-length-alpha files)))
+      (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) l:files)
+             (seq-remove (lambda (x) (string-suffix-p "/" x)) l:files))))
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 

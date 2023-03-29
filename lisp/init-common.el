@@ -44,25 +44,25 @@ NAME should be one of the keys from `pew/special-buffer-alist'.
 If NAME is a list then the result will be a list of matching patterns instead.
 If CONCATED is non-nil the result will be concatenated with '\\|'."
     (declare (indent 0))
-    (let ((l/result nil)
-          (l/match nil)
-          (l/getter (lambda (x) (assoc x pew/special-buffer-alist)))
-          (l/error (lambda (x) (error "No matching special buffer for %s" x))))
+    (let ((l:result nil)
+          (l:match nil)
+          (l:getter (lambda (x) (assoc x pew/special-buffer-alist)))
+          (l:error (lambda (x) (error "No matching special buffer for %s" x))))
       (cond
        ;; Multiple output
        ((not (symbolp name))
-        (dolist (l/name name)
-          (if (setq l/match (funcall l/getter l/name))
-              (push (cdr l/match) l/result)
-            (funcall l/error l/name)))
-        (setq l/result (reverse l/result))
+        (dolist (l:name name)
+          (if (setq l:match (funcall l:getter l:name))
+              (push (cdr l:match) l:result)
+            (funcall l:error l:name)))
+        (setq l:result (reverse l:result))
         (if concated
-            (mapconcat #'identity l/result "\\|")
-          (cons 'list l/result)))
+            (mapconcat #'identity l:result "\\|")
+          (cons 'list l:result)))
        ;; Single output
-       ((setq l/match (funcall l/getter name))
-        (setq l/result (cdr l/match)))
-       (t (funcall l/error name))))))
+       ((setq l:match (funcall l:getter name))
+        (setq l:result (cdr l:match)))
+       (t (funcall l:error name))))))
 ;;; End eval-and-compile
 
 ;;; Debugging
@@ -84,17 +84,17 @@ Possible value for ALL:
   any other values - call `macroexpand-all'
 The result will be shown in message buffer.  Return nil to reduce confusion."
   (declare (indent 0))
-  (let ((l/helper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
+  (let ((l:helper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
     (pcase all
-      ('nil `(,l/helper 'macroexpand ',form))
-      ('1 `(,l/helper 'macroexpand-1 ',form))
-      (_ `(,l/helper 'macroexpand-all ',form)))))
+      ('nil `(,l:helper 'macroexpand ',form))
+      ('1 `(,l:helper 'macroexpand-1 ',form))
+      (_ `(,l:helper 'macroexpand-all ',form)))))
 
 (defun pew/keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode to name: ")
-  (let ((l/name (help-key-description (vector keycode) nil)))
-    (message l/name)))
+  (let ((l:name (help-key-description (vector keycode) nil)))
+    (message l:name)))
 
 (defun pew/buffer-full-path ()
   "Display current file path in the minibuffer."
@@ -109,8 +109,8 @@ current path.
 When COMPONENT is given it will be appended at the end of BASE.
 When FOLLOW is non-nil the result will an absolute path with all symlink
 resolved."
-  (let ((l/result (expand-file-name (file-name-concat base component))))
-    (if follow (file-truename l/result) l/result)))
+  (let ((l:result (expand-file-name (file-name-concat base component))))
+    (if follow (file-truename l:result) l:result)))
 
 ;;; Editor
 (defun pew/delete-trailing-whitespaces ()
@@ -125,22 +125,22 @@ resolved."
   "Check if the given buffer NAME is a hidden buffer.
 Return t if NAME matches one of patterns defined in `pew/hidden-buffers' or nil
 if there is not match."
-  (let ((l/hiddens pew/hidden-buffers)
-        (l/matched nil))
-    (while (and (not l/matched) l/hiddens)
-      (setq l/matched (string-match (pop l/hiddens) name)))
-    l/matched))
+  (let ((l:hiddens pew/hidden-buffers)
+        (l:matched nil))
+    (while (and (not l:matched) l:hiddens)
+      (setq l:matched (string-match (pop l:hiddens) name)))
+    l:matched))
 
 (defun pew/switch-buffer (&optional prev)
   "Switch to the next buffer and skip hidden buffers.
 If PREV is non-nil switch to the previous buffer.
 Use `pew/hidden-buffer-p' to filter buffers."
-  (let ((l/current-buffer (current-buffer))
-        (l/switch-func (if prev #'previous-buffer #'next-buffer)))
-    (funcall l/switch-func)
+  (let ((l:current-buffer (current-buffer))
+        (l:switch-func (if prev #'previous-buffer #'next-buffer)))
+    (funcall l:switch-func)
     (while (and (pew/hidden-buffer-p (buffer-name))
-                (not (eq l/current-buffer (current-buffer))))
-      (funcall l/switch-func))))
+                (not (eq l:current-buffer (current-buffer))))
+      (funcall l:switch-func))))
 
 (defun pew/next-buffer ()
   "Switch to the next buffer but skip hidden buffers."
@@ -155,11 +155,11 @@ Use `pew/hidden-buffer-p' to filter buffers."
 (defun pew/close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
-  (let ((l/this-buffer (current-buffer)))
-    (dolist (l/buffer (buffer-list))
-      (if (and (eq mode (buffer-local-value 'major-mode l/buffer))
-               (not (eq l/this-buffer l/buffer)))
-          (kill-buffer l/buffer)))))
+  (let ((l:this-buffer (current-buffer)))
+    (dolist (l:buffer (buffer-list))
+      (if (and (eq mode (buffer-local-value 'major-mode l:buffer))
+               (not (eq l:this-buffer l:buffer)))
+          (kill-buffer l:buffer)))))
 
 ;;; Windows
 (defun pew/side-window-p (window)
@@ -191,9 +191,9 @@ Side window can also be poped."
   (tab-bar-new-tab)
   (if (pew/side-window-p (selected-window))
       ;; Side window cannot be maximized so pick a normal window and switch to it
-      (let ((l/current-buffer (current-buffer)))
+      (let ((l:current-buffer (current-buffer)))
         (select-window (car (pew/window-list-normal)))
-        (switch-to-buffer l/current-buffer)))
+        (switch-to-buffer l:current-buffer)))
   (delete-other-windows))
 
 (defun pew/next-window ()
@@ -260,8 +260,8 @@ Side window can also be poped."
     (load-theme theme t))
   ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
-      (dolist (l/theme (cdr custom-enabled-themes))
-        (disable-theme l/theme))))
+      (dolist (l:theme (cdr custom-enabled-themes))
+        (disable-theme l:theme))))
 
 ;;; Frames
 (defvar pew/frame-opacity-adjust-step 10
@@ -272,11 +272,11 @@ Used by `pew/increase-frame-opacity'and `pew/decrease-frame-opacity'.")
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
-  (let ((l/value (cond ((> val 100) 100)
+  (let ((l:value (cond ((> val 100) 100)
                       ((< val 0) 0)
                       (t val))))
-    (message "Set Frame opacity: %d%%" l/value)
-    (set-frame-parameter (selected-frame) 'alpha (cons l/value l/value))))
+    (message "Set Frame opacity: %d%%" l:value)
+    (set-frame-parameter (selected-frame) 'alpha (cons l:value l:value))))
 
 (defun pew/increase-frame-opacity ()
   "Increase frame opacity."

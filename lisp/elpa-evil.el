@@ -62,20 +62,20 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
     (declare (indent 3))
     (if (pew/oddp (length bindings))
         (error "Incomplete keys and definitions"))
-    (let ((l/bindings bindings)
-          (l/result nil))
-      (while l/bindings
-        (push (kbd (concat prefix (pop l/bindings))) l/result)
-        (push (pop l/bindings) l/result))
-      (setq l/result (reverse l/result))
-      (let ((l/setter (lambda (m) (apply 'evil-define-key* state m l/result))))
+    (let ((l:bindings bindings)
+          (l:result nil))
+      (while l:bindings
+        (push (kbd (concat prefix (pop l:bindings))) l:result)
+        (push (pop l:bindings) l:result))
+      (setq l:result (reverse l:result))
+      (let ((l:setter (lambda (m) (apply 'evil-define-key* state m l:result))))
         (cond ((keymapp map)
-               (funcall l/setter map))
+               (funcall l:setter map))
               ((listp map)
-               (mapc l/setter map))
+               (mapc l:setter map))
               ;; The map could be a symbol i.e. 'global
               (t
-               (funcall l/setter map))))))
+               (funcall l:setter map))))))
 
 ;;;; Evil state setting functions
   ;; Initial state function
@@ -91,14 +91,14 @@ Minor mode uses `add-hook' which is equivalent to:
     (declare (indent 0))
     (if (pew/oddp (length states))
         (error "Incomplete modes and states"))
-    (let ((l/states states))
-      (while l/states
-        (let ((l/mode (pop l/states))
-              (l/state (pop l/states)))
-          (cond ((memq l/mode minor-mode-list)
-                 (add-hook (intern (format "%s-hook" l/mode)) (intern (format "evil-%s-state" l/state))))
+    (let ((l:states states))
+      (while l:states
+        (let ((l:mode (pop l:states))
+              (l:state (pop l:states)))
+          (cond ((memq l:mode minor-mode-list)
+                 (add-hook (intern (format "%s-hook" l:mode)) (intern (format "evil-%s-state" l:state))))
                 (t
-                 (evil-set-initial-state l/mode l/state)))))))
+                 (evil-set-initial-state l:mode l:state)))))))
 
   (defun pew/evil/set-buffer-state (&rest states)
     "Set initial STATES for certain buffer names.
@@ -112,11 +112,11 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     (if (pew/oddp (length states))
         (error "Incomplete patterns and states"))
     ;; Backwards iterating so that the order is consistent with the written list
-    (let ((l/states (reverse states)))
-      (while l/states
-        (let ((l/state (pop l/states))
-              (l/regex (pop l/states)))
-          (push (cons l/regex l/state) evil-buffer-regexps)))))
+    (let ((l:states (reverse states)))
+      (while l:states
+        (let ((l:state (pop l:states))
+              (l:regex (pop l:states)))
+          (push (cons l:regex l:state) evil-buffer-regexps)))))
 
 ;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special

@@ -6,9 +6,9 @@
 
 ;;; Code:
 ;;; Minimal version
-(let ((l/minimal-emacs-version "28.1"))
-  (if (version< emacs-version l/minimal-emacs-version)
-      (error "[pew] Emacs version %s+ is required" l/minimal-emacs-version)))
+(let ((minimal-emacs-version "28.1"))
+  (if (version< emacs-version minimal-emacs-version)
+      (error "[pew] Emacs version %s+ is required" minimal-emacs-version)))
 
 ;;; Config variables
 (defvar pew/mini-init nil
