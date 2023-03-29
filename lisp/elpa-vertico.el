@@ -161,14 +161,14 @@ ARGS should be a string of arguments passed to ripgrep."
          ("M-o" . embark-act)
          ("M-j" . embark-dwim))
 
-  :hook (embark-collect-mode . pew/embark/collect-setup)
+  :hook (embark-collect-mode . pew/embark/collect-on-init)
 
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 
   :config
-  (defun pew/embark/collect-setup ()
-    "Setup function for embark-collect-mode."
+  (defun pew/embark/collect-on-init ()
+    "`embark-collect-mode' initialization."
     (pew/reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 

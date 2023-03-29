@@ -33,14 +33,14 @@ users to specify the shell to start with."
 ;;; Tree navigation
 (use-package treemacs
   :commands treemacs
-  :hook (treemacs-mode . pew/treemacs/setup)
+  :hook (treemacs-mode . pew/treemacs/on-init)
 
   :custom
   (treemacs-wrap-around nil)
 
   :config
-  (defun pew/treemacs/setup ()
-    "Treemacs mode setup."
+  (defun pew/treemacs/on-init ()
+    "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 
 (provide 'elpa-utils)

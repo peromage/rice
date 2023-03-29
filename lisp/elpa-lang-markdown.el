@@ -5,11 +5,11 @@
 
 ;;; Code:
 (use-package markdown-mode
-  :hook (markdown-mode . pew/markdown-mode/setup)
+  :hook (markdown-mode . pew/markdown-mode/on-init)
 
   :config
-  (defun pew/markdown-mode/setup ()
-    "Markdown mode steup."
+  (defun pew/markdown-mode/on-init ()
+    "`markdown-mode' initialization."
     (pew/text-mode-on-init)))
 
 (provide 'elpa-lang-markdown)

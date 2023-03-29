@@ -83,7 +83,7 @@ MODES is a list of major mode symbols."
          ("C-c l L" . lsp-ui-doc-show)
          ("C-c l j" . lsp-ui-doc-focus-frame))
 
-  :hook (lsp-mode . pew/lsp-ui/setup)
+  :hook (lsp-mode . pew/lsp-ui/on-init)
 
   :custom
   ;; Sideline
@@ -118,8 +118,8 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-kind-position 'top)
 
   :config
-  (defun pew/lsp-ui/setup ()
-    "Setup function for lsp-ui."
+  (defun pew/lsp-ui/on-init ()
+    "`lsp-ui-mode' initialization."
     (lsp-ui-mode 1)
     ;; Disabled since it occupies 'q'
     (lsp-ui-doc-frame-mode -1)))

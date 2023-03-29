@@ -5,11 +5,11 @@
 
 ;;; Code:
 (use-package powershell
-  :hook (powershell-mode . pew/powershell-mode/setup)
+  :hook (powershell-mode . pew/powershell-mode/on-init)
 
   :config
-  (defun pew/powershell-mode/setup ()
-    "PowerShell mode setup."
+  (defun pew/powershell-mode/on-init ()
+    "`powershell-mode' initialization."
     (lsp-deferred)))
 
 (provide 'elpa-lang-powershell)

@@ -5,11 +5,11 @@
 
 ;;; Code:
 (use-package lsp-java
-  :hook (java-mode . pew/java-mode/setup)
+  :hook (java-mode . pew/java-mode/on-init)
 
   :config
-  (defun pew/java-mode/setup ()
-    "Java mode setup."
+  (defun pew/java-mode/on-init ()
+    "`java-mode' initialization."
     (lsp-deferred)))
 
 (provide 'elpa-lang-java)

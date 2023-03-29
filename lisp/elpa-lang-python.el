@@ -5,14 +5,14 @@
 
 ;;; Code:
 (use-package lsp-pyright
-  :hook (python-mode . pew/python-mode/setup)
+  :hook (python-mode . pew/python-mode/on-init)
 
   :custom
   (lsp-pyright-python-executable-cmd "python3")
 
   :config
-  (defun pew/python-mode/setup ()
-    "Python LSP mode setup."
+  (defun pew/python-mode/on-init ()
+    "`python-mode' initialization."
     (setq-local indent-tabs-mode nil)
     (setq-local tab-width 4)
     (require 'lsp-pyright)

@@ -138,11 +138,11 @@
 ;;;; Nicer headlines
 (use-package org-bullets
   :after org
-  :hook (org-mode . pew/org-bullets/setup)
+  :hook (org-mode . pew/org-bullets/on-init)
 
   :config
-  (defun pew/org-bullets/setup ()
-    "`org-bullets' setup function."
+  (defun pew/org-bullets/on-init ()
+    "`org-bullets' initialization."
     (org-bullets-mode 1)))
 
 ;;;; Enable focused view
