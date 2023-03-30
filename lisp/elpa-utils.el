@@ -64,5 +64,11 @@ users to specify the shell to start with."
 (use-package ace-window
   :bind ("C-c w" . ace-window))
 
+;;;; Enable focused view
+(use-package visual-fill-column
+  :custom
+  (visual-fill-column-center-text t)
+  (visual-fill-column-fringes-outside-margins nil))
+
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here

@@ -125,31 +125,5 @@
     (setq-default org-pretty-entities pew/org/marker--hidden)
     (org-mode-restart)))
 
-;;; Export backend
-;;;; Export for Hugo
-(use-package ox-hugo
-  :defer t)
-
-;;;; GitHub flavored Markdown
-(use-package ox-gfm
-  :defer t)
-
-;;; Visual improvement
-;;;; Nicer headlines
-(use-package org-bullets
-  :after org
-  :hook (org-mode . pew/org-bullets/on-init)
-
-  :config
-  (defun pew/org-bullets/on-init ()
-    "`org-bullets' initialization."
-    (org-bullets-mode 1)))
-
-;;;; Enable focused view
-(use-package visual-fill-column
-  :custom
-  (visual-fill-column-center-text t)
-  (visual-fill-column-fringes-outside-margins nil))
-
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
