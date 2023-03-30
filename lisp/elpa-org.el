@@ -11,12 +11,6 @@
          (org-babel-after-execute . pew/org/refresh-images))
 
   :custom
-;;;; Org files
-  (org-directory (locate-user-emacs-file "org"))
-  (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
-  ;; Take every org files under `org-directory'
-  (org-agenda-files (list org-directory))
-
 ;;;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-startup-indented t)
@@ -86,7 +80,13 @@
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
-;;;; Capture
+;;;; Agenda and capture
+  ;; Org files
+  (org-directory pew/default-org-dir)
+  (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
+  ;; Take every org files under `org-directory'
+  (org-agenda-files (list org-directory))
+  ;; Templates
   (org-capture-templates
    '(;; Daily tasks
      ("t" "Todo" entry (file+headline "inbox.org" "Tasks")
