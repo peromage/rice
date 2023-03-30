@@ -44,7 +44,7 @@
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet
   :custom
-  (yas-snippet-dirs (list (expand-file-name "yasnippets" pew/home-dir)))
+  (yas-snippet-dirs (list pew/default-yasnippet-dir))
 
   :config
   (yas-global-mode 1))

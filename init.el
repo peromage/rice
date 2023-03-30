@@ -22,6 +22,9 @@ loaded from other places.")
 (defvar pew/default-org-dir (expand-file-name "my-org-notes" pew/home-dir)
   "The default directory to place org note files.")
 
+(defvar pew/default-yasnippet-dir (expand-file-name "yasnippets" pew/home-dir)
+  "The default directory to place yasnippet files.")
+
 ;;; Runtime path
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
