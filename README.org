@@ -32,10 +32,33 @@ $ git clone https://github.com/peromage/pew.git ~/.emacs.d
 
 Then Emacs will automatically install everything for you.
 
-** Temporary file
-Disposable changes will be in =~/.emacs.d/local.el= including settings from ~customize~.
+** Option 1 -- Clone to ~/.emacs.d
+This is the traditional way to use this configuration.  Simply clone this repo to =~/.emacs.d=.
 
-=local.el= will be applied on top of the default pew configuration.
+#+begin_src sh
+git clone https://github.com/peromage/pew.git ~/.emacs.d
+#+end_src
+
+** Option 2 -- Clone to somewhere else
+This configuration also supports loaded from non-canonical path.
+
+#+begin_src sh
+git clone https://github.com/peromage/pew.git ~/pew
+#+end_src
+
+While in the =init.el=,
+
+#+begin_src elisp
+;; (require 'subr-x) ;; needed on Windows
+(load-file "~/pew/init.el")
+#+end_src
+
+** Local configuration files
+There are two local configuration files which are not tracked by default.
+
+*/custom.el/* (*/custom-mini.el/* if =pew/mini-init= is non-nil): This file contains all the customization set from =customize= interface.  Some settings that wishes not to be tracked can be put here.  This file is loaded at the last.
+
+*/early-custom.el/*: This file is loaded before any other configurations.  Can be used to override some configuration variables.
 
 ** List of files and directories
 
@@ -45,13 +68,13 @@ pew
 ├── site-lisp/              # Addtional package files written by myself
 ├── yasnippets/             # Snippet files loaded by yasnippet
 ├── rice/                   # My config collection for other apps
-├── tests/                  # Test scripts
+├── scripts/                # Test scripts
 ├── early-init.el           # Init file loaded before init.el
 ├── init.el                 # Main init file
 ├── .pew                    # Configuration root placeholder
 ├── .gitignore              # Git ignore file
 ├── LICENSE                 # License file
-└── README.md               # This file
+└── README.org              # This file
 #+end_example
 
 * My customizations
