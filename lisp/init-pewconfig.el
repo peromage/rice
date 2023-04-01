@@ -69,7 +69,7 @@ FORM is of the form:
 Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
-Note: Unlike `pewconfig/set-bind' this macro creates a new map.  It will not be
+NOTE: Unlike `pewconfig/set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
     (let ((l:map (intern (format "%s-map" (car form))))
@@ -106,7 +106,7 @@ Once CMD is invoked CMD-map will be temporarily activated.  The difference
 between CMD and CMD-repeat is CMD only receive one followed key press while
 CMD-repeat keeps receiving key press until an undefined key passed.
 See `set-transient-map'.
-Note: Discouraged `repeat-map' property method in Emacs 28 since it didn't work
+NOTE: Discouraged `repeat-map' property method in Emacs 28 since it didn't work
 well for some reason.  If `repeat-map' needs to be enabled, do:
   (put cmd 'repeat-map map-symbol)"
     (declare (indent 0))
@@ -221,24 +221,25 @@ Where MATCHER is usually a string of regex."
     "Simply evaluate FORM and nothing else."
     form)
 
-;;; Macro utilities
+;;; Utility macros/functions
   (defmacro pew/swap (a b)
-    "Swap values in A and B."
+    "Swap values in A and B.
+NOTE: A and B must be lvalues."
     `(setq ,a (prog1 ,b (setq ,b ,a))))
 
-  (defmacro pew/tokey (key)
+  (defun pew/tokey (key)
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
-    `(let ((ql:key ,key)) (if (stringp ql:key) (kbd ql:key) ql:key)))
+    (if (stringp key) (kbd key) key))
 
-  (defmacro pew/evenp (num)
+  (defun pew/evenp (num)
     "Determine if NUM is odd."
-    `(zerop (mod ,num 2)))
+    (zerop (mod num 2)))
 
-  (defmacro pew/oddp (num)
+  (defun pew/oddp (num)
     "Determine if NUM is odd."
-    `(not (zerop (mod ,num 2))))
+    (not (pew/evenp num)))
 
   (defmacro pew/rotate (list &optional reverse)
     "Rotate the LIST by putting the first element to the last.
@@ -270,11 +271,11 @@ nil or VALUE is not found."
          (setq ql:tail (append ql:tail (butlast ql:list (length ql:tail))))
          ,(if next '(pew/rotate ql:tail) 'ql:tail))))
 
-  (defmacro pew/font (&rest args)
+  (defun pew/find-font (&rest args)
     "Return a font object is it's found on the current system.
-ARGS is the same as the ones defined in `fond-spec'.
+ARGS is the same as the ones defined in `font-spec'.
 Return nil if no match."
-    `(find-font (font-spec ,@args))))
+    (find-font (apply 'font-spec args))))
 ;;; End eval-and-compile
 
 (provide 'init-pewconfig)
