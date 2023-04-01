@@ -4,6 +4,7 @@
 ;; Code for Pew configurator.
 
 ;;; Code:
+(require 'subr-x)
 ;;; Start eval-and-compile
 (eval-and-compile
 ;;; The list of keywords
@@ -23,25 +24,33 @@ The value of each element is the expansion helper of that section.")
 
 ;;; Main entry
   (defmacro pewconfig (&rest args)
-    "Configuration helper.
-The available keywords are registered in `pewconfig/keywords'.
-ARGS is a list of forms.  See section helpers for the form definitions."
+    "Pew configuration utility.
+This one is intended to be used for configuration entry instead of calling the
+helper macros directly.
+ARGS is a list of forms. See the registered helpers from `pewconfig/keywords'
+for form definitions.
+Typical usage is as follow:
+  (pewconfig
+    :custom
+    (inhibit-startup-buffer-menu t)
+    :bind
+    (global
+      (\"C-x C-d\" . dired-jump))
+    ...) "
     (declare (indent 0))
-    (if (not (symbolp (car args)))
-        (error "Missing keyword"))
-    (let ((l:helper nil)
-          (l:section nil)
-          (l:result '(progn)))
-      (dolist (l:item args)
-        (cond
-         ;; Expand form with its helper
-         ((not (symbolp l:item))
-          (push (list l:helper l:item) l:result))
-         ;; Check keyword
-         ((setq l:section (assoc l:item pewconfig/keywords))
-          (setq l:helper (cdr l:section)))
-         (t (error "Wrong keyword: %s" l:item))))
-      (reverse l:result)))
+    (named-let pewconfig-inner ((keyword-cons nil)
+                                (running-list '(progn))
+                                (args args))
+      (if (not args)
+          ;; Ending
+          (reverse running-list)
+        ;; Otherwise keep processing the elements
+        (let ((l:head (assq (car args) pewconfig/keywords)))
+          (if l:head
+              ;; Look up for the next element if the head is a registered cons
+              (pewconfig-inner l:head running-list (cdr args))
+            ;; Otherwise update the list and move to the next element
+            (pewconfig-inner keyword-cons (cons (list (cdr keyword-cons) (car args)) running-list) (cdr args)))))))
 
 ;;; :custom
   (defmacro pewconfig/set-custom (form)
