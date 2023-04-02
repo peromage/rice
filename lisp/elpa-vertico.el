@@ -24,11 +24,11 @@
   ;; NOTE: `vertico-multiform-commands' takes precedence over `vertico-multiform-categories'
   (vertico-multiform-commands '((consult-imenu buffer indexed)
                                 (consult-outline buffer)))
-  (vertico-multiform-categories '((file (vertico-sort-function . pew/vertico/sort-directories-first))))
+  (vertico-multiform-categories '((file (vertico-sort-function . pew::vertico::sort-directories-first))))
 
   :config
   ;; File sorting
-  (defun pew/vertico/sort-directories-first (files)
+  (defun pew::vertico::sort-directories-first (files)
     "Sort directories before files."
     (let ((l:files (vertico-sort-history-length-alpha files)))
       (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) l:files)
@@ -73,13 +73,13 @@
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
-  (completion-in-region-function #'pew/consult/completion-in-region)
+  (completion-in-region-function #'pew::consult::completion-in-region)
   (consult-async-min-input 2)
   (consult-narrow-key "C-l")
   ;; Disable all auto previews
   (consult-preview-key "C-o")
   ;; Don't display special buffers
-  (consult-buffer-filter pew/hidden-buffers)
+  (consult-buffer-filter pew::hidden-buffers)
 
   :config
   ;; Enable preview for certain completions
@@ -90,7 +90,7 @@
                      :preview-key 'any)
 
   ;; Customized search
-  (defun pew/consult/rg (dir args)
+  (defun pew::consult::rg (dir args)
     "Like `consult-ripgrep' but with additional arguments.
 Search directory DIR will be selected by a prompt.
 ARGS should be a string of arguments passed to ripgrep."
@@ -112,12 +112,12 @@ ARGS should be a string of arguments passed to ripgrep."
     (consult-preview-key . ("" any)))
 
   ;; Completion in region replacement
-  (defun pew/consult/completion-in-region (&rest args)
+  (defun pew::consult::completion-in-region (&rest args)
     "Use consult for region completion."
     (apply (if vertico-mode #'consult-completion-in-region #'completion--in-region) args))
 
   ;; CRM indicator
-  (define-advice completing-read-multiple (:filter-args (args) pew/consult/crm-indicator)
+  (define-advice completing-read-multiple (:filter-args (args) pew::consult::crm-indicator)
     "Add an indicator for multi-occur mode."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args))))
 
@@ -138,9 +138,9 @@ ARGS should be a string of arguments passed to ripgrep."
   :init
   ;; Don't use orderless in company completion
   (with-eval-after-load 'company
-    (defvar pew/orderless/default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-    (define-advice company-capf--candidates (:around (oldfunc &rest args) pew/orderless/company-completing)
-      (let ((completion-styles pew/orderless/default-completion-styles))
+    (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
+    (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
+      (let ((completion-styles pew::orderless::default-completion-styles))
         (apply oldfunc args))))
 
   :custom
@@ -161,15 +161,15 @@ ARGS should be a string of arguments passed to ripgrep."
          ("M-o" . embark-act)
          ("M-j" . embark-dwim))
 
-  :hook (embark-collect-mode . pew/embark/collect-on-init)
+  :hook (embark-collect-mode . pew::embark::collect-on-init)
 
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 
   :config
-  (defun pew/embark/collect-on-init ()
+  (defun pew::embark::collect-on-init ()
     "`embark-collect-mode' initialization."
-    (pew/reuse-window-in-buffer)
+    (pew::reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
 ;;; Consult and embark integration

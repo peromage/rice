@@ -13,7 +13,7 @@
   (plantuml-default-exec-mode 'jar)
 
   :config
-  (pew/use-package-maybe org
+  (pew::use-package-maybe org
     :custom
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)

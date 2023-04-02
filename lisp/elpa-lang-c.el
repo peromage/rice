@@ -5,12 +5,12 @@
 
 ;;; Code:
 (use-package cc-mode
-  :hook ((c-mode . pew/cc-mode/c-on-init)
-         (c++-mode . pew/cc-mode/c++-on-init))
+  :hook ((c-mode . pew::cc-mode::c-on-init)
+         (c++-mode . pew::cc-mode::c++-on-init))
 
   :config
   ;; Setup functions
-  (defun pew/cc-mode/common-setup ()
+  (defun pew::cc-mode::common-setup ()
     "Common CC mode setup."
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)
@@ -24,7 +24,7 @@
     (setq-local indent-tabs-mode nil)
     (setq-local adaptive-fill-mode nil))
 
-  (defun pew/cc-mode/lsp-setup ()
+  (defun pew::cc-mode::lsp-setup ()
     "LSP setup for CC mode."
     ;; Prevent Clangd from inserting headers itself
     (setq lsp-clients-clangd-args '("-j=8"
@@ -40,15 +40,15 @@
     ;; Post LSP mode settings
     (electric-indent-mode -1))
 
-  (defun pew/cc-mode/c-on-init ()
+  (defun pew::cc-mode::c-on-init ()
     "Initialization for C mode."
-    (pew/cc-mode/common-setup)
-    (pew/cc-mode/lsp-setup))
+    (pew::cc-mode::common-setup)
+    (pew::cc-mode::lsp-setup))
 
-  (defun pew/cc-mode/c++-on-init ()
+  (defun pew::cc-mode::c++-on-init ()
     "Initialization for C++ mode."
-    (pew/cc-mode/common-setup)
-    (pew/cc-mode/lsp-setup)))
+    (pew::cc-mode::common-setup)
+    (pew::cc-mode::lsp-setup)))
 
 (provide 'elpa-lang-c)
 ;;; elpa-lang-c.el ends here

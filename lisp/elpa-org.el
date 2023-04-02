@@ -7,8 +7,8 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :hook ((org-mode . pew/text-mode-on-init)
-         (org-babel-after-execute . pew/org/refresh-images))
+  :hook ((org-mode . pew::text-mode-on-init)
+         (org-babel-after-execute . pew::org::refresh-images))
 
   :custom
 ;;;; Visual on startup
@@ -82,7 +82,7 @@
 
 ;;;; Agenda and capture
   ;; Org files
-  (org-directory pew/default-org-dir)
+  (org-directory pew::default-org-dir)
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
   ;; Take every org files under `org-directory'
   (org-agenda-files (list org-directory))
@@ -104,25 +104,25 @@
 
 ;;;; Helper functions
   :config
-  (defun pew/org/refresh-images ()
+  (defun pew::org::refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
     (interactive)
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
-  (defvar pew/org/marker--hidden t
+  (defvar pew::org::marker--hidden t
     "`org-mode' Marker visibility.")
 
-  (defun pew/org/toggle-marker ()
+  (defun pew::org::toggle-marker ()
     "Pass SHOW with non-nil to make markers visible or vice versa."
     (interactive)
-    (setq pew/org/marker--hidden (not pew/org/marker--hidden))
+    (setq pew::org::marker--hidden (not pew::org::marker--hidden))
     ;; Those variables are global
-    (setq-default org-hide-emphasis-markers pew/org/marker--hidden)
-    (setq-default org-hide-leading-stars pew/org/marker--hidden)
-    (setq-default org-hide-macro-markers pew/org/marker--hidden)
-    (setq-default org-link-descriptive pew/org/marker--hidden)
-    (setq-default org-pretty-entities pew/org/marker--hidden)
+    (setq-default org-hide-emphasis-markers pew::org::marker--hidden)
+    (setq-default org-hide-leading-stars pew::org::marker--hidden)
+    (setq-default org-hide-macro-markers pew::org::marker--hidden)
+    (setq-default org-link-descriptive pew::org::marker--hidden)
+    (setq-default org-pretty-entities pew::org::marker--hidden)
     (org-mode-restart)))
 
 (provide 'elpa-org)

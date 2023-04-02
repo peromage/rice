@@ -24,12 +24,12 @@
 
 ;;;; Windows and frames
   ;; Over-3-side-window causes troubles when toggling (I don't know why)
-  (display-buffer-alist `((,(pew/special-buffer (shell terminal help) t)
+  (display-buffer-alist `((,(pew::special-buffer (shell terminal help) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (window-height . 0.25)
                            (side . bottom)
                            (slot . 0))
-                          (,(pew/special-buffer (message backtrace warning log compilation output command) t)
+                          (,(pew::special-buffer (message backtrace warning log compilation output command) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (window-height . 0.25)
                            (side . bottom)
@@ -213,9 +213,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew/special-buffer magit)))
-                                  ("VC" (name . ,(pew/special-buffer vc)))
-                                  ("Ediff" (name . ,(pew/special-buffer ediff)))
+                                  ("Git" (name . ,(pew::special-buffer magit)))
+                                  ("VC" (name . ,(pew::special-buffer vc)))
+                                  ("Ediff" (name . ,(pew::special-buffer ediff)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
@@ -262,13 +262,13 @@
   :transient
   (pewkey
 ;;;; Windows
-   ("q" . pew/close-window)
+   ("q" . pew::close-window)
    ("1" . delete-other-windows)
    ("2" . split-window-below)
    ("3" . split-window-right)
    ("9" . window-toggle-side-windows)
-   ("o" . pew/next-window)
-   ("O" . pew/prev-window)
+   ("o" . pew::next-window)
+   ("O" . pew::prev-window)
    ("h" . windmove-left)
    ("j" . windmove-down)
    ("k" . windmove-up)
@@ -283,11 +283,11 @@
    ("Y" . winner-redo)
 
 ;;;; Other window
-   ("M-f" . pew/scroll-other-window-page-down)
-   ("M-b" . pew/scroll-other-window-page-up)
-   ("M-e" . pew/scroll-other-window-line-down)
-   ("M-y" . pew/scroll-other-window-line-up)
-   ("M-l" . pew/recenter-other-window)
+   ("M-f" . pew::scroll-other-window-page-down)
+   ("M-b" . pew::scroll-other-window-page-up)
+   ("M-e" . pew::scroll-other-window-line-down)
+   ("M-y" . pew::scroll-other-window-line-up)
+   ("M-l" . pew::recenter-other-window)
 
 ;;;; Tabs
    ("Q" . tab-bar-close-tab)
@@ -296,16 +296,16 @@
    ("F" . tab-bar-select-tab-by-name)
    ("b" . tab-bar-switch-to-prev-tab)
    ("t" . tab-bar-new-tab)
-   ("T" . pew/pop-window-in-new-tab)
-   ("m" . pew/move-tab-next)
-   ("M" . pew/move-tab-prev)
+   ("T" . pew::pop-window-in-new-tab)
+   ("m" . pew::move-tab-next)
+   ("M" . pew::move-tab-prev)
 
 ;;;; Buffers
    ("r" . rename-buffer)
    ("w" . save-buffer)
-   ("n" . pew/next-buffer)
-   ("p" . pew/prev-buffer)
-   ("i" . pew/buffer-full-path)
+   ("n" . pew::next-buffer)
+   ("p" . pew::prev-buffer)
+   ("i" . pew::buffer-full-path)
    ("B" . display-buffer)
 
 ;;;; Jump
@@ -334,8 +334,8 @@
    ("C-0" . text-scale-adjust)
 
 ;;;; Frame Transparency
-   ("M-=" . pew/increase-frame-opacity)
-   ("M--" . pew/decrease-frame-opacity))
+   ("M-=" . pew::increase-frame-opacity)
+   ("M--" . pew::decrease-frame-opacity))
 
 ;;; Mode keybindings
   :bind
@@ -345,8 +345,8 @@
    ("C-x C-d" . dired-jump)
 
    ;; Remap for better experience
-   ([remap next-buffer] . pew/next-buffer)
-   ([remap previous-buffer] . pew/prev-buffer)
+   ([remap next-buffer] . pew::next-buffer)
+   ([remap previous-buffer] . pew::prev-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
@@ -356,8 +356,8 @@
 
 ;;;; Dired
   (dired-mode
-   ("RET" . pew/dired-go-to)
-   ("DEL" . pew/dired-go-up)
+   ("RET" . pew::dired-go-to)
+   ("DEL" . pew::dired-go-up)
    ("f" . dired-find-file)
    ("b" . dired-up-directory)
    ("<left>" . dired-up-directory)
@@ -366,17 +366,17 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode . pew/terminal-mode-on-init)
-  (shell-mode . pew/terminal-mode-on-init)
+  (eshell-mode . pew::terminal-mode-on-init)
+  (shell-mode . pew::terminal-mode-on-init)
 
   ;; Don't save trailing spaces
-  (after-save . pew/delete-trailing-whitespaces)
+  (after-save . pew::delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
   (minibuffer-setup . cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode . pew/reuse-window-in-buffer)
+  (grep-mode . pew::reuse-window-in-buffer)
 
   ;; Enable folding
   (prog-mode . outline-minor-mode)

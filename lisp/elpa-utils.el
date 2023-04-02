@@ -10,10 +10,10 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pew/terminal-mode-on-init)
+  :hook (vterm-mode . pew::terminal-mode-on-init)
 
   :init
-  (defun pew/vterm/new (arg)
+  (defun pew::vterm::new (arg)
     "Create a new vterm window.
 ARG is a prefix argument.  If it is non-nill, a prompt will pop up to allow
 users to specify the shell to start with."
@@ -33,13 +33,13 @@ users to specify the shell to start with."
 ;;; Tree navigation
 (use-package treemacs
   :commands treemacs
-  :hook (treemacs-mode . pew/treemacs/on-init)
+  :hook (treemacs-mode . pew::treemacs::on-init)
 
   :custom
   (treemacs-wrap-around nil)
 
   :config
-  (defun pew/treemacs/on-init ()
+  (defun pew::treemacs::on-init ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 

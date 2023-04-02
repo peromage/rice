@@ -14,7 +14,7 @@
          ([remap xref-find-references] . lsp-find-declaration))
 
   :init
-  (defmacro pew/lsp/define-remote (server modes)
+  (defmacro pew::lsp::define-remote (server modes)
     "A shortcut to define LSP remote client.
 SERVER is the base name of the server executable.
 MODES is a list of major mode symbols."
@@ -83,7 +83,7 @@ MODES is a list of major mode symbols."
          ("C-c l L" . lsp-ui-doc-show)
          ("C-c l j" . lsp-ui-doc-focus-frame))
 
-  :hook (lsp-mode . pew/lsp-ui/on-init)
+  :hook (lsp-mode . pew::lsp-ui::on-init)
 
   :custom
   ;; Sideline
@@ -118,7 +118,7 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-kind-position 'top)
 
   :config
-  (defun pew/lsp-ui/on-init ()
+  (defun pew::lsp-ui::on-init ()
     "`lsp-ui-mode' initialization."
     (lsp-ui-mode 1)
     ;; Disabled since it occupies 'q'

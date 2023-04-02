@@ -83,7 +83,7 @@ effective if the map already exists."
           ;; Build the key definition list
           (pewconfig/set-map-inner l:keymap-symbol
                                    (cdr l:bindings)
-                                   (cons `(define-key ql:keymap ,(pew/tokey (caar l:bindings)) #',(cdar l:bindings))
+                                   (cons `(define-key ql:keymap ,(pew::tokey (caar l:bindings)) #',(cdar l:bindings))
                                          l:running-list))
         ;; Add map variable definition at last and return the list
         (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Created by `pewconfig/set-map'.")
@@ -105,7 +105,7 @@ For DEF's definition see `define-key'."
           ;; Build the key definition list
           (pewconfig/set-bind-inner l:keymap-symbol
                                     (cdr l:bindings)
-                                    (cons `(define-key ,l:keymap-symbol ,(pew/tokey (caar l:bindings)) #',(cdar l:bindings))
+                                    (cons `(define-key ,l:keymap-symbol ,(pew::tokey (caar l:bindings)) #',(cdar l:bindings))
                                           l:running-list))
         ;; Return the list
         (reverse l:running-list))))
@@ -239,26 +239,26 @@ Where MATCHER is usually a string of regex."
     form)
 
 ;;; Utility macros/functions
-  (defmacro pew/swap (a b)
+  (defmacro pew::swap (a b)
     "Swap values in A and B.
 NOTE: A and B must be lvalues."
     `(setq ,a (prog1 ,b (setq ,b ,a))))
 
-  (defun pew/tokey (key)
+  (defun pew::tokey (key)
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
     (if (stringp key) (kbd key) key))
 
-  (defun pew/evenp (num)
+  (defun pew::evenp (num)
     "Determine if NUM is odd."
     (zerop (mod num 2)))
 
-  (defun pew/oddp (num)
+  (defun pew::oddp (num)
     "Determine if NUM is odd."
-    (not (pew/evenp num)))
+    (not (pew::evenp num)))
 
-  (defmacro pew/rotate (list &optional reverse)
+  (defmacro pew::rotate (list &optional reverse)
     "Rotate the LIST by putting the first element to the last.
 If REVERSE is non-nil the do it in a opposite way by putting the last element
 to the first.
@@ -269,7 +269,7 @@ Return a new list or nil if LIST is nil."
           (t
            `(let ((ql:list ,list)) (append (last ql:list) (butlast ql:list))))))
 
-  (defmacro pew/rotate-head (list value &optional next)
+  (defmacro pew::rotate-head (list value &optional next)
     "Rotate LIST and find the matching VALUE.
 When NEXT is non-nil the returned list head will be the following value of the
 matching one (VALUE will be on the tail).
@@ -286,9 +286,9 @@ nil or VALUE is not found."
            (pop ql:cond)))
        (if (not ql:tail) nil
          (setq ql:tail (append ql:tail (butlast ql:list (length ql:tail))))
-         ,(if next '(pew/rotate ql:tail) 'ql:tail))))
+         ,(if next '(pew::rotate ql:tail) 'ql:tail))))
 
-  (defun pew/find-font (&rest args)
+  (defun pew::find-font (&rest args)
     "Return a font object is it's found on the current system.
 ARGS is the same as the ones defined in `font-spec'.
 Return nil if no match."

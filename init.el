@@ -7,50 +7,50 @@
 ;;; Code:
 ;;; Configuration variables.
 ;; These variables can be overridden in the early file.
-(defvar pew/minimal-emacs-version "28.1"
+(defvar pew::minimal-emacs-version "28.1"
   "The minimal Emacs version that PEW supports.")
 
-(defvar pew/mini-init nil
+(defvar pew::mini-init nil
   "When non-nil load PEW with the minimal configuration.")
 
-(defvar pew/home-dir (file-name-directory load-file-name)
+(defvar pew::home-dir (file-name-directory load-file-name)
   "The PEW configuration's home directory.
 Not necessarily to be `user-emacs-directory' since this configuration can be
 loaded from other places.")
 
-(defvar pew/default-org-dir (expand-file-name "my-org-notes" pew/home-dir)
+(defvar pew::default-org-dir (expand-file-name "my-org-notes" pew::home-dir)
   "The default directory to place org note files.
-Default to under `pew/home-dir'.")
+Default to under `pew::home-dir'.")
 
-(defvar pew/default-yasnippet-dir (expand-file-name "yasnippets" pew/home-dir)
+(defvar pew::default-yasnippet-dir (expand-file-name "yasnippets" pew::home-dir)
   "The default directory to place yasnippet files.
-Default to under `pew/home-dir'.")
+Default to under `pew::home-dir'.")
 
-(defvar pew/custom-file (expand-file-name "custom.el" pew/home-dir)
+(defvar pew::custom-file (expand-file-name "custom.el" pew::home-dir)
   "Custom file path.  This is loaded after this init.el.
-Default to under `pew/home-dir'.")
+Default to under `pew::home-dir'.")
 
-(defvar pew/custom-mini-file (expand-file-name "custom-mini.el" pew/home-dir)
+(defvar pew::custom-mini-file (expand-file-name "custom-mini.el" pew::home-dir)
   "Custom file path.  This is loaded after this init.el.
-Default to under `pew/home-dir'.")
+Default to under `pew::home-dir'.")
 
-(defvar pew/early-custom-file (expand-file-name "early-custom.el" pew/home-dir)
+(defvar pew::early-custom-file (expand-file-name "early-custom.el" pew::home-dir)
   "Early custom file path.  This is loaded before this init.el.
-Default to under `pew/home-dir'.")
+Default to under `pew::home-dir'.")
 
 ;;; Load early file
-(load pew/early-custom-file :noerror)
+(load pew::early-custom-file :noerror)
 ;; Configurations from the interactive `customize' interfaces.
-(setq custom-file (if pew/mini-init pew/custom-mini-file pew/custom-file))
+(setq custom-file (if pew::mini-init pew::custom-mini-file pew::custom-file))
 
 ;;; Emacs version check
-(if (version< emacs-version pew/minimal-emacs-version)
-    (error "[pew] Emacs version %s+ is required" pew/minimal-emacs-version))
+(if (version< emacs-version pew::minimal-emacs-version)
+    (error "[pew] Emacs version %s+ is required" pew::minimal-emacs-version))
 
 ;;; Runtime path
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
-(add-to-list 'load-path (expand-file-name "site-lisp" pew/home-dir))
+(add-to-list 'load-path (expand-file-name "lisp" pew::home-dir))
+(add-to-list 'load-path (expand-file-name "site-lisp" pew::home-dir))
 
 ;;; Load required libraries
 (require 'subr-x)
@@ -58,7 +58,7 @@ Default to under `pew/home-dir'.")
 ;;; Module loading
 (cond
 ;;;; Minimal setup
- (pew/mini-init
+ (pew::mini-init
   (message "[pew] Loading minimal init")
   (require 'init-common)
   (require 'init-pewconfig)

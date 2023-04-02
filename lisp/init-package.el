@@ -34,7 +34,7 @@
   (message "[pew] Loading use-package")
   (require 'use-package)
 
-  (defmacro pew/use-package-maybe (name &rest args)
+  (defmacro pew::use-package-maybe (name &rest args)
     "Configure a package but defer loading and don't install automatically.
 This is equivalent to `use-package' but with ':ensure nil' and ':defer t' set.
 Useful when configuring builtin packages or other third party packages in
@@ -42,7 +42,7 @@ a `use-package' form without hacking other's form."
     (declare (indent 1))
     `(use-package ,name :ensure nil :defer t ,@args))
 
-  (defmacro pew/use-package-later (&rest args)
+  (defmacro pew::use-package-later (&rest args)
     "Declare using some packages but defer loading.
 This is equivalent to `use-package' but only with ':defer t' set.
 Useful for some less used packages.

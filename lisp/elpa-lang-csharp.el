@@ -5,10 +5,10 @@
 
 ;;; Code:
 (use-package csharp-mode
-  :hook (csharp-mode . pew/csharp-mode/on-init)
+  :hook (csharp-mode . pew::csharp-mode::on-init)
 
   :config
-  (defun pew/csharp-mode/on-init ()
+  (defun pew::csharp-mode::on-init ()
     "`csharp-mode' initialization."
     (lsp-deferred)))
 

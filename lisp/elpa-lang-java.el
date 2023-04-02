@@ -5,10 +5,10 @@
 
 ;;; Code:
 (use-package lsp-java
-  :hook (java-mode . pew/java-mode/on-init)
+  :hook (java-mode . pew::java-mode::on-init)
 
   :config
-  (defun pew/java-mode/on-init ()
+  (defun pew::java-mode::on-init ()
     "`java-mode' initialization."
     (lsp-deferred)))
 

@@ -29,7 +29,7 @@
   (doom-modeline-mode 1))
 
 ;;; Default looking
-(pew/load-theme 'modus-vivendi)
+(pew::load-theme 'modus-vivendi)
 
 (provide 'elpa-ui)
 ;;; elpa-ui.el ends here

@@ -5,7 +5,7 @@
 ;; not be used in every-day work.
 
 ;;; Code:
-(pew/use-package-later
+(pew::use-package-later
   ;; Nyanyanya!!!
   nyan-mode
   zone-nyan

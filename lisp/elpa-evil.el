@@ -50,7 +50,7 @@
 
 ;;;; Evil keybinding functions
   ;; Key binding function
-  (defun pew/evil/set-key (state map prefix &rest bindings)
+  (defun pew::evil::set-key (state map prefix &rest bindings)
     "Set BINDINGS with PREFIX in MAP for STATE.
 STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
 'emacs, a list of one or more of these, or nil, which means all of the above.
@@ -60,7 +60,7 @@ BINDINGS is a list of the form:
   (KEY DEF KEY DEF ...)
 The arguments will be collected in pairs and passed to `evil-define-key'."
     (declare (indent 3))
-    (if (pew/oddp (length bindings))
+    (if (pew::oddp (length bindings))
         (error "Incomplete keys and definitions"))
     (let ((l:bindings bindings)
           (l:result nil))
@@ -79,7 +79,7 @@ The arguments will be collected in pairs and passed to `evil-define-key'."
 
 ;;;; Evil state setting functions
   ;; Initial state function
-  (defun pew/evil/set-mode-state (&rest states)
+  (defun pew::evil::set-mode-state (&rest states)
     "Set initial STATES for major or minor modes.
 STATES is a list of the form:
   (MODE STATE MODE STATE ...)
@@ -89,7 +89,7 @@ Major mode uses `evil-set-initial-state' which is equivalent to:
 Minor mode uses `add-hook' which is equivalent to:
   (add-hook 'MODE-hook #'evil-STATE-state)"
     (declare (indent 0))
-    (if (pew/oddp (length states))
+    (if (pew::oddp (length states))
         (error "Incomplete modes and states"))
     (let ((l:states states))
       (while l:states
@@ -100,7 +100,7 @@ Minor mode uses `add-hook' which is equivalent to:
                 (t
                  (evil-set-initial-state l:mode l:state)))))))
 
-  (defun pew/evil/set-buffer-state (&rest states)
+  (defun pew::evil::set-buffer-state (&rest states)
     "Set initial STATES for certain buffer names.
 STATES is a list of the form:
   (REG STATE REG STATE ...)
@@ -109,7 +109,7 @@ Equivalent to:
   (push '(REG . STATE) evil-buffer-regexps)
 NOTE: Buffer name patterns takes precedence over the mode based methods."
     (declare (indent 0))
-    (if (pew/oddp (length states))
+    (if (pew::oddp (length states))
         (error "Incomplete patterns and states"))
     ;; Backwards iterating so that the order is consistent with the written list
     (let ((l:states (reverse states)))
@@ -121,35 +121,35 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
 ;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
-  (defun pew/evil/escape-pattern (pattern)
+  (defun pew::evil::escape-pattern (pattern)
     "Escape special characters in PATTERN which is used by evil search."
     (if (zerop (length pattern)) pattern
       ;; `regexp-quote' does not escape /
       (replace-regexp-in-string "/" "\\\\/" (regexp-quote pattern))))
 
-  (defun pew/evil/search-region-text (beg end)
+  (defun pew::evil::search-region-text (beg end)
     "Use evil-search for text in the region from BEG to END."
     ;; Copy region text
     (setq evil-ex-search-pattern
           (evil-ex-make-pattern
-           (pew/evil/escape-pattern (buffer-substring-no-properties beg end))
+           (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
            'sensitive
            t))
     (evil-yank beg end)
     (ignore-error 'search-failed
       (evil-ex-search-next)))
 
-  (defun pew/evil/visual-search-region-text ()
+  (defun pew::evil::visual-search-region-text ()
     "Search the text selected in visual state."
     (interactive)
     (when (evil-visual-state-p)
       (setq evil-ex-search-count 1)
       (setq evil-ex-search-direction 'forward)
-      (when (pew/evil/search-region-text (region-beginning) (region-end))
+      (when (pew::evil::search-region-text (region-beginning) (region-end))
         (evil-ex-search-previous))
       (evil-normal-state)))
 
-  (defun pew/evil/replace-last-search ()
+  (defun pew::evil::replace-last-search ()
     "Replace the last Evil EX search."
     (interactive)
     (if (not evil-ex-search-pattern)
@@ -162,7 +162,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
      (read-string (concat (car evil-ex-search-pattern) " -> "))
      (list ?g ?c)))
 
-  (defun pew/evil/search-word()
+  (defun pew::evil::search-word()
     "Search and highlight the word under cursor but don't jumpt to the next."
     (interactive)
     (evil-ex-search-word-forward)
@@ -172,37 +172,37 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; Evil X settings
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
-  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew/evil/visual-update-x-selection))
+  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
 
 ;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below
-  (pew/evil/set-buffer-state
+  (pew::evil::set-buffer-state
     ;; VC buffers
-    (pew/special-buffer vc) 'emacs
-    (pew/special-buffer magit) 'emacs
-    (pew/special-buffer ediff) 'emacs
+    (pew::special-buffer vc) 'emacs
+    (pew::special-buffer magit) 'emacs
+    (pew::special-buffer ediff) 'emacs
     ;; Shell buffers
-    (pew/special-buffer shell) 'emacs
-    (pew/special-buffer terminal) 'emacs
+    (pew::special-buffer shell) 'emacs
+    (pew::special-buffer terminal) 'emacs
     ;; Buffers in motion
-    (pew/special-buffer help) 'motion
-    (pew/special-buffer message) 'motion
-    (pew/special-buffer backtrace) 'motion
-    (pew/special-buffer warning) 'motion
-    (pew/special-buffer log) 'motion
-    (pew/special-buffer compilation) 'motion
-    (pew/special-buffer output) 'motion
-    (pew/special-buffer command) 'motion
-    (pew/special-buffer man) 'motion
+    (pew::special-buffer help) 'motion
+    (pew::special-buffer message) 'motion
+    (pew::special-buffer backtrace) 'motion
+    (pew::special-buffer warning) 'motion
+    (pew::special-buffer log) 'motion
+    (pew::special-buffer compilation) 'motion
+    (pew::special-buffer output) 'motion
+    (pew::special-buffer command) 'motion
+    (pew::special-buffer man) 'motion
     ;; Buffer in normal
-    (pew/special-buffer scratch) 'normal
-    (pew/special-buffer org-src) 'normal
-    (pew/special-buffer org-export) 'normal
-    (pew/special-buffer edit-indirect) 'normal
+    (pew::special-buffer scratch) 'normal
+    (pew::special-buffer org-src) 'normal
+    (pew::special-buffer org-export) 'normal
+    (pew::special-buffer edit-indirect) 'normal
     ;; Fallback initial state for all special buffers
-    (pew/special-buffer starred) 'emacs)
+    (pew::special-buffer starred) 'emacs)
 
-  (pew/evil/set-mode-state
+  (pew::evil::set-mode-state
     ;; Major modes
     'dired-mode 'emacs
     'image-mode 'emacs
@@ -219,26 +219,26 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;;(evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
   ;; Normal and motion state bindings with leader key
-  (pew/evil/set-key '(normal motion) 'global "<leader>"
+  (pew::evil::set-key '(normal motion) 'global "<leader>"
     ;; Search and substitution
-    "cs" #'pew/evil/replace-last-search)
+    "cs" #'pew::evil::replace-last-search)
 
   ;; Normal and motion state bindings
-  (pew/evil/set-key '(normal motion) 'global nil
+  (pew::evil::set-key '(normal motion) 'global nil
     "SPC" #'pewkey
     "|" #'pewkey-repeat
     ;; Search
     "#" #'evil-ex-nohighlight
-    "*" #'pew/evil/search-word)
+    "*" #'pew::evil::search-word)
 
   ;; Visual state bindings
-  (pew/evil/set-key 'visual 'global nil
+  (pew::evil::set-key 'visual 'global nil
     ;; Search
-    "*" #'pew/evil/visual-search-region-text)
+    "*" #'pew::evil::visual-search-region-text)
 
   ;; Elisp with leader
   (with-eval-after-load 'elisp-mode
-    (pew/evil/set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
+    (pew::evil::set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
       ;; Quick eval
       "eb" #'eval-buffer
       "er" #'eval-region
