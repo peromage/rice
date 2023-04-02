@@ -52,6 +52,9 @@ Default to under `pew/home-dir'.")
 (add-to-list 'load-path (expand-file-name "lisp" pew/home-dir))
 (add-to-list 'load-path (expand-file-name "site-lisp" pew/home-dir))
 
+;;; Load required libraries
+(require 'subr-x)
+
 ;;; Module loading
 (cond
 ;;;; Minimal setup

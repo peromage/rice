@@ -4,7 +4,6 @@
 ;; Code for Pew configurator.
 
 ;;; Code:
-(require 'subr-x)
 ;;; Start eval-and-compile
 (eval-and-compile
 ;;; The list of keywords
