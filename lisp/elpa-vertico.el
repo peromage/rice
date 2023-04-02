@@ -108,7 +108,7 @@ ARGS should be a string of arguments passed to ripgrep."
 
   ;; Toggle auto preview
   ;; The value is (kbd "C-o") see custom `consult-preview-key' below
-  (pewconfig
+  (pewcfg
     :switch
     (consult-preview-key . ("" any)))
 

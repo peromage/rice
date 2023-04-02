@@ -12,7 +12,7 @@
 ;; also prevents writting settings from this file to `custom-file'.
 
 ;;; Code:
-(pewconfig
+(pewcfg
 ;;; Custom
   :custom
 ;;;; Startup

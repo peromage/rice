@@ -61,7 +61,7 @@ Default to under `pew::home-dir'.")
  (pew::mini-init
   (message "[pew] Loading minimal init")
   (require 'init-common)
-  (require 'init-pewconfig)
+  (require 'init-pewcfg)
   (require 'init-defaults))
 
 ;;;; Regular setup
@@ -69,7 +69,7 @@ Default to under `pew::home-dir'.")
   ;; Load init files
   ;; NOTE: The load sequence must be in this order
   (require 'init-common)
-  (require 'init-pewconfig)
+  (require 'init-pewcfg)
   (require 'init-boot)
   (require 'init-defaults)
   (require 'init-package)

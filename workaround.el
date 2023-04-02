@@ -7,7 +7,7 @@
 ;; Can be loaded by `(load (locate-user-emacs-file "workaround.el"))'
 
 ;;; Code:
-(pewconfig
+(pewcfg
   :eval
   (message "[pew] Loading workaround")
   :custom
