@@ -49,16 +49,15 @@ git clone https://github.com/peromage/pew.git ~/pew
 While in the =init.el=,
 
 #+begin_src elisp
-;; (require 'subr-x) ;; needed on Windows
 (load-file "~/pew/init.el")
 #+end_src
 
 ** Local configuration files
 There are two local configuration files which are not tracked by default.
 
-*/custom.el/* (*/custom-mini.el/* if =pew/mini-init= is non-nil): This file contains all the customization set from =customize= interface.  Some settings that wishes not to be tracked can be put here.  This file is loaded at the last.
+/custom.el/ (/custom-mini.el/ if ~pew::mini-init~ is non-nil): This file contains all the customization set from ~customize~ interface.  Some settings that wishes not to be tracked can be put here.  This file is loaded at the last.
 
-*/early-custom.el/*: This file is loaded before any other configurations.  Can be used to override some configuration variables.
+/early-custom.el/: This file is loaded before any other configurations.  Can be used to override some configuration variables.
 
 ** List of files and directories
 
@@ -108,51 +107,78 @@ Examples see [[./lisp/init-defaults.el][init-defaults.el]]
 ** Emacs state key bindings
 To respect Emacs key bindings, I've tried only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
 
-My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey= and =pewkey-repeat=.
+My personal key bindings mostly are bound in ~pewkey-map~. It can be activated by ~pewkey~ and ~pewkey-repeat~.
 
 Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemonic.
 
 | Command                                                    | Prefix        | Definition                                   |
 |------------------------------------------------------------+---------------+----------------------------------------------|
-| ~pewkey~                                                   | ~C-x C-x~     | [[./lisp/init-defaults.el][init-default.el]] |
-| ~pewkey-repeat~                                            | ~C-u C-x C-x~ | [[./lisp/init-defaults.el][init-default.el]] |
-| Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | ~C-c s~       | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | ~C-c b ...~   | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | ~C-c g ...~   | [[./lisp/elpa-git.el][elpa-git.el]]          |
-| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | ~C-c l ...~   | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | ~C-c w~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| Find @@html:<b>@@C@@html:</b>@@haracter by ~avy-goto-char~ | ~C-c f~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | ~C-c j~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| Separate edit by ~separedit~                               | ~C-c '~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| ~pewkey~                                                   | =C-x C-x=     | [[./lisp/init-defaults.el][init-default.el]] |
+| ~pewkey-repeat~                                            | =C-u C-x C-x= | [[./lisp/init-defaults.el][init-default.el]] |
+| Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | =C-c s=       | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | =C-c b ...=   | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | =C-c g ...=   | [[./lisp/elpa-git.el][elpa-git.el]]          |
+| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | =C-c l ...=   | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
+| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | =C-c w=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| Find @@html:<b>@@C@@html:</b>@@haracter by ~avy-goto-char~ | =C-c f=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | =C-c j=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| Separate edit by ~separedit~                               | =C-c '=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
 
 ** Evil mode key bindings
-Evil leader key is bound with ~\~ as a "secondary" leader since most of the bindings are from =pewkey= under ~SPC~ to keep habit consistent.
+Evil leader key is bound with =\= as a "secondary" leader since most of the bindings are from ~pewkey~ under =SPC= to keep habit consistent.
 
 The local leader is not used frequently so I leave it undefined.
 
 | Command         | Key binding (normal and visual state) |
 |-----------------+---------------------------------------|
-| Leader          | ~\~                                   |
+| Leader          | =\=                                   |
 | Local leader    | N/A                                   |
-| ~pewkey~        | ~SPC~                                 |
+| ~pewkey~        | =SPC=                                 |
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
-** Naming Convention
+** Naming convention
 Since Elisp doesn't support namespace, it's a little painful to distinguish symbol names from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
 
-I decided to add some personal tastes but I try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
-
-| Scope                       | Convention                                                    | Example                               |
-|-----------------------------+---------------------------------------------------------------+---------------------------------------|
-| Namespace separator         | ~::~                                                          | ~pew::foo::bar~                       |
-| Variable and function names | Follow ELisp naming convention and prefix namespace if needed | ~pew::some-func~                      |
-| Function parameters         | Same above                                                    | ~(defun foo (one-param another-one))~ |
-| Let bound variables         | Prefix with ~l:~                                              | ~(let ((l:local-bound)))~             |
-| Quoted let bound variables  | Prefix with ~ql:~                                             | ~`(let ((ql:local-bound-in-macro)))~  |
-| Unused variables            | Prefix with ~_~                                               | ~(defun bar (first _ignored))~        |
+I decided to add some personal tastes also try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
 
 Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
+
+Also, worth trying [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][Shorthands]] if the variable prefix is too long.
+
+*** Namespace separator =::=
+I prefer C++ style when it comes to namespace.
+
+For example:
+- ~pew::foo::bar~
+
+*** Variable and function names
+ELisp naming convention should suffice in this case.  Namespace can be prefixed if needed.
+
+For example:
+- ~some-awesome-symbol~
+- ~pew::symbol-with-namespace~
+
+*** Function parameters
+For now it keeps consistent with [[*Variable and function names]].  However, I also consider moving to use Camel style in the future.
+
+For example:
+- ~(defun foo (one-param another-one))~
+- ~(defun bar (OneParam AnotherOne))~ -- maybe
+
+*** Let bound variables =l:= =ql:=
+For the scoped variables, I use =l:= prefix and =ql:= for the variables that are in a quoted list.
+
+For example:
+- ~(let ((l:local-foo "something") (l:local-bar 123)))~
+- ~`(let ((ql:local-foo "something") (ql:local-bar 123)))~
+
+*** Unused variables
+Prefix the unused variables just like Python.
+
+For example:
+- ~(defun foo (take-this _ignored))~
+
 
 ** Format convention
 *** Comments
