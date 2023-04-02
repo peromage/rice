@@ -84,7 +84,7 @@ effective if the map already exists."
           ;; Build the key definition list
           (pewconfig/set-map-inner keymap-symbol
                                    (cdr bindings)
-                                   (cons `(define-key ql:keymap ,(pew/tokey (caar bindings)) ,(cdar bindings))
+                                   (cons `(define-key ql:keymap ,(pew/tokey (caar bindings)) #',(cdar bindings))
                                          running-list))
         ;; Add map variable definition at last and return the list
         (reverse (cons `(defvar ,keymap-symbol ql:keymap "Created by `pewconfig/set-map'.")
@@ -106,7 +106,7 @@ For DEF's definition see `define-key'."
           ;; Build the key definition list
           (pewconfig/set-bind-inner keymap-symbol
                                     (cdr bindings)
-                                    (cons `(define-key ,keymap-symbol ,(pew/tokey (caar bindings)) ,(cdar bindings))
+                                    (cons `(define-key ,keymap-symbol ,(pew/tokey (caar bindings)) #',(cdar bindings))
                                           running-list))
         ;; Return the list
         (reverse running-list))))
