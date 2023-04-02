@@ -39,8 +39,8 @@ Typical usage is as follow:
     ...) "
     (declare (indent 0))
     (named-let pewconfig-inner ((keyword-cons nil)
-                                (running-list '(progn))
-                                (args args))
+                                (args args)
+                                (running-list '(progn)))
       (if (not args)
           ;; Ending
           (reverse running-list)
@@ -49,12 +49,13 @@ Typical usage is as follow:
           (if l:head
               ;; Look up for the next element if the head is a registered cons
               (pewconfig-inner l:head
-                               running-list
-                               (cdr args))
+                               (cdr args)
+                               running-list)
             ;; Otherwise update the list and move to the next element
             (pewconfig-inner keyword-cons
-                             (cons (list (cdr keyword-cons) (car args)) running-list)
-                             (cdr args)))))))
+                             (cdr args)
+                             (cons (list (cdr keyword-cons) (car args))
+                                   running-list)))))))
 
 ;;; :custom
   (defmacro pewconfig/set-custom (form)
