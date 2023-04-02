@@ -176,6 +176,11 @@ specified side.  If SIDE is nil it means check all sides."
   "Return t if WINDOW is a normal window."
   (not (pew::side-window-p window)))
 
+(defun pew::last-normal-window-p (window)
+  "Return t if WINDOW is the last normal window."
+  (and (pew::normal-window-p window)
+       (= 1 (length (pew::list-normal-windows)))))
+
 (defun pew::list-side-windows ()
   "Return a list of side windows."
   (seq-filter
@@ -188,17 +193,18 @@ specified side.  If SIDE is nil it means check all sides."
    (lambda (x) (pew::normal-window-p x))
    (window-list)))
 
-(defun pew::pop-window-in-new-tab ()
-  "Pop current window into a new tab.
-Side window can also be poped."
-  (interactive)
-  (tab-bar-new-tab)
-  (if (pew::side-window-p (selected-window))
-      ;; Side window cannot be maximized so pick a normal window and switch to it
-      (let ((l:current-buffer (current-buffer)))
-        (select-window (car (pew::list-normal-windows)))
-        (switch-to-buffer l:current-buffer)))
-  (delete-other-windows))
+(defun pew::pop-window-in-new-tab (arg)
+  "Pop the current window into a new tab.
+If prefix ARG is presented, pop the window without deleting it from the original
+place."
+  (interactive "P")
+  (let ((l:current-buffer (current-buffer)))
+    (if (and (null arg) (not (pew::last-normal-window-p (selected-window))))
+        (delete-window))
+    (tab-bar-new-tab) ;; Duplicate current layout
+    (select-window (car (pew::list-normal-windows)))
+    (switch-to-buffer l:current-buffer)
+    (delete-other-windows)))
 
 (defun pew::next-window ()
   "Switch to the next window."
@@ -213,9 +219,9 @@ Side window can also be poped."
 (defun pew::close-window ()
   "Close the current window, or the tab if it is the last normal window."
   (interactive)
-  ;; If there is only one normal window left and side windows exist, close the tab
-  (if (and (pew::normal-window-p (selected-window))
-           (equal 1 (length (pew::list-normal-windows))))
+  (if (pew::last-normal-window-p (selected-window))
+      ;; If there is only one normal window left, close the tab, regardless even
+      ;; side windows exist
       (tab-bar-close-tab)
     (delete-window)))
 
