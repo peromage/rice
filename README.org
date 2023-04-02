@@ -87,19 +87,20 @@ Package management uses built-in =package.el= and helper macro [[https://github.
 
 For =use-package=, =use-package-always-ensure= is enabled so packages will be installed automatically.
 
-** pewconfig
+** pewcfg
 I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
 
 | Keyword      | Description                                                           |
 |--------------+-----------------------------------------------------------------------|
 | ~:custom~    | Set variable values that can be configured with custom interface.     |
-| ~:map~       | Set key bindings in a map.                                            |
-| ~:bind~      | Set key bindings.                                                     |
+| ~:map~       | Set key bindings in a new map.                                        |
+| ~:bind~      | Set key bindings in an existing map.                                  |
 | ~:transient~ | Similar with :map but also define a command to trigger transient map. |
 | ~:switch~    | Define a command to toggle variable values.                           |
 | ~:face~      | Set face attributes.                                                  |
 | ~:property~  | Set variable properties.                                              |
 | ~:hook~      | Set hook functions.                                                   |
+| ~:automode~  | Set auto mode triggers.                                               |
 | ~:eval~      | Evaluate forms.                                                       |
 
 Examples see [[./lisp/init-defaults.el][init-defaults.el]]
@@ -125,14 +126,15 @@ Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemoni
 | Separate edit by ~separedit~                               | ~C-c '~       | [[./lisp/elpa-editing.el][elpa-editing.el]]  |
 
 ** Evil mode key bindings
-Evil leader key is bound with ~DEL~ and local leader key with ~\~.  Most of bindings is the same with =pewkey=.
+Evil leader key is bound with ~\~ as a "secondary" leader since most of the bindings are from =pewkey= under ~SPC~ to keep habit consistent.
+
+The local leader is not used frequently so I leave it undefined.
 
 | Command         | Key binding (normal and visual state) |
 |-----------------+---------------------------------------|
-| Leader          | ~DEL~                                 |
-| Local leader    | ~\~                                   |
+| Leader          | ~\~                                   |
+| Local leader    | N/A                                   |
 | ~pewkey~        | ~SPC~                                 |
-| ~pewkey-repeat~ | ~RET~                                 |
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
@@ -143,8 +145,8 @@ I decided to add some personal tastes but I try to keep it simple. Complicated r
 
 | Scope                       | Convention                                                    | Example                               |
 |-----------------------------+---------------------------------------------------------------+---------------------------------------|
-| Namespace separator         | ~/~                                                           | ~pew/foo/bar~                         |
-| Variable and function names | Follow ELisp naming convention and prefix namespace if needed | ~pew/some-func~                       |
+| Namespace separator         | ~::~                                                          | ~pew::foo::bar~                       |
+| Variable and function names | Follow ELisp naming convention and prefix namespace if needed | ~pew::some-func~                      |
 | Function parameters         | Same above                                                    | ~(defun foo (one-param another-one))~ |
 | Let bound variables         | Prefix with ~l:~                                              | ~(let ((l:local-bound)))~             |
 | Quoted let bound variables  | Prefix with ~ql:~                                             | ~`(let ((ql:local-bound-in-macro)))~  |
