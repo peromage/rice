@@ -226,7 +226,6 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; Normal and motion state bindings
   (pew::evil::set-key '(normal motion) 'global nil
     "SPC" #'pewkey
-    "|" #'pewkey-repeat
     ;; Search
     "#" #'evil-ex-nohighlight
     "*" #'pew::evil::search-word)
