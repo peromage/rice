@@ -196,11 +196,25 @@ See `set-face-attribute'."
 
 ;;; :property
   (defmacro pewconfig/set-property (form)
-    "Set symbol's property.
+    "Set symbol's properties.
 FORM is of the form:
-  (SYM PROP VAL)"
+  (SYM PROPS)
+Where SYM is the name of the symbol and PROPS is an alist whose element is of
+the form:
+  (PROP . VAL)
+PROP is the symbol of the property and VAL is the value to set with. "
     (declare (indent 0))
-    `(put ',(nth 0 form) ',(nth 1 form) ,(nth 2 form)))
+    (named-let pewconfig/set-property-inner ((l:symbol (car form))
+                                             (l:props (cdr form))
+                                             (l:running-list '(progn)))
+      (if l:props
+          ;; Build the property definition list
+          (pewconfig/set-property-inner l:symbol
+                                        (cdr l:props)
+                                        (cons `(put ',l:symbol ',(caar l:props) ,(cdar l:props))
+                                              l:running-list))
+        ;; Return the list
+        (reverse l:running-list))))
 
 ;;; :hook
   (defmacro pewconfig/set-hook (form)

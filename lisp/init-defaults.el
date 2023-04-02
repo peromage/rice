@@ -384,12 +384,23 @@
 ;;; Symbol properties
   :property
   ;; Enable commands that are disabled by default
-  (scroll-left disabled nil)
-  (list-threads disabled nil)
-  (list-timers disabled nil)
-  (dired-find-alternate-file disabled nil)
-  (upcase-region disabled nil)
-  (downcase-region disabled nil)
+  (scroll-left
+   (disabled . nil))
+
+  (list-threads
+   (disabled . nil))
+
+  (list-timers
+   (disabled . nil))
+
+  (dired-find-alternate-file
+   (disabled . nil))
+
+  (upcase-region
+   (disabled . nil))
+
+  (downcase-region
+   (disabled . nil))
 
 ;;; Face settings
   :face
