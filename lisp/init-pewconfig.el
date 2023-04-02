@@ -191,17 +191,12 @@ FORM is of the form:
 Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
 See `set-face-attribute'."
     (declare (indent 0))
-    (let ((l:face (car form))
-          (l:args (cdr form))
-          (l:props nil))
-      (while l:args
-        (push (pop l:args) l:props)
-        ;; Quote symbols
-        (push (if (symbolp (car l:args))
-                  (list 'quote (pop l:args))
-                (pop l:args))
-              l:props))
-      `(set-face-attribute ',l:face nil ,@(reverse l:props))))
+    `(set-face-attribute ',(car form)
+                         nil
+                         ,@(mapcar (lambda (x) (cond ((keywordp x) x)
+                                                     ((symbolp x) (list 'quote x))
+                                                     (t x)))
+                                   (cdr form))))
 
 ;;; :property
   (defmacro pewconfig/set-property (form)
@@ -218,9 +213,7 @@ FORM is a cons:
   (HOOK . FUNC)
 Where HOOK implies suffix '-hook'."
     (declare (indent 0))
-    (let ((l:hook (intern (format "%s-hook" (car form))))
-          (l:func (cdr form)))
-      `(add-hook ',l:hook #',l:func)))
+      `(add-hook ',(intern (format "%s-hook" (car form))) #',(cdr form)))
 
 ;;; :automode
   (defmacro pewconfig/set-automode (form)
