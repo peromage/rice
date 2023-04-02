@@ -263,6 +263,12 @@ Side window can also be poped."
       (dolist (l:theme (cdr custom-enabled-themes))
         (disable-theme l:theme))))
 
+(defun pew::find-font (&rest args)
+  "Return a font object is it's found on the current system.
+ARGS is the same as the ones defined in `font-spec'.
+Return nil if no match."
+  (find-font (apply 'font-spec args)))
+
 ;;; Frames
 (defvar pew::frame-opacity-adjust-step 10
   "The amount of opacity changed each time.
@@ -355,7 +361,14 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
     (insert-file-contents path)
     (split-string (buffer-string) "\n" t)))
 
-(provide 'init-common)
+;;; Number functions
+(defun pew::evenp (num)
+  "Determine if NUM is odd."
+  (zerop (mod num 2)))
+
+(defun pew::oddp (num)
+  "Determine if NUM is odd."
+  (not (pew::evenp num)))
 
 ;;; Data functions
 (defun pew::gethash (table &rest keys)
@@ -367,4 +380,40 @@ Especially useful when accessing a JSON object."
       (gethash (car keys) table)
     (apply #'pew::gethash (gethash (car keys) table) (cdr keys))))
 
+(defmacro pew::swap (a b)
+  "Swap values in A and B.
+NOTE: A and B must be lvalues."
+  `(setq ,a (prog1 ,b (setq ,b ,a))))
+
+(defmacro pew::rotate (list &optional reverse)
+  "Rotate the LIST by putting the first element to the last.
+If REVERSE is non-nil the do it in a opposite way by putting the last element
+to the first.
+Return a new list or nil if LIST is nil."
+  (cond ((not list) nil)
+        ((not reverse)
+         `(let ((ql:list ,list)) (append (cdr ql:list) (cons (car ql:list) nil))))
+        (t
+         `(let ((ql:list ,list)) (append (last ql:list) (butlast ql:list))))))
+
+(defmacro pew::rotate-head (list value &optional next)
+  "Rotate LIST and find the matching VALUE.
+When NEXT is non-nil the returned list head will be the following value of the
+matching one (VALUE will be on the tail).
+Return a new list with VALUE is the first element.  Or nil when either LIST is
+nil or VALUE is not found."
+  `(let* ((ql:list ,list)
+          (ql:cond ql:list)
+          (ql:value ,value)
+          (ql:tail nil))
+     (while ql:cond
+       (if (equal ql:value (car ql:cond))
+           (setq ql:tail ql:cond
+                 ql:cond nil)
+         (pop ql:cond)))
+     (if (not ql:tail) nil
+       (setq ql:tail (append ql:tail (butlast ql:list (length ql:tail))))
+       ,(if next '(pew::rotate ql:tail) 'ql:tail))))
+
+(provide 'init-common)
 ;;; init-common.el ends here
