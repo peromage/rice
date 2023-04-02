@@ -9,7 +9,8 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
 
-  :bind (:map lsp-mode-map
+  :bind (:map
+         lsp-mode-map
          ([remap xref-find-definitions] . lsp-find-definition)
          ([remap xref-find-references] . lsp-find-declaration))
 
@@ -75,7 +76,8 @@ MODES is a list of major mode symbols."
 (use-package lsp-ui
   :commands lsp-ui-mode
 
-  :bind (:map lsp-ui-mode-map
+  :bind (:map
+         lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
          ;; Same prefix with lsp-mode-map

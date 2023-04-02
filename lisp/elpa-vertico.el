@@ -9,7 +9,8 @@
 (use-package vertico
   :demand t
 
-  :bind (:map vertico-map
+  :bind (:map
+         vertico-map
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
          ("M-DEL" . vertico-directory-delete-word)
@@ -127,7 +128,8 @@ ARGS should be a string of arguments passed to ripgrep."
   :demand t
   :after vertico
 
-  :bind (:map vertico-map
+  :bind (:map
+         vertico-map
          ("M-q q" . marginalia-cycle))
 
   :config

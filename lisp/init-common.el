@@ -273,8 +273,8 @@ Used by `pew::increase-frame-opacity'and `pew::decrease-frame-opacity'.")
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
   (let ((l:value (cond ((> val 100) 100)
-                      ((< val 0) 0)
-                      (t val))))
+                       ((< val 0) 0)
+                       (t val))))
     (message "Set Frame opacity: %d%%" l:value)
     (set-frame-parameter (selected-frame) 'alpha (cons l:value l:value))))
 
@@ -282,13 +282,13 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   "Increase frame opacity."
   (interactive)
   (pew::set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                            pew::frame-opacity-adjust-step)))
+                             pew::frame-opacity-adjust-step)))
 
 (defun pew::decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
   (pew::set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                            pew::frame-opacity-adjust-step)))
+                             pew::frame-opacity-adjust-step)))
 
 ;;; Dired
 (defun pew::dired-go-to ()
