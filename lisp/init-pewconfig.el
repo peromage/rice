@@ -38,24 +38,24 @@ Typical usage is as follow:
       (\"C-x C-d\" . dired-jump))
     ...) "
     (declare (indent 0))
-    (named-let pewconfig-inner ((keyword-cons nil)
-                                (args args)
-                                (running-list '(progn)))
-      (if (not args)
+    (named-let pewconfig-inner ((l:keyword-cons nil)
+                                (l:args args)
+                                (l:running-list '(progn)))
+      (if (not l:args)
           ;; Ending
-          (reverse running-list)
+          (reverse l:running-list)
         ;; Otherwise keep processing the elements
-        (let ((l:head (assq (car args) pewconfig/keywords)))
+        (let ((l:head (assq (car l:args) pewconfig/keywords)))
           (if l:head
               ;; Look up for the next element if the head is a registered cons
               (pewconfig-inner l:head
-                               (cdr args)
-                               running-list)
+                               (cdr l:args)
+                               l:running-list)
             ;; Otherwise update the list and move to the next element
-            (pewconfig-inner keyword-cons
-                             (cdr args)
-                             (cons (list (cdr keyword-cons) (car args))
-                                   running-list)))))))
+            (pewconfig-inner l:keyword-cons
+                             (cdr l:args)
+                             (cons (list (cdr l:keyword-cons) (car l:args))
+                                   l:running-list)))))))
 
 ;;; :custom
   (defmacro pewconfig/set-custom (form)
@@ -77,18 +77,18 @@ For DEF's definition see `define-key'.
 NOTE: Unlike `pewconfig/set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
-    (named-let pewconfig/set-map-inner ((keymap-symbol (intern (format "%s-map" (car form))))
-                                        (bindings (cdr form))
-                                        (running-list (reverse '(let ((ql:keymap (make-sparse-keymap)))))))
-      (if bindings
+    (named-let pewconfig/set-map-inner ((l:keymap-symbol (intern (format "%s-map" (car form))))
+                                        (l:bindings (cdr form))
+                                        (l:running-list (reverse '(let ((ql:keymap (make-sparse-keymap)))))))
+      (if l:bindings
           ;; Build the key definition list
-          (pewconfig/set-map-inner keymap-symbol
-                                   (cdr bindings)
-                                   (cons `(define-key ql:keymap ,(pew/tokey (caar bindings)) #',(cdar bindings))
-                                         running-list))
+          (pewconfig/set-map-inner l:keymap-symbol
+                                   (cdr l:bindings)
+                                   (cons `(define-key ql:keymap ,(pew/tokey (caar l:bindings)) #',(cdar l:bindings))
+                                         l:running-list))
         ;; Add map variable definition at last and return the list
-        (reverse (cons `(defvar ,keymap-symbol ql:keymap "Created by `pewconfig/set-map'.")
-                       running-list)))))
+        (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Created by `pewconfig/set-map'.")
+                       l:running-list)))))
 
 ;;; :bind
   (defmacro pewconfig/set-bind (form)
@@ -99,17 +99,17 @@ Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'."
     (declare (indent 0))
-    (named-let pewconfig/set-bind-inner ((keymap-symbol (intern (format "%s-map" (car form))))
-                                         (bindings (cdr form))
-                                         (running-list '(progn)))
-      (if bindings
+    (named-let pewconfig/set-bind-inner ((l:keymap-symbol (intern (format "%s-map" (car form))))
+                                         (l:bindings (cdr form))
+                                         (l:running-list '(progn)))
+      (if l:bindings
           ;; Build the key definition list
-          (pewconfig/set-bind-inner keymap-symbol
-                                    (cdr bindings)
-                                    (cons `(define-key ,keymap-symbol ,(pew/tokey (caar bindings)) #',(cdar bindings))
-                                          running-list))
+          (pewconfig/set-bind-inner l:keymap-symbol
+                                    (cdr l:bindings)
+                                    (cons `(define-key ,l:keymap-symbol ,(pew/tokey (caar l:bindings)) #',(cdar l:bindings))
+                                          l:running-list))
         ;; Return the list
-        (reverse running-list))))
+        (reverse l:running-list))))
 
 ;;; :transient
   (defmacro pewconfig/set-transient (form)
