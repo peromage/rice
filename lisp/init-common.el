@@ -167,21 +167,25 @@ Use `pew::hidden-buffer-p' to filter buffers."
   (window-parameter window 'window-side))
 
 (defun pew::side-window-exists-p (&optional side)
-  "Return the first side window if there are otherwise nil.
+  "Return the first side window if there is any, otherwise nil.
 If SIDE is given and is one of 'top' 'bottom' 'left' and 'right', check for that
 specified side.  If SIDE is nil it means check all sides."
   (window-with-parameter 'window-side side))
 
-(defun pew::window-list-side ()
+(defun pew::normal-window-p (window)
+  "Return t if WINDOW is a normal window."
+  (not (pew::side-window-p window)))
+
+(defun pew::list-side-windows ()
   "Return a list of side windows."
   (seq-filter
    (lambda (x) (pew::side-window-p x))
    (window-list)))
 
-(defun pew::window-list-normal ()
+(defun pew::list-normal-windows ()
   "Return a list of normal (non-side) windows."
   (seq-filter
-   (lambda (x) (not (pew::side-window-p x)))
+   (lambda (x) (pew::normal-window-p x))
    (window-list)))
 
 (defun pew::pop-window-in-new-tab ()
@@ -192,7 +196,7 @@ Side window can also be poped."
   (if (pew::side-window-p (selected-window))
       ;; Side window cannot be maximized so pick a normal window and switch to it
       (let ((l:current-buffer (current-buffer)))
-        (select-window (car (pew::window-list-normal)))
+        (select-window (car (pew::list-normal-windows)))
         (switch-to-buffer l:current-buffer)))
   (delete-other-windows))
 
@@ -207,11 +211,11 @@ Side window can also be poped."
   (other-window -1))
 
 (defun pew::close-window ()
-  "Close window and the tab if there is only one window left."
+  "Close the current window, or the tab if it is the last normal window."
   (interactive)
   ;; If there is only one normal window left and side windows exist, close the tab
-  (if (and (not (pew::side-window-p (selected-window)))
-           (equal 1 (length (pew::window-list-normal))))
+  (if (and (pew::normal-window-p (selected-window))
+           (equal 1 (length (pew::list-normal-windows))))
       (tab-bar-close-tab)
     (delete-window)))
 
