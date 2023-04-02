@@ -109,7 +109,7 @@ ARGS should be a string of arguments passed to ripgrep."
   ;; The value is (kbd "C-o") see custom `consult-preview-key' below
   (pewconfig
     :switch
-    (consult-preview-key '("" any)))
+    (consult-preview-key . ("" any)))
 
   ;; Completion in region replacement
   (defun pew/consult/completion-in-region (&rest args)

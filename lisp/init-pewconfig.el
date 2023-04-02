@@ -113,7 +113,7 @@ For DEF's definition see `define-key'."
 
 ;;; :transient
   (defmacro pewconfig/set-transient (form)
-    "Create a command that enters transient mode when invoked.
+    "Create an interactive command that enters transient mode when invoked.
 FORM is of the form:
   (CMD BINDINGS)
 Where CMD is the name of the command and BINDINGS is an alist whose element is:
@@ -151,37 +151,33 @@ until `C-g' is pressed."
 
 ;;; :switch
   (defmacro pewconfig/set-switch (form)
-    "Create a command to switch variable between values.
+    "Create an interactive command to switch variable from a list of values.
 FORM is of the form:
-  (VAR VAL)
+  (VAR . VAL)
 Where VAL can be nil or a list.  If VAL is nil then VAR will be switched between
-non-nil and nil each time the command is called, otherwise cycle values from the
+nil and t each time the command is called, otherwise cycle values from the given
 list.
-The created command will be 'switch/VAR'."
+A new command 'switch/VAR' will be created as well as a variable with the same
+name which stores the list of possible values."
     (declare (indent 0))
-    (let* ((l:var (car form))
-           (l:val (cadr form))
-           (l:switch (intern (format "switch/%s" l:var))))
-      (if (not l:val)
-          ;; On-off switch
-          `(defun ,l:switch ()
-             ,(format "Switch variable `%s' between non-nil and nil.
-Created by `pewconfig/set-switch'." l:var)
-             (interactive)
-             (setq ,l:var (not ,l:var))
-             (message "%s: %s" ',l:var (if ,l:var "enabled" "disabled")))
-        ;; Rotate switch
-        `(defun ,l:switch ()
-           ,(format "Switch variable `%s' in the following values
-  %S
-Created by `pewconfig/set-switch'." l:var l:val)
+    (let ((l:switch-symbol (intern (format "switch/%s" (car form))))
+          (l:switch-values (if (cdr form) (cons -1 (cdr form)) (cons -1 '(nil t))))
+          (l:switch-var (car form)))
+      `(progn
+         (defvar ,l:switch-symbol ',l:switch-values
+           ,(format  "A list of values used by `%s' command.
+The first element is the index which points to the value in the second list
+element.  It increments each time the command is call and reset to 0 when
+it reaches to the end." l:switch-symbol))
+         (defun ,l:switch-symbol ()
+           ,(format "Switch the value of variable `%s'.
+The values are read from the list `%s'." l:switch-var l:switch-symbol)
            (interactive)
-           (let* ((ql:list ,l:val)
-                  (ql:match (pew/rotate-head ql:list ,l:var 'next)))
-             (if ql:match (setq ,l:var (car ql:match))
-               ;; Reset the variable if no match
-               (setq ,l:var (car ql:list)))
-             (message "%s: %s" ',l:var ,l:var))))))
+           (setq ,l:switch-var (nth (setcar ,l:switch-symbol
+                                            (mod (1+ (car ,l:switch-symbol))
+                                                 (length (cdr ,l:switch-symbol))))
+                                    (cdr ,l:switch-symbol)))
+           (message "Set %s: %s" ',l:switch-var ,l:switch-var)))))
 
 ;;; :face
   (defmacro pewconfig/set-face (form)
@@ -213,7 +209,7 @@ FORM is a cons:
   (HOOK . FUNC)
 Where HOOK implies suffix '-hook'."
     (declare (indent 0))
-      `(add-hook ',(intern (format "%s-hook" (car form))) #',(cdr form)))
+    `(add-hook ',(intern (format "%s-hook" (car form))) #',(cdr form)))
 
 ;;; :automode
   (defmacro pewconfig/set-automode (form)
@@ -262,7 +258,7 @@ Return a new list or nil if LIST is nil."
 
   (defmacro pew/rotate-head (list value &optional next)
     "Rotate LIST and find the matching VALUE.
-When NEXT is non-nil the returned list head will be the followed value of the
+When NEXT is non-nil the returned list head will be the following value of the
 matching one (VALUE will be on the tail).
 Return a new list with VALUE is the first element.  Or nil when either LIST is
 nil or VALUE is not found."

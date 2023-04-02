@@ -256,7 +256,7 @@
   (show-trailing-whitespace)
   (line-move-visual)
   (debug-on-error)
-  (display-line-numbers '(nil absolute relative visual))
+  (display-line-numbers . (nil absolute relative visual))
 
 ;;; Transient keybindings
   :transient
