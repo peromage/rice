@@ -128,27 +128,24 @@ NOTE: Discouraged `repeat-map' property method in Emacs 28 since it didn't work
 well for some reason.  If `repeat-map' needs to be enabled, do:
   (put cmd 'repeat-map map-symbol)"
     (declare (indent 0))
-    (let* ((l:cmd (car form))
-           (l:cmd-repeat (intern (format "%s-repeat" l:cmd)))
-           (l:cmd-doc-string "Created by `pewconfig/set-transient'"))
-      `(let ((ql:map (symbol-value (pewconfig/set-map ,form))))
+    (let ((l:cmd (intern (format "%s" (car form))))
+          (l:cmd-repeat (intern (format "%s-repeat" (car form)))))
+      `(let ((ql:keymap (symbol-value (pewconfig/set-map ,form))))
          (defun ,l:cmd (arg)
            "Temporarily activate a transient map.
 Normally, when a key binding is invoked in the transient map, it will end and
 return the previous key map.
 ARG is a prefix argument.  If it is given, the transient map will keep activated
-until `C-g' is pressed.
-Created by `pewconfig/set-transient'."
+until `C-g' is pressed."
            (interactive "P")
            (cond (arg
                   (message "%s activated in repeat mode" ',l:cmd)
-                  (set-transient-map ql:map t))
+                  (set-transient-map ql:keymap t))
                  (t
                   (message "%s activated" ',l:cmd)
-                  (set-transient-map ql:map nil))))
+                  (set-transient-map ql:keymap nil))))
          (defun ,l:cmd-repeat ()
-           "Temporarily activate a transient map in repeat mode.
-Created by `pewconfig/set-transient'."
+           "Temporarily activate a transient map in repeat mode."
            (interactive)
            (,l:cmd :repeat)))))
 
