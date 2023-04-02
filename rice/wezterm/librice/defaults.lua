@@ -25,10 +25,10 @@ return ricemeta:rice_bind({
 --- Appearance
     initial_cols = 100,
     initial_rows = 20,
-    window_decorations = "RESIZE",
+    window_decorations = "TITLE | RESIZE",
     enable_tab_bar = true,
     use_fancy_tab_bar = true,
-    hide_tab_bar_if_only_one_tab = false,
+    hide_tab_bar_if_only_one_tab = true,
     tab_max_width = 16,
     enable_scroll_bar = true,
     min_scroll_bar_height = "1cell",
