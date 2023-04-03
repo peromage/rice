@@ -267,6 +267,7 @@
    ("2" . split-window-below)
    ("3" . split-window-right)
    ("9" . window-toggle-side-windows)
+   ("0" . pew::close-window)
    ("o" . pew::next-window)
    ("O" . pew::prev-window)
    ("h" . windmove-left)
