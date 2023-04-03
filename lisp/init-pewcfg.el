@@ -86,7 +86,7 @@ effective if the map already exists."
                                  (cons `(define-key ql:keymap ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
                                        l:running-list))
         ;; Add map variable definition at last and return the list
-        (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Created by `pewcfg::set-map'.")
+        (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Custom keymap.")
                        l:running-list)))))
 
 ;;; :bind
@@ -96,7 +96,9 @@ FORM is of the form:
   (MAP BINDINGS)
 Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
   (KEY . DEF)
-For DEF's definition see `define-key'."
+For DEF's definition see `define-key'.
+NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It set key
+bindings in a existing map instead."
     (declare (indent 0))
     (named-let pewcfg::set-bind-inner ((l:keymap-symbol (intern (format "%s-map" (car form))))
                                        (l:bindings (cdr form))
