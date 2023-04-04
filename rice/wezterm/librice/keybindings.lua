@@ -50,16 +50,16 @@ local rice_transient_mode_table = ricemeta:rice_bind({
     { mods = "NONE",  key = "p",       action = act.SwitchWorkspaceRelative(-1) },
 
     -- Keys that are used repeatedly most of the time
-    { mods = "ALT",   key = "=",       action = act.EmitEvent "rice-increase-opacity" },
-    { mods = "ALT",   key = "-",       action = act.EmitEvent "rice-decrease-opacity" },
-    { mods = "CTRL",  key = "0",       action = act.ResetFontSize },
-    { mods = "CTRL",  key = "=",       action = act.IncreaseFontSize },
-    { mods = "CTRL",  key = "-",       action = act.DecreaseFontSize },
-    { mods = "CTRL",  key = "h",       action = act.AdjustPaneSize{ "Left",   1}},
-    { mods = "CTRL",  key = "j",       action = act.AdjustPaneSize{ "Down",   1}},
-    { mods = "CTRL",  key = "k",       action = act.AdjustPaneSize{ "Up",     1}},
-    { mods = "CTRL",  key = "l",       action = act.AdjustPaneSize{ "Right",  1}},
-    { mods = "CTRL",  key = "o",       action = act.RotatePanes "Clockwise" },
+    { mods = "ALT",   key = "=",           action = act.EmitEvent "rice-increase-opacity" },
+    { mods = "ALT",   key = "-",           action = act.EmitEvent "rice-decrease-opacity" },
+    { mods = "CTRL",  key = "0",           action = act.ResetFontSize },
+    { mods = "CTRL",  key = "=",           action = act.IncreaseFontSize },
+    { mods = "CTRL",  key = "-",           action = act.DecreaseFontSize },
+    { mods = "CTRL",  key = "LeftArrow",   action = act.AdjustPaneSize{ "Left",  1}},
+    { mods = "CTRL",  key = "DownArrow",   action = act.AdjustPaneSize{ "Down",  1}},
+    { mods = "CTRL",  key = "UpArrow",     action = act.AdjustPaneSize{ "Up",    1}},
+    { mods = "CTRL",  key = "RightArrow",  action = act.AdjustPaneSize{ "Right", 1}},
+    { mods = "CTRL",  key = "o",           action = act.RotatePanes "Clockwise" },
 })
 
 --- Copy mode
