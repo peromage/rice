@@ -425,14 +425,14 @@ nil or VALUE is not found."
        (setq ql:tail (append ql:tail (butlast ql:list (length ql:tail))))
        ,(if next '(pew::rotate ql:tail) 'ql:tail))))
 
-(defun pew::read-data-from-file (file)
+(defun pew::load-data-file (file)
   "Read the FILE and return a Lisp data object.
 Only the first list will be read."
   (read (with-temp-buffer
           (insert-file-contents file)
           (buffer-string))))
 
-(defun pew::save-data-to-file (file obj)
+(defun pew::save-data-file (file obj)
   "Save a Lisp data OBJ to the FILE.
 Existing content will be overwritten."
   (with-temp-file file
