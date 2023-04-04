@@ -9,11 +9,17 @@
 
  ;; Note taking
  ("n" "New note" plain
-  (function (lambda () (find-file
-                        (expand-file-name
-                         (format "notes/%s-%s.org"
-                                 (format-time-string "%Y%m%d%H%M")
-                                 (read-string "topic: "))
-                         org-directory))))
-  "%?"
+  (function (lambda ()
+              (let* ((default-directory (expand-file-name "notes" org-directory))
+                     (l:prefix (format "%s-" (format-time-string "%Y%m%d%H%M")))
+                     (l:suffix ".org")
+                     (l:name (read-string "Enter name: " l:prefix)))
+                (if (not (string-match-p "\\.org$" l:name))
+                    (setq l:name (concat l:name l:suffix)))
+                (kill-new (string-trim l:name l:prefix l:suffix))
+                (find-file l:name))))
+  "#+title: %c
+#+data: %T
+
+%?"
   :kill-buffer t))
