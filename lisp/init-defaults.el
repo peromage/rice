@@ -261,6 +261,9 @@
 ;;; Transient keybindings
   :transient
   (pewkey
+;;;; Take prefix
+   ("C-u" . universal-argument)
+
 ;;;; Windows
    ("q" . pew::close-window)
    ("1" . delete-other-windows)
@@ -274,10 +277,10 @@
    ("j" . windmove-down)
    ("k" . windmove-up)
    ("l" . windmove-right)
-   ("C-h" . shrink-window-horizontally)
-   ("C-j" . shrink-window)
-   ("C-k" . enlarge-window)
-   ("C-l" . enlarge-window-horizontally)
+   ("C-<left>"  . shrink-window-horizontally)
+   ("C-<down>"  . shrink-window)
+   ("C-<up>"    . enlarge-window)
+   ("C-<right>" . enlarge-window-horizontally)
 
 ;;;; Layout
    ("y" . winner-undo)
@@ -311,12 +314,12 @@
 
 ;;;; Jump
    ("C-o" . pop-global-mark)
-   ("." . xref-find-definitions)
-   ("?" . xref-find-references)
-   ("'" . xref-find-apropos)
+   ("."   . xref-find-definitions)
+   ("?"   . xref-find-references)
+   ("'"   . xref-find-apropos)
    ("C-x" . exchange-point-and-mark)
-   ("x" . set-mark-command)
-   ("X" . rectangle-mark-mode)
+   ("x"   . set-mark-command)
+   ("X"   . rectangle-mark-mode)
 
 ;;;; Edit
    ("u" . undo)
@@ -336,7 +339,8 @@
 
 ;;;; Frame Transparency
    ("M-=" . pew::increase-frame-opacity)
-   ("M--" . pew::decrease-frame-opacity))
+   ("M--" . pew::decrease-frame-opacity)
+   ("N"   . make-frame-command))
 
 ;;; Mode keybindings
   :bind
