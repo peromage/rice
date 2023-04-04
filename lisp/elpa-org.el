@@ -79,7 +79,7 @@
   (org-directory pew::default-org-dir)
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
   ;; Take every org files under `org-directory'
-  (org-agenda-files (list org-directory))
+  (org-agenda-files (list (expand-file-name "agenda.org" org-directory)))
   ;; Templates
   (org-capture-templates (pew::load-data-file (expand-file-name "capture.eld" pew::org-template-dir)))
 
