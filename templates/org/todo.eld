@@ -1,9 +1,11 @@
 ;;; -*- coding: utf-8; mode: lisp-data; -*-
 
 (;; General
- (sequence "TODO(t)" "PROGRESSING(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+ (sequence "TODO(t)" "IN-PROGRESS(p)"
+           "|"
+           "DONE(d!/!)" "ABORT(c@/@)")
 
  ;; Jira style
- (sequence "ANALYSIS(!)" "DEVELOPMENT(!)" "INTEGRATION(!)" "HOLD(!)" "CP(!)"
+ (sequence "ANALYSIS(!/!)" "DEVELOPING(!/!)" "INTEGRATING(!/!)" "VERIFYING(!/!)"
            "|"
-           "FIXED(!/!)" "DUPLICATE(!/!)" "INVALID(!/!)" "WONT-FIX(@/!)"))
+           "ACCEPTED(!/!)" "CANCELLED(@/@)"))
