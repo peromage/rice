@@ -70,13 +70,7 @@
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
   ;; generate them automatically
-  (org-todo-keywords
-   '(;; General
-     (sequence "TODO(t)" "PROGRESSING(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
-     ;; Jira style
-     (sequence "ANALYSIS(!)" "DEVELOPMENT(!)" "INTEGRATION(!)" "HOLD(!)" "CP(!)"
-               "|"
-               "FIXED(!/!)" "DUPLICATE(!/!)" "INVALID(!/!)" "WONT-FIX(@/!)")))
+  (org-todo-keywords (pew::load-data-file (expand-file-name "todo.eld" pew::org-template-dir)))
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
