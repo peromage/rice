@@ -22,8 +22,12 @@ loaded from other places.")
   "The default directory to place org note files.
 Default to under `pew::home-dir'.")
 
-(defvar pew::default-yasnippet-dir (expand-file-name "yasnippets" pew::home-dir)
-  "The default directory to place yasnippet files.
+(defvar pew::org-template-dir (expand-file-name "templates/org" pew::home-dir)
+  "The directory where to put org template files.
+Default to under `pew::home-dir'.")
+
+(defvar pew::yasnippet-template-dir (expand-file-name "templates/yasnippet" pew::home-dir)
+  "The directory where to put yasnippet template files.
 Default to under `pew::home-dir'.")
 
 (defvar pew::custom-file (expand-file-name "custom.el" pew::home-dir)

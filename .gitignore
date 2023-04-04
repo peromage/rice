@@ -12,11 +12,9 @@
 !/site-lisp/**
 /site-lisp/**/*.elc
 
-# Include yas-snippet files but not generated elisp files and compiled byte files
-!/yasnippets/
-!/yasnippets/**
-/yasnippets/**/*.el
-/yasnippets/**/*.elc
+# Include tempalte files
+!/templates/
+!/templates/**
 
 # Include my rice config
 !/rice/
