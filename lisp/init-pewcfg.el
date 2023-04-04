@@ -125,30 +125,40 @@ Once CMD is invoked CMD-map will be temporarily activated.  The difference
 between CMD and CMD-repeat is CMD only receive one followed key press while
 CMD-repeat keeps receiving key press until an undefined key passed.
 See `set-transient-map'.
-NOTE: Discouraged `repeat-map' property method in Emacs 28 since it didn't work
-well for some reason.  If `repeat-map' needs to be enabled, do:
-  (put cmd 'repeat-map map-symbol)"
+NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
+extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
+enabled and put the following code for the keymap.
+  (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
     (declare (indent 0))
     (let ((l:cmd (intern (format "%s" (car form))))
           (l:cmd-repeat (intern (format "%s-repeat" (car form)))))
       `(let ((ql:keymap (symbol-value (pewcfg::set-map ,form))))
+         ;; Take these two essential bindings.
+         (define-key ql:keymap (kbd "C-h") (lambda () (interactive) (,l:cmd :repeat)))
+         (define-key ql:keymap (kbd "C-g") #'keyboard-quit)
          (defun ,l:cmd (arg)
            "Temporarily activate a transient map.
-Normally, when a key binding is invoked in the transient map, it will end and
-return the previous key map.
-ARG is a prefix argument.  If it is given, the transient map will keep activated
-until `C-g' is pressed."
+Normally this is a one-shot invocation meaning the map exits once a key is
+pressed (no matter defined in the keymap or not).
+However, if a prefix ARG is given, this becomes a repeatable map until C-g
+is pressed.
+Or C-h can be used to transient to the repeat mode while the transient map is
+active.
+Do not attempt to use C-h multiple times.
+NOTE: C-g and C-h will be overridden even if they are defined by user."
            (interactive "P")
            (cond (arg
                   (message "%s activated in repeat mode" ',l:cmd)
-                  (set-transient-map ql:keymap t))
+                  (set-transient-map ql:keymap (lambda ()
+                                                 (cond ((equal (this-command-keys) (kbd "C-g"))
+                                                        (message "%s repeat mode exited" ',l:cmd)
+                                                        nil)
+                                                       (t
+                                                        (message "%s repeat mode, to exit C-g" ',l:cmd)
+                                                        t)))))
                  (t
                   (message "%s activated" ',l:cmd)
-                  (set-transient-map ql:keymap nil))))
-         (defun ,l:cmd-repeat ()
-           "Temporarily activate a transient map in repeat mode."
-           (interactive)
-           (,l:cmd :repeat)))))
+                  (set-transient-map ql:keymap nil)))))))
 
 ;;; :switch
   (defmacro pewcfg::set-switch (form)
