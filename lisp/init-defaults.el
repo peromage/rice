@@ -294,15 +294,16 @@
    ("M-l" . pew::recenter-other-window)
 
 ;;;; Tabs
-   ("Q" . tab-bar-close-tab)
-   ("R" . tab-bar-rename-tab)
-   ("f" . tab-bar-switch-to-next-tab)
-   ("F" . tab-bar-select-tab-by-name)
-   ("b" . tab-bar-switch-to-prev-tab)
-   ("t" . tab-bar-new-tab)
-   ("T" . pew::pop-window-in-new-tab)
-   ("m" . pew::move-tab-next)
-   ("M" . pew::move-tab-prev)
+   ("Q"   . tab-bar-close-tab)
+   ("R"   . tab-bar-rename-tab)
+   ("f"   . tab-bar-switch-to-next-tab)
+   ("F"   . tab-bar-select-tab-by-name)
+   ("b"   . tab-bar-switch-to-prev-tab)
+   ("t"   . tab-bar-new-tab)
+   ("T"   . pew::pop-window-in-new-tab-persist)
+   ("C-t" . pew::pop-window-in-new-tab)
+   ("m"   . pew::move-tab-next)
+   ("M"   . pew::move-tab-prev)
 
 ;;;; Buffers
    ("r" . rename-buffer)

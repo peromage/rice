@@ -206,6 +206,11 @@ place."
     (switch-to-buffer l:current-buffer)
     (delete-other-windows)))
 
+(defun pew::pop-window-in-new-tab-persist ()
+  "Like `pew::pop-window-in-new-tab' but keep the original window."
+  (interactive)
+  (pew::pop-window-in-new-tab :persist))
+
 (defun pew::next-window ()
   "Switch to the next window."
   (interactive)
