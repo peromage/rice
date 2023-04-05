@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8; mode: lisp-data; -*-
 
 (;; General todo task
- ("t" "New todo item" entry
+ ("t" "New todo item in agenda" entry
   (file+olp+datetree "agenda.org")
   "* TODO %?\n"
   :empty-lines 1
@@ -19,7 +19,7 @@
                 (set-buffer (org-capture-target-buffer l:file-name))
                 (goto-char (point-max)))))
   "#+title: %c
-#+data: %T
+#+date: %T
 
 %?"
   :kill-buffer t
