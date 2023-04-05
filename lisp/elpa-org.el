@@ -58,6 +58,15 @@
   (org-log-done 'time)
   (org-log-into-drawer t)
 
+;;;; Clock
+  (org-clock-into-drawer t)
+  (org-clock-out-remove-zero-time-clocks nil)
+  (org-clock-clocked-in-display 'mode-line)
+  (org-clock-ask-before-exiting t)
+  (org-clock-rounding-minutes 0) ;; Keep it precise
+  (org-clock-out-when-done t)
+  (org-clock-persist nil)
+
 ;;;; Refile
   (org-refile-allow-creating-parent-nodes 'confirm)
 
