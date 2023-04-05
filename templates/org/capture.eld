@@ -16,7 +16,7 @@
                      (l:name (read-string "Enter name: " l:prefix)))
                 (if (not (string-match-p "\\.org$" l:name))
                     (setq l:name (concat l:name l:suffix)))
-                (kill-new (string-trim l:name l:prefix l:suffix))
+                (kill-new (string-trim l:name (regexp-quote l:prefix) (regexp-quote l:suffix)))
                 (find-file l:name))))
   "#+title: %c
 #+data: %T
