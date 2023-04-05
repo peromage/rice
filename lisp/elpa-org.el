@@ -14,7 +14,7 @@
 ;;;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-startup-indented t)
-  (org-startup-folded 'showeverything)
+  (org-startup-folded 'nofold)
   (org-startup-truncated nil)
   (org-startup-numerated nil)
   (org-startup-with-inline-images nil)
