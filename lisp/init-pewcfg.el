@@ -8,16 +8,17 @@
 (eval-and-compile
 ;;; The list of keywords
   (defvar pewcfg::keywords
-    '((:custom . pewcfg::set-custom)
-      (:map . pewcfg::set-map)
-      (:bind . pewcfg::set-bind)
-      (:transient . pewcfg::set-transient)
-      (:switch . pewcfg::set-switch)
-      (:face . pewcfg::set-face)
-      (:property . pewcfg::set-property)
-      (:hook . pewcfg::set-hook)
-      (:automode . pewcfg::set-automode)
-      (:eval . pewcfg::set-eval))
+    '((:custom     . pewcfg::set-custom)
+      (:map        . pewcfg::set-map)
+      (:bind       . pewcfg::set-bind)
+      (:transient  . pewcfg::set-transient)
+      (:switch     . pewcfg::set-switch)
+      (:face       . pewcfg::set-face)
+      (:property   . pewcfg::set-property)
+      (:hook       . pewcfg::set-hook)
+      (:automode   . pewcfg::set-automode)
+      (:eval       . pewcfg::set-eval)
+      (:eval-after . pewcfg::set-eval-after))
     "An alist of keywords used in `pewcfg' to specify sections.
 The value of each element is the expansion helper of that section.")
 
@@ -248,7 +249,17 @@ Where MATCHER is usually a string of regex."
 ;;; :eval
   (defmacro pewcfg::set-eval (form)
     "Simply evaluate FORM and nothing else."
+    (declare (indent 0))
     form)
+
+;;; :eval-after
+  (defmacro pewcfg::set-eval-after (form)
+    "Evaluate forms after a feature is loaded.
+FORM is of form:
+  (FEATURE FORMS)
+Where FORMS is a list of forms. "
+    (declare (indent 0))
+    `(with-eval-after-load ',(car form) ,@(cdr form)))
 
 ;;; Utility macros/functions
   (defun pewcfg::tokey (key)
