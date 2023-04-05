@@ -89,18 +89,19 @@ For =use-package=, =use-package-always-ensure= is enabled so packages will be in
 ** pewcfg
 I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
 
-| Keyword      | Description                                                           |
-|--------------+-----------------------------------------------------------------------|
-| ~:custom~    | Set variable values that can be configured with custom interface.     |
-| ~:map~       | Set key bindings in a new map.                                        |
-| ~:bind~      | Set key bindings in an existing map.                                  |
-| ~:transient~ | Similar with :map but also define a command to trigger transient map. |
-| ~:switch~    | Define a command to toggle variable values.                           |
-| ~:face~      | Set face attributes.                                                  |
-| ~:property~  | Set variable properties.                                              |
-| ~:hook~      | Set hook functions.                                                   |
-| ~:automode~  | Set auto mode triggers.                                               |
-| ~:eval~      | Evaluate forms.                                                       |
+| Keyword       | Description                                                           |
+|---------------+-----------------------------------------------------------------------|
+| ~:custom~     | Set variable values that can be configured with custom interface.     |
+| ~:map~        | Set key bindings in a new map.                                        |
+| ~:bind~       | Set key bindings in an existing map.                                  |
+| ~:transient~  | Similar with :map but also define a command to trigger transient map. |
+| ~:switch~     | Define a command to toggle variable values.                           |
+| ~:face~       | Set face attributes.                                                  |
+| ~:property~   | Set variable properties.                                              |
+| ~:hook~       | Set hook functions.                                                   |
+| ~:automode~   | Set auto mode triggers.                                               |
+| ~:eval~       | Evaluate forms.                                                       |
+| ~:eval-after~ | Evaluate forms after the feature is loaded.                           |
 
 Examples see [[./lisp/init-defaults.el][init-defaults.el]]
 
