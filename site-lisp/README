@@ -1,3 +1,7 @@
-This is a place for 3rd party code which isn't available in MELPA or
-other package repositories. This directory and its immediate subdirectories
-will be added to load-path at start-up time.
+This directory contains:
+
+- Packages developed by myself (independent to the configuration)
+- 3rd party packages which isn't available in MELPA or other package repositories
+- 3rd party packages with modifications by myself.
+
+This directory and its immediate subdirectories will be added to load-path at start-up time.

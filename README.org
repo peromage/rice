@@ -103,7 +103,7 @@ I developed this macro to help myself configure Emacs built-in functionalities i
 | ~:eval~       | Evaluate forms.                                                       |
 | ~:eval-after~ | Evaluate forms after the feature is loaded.                           |
 
-Examples see [[./lisp/init-defaults.el][init-defaults.el]]
+See [[./lisp/init-pewcfg.el][code]] and [[./lisp/init-defaults.el][example]].
 
 ** Emacs state key bindings
 To respect Emacs key bindings, I've tried only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
