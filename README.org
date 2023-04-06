@@ -63,16 +63,16 @@ There are two local configuration files which are not tracked by default.
 
 #+begin_example
 pew
-├── lisp/                   # Configuration files
-├── site-lisp/              # Addtional package files written by myself
-├── yasnippets/             # Snippet files loaded by yasnippet
-├── rice/                   # My config collection for other apps
-├── scripts/                # Test scripts
-├── early-init.el           # Init file loaded before init.el
-├── init.el                 # Main init file
-├── .pew                    # Configuration root placeholder
-├── .gitignore              # Git ignore file
-├── LICENSE                 # License file
+├── lisp/                   # The configuration Lisp files
+├── site-lisp/              # The packages that are written by myself, from 3rd party or from 3rd party but with my modifications
+├── rice/                   # The configuration collection for other apps
+├── scripts/                # The scripts for setup or testing
+├── templates/              # The template definitions including snippets
+├── .pew                    # The repo root placeholder
+├── .gitignore              # The git-ignored patterns
+├── early-init.el           # The Init file loaded before init.el
+├── init.el                 # The Emacs main entry file
+├── LICENSE                 # The license of this repo
 └── README.org              # This file
 #+end_example
 

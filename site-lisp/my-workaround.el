@@ -1,4 +1,4 @@
-;;; workaround.el --- Additional workaround -*- lexical-binding: t; -*-
+;;; my-workaround.el --- Additional workaround -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This file contains temporary fixes for some configurations which do not take
@@ -18,5 +18,5 @@
   (evil-disable-insert-state-bindings t)
   (evil-search-module 'evil-search))
 
-(provide 'workaround)
-;;; workaround.el ends here
+(provide 'my-workaround)
+;;; my-workaround.el ends here
