@@ -408,6 +408,9 @@
   (downcase-region
    (disabled . nil))
 
+  (narrow-to-region
+   (disabled . nil))
+
 ;;; Face settings
   :face
   (default :family "Iosevka" :foundry "UKWN" :slant normal :weight normal :height 120 :width normal)
