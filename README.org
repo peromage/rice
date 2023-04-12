@@ -110,20 +110,22 @@ To respect Emacs key bindings, I've tried only a few modification on the origina
 
 My personal key bindings mostly are bound in ~pewkey-map~. It can be activated by ~pewkey~ and ~pewkey-repeat~.
 
-Key bindings for packages are accessed by ~C-c~ prefix. I try to make it mnemonic.
+Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-defaults.el][init-default.el]] for details.
 
-| Command                                                    | Prefix        | Definition                                   |
-|------------------------------------------------------------+---------------+----------------------------------------------|
-| ~pewkey~                                                   | =C-x C-x=     | [[./lisp/init-defaults.el][init-default.el]] |
-| ~pewkey-repeat~                                            | =C-u C-x C-x= | [[./lisp/init-defaults.el][init-default.el]] |
-| Line @@html:<b>@@S@@html:</b>@@earch by ~consult~          | =C-c s=       | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | =C-c b ...=   | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | =C-c g ...=   | [[./lisp/elpa-git.el][elpa-git.el]]          |
-| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | =C-c l ...=   | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | =C-c w=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| Find @@html:<b>@@C@@html:</b>@@haracter by ~avy-goto-char~ | =C-c f=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | =C-c j=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| Separate edit by ~separedit~                               | =C-c '=       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+Some commonly used key bindings as showed below.
+
+| Command                                                    | Prefix      | Definition                                   |
+|------------------------------------------------------------+-------------+----------------------------------------------|
+| ~pewkey~                                                   | =M-c=       | [[./lisp/init-defaults.el][init-default.el]] |
+| ~pewkey-repeat~                                            | =C-u M-c=   | [[./lisp/init-defaults.el][init-default.el]] |
+| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | =C-x b=     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | =C-x g=     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | =C-c l ...= | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
+| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | =M-z g ...= | [[./lisp/elpa-git.el][elpa-git.el]]          |
+| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | =M-z w=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | =M-z f=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | =M-z j=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| Separate edit by ~separedit~                               | =M-z '=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
 
 ** Evil mode key bindings
 Evil leader key is bound with =\= as a "secondary" leader since most of the bindings are from ~pewkey~ under =SPC= to keep habit consistent.
