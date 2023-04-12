@@ -142,7 +142,9 @@ Otherwise the cursor is placed at the beginning of the heading."
                                l:headings))))
         (goto-char (org-element-property
                     (if to-end :end :begin)
-                    l:selected))))))
+                    l:selected)))))
+
+) ;; (use-package org)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
