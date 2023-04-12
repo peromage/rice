@@ -24,14 +24,14 @@
 
 ;;;; Windows and frames
   ;; Over-3-side-window causes troubles when toggling (I don't know why)
-  (display-buffer-alist `((,(pew::special-buffer (shell terminal help) t)
+  (display-buffer-alist `((,(pew::special-buffer '(shell terminal help) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (reusable-frames . t)
                            (inhibit-switch-frame . t)
                            (window-height . 0.25)
                            (side . bottom)
                            (slot . 0))
-                          (,(pew::special-buffer (message backtrace warning log compilation output command) t)
+                          (,(pew::special-buffer '(message backtrace warning log compilation output command) t)
                            (display-buffer-reuse-window display-buffer-in-side-window)
                            (reusable-frames . t)
                            (inhibit-switch-frame . t)
@@ -217,9 +217,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew::special-buffer magit)))
-                                  ("VC" (name . ,(pew::special-buffer vc)))
-                                  ("Ediff" (name . ,(pew::special-buffer ediff)))
+                                  ("Git" (name . ,(pew::special-buffer 'magit)))
+                                  ("VC" (name . ,(pew::special-buffer 'vc)))
+                                  ("Ediff" (name . ,(pew::special-buffer 'ediff)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 

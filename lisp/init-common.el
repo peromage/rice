@@ -111,7 +111,7 @@ resolved."
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew::hidden-buffers (pew::special-buffer (magit starred))
+(defvar pew::hidden-buffers (pew::special-buffer '(magit starred))
   "Buffers that are hiddens in general scenarios.")
 
 (defun pew::hidden-buffer-p (name)
