@@ -77,18 +77,18 @@ For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
-    (named-let pewcfg::set-map-inner ((l:keymap-symbol (intern (format "%s-map" (car form))))
-                                      (l:bindings (cdr form))
-                                      (l:running-list (reverse '(let ((ql:keymap (make-sparse-keymap)))))))
-      (if l:bindings
-          ;; Build the key definition list
-          (pewcfg::set-map-inner l:keymap-symbol
-                                 (cdr l:bindings)
-                                 (cons `(define-key ql:keymap ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
-                                       l:running-list))
-        ;; Add map variable definition at last and return the list
-        (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Custom keymap.")
-                       l:running-list)))))
+    (let ((l:keymap-symbol (intern (format "%s-map" (car form)))))
+      (named-let pewcfg::set-map-inner ((l:bindings (cdr form))
+                                        (l:running-list (reverse `(let ((ql:keymap ',l:keymap-symbol)) (define-prefix-command ql:keymap)))))
+        (if l:bindings
+            ;; Build the key definition list
+            (pewcfg::set-map-inner (cdr l:bindings)
+                                   (cons `(define-key ql:keymap ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
+                                         l:running-list))
+          ;; Add map variable definition at last and return the list
+          ;; (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Custom keymap.")
+          ;;                l:running-list))
+          (reverse `(',l:keymap-symbol  ,@l:running-list))))))
 
 ;;; :bind
   (defmacro pewcfg::set-bind (form)
@@ -111,7 +111,7 @@ bindings in a existing map instead."
                                   (cons `(define-key ,l:keymap-symbol ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
                                         l:running-list))
         ;; Return the list
-        (reverse l:running-list))))
+        (reverse `(',l:keymap-symbol ,@l:running-list)))))
 
 ;;; :transient
   (defmacro pewcfg::set-transient (form)
