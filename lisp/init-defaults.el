@@ -305,8 +305,8 @@
    ("F"   . tab-bar-select-tab-by-name)
    ("b"   . tab-bar-switch-to-prev-tab)
    ("t"   . tab-bar-new-tab)
-   ("T"   . pew::pop-window-in-new-tab-persist)
-   ("C-t" . pew::pop-window-in-new-tab)
+   ("T"   . pew::pop-window-in-new-tab)
+   ("C-t" . pew::pop-window-in-new-tab-persist)
    ("m"   . pew::move-tab-next)
    ("M"   . pew::move-tab-prev)
 
