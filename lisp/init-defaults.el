@@ -292,10 +292,10 @@
    ("Y" . winner-redo)
 
 ;;;; Other window
-   ("C-f" . pew::scroll-other-window-page-down)
-   ("C-b" . pew::scroll-other-window-page-up)
-   ("C-e" . pew::scroll-other-window-line-down)
-   ("C-y" . pew::scroll-other-window-line-up)
+   ("C-v" . pew::scroll-other-window-page-down)
+   ("M-v" . pew::scroll-other-window-page-up)
+   ("C-n" . pew::scroll-other-window-line-down)
+   ("C-p" . pew::scroll-other-window-line-up)
    ("C-l" . pew::recenter-other-window)
 
 ;;;; Tabs
