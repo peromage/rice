@@ -346,7 +346,9 @@
 ;;;; Frame Transparency
    ("M-=" . pew::increase-frame-opacity)
    ("M--" . pew::decrease-frame-opacity)
-   ("N"   . make-frame-command)
+   ("A"   . pew::pop-window-in-new-frame)
+   ("C-a" . pew::pop-window-in-new-frame-persist)
+   ("a"   . other-frame)
 
 ;;;; Rebind word manipulations
    ("M-t" . transpose-words)

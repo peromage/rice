@@ -311,6 +311,23 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (pew::set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
                              pew::frame-opacity-adjust-step)))
 
+(defun pew::pop-window-in-new-frame (arg)
+  "Pop the current window into a new frame.
+If prefix ARG is presented, pop the window without deleting it from the original
+place."
+  (interactive "P")
+  (let ((l:current-buffer (current-buffer)))
+    (if (and (null arg) (not (pew::last-normal-window-p (selected-window))))
+        (delete-window))
+    (make-frame-command)
+    (switch-to-buffer l:current-buffer)
+    (delete-other-windows)))
+
+(defun pew::pop-window-in-new-frame-persist ()
+  "Like `pew::pop-window-in-new-frame' but keep the original window."
+  (interactive)
+  (pew::pop-window-in-new-frame :persist))
+
 ;;; Dired
 (defun pew::dired-go-to ()
   "Go into the target under the cursor without creating a new buffer."
