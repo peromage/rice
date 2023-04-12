@@ -9,8 +9,9 @@
 (use-package magit
   :commands magit-status
 
-  :bind (("M-q g" . magit-status)
-         ("M-q G" . magit-file-dispatch))
+  :bind (:map pew::M-z-map
+         ("g" . magit-status)
+         ("G" . magit-file-dispatch))
 
   :custom
   ;; Don't use the default bindings under "C-x" prefix

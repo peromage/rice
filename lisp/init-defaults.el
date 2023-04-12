@@ -355,6 +355,16 @@
    ("M-q" . fill-paragraph)
    ("M-h" . mark-paragraph))
 
+  :map
+  (pew::M-o)
+  (pew::M-t)
+  (pew::M-c)
+  (pew::M-u)
+  (pew::M-l)
+  (pew::M-z)
+  (pew::M-q)
+  (pew::M-h)
+
 ;;; Mode keybindings
   :bind
 ;;;; Global
@@ -368,19 +378,16 @@
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
-   ;; Less frequently used prefix that can be overriden are:
-   ;; - M-q (taken by utils `elpa-utils')
-   ;; - M-o (taken by minibuffer `elpa-vertico')
-   ;; - M-c (taken by `pewkey')
-   ;; - M-t
-   ;; - M-l
-   ;; - M-z
-   ;; - M-u
-   ;; - M-h
-
-   ;; Pewkey
-   ;; To invoke repeat mode, prefix with `C-u'
-   ("M-c" . pewkey))
+   ;; Less frequently used prefix that can be overriden
+   ;; Reserved for the future
+   ("M-o" . pew::M-o-map) ;; (taken by minibuffer)
+   ("M-t" . pew::M-t-map)
+   ("M-c" . pewkey)
+   ("M-u" . pew::M-u-map)
+   ("M-l" . pew::M-l-map)
+   ("M-z" . pew::M-z-map) ;; (taken by utilities)
+   ("M-q" . pew::M-q-map)
+   ("M-h" . pew::M-h-map))
 
 ;;;; Dired
   (dired-mode

@@ -14,11 +14,11 @@
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
          ("M-DEL" . vertico-directory-delete-word)
-         ("M-o v 1" . vertico-multiform-vertical)
-         ("M-o v 2" . vertico-multiform-grid)
-         ("M-o v 3" . vertico-multiform-flat)
-         ("M-o v 4" . vertico-multiform-reverse)
-         ("M-o v 5" . vertico-multiform-unobtrusive))
+         ("M-q 1" . vertico-multiform-vertical)
+         ("M-q 2" . vertico-multiform-grid)
+         ("M-q 3" . vertico-multiform-flat)
+         ("M-q 4" . vertico-multiform-reverse)
+         ("M-q 5" . vertico-multiform-unobtrusive))
 
   :custom
   ;; Default views for different commands/results
@@ -115,7 +115,7 @@ ARGS should be a string of arguments passed to ripgrep."
 
   :bind (:map
          vertico-map
-         ("M-o m" . marginalia-cycle))
+         ("M-q m" . marginalia-cycle))
 
   :config
   (marginalia-mode 1))
@@ -139,11 +139,12 @@ ARGS should be a string of arguments passed to ripgrep."
 (use-package embark
   :demand t
 
-  :bind (("M-o e a" . embark-act)
-         ("M-o e d" . embark-dwim)
-         ("M-o e e" . embark-export)
-         ("M-o e c" . embark-collect)
-         ([remap describe-bindings] . embark-bindings))
+  :bind (([remap describe-bindings] . embark-bindings)
+         :map pew::M-o-map
+         ("e a" . embark-act)
+         ("e d" . embark-dwim)
+         ("e e" . embark-export)
+         ("e c" . embark-collect))
 
   :hook (embark-collect-mode . pew::embark::collect-on-init)
 

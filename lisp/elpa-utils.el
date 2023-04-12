@@ -49,7 +49,8 @@ users to specify the shell to start with."
 
 ;;; Separate edit
 (use-package separedit
-  :bind ("C-c '" . separedit-dwim))
+  :bind (:map pew::M-z-map
+         ("'" . separedit-dwim)))
 
 ;;; Simplify S-expression editing
 (use-package paredit
@@ -57,12 +58,14 @@ users to specify the shell to start with."
 
 ;;; Jump among texts
 (use-package avy
-  :bind (("M-q f" . avy-goto-char)
-         ("M-q j" . avy-goto-line)))
+  :bind (:map pew::M-z-map
+         ("f" . avy-goto-char)
+         ("j" . avy-goto-line)))
 
 ;;; Jump between windows
 (use-package ace-window
-  :bind ("M-q w" . ace-window))
+  :bind (:map pew::M-z-map
+         ("w" . ace-window)))
 
 ;;;; Enable focused view
 (use-package visual-fill-column
