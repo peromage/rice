@@ -113,7 +113,30 @@
     (setq-default org-hide-macro-markers pew::org::marker--hidden)
     (setq-default org-link-descriptive pew::org::marker--hidden)
     (setq-default org-pretty-entities pew::org::marker--hidden)
-    (org-mode-restart)))
+    (org-mode-restart))
+
+  (defun pew::org::goto-heading (level &optional to-end)
+    "Move cursor to the selected heading in the current `org-mode' buffer.
+Minibuffer will show up with the specified LEVEL of headings and move cursor to
+it once the choice is confirmed.
+If LEVEL is 0, all headings are selectable.
+If TO-END is non-nil the cursor will be moved to the end of the heading.
+Otherwise the cursor is placed at the beginning of the heading."
+    (interactive "nSearch heading level: ")
+    (if (not (eq 'org-mode major-mode))
+        (message "Not an org buffer.")
+      (let* ((l:headings (mapcar (lambda (e) (cons (org-element-property :title e) e))
+                                 (seq-filter
+                                  (lambda (e)
+                                    (if (zerop level) t
+                                      (= level (org-element-property :level e))))
+                                  (org-map-entries #'org-element-at-point))))
+             (l:selected (cdr (assoc
+                               (completing-read "Select a heading: " l:headings nil t)
+                               l:headings))))
+        (goto-char (org-element-property
+                    (if to-end :end :begin)
+                    l:selected))))))
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
