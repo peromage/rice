@@ -140,6 +140,8 @@ Otherwise the cursor is placed at the beginning of the heading."
              (l:selected (cdr (assoc
                                (completing-read "Select a heading: " l:headings nil t)
                                l:headings))))
+        ;; When used in `org-capture-templateas', `narrow-to-region' can be used
+        ;; together with `:unnarrowed' to resume from existing entries.
         (goto-char (org-element-property
                     (if to-end :end :begin)
                     l:selected)))))
