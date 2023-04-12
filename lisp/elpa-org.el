@@ -119,17 +119,23 @@
     "Move cursor to the selected heading in the current `org-mode' buffer.
 Minibuffer will show up with the specified LEVEL of headings and move cursor to
 it once the choice is confirmed.
-If LEVEL is 0, all headings are selectable.
+Level can be the following values:
+  - 0: All the headings are selectable.
+  - nil: Same with 0.
+  - non-zero number: Filter this level of headings.
+  - non-nil object: Interactively enter level number.
 If TO-END is non-nil the cursor will be moved to the end of the heading.
 Otherwise the cursor is placed at the beginning of the heading."
-    (interactive "nSearch heading level: ")
+    (interactive "P")
     (if (not (eq 'org-mode major-mode))
         (message "Not an org buffer.")
+      (setq level (cond ((null level) 0)
+                        ((not (numberp level)) (read-number "Search heading level: "))
+                        (t level)))
       (let* ((l:headings (mapcar (lambda (e) (cons (org-element-property :title e) e))
                                  (seq-filter
-                                  (lambda (e)
-                                    (if (zerop level) t
-                                      (= level (org-element-property :level e))))
+                                  (if (zerop level) #'identity
+                                    (lambda (e) (= level (org-element-property :level e))))
                                   (org-map-entries #'org-element-at-point))))
              (l:selected (cdr (assoc
                                (completing-read "Select a heading: " l:headings nil t)
