@@ -69,19 +69,22 @@ concatenated with '\\|'."
   (interactive)
   (find-file user-init-file))
 
-(defmacro pew::expand-macro (form &optional all)
+(defmacro pew::expand-macro (form &optional step)
   "Expand the macro in FORM and print the expanded results.
-Possible value for ALL:
+Possible value for STEP:
   nil              - call `macroexpand'
   1                - call `macroexpand-1'
   any other values - call `macroexpand-all'
-The result will be shown in message buffer.  Return nil to reduce confusion."
+The result will be shown in the message buffer."
   (declare (indent 0))
-  (let ((l:helper (lambda (fn fm) (message "%s: %S" fn (funcall fn fm)) nil)))
-    (pcase all
-      ('nil `(,l:helper 'macroexpand ',form))
-      ('1 `(,l:helper 'macroexpand-1 ',form))
-      (_ `(,l:helper 'macroexpand-all ',form)))))
+  (message "--- Begin macro expansion ---\n%S"
+           (funcall (intern (format "macroexpand%s"
+                                    (pcase step
+                                      ('nil "")
+                                      (1 "-1")
+                                      (_ "-all"))))
+                    form))
+  (message "--- End macro expansion ---") t)
 
 (defun pew::keycode-to-string (keycode)
   "Display corresponding key name from KEYCODE."
