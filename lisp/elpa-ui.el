@@ -23,10 +23,15 @@
   :custom
   (doom-modeline-height 1)
   (doom-modeline-unicode-fallback t)
+  (doom-modeline-modal t)
   (doom-modeline-modal-icon t)
 
   :config
-  (doom-modeline-mode 1))
+  (doom-modeline-mode 1)
+
+  (pewcfg
+    :switch
+    (doom-modeline-unicode-fallback)))
 
 ;;; Default looking
 (pew::load-theme 'modus-vivendi)
