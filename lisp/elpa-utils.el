@@ -54,7 +54,9 @@ users to specify the shell to start with."
 
 ;;; Simplify S-expression editing
 (use-package paredit
-  :hook (lisp-interaction-mode . paredit-mode))
+  :hook ((lisp-interaction-mode . paredit-mode)
+         (emacs-lisp-mode . paredit-mode)
+         (lisp-data-mode . paredit-mode)))
 
 ;;; Jump among texts
 (use-package avy
