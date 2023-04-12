@@ -290,11 +290,11 @@
    ("Y" . winner-redo)
 
 ;;;; Other window
-   ("M-f" . pew::scroll-other-window-page-down)
-   ("M-b" . pew::scroll-other-window-page-up)
-   ("M-e" . pew::scroll-other-window-line-down)
-   ("M-y" . pew::scroll-other-window-line-up)
-   ("M-l" . pew::recenter-other-window)
+   ("C-f" . pew::scroll-other-window-page-down)
+   ("C-b" . pew::scroll-other-window-page-up)
+   ("C-e" . pew::scroll-other-window-line-down)
+   ("C-y" . pew::scroll-other-window-line-up)
+   ("C-l" . pew::recenter-other-window)
 
 ;;;; Tabs
    ("Q"   . tab-bar-close-tab)
@@ -344,7 +344,16 @@
 ;;;; Frame Transparency
    ("M-=" . pew::increase-frame-opacity)
    ("M--" . pew::decrease-frame-opacity)
-   ("N"   . make-frame-command))
+   ("N"   . make-frame-command)
+
+;;;; Rebind word manipulations
+   ("M-t" . transpose-words)
+   ("M-c" . capitalize-word)
+   ("M-u" . upcase-word)
+   ("M-l" . downcase-word)
+   ("M-z" . zap-to-char)
+   ("M-q" . fill-paragraph)
+   ("M-h" . mark-paragraph))
 
 ;;; Mode keybindings
   :bind
@@ -359,9 +368,19 @@
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
+   ;; Less frequently used prefix that can be overriden are:
+   ;; - M-q (taken by utils `elpa-utils')
+   ;; - M-o (taken by minibuffer `elpa-vertico')
+   ;; - M-c (taken by `pewkey')
+   ;; - M-t
+   ;; - M-l
+   ;; - M-z
+   ;; - M-u
+   ;; - M-h
+
    ;; Pewkey
    ;; To invoke repeat mode, prefix with `C-u'
-   ("C-x C-x" . pewkey))
+   ("M-c" . pewkey))
 
 ;;;; Dired
   (dired-mode

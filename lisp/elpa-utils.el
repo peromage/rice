@@ -57,12 +57,12 @@ users to specify the shell to start with."
 
 ;;; Jump among texts
 (use-package avy
-  :bind (("C-c f" . avy-goto-char)
-         ("C-c j" . avy-goto-line)))
+  :bind (("M-q f" . avy-goto-char)
+         ("M-q j" . avy-goto-line)))
 
 ;;; Jump between windows
 (use-package ace-window
-  :bind ("C-c w" . ace-window))
+  :bind ("M-q w" . ace-window))
 
 ;;;; Enable focused view
 (use-package visual-fill-column

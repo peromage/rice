@@ -14,11 +14,11 @@
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
          ("M-DEL" . vertico-directory-delete-word)
-         ("M-q 1" . vertico-multiform-vertical)
-         ("M-q 2" . vertico-multiform-grid)
-         ("M-q 3" . vertico-multiform-flat)
-         ("M-q 4" . vertico-multiform-reverse)
-         ("M-q 5" . vertico-multiform-unobtrusive))
+         ("M-o v 1" . vertico-multiform-vertical)
+         ("M-o v 2" . vertico-multiform-grid)
+         ("M-o v 3" . vertico-multiform-flat)
+         ("M-o v 4" . vertico-multiform-reverse)
+         ("M-o v 5" . vertico-multiform-unobtrusive))
 
   :custom
   ;; Default views for different commands/results
@@ -42,33 +42,18 @@
   :demand t
 
   :bind (("C-s" . consult-line)
-         ("C-c b l" . consult-line)
-         ("C-c b L" . consult-line-multi)
-         ("C-c b O" . consult-multi-occur)
-         ("C-c b b" . consult-buffer)
-         ("C-c b B" . consult-buffer-other-window)
-         ("C-c b p" . consult-project-buffer)
-         ("C-c b i" . consult-imenu)
-         ("C-c b I" . consult-imenu-multi)
-         ("C-c b k" . consult-focus-lines)
-         ("C-c b K" . consult-keep-lines)
-         ("C-c b f" . consult-find)
-         ("C-c b F" . consult-grep)
-         ("C-c b g" . consult-ripgrep)
-         ("C-c b G" . consult-git-grep)
-         ("C-c b s" . consult-isearch-history)
-         ("C-c b h" . consult-history)
+         ("C-x b" . consult-buffer)
+         ("C-x B" . consult-buffer-other-window)
+         ("C-x f" . consult-find)
+         ("C-x g" . consult-ripgrep)
+         ("C-x G" . consult-git-grep)
          ([remap imenu] . consult-imenu)
          ([remap goto-line] . consult-goto-line)
          ([remap bookmark-jump] . consult-bookmark)
          ([remap recentf-open-files] . consult-recent-file)
          ([remap evil-show-marks] . consult-mark)
          :map minibuffer-local-map
-         ("M-h" . consult-history)
-         :map isearch-mode-map
-         ("M-s" . consult-line)
-         ("M-r" . consult-line-multi)
-         ("M-h" . consult-isearch-history))
+         ("M-h" . consult-history))
 
   :custom
   (register-preview-function #'consult-register-format)
@@ -130,7 +115,7 @@ ARGS should be a string of arguments passed to ripgrep."
 
   :bind (:map
          vertico-map
-         ("M-q q" . marginalia-cycle))
+         ("M-o m" . marginalia-cycle))
 
   :config
   (marginalia-mode 1))
@@ -154,14 +139,11 @@ ARGS should be a string of arguments passed to ripgrep."
 (use-package embark
   :demand t
 
-  :bind (("C-c o o" . embark-act)
-         ("C-c o j" . embark-dwim)
-         ("C-c o e" . embark-export)
-         ("C-c o c" . embark-collect)
-         ([remap describe-bindings] . embark-bindings)
-         :map minibuffer-local-map
-         ("M-o" . embark-act)
-         ("M-j" . embark-dwim))
+  :bind (("M-o e a" . embark-act)
+         ("M-o e d" . embark-dwim)
+         ("M-o e e" . embark-export)
+         ("M-o e c" . embark-collect)
+         ([remap describe-bindings] . embark-bindings))
 
   :hook (embark-collect-mode . pew::embark::collect-on-init)
 
