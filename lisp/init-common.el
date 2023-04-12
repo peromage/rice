@@ -319,7 +319,7 @@ place."
   (let ((l:current-buffer (current-buffer)))
     (if (and (null arg) (not (pew::last-normal-window-p (selected-window))))
         (delete-window))
-    (make-frame-command)
+    (select-frame (make-frame-command))
     (switch-to-buffer l:current-buffer)
     (delete-other-windows)))
 
