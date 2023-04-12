@@ -140,7 +140,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :demand t
 
   :bind (([remap describe-bindings] . embark-bindings)
-         :map pew::M-o-map
+         :map pew::M-z-map
          ("e a" . embark-act)
          ("e d" . embark-dwim)
          ("e e" . embark-export)
