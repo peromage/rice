@@ -38,32 +38,25 @@
       (starred . "^ *\\*.*\\*$"))
     "An alist of special buffer pattern regex.")
 
-  (defmacro pew::special-buffer (name &optional concated)
-    "Return the corresponding buffer pattern with given NAME.
-NAME should be one of the keys from `pew::special-buffer-alist'.
-If NAME is a list then the result will be a list of matching patterns instead.
-If CONCATED is non-nil the result will be concatenated with '\\|'."
+  (defun pew::special-buffer (key &optional concated)
+    "Return the corresponding buffer pattern with given KEY.
+Key is a symbol and should be one of the keys from `pew::special-buffer-alist'.
+Key can be a list of symbols and the return value will be a list of patterns.
+If CONCATED is non-nil the result will be string in which all the patterns are
+concatenated with '\\|'."
     (declare (indent 0))
-    (let ((l:result nil)
-          (l:match nil)
-          (l:getter (lambda (x) (assoc x pew::special-buffer-alist)))
-          (l:error (lambda (x) (error "No matching special buffer for %s" x))))
-      (cond
-       ;; Multiple output
-       ((not (symbolp name))
-        (dolist (l:name name)
-          (if (setq l:match (funcall l:getter l:name))
-              (push (cdr l:match) l:result)
-            (funcall l:error l:name)))
+    (if (not (listp key))
+        (cdr (assq key pew::special-buffer-alist))
+      (let (l:result l:temp)
+        (dolist (k key)
+          (if (setq l:temp (assq k pew::special-buffer-alist))
+              (push (cdr l:temp) l:result)))
         (setq l:result (reverse l:result))
         (if concated
             (mapconcat #'identity l:result "\\|")
-          (cons 'list l:result)))
-       ;; Single output
-       ((setq l:match (funcall l:getter name))
-        (setq l:result (cdr l:match)))
-       (t (funcall l:error name))))))
-;;; End eval-and-compile
+          l:result))))
+
+) ;;; End eval-and-compile
 
 ;;; Debugging
 (defun pew::reload-init-file ()
