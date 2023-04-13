@@ -1,4 +1,4 @@
-;;; elpa-vertico.el --- Vertico completion framework -*- lexical-binding: t; -*-
+;;; elpa-completion-vertico.el --- Vertico completion framework -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Vertico and its related packages
@@ -164,5 +164,5 @@ ARGS should be a string of arguments passed to ripgrep."
 (use-package wgrep
   :after (consult embark))
 
-(provide 'elpa-vertico)
-;;; elpa-vertico.el ends here
+(provide 'elpa-completion-vertico)
+;;; elpa-completion-vertico.el ends here

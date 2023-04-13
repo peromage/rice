@@ -1,4 +1,4 @@
-;;; elpa-ivy.el --- Ivy completion framework -*- lexical-binding: t; -*-
+;;; elpa-completion-ivy.el --- Ivy completion framework -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; Configuration for Ivy and its related packages
@@ -91,5 +91,5 @@
   ;;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
-(provide 'elpa-ivy)
-;;; elpa-ivy.el ends here
+(provide 'elpa-completion-ivy)
+;;; elpa-completion-ivy.el ends here
