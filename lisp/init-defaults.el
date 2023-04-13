@@ -114,10 +114,13 @@
   (mouse-yank-at-point t)
   (delete-selection-mode t)
 
-;;;; Indentation
-  (tab-width 4)
+;;;; Tab key and completion
   (indent-tabs-mode nil)
+  (tab-width 4)
+  (tab-always-indent t "Or use 'complete to hybrid indentation and completion.
+Use C-M-i to manually trigger completion.")
   (backward-delete-char-untabify-method 'hungry)
+  (completion-cycle-threshold nil "Always expand list")
 
 ;;;; Whitespaces
   ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
@@ -145,7 +148,7 @@
   (inhibit-eol-conversion t)
   (display-raw-bytes-as-hex t)
 
-;;;; Sanity
+;;;; Misc
   (use-short-answers t)
   (xterm-mouse-mode t)
   (context-menu-mode t)
