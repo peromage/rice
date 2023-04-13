@@ -117,8 +117,7 @@
 ;;;; Tab key and completion
   (indent-tabs-mode nil)
   (tab-width 4)
-  (tab-always-indent t "Or use 'complete to hybrid indentation and completion.
-Use C-M-i to manually trigger completion.")
+  (tab-always-indent 'complete "Hybrid indentation and completion")
   (backward-delete-char-untabify-method 'hungry)
   (completion-cycle-threshold nil "Always expand list")
 
