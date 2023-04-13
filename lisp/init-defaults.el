@@ -24,20 +24,12 @@
 
 ;;;; Windows and frames
   ;; Over-3-side-window causes troubles when toggling (I don't know why)
-  (display-buffer-alist `((,(pew::special-buffer '(shell terminal help) t)
-                           (display-buffer-reuse-window display-buffer-in-side-window)
-                           (reusable-frames . t)
-                           (inhibit-switch-frame . t)
-                           (window-height . 0.25)
-                           (side . bottom)
-                           (slot . 0))
+  (display-buffer-alist `((,(pew::special-buffer '(shell terminal) t)
+                           ,@(pew::side-window-actions 'bottom 0))
+                          (,(pew::special-buffer '(help) t)
+                           ,@(pew::side-window-actions 'bottom 1))
                           (,(pew::special-buffer '(message backtrace warning log compilation output command) t)
-                           (display-buffer-reuse-window display-buffer-in-side-window)
-                           (reusable-frames . t)
-                           (inhibit-switch-frame . t)
-                           (window-height . 0.25)
-                           (side . bottom)
-                           (slot . 1))))
+                           ,@(pew::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
   (split-height-threshold 20 "10 lines minimal")

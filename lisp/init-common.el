@@ -56,7 +56,15 @@ concatenated with '\\|'."
             (mapconcat #'identity l:result "\\|")
           l:result))))
 
-) ;;; End eval-and-compile
+(defun pew::side-window-actions (side slot)
+  "Return a list of pre-configured side window actions.
+See `display-buffer' for property SIDE, SLOT."
+  `((display-buffer-reuse-window display-buffer-in-side-window)
+    (reusable-frames . t)
+    (inhibit-switch-frame . t)
+    (window-height . 0.25)
+    (side . ,side)
+    (slot . ,slot)))) ;;; End eval-and-compile
 
 ;;; Debugging
 (defun pew::reload-init-file ()
