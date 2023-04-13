@@ -8,7 +8,8 @@
 ;;; Submodules
 ;; (require 'elpa-completion-ivy)
 (require 'elpa-completion-vertico)
-(require 'elpa-completion-company)
+;; (require 'elpa-completion-company)
+(require 'elpa-completion-corfu)
 
 ;;; Syntax and spell checker
 (use-package flycheck
