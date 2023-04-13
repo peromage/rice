@@ -121,32 +121,26 @@ resolved."
   "Check if the given buffer NAME is a hidden buffer.
 Return t if NAME matches one of patterns defined in `pew::hidden-buffers' or nil
 if there is not match."
-  (let ((l:hiddens pew::hidden-buffers)
-        (l:matched nil))
-    (while (and (not l:matched) l:hiddens)
-      (setq l:matched (string-match (pop l:hiddens) name)))
-    l:matched))
+  (named-let try-match-pattern ((l:pattern-list pew::hidden-buffers))
+    (cond ((null l:pattern-list) nil)
+          ((string-match-p (car l:pattern-list) name) t)
+          (t (try-match-pattern (cdr l:pattern-list))))))
 
-(defun pew::switch-buffer (&optional prev)
-  "Switch to the next buffer and skip hidden buffers.
-If PREV is non-nil switch to the previous buffer.
-Use `pew::hidden-buffer-p' to filter buffers."
+(defun pew::next-non-hidden-buffer (&optional backwards)
+  "Switch to the next non-hidden buffer.
+If BACKWARDS is non-nil doing it backwards."
+  (interactive "P")
   (let ((l:current-buffer (current-buffer))
-        (l:switch-func (if prev #'previous-buffer #'next-buffer)))
+        (l:switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall l:switch-func)
     (while (and (pew::hidden-buffer-p (buffer-name))
                 (not (eq l:current-buffer (current-buffer))))
       (funcall l:switch-func))))
 
-(defun pew::next-buffer ()
-  "Switch to the next buffer but skip hidden buffers."
+(defun pew::previous-non-hidden-buffer ()
+  "Like `pew::next-non-hidden-buffer' but does it backwards."
   (interactive)
-  (pew::switch-buffer))
-
-(defun pew::prev-buffer ()
-  "Switch to the previous buffer but skip hidden buffers."
-  (interactive)
-  (pew::switch-buffer t))
+  (pew::next-non-hidden-buffer :previous))
 
 (defun pew::close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
