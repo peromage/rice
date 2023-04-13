@@ -18,11 +18,10 @@
 ARG is a prefix argument.  If it is non-nill, a prompt will pop up to allow
 users to specify the shell to start with."
     (interactive "P")
-    (cond (arg
-           (let ((vterm-shell (read-string "Shell: ")))
-             (vterm :new)))
-          (t
-           (vterm :new))))
+    (if arg
+        (let ((vterm-shell (read-string "Shell: ")))
+          (vterm :new))
+      (vterm :new)))
 
   :custom
   (vterm-kill-buffer-on-exit t)
