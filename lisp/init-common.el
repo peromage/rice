@@ -15,8 +15,8 @@
       (vc . "^ *\\*[Vv][Cc]-.*\\*$")
       (ediff . "^ *\\*[Ee]diff.*\\*$")
       ;; Interactive
-      (shell . "^ *\\*.*\\b[Ss]hell\\*$")
-      (terminal . "^ *\\*.*\\b[Tt]erm\\(inal\\)?\\*$")
+      (shell . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$")
+      (terminal . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$")
       (scratch . "^ *\\*[Ss]cratch\\*$")
       ;; Org mode
       (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
