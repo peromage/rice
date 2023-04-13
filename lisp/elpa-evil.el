@@ -242,9 +242,7 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
       "eb" #'eval-buffer
       "er" #'eval-region
       "ef" #'eval-defun
-      "ee" #'eval-last-sexp))
-
-) ;; (use-package evil)
+      "ee" #'eval-last-sexp))) ;; (use-package evil)
 
 ;;; Evil surround
 (use-package evil-surround

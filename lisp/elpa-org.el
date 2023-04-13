@@ -144,9 +144,7 @@ Otherwise the cursor is placed at the beginning of the heading."
         ;; together with `:unnarrowed' to resume from existing entries.
         (goto-char (org-element-property
                     (if to-end :end :begin)
-                    l:selected)))))
-
-) ;; (use-package org)
+                    l:selected)))))) ;; (use-package org)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
