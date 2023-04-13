@@ -311,7 +311,7 @@ Use C-M-i to manually trigger completion.")
    ("w" . save-buffer)
    ("n" . pew::next-non-hidden-buffer)
    ("p" . pew::previous-non-hidden-buffer)
-   ("i" . pew::buffer-full-path)
+   ("i" . pew::display-buffer-path)
    ("B" . display-buffer)
 
 ;;;; Jump

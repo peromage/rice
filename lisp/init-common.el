@@ -94,13 +94,12 @@ The result will be shown in the message buffer."
                     form))
   (message "--- End macro expansion ---") t)
 
-(defun pew::keycode-to-string (keycode)
+(defun pew::display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
-  (interactive "nKeycode to name: ")
-  (let ((l:name (help-key-description (vector keycode) nil)))
-    (message l:name)))
+  (interactive "nKeycode: ")
+  (message (key-description (vector keycode))))
 
-(defun pew::buffer-full-path ()
+(defun pew::display-buffer-path ()
   "Display current file path in the minibuffer."
   (interactive)
   (message buffer-file-name))
