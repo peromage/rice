@@ -23,7 +23,8 @@
   (initial-scratch-message "")
 
 ;;;; Windows and frames
-  ;; Over-3-side-window causes troubles when toggling (I don't know why)
+  ;; When 3 side windows present `window-toggle-side-windows' may cause problem
+  ;; Use `winner-undo' to revert the mess
   (display-buffer-alist `((,(pew::special-buffer '(shell terminal) t)
                            ,@(pew::side-window-actions 'bottom 0))
                           (,(pew::special-buffer '(help) t)
