@@ -86,7 +86,6 @@ Default to under `pew::home-dir'.")
   (require 'elpa-org-utils)
   (require 'elpa-utils)
   (require 'elpa-ui)
-  (require 'elpa-extra)
   ;; Language packages may depend on the packages required previously
   (require 'elpa-lsp)
   (require 'elpa-lang)

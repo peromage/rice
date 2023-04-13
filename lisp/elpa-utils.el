@@ -43,10 +43,6 @@ users to specify the shell to start with."
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 
-;;; Search
-(use-package rg
-  :defer t)
-
 ;;; Separate edit
 (use-package separedit
   :bind (:map pew::M-z-map
@@ -74,6 +70,27 @@ users to specify the shell to start with."
   :custom
   (visual-fill-column-center-text t)
   (visual-fill-column-fringes-outside-margins nil))
+
+;;; Lazy loaded
+(pew::use-package-later
+  ;; Search
+  rg
+
+  ;; Nyanyanya!!!
+  nyan-mode
+  zone-nyan
+
+  ;; Colorful parenthesises
+  rainbow-delimiters
+
+  ;; Colorize color code
+  rainbow-mode
+
+  ;; Highlight current line
+  beacon
+
+  ;; Sometimes useful to get prompted for LSP commands
+  which-key)
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
