@@ -65,16 +65,13 @@ users to specify the shell to start with."
   :bind (:map pew::M-z-map
          ("w" . ace-window)))
 
-;;;; Enable focused view
-(use-package visual-fill-column
-  :custom
-  (visual-fill-column-center-text t)
-  (visual-fill-column-fringes-outside-margins nil))
-
 ;;; Lazy loaded
 (pew::use-package-later
   ;; Search
   rg
+
+  ;; Focused view
+  olivetti
 
   ;; Nyanyanya!!!
   nyan-mode
