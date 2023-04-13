@@ -4,13 +4,27 @@
 ;; Configuration for programming languages.
 
 ;;; Code:
-;;; No brainer modes
-(use-package vimrc-mode :defer t)
+;;; Submodules
+;; LSP has to be loaded first as it is the dependency of language moduels
+(require 'elpa-lang-lsp)
 
-(use-package yaml-mode :defer t)
+;; Languages
+(require 'elpa-lang-c)
+(require 'elpa-lang-csharp)
+(require 'elpa-lang-java)
+(require 'elpa-lang-lua)
+(require 'elpa-lang-markdown)
+(require 'elpa-lang-plantuml)
+(require 'elpa-lang-powershell)
+(require 'elpa-lang-python)
 
-(use-package json-mode :defer t)
+;;; Lazy load
+(pew::use-package-later
+  vimrc-mode
+  yaml-mode
+  json-mode)
 
+;;; Random packages
 (use-package cmake-mode :defer t
   :custom
   cmake-tab-width 4)

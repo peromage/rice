@@ -146,5 +146,8 @@ Otherwise the cursor is placed at the beginning of the heading."
                     (if to-end :end :begin)
                     l:selected)))))) ;; (use-package org)
 
+;;; Submodules
+(require 'elpa-org-utils)
+
 (provide 'elpa-org)
 ;;; elpa-org.el ends here

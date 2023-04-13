@@ -1,4 +1,4 @@
-;;; elpa-lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
+;;; elpa-lang-lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; LSP configuration
@@ -133,5 +133,5 @@ MODES is a list of major mode symbols."
   :custom
   (dap-python-executable "python3"))
 
-(provide 'elpa-lsp)
-;;; elpa-lsp.el ends here
+(provide 'elpa-lang-lsp)
+;;; elpa-lang-lsp.el ends here

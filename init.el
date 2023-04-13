@@ -63,10 +63,10 @@ Default to under `pew::home-dir'.")
 (cond
 ;;;; Minimal setup
  (pew::mini-init
-  (message "[pew] Loading minimal init")
   (require 'init-common)
   (require 'init-pewcfg)
-  (require 'init-defaults))
+  (require 'init-defaults)
+  (message "[pew] Loaded minimal init"))
 
 ;;;; Regular setup
  (t
@@ -80,23 +80,12 @@ Default to under `pew::home-dir'.")
   ;; Load ELPA packages (managed by `use-package')
   (require 'elpa-evil)
   (require 'elpa-completion)
-  (require 'elpa-completion-vertico)
   (require 'elpa-git)
   (require 'elpa-org)
-  (require 'elpa-org-utils)
   (require 'elpa-utils)
   (require 'elpa-ui)
-  ;; Language packages may depend on the packages required previously
-  (require 'elpa-lsp)
   (require 'elpa-lang)
-  (require 'elpa-lang-c)
-  (require 'elpa-lang-csharp)
-  (require 'elpa-lang-powershell)
-  (require 'elpa-lang-python)
-  (require 'elpa-lang-java)
-  (require 'elpa-lang-lua)
-  (require 'elpa-lang-markdown)
-  (require 'elpa-lang-plantuml)))
+  (message "[pew] Loaded normal init")))
 
 ;;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)

@@ -5,8 +5,11 @@
 ;; snippet etc..
 
 ;;; Code:
-;;; Completion
-;; This configures `company-mode' and enhances its experience.
+;;; Submodules
+;; (require 'elpa-completion-ivy)
+(require 'elpa-completion-vertico)
+
+;;; Use company as typing completion frontend and backend
 (use-package company
   :demand t
 
