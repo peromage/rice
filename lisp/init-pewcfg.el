@@ -38,24 +38,17 @@ Typical usage is as follow:
       (\"C-x C-d\" . dired-jump))
     ...) "
     (declare (indent 0))
-    (named-let pewcfg-inner ((l:keyword-cons nil)
-                             (l:args args)
-                             (l:running-list '(progn)))
-      (if (not l:args)
-          ;; Ending
-          (reverse l:running-list)
-        ;; Otherwise keep processing the elements
-        (let ((l:head (assq (car l:args) pewcfg::keywords)))
-          (if l:head
-              ;; Look up for the next element if the head is a registered cons
-              (pewcfg-inner l:head
-                            (cdr l:args)
-                            l:running-list)
-            ;; Otherwise update the list and move to the next element
-            (pewcfg-inner l:keyword-cons
-                          (cdr l:args)
-                          (cons (list (cdr l:keyword-cons) (car l:args))
-                                l:running-list)))))))
+    (let (l:macro l:temp)
+      `(progn
+         ,@(mapcar (lambda (entry)
+                     (setq l:temp (assq entry pewcfg::keywords))
+                     (if (null l:temp)
+                         ;; Apply helper macro
+                         (list l:macro entry)
+                       ;; Update current keyword
+                       (setq l:macro (cdr l:temp))
+                       (car l:temp)))
+                   args))))
 
 ;;; :custom
   (defmacro pewcfg::set-custom (form)
@@ -78,17 +71,12 @@ NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
     (let ((l:keymap-symbol (intern (format "%s-map" (car form)))))
-      (named-let pewcfg::set-map-inner ((l:bindings (cdr form))
-                                        (l:running-list (reverse `(let ((ql:keymap ',l:keymap-symbol)) (define-prefix-command ql:keymap)))))
-        (if l:bindings
-            ;; Build the key definition list
-            (pewcfg::set-map-inner (cdr l:bindings)
-                                   (cons `(define-key ql:keymap ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
-                                         l:running-list))
-          ;; Add map variable definition at last and return the list
-          ;; (reverse (cons `(defvar ,l:keymap-symbol ql:keymap "Custom keymap.")
-          ;;                l:running-list))
-          (reverse `(',l:keymap-symbol  ,@l:running-list))))))
+      `(let ((ql:keymap ',l:keymap-symbol))
+         (define-prefix-command ql:keymap)
+         ,@(mapcar (lambda (binding)
+                     `(define-key ql:keymap ,(pewcfg::tokey (car binding)) #',(cdr binding)))
+                   (cdr form))
+         ',l:keymap-symbol)))
 
 ;;; :bind
   (defmacro pewcfg::set-bind (form)
@@ -101,17 +89,12 @@ For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It set key
 bindings in a existing map instead."
     (declare (indent 0))
-    (named-let pewcfg::set-bind-inner ((l:keymap-symbol (intern (format "%s-map" (car form))))
-                                       (l:bindings (cdr form))
-                                       (l:running-list '(progn)))
-      (if l:bindings
-          ;; Build the key definition list
-          (pewcfg::set-bind-inner l:keymap-symbol
-                                  (cdr l:bindings)
-                                  (cons `(define-key ,l:keymap-symbol ,(pewcfg::tokey (caar l:bindings)) #',(cdar l:bindings))
-                                        l:running-list))
-        ;; Return the list
-        (reverse `(',l:keymap-symbol ,@l:running-list)))))
+    (let ((l:keymap-symbol (intern (format "%s-map" (car form)))))
+      `(progn
+         ,@(mapcar (lambda (binding)
+                     `(define-key ,l:keymap-symbol ,(pewcfg::tokey (car binding)) #',(cdr binding)))
+                   (cdr form))
+         ',l:keymap-symbol)))
 
 ;;; :transient
   (defmacro pewcfg::set-transient (form)
@@ -216,17 +199,11 @@ the form:
   (PROP . VAL)
 PROP is the symbol of the property and VAL is the value to set with. "
     (declare (indent 0))
-    (named-let pewcfg::set-property-inner ((l:symbol (car form))
-                                           (l:props (cdr form))
-                                           (l:running-list '(progn)))
-      (if l:props
-          ;; Build the property definition list
-          (pewcfg::set-property-inner l:symbol
-                                      (cdr l:props)
-                                      (cons `(put ',l:symbol ',(caar l:props) ,(cdar l:props))
-                                            l:running-list))
-        ;; Return the list
-        (reverse l:running-list))))
+    (let ((l:symbol (car form)))
+      `(progn
+         ,@(mapcar (lambda (prop)
+                     `(put ',l:symbol ',(car prop) ,(cdr prop)))
+                   (cdr form)))))
 
 ;;; :hook
   (defmacro pewcfg::set-hook (form)
