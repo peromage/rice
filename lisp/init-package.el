@@ -31,8 +31,8 @@
 (eval-and-compile
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
-  (message "[pew] Loading use-package")
   (require 'use-package)
+  (message "[pew] Loaded use-package")
 
   (defmacro pew::use-package-maybe (name &rest args)
     "Configure a package but defer loading and don't install automatically.
