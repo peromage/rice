@@ -5,20 +5,8 @@
 ;; If the theme needs to be configured, move it to an individual module.
 
 ;;; Code:
-;;; Colors schemes
-(use-package doom-themes :defer t)
-(use-package spacemacs-theme :defer t)
-(use-package dracula-theme :defer t)
-(use-package moe-theme :defer t)
-;; Fantastic themes from https://protesilaos.com/
-(use-package modus-themes :defer t)
-(use-package ef-themes :defer t)
-
-;;; Icons
-(use-package all-the-icons :defer t)
-
 ;;; Modeline
-;; Modeline taken from Doom Emacs.
+;; Doom Emacs style modeline
 (use-package doom-modeline
   :custom
   (doom-modeline-height 1)
@@ -33,8 +21,25 @@
     :switch
     (doom-modeline-unicode-fallback)))
 
+;;; Lazy loaded
+(pew::use-package-later
+;;;; Colors schemes
+  doom-themes
+  spacemacs-theme
+  dracula-theme
+  moe-theme
+  ;; Fantastic themes from https://protesilaos.com/
+  modus-themes
+  ef-themes
+  ;; New love
+  catppuccin-theme
+  monokai-theme
+
+;;;; Icons
+  all-the-icons)
+
 ;;; Default looking
-(pew::load-theme 'modus-vivendi)
+(pew::load-theme 'catppuccin)
 
 (provide 'elpa-ui)
 ;;; elpa-ui.el ends here
