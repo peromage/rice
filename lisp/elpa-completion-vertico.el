@@ -117,8 +117,10 @@ ARGS should be a string of arguments passed to ripgrep."
 ;;; Completion matching
 (use-package orderless
   :custom
-  (completion-styles '(orderless basic))
+  (completion-styles '(orderless partial-completion basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
+  ;; (completion-category-overrides nil) ;; To use orderless exclusively
+  ;; (completion-category-defaults nil)  ;; Same above
   (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
 ;;; Minibuffer actions and context menu
