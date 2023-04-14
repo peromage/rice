@@ -144,7 +144,13 @@ Otherwise the cursor is placed at the beginning of the heading."
         ;; together with `:unnarrowed' to resume from existing entries.
         (goto-char (org-element-property
                     (if to-end :end :begin)
-                    l:selected)))))) ;; (use-package org)
+                    l:selected)))))
+
+  (defun pew::org::find-file ()
+    "Find files under `org-directory'."
+    (interactive)
+    (let ((default-directory (file-name-as-directory org-directory)))
+      (call-interactively #'find-file)))) ;; (use-package org)
 
 ;;; Submodules
 (require 'elpa-org-utils)
