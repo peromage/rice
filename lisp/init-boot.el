@@ -12,8 +12,9 @@
 (defun pew::start--daemon()
   "Start Emacs daemon if not running."
   (require 'server)
-  (unless (server-running-p)
-    (message "[pew] Starting Emacs daemon")
+  (if (server-running-p)
+      (message "[pew] Starting in foreground mode")
+    (message "[pew] Starting in daemon mode")
     (server-start)))
 (add-hook 'after-init-hook #'pew::start--daemon)
 
