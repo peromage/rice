@@ -52,8 +52,9 @@
          ([remap bookmark-jump] . consult-bookmark)
          ([remap recentf-open-files] . consult-recent-file)
          ([remap evil-show-marks] . consult-mark)
-         :map minibuffer-local-map
-         ("M-h" . consult-history))
+         :map
+         minibuffer-local-map
+         ("M-q h" . consult-history))
 
   :custom
   (register-preview-function #'consult-register-format)
@@ -61,19 +62,21 @@
   (xref-show-definitions-function #'consult-xref)
   (completion-in-region-function #'pew::consult::completion-in-region)
   (consult-async-min-input 2)
-  (consult-narrow-key "C-l")
   ;; Disable all auto previews
-  (consult-preview-key "C-o")
+  (consult-preview-key '("<up>" "<down>"))
+  (consult-narrow-key "<")
   ;; Don't display special buffers
   (consult-buffer-filter pew::hidden-buffers)
 
   :config
   ;; Enable preview for certain completions
-  (consult-customize consult-theme
-                     :preview-key '(:debounce 0.2 any)
-                     consult-line
-                     consult-line-multi
-                     :preview-key 'any)
+  (consult-customize
+   consult-theme
+   :preview-key '(:debounce 0.2 any)
+
+   consult-line
+   consult-line-multi
+   :preview-key 'any)
 
   ;; Customized search
   (defun pew::consult::rg (dir args)
@@ -90,12 +93,6 @@ ARGS should be a string of arguments passed to ripgrep."
 %s ."
             args)))
       (consult-ripgrep dir)))
-
-  ;; Toggle auto preview
-  ;; The value is (kbd "C-o") see custom `consult-preview-key' below
-  (pewcfg
-    :switch
-    (consult-preview-key . ("C-o" any)))
 
   ;; Completion in region replacement
   (defun pew::consult::completion-in-region (&rest args)
