@@ -282,7 +282,7 @@ Return nil if no match."
   (find-font (apply 'font-spec args)))
 
 ;;; Frames
-(defvar pew::frame-opacity-adjust-step 10
+(defvar pew::frame-opacity-adjust-step 5
   "The amount of opacity changed each time.
 Used by `pew::increase-frame-opacity'and `pew::decrease-frame-opacity'.")
 
