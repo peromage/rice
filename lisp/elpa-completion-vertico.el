@@ -119,14 +119,6 @@ ARGS should be a string of arguments passed to ripgrep."
 
 ;;; Completion matching
 (use-package orderless
-  :init
-  ;; Don't use orderless in company completion
-  (with-eval-after-load 'company
-    (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-    (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
-      (let ((completion-styles pew::orderless::default-completion-styles))
-        (apply oldfunc args))))
-
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion))))

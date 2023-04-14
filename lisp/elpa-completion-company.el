@@ -16,6 +16,14 @@
          ("C-c" . company-complete-selection)
          ("C-k" . company-abort))
 
+  :init
+  ;; Don't use orderless in company completion
+  (with-eval-after-load 'orderless
+    (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
+    (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
+      (let ((completion-styles pew::orderless::default-completion-styles))
+        (apply oldfunc args))))
+
   :custom
   (company-tooltip-align-annotations t)
   (company-tooltip-limit 10)
