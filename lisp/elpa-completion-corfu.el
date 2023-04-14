@@ -7,6 +7,9 @@
 ;;; Completion frontend
 (use-package corfu
   :demand t
+  :hook ((lisp-interaction-mode . pew::corfu::elisp-on-init)
+         (emacs-lisp-mode . pew::corfu::elisp-on-init)
+         (lisp-data-mode . pew::corfu::elisp-on-init))
 
   :bind (:map corfu-map
          ("TAB" . corfu-next)
@@ -17,7 +20,7 @@
          ("C-c" . corfu-insert)
          ("C-k" . corfu-quit)
          ("RET" . corfu-insert)
-         ("C-j" . corfu-move-to-minibuffer))
+         ("C-j" . pew::corfu::move-to-minibuffer))
 
   :custom
   (corfu-cycle t)
@@ -37,14 +40,20 @@
   (corfu-history-mode)
   (corfu-popupinfo-mode)
 
-  (defun corfu-move-to-minibuffer ()
+  (defun pew::corfu::move-to-minibuffer ()
     (interactive)
     (let ((completion-extra-properties corfu--extra)
           completion-cycle-threshold completion-cycling)
       (apply #'consult-completion-in-region completion-in-region--data)))
 
   (define-advice pew::terminal-mode-on-init (:after () pew::corfu::in-terminal)
-    (setq-local corfu-auto nil))) ;; (use-package corfu)
+    (setq-local corfu-auto nil))
+
+  (defun pew::corfu::elisp-on-init ()
+    "Set completion style for ELisp mode."
+    (setq-local completion-at-point-functions
+                (list (cape-super-capf #'elisp-completion-at-point
+                                       #'cape-dabbrev))))) ;; (use-package corfu)
 
 ;;; Makes corfu usable in terminal
 (use-package corfu-terminal
