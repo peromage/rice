@@ -64,13 +64,13 @@ Underlying implementation uses `customize-set-variable'."
     "Create a new map and bind keys with it.
 FORM is of the form:
   (MAP BINDINGS)
-Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
+BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
-    (let ((l:keymap-symbol (intern (format "%s-map" (car form)))))
+    (let ((l:keymap-symbol (car form)))
       `(let ((ql:keymap ',l:keymap-symbol))
          (define-prefix-command ql:keymap)
          ,@(mapcar (lambda (binding)
@@ -83,13 +83,13 @@ effective if the map already exists."
     "Bind keys with an existing map.
 FORM is of the form:
   (MAP BINDINGS)
-Where MAP implies suffix '-map' and BINDINGS is an alist whose element is:
+BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It set key
 bindings in a existing map instead."
     (declare (indent 0))
-    (let ((l:keymap-symbol (intern (format "%s-map" (car form)))))
+    (let ((l:keymap-symbol (car form)))
       `(progn
          ,@(mapcar (lambda (binding)
                      `(define-key ,l:keymap-symbol ,(pewcfg::tokey (car binding)) #',(cdr binding)))
@@ -114,9 +114,10 @@ extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
     (declare (indent 0))
-    (let ((l:cmd (intern (format "%s" (car form))))
-          (l:cmd-repeat (intern (format "%s-repeat" (car form)))))
-      `(let ((ql:keymap (symbol-value (pewcfg::set-map ,form))))
+    (let* ((l:cmd (car form))
+           (l:cmd-repeat (intern (format "%s-repeat" l:cmd)))
+           (l:cmd-map (intern (format "%s-map" l:cmd))))
+      `(let ((ql:keymap (symbol-value (pewcfg::set-map ,(cons l:cmd-map (cdr form))))))
          ;; Take these two essential bindings.
          (define-key ql:keymap (kbd "C-h") (lambda () (interactive) (,l:cmd :repeat)))
          (define-key ql:keymap (kbd "C-g") #'keyboard-quit)

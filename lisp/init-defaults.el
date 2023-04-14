@@ -355,19 +355,19 @@
    ("M-h" . mark-paragraph))
 
   :map
-  (pew::M-o)
-  (pew::M-t)
-  (pew::M-c)
-  (pew::M-u)
-  (pew::M-l)
-  (pew::M-z)
-  (pew::M-q)
-  (pew::M-h)
+  (pew::M-o-map)
+  (pew::M-t-map)
+  (pew::M-c-map)
+  (pew::M-u-map)
+  (pew::M-l-map)
+  (pew::M-z-map)
+  (pew::M-q-map)
+  (pew::M-h-map)
 
 ;;; Mode keybindings
   :bind
 ;;;; Global
-  (global
+  (global-map
    ;; File and directory browsing
    ("C-x C-d" . dired-jump)
 
@@ -389,7 +389,7 @@
    ("M-h" . pew::M-h-map))
 
 ;;;; Dired
-  (dired-mode
+  (dired-mode-map
    ("RET" . pew::dired-go-to)
    ("DEL" . pew::dired-go-up)
    ("f" . dired-find-file)
