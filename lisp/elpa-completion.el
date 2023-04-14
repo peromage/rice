@@ -7,8 +7,8 @@
 ;;; Code:
 ;;; Submodules
 ;; (require 'elpa-completion-ivy)
-(require 'elpa-completion-vertico)
 ;; (require 'elpa-completion-company)
+(require 'elpa-completion-vertico)
 (require 'elpa-completion-corfu)
 
 ;;; Syntax and spell checker
@@ -24,6 +24,8 @@
 
   :config
   (yas-global-mode 1))
+
+;;; TODO: tempel
 
 (provide 'elpa-completion)
 ;;; elpa-completion.el ends here
