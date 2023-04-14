@@ -10,13 +10,15 @@
  ;; Note taking
  ("n" "New note" plain
   (function (lambda ()
-              (let* ((l:timestamp (format-time-string "%Y%m%d%H%M-"))
-                     (l:file-name (read-string "Enter name: " (concat "notes/" l:timestamp))))
-                (if (not (string-match-p "\\.org$" l:file-name))
-                    (setq l:file-name (concat l:file-name ".org")))
-                (kill-new (string-trim (file-name-base l:file-name) (regexp-quote l:timestamp)))
+              (let* ((l:file (read-file-name "Start with file: "
+                                             (expand-file-name (concat "notes/"
+                                                                       (format-time-string "%Y%m%d%H%M-"))
+                                                               org-directory))))
+                (unless (string-match-p "\\.org$" l:file)
+                    (setq l:file (concat l:file ".org")))
+                (kill-new (string-trim (file-name-base l:file) "[0-9]\\{12\\}-"))
                 ;; https://stackoverflow.com/questions/56274067/how-to-use-the-function-option-of-org-capture-correctly
-                (set-buffer (org-capture-target-buffer l:file-name))
+                (set-buffer (org-capture-target-buffer l:file))
                 (goto-char (point-max)))))
   "#+title: %c
 #+date: %T
