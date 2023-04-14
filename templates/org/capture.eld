@@ -15,13 +15,25 @@
                                                                        (format-time-string "%Y%m%d%H%M-"))
                                                                org-directory))))
                 (unless (string-match-p "\\.org$" l:file)
-                    (setq l:file (concat l:file ".org")))
-                (kill-new (string-trim (file-name-base l:file) "[0-9]\\{12\\}-"))
+                  (setq l:file (concat l:file ".org")))
                 ;; https://stackoverflow.com/questions/56274067/how-to-use-the-function-option-of-org-capture-correctly
                 (set-buffer (org-capture-target-buffer l:file))
+                ;; Pass infomation to the capture buffer via `kill-ring'
+                (if (org-collect-keywords '("title" "date"))
+                    (kill-new "resumed-capture")
+                  ;; Title of this capture.eld
+                  (kill-new (string-trim (file-name-base l:file) "[0-9]\\{12\\}-")))
+                ;; Finally move cursor to the end
                 (goto-char (point-max)))))
-  "#+title: %c
-#+date: %T
+  "%(if (string-equal \"resumed-capture\" (car kill-ring))
+        (ignore (pop kill-ring))
+      (with-temp-buffer
+        (insert \"#+title: \"
+                (pop kill-ring)
+                \"\n\"
+                \"#+date: \")
+        (org-time-stamp '(16))
+        (buffer-string)))
 
 %?"
   :kill-buffer t
