@@ -379,12 +379,12 @@
 
    ;; Less frequently used prefix that can be overriden
    ;; Reserved for the future
-   ("M-o" . pew::M-o-map) ;; (taken by minibuffer)
+   ("M-o" . pew::M-o-map) ;; taken by minibuffer
    ("M-t" . pew::M-t-map)
    ("M-c" . pewkey)
-   ("M-u" . pew::M-u-map)
+   ("M-u" . pew::M-u-map) ;; taken by completion
    ("M-l" . pew::M-l-map)
-   ("M-z" . pew::M-z-map) ;; (taken by utilities)
+   ("M-z" . pew::M-z-map) ;; taken by utilities
    ("M-q" . pew::M-q-map)
    ("M-h" . pew::M-h-map))
 
