@@ -377,6 +377,10 @@
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
+   ;; Swap dabbrev default bindings
+   ("M-/" . dabbrev-completion)
+   ("C-M-/" . dabbrev-expand)
+
    ;; Less frequently used prefix that can be overriden
    ;; Reserved for the future
    ("M-o" . pew::M-o-map) ;; taken by minibuffer
