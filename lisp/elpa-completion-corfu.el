@@ -34,7 +34,6 @@
   (corfu-quit-no-match 'separator) ;; Same above
   (corfu-popupinfo-delay '(0.5 . 0.2))
 
-
   :config
   (global-corfu-mode)
   (corfu-history-mode)
@@ -60,9 +59,9 @@
   :after corfu
 
   :custom
-  (corfu-terminal-disable-on-gui)
-  (corfu-terminal-resize-minibuffer)
-  (corfu-terminal-enable-on-minibuffer)
+  (corfu-terminal-disable-on-gui t)
+  (corfu-terminal-resize-minibuffer t)
+  (corfu-terminal-enable-on-minibuffer t)
 
   :config
   (corfu-terminal-mode 1))
