@@ -66,6 +66,16 @@
   :config
   (corfu-terminal-mode 1))
 
+;;; Make it prettier
+(use-package kind-icon
+  :after corfu
+
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 ;;; Completion backend
 (use-package cape
   :demand t
