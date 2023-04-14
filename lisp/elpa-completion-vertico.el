@@ -9,8 +9,7 @@
 (use-package vertico
   :demand t
 
-  :bind (:map
-         vertico-map
+  :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
          ("M-DEL" . vertico-directory-delete-word)
@@ -52,8 +51,7 @@
          ([remap bookmark-jump] . consult-bookmark)
          ([remap recentf-open-files] . consult-recent-file)
          ([remap evil-show-marks] . consult-mark)
-         :map
-         minibuffer-local-map
+         :map minibuffer-local-map
          ("M-q h" . consult-history))
 
   :custom
@@ -110,8 +108,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :demand t
   :after vertico
 
-  :bind (:map
-         vertico-map
+  :bind (:map vertico-map
          ("M-q m" . marginalia-cycle))
 
   :config

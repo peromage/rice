@@ -7,11 +7,9 @@
 (use-package company
   :demand t
 
-  :bind (:map
-         company-mode-map
+  :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete)
-         :map
-         company-active-map
+         :map company-active-map
          ("TAB" . company-complete-common-or-cycle)
          ("C-c" . company-complete-selection)
          ("C-k" . company-abort))
