@@ -36,7 +36,8 @@
   monokai-theme
 
 ;;;; Icons
-  all-the-icons)
+  all-the-icons
+  kind-icon)
 
 ;;; Default looking
 (pew::load-theme 'catppuccin)
