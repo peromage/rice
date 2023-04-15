@@ -21,7 +21,7 @@
                 ;; Pass infomation to the capture buffer via `kill-ring'
                 (if (org-collect-keywords '("title" "date"))
                     (kill-new "resumed-capture")
-                  ;; Title of this capture.eld
+                  ;; Title of this capture
                   (kill-new (string-trim (file-name-base l:file) "[0-9]\\{12\\}-")))
                 ;; Finally move cursor to the end
                 (goto-char (point-max)))))
