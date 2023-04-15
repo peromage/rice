@@ -7,9 +7,6 @@
 ;;; Completion frontend
 (use-package corfu
   :demand t
-  :hook ((lisp-interaction-mode . pew::corfu::elisp-on-init)
-         (emacs-lisp-mode . pew::corfu::elisp-on-init)
-         (lisp-data-mode . pew::corfu::elisp-on-init))
 
   :bind (:map corfu-map
          ("TAB" . corfu-next)
@@ -46,13 +43,7 @@
       (apply #'consult-completion-in-region completion-in-region--data)))
 
   (define-advice pew::terminal-mode-on-init (:after () pew::corfu::in-terminal)
-    (setq-local corfu-auto nil))
-
-  (defun pew::corfu::elisp-on-init ()
-    "Set completion style for ELisp mode."
-    (setq-local completion-at-point-functions
-                (list (cape-super-capf #'elisp-completion-at-point
-                                       #'cape-dabbrev))))) ;; (use-package corfu)
+    (setq-local corfu-auto nil))) ;; (use-package corfu)
 
 ;;; Makes corfu usable in terminal
 (use-package corfu-terminal
@@ -79,6 +70,10 @@
 ;;; Completion backend
 (use-package cape
   :demand t
+  :after corfu
+  :hook ((lisp-interaction-mode . pew::cape::elisp-on-init)
+         (emacs-lisp-mode . pew::cape::elisp-on-init)
+         (lisp-data-mode . pew::cape::elisp-on-init))
 
   :bind (:map pew::M-u-map
          ("p" . completion-at-point)
@@ -108,7 +103,14 @@
                       ;; #'cape-symbol
                       ;; #'cape-line
                       )
-                completion-at-point-functions)))
+                completion-at-point-functions))
+
+  (defun pew::cape::elisp-on-init ()
+    "Set completion style for ELisp mode."
+    (setq-local completion-at-point-functions
+                ;; Combined completion style
+                (list (cape-super-capf #'elisp-completion-at-point
+                                       #'cape-dabbrev))))) ;; (use-package cape)
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here
