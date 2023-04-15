@@ -12,26 +12,15 @@ This configuration intends to be as minimal as possible so it prioritizes using 
 
 For convenience, I've included my [[https://github.com/peromage/rice][personal configuration collection]] in [[./rice][rice]] directory which is synchronized regularly via =git subtree=.
 
+The file structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.
+
 * Features
-- Modular
-- Lightweight and quick
-- Minimal init support (Emacs built-int packages only)
+- Lightweight and modular
+- Respect vanilla Emacs keybindings (=evil-mode= only enabled in editing buffers)
 - Terminal friendly
-- Respect Emacs vanilla key bindings
-- Evil mode enabled mainly for editing buffers (no =evil-collection=)
-- Vertico and its complementary packages as completion framework
-- LSP enabled
 - Emacs 28+ only
 
 * Get started
-Clone this repository to =~/.emacs.d=.
-
-#+begin_src shell
-$ git clone https://github.com/peromage/pew.git ~/.emacs.d
-#+end_src
-
-Then Emacs will automatically install everything for you.
-
 ** Option 1 -- Clone to ~/.emacs.d
 This is the traditional way to use this configuration.  Simply clone this repo to =~/.emacs.d=.
 
@@ -40,13 +29,13 @@ git clone https://github.com/peromage/pew.git ~/.emacs.d
 #+end_src
 
 ** Option 2 -- Clone to somewhere else
-This configuration also supports loaded from non-canonical path.
+This configuration also supports loading from non-canonical path.
 
 #+begin_src sh
 git clone https://github.com/peromage/pew.git ~/pew
 #+end_src
 
-While in the =init.el=,
+While in the =.emacs= or =~/.emacs.d/init.el=,
 
 #+begin_src elisp
 (load-file "~/pew/init.el")
@@ -55,39 +44,14 @@ While in the =init.el=,
 ** Local configuration files
 There are two local configuration files which are not tracked by default.
 
-/custom.el/ (/custom-mini.el/ if ~pew::mini-init~ is non-nil): This file contains all the customization set from ~customize~ interface.  Some settings that wishes not to be tracked can be put here.  This file is loaded at the last.
+- =early-custom.el=: This file is loaded before any other configurations.  Can be used to override some configuration variables.
 
-/early-custom.el/: This file is loaded before any other configurations.  Can be used to override some configuration variables.
+- =custom.el= (or =custom-mini.el= if ~pew::mini-init~ is non-nil): This file is loaded at the last and it contains all the saved customization from ~customize~ interface.  Settings that is not intended to be tracked can be put here.
 
-** List of files and directories
+* pewcfg
+I developed this macro based on my personal preference to configure independently to ~use-package~.
 
-#+begin_example
-pew
-├── lisp/                   # The configuration Lisp files
-├── site-lisp/              # The packages that are written by myself, from 3rd party or from 3rd party but with my modifications
-├── rice/                   # The configuration collection for other apps
-├── scripts/                # The scripts for setup or testing
-├── templates/              # The template definitions including snippets
-├── .pew                    # The repo root placeholder
-├── .gitignore              # The git-ignored patterns
-├── early-init.el           # The Init file loaded before init.el
-├── init.el                 # The Emacs main entry file
-├── LICENSE                 # The license of this repo
-└── README.org              # This file
-#+end_example
-
-* My customizations
-The idea of modular structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.
-
-** Package management
-I've tried my best to avoid cross references between modules so they can be used individually (except =init-common.el=).
-
-Package management uses built-in =package.el= and helper macro [[https://github.com/jwiegley/use-package][use-package]].  I might switch to use [[https://github.com/radian-software/straight.el][straight.el]] if there are demands in the future.
-
-For =use-package=, =use-package-always-ensure= is enabled so packages will be installed automatically.
-
-** pewcfg
-I developed this macro to help myself configure Emacs built-in functionalities in a =use-package= fashion.  Here is a list of keywords.
+Here is a list of keywords.
 
 | Keyword       | Description                                                           |
 |---------------+-----------------------------------------------------------------------|
@@ -105,147 +69,76 @@ I developed this macro to help myself configure Emacs built-in functionalities i
 
 See [[./lisp/init-pewcfg.el][code]] and [[./lisp/init-defaults.el][example]].
 
-** Emacs state key bindings
-To respect Emacs key bindings, I've tried only a few modification on the original ones.  Most of them are just enhancement without changing the meanings.
+* Key bindings
+** Major keybindings
+~evil-mode~ is enabled for editing buffers and outside of it the key bindings are kept in a vanilla fashion.
 
-My personal key bindings mostly are bound in ~pewkey-map~. It can be activated by ~pewkey~ and ~pewkey-repeat~.
+In ~evil-mode~ the =SPC= is bound to ~pewkey-map~ where my personal key bindings go.
+
+This keymap can be activated via ~pewkey~ command as well.  When it is activated, ~pewkey-map~ becomes a transient map and exits after any command invoked in it.
+
+~pewkey~ supports repeat mode.  Unlike ~repeat-mode~ it is still a transient keymap.  A universal argument can be passed to ~pewkey~ to enable repeat mode or press ~C-h~ to enable it while ~pewkey-map~ is active.  Use ~C-g~ to exit.
 
 Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-defaults.el][init-default.el]] for details.
 
-Some commonly used key bindings as showed below.
+My personal key bindings mostly are bound in ~pewkey-map~. It can be activated by ~pewkey~.
 
-| Command                                                    | Prefix      | Definition                                   |
-|------------------------------------------------------------+-------------+----------------------------------------------|
-| ~pewkey~                                                   | =M-c=       | [[./lisp/init-defaults.el][init-default.el]] |
-| ~pewkey-repeat~                                            | =C-u M-c=   | [[./lisp/init-defaults.el][init-default.el]] |
-| Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | =C-x b=     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | =C-x g=     | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | =C-c l ...= | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| @@html:<b>@@G@@html:</b>@@it by ~magit~                    | =M-z g ...= | [[./lisp/elpa-git.el][elpa-git.el]]          |
-| Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | =M-z w=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | =M-z f=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | =M-z j=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| Separate edit by ~separedit~                               | =M-z '=     | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+** A brief list of keybindings
+Global
 
-** Evil mode key bindings
-Evil leader key is bound with =\= as a "secondary" leader since most of the bindings are from ~pewkey~ under =SPC= to keep habit consistent.
+| Key         | Command                                                    | Definition                                   |
+|-------------+------------------------------------------------------------+----------------------------------------------|
+| =M-c=       | ~pewkey~                                                   | [[./lisp/init-defaults.el][init-default.el]] |
+| =C-u M-c=   | ~pewkey-repeat~                                            | [[./lisp/init-defaults.el][init-default.el]] |
+| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
+| =M-z g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./lisp/elpa-git.el][elpa-git.el]]          |
+| =M-z w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z '=     | Separate edit by ~separedit~                               | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
 
-The local leader is not used frequently so I leave it undefined.
+Evil
 
-| Command         | Key binding (normal and visual state) |
-|-----------------+---------------------------------------|
-| Leader          | =\=                                   |
-| Local leader    | N/A                                   |
-| ~pewkey~        | =SPC=                                 |
+| Key (normal and visual state) | Command      |
+|-------------------------------+--------------|
+| =\=                           | Leader       |
+| N/A                           | Local leader |
+| =SPC=                         | ~pewkey~     |
 
 See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
-** Naming convention
-Since Elisp doesn't support namespace, it's a little painful to distinguish symbol names from other packages.  Although the traditional recommendation is to prefix variables and functions with the package name and use dash only to separate the actual names, I found it's not very intuitive.
+** Available key prefixes
+The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in ~pewkey-map~.
 
-I decided to add some personal tastes also try to keep it simple. Complicated rules may make it hard to remember and cause inconsistency.
+| Prefix | Map           |
+|--------+---------------|
+| =M-o=  | ~pew::M-o-map |
+| =M-t=  | ~pew::M-t-map |
+| =M-c=  | ~pew::M-c-map |
+| =M-u=  | ~pew::M-u-map |
+| =M-l=  | ~pew::M-l-map |
+| =M-z=  | ~pew::M-z-map |
+| =M-q=  | ~pew::M-q-map |
+| =M-h=  | ~pew::M-h-map |
 
-Xah Lee had a [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]] on this.
+* Misc - some conventions
+** Naming conventions
+Personally I don't like the Emacs traditional naming which prepends package name with =-=.  I prefer using =::= because it divides namespace and symbol name in a more visual appealing way.
 
-Also, worth trying [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][Shorthands]] if the variable prefix is too long.
+Also to distinguish local variables better, I use prefix =l:= for ~let~ bound variables and =ql:= for ~let~ bound variables in macros expansion.
 
-*** Namespace separator =::=
-I prefer C++ style when it comes to namespace.
+There are a lot discussions about ELisp naming convention.  Xah Lee had a pretty reasonable one here: [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]].
 
-For example:
-- ~pew::foo::bar~
+The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][shorthands]] is a good practice to simplify naming things, too.
 
-*** Variable and function names
-ELisp naming convention should suffice in this case.  Namespace can be prefixed if needed.
+** use-package keyword order
+No strict order but I prefer to put ~:custom~ ~:init~ and ~:config~ at the end of declaration in this order, since they consist of the most part of a package configuration.
 
-For example:
-- ~some-awesome-symbol~
-- ~pew::symbol-with-namespace~
-
-*** Function parameters
-For now it keeps consistent with [[*Variable and function names]].  However, I also consider moving to use Camel style in the future.
-
-For example:
-- ~(defun foo (one-param another-one))~
-- ~(defun bar (OneParam AnotherOne))~ -- maybe
-
-*** Let bound variables =l:= =ql:=
-For the scoped variables, I use =l:= prefix and =ql:= for the variables that are in a quoted list.
-
-For example:
-- ~(let ((l:local-foo "something") (l:local-bar 123)))~
-- ~`(let ((ql:local-foo "something") (ql:local-bar 123)))~
-
-*** Unused variables
-Prefix the unused variables just like Python.
-
-For example:
-- ~(defun foo (take-this _ignored))~
-
-
-** Format convention
-*** Comments
-In-line comment starts with two semicolons followed by a space at the same indentation of the code. e.g. =;; something=.
-
-If commenting out a line of code, prepend two semicolons without spaces. e.g. =;;(form)=.
-
-Divider comment start at least three semicolons followed by a space. The number of semicolons depends on the depth. e.g. =;;; A divider line=.
-
-*** use-package keyword order
-I prefer this declaration order when configuring with =use-package=.
-
-If a keyword occupies more than one line, put an empty line before and after it.
-
-|------------------+-------------|
-| Description      | Keyword     |
-|------------------+-------------|
-| Always enabled   | ~:demand~   |
-|                  | ~:ensure~   |
-|------------------+-------------|
-| Cause deferral   | ~:defer~    |
-|                  | ~:if~       |
-|                  | ~:requires~ |
-|                  | ~:after~    |
-|                  | ~:commands~ |
-|------------------+-------------|
-| Bindings         | ~:mode~     |
-|                  | ~:bind~     |
-|                  | ~:hook~     |
-|------------------+-------------|
-| Loaded anyway    | ~:init~     |
-|------------------+-------------|
-| Customization    | ~:custom~   |
-|------------------+-------------|
-| On module loaded | ~:config~   |
-|------------------+-------------|
-
-*** use-package keyword spacing
-Usually each keyword section should be surrounded by an empty line if it takes more than one line.
-
-However, if the keyword section takes only one line, then multiple keywords that follow the same fashion can be put together without spacing. For example
-
-#+begin_src elisp
-(use-package foo
-  :ensure t
-  :defer nil
-  :requires bar
-
-  :init
-  (form1)
-  (form2)
-
-  :config
-  (form3)
-  (form4))
-#+end_src
-
-* Literal configuration?
-Short answer is no.
-
-I've seen a lot people put their configs in a giant org file and render it in a nice web page.  Looks cool but I think I'm still an old-fashioned guy who likes to code in a traditional way.  Code re-usability is important for me.  And haven't mentioned that proper comments with =outline-mode= can also make code easy to navigate.
-
-* Acknowledgement
+* Acknowledgment
 This configuration is inspired by
+
 - [[https://github.com/purcell/emacs.d][purcell/emacs.d]]
 - [[https://github.com/protesilaos/dotfiles][protesilaos/dotfiles]]
 - [[https://github.com/condy0919/.emacs.d][condy0919/.emacs.d]]
