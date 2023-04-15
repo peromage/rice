@@ -112,16 +112,16 @@ See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 ** Available key prefixes
 The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in ~pewkey-map~.
 
-| Prefix | Map           |
-|--------+---------------|
-| =M-o=  | ~pew::M-o-map |
-| =M-t=  | ~pew::M-t-map |
-| =M-c=  | ~pew::M-c-map |
-| =M-u=  | ~pew::M-u-map |
-| =M-l=  | ~pew::M-l-map |
-| =M-z=  | ~pew::M-z-map |
-| =M-q=  | ~pew::M-q-map |
-| =M-h=  | ~pew::M-h-map |
+| Prefix | Map            |
+|--------+----------------|
+| =M-o=  | ~pew::M-o-map~ |
+| =M-t=  | ~pew::M-t-map~ |
+| =M-c=  | ~pew::M-c-map~ |
+| =M-u=  | ~pew::M-u-map~ |
+| =M-l=  | ~pew::M-l-map~ |
+| =M-z=  | ~pew::M-z-map~ |
+| =M-q=  | ~pew::M-q-map~ |
+| =M-h=  | ~pew::M-h-map~ |
 
 * Misc - some conventions
 ** Naming conventions
