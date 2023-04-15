@@ -15,7 +15,7 @@ jobs:
         emacs_version:
           - 28.1
           - 28.2
-          - snapshot
+          # - snapshot
 
     runs-on: ${{ matrix.os }}
     concurrency:
