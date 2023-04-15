@@ -30,11 +30,13 @@
   (corfu-quit-at-boundary 'separator) ;; Quit boundary unless separator is used
   (corfu-quit-no-match 'separator) ;; Same above
   (corfu-popupinfo-delay '(0.5 . 0.2))
+  (corfu-echo-delay '(0.5 . 0.2))
 
   :config
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode)
+  (corfu-echo-mode)
 
   (defun pew::corfu::move-to-minibuffer ()
     (interactive)
