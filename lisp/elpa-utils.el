@@ -65,7 +65,7 @@ users to specify the shell to start with."
          ("w" . ace-window)
          ("W" . ace-swap-window)))
 
-;;; Lazy loaded
+;;; Lazy loadeding
 (pew::use-package-later
   ;; Search
   rg

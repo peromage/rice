@@ -4,21 +4,7 @@
 ;; Configuration for programming languages.
 
 ;;; Code:
-;;; Submodules
-;; LSP has to be loaded first as it is the dependency of language moduels
-(require 'elpa-lang-lsp)
-
-;; Languages
-(require 'elpa-lang-c)
-(require 'elpa-lang-csharp)
-(require 'elpa-lang-java)
-(require 'elpa-lang-lua)
-(require 'elpa-lang-markdown)
-(require 'elpa-lang-plantuml)
-(require 'elpa-lang-powershell)
-(require 'elpa-lang-python)
-
-;;; Lazy load
+;;; Lazy loading
 (pew::use-package-later
   vimrc-mode
   yaml-mode

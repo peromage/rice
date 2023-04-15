@@ -21,7 +21,7 @@
     :switch
     (doom-modeline-unicode-fallback)))
 
-;;; Lazy loaded
+;;; Lazy loadeding
 (pew::use-package-later
 ;;;; Colors schemes
   doom-themes

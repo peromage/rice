@@ -152,8 +152,5 @@ Otherwise the cursor is placed at the beginning of the heading."
     (let ((default-directory (file-name-as-directory org-directory)))
       (call-interactively #'find-file)))) ;; (use-package org)
 
-;;; Submodules
-(require 'elpa-org-utils)
-
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
