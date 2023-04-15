@@ -27,9 +27,9 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ### Environment variables
 $Env:PATH = @(
     $Env:PATH
-    (Join-Path $rice.home.Parent.FullName "scripts")
-    (Join-Path $HOME ".dotnet/tools")
+    (Join-Path $rice.home.Parent.FullName "bin")
     (Join-Path $HOME "bin")
+    (Join-Path $HOME ".dotnet/tools")
 ) -join [IO.Path]::PathSeparator
 $Env:EDITOR = "vim"
 

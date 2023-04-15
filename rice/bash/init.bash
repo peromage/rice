@@ -14,9 +14,9 @@ source "${BASH_SOURCE%/*}/librice/base.bash"
 
 ### Environment
 export PATH=$(rice_join ":" "$PATH" \
-    "$(realpath -s ${rice[home]}/../scripts)" \
-    "${HOME}/.dotnet/tools" \
-    "${HOME}/bin")
+    "$(realpath -s ${rice[home]}/../bin)" \
+    "${HOME}/bin" \
+    "${HOME}/.dotnet/tools")
 export EDITOR="vim"
 
 ### Load module files
