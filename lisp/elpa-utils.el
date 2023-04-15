@@ -62,7 +62,8 @@ users to specify the shell to start with."
 ;;; Jump between windows
 (use-package ace-window
   :bind (:map pew::M-z-map
-         ("w" . ace-window)))
+         ("w" . ace-window)
+         ("W" . ace-swap-window)))
 
 ;;; Lazy loaded
 (pew::use-package-later

@@ -46,6 +46,7 @@
          ("C-x f" . consult-find)
          ("C-x g" . consult-ripgrep)
          ("C-x G" . consult-git-grep)
+         ("C-x l" . consult-outline)
          ([remap imenu] . consult-imenu)
          ([remap goto-line] . consult-goto-line)
          ([remap bookmark-jump] . consult-bookmark)
