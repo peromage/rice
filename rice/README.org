@@ -15,7 +15,7 @@ Simply use =install.sh= script to install supported configs.
 # List supported configs
 $ ./install.sh
 
-# Install configurations for applications
+# Install specific configurations
 $ ./install.sh bash pwsh git tmux
 
 # Install all
@@ -24,20 +24,11 @@ $ ./install.sh $(./install.sh)
 
 To add a new config installation, put a =install.sh= script in the application's folder.
 
-* Why not just use GNU Stow?
-=stow= is really good.  However, sometimes applications might accidentally change the configurations then the repository would become dirty.
-
-I like to have some flexibility to control how the installation behaves.  Also I find that in order to use =stow= the folder structure may become ugly (I have to keep the same hierarchy).  That's why I like to use my own scripts.
-
 * Appendix: a list of CLI alternatives
 - Better ~ls~: [[https://github.com/ogham/exa][exa]]
 - Better ~cat~: [[https://github.com/sharkdp/bat][bat]]
 - Better ~grep~: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
 - Better ~find~: [[https://github.com/junegunn/fzf][fzf]]
-- Quick jump:
-  - [[https://github.com/ajeetdsouza/zoxide][zoxide]]
-  - [[https://github.com/skywind3000/z.lua][z.lua]]
-- File manager:
-  - [[https://github.com/gokcehan/lf][lf]]
-  - [[https://midnight-commander.org][mc]]
+- Quick jump: [[https://github.com/ajeetdsouza/zoxide][zoxide]], [[https://github.com/skywind3000/z.lua][z.lua]]
+- File manager: [[https://github.com/gokcehan/lf][lf]], [[https://midnight-commander.org][mc]]
 - Automation: [[https://github.com/eradman/entr][entr]]
