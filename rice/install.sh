@@ -2,46 +2,49 @@
 
 ### Configuration
 INSTALL_SCRIPT_NAME="install.sh"
+THIS_DIR=$(realpath -s $(dirname $BASH_SOURCE))
 
 ### Function definitions
 help() {
     cat <<EOF
-$(generate_installable_module_list)
+ --- Available moduels ---
+$(list_modules)
 EOF
 }
 
-generate_installable_module_list() {
+## Any subdirectory that has $INSTALL_SCRIPT_NAME at the root
+list_modules() {
     for i in $(ls */$INSTALL_SCRIPT_NAME); do
         echo "${i%%/$INSTALL_SCRIPT_NAME}"
     done
 }
 
-validate_module_support() {
-    ## Validate if input modules have install scripts defined
-    local error=0
-    local supported_modules=$(generate_installable_module_list)
-    ## Stupid loop but works
+## This function should be executed at the root of the rice directory
+install() {
+    local failed=""
+    local succeeded=""
     for i in $@; do
-        for j in $supported_modules; do
-            [[ $j =~ ^$i$ ]] && continue 2
-        done
-        echo "$i: No installation script found.  $i/$INSTALL_SCRIPT_NAME has to be provided."
-        error=1
+        if $i/$INSTALL_SCRIPT_NAME; then
+            succeeded="$succeeded $i"
+        else
+            failed="$failed $i"
+        fi
     done
-    return $error
+    for i in $succeeded; do
+        echo ">> SUCCEEDED: $i"
+    done
+    [[ -z "$failed" ]] && exit 0
+    ## Print failed ones
+    for i in $failed; do
+        echo ">> FAILED: $i"
+    done
+    exit 1
 }
 
 ### Script starts here
-## Change working directory
-cd "$(dirname $BASH_SOURCE)"
+cd $THIS_DIR
 
-## Print available modules when none specified
-[[ $# -eq 0 ]] && help && exit 1
+[[ 0 -eq $# ]] && list_modules && exit 1
+[[ "-h" == "$1" ]] || [[ "--help" == "$1" ]] && help && exit 1
 
-## Abort if one of the modules doesn't have install script defined
-validate_module_support $@ || exit 1
-
-## Install modules
-for i in $@; do
-    $i/$INSTALL_SCRIPT_NAME
-done
+install $@
