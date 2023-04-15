@@ -12,6 +12,12 @@
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pew::terminal-mode-on-init)
 
+  :custom
+  (vterm-kill-buffer-on-exit t)
+  (vterm-max-scrollback 10000)
+  (vterm-tramp-shells '(("ssh" "/bin/bash")
+                        ("plink" "/bin/bash")))
+
   :init
   (defun pew::vterm::new (arg)
     "Create a new vterm window.
@@ -21,13 +27,7 @@ users to specify the shell to start with."
     (if arg
         (let ((vterm-shell (read-string "Shell: ")))
           (vterm :new))
-      (vterm :new)))
-
-  :custom
-  (vterm-kill-buffer-on-exit t)
-  (vterm-max-scrollback 10000)
-  (vterm-tramp-shells '(("ssh" "/bin/bash")
-                        ("plink" "/bin/bash"))))
+      (vterm :new))))
 
 ;;; Tree navigation
 (use-package treemacs

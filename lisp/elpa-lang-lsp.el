@@ -13,20 +13,6 @@
          ([remap xref-find-definitions] . lsp-find-definition)
          ([remap xref-find-references] . lsp-find-declaration))
 
-  :init
-  (defmacro pew::lsp::define-remote (server modes)
-    "A shortcut to define LSP remote client.
-SERVER is the base name of the server executable.
-MODES is a list of major mode symbols."
-    (let ((l:server-id (intern (format "%s-remote" server))))
-      `(with-eval-after-load 'lsp-mode
-         (lsp-register-client
-          (make-lsp-client
-           :new-connection (lsp-tramp-connection ,server)
-           :major-modes ',modes
-           :remote? t
-           :server-id ',l:server-id)))))
-
   :custom
   (lsp-keymap-prefix "C-c l")
 
@@ -69,7 +55,21 @@ MODES is a list of major mode symbols."
   (lsp-completion-provider :capf)
 
   ;; Other
-  (lsp-log-io nil))
+  (lsp-log-io nil)
+
+  :init
+  (defmacro pew::lsp::define-remote (server modes)
+    "A shortcut to define LSP remote client.
+SERVER is the base name of the server executable.
+MODES is a list of major mode symbols."
+    (let ((l:server-id (intern (format "%s-remote" server))))
+      `(with-eval-after-load 'lsp-mode
+         (lsp-register-client
+          (make-lsp-client
+           :new-connection (lsp-tramp-connection ,server)
+           :major-modes ',modes
+           :remote? t
+           :server-id ',l:server-id))))))
 
 ;;; LSP experience improvement
 (use-package lsp-ui
