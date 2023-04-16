@@ -1,10 +1,29 @@
 ## Temporary folders
-temp/
-tmp/
-cache/
-.cache/
+/temp/
+/tmp/
+/cache/
+/.cache/
 
-## Temporary files
-**/local.sh
-**/local.bash
-**/local.ps1
+## GnuPG (whitelist)
+/**/.gnupg/*
+!/**/.gnupg/gpg-agent.conf
+!/**/.gnupg/gpg.conf
+!/**/.gnupg/sshcontrol
+
+## Fcitx5 (whitelist)
+/**/.config/fcitx5/*
+!/**/.config/fcitx5/conf/
+/**/.config/fcitx5/conf/*
+/**/.local/share/fcitx5/*
+
+!/**/.config/fcitx5/config
+!/**/.config/fcitx5/profile
+!/**/.config/fcitx5/conf/notifications.conf
+!/**/.config/fcitx5/conf/rime.conf
+!/**/.local/share/fcitx5/default.custom.yaml
+!/**/.local/share/fcitx5/fcitx5.custom.yaml
+
+## Vifm (whitelist)
+/**/.config/vifm/*
+!/**/.config/vifm/colors/
+!/**/.config/vifm/vifmrc
