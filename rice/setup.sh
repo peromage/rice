@@ -9,6 +9,7 @@ $0 usage:
     -h, --help    Print this message
     --sync        Stash uncommitted changes, sync this repository and restore
     --stow        Use Stow to setup all configurations under "stow" directory
+    --unstow      Delete all stowed packages
 EOF
 }
 
@@ -30,6 +31,10 @@ setup_stow() {
     stow -d "$THIS_DIR/stow" -t $HOME .
 }
 
+setup_unstow() {
+    stow -d "$THIS_DIR/stow" -t $HOME -D .
+}
+
 ### Script starts here
 case "$1" in
     --sync)
@@ -37,6 +42,9 @@ case "$1" in
         ;;
     --stow)
         setup_stow
+        ;;
+    --unstow)
+        setup_unstow
         ;;
     *)
         help
