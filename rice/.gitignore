@@ -27,3 +27,8 @@
 /**/.config/vifm/*
 !/**/.config/vifm/colors/
 !/**/.config/vifm/vifmrc
+
+## Total Commander (whitelist)
+/**/AppData/Roaming/GHISLER/*
+!/**/AppData/Roaming/GHISLER/conf/
+!/**/AppData/Roaming/GHISLER/wincmd.ini

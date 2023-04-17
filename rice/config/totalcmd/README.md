@@ -1,1 +1,0 @@
-Configuration path: `%APPDATA%\GHISLER`
