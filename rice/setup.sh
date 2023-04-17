@@ -28,6 +28,7 @@ setup_sync() {
 }
 
 setup_stow() {
+    mkdir $HOME/.gnupg 2>/dev/null ## Make sure no accidental db submission
     stow -d "$THIS_DIR/stow" -t $HOME .
 }
 
