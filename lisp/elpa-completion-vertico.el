@@ -66,6 +66,8 @@
   (consult-narrow-key "<")
   ;; Don't display special buffers
   (consult-buffer-filter pew::hidden-buffers)
+  ;; Find hidden directory
+  (consult-find-args "find . ! -path '*/.git/*'")
 
   :config
   ;; Enable preview for certain completions
