@@ -9,20 +9,22 @@
 This is a collection of my daily tool configurations.
 
 * Get started
-Simply use =install.sh= script to install supported configs.
+Configurations are managed by GNU =Stow=.
 
 #+begin_src shell
-# List supported configs
-$ ./install.sh
+# Use the setup script to make life easier
+./setup.sh --stow
 
-# Install specific configurations
-$ ./install.sh bash pwsh git tmux
-
-# Install all
-$ ./install.sh $(./install.sh)
+# Or one may want to type manually (equivalent to the script)
+stow -d ./stow -t $HOME .
+# To hoose specific packages
+stow -d ./config -t $HOME pkg1 pkg2
 #+end_src
 
-To add a new config installation, put a =install.sh= script in the application's folder.
+To sync the repository, use =setup.sh= since it automatically stashes unmerged changes.
+#+begin_src shell
+./setup.sh --sync
+#+end_src
 
 * Appendix: a list of CLI alternatives
 - Better ~ls~: [[https://github.com/ogham/exa][exa]]
