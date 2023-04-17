@@ -10,13 +10,14 @@
 
   :bind (:map corfu-map
          ("TAB" . corfu-next)
-         ("<tab>" . corfu-next)
          ("S-TAB" . corfu-previous)
+         ("<tab>" . corfu-next)
          ("<backtab>" . corfu-previous)
          ("C-s" . corfu-insert-separator)
          ("C-c" . corfu-insert)
          ("C-k" . corfu-quit)
-         ("RET" . corfu-insert)
+         ("RET" . nil)
+         ("<return>" . nil)
          ("C-j" . pew::corfu::move-to-minibuffer))
 
   :custom
