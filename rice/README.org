@@ -17,7 +17,7 @@ Configurations are managed by GNU =Stow=.
 
 # Or one may want to type manually (equivalent to the script)
 stow -d ./stow -t $HOME .
-# To hoose specific packages
+# To choose specific packages
 stow -d ./config -t $HOME pkg1 pkg2
 #+end_src
 
