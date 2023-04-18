@@ -18,7 +18,7 @@ local rice_keys = ricemeta:rice_bind({
     { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
     -- Mode shift
     { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
-    { mods = "CTRL|SHIFT",  key = "X",      action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
+    { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
 })
 
 --- Keys that can be used repeatedly
