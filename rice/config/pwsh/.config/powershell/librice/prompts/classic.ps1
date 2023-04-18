@@ -6,7 +6,7 @@ function simplify_path {
 }
 
 function prompt {
-    if ($rice.privileged) {
+    if ($RICE.privileged) {
         Write-Host -NoNewline -ForegroundColor DarkGray "["
         Write-Host -NoNewline -ForegroundColor Red "$([Environment]::UserName)"
         Write-Host -NoNewline -ForegroundColor DarkGray "@"

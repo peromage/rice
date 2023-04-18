@@ -6,9 +6,26 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
     Write-Host -ForegroundColor Red "PowerShell 7 and above required"
     return
 }
+## Global variables
+$RICE = @{
+    rc = Get-Item "$PSScriptRoot"
+    privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
+}
+## Return a string with dot sourcing syntax
+## Due to the limitation, sourcing has to be done in the global scope
+function rice_include_expr {
+    param ($file)
+    return ". $(Join-Path $RICE.rc.FullName librice $file) $args"
+}
 
-### Initialization
-. $PSScriptRoot/librice/base.ps1
+### Loading modules
+&{
+    rice_include_expr alias.ps1
+    rice_include_expr prompts/minimalist.ps1
+    if ($IsWindows) {
+        rice_include_expr alias-windows.ps1
+    }
+} | ForEach-Object { Invoke-Expression $_ }
 
 ### PSReadLine
 &{
@@ -27,18 +44,6 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ### Environment variables
 $Env:PATH = @(
     $Env:PATH
-    (Join-Path $rice.home.Parent.FullName "bin")
     (Join-Path $HOME "bin")
     (Join-Path $HOME ".dotnet/tools")
 ) -join [IO.Path]::PathSeparator
-$Env:EDITOR = "vim"
-
-### Load modules
-&{
-    rice_include_expr librice/alias.ps1
-    rice_include_expr librice/hack.ps1
-    rice_include_expr librice/theme/minimalist.ps1
-    if ($rice.platform_windows) {
-        rice_include_expr librice/alias-windows.ps1
-    }
-} | ForEach-Object { Invoke-Expression $_ }

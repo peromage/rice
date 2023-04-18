@@ -55,8 +55,3 @@ Set-Alias ll Get-ChildItem
 Set-Alias which Get-Command
 Set-Alias df Get-Volume
 Set-Alias grep Select-String
-
-### Cygwin
-function cygwin_install {
-    cygwin --no-admin --no-shortcuts @args
-}
