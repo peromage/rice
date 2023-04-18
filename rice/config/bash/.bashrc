@@ -1,5 +1,5 @@
 #!/bin/bash
-### init.bash -- Bootstrap for Bash
+### .bashrc -- Bootstrap for Bash
 
 ### Prerequisites
 ## Source guard
@@ -8,27 +8,20 @@
 [[ ! "$-" =~ "i" ]] && return 2
 ## Emacs TRAMP mode
 [[ "$TERM" =~ "[Dd]umb" ]] && PS1="$ " && return 3
+## Global variables
+declare -A RICE=(
+    [rc]=$(realpath -s $(dirname $BASH_SOURCE)) ## where this script is (no follow)
+    [os_windows]=$([[ "$OS" =~ "[Ww]indows" ]] && echo 1)
+)
+## Equivalent to: source librice/module [args]
+function rice_include { local f="${1:-}" && shift && source "${RICE[rc]}/librice/${f}" $@; }
 
-### Initialization
-source "${BASH_SOURCE%/*}/librice/base.bash"
+### Loading module files
+rice_include alias.bash
+rice_include prompts/classic.sh
 
 ### Environment
-export PATH=$(rice_join ":" "$PATH" \
-    "$(realpath -s ${rice[home]}/../bin)" \
-    "${HOME}/bin" \
-    "${HOME}/.dotnet/tools")
-export EDITOR="vim"
+rice_include env.sh path
 
-### Load module files
-rice_include librice/alias.sh
-rice_include librice/theme/classic.sh
-
-if [[ -n "${rice[platform_windows]}" ]]; then
-    rice_include librice/alias-win.sh
-fi
-
-### Env
-#rice_include librice/env.sh NAME1 NAME2
-
-### Initialization
+### Startup commands
 reload-gpg-agent
