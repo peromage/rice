@@ -41,9 +41,4 @@ function rice_include_expr {
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 }
 
-### Environment variables
-$Env:PATH = @(
-    $Env:PATH
-    (Join-Path $HOME "bin")
-    (Join-Path $HOME ".dotnet/tools")
-) -join [IO.Path]::PathSeparator
+### Random stuff starts here
