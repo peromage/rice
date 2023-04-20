@@ -10,4 +10,8 @@ local conf = ricemeta:rice_bind({}):rice_merge(
     require "librice.commands"
 )
 
+--- Random stuff starts here
+local ok, m = pcall(require, "custom")
+if ok then m.customize(conf) end
+
 return conf
