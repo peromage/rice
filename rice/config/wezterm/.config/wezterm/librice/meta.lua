@@ -73,8 +73,10 @@ return {
     -- Return self after merging.
     rice_merge = function(self, ...)
         for _,tbl in ipairs({...}) do
-            for k,v in pairs(tbl) do
-                self[k] = v
+            if "table" == type(tbl) then
+                for k,v in pairs(tbl) do
+                    self[k] = v
+                end
             end
         end
         return self
