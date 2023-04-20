@@ -32,6 +32,15 @@ for i in "$@"; do
         editor-mg)
             export EDITOR="mg"
             ;;
+        shell-bash)
+            export SHELL="/usr/bin/bash"
+            ;;
+        shell-fish)
+            export SHELL="/usr/bin/fish"
+            ;;
+        shell-pwsh)
+            export SHELL="/usr/bin/pwsh"
+            ;;
         ssh-agent)
             export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
             # [ ! -e $SSH_AUTH_SOCK ] && eval $(ssh-agent -a $SSH_AUTH_SOCK)
