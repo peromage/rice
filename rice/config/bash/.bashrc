@@ -21,7 +21,4 @@ rice_include alias.bash
 rice_include prompts/classic.sh
 
 ### Environment
-rice_include env.sh path
-
-### Startup commands
-reload-gpg-agent
+rice_include env.sh path gpg-agent
