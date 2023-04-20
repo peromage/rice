@@ -11,6 +11,16 @@ local conf = ricemeta:rice_bind({}):rice_merge(
 )
 
 --- Random stuff starts here
+-- Usually this might look like:
+-- return {
+--     customize = function(config)
+--         config:rice_merge(
+--             {
+--                 default_prog = { "fish", "-i" }
+--             }
+--         )
+--     end
+-- }
 local ok, m = pcall(require, "custom")
 if ok then m.customize(conf) end
 
