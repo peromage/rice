@@ -13,12 +13,13 @@ local rice_keys = ricemeta:rice_bind({
     { mods = "CTRL|SHIFT",  key = "S",      action = act.QuickSelect },
     { mods = "CTRL|SHIFT",  key = "U",      action = act.CharSelect{ copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }},
     -- Most of the less used commands can be accessed from the palette or the launcher
-    -- { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
+    { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
     { mods = "CTRL|SHIFT",  key = "L",      action = act.ShowLauncher },
     { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
     -- Mode shift
-    { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
     { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable{ name = "rice_transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
+    { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
+    { mods = "CTRL|SHIFT",  key = "?",      action = act.ShowDebugOverlay },
 })
 
 --- Keys that can be used repeatedly
