@@ -5,12 +5,16 @@ local ricemeta = require "librice.meta"
 --- Custom launch menu
 local rice_launch_menu = ricemeta:rice_bind({
     {
-        label = "Pwsh",
-        args = { "pwsh", "-NoLogo" },
-    },
-    {
         label = "Bash",
         args = { "bash", "-i" },
+    },
+    {
+        label = "Fish",
+        args = { "fish", "-i" },
+    },
+    {
+        label = "Pwsh",
+        args = { "pwsh", "-NoLogo" },
     },
 })
 
