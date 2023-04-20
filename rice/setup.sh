@@ -3,7 +3,7 @@
 ### Variables and functions
 THIS_DIR=$(realpath -s $(dirname $BASH_SOURCE))
 
-help() {
+function help {
     cat <<EOF
 $0 usage:
     -h, --help    Print this message
@@ -13,7 +13,7 @@ $0 usage:
 EOF
 }
 
-setup_sync() {
+function setup_sync {
     cd $THIS_DIR
     [[ "No local changes to save" == $(git stash push) ]] && local pop_needed=1
     git pull origin HEAD
@@ -27,12 +27,13 @@ setup_sync() {
     exit 0
 }
 
-setup_stow() {
-    mkdir $HOME/.gnupg 2>/dev/null ## Make sure no accidental db submission
+function setup_stow {
+    ## Make sure no accidental db submission
+    mkdir $HOME/.gnupg 2>/dev/null && chmod 700 $HOME/.gnupg 2>/dev/null
     stow -d "$THIS_DIR/stow" -t $HOME .
 }
 
-setup_unstow() {
+function setup_unstow {
     stow -d "$THIS_DIR/stow" -t $HOME -D .
 }
 
