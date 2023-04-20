@@ -19,10 +19,6 @@ for i in "$@"; do
             export QT_IM_MODULE="fcitx"
             export XMODIFIERS="@im=fcitx"
             ;;
-        gpg-agent)
-            export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-            export GPG_TTY="$(tty)"
-            ;;
         firefox-wayland)
             export MOZ_ENABLE_WAYLAND=1
             ;;
@@ -35,6 +31,15 @@ for i in "$@"; do
             ;;
         editor-mg)
             export EDITOR="mg"
+            ;;
+        ssh-agent)
+            export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+            # [ ! -e $SSH_AUTH_SOCK ] && eval $(ssh-agent -a $SSH_AUTH_SOCK)
+            ;;
+        gpg-agent)
+            unset SSH_AGENT_PID
+            export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+            # export GPG_TTY=$(tty)
             ;;
         *)
             echo "No definition for $i"
