@@ -6,11 +6,13 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
     Write-Host -ForegroundColor Red "PowerShell 7 and above required"
     return
 }
+
 ## Global variables
-$RICE = @{
-    rc = Get-Item "$PSScriptRoot"
-    privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
-}
+$RICE = @{}
+$RICE.rc = Get-Item "$PSScriptRoot"
+$RICE.custom_rc = (Join-Path $RICE.rc "custom.ps1")
+$RICE.privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
+
 ## Return a string with dot sourcing syntax
 ## Due to the limitation, sourcing has to be done in the global scope
 function rice_include_expr {
@@ -42,3 +44,4 @@ function rice_include_expr {
 }
 
 ### Random stuff starts here
+if (Test-Path -Type Leaf $RICE.custom_rc) { . $RICE.custom_rc }
