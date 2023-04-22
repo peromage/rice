@@ -308,8 +308,8 @@
 ;;;; Buffers
    ("r" . rename-buffer)
    ("w" . save-buffer)
-   ("n" . pew::next-non-hidden-buffer)
-   ("p" . pew::previous-non-hidden-buffer)
+   ("n" . pew::next-edit-buffer)
+   ("p" . pew::previous-edit-buffer)
    ("i" . pew::display-buffer-path)
    ("B" . display-buffer)
 
@@ -372,8 +372,8 @@
    ("C-x C-d" . dired-jump)
 
    ;; Remap for better experience
-   ([remap next-buffer] . pew::next-non-hidden-buffer)
-   ([remap previous-buffer] . pew::previous-non-hidden-buffer)
+   ([remap next-buffer] . pew::next-edit-buffer)
+   ([remap previous-buffer] . pew::previous-edit-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 

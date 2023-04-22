@@ -133,21 +133,26 @@ if there is not match."
           ((string-match-p (car l:pattern-list) name) t)
           (t (try-match-pattern (cdr l:pattern-list))))))
 
-(defun pew::next-non-hidden-buffer (&optional backwards)
-  "Switch to the next non-hidden buffer.
+(defun pew::dired-buffer-p (name)
+  "Check if the given buffer NAME is a Dired buffer."
+  (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
+
+(defun pew::next-edit-buffer (&optional backwards)
+  "Switch to the next edit buffer.
 If BACKWARDS is non-nil doing it backwards."
   (interactive "P")
   (let ((l:current-buffer (current-buffer))
         (l:switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall l:switch-func)
-    (while (and (pew::hidden-buffer-p (buffer-name))
-                (not (eq l:current-buffer (current-buffer))))
+    (while (and (not (eq l:current-buffer (current-buffer)))
+                (or (pew::hidden-buffer-p (buffer-name))
+                    (pew::dired-buffer-p (buffer-name))))
       (funcall l:switch-func))))
 
-(defun pew::previous-non-hidden-buffer ()
-  "Like `pew::next-non-hidden-buffer' but does it backwards."
+(defun pew::previous-edit-buffer ()
+  "Like `pew::next-edit-buffer' but does it backwards."
   (interactive)
-  (pew::next-non-hidden-buffer :previous))
+  (pew::next-edit-buffer :previous))
 
 (defun pew::close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
