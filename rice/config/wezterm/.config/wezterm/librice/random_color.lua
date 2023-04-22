@@ -1,4 +1,4 @@
---- random_color.lua --- Global commands -*- lua-indent-level: 4; -*-
+--- random_color.lua --- Global commands
 
 local wezterm = require "wezterm"
 
