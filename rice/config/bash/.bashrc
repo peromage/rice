@@ -92,11 +92,11 @@ rice_env prompt-classic path gpg-agent
 
 ### Commands
 function rice_include {
-    ## Source any file that is relative to this one
-    ## Usage: rice_include file [args]
-    local f="${1:-}"
-    shift
-    source "${RICE[rc]}/${f}" $@;
+    ## Source a .bash script file under librice directory.
+    ## The name should be the file basename without extension .bash.
+    ## Usage: rice_include name [args]
+    local name="${1:-}"; shift
+    source "${RICE[rc]}/librice/${name}.bash" $@;
 }
 
 function brewenv {

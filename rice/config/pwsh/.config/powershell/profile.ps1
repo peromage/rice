@@ -39,12 +39,13 @@ $function:prompt = {
 }
 
 ### Commands
-function rice_include_expr {
-    <# Return a string with dot sourcing syntax.
+function rice_include {
+    <# Return a string of a .ps1 script under librice directory.
+The name should be the file basename without extension .ps1.
 Due to the limitation, sourcing has to be done in the global scope. e.g.
-  iex (rice_include_expr file) #>
-    param ($file)
-    return ". $(Join-Path $RICE.rc.FullName $file) $args"
+  . (rice_include file) [args] #>
+    param ($name)
+    return (Join-Path $RICE.rc.FullName "librice" "${name}.ps1")
 }
 
 function simplify_home_path {
