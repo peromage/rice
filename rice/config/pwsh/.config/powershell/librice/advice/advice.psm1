@@ -2,7 +2,7 @@
 
 ### Function decoration
 ## Behavior definitions follow Emacs "define_advice". Only function is supported
-function define-advice {
+function define_advice {
     param([Parameter(Mandatory, Position=0, ParameterSetName="before")]
           [Parameter(Mandatory, Position=0, ParameterSetName="after")]
           [Parameter(Mandatory, Position=0, ParameterSetName="around")]
@@ -100,3 +100,5 @@ function define-advice {
         return
     }
 }
+
+Export-ModuleMember -Function *

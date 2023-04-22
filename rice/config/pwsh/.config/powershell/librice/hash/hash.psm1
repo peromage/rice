@@ -19,3 +19,5 @@ function hash_sha512 {
     param($file)
     (Get-FileHash -Algorithm SHA512 $file).Hash
 }
+
+Export-ModuleMember -Function *

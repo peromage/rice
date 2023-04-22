@@ -13,6 +13,9 @@ $RICE.rc = Get-Item "$PSScriptRoot"
 $RICE.custom_rc = (Join-Path $RICE.rc "custom.ps1")
 $RICE.privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
 
+## Modules will be autoloaded
+$Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.rc librice)
+
 ### PSReadLine and prompt
 &{
     $my_psreadline_options = @{
