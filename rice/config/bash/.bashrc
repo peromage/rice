@@ -3,7 +3,6 @@
 ### Environment
 ## This section must be POSIX compliant since it can be sourced by any shell
 rice_env() {
-    echo called $1
     case "$1" in
         path)
             export PATH="$PATH\
