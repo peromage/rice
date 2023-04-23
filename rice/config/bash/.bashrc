@@ -3,6 +3,7 @@
 ### Environment
 ## This section must be POSIX compliant since it can be sourced by any shell
 rice_env() {
+    echo called $1
     case "$1" in
         path)
             export PATH="$PATH\
@@ -66,10 +67,7 @@ rice_env() {
 
 if [ "x--env" = "x$1" ]; then
     shift
-    for i in "$@"; do
-        rice_env $i
-    done
-    unset i
+    for i in "$@"; do rice_env $i; done; unset i
     return 0
 fi
 ## End Environment
@@ -88,7 +86,8 @@ RICE[rc]=$(realpath -s $(dirname $BASH_SOURCE)) ## where this script is (no foll
 RICE[custom_rc]="${RICE[rc]}/custom.bash"
 RICE[os_windows]=$([[ "$OS" =~ "[Ww]indows" ]] && echo 1)
 
-rice_env prompt-classic path gpg-agent
+for i in prompt-classic path gpg-agent
+do rice_env $i; done; unset i
 
 ### Commands
 function rice_include {
