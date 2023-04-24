@@ -42,19 +42,20 @@ Default to under `pew::home-dir'.")
   "Early custom file path.  This is loaded before this init.el.
 Default to under `pew::home-dir'.")
 
-;;; Load early file
-(load pew::early-custom-file :noerror)
-;; Configurations from the interactive `customize' interfaces.
-(setq custom-file (if pew::mini-init pew::custom-mini-file pew::custom-file))
-
 ;;; Emacs version check
 (if (version< emacs-version pew::minimal-emacs-version)
     (error "[pew] Emacs version %s+ is required" pew::minimal-emacs-version))
+
+;; Configurations from the interactive `customize' interfaces.
+(setq custom-file (if pew::mini-init pew::custom-mini-file pew::custom-file))
 
 ;;; Runtime path
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
 (add-to-list 'load-path (expand-file-name "lisp" pew::home-dir))
 (add-to-list 'load-path (expand-file-name "site-lisp" pew::home-dir))
+
+;;; Load early file
+(load pew::early-custom-file :noerror)
 
 ;;; Load required libraries
 (require 'subr-x)
