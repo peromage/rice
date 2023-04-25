@@ -30,6 +30,7 @@ function setup_sync {
 function setup_stow {
     ## Make sure no accidental db submission
     mkdir $HOME/.gnupg 2>/dev/null && chmod 700 $HOME/.gnupg 2>/dev/null
+    mkdir $HOME/bin 2>/dev/null
     stow -d "$THIS_DIR/stow" -t $HOME .
 }
 
