@@ -8,7 +8,8 @@
 (pew::use-package-later
   vimrc-mode
   yaml-mode
-  json-mode)
+  json-mode
+  fish-mode)
 
 ;;; Random packages
 (use-package cmake-mode :defer t
