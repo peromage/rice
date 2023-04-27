@@ -5,10 +5,10 @@
 rice_env() {
     case "$1" in
         path)
-            export PATH="$PATH\
-:${HOME}/bin\
-:${HOME}/.dotnet/tools\
-"
+            export PATH="\
+${HOME}/bin:\
+${HOME}/.dotnet/tools:\
+$PATH"
             ;;
         xdg)
             export XDG_DATA_HOME="$HOME/.local/share"
