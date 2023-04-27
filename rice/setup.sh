@@ -3,26 +3,30 @@
 ### Variables and functions
 THIS_DIR=$(realpath -s $(dirname $BASH_SOURCE))
 
-function help {
+function setup_help {
     cat <<EOF
 $0 usage:
-    -h, --help    Print this message
-    --sync        Stash uncommitted changes, sync this repository and restore
-    --stow        Use Stow to setup all configurations under "stow" directory
-    --unstow      Delete all stowed packages
+$(declare -F | perl -ne '/setup_(.+)/ and print "  --$1\n"')
 EOF
 }
 
-function setup_sync {
+function setup_sync_with_stash {
     cd $THIS_DIR
     [[ "No local changes to save" == $(git stash push) ]] && local pop_needed=1
-    git pull origin HEAD
+    git pull
     [[ -n $pop_needed ]] && git stash pop
     if [[ -n "$(git diff --name-only --diff-filter=U)" ]]; then
         ## Conflicts
         echo -e "\e[31;1m>> FAILED: Conflicts found after sync\e[0m"
         exit 1
     fi
+    echo ">>  SUCCEEDED: sync_with_stash"
+    exit 0
+}
+
+function setup_sync {
+    cd $THIS_DIR
+    git pull
     echo ">>  SUCCEEDED: sync"
     exit 0
 }
@@ -39,18 +43,13 @@ function setup_unstow {
 }
 
 ### Script starts here
-case "$1" in
-    --sync)
-        setup_sync
-        ;;
-    --stow)
-        setup_stow
-        ;;
-    --unstow)
-        setup_unstow
+opt=${1:-} && shift
+case "$opt" in
+    --*)
+        setup_${opt#--} $@
         ;;
     *)
-        help
+        setup_help
         exit 1
         ;;
 esac
