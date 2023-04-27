@@ -2,7 +2,7 @@
 
 ### Status check
 if ! status is-interactive
-    return
+    exit
 end
 
 ### Environment variables
