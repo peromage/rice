@@ -33,6 +33,13 @@
 !/**/AppData/Roaming/GHISLER/conf/
 !/**/AppData/Roaming/GHISLER/wincmd.ini
 
+## Fish (whitelist)
+/**/.config/fish/*
+!/**/.config/fish/config.fish
+!/**/.config/fish/functions/
+!/**/.config/fish/completions/
+!/**/.config/fish/conf.d/
+
 ## Custom files
 /**/custom.bash
 /**/custom.ps1
