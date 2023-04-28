@@ -37,11 +37,11 @@ function prepare_dir {
 
 function setup_stow {
     prepare_dir
-    stow -d config -t $HOME .
+    stow -d config -t $HOME $@
 }
 
 function setup_unstow {
-    stow -d config -t $HOME -D .
+    stow -d config -t $HOME -D $@
 }
 
 function setup_preset {
