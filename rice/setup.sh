@@ -44,12 +44,10 @@ function setup_unstow {
 
 ### Script starts here
 opt=${1:-} && shift
-case "$opt" in
-    --*)
-        setup_${opt#--} $@
-        ;;
-    *)
-        setup_help
-        exit 1
-        ;;
-esac
+if ! setup_help | grep -Pq -- "^ *$opt *$"; then
+    setup_help
+    printf "\nNot a valid option: $opt\n"
+    exit 1
+fi
+
+setup_${opt#--} $@
