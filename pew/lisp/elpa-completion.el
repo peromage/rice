@@ -6,9 +6,10 @@
 
 ;;; Code:
 ;;; Syntax and spell checker
-(use-package flycheck
-  :config
-  (global-flycheck-mode 1))
+;; TODO: Remove this in Emacs 29.
+(use-package flymake-shellcheck
+  :commands flymake-shellcheck-load
+  :hook (sh-mode . flymake-shellcheck-load))
 
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
