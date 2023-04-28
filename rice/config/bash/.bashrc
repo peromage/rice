@@ -7,8 +7,11 @@ rice_env() {
         path)
             export PATH="\
 ${HOME}/bin:\
-${HOME}/.dotnet/tools:\
+${HOME}/.local/bin:\
 $PATH"
+            ;;
+        path-dotnet)
+            export PATH="${HOME}/.dotnet/tools:${PATH}"
             ;;
         xdg)
             export XDG_DATA_HOME="$HOME/.local/share"
