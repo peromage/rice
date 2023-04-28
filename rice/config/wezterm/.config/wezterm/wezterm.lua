@@ -230,6 +230,21 @@ local launch_menu = meta:_bind {
     },
 }
 
+--- Domains
+local wsl_domains = {
+    {
+        name = "WSL::Ubuntu-22.04",
+        distribution = "Ubuntu-22.04",
+        default_cwd = "~",
+    },
+    {
+        name = "WSL::Ubuntu-22.04-tmux",
+        distribution = "Ubuntu-22.04",
+        default_cwd = "~",
+        default_prog = {"sh", "-c", "tmux a || tmux"},
+    },
+}
+
 --- Module table
 local conf = meta:_bind {
     -- System
@@ -290,6 +305,9 @@ local conf = meta:_bind {
 
     -- Launch menu
     launch_menu = launch_menu,
+
+    -- Domains
+    wsl_domains = wsl_domains,
 }
 
 --- Random stuff
