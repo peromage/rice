@@ -67,7 +67,7 @@ Here is a list of keywords.
 | ~:eval~       | Evaluate forms.                                                       |
 | ~:eval-after~ | Evaluate forms after the feature is loaded.                           |
 
-See [[./lisp/init-pewcfg.el][code]] and [[./lisp/init-defaults.el][example]].
+See [[./pew/lisp/init-pewcfg.el][code]] and [[./pew/lisp/init-defaults.el][example]].
 
 * Key bindings
 ** Major keybindings
@@ -79,25 +79,25 @@ This keymap can be activated via ~pewkey~ command as well.  When it is activated
 
 ~pewkey~ supports repeat mode.  Unlike ~repeat-mode~ it is still a transient keymap.  A universal argument can be passed to ~pewkey~ to enable repeat mode or press ~C-h~ to enable it while ~pewkey-map~ is active.  Use ~C-g~ to exit.
 
-Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-defaults.el][init-default.el]] for details.
+Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-defaults.el][init-default.el]] for details.
 
 My personal key bindings mostly are bound in ~pewkey-map~. It can be activated by ~pewkey~.
 
 ** A brief list of keybindings
 Global
 
-| Key         | Command                                                    | Definition                                   |
-|-------------+------------------------------------------------------------+----------------------------------------------|
-| =M-c=       | ~pewkey~                                                   | [[./lisp/init-defaults.el][init-default.el]] |
-| =C-u M-c=   | ~pewkey-repeat~                                            | [[./lisp/init-defaults.el][init-default.el]] |
-| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| =M-z g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./lisp/elpa-git.el][elpa-git.el]]          |
-| =M-z w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z '=     | Separate edit by ~separedit~                               | [[./lisp/elpa-utils.el][elpa-utils.el]]      |
+| Key         | Command                                                    | Definition                                       |
+|-------------+------------------------------------------------------------+--------------------------------------------------|
+| =M-c=       | ~pewkey~                                                   | [[./pew/lisp/init-defaults.el][init-default.el]] |
+| =C-u M-c=   | ~pewkey-repeat~                                            | [[./pew/lisp/init-defaults.el][init-default.el]] |
+| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]  |
+| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]          |
+| =M-z g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./pew/lisp/elpa-git.el][elpa-git.el]]          |
+| =M-z w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
+| =M-z '=     | Separate edit by ~separedit~                               | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
 
 Evil
 
@@ -107,7 +107,7 @@ Evil
 | N/A                           | Local leader |
 | =SPC=                         | ~pewkey~     |
 
-See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
+See [[./pew/lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
 ** Available key prefixes
 The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in ~pewkey-map~.
