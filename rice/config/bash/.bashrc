@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 ### .bashrc  -- Bash init -*- outline-regexp: "###\\(#* \\)"; -*-
 
 ### Environment
@@ -52,11 +53,11 @@ $PATH"
             ;;
         gpg-agent)
             unset SSH_AGENT_PID
-            export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-            # export GPG_TTY=$(tty)
+            SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" && export SSH_AUTH_SOCK
+            # GPG_TTY=$(tty) && export GPG_TTY
             ;;
         prompt-classic)
-            case "$UID" in
+            case "$(id -u)" in
                 0) PS1='\[\e[1;30m\][\[\e[0;1;31m\]\u\[\e[1;30m\]@\[\e[0;1;31m\]\h \[\e[0;1;31m\]\w\[\e[1;30m\]]#\[\e[0m\] ';;
                 *) PS1='\[\e[1;30m\][\[\e[0;1;34m\]\u\[\e[1;30m\]@\[\e[0;1;34m\]\h \[\e[0;1;36m\]\w\[\e[1;30m\]]$\[\e[0m\] ';;
             esac
@@ -67,9 +68,9 @@ $PATH"
     esac
 }
 
-if [ "x--env" = "x$1" ]; then
+if [ "--env" = "$1" ]; then
     shift
-    for i in "$@"; do rice_env $i; done; unset i
+    for i in "$@"; do rice_env "$i"; done; unset i
     return 0
 fi
 ## End Environment
@@ -80,13 +81,13 @@ fi
 ## Interactive mode only
 [[ ! "$-" =~ "i" ]] && return 2
 ## Emacs TRAMP mode
-[[ "$TERM" =~ "[Dd]umb" ]] && PS1="$ " && return 3
+[[ "$TERM" =~ [Dd]umb ]] && PS1="$ " && return 3
 
 ### Environment variables
 declare -A RICE
-RICE[rc]=$(realpath -s $(dirname $BASH_SOURCE)) ## where this script is (no follow)
+RICE[rc]="$(realpath -s "$(dirname "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
 RICE[custom_rc]="${RICE[rc]}/custom.bash"
-RICE[os_windows]=$([[ "$OS" =~ "[Ww]indows" ]] && echo 1)
+RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 for i in prompt-classic path gpg-agent
 do rice_env $i; done; unset i
@@ -97,7 +98,7 @@ function rice_include {
     ## The name should be the file basename without extension .bash.
     ## Usage: rice_include name [args]
     local name="${1:-}"; shift
-    source "${RICE[rc]}/librice/${name}.bash" $@;
+    source "${RICE[rc]}/librice/${name}.bash" "$@";
 }
 
 function brewenv {
