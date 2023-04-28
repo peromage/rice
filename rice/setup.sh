@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 ### Variables and functions
 THIS_DIR=$(realpath -s $(dirname $BASH_SOURCE))
