@@ -11,6 +11,8 @@ set -g PATH $HOME/bin $PATH
 ## Use Emacs style
 set -g fish_key_bindings fish_default_key_bindings
 set -g fish_cursor_selection_mode exclusive
+## Add to $fish_user_paths
+fish_add_path $HOME/bin $HOME/.local/bin
 
 ### Commands
 function easy_cd
