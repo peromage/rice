@@ -1,38 +1,26 @@
-# Emacs user directory is usually filled with random files. It would be a hassle
-# to exclude them all.  Thus whitelist mode is used in this gitignore file.
+## Emacs user directory is usually filled with random files. It would be a hassle
+## to exclude them all.  Thus whitelist mode is used in this gitignore file.
 
-# First, exclude all files
+## First, exclude all files
 *
 
-# Include elisp source files but not compiled byte files
-!/lisp/
-!/lisp/**
-/lisp/**/*.elc
-!/site-lisp/
-!/site-lisp/**
-/site-lisp/**/*.elc
+## Include pew files
+!/pew/
+!/pew/**
+## But without compiled ELisp files
+/pew/**/*.elc
 
-# Include tempalte files
-!/templates/
-!/templates/**
-
-# Include my rice config
+## Include my rice config
 !/rice/
 !/rice/**
 
-# Include scripts
-!/scripts/
-!/scripts/**
-
-# Include GitHub workflows
+## Include GitHub workflows
 !/.github/
 !/.github/**
 
-# Include files at the repo root
+## Include files at the repo root
 !/.gitignore
-!/.pew
 !/LICENSE
-!/README.md
 !/README.org
 !/early-init.el
 !/init.el
