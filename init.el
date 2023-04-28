@@ -22,11 +22,11 @@ loaded from other places.")
   "The default directory to place org note files.
 Default to under `pew::home-dir'.")
 
-(defvar pew::org-template-dir (expand-file-name "templates/org" pew::home-dir)
+(defvar pew::org-template-dir (expand-file-name "pew/org-templates" pew::home-dir)
   "The directory where to put org template files.
 Default to under `pew::home-dir'.")
 
-(defvar pew::yasnippet-template-dir (expand-file-name "templates/yasnippet" pew::home-dir)
+(defvar pew::yasnippet-template-dir (expand-file-name "pew/yasnippet-templates" pew::home-dir)
   "The directory where to put yasnippet template files.
 Default to under `pew::home-dir'.")
 
@@ -51,8 +51,8 @@ Default to under `pew::home-dir'.")
 
 ;;; Runtime path
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(add-to-list 'load-path (expand-file-name "lisp" pew::home-dir))
-(add-to-list 'load-path (expand-file-name "site-lisp" pew::home-dir))
+(add-to-list 'load-path (expand-file-name "pew/lisp" pew::home-dir))
+(add-to-list 'load-path (expand-file-name "pew/site-lisp" pew::home-dir))
 
 ;;; Load early file
 (load pew::early-custom-file :noerror)
