@@ -219,14 +219,17 @@ local launch_menu = meta:_bind {
     {
         label = "Bash",
         args = { "bash", "-i" },
+        domain = { DomainName = "local" },
     },
     {
         label = "Fish",
         args = { "fish", "-i" },
+        domain = { DomainName = "local" },
     },
     {
         label = "Pwsh",
         args = { "pwsh", "-NoLogo" },
+        domain = { DomainName = "local" },
     },
 }
 
