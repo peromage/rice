@@ -47,6 +47,7 @@
          ("C-x g" . consult-ripgrep)
          ("C-x G" . consult-git-grep)
          ("C-x l" . consult-outline)
+         ("C-x L" . consult-flymake)
          ([remap imenu] . consult-imenu)
          ([remap goto-line] . consult-goto-line)
          ([remap bookmark-jump] . consult-bookmark)
@@ -77,6 +78,8 @@
 
    consult-line
    consult-line-multi
+   consult-outline
+   consult-flymake
    :preview-key 'any)
 
   ;; Customized search

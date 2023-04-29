@@ -329,10 +329,6 @@
    ("/" . isearch-forward-regexp)
    ("," . isearch-query-replace-regexp)
 
-;;;; Org
-   ("c" . org-capture)
-   ("C" . org-agenda)
-
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("C-=" . text-scale-adjust)
    ("C--" . text-scale-adjust)
@@ -360,7 +356,12 @@
   (pew::M-c-map)
   (pew::M-u-map)
   (pew::M-l-map)
-  (pew::M-z-map)
+  (pew::M-z-map
+   ("c" . org-capture)
+   ("a" . org-agenda)
+   ("! !" . flymake-mode)
+   ("! b" . flymake-show-buffer-diagnostics)
+   ("! p" . flymake-show-project-diagnostics))
   (pew::M-q-map)
   (pew::M-h-map)
 
