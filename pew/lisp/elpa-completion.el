@@ -11,6 +11,10 @@
   :commands flymake-shellcheck-load
   :hook (sh-mode . flymake-shellcheck-load))
 
+;; Plan B.  In case `flymake' doesn't have checkers for certain languages
+(use-package flycheck
+  :commands (global-flycheck-mode flycheck-mode))
+
 ;;; Snippets
 ;; Default snippet directory is located at "snippets" in this PEW configuration.
 (use-package yasnippet
