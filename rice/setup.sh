@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-set -e
 
 ### Variables and functions
 THIS_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
