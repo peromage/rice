@@ -7,7 +7,7 @@ if [[ ! -d rice ]]; then
     exit 1
 fi
 
-if [[ $(git branch --show-current) != $TARGET_BRANCH ]]; then
+if [[ $(git branch --show-current) != "$TARGET_BRANCH" ]]; then
     echo "Checkout branch \"$TARGET_BRANCH\" to proceed!"
     exit 1
 fi
