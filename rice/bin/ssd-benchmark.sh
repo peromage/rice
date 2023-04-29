@@ -1,5 +1,6 @@
-#!/bin/bash
-if [[ $(id -u) -ne 0 ]]; then
+#!/bin/sh
+
+if [ "$(id -u)" -ne 0 ]; then
     echo "Root is required"
     exit
 fi

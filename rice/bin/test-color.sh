@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 ################################################################################
 #
 # Test color support for the shell
@@ -13,10 +14,10 @@ word="gYm"
 # print columns with background colors
 # usage: pcbg <word> <color_code>
 pcbg() {
-    printf "%${width}s " ${2:3}
-    printf "$2%${width}s " $1
+    printf "%${width}s " "${2:3}"
+    printf "$2%${width}s " "$1"
     for i in {40..47}; do
-        printf "$2\e[${i}m%${width}s\e[0m " $1
+        printf "$2\e[${i}m%${width}s\e[0m " "$1"
     done
     printf "\n"
 }

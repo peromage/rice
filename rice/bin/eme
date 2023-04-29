@@ -1,3 +1,3 @@
 #!/bin/sh
 
-emacs -Q --batch --eval "(message \"%s\" $@)"
+emacs -Q --batch --eval "(message \"%s\" $*)"
