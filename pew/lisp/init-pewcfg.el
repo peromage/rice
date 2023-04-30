@@ -139,10 +139,10 @@ NOTE: 'C-g' and 'C-h' is preserved and cannot be bound by user."
     "Create an interactive command to switch variable from a list of values.
 VALUES is a list of values that the VARIABLE can be possibly set to.
 If VALUES is nil, the VARIABLE will be switch between (nil t) by default.
-A new command 'switch/VARIABLE' will be created as well as a variable with
+A new command 'switch::VARIABLE' will be created as well as a variable with
 the same name which stores VALUES"
     (declare (indent 0))
-    (let ((l:switch-symbol (intern (format "switch/%s" variable)))
+    (let ((l:switch-symbol (intern (format "switch::%s" variable)))
           (l:switch-values (if values (cons -1 values) (cons -1 '(nil t)))))
       `(progn
          (defvar ,l:switch-symbol ',l:switch-values
