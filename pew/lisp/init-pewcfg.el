@@ -8,17 +8,17 @@
 (eval-and-compile
 ;;; The list of keywords
   (defvar pewcfg::keywords
-    '((:custom     . pewcfg::set-custom)
-      (:map        . pewcfg::set-map)
-      (:bind       . pewcfg::set-bind)
-      (:transient  . pewcfg::set-transient)
-      (:switch     . pewcfg::set-switch)
-      (:face       . pewcfg::set-face)
-      (:property   . pewcfg::set-property)
-      (:hook       . pewcfg::set-hook)
-      (:automode   . pewcfg::set-automode)
-      (:eval       . pewcfg::set-eval)
-      (:eval-after . pewcfg::set-eval-after))
+    '((:custom     . (pewcfg::set-custom . pewcfg::with-flattened-form))
+      (:map        . (pewcfg::set-map . pewcfg::with-flattened-form))
+      (:bind       . (pewcfg::set-bind . pewcfg::with-flattened-form))
+      (:transient  . (pewcfg::set-transient . pewcfg::with-flattened-form))
+      (:switch     . (pewcfg::set-switch . pewcfg::with-flattened-cons))
+      (:face       . (pewcfg::set-face . pewcfg::with-flattened-form))
+      (:property   . (pewcfg::set-property . pewcfg::with-flattened-form))
+      (:hook       . (pewcfg::set-hook . pewcfg::with-flattened-cons))
+      (:automode   . (pewcfg::set-automode . pewcfg::with-flattened-cons))
+      (:eval       . (pewcfg::set-eval . pewcfg::with-identical-form))
+      (:eval-after . (pewcfg::set-eval-after . pewcfg::with-flattened-form)))
     "An alist of keywords used in `pewcfg' to specify sections.
 The value of each element is the expansion helper of that section.")
 
@@ -38,16 +38,16 @@ Typical usage is as follow:
       (\"C-x C-d\" . dired-jump))
     ...) "
     (declare (indent 0))
-    (let (l:macro l:temp)
+    (let (l:stored l:entry)
       `(progn
-         ,@(mapcar (lambda (entry)
-                     (setq l:temp (assq entry pewcfg::keywords))
-                     (if (null l:temp)
-                         ;; Apply helper macro
-                         (list l:macro entry)
-                       ;; Update current keyword
-                       (setq l:macro (cdr l:temp))
-                       (car l:temp)))
+         ,@(mapcar (lambda (form)
+                     (setq l:entry (assq form pewcfg::keywords))
+                     (if (null l:entry)
+                         ;; Expand form with corresponded macro
+                         (list (cdr l:stored) (car l:stored) form)
+                       ;; Update current function
+                       (setq l:stored (cdr l:entry))
+                       (car l:entry)))
                    args))))
 
 ;;; :custom

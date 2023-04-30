@@ -147,6 +147,57 @@ the one passed to `pew::expand-macro'."
     '(with-eval-after-load 'foo (call 911) (call another))
     (pewcfg::set-eval-after foo (call 911) (call another)))
 
+;;; Main entry expansion
+  (expect-equal "pewcfg"
+    '(progn
+       :custom
+       (pewcfg::with-flattened-form pewcfg::set-custom (foo foovalue "comment"))
+       :bind
+       (pewcfg::with-flattened-form pewcfg::set-bind (foo-map ("a" . func1)))
+       :map
+       (pewcfg::with-flattened-form pewcfg::set-map (foo-map ("a" . func1)))
+       :transient
+       (pewcfg::with-flattened-form pewcfg::set-transient (foo ("a" . func1)))
+       :switch
+       (pewcfg::with-flattened-cons pewcfg::set-switch (foo . (v1 v2)))
+       :face
+       (pewcfg::with-flattened-form pewcfg::set-face (foo :family "bar" :height 123))
+       :property
+       (pewcfg::with-flattened-form pewcfg::set-property (foo (prop val)))
+       :hook
+       (pewcfg::with-flattened-cons pewcfg::set-hook (foo . func))
+       :automode
+       (pewcfg::with-flattened-cons pewcfg::set-automode ("macher" . mode))
+       :eval
+       (pewcfg::with-identical-form pewcfg::set-eval (foo bar))
+       :eval-after
+       (pewcfg::with-flattened-form pewcfg::set-eval-after (foo (call something))))
+    (pew::expand-macro
+      (pewcfg
+        :custom
+        (foo foovalue "comment")
+        :bind
+        (foo-map ("a" . func1))
+        :map
+        (foo-map ("a" . func1))
+        :transient
+        (foo ("a" . func1))
+        :switch
+        (foo . (v1 v2))
+        :face
+        (foo :family "bar" :height 123)
+        :property
+        (foo (prop val))
+        :hook
+        (foo . func)
+        :automode
+        ("macher" . mode)
+        :eval
+        (foo bar)
+        :eval-after
+        (foo (call something)))
+      1 t))
+
 ;;; Utilities
   (expect-expansion "with-flattened-form" 1
     '(foo a b c)
