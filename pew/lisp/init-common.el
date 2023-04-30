@@ -77,22 +77,26 @@ See `display-buffer' for property SIDE, SLOT."
   (interactive)
   (find-file user-init-file))
 
-(defmacro pew::expand-macro (form &optional step)
+(defmacro pew::expand-macro (form &optional step noprint)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
   1                - call `macroexpand-1'
   any other values - call `macroexpand-all'
-The result will be shown in the message buffer."
+The result will be shown in the message buffer.
+If NOPRINT is non-nil, the expanded list will be returned instead of printing
+out in the message buffer."
   (declare (indent 0))
-  (message "--- Begin macro expansion ---\n%S"
-           (funcall (intern (format "macroexpand%s"
-                                    (pcase step
-                                      ('nil "")
-                                      (1 "-1")
-                                      (_ "-all"))))
-                    form))
-  (message "--- End macro expansion ---") t)
+  (let ((l:result (funcall (intern (format "macroexpand%s"
+                                         (pcase step
+                                           ('nil "")
+                                           (1 "-1")
+                                           (_ "-all"))))
+                         form)))
+    (if noprint
+        `(quote ,l:result)
+      (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
+      t)))
 
 (defun pew::display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
