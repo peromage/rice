@@ -148,6 +148,18 @@ the one passed to `pew::expand-macro'."
     (pewcfg::set-eval-after foo (call 911) (call another)))
 
 ;;; Utilities
+  (expect-expansion "with-flattened-form" 1
+    '(foo a b c)
+    (pewcfg::with-flattened-form foo (a b c)))
+
+  (expect-expansion "with-flattened-cons" 1
+    '(foo a b)
+    (pewcfg::with-flattened-cons foo (a . b)))
+
+  (expect-expansion "with-identical-form" 1
+    '(foo (a b c))
+    (pewcfg::with-identical-form foo (a b c)))
+
   (expect "tokey: string"
     ""
     (pewcfg::tokey "C-c C-c"))

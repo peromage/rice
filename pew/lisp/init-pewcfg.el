@@ -232,6 +232,18 @@ Where FORMS is a list of forms. "
     `(with-eval-after-load ',feature ,@forms))
 
 ;;; Utility macros/functions
+  (defmacro pewcfg::with-flattened-form (callable form)
+    "Invoke CALLABLE with its argument list by flattening FORM."
+    `(,callable ,@form))
+
+  (defmacro pewcfg::with-flattened-cons (callable cons)
+    "Invoke CALLABLE with its argument list by flattening CONS."
+    `(,callable ,(car cons) ,(cdr cons)))
+
+  (defmacro pewcfg::with-identical-form (callable form)
+    "Invoke CALLABLE with FORM unchanged."
+    `(,callable ,form))
+
   (defun pewcfg::tokey (key)
     "Convert KEY to the representation that can be recognized as a keycord.
 Possible value could be a string which will be converted with (kbd key).  If KEY
