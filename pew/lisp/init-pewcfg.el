@@ -19,8 +19,23 @@
       (:automode   . (pewcfg::set-automode . pewcfg::with-flattened-cons))
       (:eval       . (pewcfg::set-eval . pewcfg::with-identical-form))
       (:eval-after . (pewcfg::set-eval-after . pewcfg::with-flattened-form)))
-    "An alist of keywords used in `pewcfg' to specify sections.
-The value of each element is the expansion helper of that section.")
+    "An alist of keywords used by `pewcfg' to specify sections.
+Each entry is in the form of
+  (KEYWORD . (EXPANSION-MACRO . FORM-PROCESSOR)
+
+List of each keyword's form signature:
+  :custom      (VARIABLE VALUE [COMMENT])
+  :map         (KEYMAP [(KEY . DEFINITION) ...])
+  :bind        (KEYMAP [(KEY . DEFINITION) ...])
+  :transient   (COMMAND [(KEY . DEFINITION) ...])
+  :switch      (VARIABLE [. (VALUE VALUE ...)])
+  :face        (FACE [:KEYWORD VALUE ...])
+  :property    (SYMBOL [(PROPERTY . VALUE) ...])
+  :hook        (NAME . FUNCTION)
+  :automode    (MATCHER . MODE)
+  :eval        (SEXP)
+  :eval-after  (FEATURE BODY)
+")
 
 ;;; Main entry
   (defmacro pewcfg (&rest args)
@@ -30,13 +45,7 @@ helper macros directly.
 ARGS is a list of forms. See the registered helpers from `pewcfg::keywords'
 for form definitions.
 Typical usage is as follow:
-  (pewcfg
-    :custom
-    (inhibit-startup-buffer-menu t)
-    :bind
-    (global
-      (\"C-x C-d\" . dired-jump))
-    ...) "
+  (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
     (declare (indent 0))
     (let (l:stored l:entry)
       `(progn
@@ -53,22 +62,18 @@ Typical usage is as follow:
 ;;; :custom
   (defmacro pewcfg::set-custom (variable value &optional comment)
     "Set custom variables or regular variables.
-FORM is of the form:
-  (VAR VALUE [COMMENT])
 Underlying implementation uses `customize-set-variable'."
     (declare (indent 0))
     `(customize-set-variable ',variable ,value ,comment))
 
 ;;; :bind
   (defmacro pewcfg::set-bind (keymap &rest bindings)
-    "Bind keys with an existing map.
-FORM is of the form:
-  (MAP BINDINGS)
+    "Bind keys in an existing KEYMAP.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
-NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It set key
-bindings in a existing map instead."
+NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It sets
+keybindings in a existing map instead."
     (declare (indent 0))
     `(progn
        ,@(mapcar (lambda (binding)
@@ -78,12 +83,8 @@ bindings in a existing map instead."
 
 ;;; :map
   (defmacro pewcfg::set-map (keymap &rest bindings)
-    "Create a new map and bind keys with it.
-FORM is of the form:
-  (MAP BINDINGS)
-BINDINGS is an alist whose element is:
-  (KEY . DEF)
-For DEF's definition see `define-key'.
+    "Create a new KEYMAP and bind keys in it.
+BINDINGS is the same with `pewcfg::set-bind'.
 NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 0))
@@ -93,16 +94,10 @@ effective if the map already exists."
 
 ;;; :transient
   (defmacro pewcfg::set-transient (command &rest bindings)
-    "Create an interactive command that enters transient mode when invoked.
-FORM is of the form:
-  (CMD BINDINGS)
-Where CMD is the name of the command and BINDINGS is an alist whose element is:
-  (KEY . DEF)
-For DEF's definition see `define-key'.
-A map CMD-map and two commands CMD and CMD-repeat will be created.
-Once CMD is invoked CMD-map will be temporarily activated.  The difference
-between CMD and CMD-repeat is CMD only receive one followed key press while
-CMD-repeat keeps receiving key press until an undefined key passed.
+    "Create an interactive COMMAND that enters transient mode when invoked.
+BINDINGS is the same with `pewcfg::set-bind'.
+A map COMMAND-map and an interactive command COMMAND will be created.
+Once COMMAND is invoked COMMAND-map will be temporarily activated.
 See `set-transient-map'.
 NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
 extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
@@ -119,12 +114,12 @@ enabled and put the following code for the keymap.
            "Temporarily activate a transient map.
 Normally this is a one-shot invocation meaning the map exits once a key is
 pressed (no matter defined in the keymap or not).
-However, if a prefix ARG is given, this becomes a repeatable map until C-g
+However, if a prefix ARG is given, this becomes a repeatable map until 'C-g'
 is pressed.
-Or C-h can be used to transient to the repeat mode while the transient map is
-active.
+Alternatively 'C-h' can be used to transient to the repeat mode while the
+transient map is active.
 Do not attempt to use C-h multiple times.
-NOTE: C-g and C-h will be overridden even if they are defined by user."
+NOTE: 'C-g' and 'C-h' is preserved and cannot be bound by user."
            (interactive "P")
            (cond (arg
                   (message "%s activated in repeat mode" ',command)
@@ -142,22 +137,18 @@ NOTE: C-g and C-h will be overridden even if they are defined by user."
 ;;; :switch
   (defmacro pewcfg::set-switch (variable &optional values)
     "Create an interactive command to switch variable from a list of values.
-FORM is of the form:
-  (VAR . VAL)
-Where VAL can be nil or a list.  If VAL is nil then VAR will be switched between
-nil and t each time the command is called, otherwise cycle values from the given
-list.
-A new command 'switch/VAR' will be created as well as a variable with the same
-name which stores the list of possible values."
+VALUES is a list of values that the VARIABLE can be possibly set to.
+If VALUES is nil, the VARIABLE will be switch between (nil t) by default.
+A new command 'switch/VARIABLE' will be created as well as a variable with
+the same name which stores VALUES"
     (declare (indent 0))
     (let ((l:switch-symbol (intern (format "switch/%s" variable)))
           (l:switch-values (if values (cons -1 values) (cons -1 '(nil t)))))
       `(progn
          (defvar ,l:switch-symbol ',l:switch-values
            ,(format  "A list of values used by `%s' command.
-The first element is the index which points to the value in the second list
-element.  It increments each time the command is call and reset to 0 when
-it reaches to the end." l:switch-symbol))
+The first element is the index which points to the current value.  The index
+cycles through the list each the switch command is called." l:switch-symbol))
          (defun ,l:switch-symbol ()
            ,(format "Switch the value of variable `%s'.
 The values are read from the list `%s'." variable l:switch-symbol)
@@ -170,10 +161,8 @@ The values are read from the list `%s'." variable l:switch-symbol)
 
 ;;; :face
   (defmacro pewcfg::set-face (face &rest args)
-    "Set face attributes.
-FORM is of the form:
-  (FACE ARGS)
-Where FACE is the name and ARGS comes in pairs ATTRIBUTE VALUE.
+    "Set FACE attributes.
+ARGS is in pairs of ATTRIBUTE VALUE.
 See `set-face-attribute'."
     (declare (indent 0))
     `(set-face-attribute ',face
@@ -185,10 +174,8 @@ See `set-face-attribute'."
 
 ;;; :property
   (defmacro pewcfg::set-property (symbol &rest properties)
-    "Set symbol's properties.
-FORM is of the form:
-  (SYM PROPS)
-Where SYM is the name of the symbol and PROPS is an alist whose element is of
+    "Set SYMBOL's PROPERTIES.
+Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
   (PROP . VAL)
 PROP is the symbol of the property and VAL is the value to set with. "
@@ -199,20 +186,17 @@ PROP is the symbol of the property and VAL is the value to set with. "
                  properties)))
 
 ;;; :hook
-  (defmacro pewcfg::set-hook (name func)
-    "Set function to a hook.
-FORM is a cons:
-  (HOOK . FUNC)
-Where HOOK implies suffix '-hook'."
+  (defmacro pewcfg::set-hook (name function)
+    "Set a FUNCTION to a hook NAME.
+NOTE: NAME implies suffix '-hook'."
     (declare (indent 0))
-    `(add-hook ',(intern (format "%s-hook" name)) #',func))
+    `(add-hook ',(intern (format "%s-hook" name)) #',function))
 
 ;;; :automode
   (defmacro pewcfg::set-automode (matcher mode)
     "Set `auto-mode-alist'.
-FORM is a cons:
-  (MATCHER . MODE)
-Where MATCHER is usually a string of regex."
+MATCHER is usually a string of regex.
+MODE is a symbol of modes."
     (declare (indent 0))
     `(add-to-list 'auto-mode-alist ',(cons matcher mode)))
 
@@ -224,10 +208,7 @@ Where MATCHER is usually a string of regex."
 
 ;;; :eval-after
   (defmacro pewcfg::set-eval-after (feature &rest forms)
-    "Evaluate forms after a feature is loaded.
-FORM is of form:
-  (FEATURE FORMS)
-Where FORMS is a list of forms. "
+    "Evaluate FORMS after a FEATURE is loaded."
     (declare (indent 0))
     `(with-eval-after-load ',feature ,@forms))
 
