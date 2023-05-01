@@ -74,7 +74,7 @@ BINDINGS is an alist whose element is:
 For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
-    (declare (indent 0))
+    (declare (indent 1))
     `(progn
        ,@(mapcar (lambda (binding)
                    `(define-key ,keymap ,(pewcfg::tokey (car binding)) #',(cdr binding)))
@@ -87,7 +87,7 @@ keybindings in a existing map instead."
 BINDINGS is the same with `pewcfg::set-bind'.
 NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
-    (declare (indent 0))
+    (declare (indent 1))
     `(progn
        (define-prefix-command ',keymap)
        (pewcfg::set-bind ,keymap ,@bindings)))
@@ -103,7 +103,7 @@ NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
 extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
-    (declare (indent 0))
+    (declare (indent 1))
     (let ((l:cmd-map (intern (format "%s-map" command))))
       `(progn
          (pewcfg::set-map ,l:cmd-map ,@bindings)
@@ -164,7 +164,7 @@ The values are read from the list `%s'." variable l:switch-symbol)
     "Set FACE attributes.
 ARGS is in pairs of ATTRIBUTE VALUE.
 See `set-face-attribute'."
-    (declare (indent 0))
+    (declare (indent 1))
     `(set-face-attribute ',face
                          nil
                          ,@(mapcar (lambda (x) (cond ((keywordp x) x)
@@ -179,7 +179,7 @@ Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
   (PROP . VAL)
 PROP is the symbol of the property and VAL is the value to set with. "
-    (declare (indent 0))
+    (declare (indent 1))
     `(progn
        ,@(mapcar (lambda (prop)
                    `(put ',symbol ',(car prop) ,(cdr prop)))
@@ -209,7 +209,7 @@ MODE is a symbol of modes."
 ;;; :eval-after
   (defmacro pewcfg::set-eval-after (feature &rest forms)
     "Evaluate FORMS after a FEATURE is loaded."
-    (declare (indent 0))
+    (declare (indent 1))
     `(with-eval-after-load ',feature ,@forms))
 
 ;;; Utility macros/functions
