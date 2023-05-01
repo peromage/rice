@@ -11,18 +11,23 @@
 
 ;;;; Evil custom
   :custom
+  ;; Default evil-want behavior
   (evil-want-integration t)
-  (evil-want-keybinding t)
+  (evil-want-keybinding nil)
   (evil-want-minibuffer nil)
   (evil-want-Y-yank-to-eol t)
+  (evil-want-C-g-bindings nil)
   (evil-want-C-i-jump nil)
   (evil-want-C-u-scroll nil)
   (evil-want-C-d-scroll nil)
   (evil-want-C-u-delete nil)
-  (evil-want-C-g-bindings nil)
   (evil-want-C-h-delete nil)
   (evil-want-C-w-delete nil)
   (evil-want-C-w-in-emacs-state nil)
+  (evil-want-abbrev-expand-on-insert-exit t)
+  (evil-want-change-word-to-end t)
+  (evil-want-empty-ex-last-command t)
+  (evil-want-fine-undo t)
   (evil-disable-insert-state-bindings t)
   (evil-cross-lines nil)
   (evil-split-window-below t)
