@@ -86,21 +86,21 @@ My personal key bindings mostly are bound in ~pewkey-map~. It can be activated b
 ** A brief list of keybindings
 Global
 
-| Key         | Command                                                    | Definition                                                        |
-|-------------+------------------------------------------------------------+-------------------------------------------------------------------|
-| =C-z=       | ~pewkey~                                                   | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
-| =C-u C-z=   | ~pewkey-repeat~                                            | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
-| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x m=     | Toggle Evil @@html:<b>@@M@@html:</b>@@ode state            | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-x C-m=   | Toggle Global Evil @@html:<b>@@M@@html:</b>@@ode state     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]                           |
-| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                        | [[./pew/lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
-| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./pew/lisp/elpa-git.el][elpa-git.el]]                           |
-| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u '=     | Separate edit by ~separedit~                               | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| Key         | Command                                                       | Definition                                                        |
+|-------------+---------------------------------------------------------------+-------------------------------------------------------------------|
+| =C-z=       | ~pewkey~                                                      | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
+| =C-u C-z=   | ~pewkey-repeat~                                               | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
+| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~                 | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x m=     | Toggle @@html:<b>@@M@@html:</b>@@ode edit state (Evil)        | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-x C-m=   | Toggle global @@html:<b>@@M@@html:</b>@@ode edit state (Evil) | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                    | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]                           |
+| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                           | [[./pew/lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
+| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                       | [[./pew/lisp/elpa-git.el][elpa-git.el]]                           |
+| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~          | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~    | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~      | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u '=     | Separate edit by ~separedit~                                  | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
 
 Evil
 
