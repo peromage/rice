@@ -92,8 +92,8 @@ the one passed to `pew::expand-macro'."
 
 ;;; :switch
   (expect-equal "set-switch"
-    '(progn (defvar switch/foo '(-1 v1 v2 v3))
-            (defun switch/foo ()))
+    '(progn (defvar switch::foo '(-1 v1 v2 v3))
+            (defun switch::foo ()))
     (let ((l:expansion (pew::expand-macro (pewcfg::set-switch foo (v1 v2 v3))
                                           1 t)))
       ;; Ignore the variable comment
@@ -103,8 +103,8 @@ the one passed to `pew::expand-macro'."
       l:expansion))
 
   (expect-equal "set-switch: Default values"
-    '(progn (defvar switch/foo '(-1 nil t))
-            (defun switch/foo ()))
+    '(progn (defvar switch::foo '(-1 nil t))
+            (defun switch::foo ()))
     (let ((l:expansion (pew::expand-macro (pewcfg::set-switch foo)
                                           1 t)))
       ;; Ignore the variable comment
@@ -211,11 +211,11 @@ the one passed to `pew::expand-macro'."
     '(foo (a b c))
     (pewcfg::with-identical-form foo (a b c)))
 
-  (expect "tokey: string"
+  (expect-equal "tokey: string"
     ""
     (pewcfg::tokey "C-c C-c"))
 
-  (expect "tokey: vector"
+  (expect-equal "tokey: vector"
     [tab]
     (pewcfg::tokey [tab]))
 
