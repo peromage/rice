@@ -86,18 +86,21 @@ My personal key bindings mostly are bound in ~pewkey-map~. It can be activated b
 ** A brief list of keybindings
 Global
 
-| Key         | Command                                                    | Definition                                       |
-|-------------+------------------------------------------------------------+--------------------------------------------------|
-| =M-c=       | ~pewkey~                                                   | [[./pew/lisp/init-defaults.el][init-default.el]] |
-| =C-u M-c=   | ~pewkey-repeat~                                            | [[./pew/lisp/init-defaults.el][init-default.el]] |
-| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]  |
-| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]          |
-| =M-z g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./pew/lisp/elpa-git.el][elpa-git.el]]          |
-| =M-z w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
-| =M-z '=     | Separate edit by ~separedit~                               | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]      |
+| Key         | Command                                                    | Definition                                                        |
+|-------------+------------------------------------------------------------+-------------------------------------------------------------------|
+| =C-z=       | ~pewkey~                                                   | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
+| =C-u C-z=   | ~pewkey-repeat~                                            | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
+| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by ~consult~           | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by ~consult~              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x m=     | Toggle Evil @@html:<b>@@M@@html:</b>@@ode state            | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-x C-m=   | Toggle Global Evil @@html:<b>@@M@@html:</b>@@ode state     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by ~lsp-mode~                 | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]                           |
+| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                        | [[./pew/lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
+| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by ~magit~                    | [[./pew/lisp/elpa-git.el][elpa-git.el]]                           |
+| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by ~ace-window~       | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by ~avy-goto-char~ | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by ~avy-goto-line~   | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u '=     | Separate edit by ~separedit~                               | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
 
 Evil
 
@@ -112,16 +115,16 @@ See [[./pew/lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 ** Available key prefixes
 The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in ~pewkey-map~.
 
-| Prefix | Map            |
-|--------+----------------|
-| =M-o=  | ~pew::M-o-map~ |
-| =M-t=  | ~pew::M-t-map~ |
-| =M-c=  | ~pew::M-c-map~ |
-| =M-u=  | ~pew::M-u-map~ |
-| =M-l=  | ~pew::M-l-map~ |
-| =M-z=  | ~pew::M-z-map~ |
-| =M-q=  | ~pew::M-q-map~ |
-| =M-h=  | ~pew::M-h-map~ |
+| Prefix | Map            | Intention  |
+|--------+----------------+------------|
+| =M-o=  | ~pew::M-o-map~ | Minibuffer |
+| =M-t=  | ~pew::M-t-map~ |            |
+| =M-c=  | ~pew::M-c-map~ | Completion |
+| =M-u=  | ~pew::M-u-map~ | Utilities  |
+| =M-l=  | ~pew::M-l-map~ |            |
+| =M-z=  | ~pew::M-z-map~ |            |
+| =M-q=  | ~pew::M-q-map~ |            |
+| =M-h=  | ~pew::M-h-map~ |            |
 
 * Misc - some conventions
 ** Naming conventions
