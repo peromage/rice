@@ -214,6 +214,10 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
     'view-mode 'motion)
 
 ;;;; Evil keybindings
+  ;; Toggle key
+  (evil-set-toggle-key "C-x m")
+  (global-set-key (kbd "C-x C-m") #'evil-mode)
+
   ;; Leader keys
   (evil-set-leader '(normal motion) (kbd "\\")) ;; <leader>
   ;;(evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
