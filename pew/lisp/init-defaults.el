@@ -356,12 +356,7 @@
   (pew::M-c-map)
   (pew::M-u-map)
   (pew::M-l-map)
-  (pew::M-z-map
-   ("c" . org-capture)
-   ("a" . org-agenda)
-   ("! !" . flymake-mode)
-   ("! b" . flymake-show-buffer-diagnostics)
-   ("! p" . flymake-show-project-diagnostics))
+  (pew::M-z-map)
   (pew::M-q-map)
   (pew::M-h-map)
 
@@ -389,10 +384,10 @@
    ;; Reserved for the future
    ("M-o" . pew::M-o-map) ;; taken by minibuffer
    ("M-t" . pew::M-t-map)
-   ("M-c" . pew::M-c-map)
-   ("M-u" . pew::M-u-map) ;; taken by completion
+   ("M-c" . pew::M-c-map) ;; taken by completion
+   ("M-u" . pew::M-u-map) ;; taken by utilities
    ("M-l" . pew::M-l-map)
-   ("M-z" . pew::M-z-map) ;; taken by utilities
+   ("M-z" . pew::M-z-map)
    ("M-q" . pew::M-q-map)
    ("M-h" . pew::M-h-map))
 
@@ -404,6 +399,14 @@
    ("b" . dired-up-directory)
    ("<left>" . dired-up-directory)
    ("<right>" . dired-find-file))
+
+;;;; M-u map
+  (pew::M-u-map
+   ("c" . org-capture)
+   ("a" . org-agenda)
+   ("! !" . flymake-mode)
+   ("! b" . flymake-show-buffer-diagnostics)
+   ("! p" . flymake-show-project-diagnostics))
 
 ;;; Mode hooks
   :hook

@@ -44,7 +44,7 @@ users to specify the shell to start with."
 
 ;;; Separate edit
 (use-package separedit
-  :bind (:map pew::M-z-map
+  :bind (:map pew::M-u-map
          ("'" . separedit-dwim)))
 
 ;;; Simplify S-expression editing
@@ -55,13 +55,13 @@ users to specify the shell to start with."
 
 ;;; Jump among texts
 (use-package avy
-  :bind (:map pew::M-z-map
+  :bind (:map pew::M-u-map
          ("f" . avy-goto-char)
          ("j" . avy-goto-line)))
 
 ;;; Jump between windows
 (use-package ace-window
-  :bind (:map pew::M-z-map
+  :bind (:map pew::M-u-map
          ("w" . ace-window)
          ("W" . ace-swap-window)))
 

@@ -78,7 +78,7 @@
          (emacs-lisp-mode . pew::cape::elisp-on-init)
          (lisp-data-mode . pew::cape::elisp-on-init))
 
-  :bind (:map pew::M-u-map
+  :bind (:map pew::M-c-map
          ("p" . completion-at-point)
          ("t" . complete-tag)
          ("d" . cape-dabbrev)

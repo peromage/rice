@@ -9,7 +9,7 @@
 (use-package magit
   :commands magit-status
 
-  :bind (:map pew::M-z-map
+  :bind (:map pew::M-u-map
          ("g" . magit-status)
          ("G" . magit-file-dispatch))
 
