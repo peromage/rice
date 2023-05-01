@@ -30,8 +30,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Startup - Package Installation
-        run: ./pew/scripts/test-startup.sh
+      - name: Sanity - Startup with package installation
+        run: emacs -nw --batch --eval ./pew/tests/test-startup.el
 
-      - name: Startup - Normal
-        run: ./pew/scripts/test-startup.sh
+      - name: Sanity - Normal startup
+        run: emacs -nw --batch --eval ./pew/tests/test-startup.el
+
+      - name: Sanity - pewcfg unittests
+        run: emacs -nw --batch --eval ./pew/tests/test-pewcfg.el
