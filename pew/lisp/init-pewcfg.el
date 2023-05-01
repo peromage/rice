@@ -99,6 +99,7 @@ BINDINGS is the same with `pewcfg::set-bind'.
 A map COMMAND-map and an interactive command COMMAND will be created.
 Once COMMAND is invoked COMMAND-map will be temporarily activated.
 See `set-transient-map'.
+NOTE: 'C-g' and 'C-h' is preserved and cannot be bound by user.
 NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
 extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
@@ -111,7 +112,7 @@ enabled and put the following code for the keymap.
          (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
          (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
          (defun ,command (arg)
-           "Temporarily activate a transient map.
+           ,(format "Temporarily activate a transient map.
 Normally this is a one-shot invocation meaning the map exits once a key is
 pressed (no matter defined in the keymap or not).
 However, if a prefix ARG is given, this becomes a repeatable map until 'C-g'
@@ -119,7 +120,7 @@ is pressed.
 Alternatively 'C-h' can be used to transient to the repeat mode while the
 transient map is active.
 Do not attempt to use C-h multiple times.
-NOTE: 'C-g' and 'C-h' is preserved and cannot be bound by user."
+The keymap is defined in `%s'." l:cmd-map)
            (interactive "P")
            (cond (arg
                   (message "%s activated in repeat mode" ',command)
