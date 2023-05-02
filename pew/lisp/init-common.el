@@ -34,8 +34,9 @@
       (compilation . "^ *\\*.*\\b[Cc]ompilation\\*$")
       (output . "^ *\\*.*\\b[Oo]utput\\*$")
       (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
-      ;; Starred
-      (starred . "^ *\\*.*\\*$"))
+      ;; General
+      (starred . "^ *\\*.*\\*$")
+      (normal . "^ *[^*]"))
     "An alist of special buffer pattern regex.")
 
   (defun pew::special-buffer (key &optional concated)
