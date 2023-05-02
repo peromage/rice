@@ -48,13 +48,8 @@ $PATH"
             export SHELL="/usr/bin/pwsh"
             ;;
         ssh-agent)
-            export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
-            # [ ! -e $SSH_AUTH_SOCK ] && eval $(ssh-agent -a $SSH_AUTH_SOCK)
-            ;;
-        gpg-agent)
             unset SSH_AGENT_PID
             SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" && export SSH_AUTH_SOCK
-            GPG_TTY=$(tty) && export GPG_TTY
             ;;
         prompt-classic)
             case "$(id -u)" in
@@ -68,11 +63,13 @@ $PATH"
     esac
 }
 
-if [ "--env" = "$1" ]; then
-    shift
-    for i in "$@"; do rice_env "$i"; done; unset i
-    return 0
-fi
+case "$1" in
+    -e|--env)
+        shift
+        for i in "$@"; do rice_env "$i"; done; unset i
+        return 0
+esac
+
 ## End Environment
 
 ### Bash specific
@@ -85,11 +82,12 @@ fi
 
 ### Environment variables
 declare -A RICE
-RICE[rc]="$(realpath -s "$(dirname "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
+RICE[rc]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
 RICE[custom_rc]="${RICE[rc]}/custom.bash"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
-for i in prompt-classic path gpg-agent
+## Presets
+for i in prompt-classic path ssh-agent
 do rice_env $i; done; unset i
 
 ### Commands
