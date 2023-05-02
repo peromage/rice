@@ -5,14 +5,18 @@ if ! status is-interactive
     exit
 end
 
-### Environment variables
+### Fish config
 set -g fish_greeting
-set -g PATH $HOME/bin $PATH
 ## Use Emacs style
 set -g fish_key_bindings fish_default_key_bindings
 set -g fish_cursor_selection_mode exclusive
+
+### Environment variables
 ## Add to $fish_user_paths
 fish_add_path $HOME/bin $HOME/.local/bin
+## GPG workaround
+set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+set -gx GPG_TTY (tty)
 
 ### Commands
 function easy_cd

@@ -54,7 +54,7 @@ $PATH"
         gpg-agent)
             unset SSH_AGENT_PID
             SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" && export SSH_AUTH_SOCK
-            # GPG_TTY=$(tty) && export GPG_TTY
+            GPG_TTY=$(tty) && export GPG_TTY
             ;;
         prompt-classic)
             case "$(id -u)" in

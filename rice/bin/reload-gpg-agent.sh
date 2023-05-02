@@ -6,4 +6,4 @@ if [ "--kill" = "$1" ]; then
     exit 0
 fi
 
-gpg-connect-agent updatestartuptty /bye >/dev/null
+env GPG_TTY="$(tty)" gpg-connect-agent updatestartuptty /bye >/dev/null
