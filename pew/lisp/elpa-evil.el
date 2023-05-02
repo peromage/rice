@@ -61,7 +61,7 @@ This is basically a wrapper of `evil-define-key*'.
 STATE is a Evil state symbol of a list of symbols.
 MAP can be a map symbol or a list of symbols.
 LEADER is non-nil, the BINDINGS will be prefixed with Evil leader key.
-BINDINGS is a list of cons in the form of
+BINDINGS is an alist in the form of
   ((KEY . DEF) (KEY . DEF) ...)
 See `evil-define-key*'."
     (declare (indent 3))
@@ -76,7 +76,7 @@ See `evil-define-key*'."
   ;; Initial state function
   (defun pew::evil::set-mode-state (states)
     "Set initial STATES for major or minor modes.
-STATES is a list of cons:
+STATES is an alist in the form of:
   ((MODE . STATE) (MODE . STATE) ...)
 The MODE and STATE will be completed to their full names.
 Major mode uses `evil-set-initial-state' which is equivalent to:
@@ -93,7 +93,7 @@ Minor mode uses `add-hook' which is equivalent to:
 
   (defun pew::evil::set-buffer-state (states)
     "Set initial STATES for certain buffer names.
-STATES is a list of cons:
+STATES is an alist in the form of:
   ((NAME . STATE) (NAME . STATE) ...)
 The earlier the buffer name in the list the higher priority it has.
 See `evil-buffer-regexps'.
