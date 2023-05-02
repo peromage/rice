@@ -55,73 +55,51 @@
 
 ;;;; Evil keybinding functions
   ;; Key binding function
-  (defun pew::evil::set-key (state map prefix &rest bindings)
-    "Set BINDINGS with PREFIX in MAP for STATE.
-STATE is one of 'normal, 'insert, 'visual, 'replace, 'operator, 'motion,
-'emacs, a list of one or more of these, or nil, which means all of the above.
-MAP is either a single map or a list of maps.
-PREFIX could be nil or a string of KEY.
-BINDINGS is a list of the form:
-  (KEY DEF KEY DEF ...)
-The arguments will be collected in pairs and passed to `evil-define-key'."
+  (defun pew::evil::set-key (state map leader bindings)
+    "A function to bind Evil keys.
+This is basically a wrapper of `evil-define-key*'.
+STATE is a Evil state symbol of a list of symbols.
+MAP can be a map symbol or a list of symbols.
+LEADER is non-nil, the BINDINGS will be prefixed with Evil leader key.
+BINDINGS is a list of cons in the form of
+  ((KEY . DEF) (KEY . DEF) ...)
+See `evil-define-key*'."
     (declare (indent 3))
-    (if (pew::oddp (length bindings))
-        (error "Incomplete keys and definitions"))
-    (let ((l:bindings bindings)
-          (l:result nil))
-      (while l:bindings
-        (push (kbd (concat prefix (pop l:bindings))) l:result)
-        (push (pop l:bindings) l:result))
-      (setq l:result (reverse l:result))
-      (let ((l:setter (lambda (m) (apply 'evil-define-key* state m l:result))))
-        (cond ((keymapp map)
-               (funcall l:setter map))
-              ((listp map)
-               (mapc l:setter map))
-              ;; The map could be a symbol i.e. 'global
-              (t
-               (funcall l:setter map))))))
+    (let ((l:bindings (mapcan (if leader
+                                  (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
+                                (lambda (x) (list (kbd (car x)) (cdr x))))
+                              bindings)))
+      (mapc (lambda (m) (apply 'evil-define-key* state m l:bindings))
+            (if (listp map) map (list map)))))
 
 ;;;; Evil state setting functions
   ;; Initial state function
-  (defun pew::evil::set-mode-state (&rest states)
+  (defun pew::evil::set-mode-state (states)
     "Set initial STATES for major or minor modes.
-STATES is a list of the form:
-  (MODE STATE MODE STATE ...)
+STATES is a list of cons:
+  ((MODE . STATE) (MODE . STATE) ...)
 The MODE and STATE will be completed to their full names.
 Major mode uses `evil-set-initial-state' which is equivalent to:
   (evil-set-initial-state MODE STATE)
 Minor mode uses `add-hook' which is equivalent to:
   (add-hook 'MODE-hook #'evil-STATE-state)"
     (declare (indent 0))
-    (if (pew::oddp (length states))
-        (error "Incomplete modes and states"))
-    (let ((l:states states))
-      (while l:states
-        (let ((l:mode (pop l:states))
-              (l:state (pop l:states)))
-          (cond ((memq l:mode minor-mode-list)
-                 (add-hook (intern (format "%s-hook" l:mode)) (intern (format "evil-%s-state" l:state))))
-                (t
-                 (evil-set-initial-state l:mode l:state)))))))
+    (mapc (lambda (x) (let ((l:mode (car x))
+                            (l:state (cdr x)))
+                        (if (memq l:mode minor-mode-list)
+                            (add-hook (intern (format "%s-hook" l:mode)) (intern (format "evil-%s-state" l:state)))
+                          (evil-set-initial-state l:mode l:state))))
+          states))
 
-  (defun pew::evil::set-buffer-state (&rest states)
+  (defun pew::evil::set-buffer-state (states)
     "Set initial STATES for certain buffer names.
-STATES is a list of the form:
-  (REG STATE REG STATE ...)
-The later buffer regex will have higher priority.
-Equivalent to:
-  (push '(REG . STATE) evil-buffer-regexps)
+STATES is a list of cons:
+  ((NAME . STATE) (NAME . STATE) ...)
+The earlier the buffer name in the list the higher priority it has.
+See `evil-buffer-regexps'.
 NOTE: Buffer name patterns takes precedence over the mode based methods."
     (declare (indent 0))
-    (if (pew::oddp (length states))
-        (error "Incomplete patterns and states"))
-    ;; Backwards iterating so that the order is consistent with the written list
-    (let ((l:states (reverse states)))
-      (while l:states
-        (let ((l:state (pop l:states))
-              (l:regex (pop l:states)))
-          (push (cons l:regex l:state) evil-buffer-regexps)))))
+    (setq evil-buffer-regexps (append states evil-buffer-regexps)))
 
 ;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special
@@ -183,40 +161,40 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; NOTE: This takes precedence over the mode initial states below
   (pew::evil::set-buffer-state
     ;; VC buffers
-    (pew::special-buffer 'vc) 'emacs
-    (pew::special-buffer 'magit) 'emacs
-    (pew::special-buffer 'ediff) 'emacs
-    ;; Shell buffers
-    (pew::special-buffer 'shell) 'emacs
-    (pew::special-buffer 'terminal) 'emacs
-    ;; Buffers in motion
-    (pew::special-buffer 'help) 'motion
-    (pew::special-buffer 'message) 'motion
-    (pew::special-buffer 'backtrace) 'motion
-    (pew::special-buffer 'warning) 'motion
-    (pew::special-buffer 'log) 'motion
-    (pew::special-buffer 'compilation) 'motion
-    (pew::special-buffer 'output) 'motion
-    (pew::special-buffer 'command) 'motion
-    (pew::special-buffer 'man) 'motion
-    ;; Buffer in normal
-    (pew::special-buffer 'scratch) 'normal
-    (pew::special-buffer 'org-src) 'normal
-    (pew::special-buffer 'org-export) 'normal
-    (pew::special-buffer 'edit-indirect) 'normal
-    ;; Fallback initial state for all special buffers
-    (pew::special-buffer 'starred) 'emacs)
+    `((,(pew::special-buffer 'vc) . emacs)
+      (,(pew::special-buffer 'magit) . emacs)
+      (,(pew::special-buffer 'ediff) . emacs)
+      ;; Shell buffers
+      (,(pew::special-buffer 'shell) . emacs)
+      (,(pew::special-buffer 'terminal) . emacs)
+      ;; Buffers in motion
+      (,(pew::special-buffer 'help) . motion)
+      (,(pew::special-buffer 'message) . motion)
+      (,(pew::special-buffer 'backtrace) . motion)
+      (,(pew::special-buffer 'warning) . motion)
+      (,(pew::special-buffer 'log) . motion)
+      (,(pew::special-buffer 'compilation) . motion)
+      (,(pew::special-buffer 'output) . motion)
+      (,(pew::special-buffer 'command) . motion)
+      (,(pew::special-buffer 'man) . motion)
+      ;; Buffer in normal
+      (,(pew::special-buffer 'scratch) . normal)
+      (,(pew::special-buffer 'org-src) . normal)
+      (,(pew::special-buffer 'org-export) . normal)
+      (,(pew::special-buffer 'edit-indirect) . normal)
+      ;; Fallback initial state for all special buffers
+      (,(pew::special-buffer 'starred) . emacs)))
 
   (pew::evil::set-mode-state
     ;; Major modes
-    'dired-mode 'emacs
-    'image-mode 'emacs
-    'help-mode 'motion
-    'message-mode 'motion
-    'compilation-mode 'motion
-    'vterm-mode 'emacs
-    ;; Minor modes
-    'view-mode 'motion)
+    '((dired-mode . emacs)
+      (image-mode . emacs)
+      (help-mode . motion)
+      (message-mode . motion)
+      (compilation-mode . motion)
+      (vterm-mode . emacs)
+      ;; Minor modes
+      (view-mode . motion)))
 
 ;;;; Evil keybindings
   ;; Toggle key
@@ -228,30 +206,30 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;;(evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
 
   ;; Normal and motion state bindings with leader key
-  (pew::evil::set-key '(normal motion) 'global "<leader>"
+  (pew::evil::set-key '(normal motion) 'global :leader
     ;; Search and substitution
-    "cs" #'pew::evil::replace-last-search)
+    '(("cs" . pew::evil::replace-last-search)))
 
   ;; Normal and motion state bindings
   (pew::evil::set-key '(normal motion) 'global nil
-    "SPC" #'pewkey
-    ;; Search
-    "#" #'evil-ex-nohighlight
-    "*" #'pew::evil::search-word)
+    '(("SPC" . pewkey)
+      ;; Search
+      ("#" . evil-ex-nohighlight)
+      ("*" . pew::evil::search-word)))
 
   ;; Visual state bindings
   (pew::evil::set-key 'visual 'global nil
     ;; Search
-    "*" #'pew::evil::visual-search-region-text)
+    '(("*" . pew::evil::visual-search-region-text)))
 
   ;; Elisp with leader
   (with-eval-after-load 'elisp-mode
-    (pew::evil::set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) "<leader>"
+    (pew::evil::set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
       ;; Quick eval
-      "eb" #'eval-buffer
-      "er" #'eval-region
-      "ef" #'eval-defun
-      "ee" #'eval-last-sexp))) ;; (use-package evil)
+      '(("eb" . eval-buffer)
+        ("er" . eval-region)
+        ("ef" . eval-defun)
+        ("ee" . eval-last-sexp))))) ;; (use-package evil)
 
 ;;; Evil surround
 (use-package evil-surround
