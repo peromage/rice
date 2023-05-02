@@ -354,7 +354,12 @@
   (pew::M-o-map)
   (pew::M-t-map)
   (pew::M-c-map)
-  (pew::M-u-map)
+  (pew::M-u-map
+   ("c" . org-capture)
+   ("a" . org-agenda)
+   ("! !" . flymake-mode)
+   ("! b" . flymake-show-buffer-diagnostics)
+   ("! p" . flymake-show-project-diagnostics))
   (pew::M-l-map)
   (pew::M-z-map)
   (pew::M-q-map)
@@ -399,14 +404,6 @@
    ("b" . dired-up-directory)
    ("<left>" . dired-up-directory)
    ("<right>" . dired-find-file))
-
-;;;; M-u map
-  (pew::M-u-map
-   ("c" . org-capture)
-   ("a" . org-agenda)
-   ("! !" . flymake-mode)
-   ("! b" . flymake-show-buffer-diagnostics)
-   ("! p" . flymake-show-project-diagnostics))
 
 ;;; Mode hooks
   :hook
