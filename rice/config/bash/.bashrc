@@ -1,7 +1,6 @@
-#!/usr/bin/bash
-### .bashrc  -- Bash init -*- outline-regexp: "###\\(#* \\)"; -*-
+### .bashrc  -- Bash init -*- outline-regexp: "###\\(#* [^ \t\n]\\)"; -*-
 
-### Environment
+### Environment ################################################################
 ## This section must be POSIX compliant since it can be sourced by any shell
 rice_env() {
     case "$1" in
@@ -72,7 +71,7 @@ esac
 
 ## End Environment
 
-### Bash specific
+### Bash specific ##############################################################
 ## Source guard
 [[ -z $BASH_VERSION ]] && return 1
 ## Interactive mode only
@@ -80,7 +79,7 @@ esac
 ## Emacs TRAMP mode
 [[ "$TERM" =~ [Dd]umb ]] && PS1="$ " && return 3
 
-### Environment variables
+### Environment variables ######################################################
 declare -A RICE
 RICE[rc]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
 RICE[custom_rc]="${RICE[rc]}/custom.bash"
@@ -90,7 +89,7 @@ RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 for i in prompt-classic path ssh-agent
 do rice_env $i; done; unset i
 
-### Commands
+### Commands ###################################################################
 function rice_include {
     ## Source a .bash script file under librice directory.
     ## The name should be the file basename without extension .bash.
@@ -113,5 +112,5 @@ function string_join {
     fi
 }
 
-### Random stuff
+### Random stuff ###############################################################
 [[ -e "${RICE[custom_rc]}" ]] && source "${RICE[custom_rc]}"

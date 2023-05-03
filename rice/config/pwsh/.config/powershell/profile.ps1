@@ -1,13 +1,13 @@
-### profile.ps1  -- Pwsh init -*- outline-regexp: "###\\(#* \\)"; -*-
+### profile.ps1  -- Pwsh init -*- outline-regexp: "###\\(#* [^ \t\n]\\)"; -*-
 
-### Prerequisites
+### Prerequisites ##############################################################
 ## PowerShell 7 is required
 if ($PSVersionTable.PSVersion.Major -lt 7) {
     Write-Host -ForegroundColor Red "PowerShell 7 and above required"
     return
 }
 
-### Pwsh config
+### Pwsh config ################################################################
 &{
     $my_psreadline_options = @{
         EditMode = "Emacs"
@@ -21,7 +21,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
     Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 }
 
-### Environment variables
+### Environment variables ######################################################
 $RICE = @{}
 $RICE.rc = Get-Item "$PSScriptRoot"
 $RICE.custom_rc = (Join-Path $RICE.rc "custom.ps1")
@@ -40,7 +40,7 @@ $function:prompt = {
     return " "
 }
 
-### Commands
+### Commands ###################################################################
 function rice_include {
     <# Return a string of a .ps1 script under librice directory.
 The name should be the file basename without extension .ps1.
@@ -113,5 +113,5 @@ if ($IsWindows) {
     Set-Alias grep Select-String
 }
 
-### Random stuff
+### Random stuff ###############################################################
 if (Test-Path -Type Leaf $RICE.custom_rc) { . $RICE.custom_rc }

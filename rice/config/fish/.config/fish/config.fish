@@ -1,21 +1,21 @@
-### config.fish  -- Fish init -*- outline-regexp: "###\\(#* \\)"; -*-
+### config.fish  -- Fish init -*- outline-regexp: "###\\(#* [^ \t\n]\\)"; -*-
 
-### Status check
+### Status check ###############################################################
 if ! status is-interactive
     exit
 end
 
-### Fish config
+### Fish config ################################################################
 set -g fish_greeting
 ## Use Emacs style
 set -g fish_key_bindings fish_default_key_bindings
 set -g fish_cursor_selection_mode exclusive
 
-### Environment variables
+### Environment variables ######################################################
 ## Add to $fish_user_paths
 fish_add_path $HOME/bin $HOME/.local/bin
 
-### Commands
+### Commands ###################################################################
 function easy_cd
     ## Use ".."
     echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)

@@ -1,9 +1,9 @@
---- wezterm.lua --- Wezterm config -*- lua-indent-level: 4; outline-regexp: "---\\(-* \\)"; -*-
+--- wezterm.lua --- Wezterm config -*- lua-indent-level: 4; outline-regexp: "---\\(-* [^ \t\n]\\)"; -*-
 
 local wezterm = require "wezterm"
 local act = wezterm.action
 
---- Utility
+--- Utility --------------------------------------------------------------------
 local util = {}
 
 function util.custom_color_scheme(scheme_name)
@@ -46,7 +46,7 @@ end
 
 util.platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix"
 
---- Meta table
+--- Meta table -----------------------------------------------------------------
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
 local meta = { util = util }
@@ -78,7 +78,7 @@ function meta._push(self, ...)
     return self
 end
 
---- Events
+--- Events ---------------------------------------------------------------------
 local function adjust_window_opacity(overrides, step)
     -- Window opacity change
     overrides.window_background_opacity = meta.util.step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
@@ -93,7 +93,7 @@ wezterm.on("rice-decrease-window-opacity", function(window, pane)
     window:set_config_overrides(adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
 end)
 
---- Keybindings
+--- Keybindings ----------------------------------------------------------------
 local keys = meta:_bind {
     { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
     { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
@@ -214,7 +214,7 @@ local search_mode_table = meta:_bind {
     { mods = "CTRL",  key = "k",       action = act.CopyMode "ClearPattern" },
 }
 
---- Launch menu
+--- Launch menu ----------------------------------------------------------------
 local launch_menu = meta:_bind {
     {
         label = "Bash",
@@ -233,7 +233,7 @@ local launch_menu = meta:_bind {
     },
 }
 
---- Domains
+--- Domains --------------------------------------------------------------------
 local wsl_domains = {
     {
         name = "WSL::Ubuntu-22.04",
@@ -248,7 +248,7 @@ local wsl_domains = {
     },
 }
 
---- Module table
+--- Module table ---------------------------------------------------------------
 local conf = meta:_bind {
     -- System
     check_for_updates = false,
@@ -313,7 +313,7 @@ local conf = meta:_bind {
     wsl_domains = wsl_domains,
 }
 
---- Random stuff
+--- Random stuff ---------------------------------------------------------------
 -- Usually this might look like:
 -- return {
 --     customize = function(config)
