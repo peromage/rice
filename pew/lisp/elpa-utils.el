@@ -15,6 +15,8 @@
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
+  (vterm-keymap-exceptions '("C-z" "C-c" "C-x" "C-u" "C-g" "C-h" "C-l" "M-x"
+                             "M-o" "C-y" "M-y"))
   (vterm-tramp-shells '(("ssh" "/bin/bash")
                         ("plink" "/bin/bash")))
 
