@@ -109,6 +109,22 @@ out in the message buffer."
   (interactive)
   (message buffer-file-name))
 
+(defun pew::display-mode-inheritance (mode)
+  "Display current major mode inheritance in the minibuffer.
+If prefix argument is given, a mode name can be manually typed in.
+If MODE is any non-nill value other than '(4), that mode name will be used."
+  (interactive "P")
+  (let ((l:mode-to-check (pcase mode
+                           ('nil major-mode)
+                           ('(4) (read))
+                           (_ mode))))
+    (named-let find-parent ((major-mode l:mode-to-check)
+                            (results (list l:mode-to-check)))
+      (let ((parent-major-mode (get major-mode 'derived-mode-parent)))
+        (if (not parent-major-mode)
+            (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
+          (find-parent parent-major-mode (cons parent-major-mode results)))))))
+
 ;;; Paths
 (defun pew::normalize-path (base &optional component follow)
   "Normalize path BASE by removing relative representations.
