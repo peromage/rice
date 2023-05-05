@@ -35,7 +35,7 @@
       (output . "^ *\\*.*\\b[Oo]utput\\*$")
       (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
       ;; General
-      (starred . "^ *\\*.*\\*$")
+      (starred . "^ *\\*.*\\*")
       (normal . "^ *[^*]"))
     "An alist of special buffer pattern regex.")
 
