@@ -46,16 +46,15 @@ Key can be a list of symbols and the return value will be a list of patterns.
 If CONCATED is non-nil the result will be string in which all the patterns are
 concatenated with '\\|'."
     (declare (indent 0))
-    (if (not (listp key))
-        (cdr (assq key pew::special-buffer-alist))
-      (let (l:result l:temp)
-        (dolist (k key)
-          (if (setq l:temp (assq k pew::special-buffer-alist))
-              (push (cdr l:temp) l:result)))
-        (setq l:result (reverse l:result))
-        (if concated
-            (mapconcat #'identity l:result "\\|")
-          l:result))))
+    (let ((l:keys (if (listp key) key (list key)))
+          (l:func (lambda (k)
+                    (let (l:it)
+                      (unless (setq l:it (assq k pew::special-buffer-alist))
+                        (error "Invalid key: %S" k))
+                      (cdr l:it)))))
+      (if concated
+          (mapconcat l:func l:keys "\\|")
+        (mapcar l:func l:keys))))
 
   (defun pew::side-window-actions (side slot)
     "Return a list of pre-configured side window actions.
