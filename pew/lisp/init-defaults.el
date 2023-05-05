@@ -25,11 +25,11 @@
 ;;;; Windows and frames
   ;; When 3 side windows present `window-toggle-side-windows' may cause problem
   ;; Use `winner-undo' to revert the mess
-  (display-buffer-alist `((,(pew::special-buffer '(shell terminal) t)
+  (display-buffer-alist `((,(pew::special-buffer '(shell terminal))
                            ,@(pew::side-window-actions 'bottom 0))
-                          (,(pew::special-buffer '(help) t)
+                          (,(pew::special-buffer '(help))
                            ,@(pew::side-window-actions 'bottom 1))
-                          (,(pew::special-buffer '(message backtrace warning log compilation output command) t)
+                          (,(pew::special-buffer '(message backtrace warning log compilation output command))
                            ,@(pew::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
@@ -212,9 +212,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew::special-buffer 'magit)))
-                                  ("VC" (name . ,(pew::special-buffer 'vc)))
-                                  ("Ediff" (name . ,(pew::special-buffer 'ediff)))
+                                  ("Git" (name . ,(pew::special-buffer 'magit :in-list)))
+                                  ("VC" (name . ,(pew::special-buffer 'vc :in-list)))
+                                  ("Ediff" (name . ,(pew::special-buffer 'ediff :in-list)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 

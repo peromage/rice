@@ -36,15 +36,15 @@
       (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
       ;; General
       (starred . "^ *\\*.*\\*")
-      (normal . "^ *[^*]"))
+      (non-starred . "^ *[^*]"))
     "An alist of special buffer pattern regex.")
 
-  (defun pew::special-buffer (key &optional concated)
+  (defun pew::special-buffer (key &optional in-list)
     "Return the corresponding buffer pattern with given KEY.
 Key is a symbol and should be one of the keys from `pew::special-buffer-alist'.
-Key can be a list of symbols and the return value will be a list of patterns.
-If CONCATED is non-nil the result will be string in which all the patterns are
-concatenated with '\\|'."
+Key can also be a list of symbols and the returned value will be a string
+concatenated with '\\|'.
+If IN-LIST is non-nil the returned value will be a list."
     (declare (indent 0))
     (let ((l:keys (if (listp key) key (list key)))
           (l:func (lambda (k)
@@ -52,9 +52,9 @@ concatenated with '\\|'."
                       (unless (setq l:it (assq k pew::special-buffer-alist))
                         (error "Invalid key: %S" k))
                       (cdr l:it)))))
-      (if concated
-          (mapconcat l:func l:keys "\\|")
-        (mapcar l:func l:keys))))
+      (if in-list
+          (mapcar l:func l:keys)
+        (mapconcat l:func l:keys "\\|"))))
 
   (defun pew::side-window-actions (side slot)
     "Return a list of pre-configured side window actions.
@@ -141,7 +141,7 @@ resolved."
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew::hidden-buffers (pew::special-buffer '(magit starred))
+(defvar pew::hidden-buffers (pew::special-buffer '(magit starred) :in-list)
   "Buffers that are hiddens in general scenarios.")
 
 (defun pew::hidden-buffer-p (name)
