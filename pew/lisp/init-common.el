@@ -153,9 +153,9 @@ resolved."
   "Check if the given buffer NAME is a Dired buffer."
   (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
 
-(defun pew::next-edit-buffer (&optional backwards)
-  "Switch to the next edit buffer.
-If BACKWARDS is non-nil doing it backwards."
+(defun pew::next-editing-buffer (&optional backwards)
+  "Switch to the next editing buffer.
+If BACKWARDS is non-nil switch to the previous one."
   (interactive "P")
   (let ((l:current-buffer (current-buffer))
         (l:switch-func (if backwards #'previous-buffer #'next-buffer)))
@@ -165,10 +165,10 @@ If BACKWARDS is non-nil doing it backwards."
                     (pew::dired-buffer-p (buffer-name))))
       (funcall l:switch-func))))
 
-(defun pew::previous-edit-buffer ()
-  "Like `pew::next-edit-buffer' but does it backwards."
+(defun pew::previous-editing-buffer ()
+  "Like `pew::next-editing-buffer' but does it backwards."
   (interactive)
-  (pew::next-edit-buffer :previous))
+  (pew::next-editing-buffer :previous))
 
 (defun pew::close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
