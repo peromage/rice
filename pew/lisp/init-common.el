@@ -39,6 +39,9 @@
       (non-starred . "^ *[^*]"))
     "An alist of special buffer pattern regex.")
 
+  (defvar pew::hidden-buffer-list '(magit starred)
+    "Buffers that are hiddens for general purposes.")
+
   (defun pew::special-buffer (key &optional in-list)
     "Return the corresponding buffer pattern with given KEY.
 Key is a symbol and should be one of the keys from `pew::special-buffer-alist'.
@@ -55,6 +58,11 @@ If IN-LIST is non-nil the returned value will be a list."
       (if in-list
           (mapcar l:func l:keys)
         (mapconcat l:func l:keys "\\|"))))
+
+  (defun pew::special-buffer-match-p (key name)
+    "Check if given buffer NAME matches buffers defined by KEY.
+KEY is the same one with `pew::special-buffer'."
+    (string-match-p (pew::special-buffer key) name))
 
   (defun pew::side-window-actions (side slot)
     "Return a list of pre-configured side window actions.
@@ -141,18 +149,6 @@ resolved."
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Buffers
-(defvar pew::hidden-buffers (pew::special-buffer '(magit starred) :in-list)
-  "Buffers that are hiddens in general scenarios.")
-
-(defun pew::hidden-buffer-p (name)
-  "Check if the given buffer NAME is a hidden buffer.
-Return t if NAME matches one of patterns defined in `pew::hidden-buffers' or nil
-if there is not match."
-  (named-let try-match-pattern ((l:pattern-list pew::hidden-buffers))
-    (cond ((null l:pattern-list) nil)
-          ((string-match-p (car l:pattern-list) name) t)
-          (t (try-match-pattern (cdr l:pattern-list))))))
-
 (defun pew::dired-buffer-p (name)
   "Check if the given buffer NAME is a Dired buffer."
   (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
@@ -165,7 +161,7 @@ If BACKWARDS is non-nil doing it backwards."
         (l:switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall l:switch-func)
     (while (and (not (eq l:current-buffer (current-buffer)))
-                (or (pew::hidden-buffer-p (buffer-name))
+                (or (pew::special-buffer-match-p pew::hidden-buffer-list (buffer-name))
                     (pew::dired-buffer-p (buffer-name))))
       (funcall l:switch-func))))
 

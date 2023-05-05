@@ -66,7 +66,7 @@
   (consult-preview-key '("<up>" "<down>"))
   (consult-narrow-key "<")
   ;; Don't display special buffers
-  (consult-buffer-filter pew::hidden-buffers)
+  (consult-buffer-filter (pew::special-buffer pew::hidden-buffer-list :in-list))
   ;; Find hidden directory
   (consult-find-args "find . ! -path '*/.git/*'")
 
