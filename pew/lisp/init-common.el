@@ -57,15 +57,15 @@ concatenated with '\\|'."
             (mapconcat #'identity l:result "\\|")
           l:result))))
 
-(defun pew::side-window-actions (side slot)
-  "Return a list of pre-configured side window actions.
+  (defun pew::side-window-actions (side slot)
+    "Return a list of pre-configured side window actions.
 See `display-buffer' for property SIDE, SLOT."
-  `((display-buffer-reuse-window display-buffer-in-side-window)
-    (reusable-frames . t)
-    (inhibit-switch-frame . t)
-    (window-height . 0.25)
-    (side . ,side)
-    (slot . ,slot)))) ;;; End eval-and-compile
+    `((display-buffer-reuse-window display-buffer-in-side-window)
+      (reusable-frames . t)
+      (inhibit-switch-frame . t)
+      (window-height . 0.25)
+      (side . ,side)
+      (slot . ,slot)))) ;;; End eval-and-compile
 
 ;;; Debugging
 (defun pew::reload-init-file ()
@@ -89,11 +89,11 @@ If NOPRINT is non-nil, the expanded list will be returned instead of printing
 out in the message buffer."
   (declare (indent 0))
   (let ((l:result (funcall (intern (format "macroexpand%s"
-                                         (pcase step
-                                           ('nil "")
-                                           (1 "-1")
-                                           (_ "-all"))))
-                         form)))
+                                           (pcase step
+                                             ('nil "")
+                                             (1 "-1")
+                                             (_ "-all"))))
+                           form)))
     (if noprint
         `(quote ,l:result)
       (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
