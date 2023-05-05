@@ -319,8 +319,7 @@
    ("?"   . xref-find-references)
    ("'"   . xref-find-apropos)
    ("C-x" . exchange-point-and-mark)
-   ("x"   . set-mark-command)
-   ("X"   . rectangle-mark-mode)
+   ("SPC" . set-mark-command)
 
 ;;;; Edit
    ("u" . undo)
