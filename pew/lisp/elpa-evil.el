@@ -157,6 +157,18 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
 
+;;;; State tags (Cannot be set by customize)
+  (setq evil-emacs-state-tag "EMACS"
+        evil-normal-state-tag "NORMAL"
+        evil-insert-state-tag "INSERT"
+        evil-replace-state-tag "REPLACE"
+        evil-visual-char-tag "VISUAL"
+        evil-visual-line-tag "VISUAL"
+        evil-visual-block-tag "VISUAL"
+        evil-visual-screen-line-tag "VISUAL"
+        evil-motion-state-tag "MOTION"
+        evil-operator-state-tag "OPERATOR")
+
 ;;;; Evil initial states
   ;; NOTE: This takes precedence over the mode initial states below
   (pew::evil::set-buffer-state
