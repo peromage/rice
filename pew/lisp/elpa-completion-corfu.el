@@ -34,11 +34,6 @@
   (corfu-echo-delay '(0.5 . 0.2))
 
   :config
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
-  (corfu-echo-mode)
-
   (defun pew::corfu::move-to-minibuffer ()
     (interactive)
     (let ((completion-extra-properties corfu--extra)
@@ -46,7 +41,12 @@
       (apply #'consult-completion-in-region completion-in-region--data)))
 
   (define-advice pew::terminal-mode-on-init (:after () pew::corfu::in-terminal)
-    (setq-local corfu-auto nil))) ;; (use-package corfu)
+    (setq-local corfu-auto nil))
+
+  (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode)
+  (corfu-echo-mode)) ;; (use-package corfu)
 
 ;;; Makes corfu usable in terminal
 (use-package corfu-terminal
