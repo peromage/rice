@@ -39,9 +39,9 @@
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   (evil-undo-system 'undo-redo)
-  ;; Initial states for major modes
-  (evil-default-state 'normal)
-  ;; Make less suprise and keep `evil-emacs-state-modes' as is
+  ;; Initial state with less suprise
+  ;; Use my own initial state setter instead.
+  (evil-default-state 'pewinitial)
   (evil-motion-state-modes nil)
   (evil-normal-state-modes nil)
   (evil-insert-state-modes nil)
@@ -51,8 +51,6 @@
   (evil-buffer-regexps nil)
 
   :config
-  (evil-mode 1)
-
 ;;;; Evil keybinding functions
   ;; Key binding function
   (defun pew::evil::set-key (state map leader bindings)
@@ -71,35 +69,6 @@ See `evil-define-key*'."
                               bindings)))
       (mapc (lambda (m) (apply 'evil-define-key* state m l:bindings))
             (if (listp map) map (list map)))))
-
-;;;; Evil state setting functions
-  ;; Initial state function
-  (defun pew::evil::set-mode-state (states)
-    "Set initial STATES for major or minor modes.
-STATES is an alist in the form of:
-  ((MODE . STATE) (MODE . STATE) ...)
-The MODE and STATE will be completed to their full names.
-Major mode uses `evil-set-initial-state' which is equivalent to:
-  (evil-set-initial-state MODE STATE)
-Minor mode uses `add-hook' which is equivalent to:
-  (add-hook 'MODE-hook #'evil-STATE-state)"
-    (declare (indent 0))
-    (mapc (lambda (x) (let ((l:mode (car x))
-                            (l:state (cdr x)))
-                        (if (memq l:mode minor-mode-list)
-                            (add-hook (intern (format "%s-hook" l:mode)) (intern (format "evil-%s-state" l:state)))
-                          (evil-set-initial-state l:mode l:state))))
-          states))
-
-  (defun pew::evil::set-buffer-state (states)
-    "Set initial STATES for certain buffer names.
-STATES is an alist in the form of:
-  ((NAME . STATE) (NAME . STATE) ...)
-The earlier the buffer name in the list the higher priority it has.
-See `evil-buffer-regexps'.
-NOTE: Buffer name patterns takes precedence over the mode based methods."
-    (declare (indent 0))
-    (setq evil-buffer-regexps (append states evil-buffer-regexps)))
 
 ;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special
@@ -170,43 +139,53 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
         evil-operator-state-tag "OPERATOR")
 
 ;;;; Evil initial states
-  ;; NOTE: This takes precedence over the mode initial states below
-  (pew::evil::set-buffer-state
-    ;; VC buffers
-    `((,(pew::special-buffer 'vc) . emacs)
-      (,(pew::special-buffer 'magit) . emacs)
-      (,(pew::special-buffer 'ediff) . emacs)
-      ;; Shell buffers
-      (,(pew::special-buffer 'shell) . emacs)
-      (,(pew::special-buffer 'terminal) . emacs)
-      ;; Buffers in motion
-      (,(pew::special-buffer 'help) . motion)
-      (,(pew::special-buffer 'message) . motion)
-      (,(pew::special-buffer 'backtrace) . motion)
-      (,(pew::special-buffer 'warning) . motion)
-      (,(pew::special-buffer 'log) . motion)
-      (,(pew::special-buffer 'compilation) . motion)
-      (,(pew::special-buffer 'output) . motion)
-      (,(pew::special-buffer 'command) . motion)
-      (,(pew::special-buffer 'man) . motion)
-      ;; Buffer in normal
-      (,(pew::special-buffer 'scratch) . normal)
-      (,(pew::special-buffer 'org-src) . normal)
-      (,(pew::special-buffer 'org-export) . normal)
-      (,(pew::special-buffer 'edit-indirect) . normal)
-      ;; Fallback initial state for all special buffers
-      (,(pew::special-buffer 'starred) . emacs)))
+  (evil-define-state pewinitial
+    "A dummy state used to determine buffer initial Evil state.
+NOTE: This dummy state means to be an intermidiate state which transits to
+another legit Evil state immediately under different conditions.  Due to the
+limitation in which the state toggle function can't switch to another state,
+the body of this state toggle is empty and the actual transition is done by
+an advice."
+    :tag "PEWINIT"
+    :message "-- PEWINIT --")
 
-  (pew::evil::set-mode-state
-    ;; Major modes
-    '((dired-mode . emacs)
-      (image-mode . emacs)
-      (help-mode . motion)
-      (message-mode . motion)
-      (compilation-mode . motion)
-      (vterm-mode . emacs)
-      ;; Minor modes
-      (view-mode . motion)))
+  (define-advice evil-pewinitial-state (:after (&rest arg) pew::evil::initial-state)
+    "Advice to alter `evil-pewinitial-state' toggle behavior.  This advice works
+in conjunction with the toggle to decide a buffer's initial Evil state.
+This is an advanced method to determine initial state rather than using
+`evil-set-initial-state' and `evil-buffer-regexps'."
+    (if (and (numberp arg) (< arg 1))
+        nil ;; Don't interfere toggle off.
+      (cond
+       ;; Motion state by minor mode
+       ;; TODO: Currently bugs due to the delay of the minor mode variable setting.
+       ;; ((delq nil (mapcar (lambda (m) (and (symbolp m) (symbol-value m)))
+       ;;                    '(view-mode)))
+       ;;  (evil-motion-state 1))
+
+       ;; Motion state by major mode
+       ((memq major-mode
+              '(messages-buffer-mode
+                help-mode
+                image-mode
+                view-mode))
+        (evil-motion-state 1))
+
+       ;; Normal state by buffer name
+       ((pew::special-buffer-match-p '(scratch
+                                       edit-indirect
+                                       org-starred)
+                                     (buffer-name))
+        (evil-normal-state 1))
+
+       ;; General editable buffer
+       ((and (pew::special-buffer-match-p 'non-starred (buffer-name))
+             (not buffer-read-only))
+        (evil-normal-state 1))
+
+       ;; Default buffer state
+       (t
+        (evil-emacs-state 1)))))
 
 ;;;; Evil keybindings
   ;; Toggle key
@@ -241,10 +220,14 @@ NOTE: Buffer name patterns takes precedence over the mode based methods."
       '(("eb" . eval-buffer)
         ("er" . eval-region)
         ("ef" . eval-defun)
-        ("ee" . eval-last-sexp))))) ;; (use-package evil)
+        ("ee" . eval-last-sexp))))
+
+;;;; Enable Evil
+  (evil-mode 1)) ;; (use-package evil)
 
 ;;; Evil surround
 (use-package evil-surround
+  :after evil
   :config
   (global-evil-surround-mode 1))
 

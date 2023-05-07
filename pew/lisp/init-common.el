@@ -19,6 +19,7 @@
       (terminal . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$")
       (scratch . "^ *\\*[Ss]cratch\\*$")
       ;; Org mode
+      (org-starred . "^ *\\*[Oo]rg ")
       (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
       (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
       ;; Edit mode
