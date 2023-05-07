@@ -39,7 +39,7 @@
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   (evil-undo-system 'undo-redo)
-  ;; Initial state with less suprise
+  ;; Initial state with less surprise
   ;; Use my own initial state setter instead.
   (evil-default-state 'pewinitial)
   (evil-motion-state-modes nil)
