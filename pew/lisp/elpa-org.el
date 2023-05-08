@@ -103,10 +103,13 @@
   (defvar pew::org::marker--hidden t
     "`org-mode' Marker visibility.")
 
-  (defun pew::org::toggle-marker ()
-    "Pass SHOW with non-nil to make markers visible or vice versa."
+  (defun pew::org::toggle-marker (&optional arg)
+    "Pass ARG with 1 or -1 to show or hide markers or anything else to toggle."
     (interactive)
-    (setq pew::org::marker--hidden (not pew::org::marker--hidden))
+    (setq pew::org::marker--hidden (pcase arg
+                                     (1 nil)
+                                     (-1 t)
+                                     (_  (not pew::org::marker--hidden))))
     ;; Those variables are global
     (setq-default org-hide-emphasis-markers pew::org::marker--hidden)
     (setq-default org-hide-leading-stars pew::org::marker--hidden)
