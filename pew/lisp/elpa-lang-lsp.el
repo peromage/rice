@@ -9,10 +9,6 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
 
-  :bind (:map lsp-mode-map
-         ([remap xref-find-definitions] . lsp-find-definition)
-         ([remap xref-find-references] . lsp-find-declaration))
-
   :custom
   (lsp-keymap-prefix "C-c l")
 
