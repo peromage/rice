@@ -7,7 +7,7 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :hook ((org-mode . pew::text-mode-on-init)
+  :hook ((org-mode . pew::org::on-init)
          (org-babel-after-execute . pew::org::refresh-images))
 
   :custom
@@ -21,11 +21,11 @@
   (org-hide-block-startup nil)
   ;; Default marker visibility
   (org-ellipsis " ...")
-  (org-hide-emphasis-markers t)
-  (org-hide-leading-stars t)
-  (org-hide-macro-markers t)
-  (org-link-descriptive t)
-  (org-pretty-entities t)
+  (org-hide-emphasis-markers pew::org::marker--hidden)
+  (org-hide-leading-stars pew::org::marker--hidden)
+  (org-hide-macro-markers pew::org::marker--hidden)
+  (org-link-descriptive pew::org::marker--hidden)
+  (org-pretty-entities pew::org::marker--hidden)
 
 ;;;; Image displaying
   (org-display-remote-inline-images 'skip)
@@ -92,21 +92,27 @@
   ;; Templates
   (org-capture-templates (pew::load-data-file (expand-file-name "capture.eld" pew::org-template-dir)))
 
+  :init
+  (defvar pew::org::marker--hidden nil
+    "`org-mode' Marker visibility.")
+
 ;;;; Helper functions
   :config
+  (defun pew::org::on-init ()
+    "Org mode initial setup."
+    (pew::text-mode-on-init))
+
   (defun pew::org::refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
     (interactive)
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
-  (defvar pew::org::marker--hidden t
-    "`org-mode' Marker visibility.")
-
-  (defun pew::org::toggle-marker (&optional arg)
-    "Pass ARG with 1 or -1 to show or hide markers or anything else to toggle."
+  (defun pew::org::toggle-marker (&optional show no-restart)
+    "Pass SHOW with 1 or -1 to show or hide markers or anything else to toggle.
+Non-nil NO-RESTART to suppress `org-mode-restart'."
     (interactive)
-    (setq pew::org::marker--hidden (pcase arg
+    (setq pew::org::marker--hidden (pcase show
                                      (1 nil)
                                      (-1 t)
                                      (_  (not pew::org::marker--hidden))))
@@ -116,7 +122,7 @@
     (setq-default org-hide-macro-markers pew::org::marker--hidden)
     (setq-default org-link-descriptive pew::org::marker--hidden)
     (setq-default org-pretty-entities pew::org::marker--hidden)
-    (org-mode-restart))
+    (unless no-restart (org-mode-restart)))
 
   (defun pew::org::goto-heading (level &optional to-end)
     "Move cursor to the selected heading in the current `org-mode' buffer.
