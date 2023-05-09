@@ -212,9 +212,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew::special-buffer 'magit :in-list)))
-                                  ("VC" (name . ,(pew::special-buffer 'vc :in-list)))
-                                  ("Ediff" (name . ,(pew::special-buffer 'ediff :in-list)))
+                                  ("Git" (name . ,(pew::special-buffer 'magit)))
+                                  ("VC" (name . ,(pew::special-buffer 'vc)))
+                                  ("Ediff" (name . ,(pew::special-buffer 'ediff)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
