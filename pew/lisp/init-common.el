@@ -37,7 +37,7 @@
       (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
       ;; General
       (starred . "^ *\\*.*\\*")
-      (non-starred . "^ *[^*]"))
+      (non-starred . "^ *[^* ]"))
     "An alist of special buffer pattern regex.")
 
   (defvar pew::hidden-buffer-list '(magit starred)
