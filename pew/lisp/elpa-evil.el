@@ -211,29 +211,32 @@ This is an advanced method to determine initial state rather than using
   (global-set-key (kbd "C-x C-m") #'evil-mode)
 
   ;; Leader keys
-  (evil-set-leader '(normal motion) (kbd "\\")) ;; <leader>
-  ;;(evil-set-leader '(normal motion) (kbd "\\") 'localleader) ;; <localleader>
+  (evil-set-leader '(normal motion visual) (kbd "RET")) ;; <leader>
+  (evil-set-leader '(normal motion visual) (kbd "DEL") :localleader) ;; <localleader>
 
   ;; Normal and motion state bindings with leader key
-  (pew::evil::set-key '(normal motion) 'global :leader
+  (pew::evil::set-key '(normal motion visual) 'global :leader
     ;; Search and substitution
     '(("cs" . pew::evil::replace-last-search)))
 
-  ;; Normal and motion state bindings
-  (pew::evil::set-key '(normal motion) 'global nil
+  ;; Command state bindings
+  (pew::evil::set-key '(normal motion visual) 'global nil
     '(("SPC" . pewkey)
       ;; Search
-      ("#" . evil-ex-nohighlight)
-      ("*" . pew::evil::search-word)))
+      ("#" . evil-ex-nohighlight)))
 
-  ;; Visual state bindings
+  ;; Normal and motion state specific
+  (pew::evil::set-key '(normal motion) 'global nil
+    '(("*" . pew::evil::search-word)))
+
+  ;; Visual state specific
   (pew::evil::set-key 'visual 'global nil
     ;; Search
     '(("*" . pew::evil::visual-search-region-text)))
 
   ;; Elisp with leader
   (with-eval-after-load 'elisp-mode
-    (pew::evil::set-key '(visual normal) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+    (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
       ;; Quick eval
       '(("eb" . eval-buffer)
         ("er" . eval-region)
