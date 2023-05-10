@@ -159,51 +159,52 @@ an advice."
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
-  (define-advice evil-pewinitial-state (:after (&rest arg) pew::evil::initial-state)
+  (define-advice evil-pewinitial-state (:after (&optional arg) pew::evil::initial-state)
     "Advice to alter `evil-pewinitial-state' toggle behavior.  This advice works
 in conjunction with the toggle to decide a buffer's initial Evil state.
 This is an advanced method to determine initial state rather than using
 `evil-set-initial-state' and `evil-buffer-regexps'."
-    (if (and (numberp arg) (< arg 1))
-        nil ;; Don't interfere toggle off.
-      (let ((l:to-toggle (lambda (s)
-                           (intern (format "evil-%s-state" s))))
-            (l:select-first (lambda (checker keyword)
-                              (car-safe (delq nil (mapcar
-                                                   checker
-                                                   (plist-get pew::evil::initial-state-plist keyword))))))
-            (l:state-toggle nil))
-        (cond
-         ;; State by rules
-         ((setq l:state-toggle
-                (or
-                 ;; State by minor mode
-                 ;; TODO: Currently bugs due to the delay of the minor mode variable setting.
-                 (funcall l:select-first (lambda (cons)
-                                           (and (symbolp (car cons))
-                                                (symbol-value (car cons))
-                                                (funcall l:to-toggle (cdr cons))))
-                          :minor)
-                 ;; State by major mode
-                 (funcall l:select-first (lambda (cons)
-                                           (and (eq major-mode (car cons))
-                                                (funcall l:to-toggle (cdr cons))))
-                          :major)
-                 ;; State by buffer name
-                 (funcall l:select-first (lambda (cons)
-                                           (and (string-match-p (car cons) (buffer-name))
-                                                (funcall l:to-toggle (cdr cons))))
-                          :name)))
-          (funcall l:state-toggle 1))
+    (pcase arg
+      ;; Don't interfere toggle off.
+      ((and (pred numberp) (pred (> 1)))
+       nil)
 
-         ;; General editable buffer
-         ((and (pew::special-buffer-match-p 'non-starred (buffer-name))
-               (not buffer-read-only))
-          (evil-normal-state 1))
+      ;; State by rules
+      ((and (let l:first-state-toggle (lambda (generator list)
+                                        (let ((l:state (car-safe (delq nil (mapcar generator list)))))
+                                          (if l:state (intern (format "evil-%s-state" l:state))))))
+            (let l:state-toggle (or
+                                 ;; State by minor mode
+                                 ;; TODO: Currently bugs due to the delay of the minor mode variable setting.
+                                 (funcall l:first-state-toggle
+                                          (lambda (cons)
+                                            (and (symbolp (car cons))
+                                                 (symbol-value (car cons))
+                                                 (cdr cons)))
+                                          (plist-get pew::evil::initial-state-plist :minor))
+                                 ;; State by major mode
+                                 (funcall l:first-state-toggle
+                                          (lambda (cons)
+                                            (and (eq major-mode (car cons))
+                                                 (cdr cons)))
+                                          (plist-get pew::evil::initial-state-plist :major))
+                                 ;; State by buffer name
+                                 (funcall l:first-state-toggle
+                                          (lambda (cons)
+                                            (and (string-match-p (car cons) (buffer-name))
+                                                 (cdr cons)))
+                                          (plist-get pew::evil::initial-state-plist :name))))
+            (guard l:state-toggle))
+       (funcall l:state-toggle 1))
 
-         ;; Default buffer state
-         (t
-          (evil-emacs-state 1))))))
+      ;; General editable buffer
+      ((guard (and (pew::special-buffer-match-p 'non-starred (buffer-name))
+                   (not buffer-read-only)))
+       (evil-normal-state 1))
+
+      ;; Default buffer state
+      (_
+       (evil-emacs-state 1))))
 
 ;;;; Evil keybindings
   ;; Toggle key
