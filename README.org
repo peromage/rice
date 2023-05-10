@@ -106,8 +106,8 @@ Evil
 
 | Key (normal and visual state) | Command      |
 |-------------------------------+--------------|
-| =\=                           | Leader       |
-| N/A                           | Local leader |
+| =RET=                         | Leader       |
+| =DEL=                         | Local leader |
 | =SPC=                         | ~pewkey~     |
 
 See [[./pew/lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
