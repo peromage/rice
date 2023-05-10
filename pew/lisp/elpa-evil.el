@@ -127,16 +127,16 @@ See `evil-define-key*'."
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
 
 ;;;; State tags (Cannot be set by customize)
-  (setq evil-emacs-state-tag "EMACS"
-        evil-normal-state-tag "NORMAL"
-        evil-insert-state-tag "INSERT"
-        evil-replace-state-tag "REPLACE"
-        evil-visual-char-tag "VISUAL"
-        evil-visual-line-tag "VISUAL"
-        evil-visual-block-tag "VISUAL"
-        evil-visual-screen-line-tag "VISUAL"
-        evil-motion-state-tag "MOTION"
-        evil-operator-state-tag "OPERATOR")
+  (setq evil-emacs-state-tag         "[EM]"
+        evil-normal-state-tag        "[NO]"
+        evil-insert-state-tag        "[IN]"
+        evil-replace-state-tag       "[RE]"
+        evil-visual-char-tag         "[VI]"
+        evil-visual-line-tag         "[VL]"
+        evil-visual-block-tag        "[VB]"
+        evil-visual-screen-line-tag  "[VS]"
+        evil-motion-state-tag        "[MO]"
+        evil-operator-state-tag      "[..]")
 
 ;;;; Evil initial states
   (evil-define-state pewinitial
