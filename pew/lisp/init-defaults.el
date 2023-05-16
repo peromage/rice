@@ -201,6 +201,13 @@
   (dired-recursive-deletes 'always)
   (dired-kill-when-opening-new-dired-buffer nil "Cannot open multiple dired windows if on")
 
+;;;; Eshell
+  (eshell-banner-message "")
+  (eshell-history-size 1000)
+  (eshell-save-history-on-exit t)
+  (eshell-hist-ignoredups nil)
+  (eshell-last-dir-ring-size 64)
+
 ;;;; ibuffer
   (ibuffer-movement-cycle nil)
   ;; Check `ibuffer-filtering-alist' for quilifiers.

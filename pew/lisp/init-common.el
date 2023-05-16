@@ -368,6 +368,16 @@ place."
   (interactive)
   (pew::close-other-buffers-in-major-mode 'dired-mode))
 
+;;; Eshell
+(defun pew::eshell-clear-buffer ()
+  "Clear eshell buffer."
+  (interactive)
+  (if (eq 'eshell-mode major-mode)
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (eshell-send-input))
+    (error "Not an Eshell buffer")))
+
 ;;; Hook functions
 (defun pew::terminal-mode-on-init ()
   "Common setup for terminal/shell modes."
