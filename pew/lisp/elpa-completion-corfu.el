@@ -76,18 +76,23 @@
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::elisp-on-init)
          (emacs-lisp-mode . pew::cape::elisp-on-init)
-         (lisp-data-mode . pew::cape::elisp-on-init))
+         (lisp-data-mode . pew::cape::elisp-on-init)
+         (eshell-mode . pew::cape::eshell-on-init))
 
   :bind (:map pew::M-c-map
-         ("p" . completion-at-point)
-         ("t" . complete-tag)
-         ("d" . cape-dabbrev)
-         ("h" . cape-history)
-         ("f" . cape-file)
-         ("k" . cape-keyword)
-         ("s" . cape-symbol)
-         ("l" . cape-line)
-         ("w" . cape-dict))
+         ("p"  . completion-at-point)
+         ("t"  . complete-tag)
+         ("d"  . cape-dabbrev)
+         ("h"  . cape-history)
+         ("f"  . cape-file)
+         ("k"  . cape-keyword)
+         ("s"  . cape-symbol)
+         ("a"  . cape-abbrev)
+         ("l"  . cape-line)
+         ("w"  . cape-dict)
+         ("\\" . cape-tex)
+         ("&"  . cape-sgml)
+         ("r"  . cape-rfc1345))
 
   :config
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
@@ -110,10 +115,18 @@
 
   (defun pew::cape::elisp-on-init ()
     "Set completion style for ELisp mode."
-    (setq-local completion-at-point-functions
-                ;; Combined completion style
-                (list (cape-super-capf #'elisp-completion-at-point
-                                       #'cape-dabbrev))))) ;; (use-package cape)
+    (setq-local completion-at-point-functions (list (cape-super-capf
+                                                     ;; Combined completion style
+                                                     #'elisp-completion-at-point
+                                                     #'cape-file
+                                                     #'cape-dabbrev))))
+
+  (defun pew::cape::eshell-on-init ()
+    "Set completion style for Eshell mode."
+    (setq-local completion-at-point-functions (list #'cape-history
+                                                    #'cape-file
+                                                    #'cape-dabbrev
+                                                    #'elisp-completion-at-point)))) ;; (use-package cape)
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here
