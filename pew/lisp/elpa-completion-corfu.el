@@ -97,11 +97,11 @@
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
   (setq completion-at-point-functions
-        (append (list #'cape-dabbrev
-                      #'cape-file
+        (append (list #'cape-file
+                      #'cape-keyword
+                      #'cape-dabbrev
                       #'cape-elisp-block
                       ;; #'cape-history
-                      ;; #'cape-keyword
                       ;; #'cape-tex
                       ;; #'cape-sgml
                       ;; #'cape-rfc1345
@@ -114,18 +114,19 @@
 
   (defun pew::cape::elisp-on-init ()
     "Set completion style for ELisp mode."
-    (setq-local completion-at-point-functions (list (cape-super-capf
-                                                     ;; Combined completion style
+    (setq-local completion-at-point-functions (list #'cape-file
+                                                    ;; Combined completion style
+                                                    (cape-super-capf
                                                      #'elisp-completion-at-point
-                                                     #'cape-file
                                                      #'cape-dabbrev))))
 
   (defun pew::cape::eshell-on-init ()
     "Set completion style for Eshell mode."
-    (setq-local completion-at-point-functions (list #'cape-history
-                                                    #'cape-file
-                                                    #'cape-dabbrev
-                                                    #'elisp-completion-at-point)))) ;; (use-package cape)
+    (setq-local completion-at-point-functions (list #'cape-file
+                                                    #'pcomplete-completions-at-point
+                                                    (cape-super-capf
+                                                     #'elisp-completion-at-point
+                                                     #'cape-dabbrev))))) ;; (use-package cape)
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here
