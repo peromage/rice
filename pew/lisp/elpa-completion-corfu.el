@@ -9,24 +9,23 @@
   :demand t
 
   :bind (:map corfu-map
-         ("TAB" . corfu-next)
-         ("S-TAB" . corfu-previous)
-         ("<tab>" . corfu-next)
-         ("<backtab>" . corfu-previous)
+         ("TAB" . corfu-complete)
+         ("<tab>" . corfu-complete)
          ("C-s" . corfu-insert-separator)
          ("C-c" . corfu-insert)
          ("C-k" . corfu-quit)
-         ("RET" . nil)
-         ("<return>" . nil)
+         ("C-u" . corfu-reset)
+         ("RET" . corfu-insert)
+         ("<return>" . corfu-insert)
          ("C-j" . pew::corfu::move-to-minibuffer))
 
   :custom
-  (corfu-cycle t)
   (corfu-auto t)
   (corfu-auto-prefix 2)
+  (corfu-cycle nil)
   (corfu-separator ?\s) ;; M-SPC
   (corfu-preview-current 'insert)
-  (corfu-preselect 'prompt)
+  (corfu-preselect 'valid) ;; Quickly submit the first match
   (corfu-on-exact-match 'insert)
   (corfu-quit-at-boundary 'separator) ;; Quit boundary unless separator is used
   (corfu-quit-no-match 'separator) ;; Same above
@@ -43,10 +42,10 @@
   (define-advice pew::terminal-mode-on-init (:after () pew::corfu::in-terminal)
     (setq-local corfu-auto nil))
 
-  (global-corfu-mode)
-  (corfu-history-mode)
-  (corfu-popupinfo-mode)
-  (corfu-echo-mode)) ;; (use-package corfu)
+  (global-corfu-mode 1)
+  (corfu-history-mode 1)
+  (corfu-popupinfo-mode 1)
+  (corfu-echo-mode 1)) ;; (use-package corfu)
 
 ;;; Makes corfu usable in terminal
 (use-package corfu-terminal
