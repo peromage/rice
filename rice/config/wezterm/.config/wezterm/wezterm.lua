@@ -234,7 +234,7 @@ local launch_menu = meta:_bind {
 }
 
 --- Domains --------------------------------------------------------------------
-local wsl_domains = {
+local wsl_domains = meta:_bind {
     {
         name = "WSL::Ubuntu-22.04",
         distribution = "Ubuntu-22.04",
