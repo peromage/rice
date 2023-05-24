@@ -19,8 +19,9 @@
     (org-plantuml-exec-mode plantuml-default-exec-mode)
     :config
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))))
-
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (cons '(plantuml . t)
+                                       org-babel-load-languages))))
 
 (provide 'elpa-lang-plantuml)
 ;;; elpa-lang-plantuml.el ends here
