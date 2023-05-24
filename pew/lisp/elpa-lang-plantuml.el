@@ -18,10 +18,8 @@
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)
     :config
-    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (org-babel-do-load-languages 'org-babel-load-languages
-                                 (cons '(plantuml . t)
-                                       org-babel-load-languages))))
+    (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
+    (pew::org::add-babel-load-languages '((plantuml . t)))))
 
 (provide 'elpa-lang-plantuml)
 ;;; elpa-lang-plantuml.el ends here

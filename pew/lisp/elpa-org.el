@@ -159,7 +159,17 @@ Otherwise the cursor is placed at the beginning of the heading."
     "Find files under `org-directory'."
     (interactive)
     (let ((default-directory (file-name-as-directory org-directory)))
-      (call-interactively #'find-file)))) ;; (use-package org)
+      (call-interactively #'find-file)))
+
+  (defun pew::org::add-src-lang-modes (alist)
+    "Add modes defined in ALIST to `org-src-lang-modes'."
+    (setq org-src-lang-modes (append org-src-lang-modes alist)))
+
+  (defun pew::org::add-babel-load-languages (alist)
+    "Add languages defined in ALIST to `org-babel-load-languages'.
+`org-babel-do-load-languages' will be called underneath."
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (append org-babel-load-languages alist)))) ;; (use-package org)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
