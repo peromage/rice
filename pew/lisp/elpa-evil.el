@@ -172,7 +172,7 @@ This is an advanced method to determine initial state rather than using
       ;; State by rules
       ((and (let l:state (cdr-safe (or
                                     ;; State by minor mode
-                                    ;; TODO: Currently bugs due to the delay of the minor mode variable setting.
+                                    ;; TODO: Currently bugged due to the delay of the minor mode variable setting.
                                     (seq-find
                                      (lambda (cons)
                                        (and (symbolp (car cons))
@@ -190,8 +190,12 @@ This is an advanced method to determine initial state rather than using
        (evil-change-state l:state))
 
       ;; General editable buffer
-      ((guard (and (pew::special-buffer-match-p 'non-starred (buffer-name))
-                   (not buffer-read-only)))
+      ((guard (or
+               ;; Visiting files
+               (buffer-file-name)
+               ;; New unsaved buffers
+               (and (pew::special-buffer-match-p 'non-starred (buffer-name))
+                    (not buffer-read-only))))
        (evil-change-state 'normal))
 
       ;; Default buffer state
