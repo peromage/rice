@@ -17,10 +17,10 @@
 ;;;; Nicer headlines
 (use-package org-bullets
   :after org
-  :hook (org-mode . pew::org-bullets::on-init)
+  :hook (org-mode . pew::org-bullets::oninit)
 
   :config
-  (defun pew::org-bullets::on-init ()
+  (defun pew::org-bullets::oninit ()
     "`org-bullets' initialization."
     (org-bullets-mode 1)))
 

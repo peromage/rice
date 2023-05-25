@@ -5,8 +5,8 @@
 
 ;;; Code:
 (use-package cc-mode
-  :hook ((c-mode . pew::cc-mode::c-on-init)
-         (c++-mode . pew::cc-mode::c++-on-init))
+  :hook ((c-mode . pew::cc-mode::c-oninit)
+         (c++-mode . pew::cc-mode::c++-oninit))
 
   :config
   ;; Setup functions
@@ -40,12 +40,12 @@
     ;; Post LSP mode settings
     (electric-indent-mode -1))
 
-  (defun pew::cc-mode::c-on-init ()
+  (defun pew::cc-mode::c-oninit ()
     "Initialization for C mode."
     (pew::cc-mode::common-setup)
     (pew::cc-mode::lsp-setup))
 
-  (defun pew::cc-mode::c++-on-init ()
+  (defun pew::cc-mode::c++-oninit ()
     "Initialization for C++ mode."
     (pew::cc-mode::common-setup)
     (pew::cc-mode::lsp-setup)))

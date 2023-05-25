@@ -379,7 +379,7 @@ place."
     (error "Not an Eshell buffer")))
 
 ;;; Hook functions
-(defun pew::terminal-mode-on-init ()
+(defun pew::terminal-mode-oninit ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil)
   (setq-local truncate-lines nil)
@@ -389,7 +389,7 @@ place."
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun pew::text-mode-on-init ()
+(defun pew::text-mode-oninit ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)

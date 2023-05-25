@@ -5,10 +5,10 @@
 
 ;;; Code:
 (use-package powershell
-  :hook (powershell-mode . pew::powershell-mode::on-init)
+  :hook (powershell-mode . pew::powershell-mode::oninit)
 
   :config
-  (defun pew::powershell-mode::on-init ()
+  (defun pew::powershell-mode::oninit ()
     "`powershell-mode' initialization."
     (lsp-deferred)))
 

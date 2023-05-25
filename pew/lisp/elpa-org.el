@@ -7,7 +7,7 @@
 ;;; Org mode
 ;; Let `use-package' ensure the latest org package is installed
 (use-package org
-  :hook ((org-mode . pew::org::on-init)
+  :hook ((org-mode . pew::org::oninit)
          (org-babel-after-execute . pew::org::refresh-images))
 
   :custom
@@ -98,9 +98,9 @@
 
 ;;;; Helper functions
   :config
-  (defun pew::org::on-init ()
+  (defun pew::org::oninit ()
     "Org mode initial setup."
-    (pew::text-mode-on-init))
+    (pew::text-mode-oninit))
 
   (defun pew::org::refresh-images ()
     "Redisplay inline images if they exist in the current buffer."

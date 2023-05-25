@@ -10,7 +10,7 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pew::terminal-mode-on-init)
+  :hook (vterm-mode . pew::terminal-mode-oninit)
 
   :custom
   (vterm-kill-buffer-on-exit t)
@@ -34,13 +34,13 @@ users to specify the shell to start with."
 ;;; Tree navigation
 (use-package treemacs
   :commands treemacs
-  :hook (treemacs-mode . pew::treemacs::on-init)
+  :hook (treemacs-mode . pew::treemacs::oninit)
 
   :custom
   (treemacs-wrap-around nil)
 
   :config
-  (defun pew::treemacs::on-init ()
+  (defun pew::treemacs::oninit ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 

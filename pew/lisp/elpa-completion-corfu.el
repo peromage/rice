@@ -39,7 +39,7 @@
           completion-cycle-threshold completion-cycling)
       (apply #'consult-completion-in-region completion-in-region--data)))
 
-  (define-advice pew::terminal-mode-on-init (:after () pew::corfu::in-terminal)
+  (define-advice pew::terminal-mode-oninit (:after () pew::corfu::in-terminal)
     (setq-local corfu-auto nil))
 
   (global-corfu-mode 1)
@@ -73,10 +73,10 @@
 (use-package cape
   :demand t
   :after corfu
-  :hook ((lisp-interaction-mode . pew::cape::elisp-on-init)
-         (emacs-lisp-mode . pew::cape::elisp-on-init)
-         (lisp-data-mode . pew::cape::elisp-on-init)
-         (eshell-mode . pew::cape::eshell-on-init))
+  :hook ((lisp-interaction-mode . pew::cape::elisp-oninit)
+         (emacs-lisp-mode . pew::cape::elisp-oninit)
+         (lisp-data-mode . pew::cape::elisp-oninit)
+         (eshell-mode . pew::cape::eshell-oninit))
 
   :bind (:map pew::M-c-map
          ("p"  . completion-at-point)
@@ -112,7 +112,7 @@
                       )
                 completion-at-point-functions))
 
-  (defun pew::cape::elisp-on-init ()
+  (defun pew::cape::elisp-oninit ()
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     ;; Combined completion style
@@ -120,7 +120,7 @@
                                                      #'elisp-completion-at-point
                                                      #'cape-dabbrev))))
 
-  (defun pew::cape::eshell-on-init ()
+  (defun pew::cape::eshell-oninit ()
     "Set completion style for Eshell mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     #'pcomplete-completions-at-point

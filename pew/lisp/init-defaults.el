@@ -414,8 +414,8 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode . pew::terminal-mode-on-init)
-  (shell-mode . pew::terminal-mode-on-init)
+  (eshell-mode . pew::terminal-mode-oninit)
+  (shell-mode . pew::terminal-mode-oninit)
 
   ;; Don't save trailing spaces
   (after-save . pew::delete-trailing-whitespaces)

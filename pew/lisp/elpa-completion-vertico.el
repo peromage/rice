@@ -141,13 +141,13 @@ ARGS should be a string of arguments passed to ripgrep."
          ("e e" . embark-export)
          ("e c" . embark-collect))
 
-  :hook (embark-collect-mode . pew::embark::collect-on-init)
+  :hook (embark-collect-mode . pew::embark::collect-oninit)
 
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 
   :config
-  (defun pew::embark::collect-on-init ()
+  (defun pew::embark::collect-oninit ()
     "`embark-collect-mode' initialization."
     (pew::reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
