@@ -1,3 +1,10 @@
 #!/bin/sh
 
-emacs -Q -nw --eval "(progn (xterm-mouse-mode 1) (dired \"$(pwd)\"))"
+emacs -Q -nw --eval "$(cat <<EOF
+(progn
+  (xterm-mouse-mode 1)
+  (setq dired-dwim-target t)
+  (put 'dired-find-alternate-file 'disabled nil)
+  (dired "$(pwd)"))
+EOF
+)"
