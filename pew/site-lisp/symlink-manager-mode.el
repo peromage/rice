@@ -9,19 +9,16 @@
   "Create a link of TARGET to the current directory.
 If ASK is a non-nil the link will be force overridden or prompted for
 confirmation if it is an integer."
-  (if (not (file-exists-p target))
-      (user-error "Target does not exist: %s" target)
+  (if (not (file-exists-p target)) nil
      (make-symbolic-link target default-directory ask)
-     (message "Linked: %s" target)))
+     t))
 
 (defun sm-delete-link (target)
   "Delete a link of TARGET from the current directory."
   (let ((f (file-name-nondirectory target)))
-    (if (or (not (file-exists-p f))
-            (not (file-symlink-p f)))
-        (user-error "No symlink found: %s" f)
+    (if (or (not (file-exists-p f)) (not (file-symlink-p f))) nil
       (delete-file f)
-      (message "Deleted: %s" f))))
+      t)))
 
 (defun sm-read-line ()
   "Read the texts from the line where the cursor is."
@@ -42,12 +39,18 @@ confirmation if it is an integer."
 (defun sm-do-create-link ()
   "Interactively create a symlink."
   (interactive)
-  (sm-create-link (sm-read-line) 1))
+  (let ((target (sm-read-line)))
+    (if (sm-create-link target 1)
+        (message "Linked target: %s" target)
+      (user-error "Target not exists: %s" target))))
 
 (defun sm-do-delete-link ()
   "Interactively delete a symlink."
   (interactive)
-  (sm-delete-link (sm-read-line)))
+  (let ((target (sm-read-line)))
+    (if (sm-delete-link target)
+        (message "Unlinked target: %s" target)
+      (user-error "Nothing to unlink for target: %s" target))))
 
 (defvar sm-mode-map (let ((map (make-sparse-keymap)))
                       (dolist (binding '(("n" . sm-move-next-line)
