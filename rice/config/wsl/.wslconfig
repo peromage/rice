@@ -1,21 +1,23 @@
 ## WSL host config
 ## Path: $HOME/.wslconfig
 ## Shutdown all instances to apply this settings: wsl --shutdown
-## See: https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configuration-setting-for-wslconfig
+## See: https://learn.microsoft.com/en-us/windows/wsl/wsl-config
 
 [wsl2]
-#kernel=C:\\wslfiles\\myCustomKernel
+#kernel = C:\\wslfiles\\myCustomKernel
 #kernelCommandLine = vsyscall=emulate
-swap=8GB
-#swapfile=C:\\wslfiles\\wsl-swap.vhdx
-memory=16GB
-processors=4
-pageReporting=true
-localhostForwarding=true
+#swapfile = C:\\wslfiles\\wsl-swap.vhdx
+swap = 8GB
+memory = 16GB
+processors = 4
+localhostForwarding = true
+
+## Deprecated?
+#pageReporting = true
 
 ## Exclusive on Windows 11
-#safeMode=false
-#guiApplications=false
-#debugConsole=false
-#nestedVirtualization=false
-#vmIdleTimeout=60000
+#guiApplications = true
+#nestedVirtualization = true
+#safeMode = false
+#debugConsole = false
+#vmIdleTimeout = 60000
