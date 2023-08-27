@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+cd "${BASH_SOURCE%/*}"
+
 OPTION="$1" && shift
 TARGET="$1" && shift
 
@@ -11,7 +13,6 @@ case "$OPTION" in
         ;;
 esac
 
-cd "${BASH_SOURCE%/*}"
 if ! test -d "$TARGET"; then
     echo "Not a directory: $TARGET"
     exit 1
