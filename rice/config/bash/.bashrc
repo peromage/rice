@@ -98,12 +98,6 @@ function rice_include {
     source "${RICE[rc]}/librice/${name}.bash" "$@";
 }
 
-function brewenv {
-    ## linuxbrew
-    eval "$(brew shellenv)"
-    export PS1="(brew) $PS1"
-}
-
 function string_join {
     ## Usage: srting-join delimiter string1 string2 ...
     local d="${1:-}" f="${2:-}"
