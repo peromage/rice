@@ -32,7 +32,7 @@ function string_join {
 }
 
 ### Environment settings #######################################################
-rice_include env.sh prompt-classic path ssh-agent
+rice_include env.sh prompt-classic path gpg-agent
 
 ### Random stuff ###############################################################
 [[ -e "${RICE[custom_rc]}" ]] && source "${RICE[custom_rc]}"
