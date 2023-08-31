@@ -5,31 +5,30 @@ CLI_FLAG="USE_TTY"
 case "$1" in
     -h|--help)
         exec cat <<EOF
-Help:
-  $0 -h|--help
+Only one option is expected at a time.
 
-Reload without setting environment variables:
-  $0
+If no option is specified, this script reloads gpg-agent without setting
+environment variables.
 
-Terminate gpg-agent:
-  $0 -k|--kill
-
-Use following commands to work in CLI environment.
-
-Bourne Shells:
-  eval \$($0 --sh)
-
-Fish:
-  eval ($0 --fish)
-
-PowerShell:
-  iex "\$($0 --pwsh)"
+  -h | --help           Print this help message
+  -k | --kill           Terminate gpg-agent
+  --sh                  Print commands that set environment variables for Bourne
+                        shells:
+                          eval \$($0 --sh)
+  --fish                Print commands that set environemnt variables for Fish
+                        shell:
+                          eval ($0 --fish)
+  --pwsh                Print commands that set environemnt variables for
+                        PowerShell:
+                          iex "\$($0 --pwsh)"
 EOF
         ;;
+
     -k|--kill)
         echo "Killing gpg-agent"
         exec gpgconf --kill gpg-agent
         ;;
+
     --sh)
         exec cat <<EOF
 GPG_TTY=\$(tty) && export GPG_TTY;
@@ -37,6 +36,7 @@ export PINENTRY_USER_DATA=${CLI_FLAG};
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
         ;;
+
     --fish)
         exec cat <<EOF
 set -gx GPG_TTY (tty);
@@ -44,12 +44,15 @@ set -gx PINENTRY_USER_DATA ${CLI_FLAG};
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
         ;;
+
     --pwsh)
         exec cat <<EOF
 \$env:GPG_TTY = (tty);
 \$env:PINENTRY_USER_DATA = "${CLI_FLAG}";
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
+        ;;
+    *)
+        exec gpg-connect-agent updatestartuptty /bye >/dev/null
+        ;;
 esac
-
-exec gpg-connect-agent updatestartuptty /bye >/dev/null
