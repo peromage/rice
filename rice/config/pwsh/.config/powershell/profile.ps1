@@ -23,11 +23,11 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 
 ### Environment variables ######################################################
 $RICE = @{}
-$RICE.rc = Get-Item "$PSScriptRoot"
-$RICE.custom_rc = (Join-Path $RICE.rc "custom.ps1")
+$RICE.root_dir = Get-Item "$PSScriptRoot"
+$RICE.custom_rc = (Join-Path $RICE.root_dir "custom.ps1")
 $RICE.privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
 ## Modules will be autoloaded
-$Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.rc librice)
+$Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.root_dir librice)
 
 $function:prompt = {
     if ($RICE.privileged) {
@@ -47,7 +47,7 @@ The name should be the file basename without extension .ps1.
 Due to the limitation, sourcing has to be done in the global scope. e.g.
   . (rice_include file) [args] #>
     param ($name)
-    return (Join-Path $RICE.rc.FullName "librice" "${name}.ps1")
+    return (Join-Path $RICE.root_dir.FullName "librice" "${name}.ps1")
 }
 
 function simplify_home_path {
