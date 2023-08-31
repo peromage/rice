@@ -10,8 +10,8 @@
 
 ### Environment variables ######################################################
 declare -A RICE
-RICE[rc]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-RICE[custom_rc]="${RICE[rc]}/custom.bash"
+RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
+RICE[custom_rc]="${RICE[root_dir]}/custom.bash"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ### Commands ###################################################################
@@ -20,7 +20,7 @@ function rice_include {
     ## The name should be the file basename without extension .bash.
     ## Usage: rice_include name [args]
     local name="${1:-}"; shift
-    source "${RICE[rc]}/librice/${name}" "$@";
+    source "${RICE[root_dir]}/librice/${name}" "$@";
 }
 
 function string_join {
