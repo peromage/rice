@@ -1,4 +1,4 @@
-### hack.ps1 -- PowerShell hacks
+### hack.psm1 -- PowerShell hacks
 
 ### Function decoration
 ## Behavior definitions follow Emacs "define_advice". Only function is supported

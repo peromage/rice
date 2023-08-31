@@ -1,4 +1,4 @@
-### hash.ps1 --- Hash calculation
+### hash.psm1 --- Hash calculation
 
 function hash_md5 {
     param($file)
