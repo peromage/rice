@@ -319,6 +319,7 @@
    ("p" . pew::previous-editing-buffer)
    ("i" . pew::display-buffer-path)
    ("B" . display-buffer)
+   ("g" . revert-buffer-quick)
 
 ;;;; Jump
    ("C-o" . pop-global-mark)
