@@ -8,20 +8,24 @@
 (eval-and-compile
 ;;; The list of keywords
   (defvar pewcfg::keywords
-    '((:custom     . (pewcfg::set-custom . pewcfg::with-flattened-form))
-      (:map        . (pewcfg::set-map . pewcfg::with-flattened-form))
-      (:bind       . (pewcfg::set-bind . pewcfg::with-flattened-form))
-      (:transient  . (pewcfg::set-transient . pewcfg::with-flattened-form))
-      (:switch     . (pewcfg::set-switch . pewcfg::with-flattened-cons))
-      (:face       . (pewcfg::set-face . pewcfg::with-flattened-form))
-      (:property   . (pewcfg::set-property . pewcfg::with-flattened-form))
-      (:hook       . (pewcfg::set-hook . pewcfg::with-flattened-cons))
-      (:automode   . (pewcfg::set-automode . pewcfg::with-flattened-cons))
-      (:eval       . (pewcfg::set-eval . pewcfg::with-identical-form))
-      (:eval-after . (pewcfg::set-eval-after . pewcfg::with-flattened-form)))
+    '((:custom     . (pewcfg::with-flattened-form pewcfg::set-custom))
+      (:map        . (pewcfg::with-flattened-form pewcfg::set-map))
+      (:bind       . (pewcfg::with-flattened-form pewcfg::set-bind))
+      (:transient  . (pewcfg::with-flattened-form pewcfg::set-transient))
+      (:switch     . (pewcfg::with-flattened-cons pewcfg::set-switch))
+      (:face       . (pewcfg::with-flattened-form pewcfg::set-face))
+      (:property   . (pewcfg::with-flattened-form pewcfg::set-property))
+      (:hook       . (pewcfg::with-flattened-cons pewcfg::set-hook))
+      (:automode   . (pewcfg::with-flattened-cons pewcfg::set-automode))
+      (:eval       . (pewcfg::with-identical-form pewcfg::set-eval))
+      (:eval-after . (pewcfg::with-flattened-form pewcfg::set-eval-after)))
     "An alist of keywords used by `pewcfg' to specify sections.
 Each entry is in the form of
-  (KEYWORD . (EXPANSION-MACRO . FORM-PROCESSOR)
+  (KEYWORD . PARTIALLY-APPLIED-FORM)
+or
+  (KEYWORD . FUNCTION)
+where the FUNCTION should accept a form as its parameter.  The structure of the
+form can be found below.
 
 List of each keyword's form signature:
   :custom      (VARIABLE VALUE [COMMENT])
@@ -47,16 +51,19 @@ for form definitions.
 Typical usage is as follow:
   (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
     (declare (indent 0))
-    (let (l:stored l:entry)
+    (if (not (keywordp (car args)))
+        (error "Not start with a keyword"))
+    (let (l:partial-form)
       `(progn
          ,@(mapcar (lambda (form)
-                     (setq l:entry (assq form pewcfg::keywords))
-                     (if (null l:entry)
-                         ;; Expand form with corresponded macro
-                         (list (cdr l:stored) (car l:stored) form)
-                       ;; Update current function
-                       (setq l:stored (cdr l:entry))
-                       (car l:entry)))
+                     (cond ((keywordp form)
+                            (setq l:partial-form (ensure-list (alist-get form pewcfg::keywords)))
+                            (if (null l:partial-form) (error "Not a valid keyword: %S" form))
+                            ;; Return the keyword as a placeholder
+                            form)
+                           (t
+                            ;; Complete the expression and expand it
+                            `(,@l:partial-form ,form))))
                    args))))
 
 ;;; :custom
