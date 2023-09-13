@@ -25,7 +25,7 @@
   (corfu-cycle nil)
   (corfu-separator ?\s) ;; M-SPC
   (corfu-preview-current 'insert)
-  (corfu-preselect 'valid) ;; Quickly submit the first match
+  (corfu-preselect 'prompt) ;; Do not select automatically
   (corfu-on-exact-match 'insert)
   (corfu-quit-at-boundary 'separator) ;; Quit boundary unless separator is used
   (corfu-quit-no-match 'separator) ;; Same above
