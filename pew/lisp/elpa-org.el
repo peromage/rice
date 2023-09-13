@@ -186,5 +186,10 @@ Otherwise the cursor is placed at the beginning of the heading."
     (org-babel-do-load-languages 'org-babel-load-languages
                                  (append org-babel-load-languages alist)))) ;; (use-package org)
 
+;;; Org mode built-ins
+(use-package org-tempo
+  :ensure nil
+  :after org)
+
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
