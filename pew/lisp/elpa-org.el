@@ -73,7 +73,22 @@
 ;;;; Babel
   (org-babel-load-languages '((emacs-lisp . t)
                               (shell . t)))
-  ;;(org-confirm-babel-evaluate nil)
+  (org-confirm-babel-evaluate nil)
+  (org-babel-default-header-args '((:session . "none")
+                                   (:results . "output raw replace")
+                                   (:wrap . "example")
+                                   (:exports . "code")
+                                   (:cache . "no")
+                                   (:noweb . "yes")
+                                   (:hlines . "no")
+                                   (:tangle . "no")))
+  (org-babel-default-inline-header-args '((:session . "none")
+                                          (:results . "output replace")
+                                          (:exports . "results")
+                                          (:cache . "no")
+                                          (:noweb . "yes")
+                                          (:hlines . "no")
+                                          (:tangle . "no")))
 
 ;;;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window
