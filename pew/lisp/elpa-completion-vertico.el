@@ -44,7 +44,7 @@
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-x B" . consult-buffer-other-window)
-         ("C-x f" . consult-find)
+         ("C-x F" . consult-find)
          ("C-x g" . consult-ripgrep)
          ("C-x G" . consult-git-grep)
          ("C-x l" . consult-outline)
