@@ -1,4 +1,4 @@
-#!/usr/bin/env -S emacs --batch -x
+#!/usr/bin/env -S emacs --batch --script
 ;;; test-startup.el --- Test startup with packages loaded -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
