@@ -1,4 +1,4 @@
-#!/usr/bin/env -S emacs -x --batch
+#!/usr/bin/env -S emacs --batch -x
 ;;; test-pewcfg.el --- Test for pewcfg -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:

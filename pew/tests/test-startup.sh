@@ -1,4 +1,4 @@
-#!/usr/bin/env -S emacs -x --batch
+#!/usr/bin/env -S emacs --batch -x
 ;;; test-startup.el --- Test startup with packages loaded -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
@@ -17,7 +17,8 @@
       (load-path (delq user-emacs-directory load-path)))
   (load-file user-init-file)
   (run-hooks 'after-init-hook)
-  (run-hooks 'emacs-startup-hook))
+  (run-hooks 'emacs-startup-hook)
+  (message "%s started in %s" (emacs-version) (emacs-init-time)))
 
 (provide 'test-startup)
 ;;; test-startup.el ends here
