@@ -1,10 +1,8 @@
-#!/usr/bin/env -S emacs -x
+#!/usr/bin/env -S emacs -x --batch
 ;;; test-pewcfg.el --- Test for pewcfg -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
-;; This is a ELisp script and it should be executed with "emacs --script".
-;;
-;; Test `pewcfg' expansion.
+;; Uint tests for `pewcfg' and its utilities.
 
 ;;; Code:
 ;;; Process arguments

@@ -1,9 +1,7 @@
-#!/usr/bin/env -S emacs -x
+#!/usr/bin/env -S emacs -x --batch
 ;;; test-startup.el --- Test startup with packages loaded -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
-;; This is a ELisp script and it should be executed with "emacs --script".
-;;
 ;; Basic sanity test for configuration startup.
 
 ;;; Code:
