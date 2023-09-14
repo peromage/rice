@@ -16,13 +16,16 @@
 (require 'init-pewcfg)
 
 ;;; Helpers functions
+(defvar test-failure-number 0 "Number of failed tests.")
+
 (defun expect-equal (name a b)
   "Compare A and B and emit error if they don't match.
 NAME is used to identify the name of this comparison."
   (declare (indent 1))
   (if (equal a b)
       (message "[ PASSED ] %s" name)
-    (error "[ FAILED ] %s" name)))
+    (setq test-failure-number (1+ test-failure-number))
+    (message "[ FAILED ] %s\n>> a: %S\n>> b: %S" name a b)))
 
 (defun expect-expansion (name step expectation form)
   "Expand MACRO and compare the result with EXPECTATION.
@@ -267,7 +270,8 @@ the one passed to `pew::expand-macro'."
               [tab]
               (pewcfg::tokey [tab]))
 
-(message "[ END ] Passed all")
+(message "[ END ] %s" (if (zerop test-failure-number) "Passed all tests" (format "Failed %d test(s)" test-failure-number)))
+(kill-emacs test-failure-number) ;; Exit code is the number of failed tests
 
 (provide 'test-pewcfg)
 ;;; test-pewcfg.el ends here
