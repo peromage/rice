@@ -70,7 +70,15 @@ Typical usage is as follow:
 ;;; :custom
   (defmacro pewcfg::set-custom (variable value &optional comment)
     "Set custom variables or regular variables.
-Underlying implementation uses `customize-set-variable'."
+Underlying implementation uses `customize-set-variable'.
+
+NOTE: Most of vanilla options are defined with `defcustom', which means if they
+are set directly by `setq' or `setq-default' they might NOT work as expected.
+However, if we use `custom-set-variables' they would work but `custom-file'
+would produce a bunch of duplicated settings.  To address this issue, we can use
+`customize-set-variable'.  It calls those option setters if they have and also
+prevents writting settings from this file to the `custom-file'.
+"
     (declare (indent 0))
     `(customize-set-variable ',variable ,value ,comment))
 

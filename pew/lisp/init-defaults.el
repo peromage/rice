@@ -2,14 +2,7 @@
 
 ;;; Commentary:
 ;; Vanilla Emacs configuration.
-;; Avoid using `use-package' because it's supposed to be applied on any Emacs setup.
-;;
-;; NOTE: Most of vanilla options are defined with `defcustom', which means if they
-;; are set directly by `setq' they might NOT work as expected.  However, if we use
-;; `custom-set-variables' they would work but `custom-file' would produce a bunch
-;; of duplicated settings.  To address this issue, we can use
-;; `customize-set-variable'.  It calls those options' setters if they have and
-;; also prevents writting settings from this file to `custom-file'.
+;; Set them with my own flavor.
 
 ;;; Code:
 (pewcfg
