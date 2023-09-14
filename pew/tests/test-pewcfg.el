@@ -47,6 +47,15 @@ the one passed to `pew::expand-macro'."
 (expect-expansion "Test set-custom: Set without comment" :all
                   '(customize-set-variable 'foo foovalue nil)
                   '(pewcfg::set-custom foo foovalue))
+;;; Test set-setq
+(expect-expansion "Test set-setq: Set variable" :all
+                  '(setq foo foovalue)
+                  '(pewcfg::set-setq foo foovalue "comment"))
+
+;;; Test set-setq-default
+(expect-expansion "Test set-setq-default: Set variable" 1
+                  '(setq-default foo foovalue)
+                  '(pewcfg::set-setq-default foo foovalue "comment"))
 
 ;;; Test set-bind
 (expect-expansion "Test set-bind: Set with definitions" :all

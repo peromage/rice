@@ -8,17 +8,19 @@
 (eval-and-compile
 ;;; The list of keywords
   (defvar pewcfg::keywords
-    '((:custom     . (pewcfg::with-flattened-form pewcfg::set-custom))
-      (:map        . (pewcfg::with-flattened-form pewcfg::set-map))
-      (:bind       . (pewcfg::with-flattened-form pewcfg::set-bind))
-      (:transient  . (pewcfg::with-flattened-form pewcfg::set-transient))
-      (:switch     . (pewcfg::with-flattened-cons pewcfg::set-switch))
-      (:face       . (pewcfg::with-flattened-form pewcfg::set-face))
-      (:property   . (pewcfg::with-flattened-form pewcfg::set-property))
-      (:hook       . (pewcfg::with-flattened-cons pewcfg::set-hook))
-      (:automode   . (pewcfg::with-flattened-cons pewcfg::set-automode))
-      (:eval       . (pewcfg::with-identical-form pewcfg::set-eval))
-      (:eval-after . (pewcfg::with-flattened-form pewcfg::set-eval-after)))
+    '((:custom       . (pewcfg::with-flattened-form pewcfg::set-custom))
+      (:setq         . (pewcfg::with-flattened-form pewcfg::set-setq))
+      (:setq-default . (pewcfg::with-flattened-form pewcfg::set-setq-default))
+      (:map          . (pewcfg::with-flattened-form pewcfg::set-map))
+      (:bind         . (pewcfg::with-flattened-form pewcfg::set-bind))
+      (:transient    . (pewcfg::with-flattened-form pewcfg::set-transient))
+      (:switch       . (pewcfg::with-flattened-cons pewcfg::set-switch))
+      (:face         . (pewcfg::with-flattened-form pewcfg::set-face))
+      (:property     . (pewcfg::with-flattened-form pewcfg::set-property))
+      (:hook         . (pewcfg::with-flattened-cons pewcfg::set-hook))
+      (:automode     . (pewcfg::with-flattened-cons pewcfg::set-automode))
+      (:eval         . (pewcfg::with-identical-form pewcfg::set-eval))
+      (:eval-after   . (pewcfg::with-flattened-form pewcfg::set-eval-after)))
     "An alist of keywords used by `pewcfg' to specify sections.
 Each entry is in the form of
   (KEYWORD . PARTIALLY-APPLIED-FORM)
@@ -28,17 +30,19 @@ where the FUNCTION should accept a form as its parameter.  The structure of the
 form can be found below.
 
 List of each keyword's form signature:
-  :custom      (VARIABLE VALUE [COMMENT])
-  :map         (KEYMAP [(KEY . DEFINITION) ...])
-  :bind        (KEYMAP [(KEY . DEFINITION) ...])
-  :transient   (COMMAND [(KEY . DEFINITION) ...])
-  :switch      (VARIABLE [. (VALUE VALUE ...)])
-  :face        (FACE [:KEYWORD VALUE ...])
-  :property    (SYMBOL [(PROPERTY . VALUE) ...])
-  :hook        (NAME . FUNCTION)
-  :automode    (MATCHER . MODE)
-  :eval        (SEXP)
-  :eval-after  (FEATURE BODY)
+  :custom       (VARIABLE VALUE [COMMENT])
+  :setq         (VARIABLE VALUE [COMMENT])
+  :setq-default (VARIABLE VALUE [COMMENT])
+  :map          (KEYMAP [(KEY . DEFINITION) ...])
+  :bind         (KEYMAP [(KEY . DEFINITION) ...])
+  :transient    (COMMAND [(KEY . DEFINITION) ...])
+  :switch       (VARIABLE [. (VALUE VALUE ...)])
+  :face         (FACE [:KEYWORD VALUE ...])
+  :property     (SYMBOL [(PROPERTY . VALUE) ...])
+  :hook         (NAME . FUNCTION)
+  :automode     (MATCHER . MODE)
+  :eval         (SEXP)
+  :eval-after   (FEATURE BODY)
 ")
 
 ;;; Main entry
@@ -81,6 +85,18 @@ prevents writting settings from this file to the `custom-file'.
 "
     (declare (indent 0))
     `(customize-set-variable ',variable ,value ,comment))
+
+;;; :setq
+  (defmacro pewcfg::set-setq (variable value &optional comment)
+    "Simple wrapper of `setq' but only takes one variable at a time.
+COMMENT is not used.  It is for compatibility only."
+    `(setq ,variable ,value))
+
+;;; :setq-default
+  (defmacro pewcfg::set-setq-default (variable value &optional comment)
+    "Simple wrapper of `setq-default' but only takes one variable at a time.
+COMMENT is not used.  It is for compatibility only."
+    `(setq-default ,variable ,value))
 
 ;;; :bind
   (defmacro pewcfg::set-bind (keymap &rest bindings)
