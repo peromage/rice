@@ -15,6 +15,7 @@ jobs:
         emacs_version:
           - 28.1
           - 28.2
+          - 29.1
           # - snapshot
 
     runs-on: ${{ matrix.os }}
@@ -31,10 +32,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Sanity - Startup with package installation
-        run: emacs -nw --batch --script ./pew/tests/test-startup.el
+        run: emacs -nw --batch --script ./pew/tests/test-startup.el $(pwd)
 
       - name: Sanity - Normal startup
-        run: emacs -nw --batch --script ./pew/tests/test-startup.el
+        run: emacs -nw --batch --script ./pew/tests/test-startup.el $(pwd)
 
       - name: Sanity - pewcfg unittests
-        run: emacs -nw --batch --script ./pew/tests/test-pewcfg.el
+        run: emacs -nw --batch --script ./pew/tests/test-pewcfg.el $(pwd)
