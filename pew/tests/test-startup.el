@@ -6,11 +6,15 @@
 ;; Basic sanity test for configuration startup.
 
 ;;; Code:
+;;; Process arguments
+(if (< (length argv) 1) (error "Not enough arguments"))
+(setq repo-root-path (nth 0 argv))
+
 (require 'url-vars)
 (let ((debug-on-error t)
       (url-show-status nil)
       (user-emacs-directory default-directory)
-      (user-init-file (expand-file-name "init.el" default-directory))
+      (user-init-file (expand-file-name "init.el" repo-root-path))
       (load-path (delq default-directory load-path)))
   (load-file user-init-file)
   (run-hooks 'after-init-hook)

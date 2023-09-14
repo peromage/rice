@@ -6,13 +6,12 @@
 ;; Test `pewcfg' expansion.
 
 ;;; Code:
+;;; Process arguments
+(if (< (length argv) 1) (error "Not enough arguments"))
+(setq repo-root-path (nth 0 argv))
+
 ;;; Load required files
-(if (< (length argv) 1)
-    (error "Not enough arguments"))
-
-(setq target-lisp-path (nth 0 argv))
-
-(add-to-list 'load-path target-lisp-path)
+(add-to-list 'load-path (expand-file-name "pew/lisp" repo-root-path))
 (require 'init-common)
 (require 'init-pewcfg)
 
