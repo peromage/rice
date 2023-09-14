@@ -75,64 +75,6 @@ See `display-buffer' for property SIDE, SLOT."
       (side . ,side)
       (slot . ,slot)))) ;;; End eval-and-compile
 
-;;; Debugging
-(defun pew::reload-init-file ()
-  "Reload the config file."
-  (interactive)
-  (load-file user-init-file))
-
-(defun pew::open-init-file ()
-  "Open the config file."
-  (interactive)
-  (find-file user-init-file))
-
-(defmacro pew::expand-macro (form &optional step noprint)
-  "Expand the macro in FORM and print the expanded results.
-Possible value for STEP:
-  nil              - call `macroexpand'
-  1                - call `macroexpand-1'
-  any other values - call `macroexpand-all'
-The result will be shown in the message buffer.
-If NOPRINT is non-nil, the expanded list will be returned instead of printing
-out in the message buffer."
-  (declare (indent 0))
-  (let ((l:result (funcall (intern (format "macroexpand%s"
-                                           (pcase step
-                                             ('nil "")
-                                             (1 "-1")
-                                             (_ "-all"))))
-                           form)))
-    (if noprint
-        `(quote ,l:result)
-      (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
-      t)))
-
-(defun pew::display-keycode (keycode)
-  "Display corresponding key name from KEYCODE."
-  (interactive "nKeycode: ")
-  (message (key-description (vector keycode))))
-
-(defun pew::display-buffer-path ()
-  "Display current file path in the minibuffer."
-  (interactive)
-  (message buffer-file-name))
-
-(defun pew::display-mode-inheritance (mode)
-  "Display current major mode inheritance in the minibuffer.
-If prefix argument is given, a mode name can be manually typed in.
-If MODE is any non-nill value other than '(4), that mode name will be used."
-  (interactive "P")
-  (let ((l:mode-to-check (pcase mode
-                           ('nil major-mode)
-                           ('(4) (read))
-                           (_ mode))))
-    (named-let find-parent ((major-mode l:mode-to-check)
-                            (results (list l:mode-to-check)))
-      (let ((parent-major-mode (get major-mode 'derived-mode-parent)))
-        (if (not parent-major-mode)
-            (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
-          (find-parent parent-major-mode (cons parent-major-mode results)))))))
-
 ;;; Paths
 (defun pew::normalize-path (base &optional component follow)
   "Normalize path BASE by removing relative representations.
@@ -459,6 +401,64 @@ Existing content will be overwritten."
   (with-temp-file file
     (insert ";;; -*- coding: utf-8; mode: lisp-data; -*-\n")
     (pp obj (current-buffer))))
+
+;;; Debugging
+(defun pew::reload-init-file ()
+  "Reload the config file."
+  (interactive)
+  (load-file user-init-file))
+
+(defun pew::open-init-file ()
+  "Open the config file."
+  (interactive)
+  (find-file user-init-file))
+
+(defmacro pew::expand-macro (form &optional step noprint)
+  "Expand the macro in FORM and print the expanded results.
+Possible value for STEP:
+  nil              - call `macroexpand'
+  1                - call `macroexpand-1'
+  any other values - call `macroexpand-all'
+The result will be shown in the message buffer.
+If NOPRINT is non-nil, the expanded list will be returned instead of printing
+out in the message buffer."
+  (declare (indent 0))
+  (let ((l:result (funcall (intern (format "macroexpand%s"
+                                           (pcase step
+                                             ('nil "")
+                                             (1 "-1")
+                                             (_ "-all"))))
+                           form)))
+    (if noprint
+        `(quote ,l:result)
+      (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
+      t)))
+
+(defun pew::display-keycode (keycode)
+  "Display corresponding key name from KEYCODE."
+  (interactive "nKeycode: ")
+  (message (key-description (vector keycode))))
+
+(defun pew::display-buffer-path ()
+  "Display current file path in the minibuffer."
+  (interactive)
+  (message buffer-file-name))
+
+(defun pew::display-mode-inheritance (mode)
+  "Display current major mode inheritance in the minibuffer.
+If prefix argument is given, a mode name can be manually typed in.
+If MODE is any non-nill value other than '(4), that mode name will be used."
+  (interactive "P")
+  (let ((l:mode-to-check (pcase mode
+                           ('nil major-mode)
+                           ('(4) (read))
+                           (_ mode))))
+    (named-let find-parent ((major-mode l:mode-to-check)
+                            (results (list l:mode-to-check)))
+      (let ((parent-major-mode (get major-mode 'derived-mode-parent)))
+        (if (not parent-major-mode)
+            (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
+          (find-parent parent-major-mode (cons parent-major-mode results)))))))
 
 (provide 'init-common)
 ;;; init-common.el ends here
