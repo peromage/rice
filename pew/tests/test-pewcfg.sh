@@ -1,4 +1,5 @@
-;;; test-pewcfg.el --- Test for pewcfg -*- lexical-binding: t; -*-
+#!/usr/bin/env -S emacs -x
+;;; test-pewcfg.el --- Test for pewcfg -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This is a ELisp script and it should be executed with "emacs --script".

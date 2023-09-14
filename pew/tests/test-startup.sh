@@ -1,4 +1,5 @@
-;;; test-startup.el --- Test startup with packages loaded -*- lexical-binding: t; -*-
+#!/usr/bin/env -S emacs -x
+;;; test-startup.el --- Test startup with packages loaded -*- mode: emacs-lisp; lexical-binding: t; -*-
 
 ;;; Commentary:
 ;; This is a ELisp script and it should be executed with "emacs --script".
