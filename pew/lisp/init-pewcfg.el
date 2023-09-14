@@ -52,19 +52,20 @@ Typical usage is as follow:
   (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
     (declare (indent 0))
     (if (not (keywordp (car args)))
-        (error "Not start with a keyword"))
-    (let (l:partial-form)
-      `(progn
-         ,@(mapcar (lambda (form)
-                     (cond ((keywordp form)
-                            (setq l:partial-form (ensure-list (alist-get form pewcfg::keywords)))
-                            (if (null l:partial-form) (error "Not a valid keyword: %S" form))
-                            ;; Return the keyword as a placeholder
-                            form)
-                           (t
-                            ;; Complete the expression and expand it
-                            `(,@l:partial-form ,form))))
-                   args))))
+        (error "Not start with a keyword")
+      (let (l:partial-form)
+        `(progn
+           ,@(mapcar (lambda (form)
+                       (if (not (keywordp form))
+                           ;; Complete the expression and expand it
+                           `(,@l:partial-form ,form)
+                         ;; Find the form according to the keyword
+                         (setq l:partial-form (ensure-list (alist-get form pewcfg::keywords)))
+                         (if (null l:partial-form)
+                             (error "Invalid keyword: %S" form)
+                           ;; Insert the keyword as a placeholder
+                           form)))
+                     args)))))
 
 ;;; :custom
   (defmacro pewcfg::set-custom (variable value &optional comment)
