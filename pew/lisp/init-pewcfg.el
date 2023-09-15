@@ -70,8 +70,12 @@ Typical usage is as follow:
                      args)))))
 
 ;;; :custom
-  (defmacro pewcfg::set-custom (variable value &optional comment)
-    "Set custom variables or regular variables.
+  (defun pewcfg::set-custom (variable value &optional comment)
+    "Set a VARIABLE that is either a custom or a regular one.
+VARIABLE is a symbol of the variable.
+VALUE will not be evaluate until the expanded form is executed.
+COMMENT is the optional commentary shown in the `customize' interface.
+
 Underlying implementation uses `customize-set-variable'.
 
 NOTE: Most of vanilla options are defined with `defcustom', which means if they
@@ -85,46 +89,51 @@ prevents writting settings from this file to the `custom-file'.
     `(customize-set-variable ',variable ,value ,comment))
 
 ;;; :setq
-  (defmacro pewcfg::set-setq (variable value &optional comment)
-    "Simple wrapper of `setq' but only takes one variable at a time.
-COMMENT is not used.  It is for compatibility only."
+  (defun pewcfg::set-setq (variable value &optional comment)
+    "Simple wrapper of `setq'.
+VARIABLE is a symbol of the variable.
+VALUE will not be evaluate until the expanded form is executed.
+COMMENT is not used, which is for compatibility only."
     `(setq ,variable ,value))
 
 ;;; :setq-default
-  (defmacro pewcfg::set-setq-default (variable value &optional comment)
-    "Simple wrapper of `setq-default' but only takes one variable at a time.
-COMMENT is not used.  It is for compatibility only."
+  (defun pewcfg::set-setq-default (variable value &optional comment)
+    "Simple wrapper of `setq-default'.
+VARIABLE is a symbol of the variable.
+VALUE will not be evaluate until the expanded form is executed.
+COMMENT is not used, which is for compatibility only."
     `(setq-default ,variable ,value))
 
 ;;; :bind
-  (defmacro pewcfg::set-bind (keymap &rest bindings)
+  (defun pewcfg::set-bind (keymap &optional bindings)
     "Bind keys in an existing KEYMAP.
+KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
 NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
     (declare (indent 1))
-    `(progn
-       ,@(mapcar (lambda (binding)
-                   `(define-key ,keymap ,(pewcfg::tokey (car binding)) #',(cdr binding)))
-                 bindings)
-       ,keymap))
+    `(,@(mapcar (lambda (binding)
+                  `(define-key ,keymap ,(pewcfg::tokey (car binding)) #',(cdr binding)))
+                bindings)
+      ,keymap))
 
 ;;; :map
-  (defmacro pewcfg::set-map (keymap &rest bindings)
+  (defun pewcfg::set-map (keymap &optional bindings)
     "Create a new KEYMAP and bind keys in it.
-BINDINGS is the same with `pewcfg::set-bind'.
+KEYMAP is a symbol of the keymap.
+BINDINGS is in the same form as in `pewcfg::set-bind'.
 NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 1))
-    `(progn
-       (define-prefix-command ',keymap)
-       (pewcfg::set-bind ,keymap ,@bindings)))
+    `((define-prefix-command ',keymap)
+      ,@(pewcfg::set-bind keymap bindings)))
 
 ;;; :transient
-  (defmacro pewcfg::set-transient (command &rest bindings)
+  (defun pewcfg::set-transient (command &optional bindings)
     "Create an interactive COMMAND that enters transient mode when invoked.
+COMMAND is a symbol of the command.
 BINDINGS is the same with `pewcfg::set-bind'.
 A map COMMAND-map and an interactive command COMMAND will be created.
 Once COMMAND is invoked COMMAND-map will be temporarily activated.
@@ -136,13 +145,12 @@ enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
     (declare (indent 1))
     (let ((l:cmd-map (intern (format "%s-map" command))))
-      `(progn
-         (pewcfg::set-map ,l:cmd-map ,@bindings)
-         ;; Take these two essential bindings.
-         (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
-         (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
-         (defun ,command (arg)
-           ,(format "Temporarily activate a transient map.
+      `(,@(pewcfg::set-map l:cmd-map bindings)
+        ;; Take these two essential bindings.
+        (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
+        (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
+        (defun ,command (arg)
+          ,(format "Temporarily activate a transient map.
 Normally this is a one-shot invocation meaning the map exits once a key is
 pressed (no matter defined in the keymap or not).
 However, if a prefix ARG is given, this becomes a repeatable map until 'C-g'
@@ -151,23 +159,24 @@ Alternatively 'C-h' can be used to transient to the repeat mode while the
 transient map is active.
 Do not attempt to use C-h multiple times.
 The keymap is defined in `%s'." l:cmd-map)
-           (interactive "P")
-           (cond (arg
-                  (message "%s activated in repeat mode" ',command)
-                  (set-transient-map ,l:cmd-map (lambda ()
-                                                  (cond ((equal (this-command-keys) (kbd "C-g"))
-                                                         (message "%s repeat mode exited" ',command)
-                                                         nil)
-                                                        (t
-                                                         (message "%s repeat mode, to exit C-g" ',command)
-                                                         t)))))
-                 (t
-                  (message "%s activated" ',command)
-                  (set-transient-map ,l:cmd-map nil)))))))
+          (interactive "P")
+          (cond (arg
+                 (message "%s activated in repeat mode" ',command)
+                 (set-transient-map ,l:cmd-map (lambda ()
+                                                 (cond ((equal (this-command-keys) (kbd "C-g"))
+                                                        (message "%s repeat mode exited" ',command)
+                                                        nil)
+                                                       (t
+                                                        (message "%s repeat mode, to exit C-g" ',command)
+                                                        t)))))
+                (t
+                 (message "%s activated" ',command)
+                 (set-transient-map ,l:cmd-map nil)))))))
 
 ;;; :switch
-  (defmacro pewcfg::set-switch (variable &optional values)
+  (defun pewcfg::set-switch (variable &optional values)
     "Create an interactive command to switch variable from a list of values.
+VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
 If VALUES is nil, the VARIABLE will be switch between (nil t) by default.
 A new command 'switch::VARIABLE' will be created as well as a variable with
@@ -191,9 +200,10 @@ The values are read from the list `%s'." variable l:switch-symbol)
            (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face
-  (defmacro pewcfg::set-face (face &rest args)
+  (defun pewcfg::set-face (face &optional args)
     "Set FACE attributes.
-ARGS is in pairs of ATTRIBUTE VALUE.
+FACE is a symbol of the face.
+ARGS is a plist consists with ATTRIBUTE VALUE pairs.
 See `set-face-attribute'."
     (declare (indent 1))
     `(set-face-attribute ',face
@@ -204,41 +214,40 @@ See `set-face-attribute'."
                                    args)))
 
 ;;; :property
-  (defmacro pewcfg::set-property (symbol &rest properties)
+  (defun pewcfg::set-property (symbol &optional properties)
     "Set SYMBOL's PROPERTIES.
 Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
   (PROP . VAL)
 PROP is the symbol of the property and VAL is the value to set with. "
     (declare (indent 1))
-    `(progn
-       ,@(mapcar (lambda (prop)
-                   `(put ',symbol ',(car prop) ,(cdr prop)))
-                 properties)))
+    `(,@(mapcar (lambda (prop)
+                  `(put ',symbol ',(car prop) ,(cdr prop)))
+                properties)))
 
 ;;; :hook
-  (defmacro pewcfg::set-hook (name function)
+  (defun pewcfg::set-hook (name function)
     "Set a FUNCTION to a hook NAME.
-NOTE: NAME implies suffix '-hook'."
+NOTE: NAME does not imply suffix '-hook'."
     (declare (indent 0))
-    `(add-hook ',(intern (format "%s-hook" name)) #',function))
+    `(add-hook ',name #',function))
 
 ;;; :automode
-  (defmacro pewcfg::set-automode (matcher mode)
+  (defun pewcfg::set-automode (matcher mode)
     "Set `auto-mode-alist'.
 MATCHER is usually a string of regex.
-MODE is a symbol of modes."
+MODE is a symbol of the mode."
     (declare (indent 0))
     `(add-to-list 'auto-mode-alist ',(cons matcher mode)))
 
 ;;; :eval
-  (defmacro pewcfg::set-eval (form)
-    "Simply evaluate FORM and nothing else."
+  (defun pewcfg::set-eval (form)
+    "Simply return the FORM."
     (declare (indent 0))
     form)
 
 ;;; :eval-after
-  (defmacro pewcfg::set-eval-after (feature &rest forms)
+  (defun pewcfg::set-eval-after (feature &optional forms)
     "Evaluate FORMS after a FEATURE is loaded."
     (declare (indent 1))
     `(with-eval-after-load ',feature ,@forms))
