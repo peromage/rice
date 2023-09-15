@@ -8,18 +8,19 @@
 ;;; Modeline
 ;; Doom Emacs style modeline
 (use-package doom-modeline
-  :custom
-  (doom-modeline-height 1)
-  (doom-modeline-modal t)
-  (doom-modeline-modal-icon nil)
-  (doom-modeline-unicode-fallback nil)
+  :demand t
 
   :config
-  (doom-modeline-mode 1)
-
   (pewcfg
+    :setq
+    (doom-modeline-height 1)
+    (doom-modeline-modal t)
+    (doom-modeline-modal-icon nil)
+    (doom-modeline-unicode-fallback nil)
     :switch
-    (doom-modeline-unicode-fallback)))
+    (doom-modeline-unicode-fallback)
+    :eval
+    (doom-modeline-mode 1)))
 
 ;;; Lazy loadeding
 (pew::use-package-later
