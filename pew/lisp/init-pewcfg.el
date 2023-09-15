@@ -1,9 +1,7 @@
-;;; init-pewcfg.el --- Pew configurator -*- lexical-binding: t; -*-
-
+;;; init-pewcfg.el --- pewcfg -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Code for Pew configurator.
-
 ;;; Code:
+
 ;;; Start eval-and-compile
 (eval-and-compile
 ;;; The list of keywords
@@ -263,6 +261,7 @@ MODE is a symbol of modes."
 Possible value could be a string which will be converted with (kbd key).  If KEY
 is a vector then does nothing."
     (if (stringp key) (kbd key) key)))
+
 ;;; End eval-and-compile
 
 (provide 'init-pewcfg)

@@ -1,10 +1,8 @@
-;;; init-defaults.el --- Vanilla Emacs configurations -*- lexical-binding: t; -*-
-
+;;; init-defaults.el --- built-in config -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Vanilla Emacs configuration.
-;; Set them with my own flavor.
-
+;; Set Emacs built-ins with my own flavor.
 ;;; Code:
+
 (pewcfg
 ;;; Custom
   :custom

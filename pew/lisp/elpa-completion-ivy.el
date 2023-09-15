@@ -1,10 +1,8 @@
-;;; elpa-completion-ivy.el --- Ivy completion framework -*- lexical-binding: t; -*-
-
+;;; elpa-completion-ivy.el --- ivy and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Configuration for Ivy and its related packages
-
 ;;; Code:
-;; Contains ivy, counsel and swipper
+
+;;; Package: counsel -- Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
 (use-package counsel
   :demand t
@@ -17,6 +15,7 @@
          ("C-c g" . counsel-ag)
          :map minibuffer-local-map
          ("C-r" . counsel-minibuffer-history))
+
   :config
   (pewcfg
     :setq
@@ -29,18 +28,20 @@
     (ivy-use-selectable-prompt t)
     ;; Force minimal number of chars required for all searches
     (ivy-more-chars-alist '((t . 2)))
+
     :eval
     (ivy-mode 1)
     (counsel-mode 1)
     (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pew::special-buffer pew::hidden-buffer-list :in-list))))
 
-;; Make Ivy show more information
+;;; Package: ivy-rich -- Make Ivy show more information
 (use-package ivy-rich
   :requires ivy
   :config
   (pewcfg
     :setq
     (ivy-rich-path-style 'abbrev)
+
     :eval
     (ivy-rich-mode 1)
     (ivy-rich-set-columns 'ivy-switch-buffer
@@ -51,34 +52,36 @@
                             (ivy-rich-switch-buffer-project (:width 0.18 :face success :align right))
                             (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))) :align left))))))
 
-;; Help sort candidates and also keep the most recent history on the top
+;;; Package: ivy-prescient -- Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
   :requires ivy
   :config
   (pewcfg
     :setq
     (ivy-prescient-enable-filtering nil)
+
     :eval
     ;; Uncomment the following line to have sorting remembered across sessions!
     ;;(prescient-persist-mode 1)
     (ivy-prescient-mode 1)))
 
-;; Ivy projectile integration
+;;; Package: counsel-projectile -- Ivy projectile integration
 (use-package counsel-projectile
   :after (ivy projectile)
   :config
   (pewcfg
     :setq
     (projectile-completion-system 'ivy)
+
     :eval
     (counsel-projectile-mode 1)))
 
-;; Ivy LSP integration
+;;; Package:lsp-ivy -- Ivy LSP integration
 (use-package lsp-ivy
   :after (ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 
-;; Which-key is very informative to show keybindings when you forget them.
+;;; Package: which-key -- Key prompt
 (use-package which-key
   :config
   (pewcfg
@@ -86,6 +89,7 @@
     (which-key-popup-type 'side-window)
     (which-key-show-early-on-C-h nil)
     (which-key-idle-delay 1.0)
+
     :eval
     (which-key-mode 1)
     ;; Minibuffer usually causes display problems

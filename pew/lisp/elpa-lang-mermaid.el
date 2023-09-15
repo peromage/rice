@@ -1,17 +1,15 @@
-;;; elpa-lang-mermaid.el --- Mermaid mode -*- lexical-binding: t; -*-
-
+;;; elpa-lang-mermaid.el --- mermaid mode -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Mermaid major mode and org integration.
-
 ;;; Code:
 
+;;; Package: mermaid-mode
 (use-package mermaid-mode
   :mode (("\\.mmd\\'" . mermaid-mode))
-
   :config
   (pewcfg
     :setq
     (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
+
     :eval
     (defun pew::mermaid-mode::install-cli ()
       "Install Mermaid CLI tool in user Emacs folder."
@@ -22,6 +20,7 @@
         (call-process "npm" nil nil nil "install" "@mermaid-js/mermaid-cli")
         (message "Installing mermaid-cli... done")))))
 
+;;; Package: ob-mermaid -- org support
 (use-package ob-mermaid
   :after org
   :config

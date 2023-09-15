@@ -1,15 +1,11 @@
-;;; elpa-evil.el --- Vim layer -*- lexical-binding: t; -*-
-
+;;; elpa-evil.el --- evil and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
-;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
-
 ;;; Code:
-;;; Evil
+
+;;; Package: evil
 (use-package evil
   :demand t
-
-;;;; Evil custom
+;;;; Variable config
   :config
   (pewcfg
     :setq
@@ -62,8 +58,9 @@
     (evil-visual-screen-line-tag  "[VS]")
     (evil-motion-state-tag        "[MO]")
     (evil-operator-state-tag      "[..]")
+
+;;;; Functions
     :eval
-;;;; Evil keybinding functions
     ;; Key binding function
     (defun pew::evil::set-key (state map leader bindings)
       "A function to bind Evil keys.
@@ -82,7 +79,6 @@ See `evil-define-key*'."
         (mapc (lambda (m) (apply 'evil-define-key* state m l:bindings))
               (if (listp map) map (list map)))))
 
-;;;; Evil search functions
     ;; This search action searches words selected in visual mode, escaping any special
     ;; characters. Also it provides a quick way to substitute the words just searched.
     (defun pew::evil::escape-pattern (pattern)
@@ -131,14 +127,16 @@ See `evil-define-key*'."
       (interactive)
       (evil-ex-search-word-forward)
       (evil-ex-search-previous))
-    :eval
+
 ;;;; Workaround
-    ;; Evil X settings
+    :eval
+    ;; Evil with X workaround
     ;; Don't allow Evil to kill selected region when yanking
     ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
     (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
+
+;;;; Custom initial state
     :eval
-;;;; Evil initial states
     (evil-define-state pewinitial
       "A dummy state used to determine buffer initial Evil state.
 NOTE: This dummy state means to be an intermidiate state which transits to
@@ -201,8 +199,9 @@ This is an advanced method to determine initial state rather than using
         ;; Default buffer state
         (_
          (evil-change-state 'emacs))))
+
+;;;; Keybindings
     :eval
-;;;; Evil keybindings
     ;; Toggle key
     (evil-set-toggle-key "C-x m")
     (global-set-key (kbd "C-x C-m") #'evil-mode)
@@ -239,11 +238,12 @@ This is an advanced method to determine initial state rather than using
           ("er" . eval-region)
           ("ef" . eval-defun)
           ("ee" . eval-last-sexp))))
-    :eval
-;;;; Enable Evil
-    (evil-mode 1))) ;; (use-package evil)
 
-;;; Evil surround
+;;;; Enable evil
+    :eval
+    (evil-mode 1))) ;; End evil
+
+;;; Package: evil-surround
 (use-package evil-surround
   :after evil
   :config

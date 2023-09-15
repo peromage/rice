@@ -1,14 +1,10 @@
-;;; elpa-lang-lsp.el --- Language Server Protocol -*- lexical-binding: t; -*-
-
+;;; elpa-lang-lsp.el --- language server protocol -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; LSP configuration
-
 ;;; Code:
-;;; LSP mode
-;; For specific language LSP supports, they should go into the major mode modules.
+
+;;; Package: lsp-mode
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-
   :init
   (defmacro pew::lsp::define-remote (server modes)
     "A shortcut to define LSP remote client.
@@ -27,7 +23,6 @@ MODES is a list of major mode symbols."
   (pewcfg
     :setq
     (lsp-keymap-prefix "C-c l")
-
     ;; Features
     (lsp-enable-snippet t) ;; Non-nil to enable parameter insertion
     (lsp-enable-symbol-highlighting t)
@@ -37,10 +32,8 @@ MODES is a list of major mode symbols."
     (lsp-enable-links nil) ;; Remove underline
     (lsp-auto-configure t)
     (lsp-auto-guess-root t)
-
     ;; Shutdown server automatically
     (lsp-keep-workspace-alive nil)
-
     ;; User interface
     (lsp-lens-enable nil)
     (lsp-headerline-breadcrumb-enable t)
@@ -49,14 +42,12 @@ MODES is a list of major mode symbols."
     (lsp-modeline-code-actions-enable t)
     (lsp-modeline-workspace-status-enable t)
     (lsp-idle-delay 0.5)
-
     ;; Documentation and signature
     ;; M-n/M-p to scroll
     (lsp-eldoc-enable-hover t)
     (lsp-eldoc-render-all nil)
     (lsp-signature-doc-lines 1) ;; Show some brief
     (lsp-signature-render-documentation t)
-
     ;; Completion
     (lsp-completion-enable t)
     (lsp-completion-enable-additional-text-edit nil)
@@ -65,14 +56,13 @@ MODES is a list of major mode symbols."
     (lsp-completion-show-label-description t)
     (lsp-completion-no-cache nil)
     (lsp-completion-provider :capf)
-
     ;; Other
     (lsp-log-io nil)))
 
-;;; LSP experience improvement
+;;; Package: lsp-ui
 (use-package lsp-ui
   :commands lsp-ui-mode
-
+  :hook (lsp-mode . pew::lsp-ui::oninit)
   :bind (:map lsp-ui-mode-map
          ([remap xref-find-references] . lsp-ui-peek-find-references)
          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -80,8 +70,6 @@ MODES is a list of major mode symbols."
          ("C-c l l" . lsp-ui-doc-glance)
          ("C-c l L" . lsp-ui-doc-show)
          ("C-c l j" . lsp-ui-doc-focus-frame))
-
-  :hook (lsp-mode . pew::lsp-ui::oninit)
 
   :config
   (pewcfg
@@ -94,12 +82,10 @@ MODES is a list of major mode symbols."
     (lsp-ui-sideline-show-code-actions t)
     (lsp-ui-sideline-update-mode 'line)
     (lsp-ui-sideline-delay 0.5)
-
     ;; Peek
     (lsp-ui-peek-enable t)
     (lsp-ui-peek-show-directory t)
     (lsp-ui-peek-always-show t)
-
     ;; Doc
     (lsp-ui-doc-enable nil)
     (lsp-ui-doc-position 'top)
@@ -108,7 +94,6 @@ MODES is a list of major mode symbols."
     (lsp-ui-doc-delay 0.5)
     (lsp-ui-doc-use-childframe t)
     (lsp-ui-doc-use-webkit t)
-
     ;; imenu
     (lsp-ui-imenu-auto-refresh t)
     (lsp-ui-imenu-auto-refresh-delay 0.5)
@@ -116,6 +101,7 @@ MODES is a list of major mode symbols."
     (lsp-ui-imenu-window-width 0)
     (lsp-ui-imenu-buffer-position 'right)
     (lsp-ui-imenu-kind-position 'top)
+
     :eval
     (defun pew::lsp-ui::oninit ()
       "`lsp-ui-mode' initialization."
@@ -123,10 +109,9 @@ MODES is a list of major mode symbols."
       ;; Disabled since it occupies 'q'
       (lsp-ui-doc-frame-mode -1))))
 
-;;; Debug
+;;; Package: dap-mode
 (use-package dap-mode
   :defer t
-
   :config
   (pewcfg
     :setq

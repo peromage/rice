@@ -1,20 +1,17 @@
-;;; elpa-lang.el --- Programming language support -*- lexical-binding: t; -*-
-
+;;; elpa-lang.el --- random language supports -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Configuration for programming languages.
-
 ;;; Code:
-;;; Lazy loading
+
+;;; Lazy loading for these languages
 (pew::use-package-later
   vimrc-mode
   yaml-mode
   json-mode
   fish-mode)
 
-;;; Random packages
+;;; Package: cmake-mode
 (use-package cmake-mode
   :defer t
-
   :config
   (pewcfg
     :setq

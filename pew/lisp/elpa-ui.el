@@ -1,15 +1,10 @@
-;;; elpa-ui.el --- Theme collection -*- lexical-binding: t; -*-
-
+;;; elpa-ui.el --- ui elements -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; This file is a simple collection of theme related stuff.
-;; If the theme needs to be configured, move it to an individual module.
-
 ;;; Code:
-;;; Modeline
-;; Doom Emacs style modeline
+
+;;; Package: doom-modeline
 (use-package doom-modeline
   :demand t
-
   :config
   (pewcfg
     :setq
@@ -17,26 +12,26 @@
     (doom-modeline-modal t)
     (doom-modeline-modal-icon nil)
     (doom-modeline-unicode-fallback nil)
+
     :switch
     (doom-modeline-unicode-fallback)
+
     :eval
     (doom-modeline-mode 1)))
 
-;;; Lazy loadeding
+;;; Lazy loadeding for these packages
 (pew::use-package-later
-;;;; Colors schemes
+  ;; Colors schemes
   doom-themes
   spacemacs-theme
   dracula-theme
   moe-theme
-  ;; Fantastic themes from https://protesilaos.com/
-  modus-themes
-  ef-themes
-  ;; New love
   catppuccin-theme
   monokai-theme
-
-;;;; Icons
+  ;; From https://protesilaos.com/
+  modus-themes
+  ef-themes
+  ;; Icons
   all-the-icons)
 
 ;;; Default looking

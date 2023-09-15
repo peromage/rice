@@ -1,9 +1,8 @@
-;;; elpa-lang-plantuml.el --- PlantUML mode -*- lexical-binding: t; -*-
-
+;;; elpa-lang-plantuml.el --- plantuml mode -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; PlantUML major mode configuration.
-
 ;;; Code:
+
+;;; Package: plantuml-mode
 (use-package plantuml-mode
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
@@ -13,6 +12,7 @@
     :setq
     (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
     (plantuml-default-exec-mode 'jar)
+
     :eval
     (pew::use-package-maybe org
       :config
@@ -20,6 +20,7 @@
         :setq
         (org-plantuml-jar-path plantuml-jar-path)
         (org-plantuml-exec-mode plantuml-default-exec-mode)
+
         :eval
         (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
         (pew::org::add-babel-load-languages '((plantuml . t)))))))
