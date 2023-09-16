@@ -5,20 +5,19 @@
 ;;; Start eval-and-compile
 (eval-and-compile
 ;;; The list of keywords
-  (defvar pewcfg::keywords
-    '((:custom       . (pewcfg::with-flattened-form pewcfg::set-custom))
-      (:setq         . (pewcfg::with-flattened-form pewcfg::set-setq))
-      (:setq-default . (pewcfg::with-flattened-form pewcfg::set-setq-default))
-      (:map          . (pewcfg::with-flattened-form pewcfg::set-map))
-      (:bind         . (pewcfg::with-flattened-form pewcfg::set-bind))
-      (:transient    . (pewcfg::with-flattened-form pewcfg::set-transient))
-      (:switch       . (pewcfg::with-flattened-cons pewcfg::set-switch))
-      (:face         . (pewcfg::with-flattened-form pewcfg::set-face))
-      (:property     . (pewcfg::with-flattened-form pewcfg::set-property))
-      (:hook         . (pewcfg::with-flattened-cons pewcfg::set-hook))
-      (:automode     . (pewcfg::with-flattened-cons pewcfg::set-automode))
-      (:eval         . (pewcfg::with-identical-form pewcfg::set-eval))
-      (:eval-after   . (pewcfg::with-flattened-form pewcfg::set-eval-after)))
+  (defvar pewcfg::keywords '(:custom
+                             :setq
+                             :setq-default
+                             :bind
+                             :map
+                             :transient
+                             :switch
+                             :face
+                             :property
+                             :hook
+                             :automode
+                             :eval
+                             :eval-after)
     "An alist of keywords used by `pewcfg' to specify sections.
 Each entry is in the form of
   (KEYWORD . PARTIALLY-APPLIED-FORM)
@@ -31,8 +30,8 @@ List of each keyword's form signature:
   :custom       (VARIABLE VALUE [COMMENT])
   :setq         (VARIABLE VALUE [COMMENT])
   :setq-default (VARIABLE VALUE [COMMENT])
-  :map          (KEYMAP [(KEY . DEFINITION) ...])
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
+  :map          (KEYMAP [(KEY . DEFINITION) ...])
   :transient    (COMMAND [(KEY . DEFINITION) ...])
   :switch       (VARIABLE [. (VALUE VALUE ...)])
   :face         (FACE [:KEYWORD VALUE ...])
