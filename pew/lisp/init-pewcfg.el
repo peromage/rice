@@ -87,7 +87,7 @@ Typical usage is as follow:
     "Convert a pair (cons) to a list."
     (list (car form) (cdr form)))
 
-  (defun pewcfg::normalize-form (form)
+  (defun pewcfg::normalize-single (form)
     "Put a form in a list."
     (list form))
 
@@ -311,7 +311,7 @@ MODE is a symbol of the mode."
     `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
 
 ;;; :eval
-  (defalias 'pewcfg::normalize--:eval 'pewcfg::normalize-form)
+  (defalias 'pewcfg::normalize--:eval 'pewcfg::normalize-single)
 
   (defun pewcfg::handle--:eval (form)
     "Simply return the FORM."
