@@ -120,7 +120,7 @@ The result of this function is a list of unevaluated forms."
               forms)))
 
 ;;; :custom
-  (defun pewcfg::set-custom (variable value &optional comment)
+  (defun pewcfg::handle--:custom (variable value &optional comment)
     "Set a VARIABLE that is either a custom or a regular one.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
@@ -136,26 +136,26 @@ would produce a bunch of duplicated settings.  To address this issue, we can use
 prevents writting settings from this file to the `custom-file'.
 "
     (declare (indent 0))
-    `(customize-set-variable ',variable ,value ,comment))
+    `((customize-set-variable ',variable ,value ,comment)))
 
 ;;; :setq
-  (defun pewcfg::set-setq (variable value &optional comment)
+  (defun pewcfg::handle--:setq (variable value &optional comment)
     "Simple wrapper of `setq'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is not used, which is for compatibility only."
-    `(setq ,variable ,value))
+    `((setq ,variable ,value)))
 
 ;;; :setq-default
-  (defun pewcfg::set-setq-default (variable value &optional comment)
+  (defun pewcfg::handle--:setq-default (variable value &optional comment)
     "Simple wrapper of `setq-default'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is not used, which is for compatibility only."
-    `(setq-default ,variable ,value))
+    `((setq-default ,variable ,value)))
 
 ;;; :bind
-  (defun pewcfg::set-bind (keymap &optional bindings)
+  (defun pewcfg::handle--:bind (keymap &rest bindings)
     "Bind keys in an existing KEYMAP.
 KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
@@ -170,7 +170,7 @@ keybindings in a existing map instead."
       ,keymap))
 
 ;;; :map
-  (defun pewcfg::set-map (keymap &optional bindings)
+  (defun pewcfg::handle--:map (keymap &rest bindings)
     "Create a new KEYMAP and bind keys in it.
 KEYMAP is a symbol of the keymap.
 BINDINGS is in the same form as in `pewcfg::set-bind'.
@@ -178,10 +178,10 @@ NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
 effective if the map already exists."
     (declare (indent 1))
     `((define-prefix-command ',keymap)
-      ,@(pewcfg::set-bind keymap bindings)))
+      ,@(apply pewcfg::set-bind keymap bindings)))
 
 ;;; :transient
-  (defun pewcfg::set-transient (command &optional bindings)
+  (defun pewcfg::handle--:transient (command &rest bindings)
     "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
 BINDINGS is the same with `pewcfg::set-bind'.
@@ -195,7 +195,7 @@ enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
     (declare (indent 1))
     (let ((l:cmd-map (intern (format "%s-map" command))))
-      `(,@(pewcfg::set-map l:cmd-map bindings)
+      `(,@(apply pewcfg::set-map l:cmd-map bindings)
         ;; Take these two essential bindings.
         (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
         (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
@@ -224,7 +224,7 @@ The keymap is defined in `%s'." l:cmd-map)
                  (set-transient-map ,l:cmd-map nil)))))))
 
 ;;; :switch
-  (defun pewcfg::set-switch (variable &optional values)
+  (defun pewcfg::handle--:switch (variable &optional values)
     "Create an interactive command to switch variable from a list of values.
 VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
@@ -234,8 +234,7 @@ the same name which stores VALUES"
     (declare (indent 0))
     (let ((l:switch-symbol (intern (format "switch::%s" variable)))
           (l:switch-values (if values (cons -1 values) (cons -1 '(nil t)))))
-      `(progn
-         (defvar ,l:switch-symbol ',l:switch-values
+      `((defvar ,l:switch-symbol ',l:switch-values
            ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
 cycles through the list each the switch command is called." l:switch-symbol))
@@ -250,21 +249,21 @@ The values are read from the list `%s'." variable l:switch-symbol)
            (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face
-  (defun pewcfg::set-face (face &optional args)
+  (defun pewcfg::handle--:face (face &optional args)
     "Set FACE attributes.
 FACE is a symbol of the face.
 ARGS is a plist consists with ATTRIBUTE VALUE pairs.
 See `set-face-attribute'."
     (declare (indent 1))
-    `(set-face-attribute ',face
-                         nil
-                         ,@(mapcar (lambda (x) (cond ((keywordp x) x)
-                                                     ((symbolp x) (list 'quote x))
-                                                     (t x)))
-                                   args)))
+    `((set-face-attribute ',face
+                          nil
+                          ,@(mapcar (lambda (x) (cond ((keywordp x) x)
+                                                      ((symbolp x) (list 'quote x))
+                                                      (t x)))
+                                    args))))
 
 ;;; :property
-  (defun pewcfg::set-property (symbol &optional properties)
+  (defun pewcfg::handle--:property (symbol &optional properties)
     "Set SYMBOL's PROPERTIES.
 Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
@@ -276,31 +275,31 @@ PROP is the symbol of the property and VAL is the value to set with. "
                 properties)))
 
 ;;; :hook
-  (defun pewcfg::set-hook (name function)
+  (defun pewcfg::handle--:hook (name function)
     "Set a FUNCTION to a hook NAME.
 NOTE: NAME does not imply suffix '-hook'."
     (declare (indent 0))
-    `(add-hook ',name #',function))
+    `((add-hook ',name #',function)))
 
 ;;; :automode
-  (defun pewcfg::set-automode (matcher mode)
+  (defun pewcfg::handle--:automode (matcher mode)
     "Set `auto-mode-alist'.
 MATCHER is usually a string of regex.
 MODE is a symbol of the mode."
     (declare (indent 0))
-    `(add-to-list 'auto-mode-alist ',(cons matcher mode)))
+    `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
 
 ;;; :eval
-  (defun pewcfg::set-eval (form)
+  (defun pewcfg::handle--:eval (form)
     "Simply return the FORM."
     (declare (indent 0))
-    form)
+    `(,form))
 
 ;;; :eval-after
-  (defun pewcfg::set-eval-after (feature &optional forms)
+  (defun pewcfg::handle--:eval-after (feature &optional forms)
     "Evaluate FORMS after a FEATURE is loaded."
     (declare (indent 1))
-    `(with-eval-after-load ',feature ,@forms))
+    `((with-eval-after-load ',feature ,@forms)))
 
 ;;; Utility macros/functions
   (defmacro pewcfg::with-flattened-form (callable form)
