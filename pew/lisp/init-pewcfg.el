@@ -43,6 +43,16 @@ List of each keyword's form signature:
   :eval-after   (FEATURE BODY)
 ")
 
+  (defvar pewcfg::keyword-normalize-function-format "pewcfg::normalize--%s"
+    "The keyword normalize function format.
+A normalize functions should take a form and return a list that can be applied
+to a keyword handle function by `apply'.")
+
+  (defvar pewcfg::keyword-handle-function-format "pewcfg::handle--%s"
+    "The keyword handle function format.
+Each handle function can have different signatures but it should always return
+a list of forms.")
+
 ;;; Main entry
   (defmacro pewcfg (&rest args)
     "Pew configuration utility.
@@ -68,6 +78,46 @@ Typical usage is as follow:
                            ;; Insert the keyword as a placeholder
                            form)))
                      args)))))
+
+;;; Normalization functions
+  (defun pewcfg::normalize-identity (form)
+    "Like `identity'."
+    form)
+
+  (defun pewcfg::normalize-pair (form)
+    "Convert a pair (cons) to a list."
+    (list (car form) (cdr form)))
+
+  (defun pewcfg::normalize-form (form)
+    "Put a form in a list."
+    (list form))
+
+;;; List manipulation functions
+  (defun pewcfg::until-next-keyword (lst)
+    "Return a list that starts with the nearest keyword from the head."
+    (named-let pewcfg::--until-next-keyword ((rest lst))
+      (cond ((keywordp (car rest))
+             rest)
+            ((null rest)
+             nil)
+            (t
+             (pewcfg::--until-next-keyword (cdr rest))))))
+
+  (defun pewcfg::slice-keyword-segment (lst)
+    "Return a segment list of the list LST starting with a nearest keyword.
+The segment list starts with the nearest keyword from the head of LST and
+followed by the elements before the next keyword or the end of LST."
+    (let ((start (pewcfg::until-next-keyword lst)))
+      (butlast start (length (pewcfg::until-next-keyword (cdr start))))))
+
+;;; Application functions
+  (defun pewcfg::apply-keyword (keyword &optional forms)
+    "Apply FORMS with KEYWORD's handle function.
+The result of this function is a list of unevaluated forms."
+    (let ((l:normalize-function (intern (format pewcfg::keyword-normalize-function-format keyword)))
+          (l:handle-function (intern (format pewcfg::keyword-handle-function-format keyword))))
+      (mapcan (lambda (form) (apply l:handle-function (funcall l:normalize-function form)))
+              forms)))
 
 ;;; :custom
   (defun pewcfg::set-custom (variable value &optional comment)
