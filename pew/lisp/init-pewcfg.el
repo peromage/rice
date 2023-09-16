@@ -119,6 +119,8 @@ The result of this function is a list of unevaluated forms."
               forms)))
 
 ;;; :custom
+  (defalias 'pewcfg::normalize--:custom 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:custom (variable value &optional comment)
     "Set a VARIABLE that is either a custom or a regular one.
 VARIABLE is a symbol of the variable.
@@ -138,6 +140,8 @@ prevents writting settings from this file to the `custom-file'.
     `((customize-set-variable ',variable ,value ,comment)))
 
 ;;; :setq
+  (defalias 'pewcfg::normalize--:setq 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:setq (variable value &optional comment)
     "Simple wrapper of `setq'.
 VARIABLE is a symbol of the variable.
@@ -146,6 +150,8 @@ COMMENT is not used, which is for compatibility only."
     `((setq ,variable ,value)))
 
 ;;; :setq-default
+  (defalias 'pewcfg::normalize--:setq-default 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:setq-default (variable value &optional comment)
     "Simple wrapper of `setq-default'.
 VARIABLE is a symbol of the variable.
@@ -154,6 +160,8 @@ COMMENT is not used, which is for compatibility only."
     `((setq-default ,variable ,value)))
 
 ;;; :bind
+  (defalias 'pewcfg::normalize--:bind 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:bind (keymap &rest bindings)
     "Bind keys in an existing KEYMAP.
 KEYMAP is a symbol of the keymap.
@@ -169,6 +177,8 @@ keybindings in a existing map instead."
       ,keymap))
 
 ;;; :map
+  (defalias 'pewcfg::normalize--:map 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:map (keymap &rest bindings)
     "Create a new KEYMAP and bind keys in it.
 KEYMAP is a symbol of the keymap.
@@ -180,6 +190,8 @@ effective if the map already exists."
       ,@(apply pewcfg::set-bind keymap bindings)))
 
 ;;; :transient
+  (defalias 'pewcfg::normalize--:transient 'pewcfg::normalize-identity)
+
   (defun pewcfg::handle--:transient (command &rest bindings)
     "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
@@ -223,6 +235,8 @@ The keymap is defined in `%s'." l:cmd-map)
                  (set-transient-map ,l:cmd-map nil)))))))
 
 ;;; :switch
+  (defalias 'pewcfg::normalize--:switch 'pewcfg::normalize-pair)
+
   (defun pewcfg::handle--:switch (variable &optional values)
     "Create an interactive command to switch variable from a list of values.
 VARIABLE is a symbol of the variable.
@@ -248,7 +262,9 @@ The values are read from the list `%s'." variable l:switch-symbol)
            (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face
-  (defun pewcfg::handle--:face (face &optional args)
+  (defalias 'pewcfg::normalize--:face 'pewcfg::normalize-identity)
+
+  (defun pewcfg::handle--:face (face &rest args)
     "Set FACE attributes.
 FACE is a symbol of the face.
 ARGS is a plist consists with ATTRIBUTE VALUE pairs.
@@ -262,7 +278,9 @@ See `set-face-attribute'."
                                     args))))
 
 ;;; :property
-  (defun pewcfg::handle--:property (symbol &optional properties)
+  (defalias 'pewcfg::normalize--:property 'pewcfg::normalize-identity)
+
+  (defun pewcfg::handle--:property (symbol &rest properties)
     "Set SYMBOL's PROPERTIES.
 Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
@@ -274,6 +292,8 @@ PROP is the symbol of the property and VAL is the value to set with. "
                 properties)))
 
 ;;; :hook
+  (defalias 'pewcfg::normalize--:hook 'pewcfg::normalize-pair)
+
   (defun pewcfg::handle--:hook (name function)
     "Set a FUNCTION to a hook NAME.
 NOTE: NAME does not imply suffix '-hook'."
@@ -281,6 +301,8 @@ NOTE: NAME does not imply suffix '-hook'."
     `((add-hook ',name #',function)))
 
 ;;; :automode
+  (defalias 'pewcfg::normalize--:automode 'pewcfg::normalize-pair)
+
   (defun pewcfg::handle--:automode (matcher mode)
     "Set `auto-mode-alist'.
 MATCHER is usually a string of regex.
@@ -289,13 +311,17 @@ MODE is a symbol of the mode."
     `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
 
 ;;; :eval
+  (defalias 'pewcfg::normalize--:eval 'pewcfg::normalize-form)
+
   (defun pewcfg::handle--:eval (form)
     "Simply return the FORM."
     (declare (indent 0))
     `(,form))
 
 ;;; :eval-after
-  (defun pewcfg::handle--:eval-after (feature &optional forms)
+  (defalias 'pewcfg::normalize--:eval-after 'pewcfg::normalize-identity)
+
+  (defun pewcfg::handle--:eval-after (feature &rest forms)
     "Evaluate FORMS after a FEATURE is loaded."
     (declare (indent 1))
     `((with-eval-after-load ',feature ,@forms)))
