@@ -109,6 +109,13 @@ followed by the elements before the next keyword or the end of LST."
     (let ((start (pewcfg::until-next-keyword lst)))
       (butlast start (length (pewcfg::until-next-keyword (cdr start))))))
 
+;;; Helper functions
+  (defun pewcfg::tokey (key)
+    "Convert KEY to the representation that can be recognized as a keycord.
+Possible value could be a string which will be converted with (kbd key).  If KEY
+is a vector then does nothing."
+    (if (stringp key) (kbd key) key))
+
 ;;; Application functions
   (defun pewcfg::apply-keyword (keyword &optional forms)
     "Apply FORMS with KEYWORD's handle function.
@@ -324,13 +331,7 @@ MODE is a symbol of the mode."
   (defun pewcfg::handle--:eval-after (feature &rest forms)
     "Evaluate FORMS after a FEATURE is loaded."
     (declare (indent 1))
-    `((with-eval-after-load ',feature ,@forms)))
-
-  (defun pewcfg::tokey (key)
-    "Convert KEY to the representation that can be recognized as a keycord.
-Possible value could be a string which will be converted with (kbd key).  If KEY
-is a vector then does nothing."
-    (if (stringp key) (kbd key) key)))
+    `((with-eval-after-load ',feature ,@forms))))
 
 ;;; End eval-and-compile
 
