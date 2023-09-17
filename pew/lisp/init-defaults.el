@@ -406,20 +406,20 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode . pew::terminal-mode-oninit)
-  (shell-mode . pew::terminal-mode-oninit)
+  (eshell-mode-hook . pew::terminal-mode-oninit)
+  (shell-mode-hook . pew::terminal-mode-oninit)
 
   ;; Don't save trailing spaces
-  (after-save . pew::delete-trailing-whitespaces)
+  (after-save-hook . pew::delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
-  (minibuffer-setup . cursor-intangible-mode)
+  (minibuffer-setup-hook . cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode . pew::reuse-window-in-buffer)
+  (grep-mode-hook . pew::reuse-window-in-buffer)
 
   ;; Enable folding
-  (prog-mode . outline-minor-mode)
+  (prog-mode-hook . outline-minor-mode)
 
 ;;; Symbol properties
   :property
