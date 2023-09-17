@@ -51,8 +51,11 @@ Default to under `pew::home-dir'.")
 
 ;;; Runtime path
 ;; The runtime path should be relative to this file instead of `user-emacs-directory'
-(add-to-list 'load-path (expand-file-name "pew/lisp" pew::home-dir))
-(add-to-list 'load-path (expand-file-name "pew/site-lisp" pew::home-dir))
+(setq load-path (nconc (mapcar (lambda (p) (expand-file-name p pew::home-dir))
+                               '("pew/lisp"
+                                 "pew/site-lisp"
+                                 "pew/site-lisp/pewcfg"))
+                       load-path))
 
 ;;; Load early file
 (load pew::early-custom-file :noerror)
@@ -64,8 +67,8 @@ Default to under `pew::home-dir'.")
 (cond
 ;;;; Minimal setup
  (pew::mini-init
+  (require 'pewcfg)
   (require 'init-common)
-  (require 'init-pewcfg)
   (require 'init-defaults)
   (message "[pew] Loaded minimal init"))
 
@@ -73,8 +76,8 @@ Default to under `pew::home-dir'.")
  (t
   ;; Load init files
   ;; NOTE: The load sequence must be in this order
+  (require 'pewcfg)
   (require 'init-common)
-  (require 'init-pewcfg)
   (require 'init-boot)
   (require 'init-defaults)
   (require 'init-package)
@@ -88,7 +91,6 @@ Default to under `pew::home-dir'.")
   (require 'elpa-completion-corfu)
   (require 'elpa-git)
   (require 'elpa-org)
-  (require 'elpa-org-utils)
   (require 'elpa-utils)
   ;; Language supports
   (require 'elpa-lang)
