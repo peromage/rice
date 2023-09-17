@@ -98,6 +98,10 @@ NAME is used to identify the name of this comparison."
               [tab]
               (pewcfg::tokey [tab]))
 
+(expect-equal "Test apply-keyword"
+              '((customize-set-variable 'foo foovalue nil))
+              (pewcfg::apply-keyword :custom '((foo foovalue))))
+
 ;;; Test pewcfg expansion
 (expect-equal "Test pewcfg: Normal expansion"
               '(progn (customize-set-variable 'foo foovalue nil) (setq bar barvalue))
