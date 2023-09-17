@@ -173,7 +173,7 @@ KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
-NOTE: Unlike `pewcfg::set-map' this macro does not create a new map.  It sets
+NOTE: Unlike `pewcfg::generate--:map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
   (declare (indent 1))
   `(,@(mapcar (lambda (binding)
@@ -187,12 +187,12 @@ keybindings in a existing map instead."
 (defun pewcfg::generate--:map (keymap &rest bindings)
   "Create a new KEYMAP and bind keys in it.
 KEYMAP is a symbol of the keymap.
-BINDINGS is in the same form as in `pewcfg::set-bind'.
-NOTE: Unlike `pewcfg::set-bind' this macro creates a new map.  It will not be
+BINDINGS is in the same form as in `pewcfg::generate--:bind'.
+NOTE: Unlike `pewcfg::generate--:bind' this macro creates a new map.  It will not be
 effective if the map already exists."
   (declare (indent 1))
   `((define-prefix-command ',keymap)
-    ,@(apply pewcfg::set-bind keymap bindings)))
+    ,@(apply 'pewcfg::generate--:bind keymap bindings)))
 
 ;;; :transient
 (defalias 'pewcfg::normalize--:transient 'pewcfg::normalize-identity)
@@ -200,7 +200,7 @@ effective if the map already exists."
 (defun pewcfg::generate--:transient (command &rest bindings)
   "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
-BINDINGS is the same with `pewcfg::set-bind'.
+BINDINGS is the same with `pewcfg::generate--:bind'.
 A map COMMAND-map and an interactive command COMMAND will be created.
 Once COMMAND is invoked COMMAND-map will be temporarily activated.
 See `set-transient-map'.
@@ -211,7 +211,7 @@ enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
   (declare (indent 1))
   (let ((l:cmd-map (intern (format "%s-map" command))))
-    `(,@(apply pewcfg::set-map l:cmd-map bindings)
+    `(,@(apply 'pewcfg::generate--:map l:cmd-map bindings)
       ;; Take these two essential bindings.
       (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
       (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
@@ -246,13 +246,15 @@ The keymap is defined in `%s'." l:cmd-map)
   "Create an interactive command to switch variable from a list of values.
 VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
-If VALUES is nil, the VARIABLE will be switch between (nil t) by default.
-A new command 'switch::VARIABLE' will be created as well as a variable with
-the same name which stores VALUES"
+If VALUES is nil, the VARIABLE will be switch between (t nil) by default.
+A new command `switch::VARIABLE' and variable `switch::VARIABLE' will be created.
+The variable is used for multiple purposes.  The car of the variable stores the
+current index of the list of values that is stored in the cdr."
   (declare (indent 0))
-  (let ((l:switch-symbol (intern (format "switch::%s" variable)))
-        (l:switch-values (if values (cons -1 values) (cons -1 '(nil t)))))
-    `((defvar ,l:switch-symbol ',l:switch-values
+  (let ((l:switch-symbol (intern (format "switch::%s" variable))))
+    `((defvar ,l:switch-symbol ',(if values
+                                     (cons -1 values)
+                                   (cons -1 '(t nil)))
         ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
 cycles through the list each the switch command is called." l:switch-symbol))
