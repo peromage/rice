@@ -1,14 +1,11 @@
-;;; elpa-completion-vertico.el --- Vertico completion framework -*- lexical-binding: t; -*-
-
+;;; elpa-completion-vertico.el --- vertico and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Vertico and its related packages
-;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
-
 ;;; Code:
-;;; Vertico
+
+;;; Package: vertico
+;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
 (use-package vertico
   :demand t
-
   :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
@@ -37,10 +34,9 @@
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 
-;;; Search and navigation commands
+;;; Package: consult -- Search and navigation commands
 (use-package consult
   :demand t
-
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-x B" . consult-buffer-other-window)
@@ -107,21 +103,20 @@ ARGS should be a string of arguments passed to ripgrep."
   ;; CRM indicator
   (define-advice completing-read-multiple (:filter-args (args) pew::consult::crm-indicator)
     "Add an indicator for multi-occur mode."
-    (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args))))
+    (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
-;;; Rich annotations in the minibuffer
+;;; Package: marginalia -- Rich annotations in the minibuffer
 (use-package marginalia
   ;; :bind would cause lazy loading which is not we expect
   :demand t
   :after vertico
-
   :bind (:map vertico-map
          ("M-q m" . marginalia-cycle))
 
   :config
   (marginalia-mode 1))
 
-;;; Completion matching
+;;; Package: orderless -- Completion matching
 (use-package orderless
   :custom
   (completion-styles '(orderless partial-completion basic))
@@ -130,18 +125,16 @@ ARGS should be a string of arguments passed to ripgrep."
   ;; (completion-category-defaults nil)  ;; Same above
   (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
-;;; Minibuffer actions and context menu
+;;; Package: embark -- Minibuffer actions and context menu
 (use-package embark
   :demand t
-
+  :hook (embark-collect-mode . pew::embark::collect-oninit)
   :bind (([remap describe-bindings] . embark-bindings)
          :map pew::M-u-map
          ("e a" . embark-act)
          ("e d" . embark-dwim)
          ("e e" . embark-export)
          ("e c" . embark-collect))
-
-  :hook (embark-collect-mode . pew::embark::collect-oninit)
 
   :custom
   (prefix-help-command #'embark-prefix-help-command)

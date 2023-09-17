@@ -1,12 +1,10 @@
-;;; elpa-completion-company.el --- Completion by company -*- lexical-binding: t; -*-
-
+;;; elpa-completion-company.el --- company and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Use company as typing completion frontend and backend
-
 ;;; Code:
+
+;;; Package: company -- Completion frontend
 (use-package company
   :demand t
-
   :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete)
          :map company-active-map
@@ -29,12 +27,14 @@
   (company-search-filtering t)
 
   :init
-  ;; Don't use orderless in company completion
-  (with-eval-after-load 'orderless
-    (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-    (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
-      (let ((completion-styles pew::orderless::default-completion-styles))
-        (apply oldfunc args))))
+  (pewcfg
+    :eval-after
+    ;; Don't use orderless in company completion
+    (orderless
+      (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
+      (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
+        (let ((completion-styles pew::orderless::default-completion-styles))
+          (apply oldfunc args)))))
 
   :config
   (global-company-mode 1)

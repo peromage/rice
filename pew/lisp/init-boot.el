@@ -1,9 +1,8 @@
-;;; init-boot.el --- Early initialization -*- lexical-binding: t; -*-
-
+;;; init-boot.el --- early initialization -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;; This file should be required at the beginning of the entire initialization.
-
 ;;; Code:
+
 ;;; Performance optimization
 (setq gc-cons-threshold 100000000)     ;; 128mb
 (setq read-process-output-max 1000000) ;; 1mb

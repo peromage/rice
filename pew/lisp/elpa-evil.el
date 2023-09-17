@@ -1,15 +1,11 @@
-;;; elpa-evil.el --- Vim layer -*- lexical-binding: t; -*-
-
+;;; elpa-evil.el --- evil and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Evil provides vim-like keybindings and functionalities, which dramatically improves coding efficiency.
-;; This file configures `evil-mode' related stuff including bringing in supplementary packages.
-
 ;;; Code:
-;;; Evil
+
+;;; Package: evil
 (use-package evil
   :demand t
-
-;;;; Evil custom
+;;;; Variable config
   :custom
   ;; Default evil-want behavior
   (evil-want-integration t)
@@ -51,7 +47,7 @@
   (evil-buffer-regexps nil)
 
   :config
-;;;; Evil keybinding functions
+;;;; Functions
   ;; Key binding function
   (defun pew::evil::set-key (state map leader bindings)
     "A function to bind Evil keys.
@@ -70,7 +66,6 @@ See `evil-define-key*'."
       (mapc (lambda (m) (apply 'evil-define-key* state m l:bindings))
             (if (listp map) map (list map)))))
 
-;;;; Evil search functions
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
   (defun pew::evil::escape-pattern (pattern)
@@ -138,7 +133,7 @@ See `evil-define-key*'."
         evil-motion-state-tag        "[MO]"
         evil-operator-state-tag      "[..]")
 
-;;;; Evil initial states
+;;;; Custom initial states
   (evil-define-state pewinitial
     "A dummy state used to determine buffer initial Evil state.
 NOTE: This dummy state means to be an intermidiate state which transits to
@@ -202,7 +197,7 @@ This is an advanced method to determine initial state rather than using
       (_
        (evil-change-state 'emacs))))
 
-;;;; Evil keybindings
+;;;; Keybindings
   ;; Toggle key
   (evil-set-toggle-key "C-x m")
   (global-set-key (kbd "C-x C-m") #'evil-mode)
@@ -241,9 +236,9 @@ This is an advanced method to determine initial state rather than using
         ("ee" . eval-last-sexp))))
 
 ;;;; Enable Evil
-  (evil-mode 1)) ;; (use-package evil)
+  (evil-mode 1)) ;; End evil
 
-;;; Evil surround
+;;; Package: evil-surround
 (use-package evil-surround
   :after evil
   :config

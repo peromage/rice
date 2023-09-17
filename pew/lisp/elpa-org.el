@@ -1,11 +1,9 @@
-;;; elpa-org.el --- Org writing support -*- lexical-binding: t; -*-
-
+;;; elpa-org.el --- org mode -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Configuration used for Org writing tasks.
-
 ;;; Code:
-;;; Org mode
-;; Let `use-package' ensure the latest org package is installed
+
+;;; Package: org
+;; Let `use-package' ensure the latest org package to be installed
 (use-package org
   :hook ((org-mode . pew::org::oninit)
          (org-babel-after-execute . pew::org::refresh-images))
@@ -109,9 +107,8 @@
 
   :init
   (defvar pew::org::marker--hidden nil
-    "`org-mode' Marker visibility.")
+    "`org-mode' marker visibility.")
 
-;;;; Helper functions
   :config
   (defun pew::org::oninit ()
     "Org mode initial setup."
@@ -184,9 +181,9 @@ Otherwise the cursor is placed at the beginning of the heading."
     "Add languages defined in ALIST to `org-babel-load-languages'.
 `org-babel-do-load-languages' will be called underneath."
     (org-babel-do-load-languages 'org-babel-load-languages
-                                 (append org-babel-load-languages alist)))) ;; (use-package org)
+                                 (append org-babel-load-languages alist)))) ;; End org
 
-;;; Org mode built-ins
+;;; Package: org-temp -- Built-in package
 (use-package org-tempo
   :ensure nil
   :after org)

@@ -1,12 +1,10 @@
-;;; elpa-lang-powershell.el --- PowerShell mode -*- lexical-binding: t; -*-
-
+;;; elpa-lang-powershell.el --- powershell mode -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; PowerShell major mode configuration.
-
 ;;; Code:
+
+;;; Package: powershell
 (use-package powershell
   :hook (powershell-mode . pew::powershell-mode::oninit)
-
   :config
   (defun pew::powershell-mode::oninit ()
     "`powershell-mode' initialization."

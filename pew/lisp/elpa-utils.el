@@ -1,12 +1,8 @@
-;;; elpa-utils.el --- Utilities -*- lexical-binding: t; -*-
-
+;;; elpa-utils.el --- supplementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Utilities that provide convenience and enhance experience
-
 ;;; Code:
-;;; Terminal
-;; Vterm is a decent terminal emulator inside of Emacs.
-;; NOTE: Not available on Windows.
+
+;;; Package: vterm
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
@@ -31,11 +27,10 @@ users to specify the shell to start with."
           (vterm :new))
       (vterm :new))))
 
-;;; Tree navigation
+;;; Package: treemacs
 (use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::oninit)
-
   :custom
   (treemacs-wrap-around nil)
 
@@ -44,50 +39,44 @@ users to specify the shell to start with."
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1)))
 
-;;; Separate edit
+;;; Package: separedit
 (use-package separedit
   :bind (:map pew::M-u-map
          ("'" . separedit-dwim)))
 
-;;; Simplify S-expression editing
+;;; Package: paredit -- Simplify S-expression editing
 (use-package paredit
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
-;;; Jump among texts
+;;; Package: avy -- Jump among texts
 (use-package avy
   :bind (:map pew::M-u-map
          ("f" . avy-goto-char)
          ("j" . avy-goto-line)))
 
-;;; Jump between windows
+;;; Package: ace-window -- Jump between windows
 (use-package ace-window
   :bind (:map pew::M-u-map
          ("w" . ace-window)
          ("W" . ace-swap-window)))
 
-;;; Lazy loadeding
+;;; Lazy loadeding for these packages
 (pew::use-package-later
   ;; Search
   rg
-
   ;; Focused view
   olivetti
-
   ;; Nyanyanya!!!
   nyan-mode
   zone-nyan
-
   ;; Colorful parenthesises
   rainbow-delimiters
-
   ;; Colorize color code
   rainbow-mode
-
   ;; Highlight current line
   beacon
-
   ;; Sometimes useful to get prompted for LSP commands
   which-key)
 

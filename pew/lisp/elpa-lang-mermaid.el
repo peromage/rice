@@ -1,10 +1,8 @@
-;;; elpa-lang-mermaid.el --- Mermaid mode -*- lexical-binding: t; -*-
-
+;;; elpa-lang-mermaid.el --- mermaid mode -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Mermaid major mode and org integration.
-
 ;;; Code:
 
+;;; Package: mermaid-mode
 (use-package mermaid-mode
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
@@ -20,6 +18,7 @@
       (call-process "npm" nil nil nil "install" "@mermaid-js/mermaid-cli")
       (message "Installing mermaid-cli... done"))))
 
+;;; Package: ob-mermaid -- org support
 (use-package ob-mermaid
   :after org
   :config

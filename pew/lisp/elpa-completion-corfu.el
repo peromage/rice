@@ -1,13 +1,11 @@
-;;; elpa-completion-corfu.el --- Completion by corfu -*- lexical-binding: t; -*-
-
+;;; elpa-completion-corfu.el --- corfu and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;; Minimalistic completion framework
-
 ;;; Code:
-;;; Completion frontend
+
+;;; Package: corfu -- Completion frontend
 (use-package corfu
   :demand t
-
   :bind (:map corfu-map
          ("TAB" . corfu-complete)
          ("<tab>" . corfu-complete)
@@ -45,12 +43,11 @@
   (global-corfu-mode 1)
   (corfu-history-mode 1)
   (corfu-popupinfo-mode 1)
-  (corfu-echo-mode 1)) ;; (use-package corfu)
+  (corfu-echo-mode 1)) ;; End corfu
 
-;;; Makes corfu usable in terminal
+;;; Package: corfu-terminal -- Makes corfu usable in terminal
 (use-package corfu-terminal
   :after corfu
-
   :custom
   (corfu-terminal-disable-on-gui t)
   (corfu-terminal-resize-minibuffer t)
@@ -59,17 +56,16 @@
   :config
   (corfu-terminal-mode 1))
 
-;;; Make it prettier
+;;; Package: kind-icon -- Make corfu prettier
 (use-package kind-icon
   :after corfu
-
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
 
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;;; Completion backend
+;;; Package: cape -- Completion backend
 (use-package cape
   :demand t
   :after corfu
@@ -126,7 +122,7 @@
                                                     #'pcomplete-completions-at-point
                                                     (cape-super-capf
                                                      #'elisp-completion-at-point
-                                                     #'cape-dabbrev))))) ;; (use-package cape)
+                                                     #'cape-dabbrev))))) ;; End cape
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here
