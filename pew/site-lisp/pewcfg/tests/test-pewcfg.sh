@@ -296,7 +296,6 @@ NAME is used to identify the name of this comparison."
               (pewcfg::generate--:eval-after 'foo '(bar a) '(baz b)))
 
 (message "[ END ] %s" (if (zerop test-failure-number) "Passed all tests" (format "Failed %d test(s)" test-failure-number)))
-(kill-emacs test-failure-number) ;; Exit code is the number of failed tests
 
-(provide 'test-pewcfg)
-;;; test-pewcfg.el ends here
+;; Exit code is the number of failed tests
+(kill-emacs test-failure-number)
