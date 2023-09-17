@@ -104,9 +104,8 @@ The result of this function is a list of unevaluated forms."
 
 ;;; Main entry
 (defmacro pewcfg (&rest args)
-  "Pew configuration utility.
-This one is intended to be used for configuration entry instead of calling the
-helper macros directly.
+  "Main entry of pewcfg utilities.
+This one is intended to be used instead of calling generate functions directly.
 ARGS is a list of forms.  See the registered helpers from `pewcfg::keywords'
 for form definitions.
 Typical usage is as follow:
