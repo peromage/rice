@@ -5,10 +5,8 @@
 
 ;;; Code:
 (use-package lua-mode
-  :config
-  (pewcfg
-    :setq
-    (lua-indent-level 4)))
+  :custom
+  (lua-indent-level 4))
 
 (provide 'elpa-lang-lua)
 ;;; elpa-lang-lua.el ends here

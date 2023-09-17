@@ -12,13 +12,9 @@
   fish-mode)
 
 ;;; Random packages
-(use-package cmake-mode
-  :defer t
-
-  :config
-  (pewcfg
-    :setq
-    (cmake-tab-width 4)))
+(use-package cmake-mode :defer t
+  :custom
+  cmake-tab-width 4)
 
 (provide 'elpa-lang)
 ;;; elpa-lang.el ends here

@@ -12,6 +12,14 @@
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pew::terminal-mode-oninit)
 
+  :custom
+  (vterm-kill-buffer-on-exit t)
+  (vterm-max-scrollback 10000)
+  (vterm-keymap-exceptions '("C-z" "C-c" "C-x" "C-u" "C-g" "C-h" "C-l" "M-x"
+                             "M-o" "C-y" "M-y"))
+  (vterm-tramp-shells '(("ssh" "/bin/bash")
+                        ("plink" "/bin/bash")))
+
   :init
   (defun pew::vterm::new (arg)
     "Create a new vterm window.
@@ -21,31 +29,20 @@ users to specify the shell to start with."
     (if arg
         (let ((vterm-shell (read-string "Shell: ")))
           (vterm :new))
-      (vterm :new)))
-
-  :config
-  (pewcfg
-    :setq
-    (vterm-kill-buffer-on-exit t)
-    (vterm-max-scrollback 10000)
-    (vterm-keymap-exceptions '("C-z" "C-c" "C-x" "C-u" "C-g" "C-h" "C-l" "M-x"
-                               "M-o" "C-y" "M-y"))
-    (vterm-tramp-shells '(("ssh" "/bin/bash")
-                          ("plink" "/bin/bash")))))
+      (vterm :new))))
 
 ;;; Tree navigation
 (use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::oninit)
 
-  :config
-  (pewcfg
-    :setq
-    (treemacs-wrap-around nil)
+  :custom
+  (treemacs-wrap-around nil)
 
-    (defun pew::treemacs::oninit ()
-      "`treemacs-mode' initialization."
-      (display-line-numbers-mode -1))))
+  :config
+  (defun pew::treemacs::oninit ()
+    "`treemacs-mode' initialization."
+    (display-line-numbers-mode -1)))
 
 ;;; Separate edit
 (use-package separedit
