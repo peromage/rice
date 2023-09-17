@@ -50,6 +50,42 @@ NAME is used to identify the name of this comparison."
 (message "[ BEGIN ] pewcfg tests")
 
 ;;; Test utility functions
+(expect-equal "Test normalize-identity"
+              'foo
+              (pewcfg::normalize-identity 'foo))
+
+(expect-equal "Test normalize-pair"
+              '(foo bar)
+              (pewcfg::normalize-pair '(foo . bar)))
+
+(expect-equal "Test normalize-single"
+              '(foo)
+              (pewcfg::normalize-single 'foo))
+
+(expect-equal "Test until-next-keyword"
+              '(:a 4 5 6 :b 7 :c 8 9)
+              (pewcfg::until-next-keyword '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
+
+(expect-equal "Test until-next-keyword: Empty list"
+              nil
+              (pewcfg::until-next-keyword nil))
+
+(expect-equal "Test until-next-keyword: Not a plist"
+              nil
+              (pewcfg::until-next-keyword '(1 2 3 4 5)))
+
+(expect-equal "Test slice-keyword-segment"
+              '(:a 4 5 6)
+              (pewcfg::slice-keyword-segment '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
+
+(expect-equal "Test slice-keyword-segment: Empty list"
+              nil
+              (pewcfg::slice-keyword-segment nil))
+
+(expect-equal "Test slice-keyword-segment: Not a plist"
+              nil
+              (pewcfg::slice-keyword-segment '(1 2 3 4 5)))
+
 (expect-equal "Test tokey: From string"
               ""
               (pewcfg::tokey "C-c C-c"))
