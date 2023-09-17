@@ -49,32 +49,6 @@ to a keyword handle function by `apply'.")
 Each generate function can have different signatures but it should always return
 a list of forms.")
 
-;;; Main entry
-(defmacro pewcfg (&rest args)
-  "Pew configuration utility.
-This one is intended to be used for configuration entry instead of calling the
-helper macros directly.
-ARGS is a list of forms.  See the registered helpers from `pewcfg::keywords'
-for form definitions.
-Typical usage is as follow:
-  (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
-  (declare (indent 0))
-  (if (not (keywordp (car args)))
-      (error "Not start with a keyword")
-    (let (l:partial-form)
-      `(progn
-         ,@(mapcar (lambda (form)
-                     (if (not (keywordp form))
-                         ;; Complete the expression and expand it
-                         `(,@l:partial-form ,form)
-                       ;; Find the form according to the keyword
-                       (setq l:partial-form (ensure-list (alist-get form pewcfg::keywords)))
-                       (if (null l:partial-form)
-                           (error "Invalid keyword: %S" form)
-                         ;; Insert the keyword as a placeholder
-                         form)))
-                   args)))))
-
 ;;; Normalization functions
 (defun pewcfg::normalize-identity (form)
   "Like `identity'."
@@ -123,10 +97,26 @@ is a vector then does nothing."
 (defun pewcfg::apply-keyword (keyword &optional forms)
   "Apply FORMS with KEYWORD's handle function.
 The result of this function is a list of unevaluated forms."
-  (let ((l:normalize-function (intern (format pewcfg::keyword-normalize-function-format keyword)))
-        (l:handle-function (intern (format pewcfg::keyword-handle-function-format keyword))))
-    (mapcan (lambda (form) (apply l:handle-function (funcall l:normalize-function form)))
-            forms)))
+  (mapcan (lambda (form) (apply (intern (format pewcfg::keyword-generate-function-format keyword))
+                                (funcall (intern (format pewcfg::keyword-normalize-function-format keyword))
+                                         form)))
+          forms))
+
+;;; Main entry
+(defmacro pewcfg (&rest args)
+  "Pew configuration utility.
+This one is intended to be used for configuration entry instead of calling the
+helper macros directly.
+ARGS is a list of forms.  See the registered helpers from `pewcfg::keywords'
+for form definitions.
+Typical usage is as follow:
+  (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
+  (declare (indent 0))
+  (if (not (keywordp (car args)))
+      (error "Not start with a keyword")
+    (cons 'progn (mapcan (lambda (seg)
+                           (pewcfg::apply-keyword (car seg) (cdr seg)))
+                         (pewcfg::slice-keyword-segments args)))))
 
 ;;; :custom
 (defalias 'pewcfg::normalize--:custom 'pewcfg::normalize-identity)

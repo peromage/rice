@@ -98,6 +98,27 @@ NAME is used to identify the name of this comparison."
               [tab]
               (pewcfg::tokey [tab]))
 
+;;; Test pewcfg expansion
+(expect-equal "Test pewcfg: Normal expansion"
+              '(progn (customize-set-variable 'foo foovalue nil) (setq bar barvalue))
+              (macroexpand '(pewcfg
+                              :custom
+                              (foo foovalue)
+                              :setq
+                              (bar barvalue))))
+
+(expect-equal "Test pewcfg: Not start with a keyword"
+              '(error "Not start with a keyword")
+              (condition-case e
+                  (macroexpand '(pewcfg (blah) :custom (foo foovalue)))
+                (error e)))
+
+(expect-equal "Test pewcfg: Empty body"
+              '(error "Not start with a keyword")
+              (condition-case e
+                  (macroexpand '(pewcfg))
+                (error e)))
+
 ;;; Test :custom
 (expect-equal "Test :custom: Normalize"
               '(foo foovalue "comment")
