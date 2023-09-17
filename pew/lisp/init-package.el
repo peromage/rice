@@ -1,8 +1,9 @@
-;;; init-package.el --- package management -*- lexical-binding: t; -*-
-;;; Commentary:
-;; This ELPA initialization configuration should be loaded as early as possible.
-;;; Code:
+;;; init-package.el --- Package management -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; This ELPA initialization configuration should be loaded before any other package configurations.
+
+;;; Code:
 ;;; Emacs builtin package manager
 ;; Initialize package manager
 (require 'package)

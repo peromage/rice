@@ -1,11 +1,13 @@
-;;; elpa-completion-corfu.el --- corfu and complementary -*- lexical-binding: t; -*-
+;;; elpa-completion-corfu.el --- Completion by corfu -*- lexical-binding: t; -*-
+
 ;;; Commentary:
 ;; Minimalistic completion framework
-;;; Code:
 
-;;; Package: corfu -- Completion frontend
+;;; Code:
+;;; Completion frontend
 (use-package corfu
   :demand t
+
   :bind (:map corfu-map
          ("TAB" . corfu-complete)
          ("<tab>" . corfu-complete)
@@ -31,7 +33,6 @@
     (corfu-quit-no-match 'separator) ;; Same above
     (corfu-popupinfo-delay '(0.5 . 0.2))
     (corfu-echo-delay '(0.5 . 0.2))
-
     :eval
     (defun pew::corfu::move-to-minibuffer ()
       (interactive)
@@ -41,38 +42,37 @@
 
     (define-advice pew::terminal-mode-oninit (:after () pew::corfu::in-terminal)
       (setq-local corfu-auto nil))
-
     :eval
     (global-corfu-mode 1)
     (corfu-history-mode 1)
     (corfu-popupinfo-mode 1)
-    (corfu-echo-mode 1))) ;; End corfu
+    (corfu-echo-mode 1))) ;; (use-package corfu)
 
-;;; Package: corfu-terminal -- Makes corfu usable in terminal
+;;; Makes corfu usable in terminal
 (use-package corfu-terminal
   :after corfu
+
   :config
   (pewcfg
     :setq
     (corfu-terminal-disable-on-gui t)
     (corfu-terminal-resize-minibuffer t)
     (corfu-terminal-enable-on-minibuffer t)
-
     :eval
     (corfu-terminal-mode 1)))
 
-;;; Package: kind-icon -- Make corfu prettier
+;;; Make it prettier
 (use-package kind-icon
   :after corfu
+
   :config
   (pewcfg
     :setq
-    (kind-icon-default-face 'corfu-default) ;; To compute blended backgrounds correctly
-
+    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
     :eval
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)))
 
-;;; Package: cape -- Completion backend
+;;; Completion backend
 (use-package cape
   :demand t
   :after corfu
@@ -115,7 +115,6 @@
                                                  ;; #'cape-line
                                                  )
                                            completion-at-point-functions))
-
     :eval
     (defun pew::cape::elisp-oninit ()
       "Set completion style for ELisp mode."
@@ -131,7 +130,7 @@
                                                       #'pcomplete-completions-at-point
                                                       (cape-super-capf
                                                        #'elisp-completion-at-point
-                                                       #'cape-dabbrev)))))) ;; End cape
+                                                       #'cape-dabbrev)))))) ;; (use-package cape)
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here

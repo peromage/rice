@@ -1,8 +1,11 @@
-;;; init-common.el --- common library -*- lexical-binding: t; -*-
-;;; Commentary:
-;; This file should be loaded as early as possible.
-;;; Code:
+;;; init-common.el --- Common library -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; This is the Pew common library file.
+;; It might be splitted into several files if it's needed in the future.
+;; NOTE: This file should be loaded before any other packages.
+
+;;; Code:
 ;;; Start eval-and-compile
 (eval-and-compile
 ;;; Buffer definitions
@@ -70,9 +73,7 @@ See `display-buffer' for property SIDE, SLOT."
       (inhibit-switch-frame . t)
       (window-height . 0.25)
       (side . ,side)
-      (slot . ,slot))))
-
-;;; End eval-and-compile
+      (slot . ,slot)))) ;;; End eval-and-compile
 
 ;;; Paths
 (defun pew::normalize-path (base &optional component follow)

@@ -1,8 +1,9 @@
-;;; elpa-lang-lua.el --- lua mode -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-lang-lua.el --- Lua mode -*- lexical-binding: t; -*-
 
-;;; Package: lua-mode
+;;; Commentary:
+;; Support for Lua development.
+
+;;; Code:
 (use-package lua-mode
   :config
   (pewcfg

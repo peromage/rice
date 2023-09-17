@@ -1,10 +1,12 @@
-;;; elpa-lang-markdown.el --- markdown mode -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-lang-markdown.el --- Markdown mode -*- lexical-binding: t; -*-
 
-;;; Package: markdown-mode
+;;; Commentary:
+;; Markdown major mode configuration.
+
+;;; Code:
 (use-package markdown-mode
   :hook (markdown-mode . pew::markdown-mode::oninit)
+
   :config
   (defun pew::markdown-mode::oninit ()
     "`markdown-mode' initialization."

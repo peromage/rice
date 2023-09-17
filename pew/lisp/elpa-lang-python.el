@@ -1,15 +1,16 @@
-;;; elpa-lang-python.el --- python mode -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-lang-python.el --- Python mode -*- lexical-binding: t; -*-
 
-;;; Package: lsp-pyright
+;;; Commentary:
+;; Python major mode configuration.
+
+;;; Code:
 (use-package lsp-pyright
   :hook (python-mode . pew::python-mode::oninit)
+
   :config
   (pewcfg
     :setq
     (lsp-pyright-python-executable-cmd "python3")
-
     :eval
     (defun pew::python-mode::oninit ()
       "`python-mode' initialization."

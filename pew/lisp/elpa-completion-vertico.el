@@ -1,11 +1,14 @@
-;;; elpa-completion-vertico.el --- vertico and complementary -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-completion-vertico.el --- Vertico completion framework -*- lexical-binding: t; -*-
 
-;;; Package: vertico
+;;; Commentary:
+;; Vertico and its related packages
 ;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
+
+;;; Code:
+;;; Vertico
 (use-package vertico
   :demand t
+
   :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
          ("DEL" . vertico-directory-delete-char)
@@ -24,7 +27,6 @@
     (vertico-multiform-commands '((consult-imenu buffer indexed)
                                   (consult-outline buffer)))
     (vertico-multiform-categories '((file (vertico-sort-function . pew::vertico::sort-directories-first))))
-
     :eval
     ;; File sorting
     (defun pew::vertico::sort-directories-first (files)
@@ -32,14 +34,14 @@
       (let ((l:files (vertico-sort-history-length-alpha files)))
         (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) l:files)
                (seq-remove (lambda (x) (string-suffix-p "/" x)) l:files))))
-
     :eval
     (vertico-mode 1)
     (vertico-multiform-mode 1)))
 
-;;; Package: consult -- Search and navigation commands
+;;; Search and navigation commands
 (use-package consult
   :demand t
+
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
          ("C-x B" . consult-buffer-other-window)
@@ -109,20 +111,21 @@ ARGS should be a string of arguments passed to ripgrep."
     ;; CRM indicator
     (define-advice completing-read-multiple (:filter-args (args) pew::consult::crm-indicator)
       "Add an indicator for multi-occur mode."
-      (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args))))) ;; End consult
+      (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))))
 
-;;; Package: marginalia -- Rich annotations in the minibuffer
+;;; Rich annotations in the minibuffer
 (use-package marginalia
   ;; :bind would cause lazy loading which is not we expect
   :demand t
   :after vertico
+
   :bind (:map vertico-map
          ("M-q m" . marginalia-cycle))
 
   :config
   (marginalia-mode 1))
 
-;;; Package: orderless -- Completion matching
+;;; Completion matching
 (use-package orderless
   :config
   (pewcfg
@@ -133,10 +136,10 @@ ARGS should be a string of arguments passed to ripgrep."
     ;; (completion-category-defaults nil)  ;; Same above
     (orderless-matching-styles '(orderless-literal orderless-regexp))))
 
-;;; Package: embark -- Minibuffer actions and context menu
+;;; Minibuffer actions and context menu
 (use-package embark
   :demand t
-  :hook (embark-collect-mode . pew::embark::collect-oninit)
+
   :bind (([remap describe-bindings] . embark-bindings)
          :map pew::M-u-map
          ("e a" . embark-act)
@@ -144,11 +147,12 @@ ARGS should be a string of arguments passed to ripgrep."
          ("e e" . embark-export)
          ("e c" . embark-collect))
 
+  :hook (embark-collect-mode . pew::embark::collect-oninit)
+
   :config
   (pewcfg
     :setq
     (prefix-help-command #'embark-prefix-help-command)
-
     :eval
     (defun pew::embark::collect-oninit ()
       "`embark-collect-mode' initialization."

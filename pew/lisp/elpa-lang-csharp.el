@@ -1,10 +1,12 @@
-;;; elpa-lang-csharp.el --- c# mode -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-lang-csharp.el --- C# mode -*- lexical-binding: t; -*-
 
-;;; Package: csharp-mode
+;;; Commentary:
+;; C# major mode configuration.
+
+;;; Code:
 (use-package csharp-mode
   :hook (csharp-mode . pew::csharp-mode::oninit)
+
   :config
   (defun pew::csharp-mode::oninit ()
     "`csharp-mode' initialization."

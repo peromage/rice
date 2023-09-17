@@ -1,10 +1,12 @@
-;;; elpa-lang-java.el --- java mode -*- lexical-binding: t; -*-
-;;; Commentary:
-;;; Code:
+;;; elpa-lang-java.el --- Java mode -*- lexical-binding: t; -*-
 
-;;; Package: lsp-java
+;;; Commentary:
+;; Java major mode configuration.
+
+;;; Code:
 (use-package lsp-java
   :hook (java-mode . pew::java-mode::oninit)
+
   :config
   (defun pew::java-mode::oninit ()
     "`java-mode' initialization."
