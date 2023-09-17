@@ -37,8 +37,7 @@ List of each keyword's form signature:
   :hook         (NAME . FUNCTION)
   :automode     (MATCHER . MODE)
   :eval         (SEXP)
-  :eval-after   (FEATURE BODY)
-")
+  :eval-after   (FEATURE BODY)")
 
 (defvar pewcfg::keyword-normalize-function-format "pewcfg::normalize--%s"
   "The keyword normalize function format.
@@ -55,7 +54,7 @@ a list of forms.")
   "Pew configuration utility.
 This one is intended to be used for configuration entry instead of calling the
 helper macros directly.
-ARGS is a list of forms. See the registered helpers from `pewcfg::keywords'
+ARGS is a list of forms.  See the registered helpers from `pewcfg::keywords'
 for form definitions.
 Typical usage is as follow:
   (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
@@ -139,8 +138,7 @@ are set directly by `setq' or `setq-default' they might NOT work as expected.
 However, if we use `custom-set-variables' they would work but `custom-file'
 would produce a bunch of duplicated settings.  To address this issue, we can use
 `customize-set-variable'.  It calls those option setters if they have and also
-prevents writting settings from this file to the `custom-file'.
-"
+prevents writting settings from this file to the `custom-file'."
   (declare (indent 0))
   `((customize-set-variable ',variable ,value ,comment)))
 
@@ -204,7 +202,7 @@ BINDINGS is the same with `pewcfg::generate--:bind'.
 A map COMMAND-map and an interactive command COMMAND will be created.
 Once COMMAND is invoked COMMAND-map will be temporarily activated.
 See `set-transient-map'.
-NOTE: 'C-g' and 'C-h' is preserved and cannot be bound by user.
+NOTE: \\`C-g' and \\`C-h' is preserved and cannot be bound by user.
 NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
 extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
@@ -219,9 +217,9 @@ enabled and put the following code for the keymap.
         ,(format "Temporarily activate a transient map.
 Normally this is a one-shot invocation meaning the map exits once a key is
 pressed (no matter defined in the keymap or not).
-However, if a prefix ARG is given, this becomes a repeatable map until 'C-g'
+However, if a prefix ARG is given, this becomes a repeatable map until \\`C-g'
 is pressed.
-Alternatively 'C-h' can be used to transient to the repeat mode while the
+Alternatively \\`C-h' can be used to transient to the repeat mode while the
 transient map is active.
 Do not attempt to use C-h multiple times.
 The keymap is defined in `%s'." l:cmd-map)
@@ -292,7 +290,7 @@ See `set-face-attribute'."
 Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
   (PROP . VAL)
-PROP is the symbol of the property and VAL is the value to set with. "
+PROP is the symbol of the property and VAL is the value to set with."
   (declare (indent 1))
   `(,@(mapcar (lambda (prop)
                 `(put ',symbol ',(car prop) ,(cdr prop)))
