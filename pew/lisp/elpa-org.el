@@ -188,5 +188,23 @@ Otherwise the cursor is placed at the beginning of the heading."
   :ensure nil
   :after org)
 
+;;; Package: ox-hugo -- Export backend for Hugo
+(use-package ox-hugo
+  :defer t)
+
+;;; Package: ox-gfm -- Export backend for GitHub flavored Markdown
+(use-package ox-gfm
+  :defer t)
+
+;;; Package: org-bullets -- Nice headings
+(use-package org-bullets
+  :after org
+  :hook (org-mode . pew::org-bullets::oninit)
+
+  :config
+  (defun pew::org-bullets::oninit ()
+    "`org-bullets' initialization."
+    (org-bullets-mode 1)))
+
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
