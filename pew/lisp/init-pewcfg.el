@@ -99,12 +99,18 @@ Typical usage is as follow:
           (t
            (pewcfg::--until-next-keyword (cdr rest))))))
 
-(defun pewcfg::slice-keyword-segment (lst)
-  "Return a segment list of the list LST starting with a nearest keyword.
-The segment list starts with the nearest keyword from the head of LST and
-followed by the elements before the next keyword or the end of LST."
-  (let ((start (pewcfg::until-next-keyword lst)))
-    (butlast start (length (pewcfg::until-next-keyword (cdr start))))))
+(defun pewcfg::slice-keyword-segments (lst)
+  "Return a list of keyword segments.
+Each segment starts with the keyword and all the elements that follow it in the
+LST before the next keyword."
+  (let* ((start (pewcfg::until-next-keyword lst))
+         (next (pewcfg::until-next-keyword (cdr start)))
+         (result nil))
+    (while start
+      (push (butlast start (length next)) result)
+      (setq start next)
+      (setq next (pewcfg::until-next-keyword (cdr next))))
+    (nreverse result)))
 
 ;;; Helper functions
 (defun pewcfg::tokey (key)

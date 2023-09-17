@@ -74,17 +74,21 @@ NAME is used to identify the name of this comparison."
               nil
               (pewcfg::until-next-keyword '(1 2 3 4 5)))
 
-(expect-equal "Test slice-keyword-segment"
-              '(:a 4 5 6)
-              (pewcfg::slice-keyword-segment '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
+(expect-equal "Test slice-keyword-segments"
+              '((:a 4 5 6) (:b 7) (:c 8 9))
+              (pewcfg::slice-keyword-segments '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
 
-(expect-equal "Test slice-keyword-segment: Empty list"
+(expect-equal "Test slice-keyword-segments: Empty list"
               nil
-              (pewcfg::slice-keyword-segment nil))
+              (pewcfg::slice-keyword-segments nil))
 
-(expect-equal "Test slice-keyword-segment: Not a plist"
+(expect-equal "Test slice-keyword-segments: Not a plist"
               nil
-              (pewcfg::slice-keyword-segment '(1 2 3 4 5)))
+              (pewcfg::slice-keyword-segments '(1 2 3 4 5)))
+
+(expect-equal "Test slice-keyword-segments: Keyword at the end"
+              '((:a 4 5 6))
+              (pewcfg::slice-keyword-segments '(1 2 3 :a 4 5 6)))
 
 (expect-equal "Test tokey: From string"
               ""
