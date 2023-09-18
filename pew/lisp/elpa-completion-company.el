@@ -26,15 +26,13 @@
   (company-require-match nil)
   (company-search-filtering t)
 
-  :init
-  (pewcfg
-    :eval-after
-    ;; Don't use orderless in company completion
-    (orderless
-      (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-      (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
-        (let ((completion-styles pew::orderless::default-completion-styles))
-          (apply oldfunc args)))))
+  :config/eval-after
+  ;; Don't use orderless in company completion
+  (orderless
+   (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
+   (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
+     (let ((completion-styles pew::orderless::default-completion-styles))
+       (apply oldfunc args))))
 
   :config
   (global-company-mode 1)

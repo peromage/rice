@@ -14,9 +14,8 @@
   :config
   (doom-modeline-mode 1)
 
-  (pewcfg
-    :switch
-    (doom-modeline-unicode-fallback)))
+  :config/switch
+  (doom-modeline-unicode-fallback))
 
 ;;; Lazy loadeding for these packages
 (pewcfg::use-package-defer
