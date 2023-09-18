@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: lsp-pyright
-(use-package lsp-pyright
+(pewcfg::use-package lsp-pyright
   :hook (python-mode . pew::python-mode::oninit)
   :custom
   (lsp-pyright-python-executable-cmd "python3")

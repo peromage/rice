@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: company -- Completion frontend
-(use-package company
+(pewcfg::use-package company
   :demand t
   :bind (:map company-mode-map
          ([remap completion-at-point] . company-complete)

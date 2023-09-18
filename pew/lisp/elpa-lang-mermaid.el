@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: mermaid-mode
-(use-package mermaid-mode
+(pewcfg::use-package mermaid-mode
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
@@ -19,10 +19,10 @@
       (message "Installing mermaid-cli... done"))))
 
 ;;; Package: ob-mermaid -- org support
-(use-package ob-mermaid
+(pewcfg::use-package ob-mermaid
   :after org
   :config
-  (pew::use-package-maybe org
+  (pewcfg::use-package-depend org
     :config
     (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
     (pew::org::add-babel-load-languages '((mermaid . t)))))

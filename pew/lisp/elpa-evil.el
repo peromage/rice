@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: evil
-(use-package evil
+(pewcfg::use-package evil
   :demand t
 ;;;; Variable config
   :custom
@@ -239,7 +239,7 @@ This is an advanced method to determine initial state rather than using
   (evil-mode 1)) ;; End evil
 
 ;;; Package: evil-surround
-(use-package evil-surround
+(pewcfg::use-package evil-surround
   :after evil
   :config
   (global-evil-surround-mode 1))

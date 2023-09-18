@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: lua-mode
-(use-package lua-mode
+(pewcfg::use-package lua-mode
   :custom
   (lua-indent-level 4))
 

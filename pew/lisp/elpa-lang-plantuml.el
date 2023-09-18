@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: plantuml-mode
-(use-package plantuml-mode
+(pewcfg::use-package plantuml-mode
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
 
@@ -12,7 +12,7 @@
   (plantuml-default-exec-mode 'jar)
 
   :config
-  (pew::use-package-maybe org
+  (pewcfg::use-package-depend org
     :custom
     (org-plantuml-jar-path plantuml-jar-path)
     (org-plantuml-exec-mode plantuml-default-exec-mode)

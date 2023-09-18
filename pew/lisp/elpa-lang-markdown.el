@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: markdown-mode
-(use-package markdown-mode
+(pewcfg::use-package markdown-mode
   :hook (markdown-mode . pew::markdown-mode::oninit)
   :config
   (defun pew::markdown-mode::oninit ()

@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: vterm
-(use-package vterm
+(pewcfg::use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pew::terminal-mode-oninit)
@@ -28,7 +28,7 @@ users to specify the shell to start with."
       (vterm :new))))
 
 ;;; Package: treemacs
-(use-package treemacs
+(pewcfg::use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::oninit)
   :custom
@@ -40,30 +40,30 @@ users to specify the shell to start with."
     (display-line-numbers-mode -1)))
 
 ;;; Package: separedit
-(use-package separedit
+(pewcfg::use-package separedit
   :bind (:map pew::M-u-map
          ("'" . separedit-dwim)))
 
 ;;; Package: paredit -- Simplify S-expression editing
-(use-package paredit
+(pewcfg::use-package paredit
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
 ;;; Package: avy -- Jump among texts
-(use-package avy
+(pewcfg::use-package avy
   :bind (:map pew::M-u-map
          ("f" . avy-goto-char)
          ("j" . avy-goto-line)))
 
 ;;; Package: ace-window -- Jump between windows
-(use-package ace-window
+(pewcfg::use-package ace-window
   :bind (:map pew::M-u-map
          ("w" . ace-window)
          ("W" . ace-swap-window)))
 
 ;;; Lazy loadeding for these packages
-(pew::use-package-later
+(pewcfg::use-package-defer
   ;; Search
   rg
   ;; Focused view

@@ -4,7 +4,7 @@
 
 ;;; Package: org
 ;; Let `use-package' ensure the latest org package to be installed
-(use-package org
+(pewcfg::use-package org
   :hook ((org-mode . pew::org::oninit)
          (org-babel-after-execute . pew::org::refresh-images))
 
@@ -184,20 +184,20 @@ Otherwise the cursor is placed at the beginning of the heading."
                                  (append org-babel-load-languages alist)))) ;; End org
 
 ;;; Package: org-temp -- Built-in package
-(use-package org-tempo
+(pewcfg::use-package org-tempo
   :ensure nil
   :after org)
 
 ;;; Package: ox-hugo -- Export backend for Hugo
-(use-package ox-hugo
+(pewcfg::use-package ox-hugo
   :defer t)
 
 ;;; Package: ox-gfm -- Export backend for GitHub flavored Markdown
-(use-package ox-gfm
+(pewcfg::use-package ox-gfm
   :defer t)
 
 ;;; Package: org-bullets -- Nice headings
-(use-package org-bullets
+(pewcfg::use-package org-bullets
   :after org
   :hook (org-mode . pew::org-bullets::oninit)
 

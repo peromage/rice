@@ -77,6 +77,7 @@ Default to under `pew::home-dir'.")
   ;; Load init files
   ;; NOTE: The load sequence must be in this order
   (require 'pewcfg)
+  (require 'pewcfg-use-package)
   (require 'init-common)
   (require 'init-boot)
   (require 'init-defaults)

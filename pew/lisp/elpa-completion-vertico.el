@@ -4,7 +4,7 @@
 
 ;;; Package: vertico
 ;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
-(use-package vertico
+(pewcfg::use-package vertico
   :demand t
   :bind (:map vertico-map
          ("RET" . vertico-directory-enter)
@@ -35,7 +35,7 @@
   (vertico-multiform-mode 1))
 
 ;;; Package: consult -- Search and navigation commands
-(use-package consult
+(pewcfg::use-package consult
   :demand t
   :bind (("C-s" . consult-line)
          ("C-x b" . consult-buffer)
@@ -106,7 +106,7 @@ ARGS should be a string of arguments passed to ripgrep."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
 ;;; Package: marginalia -- Rich annotations in the minibuffer
-(use-package marginalia
+(pewcfg::use-package marginalia
   ;; :bind would cause lazy loading which is not we expect
   :demand t
   :after vertico
@@ -117,7 +117,7 @@ ARGS should be a string of arguments passed to ripgrep."
   (marginalia-mode 1))
 
 ;;; Package: orderless -- Completion matching
-(use-package orderless
+(pewcfg::use-package orderless
   :custom
   (completion-styles '(orderless partial-completion basic))
   (completion-category-overrides '((file (styles basic partial-completion))))
@@ -126,7 +126,7 @@ ARGS should be a string of arguments passed to ripgrep."
   (orderless-matching-styles '(orderless-literal orderless-regexp)))
 
 ;;; Package: embark -- Minibuffer actions and context menu
-(use-package embark
+(pewcfg::use-package embark
   :demand t
   :hook (embark-collect-mode . pew::embark::collect-oninit)
   :bind (([remap describe-bindings] . embark-bindings)
@@ -146,10 +146,10 @@ ARGS should be a string of arguments passed to ripgrep."
     (setq-local show-trailing-whitespace nil)))
 
 ;;; Consult and embark integration
-(use-package embark-consult
+(pewcfg::use-package embark-consult
   :after (consult embark))
 
-(use-package wgrep
+(pewcfg::use-package wgrep
   :after (consult embark))
 
 (provide 'elpa-completion-vertico)

@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: lsp-java
-(use-package lsp-java
+(pewcfg::use-package lsp-java
   :hook (java-mode . pew::java-mode::oninit)
   :config
   (defun pew::java-mode::oninit ()

@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: cc-mode
-(use-package cc-mode
+(pewcfg::use-package cc-mode
   :hook ((c-mode . pew::cc-mode::c-oninit)
          (c++-mode . pew::cc-mode::c++-oninit))
 

@@ -3,14 +3,15 @@
 ;;; Code:
 
 ;;; Lazy loading for these languages
-(pew::use-package-later
+(pewcfg::use-package-defer
   vimrc-mode
   yaml-mode
   json-mode
   fish-mode)
 
 ;;; Random packages
-(use-package cmake-mode :defer t
+(pewcfg::use-package cmake-mode
+  :defer t
   :custom
   cmake-tab-width 4)
 

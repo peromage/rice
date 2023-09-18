@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: magit -- Frontend
-(use-package magit
+(pewcfg::use-package magit
   :commands magit-status
   :bind (:map pew::M-u-map
          ("g" . magit-status)
@@ -14,7 +14,7 @@
   (magit-define-global-key-bindings nil))
 
 ;;; Package: git-gutter -- Margin status
-(use-package git-gutter
+(pewcfg::use-package git-gutter
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")

@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: doom-modeline
-(use-package doom-modeline
+(pewcfg::use-package doom-modeline
   :demand t
   :custom
   (doom-modeline-height 1)
@@ -19,7 +19,7 @@
     (doom-modeline-unicode-fallback)))
 
 ;;; Lazy loadeding for these packages
-(pew::use-package-later
+(pewcfg::use-package-defer
   ;; Colors schemes
   doom-themes
   spacemacs-theme

@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: lsp-mode
-(use-package lsp-mode
+(pewcfg::use-package lsp-mode
   :commands (lsp lsp-deferred)
   :custom
   (lsp-keymap-prefix "C-c l")
@@ -58,7 +58,7 @@ MODES is a list of major mode symbols."
            :server-id ',l:server-id)))))) ;; End lsp-mode
 
 ;;; Package: lsp-ui
-(use-package lsp-ui
+(pewcfg::use-package lsp-ui
   :commands lsp-ui-mode
   :hook (lsp-mode . pew::lsp-ui::oninit)
   :bind (:map lsp-ui-mode-map
@@ -106,7 +106,7 @@ MODES is a list of major mode symbols."
     (lsp-ui-doc-frame-mode -1))) ;; End lsp-ui
 
 ;;; Package: dap-mode
-(use-package dap-mode
+(pewcfg::use-package dap-mode
   :defer t
   :custom
   (dap-python-executable "python3"))

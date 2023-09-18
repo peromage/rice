@@ -4,7 +4,7 @@
 
 ;;; Package: counsel -- Contains ivy, counsel and swipper
 ;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
-(use-package counsel
+(pewcfg::use-package counsel
   :demand t
   :bind (("C-s" . swiper)
          ("C-x d" . counsel-dired)
@@ -33,7 +33,7 @@
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pew::special-buffer pew::hidden-buffer-list :in-list)))
 
 ;;; Package: ivy-rich -- Make Ivy show more information
-(use-package ivy-rich
+(pewcfg::use-package ivy-rich
   :requires ivy
   :custom
   (ivy-rich-path-style 'abbrev)
@@ -58,7 +58,7 @@
                            (ivy-rich-minibuffer-width 0.3))) :align left)))))
 
 ;;; Package: ivy-prescient -- Help sort candidates and also keep the most recent history on the top
-(use-package ivy-prescient
+(pewcfg::use-package ivy-prescient
   :requires ivy
   :custom
   (ivy-prescient-enable-filtering nil)
@@ -69,7 +69,7 @@
   (ivy-prescient-mode 1))
 
 ;;; Package: counsel-projectile -- Ivy projectile integration
-(use-package counsel-projectile
+(pewcfg::use-package counsel-projectile
   :after (ivy projectile)
   :custom
   (projectile-completion-system 'ivy)
@@ -78,12 +78,12 @@
   (counsel-projectile-mode 1))
 
 ;;; Package:lsp-ivy -- Ivy LSP integration
-(use-package lsp-ivy
+(pewcfg::use-package lsp-ivy
   :after (ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 
 ;;; Package: which-key -- Key prompt
-(use-package which-key
+(pewcfg::use-package which-key
   :custom
   (which-key-popup-type 'side-window)
   (which-key-show-early-on-C-h nil)

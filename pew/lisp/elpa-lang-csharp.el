@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: csharp-mode
-(use-package csharp-mode
+(pewcfg::use-package csharp-mode
   :hook (csharp-mode . pew::csharp-mode::oninit)
   :config
   (defun pew::csharp-mode::oninit ()

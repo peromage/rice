@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: powershell
-(use-package powershell
+(pewcfg::use-package powershell
   :hook (powershell-mode . pew::powershell-mode::oninit)
   :config
   (defun pew::powershell-mode::oninit ()
