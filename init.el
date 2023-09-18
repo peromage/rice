@@ -47,13 +47,12 @@ Default is under `pew::home-dir'.")
 
 ;; NOTE: The loading sequence is important
 (require 'pewcfg)
-(require 'pewcfg-use-package)
 (require 'init-common)
 (require 'init-boot)
 (require 'init-defaults)
 (require 'init-package)
 
-;; Load ELPA packages (managed by `use-package')
+;; Load ELPA packages
 (require 'elpa-ui)
 (require 'elpa-evil)
 (require 'elpa-completion)
