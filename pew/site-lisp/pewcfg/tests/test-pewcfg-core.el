@@ -1,8 +1,8 @@
-;;; test-pewcfg.el --- unit tests for pewcfg -*- lexical-binding: t; -*-
+;;; test-pewcfg-core.el --- unit tests for pewcfg -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
-(define-test-suite test-pewcfg
+(define-test-suite test-pewcfg-core
 ;;; Test utility functions
   (expect-equal "Test normalize-identity"
     'foo
@@ -249,5 +249,5 @@
     '((with-eval-after-load 'foo (bar a) (baz b)))
     (pewcfg::generate--:eval-after 'foo '(bar a) '(baz b))))
 
-(provide 'test-pewcfg)
-;;; test-pewcfg.el ends here
+(provide 'test-pewcfg-core)
+;;; test-pewcfg-core.el ends here

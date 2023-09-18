@@ -1,4 +1,4 @@
-;;; pewcfg.el --- pewcfg -*- lexical-binding: t; -*-
+;;; pewcfg-core.el --- pewcfg core components -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -328,5 +328,5 @@ MODE is a symbol of the mode."
   (declare (indent 1))
   `((with-eval-after-load ',feature ,@forms)))
 
-(provide 'pewcfg)
-;;; pewcfg.el ends here
+(provide 'pewcfg-core)
+;;; pewcfg-core.el ends here
