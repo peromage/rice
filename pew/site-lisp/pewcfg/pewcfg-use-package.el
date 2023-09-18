@@ -43,5 +43,19 @@ will be translated to:
                      seg)))
                (pewcfg::slice-keyword-segments args))))
 
+(defmacro pewcfg::use-package-defer (&rest pkgs)
+  "Defer loading a list of PKGS by using `use-package'."
+  (declare (indent 0))
+  (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) pkgs)))
+
+(defmacro pewcfg::use-package-depend (name &rest args)
+  "Declare a dependency relationship of the package NAME.
+This simply wrapps around `use-package' with ':ensure' to nil and ':defer' to t.
+Usually this is used in one `use-package' form's ':init' or ':config' block to
+declare dependent configurations in another package whenever that package is
+loaded."
+  (declare (indent 1))
+  `(use-package ,name :ensure nil :defer t ,@args))
+
 (provide 'pewcfg-use-package)
 ;;; pewcfg-use-package.el ends here

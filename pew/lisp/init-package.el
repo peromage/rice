@@ -31,23 +31,7 @@
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
   (require 'use-package)
-  (message "[pew] Loaded use-package")
-
-  (defmacro pew::use-package-maybe (name &rest args)
-    "Configure a package but defer loading and don't install automatically.
-This is equivalent to `use-package' but with ':ensure nil' and ':defer t' set.
-Useful when configuring builtin packages or other third party packages in
-a `use-package' form without hacking other's form."
-    (declare (indent 1))
-    `(use-package ,name :ensure nil :defer t ,@args))
-
-  (defmacro pew::use-package-later (&rest args)
-    "Declare using some packages but defer loading.
-This is equivalent to `use-package' but only with ':defer t' set.
-Useful for some less used packages.
-Note: parameters are package names."
-    (declare (indent 0))
-    (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) args))))
+  (message "[pew] Loaded use-package"))
 
 ;; Default `use-package' behaviors
 (setq use-package-always-ensure t)

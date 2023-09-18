@@ -39,7 +39,27 @@
                       (eee 321)
                       :init/custom
                       (foo 666)
-                      (bar 888)))))
+                      (bar 888))))
+
+  (expect-equal "Test use-package-defer: Normal expand"
+    '(progn (use-package foo :defer t)
+            (use-package bar :defer t)
+            (use-package baz :defer t))
+    (macroexpand-1 '(pewcfg::use-package-defer foo bar baz)))
+
+  (expect-equal "Test use-package-depend: Normal expand"
+    '(use-package foo
+       :ensure nil
+       :defer t
+       :custom
+       (aaa val)
+       :config
+       (blah))
+    (macroexpand-1 '(pewcfg::use-package-depend foo
+                      :custom
+                      (aaa val)
+                      :config
+                      (blah)))))
 
 (provide 'test-pewcfg-use-package)
 ;;; test-pewcfg-use-package.el ends here
