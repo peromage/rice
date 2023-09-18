@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; The list of keywords
-(defvar pewcfg::keywords '(:custom
+(defvar pewcfg::keywords '(:customize
                            :setq
                            :setq-default
                            :bind
@@ -28,7 +28,7 @@ where the FUNCTION should accept a form as its parameter.  The structure of the
 form can be found below.
 
 List of each keyword's form signature:
-  :custom       (VARIABLE VALUE [COMMENT])
+  :customize    (VARIABLE VALUE [COMMENT])
   :setq         (VARIABLE VALUE [COMMENT])
   :setq-default (VARIABLE VALUE [COMMENT])
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
@@ -120,10 +120,10 @@ Typical usage is as follow:
                            (pewcfg::apply-keyword (car seg) (cdr seg)))
                          (pewcfg::slice-keyword-segments args)))))
 
-;;; :custom
-(defalias 'pewcfg::normalize--:custom 'pewcfg::normalize-identity)
+;;; :customize
+(defalias 'pewcfg::normalize--:customize 'pewcfg::normalize-identity)
 
-(defun pewcfg::generate--:custom (variable value &optional comment)
+(defun pewcfg::generate--:customize (variable value &optional comment)
   "Set a VARIABLE that is either a custom or a regular one.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
