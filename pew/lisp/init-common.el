@@ -412,7 +412,7 @@ Existing content will be overwritten."
   (interactive)
   (find-file user-init-file))
 
-(defun pew::expand-macro (form &optional step noprint)
+(defmacro pew::expand-macro (form &optional step noprint)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
@@ -429,7 +429,7 @@ out in the message buffer."
                                              (_ "-all"))))
                            form)))
     (if noprint
-        l:result
+        `(quote ,l:result)
       (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
       t)))
 
