@@ -1,4 +1,7 @@
 ;;; common-test-defs.el --- test definitions -*- lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 

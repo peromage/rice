@@ -1,4 +1,7 @@
 ;;; pewcfg.el --- pewcfg main entry -*- lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 

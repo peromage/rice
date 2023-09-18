@@ -1,4 +1,7 @@
 ;;; test-pewcfg-core.el --- unit tests for pewcfg -*- lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 

@@ -1,4 +1,7 @@
 ;;; pewcfg-core.el --- pewcfg core components -*- lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 

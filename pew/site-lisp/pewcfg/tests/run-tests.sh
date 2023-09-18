@@ -1,5 +1,8 @@
 #!/usr/bin/env -S emacs --batch --script
 ;;; run-tests.sh --- unit tests entry -*- mode: emacs-lisp; lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 

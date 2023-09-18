@@ -1,4 +1,7 @@
 ;;; pewcfg-use-package.el --- pewcfg with use-package -*- lexical-binding: t; -*-
+
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
 ;;; Code:
 
