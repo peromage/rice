@@ -227,7 +227,8 @@ This is an advanced method to determine initial state rather than using
     '(("*" . pew::evil::visual-search-region-text)))
 
   ;; Elisp with leader
-  (with-eval-after-load 'elisp-mode
+  :config/eval-after
+  (elisp-mode
     (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
       ;; Quick eval
       '(("eb" . eval-buffer)
@@ -235,6 +236,7 @@ This is an advanced method to determine initial state rather than using
         ("ef" . eval-defun)
         ("ee" . eval-last-sexp))))
 
+  :config
 ;;;; Enable Evil
   (evil-mode 1)) ;; End evil
 
