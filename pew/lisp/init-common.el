@@ -3,76 +3,72 @@
 ;; This file should be loaded as early as possible.
 ;;; Code:
 
-;;; Start eval-and-compile
-(eval-and-compile
 ;;; Buffer definitions
-  (defvar pew::special-buffer-alist
-    '(;; VC
-      (magit . "^ *[Mm]agit")
-      (vc . "^ *\\*[Vv][Cc]-.*\\*$")
-      (ediff . "^ *\\*[Ee]diff.*\\*$")
-      ;; Interactive
-      (shell . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$")
-      (terminal . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$")
-      (scratch . "^ *\\*[Ss]cratch\\*$")
-      ;; Org mode
-      (org-starred . "^ *\\*[Oo]rg ")
-      (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
-      (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
-      ;; Edit mode
-      (edit-indirect . "^ *\\*edit-indirect .*\\*$")
-      ;; Man page
-      (man . "^ *\\*[Mm]an .*\\*$")
-      ;; Message and output
-      (help . "^ *\\*.*\\b[Hh]elp\\*$")
-      (message . "^ *\\*.*\\b[Mm]essages?\\*$")
-      (backtrace . "^ *\\*.*\\b[Bb]acktrace\\*$")
-      (warning . "^ *\\*.*\\b[Ww]arnings?\\*$")
-      (log . "^ *\\*.*\\b[Ll]og\\*$")
-      (compilation . "^ *\\*.*\\b[Cc]ompilation\\*$")
-      (output . "^ *\\*.*\\b[Oo]utput\\*$")
-      (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
-      ;; General
-      (starred . "^ *\\*.*\\*")
-      (non-starred . "^ *[^* ]"))
-    "An alist of special buffer pattern regex.")
+(defvar pew::special-buffer-alist
+  '(;; VC
+    (magit . "^ *[Mm]agit")
+    (vc . "^ *\\*[Vv][Cc]-.*\\*$")
+    (ediff . "^ *\\*[Ee]diff.*\\*$")
+    ;; Interactive
+    (shell . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$")
+    (terminal . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$")
+    (scratch . "^ *\\*[Ss]cratch\\*$")
+    ;; Org mode
+    (org-starred . "^ *\\*[Oo]rg ")
+    (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
+    (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
+    ;; Edit mode
+    (edit-indirect . "^ *\\*edit-indirect .*\\*$")
+    ;; Man page
+    (man . "^ *\\*[Mm]an .*\\*$")
+    ;; Message and output
+    (help . "^ *\\*.*\\b[Hh]elp\\*$")
+    (message . "^ *\\*.*\\b[Mm]essages?\\*$")
+    (backtrace . "^ *\\*.*\\b[Bb]acktrace\\*$")
+    (warning . "^ *\\*.*\\b[Ww]arnings?\\*$")
+    (log . "^ *\\*.*\\b[Ll]og\\*$")
+    (compilation . "^ *\\*.*\\b[Cc]ompilation\\*$")
+    (output . "^ *\\*.*\\b[Oo]utput\\*$")
+    (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
+    ;; General
+    (starred . "^ *\\*.*\\*")
+    (non-starred . "^ *[^* ]"))
+  "An alist of special buffer pattern regex.")
 
-  (defvar pew::hidden-buffer-list '(magit starred)
-    "Buffers that are hiddens for general purposes.")
+(defvar pew::hidden-buffer-list '(magit starred)
+  "Buffers that are hiddens for general purposes.")
 
-  (defun pew::special-buffer (key &optional in-list)
-    "Return the corresponding buffer pattern with given KEY.
+(defun pew::special-buffer (key &optional in-list)
+  "Return the corresponding buffer pattern with given KEY.
 Key is a symbol and should be one of the keys from `pew::special-buffer-alist'.
 Key can also be a list of symbols and the returned value will be a string
 concatenated with '\\|'.
 If IN-LIST is non-nil the returned value will be a list."
-    (declare (indent 0))
-    (let ((l:keys (if (listp key) key (list key)))
-          (l:func (lambda (k)
-                    (let (l:it)
-                      (unless (setq l:it (assq k pew::special-buffer-alist))
-                        (error "Invalid key: %S" k))
-                      (cdr l:it)))))
-      (if in-list
-          (mapcar l:func l:keys)
-        (mapconcat l:func l:keys "\\|"))))
+  (declare (indent 0))
+  (let ((l:keys (if (listp key) key (list key)))
+        (l:func (lambda (k)
+                  (let (l:it)
+                    (unless (setq l:it (assq k pew::special-buffer-alist))
+                      (error "Invalid key: %S" k))
+                    (cdr l:it)))))
+    (if in-list
+        (mapcar l:func l:keys)
+      (mapconcat l:func l:keys "\\|"))))
 
-  (defun pew::special-buffer-match-p (key name)
-    "Check if given buffer NAME matches buffers defined by KEY.
+(defun pew::special-buffer-match-p (key name)
+  "Check if given buffer NAME matches buffers defined by KEY.
 KEY is the same one with `pew::special-buffer'."
-    (string-match-p (pew::special-buffer key) name))
+  (string-match-p (pew::special-buffer key) name))
 
-  (defun pew::side-window-actions (side slot)
-    "Return a list of pre-configured side window actions.
+(defun pew::side-window-actions (side slot)
+  "Return a list of pre-configured side window actions.
 See `display-buffer' for property SIDE, SLOT."
-    `((display-buffer-reuse-window display-buffer-in-side-window)
-      (reusable-frames . t)
-      (inhibit-switch-frame . t)
-      (window-height . 0.25)
-      (side . ,side)
-      (slot . ,slot))))
-
-;;; End eval-and-compile
+  `((display-buffer-reuse-window display-buffer-in-side-window)
+    (reusable-frames . t)
+    (inhibit-switch-frame . t)
+    (window-height . 0.25)
+    (side . ,side)
+    (slot . ,slot)))
 
 ;;; Paths
 (defun pew::normalize-path (base &optional component follow)
