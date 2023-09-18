@@ -430,7 +430,7 @@ out in the message buffer."
                            form)))
     (if noprint
         `(quote ,l:result)
-      (message "--- Begin macro expansion ---\n%S\n--- End macro expansion ---" l:result)
+      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string l:result))
       t)))
 
 (defun pew::display-keycode (keycode)
