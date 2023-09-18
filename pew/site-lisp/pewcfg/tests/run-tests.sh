@@ -18,6 +18,9 @@
 ;;; Load required modules
 (require 'common-test-defs)
 (require 'pewcfg)
+(require 'pewcfg-use-package)
 (require 'test-pewcfg)
+(require 'test-pewcfg-use-package)
 
-(kill-emacs (execute-test-suites 'execute-suite-test-pewcfg))
+(kill-emacs (execute-test-suites 'execute-suite-test-pewcfg
+                                 'execute-suite-test-pewcfg-use-package))
