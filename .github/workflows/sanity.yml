@@ -1,4 +1,4 @@
-name: Emacs Config Sanity Check
+name: Sanity checks
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  emacs_config_sanity_check:
+  dot_emacs_d:
     strategy:
       fail-fast: false
       matrix:
@@ -28,14 +28,14 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Checkout
+      - name: Checkout pew
         uses: actions/checkout@v3
 
-      - name: Sanity - Startup with package installation
+      - name: Test - Startup with package installation
         run: ./pew/tests/test-startup.sh $(pwd)
 
-      - name: Sanity - Normal startup
+      - name: Test - Normal startup
         run: ./pew/tests/test-startup.sh $(pwd)
 
-      - name: Sanity - pewcfg unittests
-        run: ./pew/tests/test-pewcfg.sh $(pwd)
+      - name: Test - pewcfg unittests
+        run: ./pew/site-lisp/pewcfg/tests/run-tests.sh $(pwd)
