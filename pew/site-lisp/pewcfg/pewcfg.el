@@ -145,6 +145,7 @@ prevents writting settings from this file to the `custom-file'."
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is not used, which is for compatibility only."
+  (declare (indent 0))
   `((setq ,variable ,value)))
 
 ;;; :setq-default
@@ -155,6 +156,7 @@ COMMENT is not used, which is for compatibility only."
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is not used, which is for compatibility only."
+  (declare (indent 0))
   `((setq-default ,variable ,value)))
 
 ;;; :bind
