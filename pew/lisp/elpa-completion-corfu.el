@@ -1,6 +1,8 @@
 ;;; elpa-completion-corfu.el --- corfu and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Minimalistic completion framework
+
+;; Minimalistic completion framework.
+
 ;;; Code:
 
 ;;; Package: corfu -- Completion frontend

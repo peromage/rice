@@ -1,10 +1,14 @@
 ;;; symlink-manager-mode.el --- Symlink Manager Mode -*- lexical-binding: t; -*-
 
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
+
 ;; The major mode that creates/deletes symlinks defined in the current buffer
 ;; content.
 
 ;;; Code:
+
 (defun sm-create-link (target ask)
   "Create a link of TARGET to the current directory.
 If ASK is a non-nil the link will be force overridden or prompted for

@@ -1,9 +1,13 @@
 ;;; long-log-mode.el --- Long log mode -*- lexical-binding: t; -*-
 
+;; Author:  Fang Deng <fang@elfang.com>
+
 ;;; Commentary:
+
 ;; This major mode is based on `so-long-mode' with some additional tweaks.
 
 ;;; Code:
+
 (require 'so-long)
 
 (define-derived-mode long-log-mode so-long-mode "LongLog"

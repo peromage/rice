@@ -1,9 +1,11 @@
 ;;; elpa-completion-vertico.el --- vertico and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; Recommended package bundles are from: https://github.com/minad/vertico#complementary-packages
+
 ;;; Code:
 
 ;;; Package: vertico
-;; Package bundle recommended in: https://github.com/minad/vertico#complementary-packages
 (pewcfg::use-package vertico
   :demand t
   :bind (:map vertico-map

@@ -1,6 +1,8 @@
 ;;; init-common.el --- common library -*- lexical-binding: t; -*-
 ;;; Commentary:
+
 ;; This file should be loaded as early as possible.
+
 ;;; Code:
 
 ;;; Buffer definitions

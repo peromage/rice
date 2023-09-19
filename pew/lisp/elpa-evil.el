@@ -1,9 +1,17 @@
 ;;; elpa-evil.el --- evil and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
 
-;; NOTE: There is a bug while configuring with `use-package', which causes
-;; certain variables not being set.  To make a temporary workaround, enable
-;; `use-package' in `enable-theme' and then invoke `custom-theme-save'.
+;; NOTE: There is a bug where certain custom settings from `use-package' is
+;; not effective.
+;;
+;; One way is to add `use-package' into the `custom-enabled-themes' list and
+;; make it persistent across sessions, but it may be accidentally disabled.
+;;
+;; The other way is to add following code at the end of startup.
+;;
+;; (let ((theme 'use-package))
+;;   (enable-theme theme)
+;;   (setq custom-enabled-themes (remq theme custom-enabled-themes)))
 
 ;;; Code:
 

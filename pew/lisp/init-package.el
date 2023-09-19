@@ -1,6 +1,8 @@
 ;;; init-package.el --- package management -*- lexical-binding: t; -*-
 ;;; Commentary:
+
 ;; This ELPA initialization configuration should be loaded as early as possible.
+
 ;;; Code:
 
 ;;; Builtin package manager

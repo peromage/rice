@@ -1,6 +1,8 @@
 ;;; init-defaults.el --- built-in config -*- lexical-binding: t; -*-
 ;;; Commentary:
+
 ;; Set Emacs built-ins with my own flavor.
+
 ;;; Code:
 
 (pewcfg

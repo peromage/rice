@@ -1,9 +1,12 @@
 ;;; elpa-completion-ivy.el --- ivy and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; NOTE: The `counsel' contains ivy, counsel and swipper.
+;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
+
 ;;; Code:
 
-;;; Package: counsel -- Contains ivy, counsel and swipper
-;; See: https://oremacs.com/swiper/#installing-from-emacs-package-manager
+;;; Package: counsel
 (pewcfg::use-package counsel
   :demand t
   :bind (("C-s" . swiper)

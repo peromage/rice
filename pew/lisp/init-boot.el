@@ -1,6 +1,8 @@
 ;;; init-boot.el --- early initialization -*- lexical-binding: t; -*-
 ;;; Commentary:
+
 ;; This file should be required at the beginning of the entire initialization.
+
 ;;; Code:
 
 ;;; Performance optimization
