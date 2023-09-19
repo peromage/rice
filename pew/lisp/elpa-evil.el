@@ -1,5 +1,10 @@
 ;;; elpa-evil.el --- evil and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; NOTE: There is a bug while configuring with `use-package', which causes
+;; certain variables not being set.  To make a temporary workaround, enable
+;; `use-package' in `enable-theme' and then invoke `custom-theme-save'.
+
 ;;; Code:
 
 ;;; Package: evil
