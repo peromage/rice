@@ -5,6 +5,16 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; Test dummy handlers
+(add-to-list 'pewcfg::keywords :unittest)
+
+(defun pewcfg::normalize--:unittest (forms)
+  forms)
+
+(defun pewcfg::generate--:unittest (&rest args)
+  (list args))
+
+;;; Test suite
 (define-test-suite test-pewcfg-use-package
   (expect-equal "Test translate-pewcfg-keyword: None matching 1"
     nil
@@ -26,21 +36,21 @@
        (bbb)
        (ccc)
        :config
-       (progn (setq ddd 123)
-              (setq eee 321))
+       (progn (ddd 123)
+              (eee 321))
        :init
-       (progn (customize-set-variable 'foo 666 nil)
-              (customize-set-variable 'bar 888 nil)))
+       (progn (foo 666)
+              (bar 888)))
     (macroexpand-1 '(pewcfg::use-package emacs
                       :custom
                       (aaa val)
                       :config
                       (bbb)
                       (ccc)
-                      :config/setq
+                      :config/unittest
                       (ddd 123)
                       (eee 321)
-                      :init/custom
+                      :init/unittest
                       (foo 666)
                       (bar 888))))
 
