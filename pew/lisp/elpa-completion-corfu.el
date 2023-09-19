@@ -69,7 +69,6 @@
 
 ;;; Package: cape -- Completion backend
 (pewcfg::use-package cape
-  :demand t
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::elisp-oninit)
          (emacs-lisp-mode . pew::cape::elisp-oninit)

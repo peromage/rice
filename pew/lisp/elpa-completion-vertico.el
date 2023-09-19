@@ -109,9 +109,7 @@ ARGS should be a string of arguments passed to ripgrep."
 
 ;;; Package: marginalia -- Rich annotations in the minibuffer
 (pewcfg::use-package marginalia
-  ;; :bind would cause lazy loading which is not we expect
-  :demand t
-  :after vertico
+  :demand t ;; :bind would cause lazy loading which is not we expect
   :bind (:map vertico-map
          ("M-q m" . marginalia-cycle))
 
@@ -129,7 +127,6 @@ ARGS should be a string of arguments passed to ripgrep."
 
 ;;; Package: embark -- Minibuffer actions and context menu
 (pewcfg::use-package embark
-  :demand t
   :hook (embark-collect-mode . pew::embark::collect-oninit)
   :bind (([remap describe-bindings] . embark-bindings)
          :map pew::M-u-map

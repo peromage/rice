@@ -5,6 +5,7 @@
 ;;; Package: org
 ;; Let `use-package' ensure the latest org package to be installed
 (pewcfg::use-package org
+  :commands org-mode
   :hook ((org-mode . pew::org::oninit)
          (org-babel-after-execute . pew::org::refresh-images))
 
