@@ -76,6 +76,7 @@ Default is under `pew::home-dir'.")
 (require 'elpa-lang-python)
 (require 'elpa-lang-plantuml)
 (require 'elpa-lang-mermaid)
+(require 'elpa-lang-graphviz)
 
 ;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)
