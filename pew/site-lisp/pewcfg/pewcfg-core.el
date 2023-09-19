@@ -29,8 +29,8 @@ form can be found below.
 
 List of each keyword's form signature:
   :customize    (VARIABLE VALUE [COMMENT])
-  :setq         (VARIABLE VALUE [COMMENT])
-  :setq-default (VARIABLE VALUE [COMMENT])
+  :setq         (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
+  :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
   :map          (KEYMAP [(KEY . DEFINITION) ...])
   :transient    (COMMAND [(KEY . DEFINITION) ...])
@@ -44,25 +44,29 @@ List of each keyword's form signature:
 
 (defvar pewcfg::keyword-normalize-function-format "pewcfg::normalize--%s"
   "The keyword normalize function format.
-A normalize functions should take a form and return a list that can be applied
-to a keyword handle function by `apply'.")
+A normalize functions should take a list of forms and make each of them in a
+format that can be applied to the generate function by `apply'.")
 
 (defvar pewcfg::keyword-generate-function-format "pewcfg::generate--%s"
   "The keyword generate function format.
 Each generate function can have different signatures but it should always return
 a list of forms.")
 
-;;; Normalization functions
+;;; Form normalization functions
 (defun pewcfg::normalize-identity (form)
-  "Like `identity'."
+  "Return FORM unchanged like `identity'."
   form)
 
 (defun pewcfg::normalize-pair (form)
-  "Convert a pair (cons) to a list."
+  "Assume that FORM is a cons cell and convert it to a list."
   (list (car form) (cdr form)))
 
+(defun pewcfg::normalize-first-two (form)
+  "Assume that FORM is a list with at least two elements and convert it to a list."
+  (list (car form) (cadr form)))
+
 (defun pewcfg::normalize-single (form)
-  "Put a form in a list."
+  "Wrap a FORM in a list."
   (list form))
 
 ;;; List manipulation functions
@@ -77,9 +81,9 @@ a list of forms.")
            (pewcfg::--until-next-keyword (cdr rest))))))
 
 (defun pewcfg::slice-keyword-segments (lst)
-  "Return a list of keyword segments.
-Each segment starts with the keyword and all the elements that follow it in the
-LST before the next keyword."
+  "Return an alist of keyword segments.
+Each cons of the returned alist has the keyword as its car and a list of
+elements before the next keyword as its cdr."
   (let* ((start (pewcfg::until-next-keyword lst))
          (next (pewcfg::until-next-keyword (cdr start)))
          (result nil))
@@ -97,13 +101,18 @@ is a vector then does nothing."
   (if (stringp key) (kbd key) key))
 
 ;;; Application functions
-(defun pewcfg::apply-keyword (keyword &optional forms)
-  "Apply FORMS with KEYWORD's handle function.
-The result of this function is a list of unevaluated forms."
-  (mapcan (lambda (form) (apply (intern (format pewcfg::keyword-generate-function-format keyword))
-                                (funcall (intern (format pewcfg::keyword-normalize-function-format keyword))
-                                         form)))
-          forms))
+(defun pewcfg::apply-keyword (keyword &rest forms)
+  "Apply FORMS with KEYWORD's handler functions.
+The FORMS will be processed by the corresponded normalize function first and
+then each element of the results will be expanded as the generate function's
+input.
+The results of this function is a list of unevaluated forms."
+  (if (memq keyword pewcfg::keywords)
+      (let ((l:gfunc (intern-soft (format pewcfg::keyword-generate-function-format keyword)))
+            (l:nfunc (intern-soft (format pewcfg::keyword-normalize-function-format keyword))))
+        (mapcan (lambda (form) (apply l:gfunc form))
+                (funcall l:nfunc forms)))
+    (error "Invalid keyword %S" keyword)))
 
 ;;; Main entry
 (defmacro pewcfg (&rest args)
@@ -114,14 +123,16 @@ for form definitions.
 Typical usage is as follow:
   (pewcfg :KEYWORD FORMS :KEYWORD FORMS ...)"
   (declare (indent 0))
-  (if (not (keywordp (car args)))
-      (error "Not start with a keyword")
-    (cons 'progn (mapcan (lambda (seg)
-                           (pewcfg::apply-keyword (car seg) (cdr seg)))
-                         (pewcfg::slice-keyword-segments args)))))
+  (if (keywordp (car args))
+      (cons 'progn (mapcan (lambda (seg)
+                             (apply #'pewcfg::apply-keyword seg))
+                           (pewcfg::slice-keyword-segments args)))
+    (error "Not start with a keyword")))
 
 ;;; :customize
-(defalias 'pewcfg::normalize--:customize 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:customize (forms)
+  "Normalize function for ':customize'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:customize (variable value &optional comment)
   "Set a VARIABLE that is either a custom or a regular one.
@@ -141,29 +152,35 @@ prevents writting settings from this file to the `custom-file'."
   `((customize-set-variable ',variable ,value ,comment)))
 
 ;;; :setq
-(defalias 'pewcfg::normalize--:setq 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:setq (forms)
+  "Normalize function for ':setq'."
+  (list (mapcan #'pewcfg::normalize-first-two forms)))
 
-(defun pewcfg::generate--:setq (variable value &optional comment)
+(defun pewcfg::generate--:setq (variable value &rest pairs)
   "Simple wrapper of `setq'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
-COMMENT is not used, which is for compatibility only."
+PAIRS is the rest of the var-val pairs"
   (declare (indent 0))
-  `((setq ,variable ,value)))
+  `((setq ,variable ,value ,@pairs)))
 
 ;;; :setq-default
-(defalias 'pewcfg::normalize--:setq-default 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:setq-default (forms)
+  "Normalize function for ':setq-default'."
+  (list (mapcan #'pewcfg::normalize-first-two forms)))
 
-(defun pewcfg::generate--:setq-default (variable value &optional comment)
+(defun pewcfg::generate--:setq-default (variable value &rest pairs)
   "Simple wrapper of `setq-default'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
-COMMENT is not used, which is for compatibility only."
+PAIRS is the rest of the var-val pairs"
   (declare (indent 0))
-  `((setq-default ,variable ,value)))
+  `((setq-default ,variable ,value ,@pairs)))
 
 ;;; :bind
-(defalias 'pewcfg::normalize--:bind 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:bind (forms)
+  "Normalize function for ':bind'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:bind (keymap &rest bindings)
   "Bind keys in an existing KEYMAP.
@@ -180,7 +197,9 @@ keybindings in a existing map instead."
     ,keymap))
 
 ;;; :map
-(defalias 'pewcfg::normalize--:map 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:map (forms)
+  "Normalize function for ':map'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:map (keymap &rest bindings)
   "Create a new KEYMAP and bind keys in it.
@@ -193,7 +212,9 @@ effective if the map already exists."
     ,@(apply 'pewcfg::generate--:bind keymap bindings)))
 
 ;;; :transient
-(defalias 'pewcfg::normalize--:transient 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:transient (forms)
+  "Normalize function for ':transient'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:transient (command &rest bindings)
   "Create an interactive COMMAND that enters transient mode when invoked.
@@ -238,7 +259,9 @@ The keymap is defined in `%s'." l:cmd-map)
                (set-transient-map ,l:cmd-map nil)))))))
 
 ;;; :switch
-(defalias 'pewcfg::normalize--:switch 'pewcfg::normalize-pair)
+(defun pewcfg::normalize--:switch (forms)
+  "Normalize function for ':switch'."
+  (mapcar #'pewcfg::normalize-pair forms))
 
 (defun pewcfg::generate--:switch (variable &optional values)
   "Create an interactive command to switch variable from a list of values.
@@ -267,7 +290,9 @@ The values are read from the list `%s'." variable l:switch-symbol)
         (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face
-(defalias 'pewcfg::normalize--:face 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:face (forms)
+  "Normalize function for ':face'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:face (face &rest args)
   "Set FACE attributes.
@@ -283,7 +308,9 @@ See `set-face-attribute'."
                                   args))))
 
 ;;; :property
-(defalias 'pewcfg::normalize--:property 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:property (forms)
+  "Normalize function for ':property'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:property (symbol &rest properties)
   "Set SYMBOL's PROPERTIES.
@@ -297,7 +324,9 @@ PROP is the symbol of the property and VAL is the value to set with."
               properties)))
 
 ;;; :hook
-(defalias 'pewcfg::normalize--:hook 'pewcfg::normalize-pair)
+(defun pewcfg::normalize--:hook (forms)
+  "Normalize function for ':hook'."
+  (mapcar #'pewcfg::normalize-pair forms))
 
 (defun pewcfg::generate--:hook (name function)
   "Set a FUNCTION to a hook NAME.
@@ -306,7 +335,9 @@ NOTE: NAME does not imply suffix '-hook'."
   `((add-hook ',name #',function)))
 
 ;;; :automode
-(defalias 'pewcfg::normalize--:automode 'pewcfg::normalize-pair)
+(defun pewcfg::normalize--:automode (forms)
+  "Normalize function for ':automode'."
+  (mapcar #'pewcfg::normalize-pair forms))
 
 (defun pewcfg::generate--:automode (matcher mode)
   "Set `auto-mode-alist'.
@@ -316,7 +347,9 @@ MODE is a symbol of the mode."
   `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
 
 ;;; :eval
-(defalias 'pewcfg::normalize--:eval 'pewcfg::normalize-single)
+(defun pewcfg::normalize--:eval (forms)
+  "Normalize function for ':eval'."
+  (mapcar #'pewcfg::normalize-single forms))
 
 (defun pewcfg::generate--:eval (form)
   "Simply return the FORM."
@@ -324,7 +357,9 @@ MODE is a symbol of the mode."
   `(,form))
 
 ;;; :eval-after
-(defalias 'pewcfg::normalize--:eval-after 'pewcfg::normalize-identity)
+(defun pewcfg::normalize--:eval-after (forms)
+  "Normalize function for ':eval-after'."
+  (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:eval-after (feature &rest forms)
   "Evaluate FORMS after a FEATURE is loaded."
