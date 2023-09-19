@@ -159,7 +159,8 @@ Typical usage is as follow:
 (defun pewcfg::normalize--:custom (forms)
   "Normalize function for ':custom'."
   (list (mapcar (lambda (form)
-                  `'(,(elt form 0) ,(elt form 1) nil nil ,(elt form 2)))
+                  `'(,(elt form 0) ,(elt form 1) nil nil ,(let ((comment (elt form 2)))
+                                                            (if comment comment "Set by pewcfg:custom"))))
                 forms)))
 
 (defun pewcfg::generate--:custom (&rest args)
@@ -179,7 +180,7 @@ VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is the optional commentary shown in the `customize' interface."
   (declare (indent 0))
-  `((customize-set-variable ',variable ,value ,comment)))
+  `((customize-set-variable ',variable ,value ,(if comment comment "Set by pewcfg:customize"))))
 
 ;;; :setq
 (defun pewcfg::normalize--:setq (forms)
