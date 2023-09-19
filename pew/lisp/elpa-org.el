@@ -40,7 +40,7 @@
 ;;;; Editing
   (org-return-follows-link nil)
   (org-insert-heading-respect-content t)
-  (org-catch-invisible-edits 'smart)
+  (org-fold-catch-invisible-edits 'smart)
   (org-ctrl-k-protect-subtree t)
   (org-yank-adjusted-subtrees t)
   (org-use-fast-tag-selection nil) ;; Always use list selection
