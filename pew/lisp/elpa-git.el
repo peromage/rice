@@ -26,18 +26,14 @@
   (git-gutter:hide-gutter nil)
   (git-gutter:verbosity 0)
 
-  :config
-  (set-face-foreground 'git-gutter:modified "yellow")
-  (set-face-foreground 'git-gutter:added "green")
-  (set-face-foreground 'git-gutter:deleted "red")
-  (set-face-foreground 'git-gutter:unchanged "unspecified")
-  (set-face-foreground 'git-gutter:separator "unspecified")
-  (set-face-background 'git-gutter:modified "unspecified")
-  (set-face-background 'git-gutter:added "unspecified")
-  (set-face-background 'git-gutter:deleted "unspecified")
-  (set-face-background 'git-gutter:unchanged "unspecified")
-  (set-face-background 'git-gutter:separator "unspecified")
+  :config/face
+  (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
+  (git-gutter:added      :foreground  "green"        :background  "unspecified")
+  (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
+  (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
+  (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")
 
+  :config
   (global-git-gutter-mode 1))
 
 (provide 'elpa-git)
