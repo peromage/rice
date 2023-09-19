@@ -4,6 +4,7 @@
 
 ;;; Package: lua-mode
 (pewcfg::use-package lua-mode
+  :defer t
   :custom
   (lua-indent-level 4))
 

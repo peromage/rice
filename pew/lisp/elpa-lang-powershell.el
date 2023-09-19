@@ -4,6 +4,7 @@
 
 ;;; Package: powershell
 (pewcfg::use-package powershell
+  :defer t
   :hook (powershell-mode . pew::powershell-mode::oninit)
   :config
   (defun pew::powershell-mode::oninit ()

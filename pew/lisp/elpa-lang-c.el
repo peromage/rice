@@ -4,6 +4,7 @@
 
 ;;; Package: cc-mode
 (pewcfg::use-package cc-mode
+  :defer t
   :hook ((c-mode . pew::cc-mode::c-oninit)
          (c++-mode . pew::cc-mode::c++-oninit))
 

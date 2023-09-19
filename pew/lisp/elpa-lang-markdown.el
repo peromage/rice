@@ -4,6 +4,7 @@
 
 ;;; Package: markdown-mode
 (pewcfg::use-package markdown-mode
+  :defer t
   :hook (markdown-mode . pew::markdown-mode::oninit)
   :config
   (defun pew::markdown-mode::oninit ()

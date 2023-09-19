@@ -149,10 +149,10 @@ ARGS should be a string of arguments passed to ripgrep."
 
 ;;; Consult and embark integration
 (pewcfg::use-package embark-consult
-  :after (consult embark))
+  :after (:all consult embark))
 
 (pewcfg::use-package wgrep
-  :after (consult embark))
+  :after (:all consult embark))
 
 (provide 'elpa-completion-vertico)
 ;;; elpa-completion-vertico.el ends here

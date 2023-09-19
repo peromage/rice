@@ -4,6 +4,7 @@
 
 ;;; Package: lsp-pyright
 (pewcfg::use-package lsp-pyright
+  :defer t
   :hook (python-mode . pew::python-mode::oninit)
   :custom
   (lsp-pyright-python-executable-cmd "python3")

@@ -4,6 +4,7 @@
 
 ;;; Package: plantuml-mode
 (pewcfg::use-package plantuml-mode
+  :defer t
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
 

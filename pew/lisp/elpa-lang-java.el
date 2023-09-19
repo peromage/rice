@@ -4,6 +4,7 @@
 
 ;;; Package: lsp-java
 (pewcfg::use-package lsp-java
+  :defer t
   :hook (java-mode . pew::java-mode::oninit)
   :config
   (defun pew::java-mode::oninit ()

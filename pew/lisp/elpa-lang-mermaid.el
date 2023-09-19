@@ -4,6 +4,7 @@
 
 ;;; Package: mermaid-mode
 (pewcfg::use-package mermaid-mode
+  :defer t
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
@@ -20,7 +21,7 @@
 
 ;;; Package: ob-mermaid -- org support
 (pewcfg::use-package ob-mermaid
-  :after org
+  :after (:all org mermaid-mode)
   :config
   (pewcfg::use-package-depend org
     :config

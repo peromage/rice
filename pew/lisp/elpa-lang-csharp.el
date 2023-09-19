@@ -4,6 +4,7 @@
 
 ;;; Package: csharp-mode
 (pewcfg::use-package csharp-mode
+  :defer t
   :hook (csharp-mode . pew::csharp-mode::oninit)
   :config
   (defun pew::csharp-mode::oninit ()
