@@ -64,15 +64,21 @@ return a string that contains either ':test-passed' or ':test-failed' from
                l:failed-count)
       l:failed-count)))
 
+(defun try-take (n lst)
+  "Same with `take' for Emacs 28."
+  (if (> n (length lst))
+      lst
+    (butlast lst (- (length lst) n))))
+
 (defun trim-form (form)
   "Simplify a form to make test easier."
   (cond
    ((eq 'defun (car form))
-    (take 3 form))
+    (try-take 3 form))
    ((eq 'defvar (car form))
-    (take 3 form))
+    (try-take 3 form))
    ((eq 'lambda (car form))
-    (take 2 form))
+    (try-take 2 form))
    (t form)))
 
 (defun trim-form-recursively (forms)
