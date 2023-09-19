@@ -170,8 +170,8 @@ Otherwise the cursor is placed at the beginning of the heading."
 
   :config/setq
   (org-babel-default-header-args '((:session . "none")
-                                   (:results . "output raw replace")
-                                   (:wrap . "example")
+                                   (:results . "output replace")
+                                   ;; (:wrap . "example") ;; Might be problematic for pictures
                                    (:exports . "code")
                                    (:cache . "no")
                                    (:noweb . "yes")
