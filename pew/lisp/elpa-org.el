@@ -72,21 +72,6 @@
   (org-babel-load-languages '((emacs-lisp . t)
                               (shell . t)))
   (org-confirm-babel-evaluate nil)
-  (org-babel-default-header-args '((:session . "none")
-                                   (:results . "output raw replace")
-                                   (:wrap . "example")
-                                   (:exports . "code")
-                                   (:cache . "no")
-                                   (:noweb . "yes")
-                                   (:hlines . "no")
-                                   (:tangle . "no")))
-  (org-babel-default-inline-header-args '((:session . "none")
-                                          (:results . "output replace")
-                                          (:exports . "results")
-                                          (:cache . "no")
-                                          (:noweb . "yes")
-                                          (:hlines . "no")
-                                          (:tangle . "no")))
 
 ;;;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window
@@ -181,7 +166,24 @@ Otherwise the cursor is placed at the beginning of the heading."
     "Add languages defined in ALIST to `org-babel-load-languages'.
 `org-babel-do-load-languages' will be called underneath."
     (org-babel-do-load-languages 'org-babel-load-languages
-                                 (append org-babel-load-languages alist)))) ;; End org
+                                 (append org-babel-load-languages alist)))
+
+  :config/setq
+  (org-babel-default-header-args '((:session . "none")
+                                   (:results . "output raw replace")
+                                   (:wrap . "example")
+                                   (:exports . "code")
+                                   (:cache . "no")
+                                   (:noweb . "yes")
+                                   (:hlines . "no")
+                                   (:tangle . "no")))
+  (org-babel-default-inline-header-args '((:session . "none")
+                                          (:results . "output replace")
+                                          (:exports . "results")
+                                          (:cache . "no")
+                                          (:noweb . "yes")
+                                          (:hlines . "no")
+                                          (:tangle . "no")))) ;; End org
 
 ;;; Package: org-temp -- Built-in package
 (pewcfg::use-package org-tempo
