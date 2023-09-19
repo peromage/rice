@@ -5,7 +5,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Test dummy handler
+;;; Test dummies
 (add-to-list 'pewcfg::keywords :unittest)
 
 (defun pewcfg::normalize--:unittest (forms)
@@ -13,6 +13,8 @@
 
 (defun pewcfg::generate--:unittest (&rest args)
   (list args))
+
+(defcustom unittest-var nil "Dummy variable for testing.")
 
 ;;; Test suite
 (define-test-suite test-pewcfg-core
@@ -69,6 +71,25 @@
     [tab]
     (pewcfg::tokey [tab]))
 
+;;; Test custom theme
+  (expect-equal "Test enable-custom-theme: Value set"
+    '(foo bar foo bar)
+    (progn
+      ;; Enable to make the custom theme appear in the `custom-enabled-themes'
+      (enable-theme pewcfg::custom-theme)
+      (disable-theme pewcfg::custom-theme)
+      (setq unittest-var 'foo)
+      (let ((l:test-result (list unittest-var)))                               ;; foo
+        (custom-theme-set-variables pewcfg::custom-theme '(unittest-var 'bar))
+        (pewcfg::enable-custom-theme)
+        (push unittest-var l:test-result)                                      ;; bar
+        (enable-theme pewcfg::custom-theme)
+        (disable-theme pewcfg::custom-theme)
+        (push unittest-var l:test-result)                                      ;; foo
+        (pewcfg::enable-custom-theme)
+        (push unittest-var l:test-result)                                      ;; bar
+        (nreverse l:test-result))))
+
 ;;; Test keyword application
   (expect-equal "Test apply-keyword: Happy path"
     '((foo foovalue)
@@ -102,6 +123,21 @@
     (condition-case e
         (macroexpand '(pewcfg))
       (error e)))
+
+;;; Test :custom
+  (expect-equal "Test :custom: Normalize"
+    '(('(foo foovalue nil nil "foodoc")
+       '(bar barvalue nil nil nil)))
+    (pewcfg::normalize--:custom '((foo foovalue "foodoc")
+                                  (bar barvalue))))
+
+  (expect-equal "Test :custom: Generate"
+    `((custom-theme-set-variables
+       ',pewcfg::custom-theme
+       '(foo foovalue nil nil "foodoc")
+       '(bar barvalue nil nil nil)))
+    (pewcfg::generate--:custom `'(foo foovalue nil nil "foodoc")
+                               `'(bar barvalue nil nil nil)))
 
 ;;; Test :customize
   (expect-equal "Test :customize: Normalize"

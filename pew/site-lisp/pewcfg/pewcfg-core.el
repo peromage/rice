@@ -5,8 +5,9 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; The list of keywords
-(defvar pewcfg::keywords '(:customize
+;;; Variable definitions
+(defvar pewcfg::keywords '(:custom
+                           :customize
                            :setq
                            :setq-default
                            :bind
@@ -28,6 +29,7 @@ where the FUNCTION should accept a form as its parameter.  The structure of the
 form can be found below.
 
 List of each keyword's form signature:
+  :custom       (VARIABLE VALUE [COMMENT])
   :customize    (VARIABLE VALUE [COMMENT])
   :setq         (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
@@ -51,6 +53,23 @@ format that can be applied to the generate function by `apply'.")
   "The keyword generate function format.
 Each generate function can have different signatures but it should always return
 a list of forms.")
+
+;;; Synthetic theme for custom
+(defvar pewcfg::custom-theme 'pewcfg
+  "The custom theme symbol used by ':custom'.")
+
+(defun pewcfg::enable-custom-theme ()
+  "Declare a synthetic theme for custom variables.
+Necessary in order to avoid having those variables saved by custom.el.
+After enabling, remove the synthetic theme from the enabled themes, so iterating
+over them to disable-all-themes won't disable it."
+  (interactive)
+  (unless (memq pewcfg::custom-theme custom-known-themes)
+    (eval `(deftheme ,pewcfg::custom-theme)))
+  (enable-theme pewcfg::custom-theme)
+  (setq custom-enabled-themes (remq pewcfg::custom-theme custom-enabled-themes)))
+
+(pewcfg::enable-custom-theme)
 
 ;;; Form normalization functions
 (defun pewcfg::normalize-identity (form)
@@ -128,6 +147,17 @@ Typical usage is as follow:
                              (apply #'pewcfg::apply-keyword seg))
                            (pewcfg::slice-keyword-segments args)))
     (error "Not start with a keyword")))
+
+;;; :custom
+(defun pewcfg::normalize--:custom (forms)
+  "Normalize function for ':custom'."
+  (list (mapcar (lambda (form)
+                  `'(,(elt form 0) ,(elt form 1) nil nil ,(elt form 2)))
+                forms)))
+
+(defun pewcfg::generate--:custom (&rest args)
+  `((let ((custom--inhibit-theme-enable nil))
+      (custom-theme-set-variables ',pewcfg::custom-theme ,@args))))
 
 ;;; :customize
 (defun pewcfg::normalize--:customize (forms)
