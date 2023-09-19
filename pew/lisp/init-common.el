@@ -318,11 +318,11 @@ place."
 ;;; Hook functions
 (defun pew::terminal-mode-oninit ()
   "Common setup for terminal/shell modes."
-  (setq-local word-wrap nil)
-  (setq-local truncate-lines nil)
-  (setq-local truncate-partial-width-windows nil)
-  (setq-local show-trailing-whitespace nil)
-  (setq-local global-hl-line-mode nil)
+  (setq-local word-wrap nil
+              truncate-lines nil
+              truncate-partial-width-windows nil
+              show-trailing-whitespace nil
+              global-hl-line-mode nil)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
@@ -339,10 +339,9 @@ place."
 (defun pew::reuse-window-in-buffer ()
   "Make new spawned windows atttempt to reuse current ones.
 This is usually useful in some major modes like `grep-mode'."
-  (setq-local display-buffer-base-action
-              '((display-buffer-reuse-window
-                 display-buffer-use-some-window)))
-  (setq-local display-buffer-alist nil))
+  (setq-local display-buffer-base-action '((display-buffer-reuse-window
+                                            display-buffer-use-some-window))
+              display-buffer-alist nil))
 
 ;;; String functions
 (defun pew::file-to-string (path)

@@ -14,20 +14,20 @@
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)
     ;; Indentation
-    (setq-local indent-tabs-mode nil)
-    (setq-local c++-tab-always-indent t)
-    (setq-local c-basic-offset 4)
-    (setq-local c-indent-level 4)
-    (setq-local tab-width 4)
-    (setq-local tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
-    (setq-local c-syntactic-indentation t)
-    (setq-local c-syntactic-indentation-in-macros t)
-    ;; Fill columns
-    (setq-local adaptive-fill-mode nil)
-    ;; Macro line continuation
-    (setq-local c-backslash-column 80)
-    (setq-local c-backslash-max-column 160)
-    (setq-local c-auto-align-backslashes t))
+    (setq-local indent-tabs-mode nil
+                c++-tab-always-indent t
+                c-basic-offset 4
+                c-indent-level 4
+                tab-width 4
+                tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+                c-syntactic-indentation t
+                c-syntactic-indentation-in-macros t
+                ;; Fill columns
+                adaptive-fill-mode nil
+                ;; Macro line continuation
+                c-backslash-column 80
+                c-backslash-max-column 160
+                c-auto-align-backslashes t))
 
   (defun pew::cc-mode::lsp-setup ()
     "LSP setup for CC mode."

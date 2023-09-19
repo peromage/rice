@@ -4,8 +4,8 @@
 ;;; Code:
 
 ;;; Performance optimization
-(setq gc-cons-threshold 100000000)     ;; 128mb
-(setq read-process-output-max 1000000) ;; 1mb
+(setq gc-cons-threshold 100000000      ;; 128mb
+      read-process-output-max 1000000) ;; 1mb
 
 ;;; Daemon
 (defun pew::start--daemon()

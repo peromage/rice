@@ -114,11 +114,11 @@ Non-nil NO-RESTART to suppress `org-mode-restart'."
                                      (-1 t)
                                      (_  (not pew::org::marker--hidden))))
     ;; Those variables are global
-    (setq-default org-hide-emphasis-markers pew::org::marker--hidden)
-    (setq-default org-hide-leading-stars pew::org::marker--hidden)
-    (setq-default org-hide-macro-markers pew::org::marker--hidden)
-    (setq-default org-link-descriptive pew::org::marker--hidden)
-    (setq-default org-pretty-entities pew::org::marker--hidden)
+    (setq-default org-hide-emphasis-markers pew::org::marker--hidden
+                  org-hide-leading-stars pew::org::marker--hidden
+                  org-hide-macro-markers pew::org::marker--hidden
+                  org-link-descriptive pew::org::marker--hidden
+                  org-pretty-entities pew::org::marker--hidden)
     (unless no-restart (org-mode-restart)))
 
   (defun pew::org::goto-heading (level &optional to-end)

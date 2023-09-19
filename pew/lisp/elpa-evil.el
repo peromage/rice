@@ -82,11 +82,9 @@ See `evil-define-key*'."
   (defun pew::evil::search-region-text (beg end)
     "Use evil-search for text in the region from BEG to END."
     ;; Copy region text
-    (setq evil-ex-search-pattern
-          (evil-ex-make-pattern
-           (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
-           'sensitive
-           t))
+    (setq evil-ex-search-pattern (evil-ex-make-pattern (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
+                                                       'sensitive
+                                                       t))
     (evil-yank beg end)
     (ignore-error 'search-failed
       (evil-ex-search-next)))
@@ -95,8 +93,8 @@ See `evil-define-key*'."
     "Search the text selected in visual state."
     (interactive)
     (when (evil-visual-state-p)
-      (setq evil-ex-search-count 1)
-      (setq evil-ex-search-direction 'forward)
+      (setq evil-ex-search-count 1
+            evil-ex-search-direction 'forward)
       (when (pew::evil::search-region-text (region-beginning) (region-end))
         (evil-ex-search-previous))
       (evil-normal-state)))
@@ -149,13 +147,15 @@ an advice."
     :tag "PEWINIT"
     :message "-- PEWINIT --")
 
-  (defvar pew::evil::initial-state-plist
-    `(:minor ((view-mode . motion))
-      :major ((messages-buffer-mode . motion)
-              (help-mode . motion)
-              (image-mode . motion)
-              (view-mode . motion))
-      :name ((,(pew::special-buffer '(scratch edit-indirect org-starred)) . normal)))
+  (defvar pew::evil::initial-state-plist `(:minor
+                                           ((view-mode . motion))
+                                           :major
+                                           ((messages-buffer-mode . motion)
+                                            (help-mode . motion)
+                                            (image-mode . motion)
+                                            (view-mode . motion))
+                                           :name
+                                           ((,(pew::special-buffer '(scratch edit-indirect org-starred)) . normal)))
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
@@ -234,12 +234,12 @@ This is an advanced method to determine initial state rather than using
   ;; Elisp with leader
   :config/eval-after
   (elisp-mode
-    (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
-      ;; Quick eval
-      '(("eb" . eval-buffer)
-        ("er" . eval-region)
-        ("ef" . eval-defun)
-        ("ee" . eval-last-sexp))))
+   (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+     ;; Quick eval
+     '(("eb" . eval-buffer)
+       ("er" . eval-region)
+       ("ef" . eval-defun)
+       ("ee" . eval-last-sexp))))
 
   :config
 ;;;; Enable Evil

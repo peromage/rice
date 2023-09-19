@@ -92,21 +92,20 @@
   :config
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
-  (setq completion-at-point-functions
-        (append (list #'cape-file
-                      #'cape-keyword
-                      #'cape-dabbrev
-                      #'cape-elisp-block
-                      ;; #'cape-history
-                      ;; #'cape-tex
-                      ;; #'cape-sgml
-                      ;; #'cape-rfc1345
-                      ;; #'cape-abbrev
-                      ;; #'cape-dict
-                      ;; #'cape-symbol
-                      ;; #'cape-line
-                      )
-                completion-at-point-functions))
+  (setq completion-at-point-functions (append (list #'cape-file
+                                                    #'cape-keyword
+                                                    #'cape-dabbrev
+                                                    #'cape-elisp-block
+                                                    ;; #'cape-history
+                                                    ;; #'cape-tex
+                                                    ;; #'cape-sgml
+                                                    ;; #'cape-rfc1345
+                                                    ;; #'cape-abbrev
+                                                    ;; #'cape-dict
+                                                    ;; #'cape-symbol
+                                                    ;; #'cape-line
+                                                    )
+                                              completion-at-point-functions))
 
   (defun pew::cape::elisp-oninit ()
     "Set completion style for ELisp mode."

@@ -11,8 +11,8 @@
   :config
   (defun pew::python-mode::oninit ()
     "`python-mode' initialization."
-    (setq-local indent-tabs-mode nil)
-    (setq-local tab-width 4)
+    (setq-local indent-tabs-mode nil
+                tab-width 4)
     (require 'lsp-pyright)
     (require 'dap-python)
     (lsp-deferred)))
