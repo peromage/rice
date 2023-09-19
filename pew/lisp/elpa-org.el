@@ -185,18 +185,10 @@ Otherwise the cursor is placed at the beginning of the heading."
                                           (:hlines . "no")
                                           (:tangle . "no")))) ;; End org
 
-;;; Package: org-temp -- Built-in package
+;;; Package: org-temp -- Org built-in for template expansion
 (pewcfg::use-package org-tempo
   :ensure nil
   :after org)
-
-;;; Package: ox-hugo -- Export backend for Hugo
-(pewcfg::use-package ox-hugo
-  :defer t)
-
-;;; Package: ox-gfm -- Export backend for GitHub flavored Markdown
-(pewcfg::use-package ox-gfm
-  :defer t)
 
 ;;; Package: org-bullets -- Nice headings
 (pewcfg::use-package org-bullets
@@ -207,6 +199,12 @@ Otherwise the cursor is placed at the beginning of the heading."
   (defun pew::org-bullets::oninit ()
     "`org-bullets' initialization."
     (org-bullets-mode 1)))
+
+(pewcfg::use-package-defer
+  ;; Export backend for Hugo
+  ox-hugo
+  ;; Export backend for GitHub flavored Markdown
+  ox-gfm)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
