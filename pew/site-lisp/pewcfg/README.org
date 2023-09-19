@@ -1,0 +1,29 @@
+#+title: Pewcfg
+#+author: Peromage
+
+* pewcfg
+A configuration macro with my own flavor.  The syntax is inspired by =use-package=.
+
+Here is a list of keywords.
+
+| Keyword         | Description                                                           |
+|-----------------+-----------------------------------------------------------------------|
+| ~:custom~       | Set variable values that can be configured via custom interface.      |
+| ~:customize~    | Set variable values that can be configured via custom interface.      |
+| ~:setq~         | Set variable values.                                                  |
+| ~:setq-default~ | Set variable values.                                                  |
+| ~:map~          | Set key bindings in a new map.                                        |
+| ~:bind~         | Set key bindings in an existing map.                                  |
+| ~:transient~    | Similar with :map but also define a command to trigger transient map. |
+| ~:switch~       | Define a command to toggle variable values.                           |
+| ~:face~         | Set face attributes.                                                  |
+| ~:property~     | Set variable properties.                                              |
+| ~:hook~         | Set hook functions.                                                   |
+| ~:automode~     | Set auto mode triggers.                                               |
+| ~:eval~         | Evaluate forms.                                                       |
+| ~:eval-after~   | Evaluate forms after the feature is loaded.                           |
+
+Check out =pewcfg::keywords= for more.
+
+* pewcfg::use-package
+A simple wrapper of =use-package=.  The syntax is identical to =use-package=.  However, when a keyword that starts with =:init/= or =:config/= the block will be replaced with =pewcfg= with whatever keyword after these prefix.

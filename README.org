@@ -42,32 +42,7 @@ While in the =.emacs= or =~/.emacs.d/init.el=,
 #+end_src
 
 ** Local configuration files
-There are two local configuration files which are not tracked by default.
-
-- =early-custom.el=: This file is loaded before any other configurations.  Can be used to override some configuration variables.
-
-- =custom.el= (or =custom-mini.el= if ~pew::mini-init~ is non-nil): This file is loaded at the last and it contains all the saved customization from ~customize~ interface.  Settings that is not intended to be tracked can be put here.
-
-* pewcfg
-I developed this macro based on my personal preference to configure independently to ~use-package~.
-
-Here is a list of keywords.
-
-| Keyword       | Description                                                           |
-|---------------+-----------------------------------------------------------------------|
-| ~:custom~     | Set variable values that can be configured with custom interface.     |
-| ~:map~        | Set key bindings in a new map.                                        |
-| ~:bind~       | Set key bindings in an existing map.                                  |
-| ~:transient~  | Similar with :map but also define a command to trigger transient map. |
-| ~:switch~     | Define a command to toggle variable values.                           |
-| ~:face~       | Set face attributes.                                                  |
-| ~:property~   | Set variable properties.                                              |
-| ~:hook~       | Set hook functions.                                                   |
-| ~:automode~   | Set auto mode triggers.                                               |
-| ~:eval~       | Evaluate forms.                                                       |
-| ~:eval-after~ | Evaluate forms after the feature is loaded.                           |
-
-See [[./pew/lisp/init-pewcfg.el][code]] and [[./pew/lisp/init-defaults.el][example]].
+Disposable changes are stored in =custom.el= at the root of this config directory.
 
 * Key bindings
 ** Major keybindings
@@ -126,7 +101,7 @@ The following key prefixes are cleared and available for binding since they are 
 | =M-q=  | ~pew::M-q-map~ |            |
 | =M-h=  | ~pew::M-h-map~ |            |
 
-* Misc - some conventions
+* Misc
 ** Naming conventions
 Personally I don't like the Emacs traditional naming which prepends package name with =-=.  I prefer using =::= because it divides namespace and symbol name in a more visual appealing way.
 
@@ -138,6 +113,9 @@ The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html]
 
 ** use-package keyword order
 No strict order but I prefer to put ~:custom~ ~:init~ and ~:config~ at the end of declaration in this order, since they consist of the most part of a package configuration.
+
+** pewcfg
+This is
 
 * Acknowledgment
 This configuration is inspired by
