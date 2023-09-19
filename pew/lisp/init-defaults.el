@@ -5,7 +5,7 @@
 
 (pewcfg
 ;;; Custom
-  :custom
+  :customize
 ;;;; Startup
   (inhibit-startup-buffer-menu t)
   (inhibit-startup-echo-area-message t)
