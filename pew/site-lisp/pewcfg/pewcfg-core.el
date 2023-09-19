@@ -30,7 +30,7 @@ form can be found below.
 
 List of each keyword's form signature:
   :custom       (VARIABLE VALUE [COMMENT])
-  :customize    (VARIABLE VALUE [COMMENT])
+  :customize    (VARIABLE VALUE [COMMENT])*
   :setq         (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
@@ -42,7 +42,14 @@ List of each keyword's form signature:
   :hook         (NAME . FUNCTION)
   :automode     (MATCHER . MODE)
   :eval         (SEXP)
-  :eval-after   (FEATURE BODY)")
+  :eval-after   (FEATURE BODY)
+
+* The difference between ':custom' and ':customize' is that, ':custom' uses a
+synthetic theme `pewcfg::custom-theme' to bind variable values to with the
+implementation of `custom-theme-set-variables' , while ':customize' is
+implemented with `customize-set-variable' to set variables directly.
+Both methods are very similar.  They are all capable of keeping the
+`custom-file' clean.  ':custom' may be slightly faster than ':customize'.")
 
 (defvar pewcfg::keyword-normalize-function-format "pewcfg::normalize--%s"
   "The keyword normalize function format.
@@ -156,6 +163,7 @@ Typical usage is as follow:
                 forms)))
 
 (defun pewcfg::generate--:custom (&rest args)
+  "Bind variable values to a custom theme `pewcfg::custom-theme'."
   `((let ((custom--inhibit-theme-enable nil))
       (custom-theme-set-variables ',pewcfg::custom-theme ,@args))))
 
@@ -165,19 +173,11 @@ Typical usage is as follow:
   (mapcar #'pewcfg::normalize-identity forms))
 
 (defun pewcfg::generate--:customize (variable value &optional comment)
-  "Set a VARIABLE that is either a custom or a regular one.
+  "Bind a VARIABLE with the VALUE.
+Similar to `pewcfg::generate--:custom' while this does not use a custom theme.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
-COMMENT is the optional commentary shown in the `customize' interface.
-
-Underlying implementation uses `customize-set-variable'.
-
-NOTE: Most of vanilla options are defined with `defcustom', which means if they
-are set directly by `setq' or `setq-default' they might NOT work as expected.
-However, if we use `custom-set-variables' they would work but `custom-file'
-would produce a bunch of duplicated settings.  To address this issue, we can use
-`customize-set-variable'.  It calls those option setters if they have and also
-prevents writting settings from this file to the `custom-file'."
+COMMENT is the optional commentary shown in the `customize' interface."
   (declare (indent 0))
   `((customize-set-variable ',variable ,value ,comment)))
 
