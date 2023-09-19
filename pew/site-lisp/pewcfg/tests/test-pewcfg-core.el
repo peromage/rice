@@ -127,15 +127,16 @@
 ;;; Test :custom
   (expect-equal "Test :custom: Normalize"
     '(('(foo foovalue nil nil "foodoc")
-       '(bar barvalue nil nil nil)))
+       '(bar barvalue nil nil "Set by pewcfg:custom")))
     (pewcfg::normalize--:custom '((foo foovalue "foodoc")
                                   (bar barvalue))))
 
   (expect-equal "Test :custom: Generate"
-    `((custom-theme-set-variables
-       ',pewcfg::custom-theme
-       '(foo foovalue nil nil "foodoc")
-       '(bar barvalue nil nil nil)))
+    `((let ((custom--inhibit-theme-enable nil))
+        (custom-theme-set-variables
+         ',pewcfg::custom-theme
+         '(foo foovalue nil nil "foodoc")
+         '(bar barvalue nil nil nil))))
     (pewcfg::generate--:custom `'(foo foovalue nil nil "foodoc")
                                `'(bar barvalue nil nil nil)))
 
@@ -149,6 +150,10 @@
   (expect-equal "Test :customize: Generate"
     '((customize-set-variable 'foo foovalue "comment"))
     (pewcfg::generate--:customize 'foo 'foovalue "comment"))
+
+  (expect-equal "Test :customize: Generate with default comment"
+    '((customize-set-variable 'foo foovalue "Set by pewcfg:customize"))
+    (pewcfg::generate--:customize 'foo 'foovalue))
 
 ;;; Test :setq
   (expect-equal "Test :setq: Normalize"
