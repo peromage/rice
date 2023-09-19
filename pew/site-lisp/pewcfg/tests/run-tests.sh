@@ -19,6 +19,7 @@
                        load-path))
 
 ;;; Load required modules
+(require 'subr-x)
 (require 'common-test-defs)
 (require 'pewcfg)
 (require 'test-pewcfg-core)
