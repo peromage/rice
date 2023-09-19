@@ -114,9 +114,6 @@ The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html]
 ** use-package keyword order
 No strict order but I prefer to put ~:custom~ ~:init~ and ~:config~ at the end of declaration in this order, since they consist of the most part of a package configuration.
 
-** pewcfg
-This is
-
 * Acknowledgment
 This configuration is inspired by
 
