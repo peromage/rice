@@ -31,11 +31,11 @@ jobs:
       - name: Checkout pew
         uses: actions/checkout@v3
 
-      - name: Test - Startup with package installation
-        run: ./pew/tests/test-startup.sh $(pwd)
+      - name: Test - Fresh startup with package installation
+        run: ./pew/tests/test-init.sh $(pwd)
 
       - name: Test - Normal startup
-        run: ./pew/tests/test-startup.sh $(pwd)
+        run: ./pew/tests/test-init.sh $(pwd)
 
       - name: Test - pewcfg unittests
         run: ./pew/site-lisp/pewcfg/tests/run-tests.sh $(pwd)
