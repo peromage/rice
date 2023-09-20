@@ -5,6 +5,9 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'pewcfg-core)
+(require 'use-package)
+
 ;;; Helper functions
 (defun pewcfg::use-package::translate-pewcfg-keyword (keyword)
   "Translate a KEYWORD used in `pewcfg::use-package' to `pewcfg'.

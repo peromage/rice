@@ -5,6 +5,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'subr-x)
+
 ;;; Variable definitions
 (defvar pewcfg::keywords '(:custom
                            :customize
