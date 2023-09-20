@@ -118,12 +118,18 @@ ARGS should be a string of arguments passed to ripgrep."
 
 ;;; Package: orderless -- Completion matching
 (pewcfg::use-package orderless
+  :demand t
   :custom
-  (completion-styles '(orderless partial-completion basic))
-  (completion-category-overrides '((file (styles basic partial-completion))))
   ;; (completion-category-overrides nil) ;; To use orderless exclusively
-  ;; (completion-category-defaults nil)  ;; Same above
-  (orderless-matching-styles '(orderless-literal orderless-regexp)))
+  ;; (completion-category-defaults nil)  ;; Together with above
+  (orderless-matching-styles '(orderless-literal orderless-regexp))
+  (orderless-affix-dispatch-alist '((?~ . orderless-regexp)
+                                    (?! . orderless-without-literal)
+                                    (?^ . orderless-initialism)
+                                    (?= . orderless-literal)
+                                    (?? . orderless-flex)))
+  :config/customize
+  (completion-styles (nconc '(orderless) completion-styles)))
 
 ;;; Package: embark -- Minibuffer actions and context menu
 (pewcfg::use-package embark

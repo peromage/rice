@@ -107,12 +107,21 @@
   (mouse-yank-at-point t)
   (delete-selection-mode t)
 
-;;;; Tab key and completion
+;;;; Tabs
   (indent-tabs-mode nil)
   (tab-width 4)
   (tab-always-indent t "Hybrid indentation and completion with `complete'")
   (backward-delete-char-untabify-method 'hungry)
+
+;;;; Completion
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  (bookmark-completion-ignore-case t)
+  (completion-ignore-case t)
   (completion-cycle-threshold nil "Always expand list")
+  (completion-styles '(basic partial-completion))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  ;; (icomplete-vertical-mode t) ;; May conflict with other completion framework
 
 ;;;; Whitespaces
   ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
@@ -293,7 +302,7 @@
    ("C-p" . pew::scroll-other-window-line-up)
    ("C-l" . pew::recenter-other-window)
 
-;;;; Tabs
+;;;; Tabbar
    ("Q"   . tab-bar-close-tab)
    ("R"   . tab-bar-rename-tab)
    ("f"   . tab-bar-switch-to-next-tab)
