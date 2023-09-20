@@ -433,7 +433,7 @@ out in the message buffer."
 (defun pew::display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
-  (message (key-description (vector keycode))))
+  (message "%s" (key-description (vector keycode))))
 
 (defun pew::display-buffer-path ()
   "Display current file path in the minibuffer."
