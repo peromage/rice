@@ -160,14 +160,16 @@ Otherwise the cursor is placed at the beginning of the heading."
       (call-interactively #'find-file)))
 
   (defun pew::org::add-src-lang-modes (alist)
-    "Add modes defined in ALIST to `org-src-lang-modes'."
-    (setq org-src-lang-modes (append org-src-lang-modes alist)))
+    "Add modes defined in ALIST to `org-src-lang-modes'.
+Duplicated pairs will be removed."
+    (mapc (lambda (x) (assoc-delete-all (car x) org-src-lang-modes)) alist)
+    (setq org-src-lang-modes (nconc alist org-src-lang-modes)))
 
   (defun pew::org::add-babel-load-languages (alist)
     "Add languages defined in ALIST to `org-babel-load-languages'.
 `org-babel-do-load-languages' will be called underneath."
     (org-babel-do-load-languages 'org-babel-load-languages
-                                 (append org-babel-load-languages alist)))
+                                 (nconc alist org-babel-load-languages)))
 
   :config/setq
   (org-babel-default-header-args '((:session . "none")

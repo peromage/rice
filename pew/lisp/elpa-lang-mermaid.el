@@ -21,12 +21,13 @@
 
 ;;; Package: ob-mermaid -- org support
 (pewcfg::use-package ob-mermaid
-  :after (:all org mermaid-mode)
+  :after (:all org mermaid-mode))
+
+;;; `org-mode' support
+(pewcfg::use-package-depend org
   :config
-  (pewcfg::use-package-depend org
-    :config
-    (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
-    (pew::org::add-babel-load-languages '((mermaid . t)))))
+  (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
+  (pew::org::add-babel-load-languages '((mermaid . t))))
 
 (provide 'elpa-lang-mermaid)
 ;;; elpa-lang-mermaid.el ends here
