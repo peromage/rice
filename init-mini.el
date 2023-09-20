@@ -28,6 +28,11 @@ loaded from other places.")
 (require 'pewcfg)
 (require 'init-common)
 (require 'init-defaults)
+
+(pewcfg
+  :customize
+  (icomplete-vertical-mode t))
+
 (message "[pew] Minimal init finished")
 
 (provide 'init-mini)
