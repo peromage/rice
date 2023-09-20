@@ -3,10 +3,14 @@
 ;; Author:  Fang Deng <fang@elfang.com>
 
 ;;; Commentary:
+
+;; `use-package' is not necessarily needed during the expansions of macros
+;; defined in this package.  The caller is advised to install it before using.
+
 ;;; Code:
 
 (require 'pewcfg-core)
-(require 'use-package)
+(require 'use-package nil :noerror)
 
 ;;; Helper functions
 (defun pewcfg::use-package::translate-pewcfg-keyword (keyword)
