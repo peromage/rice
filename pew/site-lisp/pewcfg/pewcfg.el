@@ -5,6 +5,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'subr-x)
+(require 'use-package)
 (require 'pewcfg-core)
 (require 'pewcfg-use-package)
 

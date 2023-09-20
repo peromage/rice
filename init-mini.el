@@ -25,7 +25,7 @@ loaded from other places.")
                                  "pew/site-lisp/pewcfg"))
                        load-path))
 
-(require 'pewcfg)
+(require 'pewcfg-core)
 (require 'init-common)
 (require 'init-defaults)
 

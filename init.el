@@ -42,15 +42,12 @@ Default is under `pew::home-dir'.")
                        load-path))
 
 ;;; Module loading
-;;; Load required libraries
-(require 'subr-x)
-
 ;; NOTE: The loading sequence is important
+(require 'init-boot)
+(require 'init-package)
 (require 'pewcfg)
 (require 'init-common)
-(require 'init-boot)
 (require 'init-defaults)
-(require 'init-package)
 
 ;; Load ELPA packages
 (require 'elpa-ui)
