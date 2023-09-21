@@ -216,10 +216,10 @@
 
 ;;; Test :transient
   (expect-equal "Test :transient: Normalize"
-    '((command
+    '((command "key"
        ("a" . func1)
        ("b" . func2)))
-    (pewcfg::normalize--:map '((command
+    (pewcfg::normalize--:map '((command "key"
                                 ("a" . func1)
                                 ("b" . func2)))))
 
@@ -227,9 +227,9 @@
     (nconc (pewcfg::generate--:map 'command-map
              '("a" . func1)
              '("b" . func2))
-           '((define-key command-map (kbd "C-h") (lambda ()))
-             (define-key command-map (kbd "C-g") #'keyboard-quit)
-             (defun command (arg))))
+           `((define-key command-map ,(kbd "C-g") #'keyboard-quit)
+             (defun command (arg))
+             (defun command-repeat ())))
     (trim-form-recursively (pewcfg::generate--:transient 'command
                              '("a" . func1)
                              '("b" . func2))))

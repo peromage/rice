@@ -253,43 +253,32 @@ effective if the map already exists."
   "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
 BINDINGS is the same with `pewcfg::generate--:bind'.
-A map COMMAND-map and an interactive command COMMAND will be created.
-Once COMMAND is invoked COMMAND-map will be temporarily activated.
-See `set-transient-map'.
-NOTE: \\`C-g' and \\`C-h' is preserved and cannot be bound by user.
+A map 'COMMAND-map' and interactive commands 'COMMAND' and 'COMMAND-repeat' will
+be created.  See `set-transient-map'.
+NOTE: \\`C-g' and \\`C-h' should be preserved.
 NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
 extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
   (declare (indent 1))
-  (let ((l:cmd-map (intern (format "%s-map" command))))
-    `(,@(apply 'pewcfg::generate--:map l:cmd-map bindings)
-      ;; Take these two essential bindings.
-      (define-key ,l:cmd-map (kbd "C-h") (lambda () (interactive) (,command :repeat)))
-      (define-key ,l:cmd-map (kbd "C-g") #'keyboard-quit)
+  (let ((l:command-map (intern (format "%s-map" command)))
+        (l:command-repeat (intern (format "%s-repeat" command))))
+    `(,@(apply 'pewcfg::generate--:map l:command-map bindings)
+      (define-key ,l:command-map ,(kbd "C-g") #'keyboard-quit) ;; Necessary to exit transient mode
       (defun ,command (arg)
-        ,(format "Temporarily activate a transient map.
-Normally this is a one-shot invocation meaning the map exits once a key is
-pressed (no matter defined in the keymap or not).
-However, if a prefix ARG is given, this becomes a repeatable map until \\`C-g'
-is pressed.
-Alternatively \\`C-h' can be used to transient to the repeat mode while the
-transient map is active.
-Do not attempt to use C-h multiple times.
-The keymap is defined in `%s'." l:cmd-map)
+        ,(format "Activate map `%s' temporarily.
+If prefix ARG is given the map will be activated in a repeatable manner." l:command-map)
         (interactive "P")
-        (cond (arg
-               (message "%s activated in repeat mode" ',command)
-               (set-transient-map ,l:cmd-map (lambda ()
-                                               (cond ((equal (this-command-keys) (kbd "C-g"))
-                                                      (message "%s repeat mode exited" ',command)
-                                                      nil)
-                                                     (t
-                                                      (message "%s repeat mode, to exit C-g" ',command)
-                                                      t)))))
-              (t
-               (message "%s activated" ',command)
-               (set-transient-map ,l:cmd-map nil)))))))
+        (if arg
+            (set-transient-map ,l:command-map
+                               (lambda () (not (equal (this-command-keys) (kbd "C-g"))))
+                               nil
+                               ,(format "%s activated, C-g to exit" l:command-repeat))
+          (set-transient-map ,l:command-map nil nil ,(format "%s activated" command))))
+      (defun ,l:command-repeat ()
+        ,(format "Activate map `%s' in a repeatable manner." l:command-map)
+        (interactive)
+        (,command :repeat)))))
 
 ;;; :switch
 (defun pewcfg::normalize--:switch (forms)
