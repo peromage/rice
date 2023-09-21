@@ -226,7 +226,7 @@ This is an advanced method to determine initial state rather than using
 
   ;; Command state bindings
   (pew::evil::set-key '(normal motion visual) 'global nil
-    '(("SPC" . pewkey)
+    '(("SPC" . pewkey-map)
       ;; Search
       ("#" . evil-ex-nohighlight)))
 

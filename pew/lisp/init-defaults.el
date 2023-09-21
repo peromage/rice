@@ -273,6 +273,9 @@
 ;;;; Take prefix
    ("C-u" . universal-argument)
 
+;;;; Repeat
+   ("C-r" . pewkey-repeat)
+
 ;;;; Windows
    ("q" . pew::close-window)
    ("1" . delete-other-windows)
@@ -392,7 +395,7 @@
    ("C-M-/" . dabbrev-expand)
 
    ;; Pewkey
-   ("C-z" . pewkey)
+   ("C-z" . pewkey-map)
 
    ;; Less frequently used prefix that can be overriden
    ;; Reserved for the future
