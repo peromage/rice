@@ -6,26 +6,31 @@
 #+end_quote
 
 * About
-This is a collection of my daily tool configurations.
+This is a configuration collection of my daily drivers.
+
+[[./config][config]] directory contains all the configurations.  They are organized in a way that how they are located in the actual home directory, so each of them can be managed by =stow= individually.
+
+[[./bin][bin]] directory contains scripts and small executables which I use most of the times.
+
+Directories that starts with =PRESET-= are the combinations I use often for different scenarios.  They can be managed by =stow= directly.
 
 * Get started
-Configurations are managed by GNU =Stow=.
+All the configurations are managed by GNU =stow=.
+
+Use the script [[./stow.sh][stow.sh]] to quickly manage presets.
 
 #+begin_src shell
-# List available options
-./setup.sh --help
+# Stow
+./stow -S PRESET-general
+./stow --stow PRESET-general
 
-# Use presets
-./setup.sh --preset common
+# Unstow
+./stow -D PRESET-general
+./stow --delete PRESET-general
 
-# Selectively stow configs
-./setup.sh --stow bash vim ...
-
-# Sync repo
-./setup.sh --sync
-
-# Stash changes before sync
-./setup.sh --sync_with_stash
+# Restow
+./stow -R PRESET-general
+./stow --restow PRESET-general
 #+end_src
 
 * Appendix: a list of CLI alternatives
