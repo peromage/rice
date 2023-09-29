@@ -1,9 +1,7 @@
 #!/usr/bin/bash
 
-cd "${BASH_SOURCE%/*}"
-
 OPTION="$1" && shift
-TARGET="$1" && shift
+SOURCE="$1" && shift
 
 case "$OPTION" in
     -S|--stow|-D|--delete|-R|--restow) ;;
@@ -13,9 +11,11 @@ case "$OPTION" in
         ;;
 esac
 
-if ! test -d "$TARGET"; then
-    echo "Not a directory: $TARGET"
+cd "${BASH_SOURCE%/*}"
+
+if ! test -d "$SOURCE"; then
+    echo "Not a directory: $SOURCE"
     exit 1
 fi
 
-eval "stow --dir=$TARGET --target=$HOME $OPTION ."
+eval "stow --dir=$SOURCE --target=$HOME $OPTION ."
