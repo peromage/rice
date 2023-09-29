@@ -7,7 +7,8 @@
   vimrc-mode
   yaml-mode
   json-mode
-  fish-mode)
+  fish-mode
+  nix-mode)
 
 ;;; Random packages
 (pewcfg::use-package cmake-mode
