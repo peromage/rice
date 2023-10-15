@@ -111,7 +111,7 @@
   (indent-tabs-mode nil)
   (tab-width 4)
   (tab-always-indent t "Hybrid indentation and completion with `complete'")
-  (backward-delete-char-untabify-method 'hungry)
+  (backward-delete-char-untabify-method nil "Delete only one character at once")
 
 ;;;; Completion
   (read-buffer-completion-ignore-case t)
