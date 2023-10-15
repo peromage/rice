@@ -360,7 +360,10 @@
    ("M-l" . downcase-word)
    ("M-z" . zap-to-char)
    ("M-q" . fill-paragraph)
-   ("M-h" . mark-paragraph))
+   ("M-h" . mark-paragraph)
+
+;;;; Editing
+   ("DEL" . cycle-spacing))
 
   :map
   (pew::M-o-map)
