@@ -314,8 +314,11 @@ local conf = meta:_bind {
     wsl_domains = wsl_domains,
 }
 
---- Random stuff ---------------------------------------------------------------
--- Usually this might look like:
+--- Disposable changes ---------------------------------------------------------
+local ok, m = pcall(require, "custom")
+if ok then m.customize(conf) end
+
+--- Example --------------------------------------------------------------------
 -- return {
 --     customize = function(config)
 --         config:_merge {
@@ -323,7 +326,6 @@ local conf = meta:_bind {
 --         }
 --     end
 -- }
-local ok, m = pcall(require, "custom")
-if ok then m.customize(conf) end
+--------------------------------------------------------------------------------
 
 return conf
