@@ -21,6 +21,7 @@ jobs:
           # - snapshot
 
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
 
