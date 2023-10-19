@@ -22,9 +22,9 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: false
+    # concurrency:
+    #   group: ${{ github.workflow }}-${{ github.ref }}
+    #   cancel-in-progress: false
 
     steps:
       - name: Setup Emacs
