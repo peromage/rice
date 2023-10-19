@@ -248,6 +248,8 @@ local wsl_domains = meta:_bind {
     },
 }
 
+local ssh_domains = meta:_bind {}
+
 --- Module table ---------------------------------------------------------------
 local conf = meta:_bind {
     -- System
@@ -312,6 +314,7 @@ local conf = meta:_bind {
 
     -- Domains
     wsl_domains = wsl_domains,
+    ssh_domains = ssh_domains,
 }
 
 --- Disposable changes ---------------------------------------------------------
@@ -322,8 +325,24 @@ if ok then m.customize(conf) end
 -- return {
 --     customize = function(config)
 --         config:_merge {
---             default_prog = { "fish", "-i" }
+--             default_prog = { "fish", "-i" },
 --         }
+
+--         config.ssh_domains:_push(
+--             {
+--                 name = "Dev domain",
+--                 remote_address = "dev",
+--                 remote_wezterm_path = "/home/fang/bin/wezterm",
+--             }
+--         )
+
+--         config.launch_menu:_push(
+--             {
+--                 label = "SSH to dev desktop",
+--                 args = { "ssh", "-t", "dev" },
+--                 domain = { DomainName = "local" },
+--             }
+--         )
 --     end
 -- }
 --------------------------------------------------------------------------------
