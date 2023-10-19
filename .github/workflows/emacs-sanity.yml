@@ -1,6 +1,6 @@
 # -*- yaml-indent-offset: 2; -*-
 
-name: Emacs basic sanity
+name: CI
 
 on:
   pull_request:
@@ -9,16 +9,16 @@ on:
       - master
 
 jobs:
-  dot_emacs_d:
+  sanity:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
         emacs_version:
           - 28.1
           - 28.2
           - 29.1
           # - snapshot
+        os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true
