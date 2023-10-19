@@ -1,4 +1,6 @@
-name: Sanity checks
+# -*- yaml-indent-offset: 2; -*-
+
+name: Emacs basic sanity
 
 on:
   pull_request:
@@ -28,7 +30,7 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Checkout pew
+      - name: Checkout PEW
         uses: actions/checkout@v3
 
       - name: Test - Fresh startup with package installation
