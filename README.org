@@ -101,6 +101,11 @@ The following key prefixes are cleared and available for binding since they are 
 | =M-q=  | ~pew::M-q-map~ |            |
 | =M-h=  | ~pew::M-h-map~ |            |
 
+* Fonts and icons
+For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]] which is also the default font used by this configuration.
+
+For the first time setup, =nerd-icons-install-fonts= and =all-the-icons-install-fonts= should be run in order to ensure modeline and other parts to display properly.
+
 * Misc
 ** Naming conventions
 Personally I don't like the Emacs traditional naming which prepends package name with =-=.  I prefer using =::= because it divides namespace and symbol name in a more visual appealing way.
