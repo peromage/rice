@@ -29,8 +29,9 @@
   ;; From https://protesilaos.com/
   modus-themes
   ef-themes
-  ;; Icons
-  all-the-icons)
+  ;; Fonts and icons
+  all-the-icons
+  nerd-icons)
 
 ;;; Default looking
 (pew::load-theme 'catppuccin)
