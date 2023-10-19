@@ -58,22 +58,22 @@ function meta._bind(self, conf)
   return conf
 end
 
-function meta._merge(self, tbl)
+function meta._update(self, tbl)
   -- A utility function to merge a table to the current one in place.
   -- Config comes later will overwrite the former if they share the same name.
   -- Return self after merging.
-  for k,v in pairs(tbl) do
+  for k, v in pairs(tbl) do
     self[k] = v
   end
   return self
 end
 
-function meta._push(self, ...)
+function meta._append(self, arr)
   -- A utility function to push a list of elements to the end of the table in
   -- place.
   -- Return self after pushing.
-  for _,elem in ipairs({...}) do
-    table.insert(self, elem)
+  for _, v in ipairs(arr) do
+    table.insert(self, v)
   end
   return self
 end
@@ -324,33 +324,33 @@ if ok then m.customize(conf) end
 --- Example --------------------------------------------------------------------
 -- return {
 --   customize = function(config)
---     config:_merge {
+--     config:_update {
 --       default_prog = { "fish", "-i" },
 --     }
-
---     config.ssh_domains:_push(
+--
+--     config.ssh_domains:_append {
 --       {
 --         name = "Dev Domain",
 --         remote_address = "dev",
 --         remote_wezterm_path = "/home/fang/bin/wezterm",
 --       }
---     )
-
---     config.wsl_domains:_push(
+--     }
+--
+--     config.wsl_domains:_append {
 --       {
 --         name = "WSL::Ubuntu-20.04",
 --         distribution = "Ubuntu-20.04",
 --         default_cwd = "~",
 --       }
---     )
-
---     config.launch_menu:_push(
+--     }
+--
+--     config.launch_menu:_append {
 --       {
 --         label = "SSH to dev desktop",
 --         args = { "ssh", "-t", "dev" },
 --         domain = { DomainName = "local" },
 --       }
---     )
+--     }
 --   end
 -- }
 --------------------------------------------------------------------------------
