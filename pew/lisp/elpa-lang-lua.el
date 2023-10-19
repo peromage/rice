@@ -6,7 +6,7 @@
 (pewcfg::use-package lua-mode
   :defer t
   :custom
-  (lua-indent-level 4))
+  (lua-indent-level 2))
 
 (provide 'elpa-lang-lua)
 ;;; elpa-lang-lua.el ends here
