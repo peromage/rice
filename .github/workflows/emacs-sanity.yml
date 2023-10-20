@@ -22,17 +22,26 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true
+
+    ##
+    ## This is believed to be an unresolved issue from GitHub workflow where
+    ## the pending jobs can be accidentally canceled for an unknown reason
+    ## saying
+    ##   "Canceling since a higher priority waiting request for
+    ##   'CI-refs/heads/master' exists"
+    ## Currently a workaround is to disable the concurrency.
+    ##
     # concurrency:
     #   group: ${{ github.workflow }}-${{ github.ref }}
     #   cancel-in-progress: false
 
     steps:
-      - name: Setup Emacs
+      - name: Set up Emacs
         uses: purcell/setup-emacs@master
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Checkout PEW
+      - name: Check out PEW
         uses: actions/checkout@v3
 
       - name: Test - Fresh startup with package installation
@@ -44,5 +53,5 @@ jobs:
       - name: Test - Mini startup
         run: ./pew/tests/test-init-mini.sh $(pwd)
 
-      - name: Test - pewcfg unittests
+      - name: Test - pewcfg unittest
         run: ./pew/site-lisp/pewcfg/tests/run-tests.sh $(pwd)
