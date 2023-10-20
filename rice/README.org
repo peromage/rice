@@ -1,4 +1,4 @@
-#+title: RICE - Rice Is a Complex Enchantment
+#+title: RICE - Rice Is Complex Enchantment
 #+author: Peromage
 
 #+begin_quote
