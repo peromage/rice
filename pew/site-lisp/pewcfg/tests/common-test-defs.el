@@ -36,17 +36,17 @@ NAME is used to identify the name of this comparison."
 NAME is a symbol of the suite.
 The function will be named with `execute-suite-NAME'."
   (declare (indent 1))
-  (let* ((l:suite-str (symbol-name name))
-         (l:suite-exec (intern (format "execute-suite-%s" l:suite-str))))
-    `(defun ,l:suite-exec ()
+  (let* ((suite-str (symbol-name name))
+         (suite-exec (intern (format "execute-suite-%s" suite-str))))
+    `(defun ,suite-exec ()
          (let (ql:result)
-           (push ,(format "%s %s" (get-label :suite-begin) l:suite-str) ql:result)
+           (push ,(format "%s %s" (get-label :suite-begin) suite-str) ql:result)
            ,@(mapcar (lambda (b)
                        (if (check-assertion (car b))
                            `(push ,b ql:result)
                          b))
                      body)
-           (push ,(format "%s %s" (get-label :suite-end) l:suite-str) ql:result)
+           (push ,(format "%s %s" (get-label :suite-end) suite-str) ql:result)
            (nreverse ql:result)))))
 
 (defun execute-test-suites (&rest suites)
@@ -56,13 +56,13 @@ return a string that contains either ':test-passed' or ':test-failed' from
 `test-labels'."
   (with-temp-buffer
     (insert (string-join (mapcan (lambda (x) (funcall x)) suites) "\n"))
-    (let ((l:passed-count (how-many (regexp-quote (get-label :test-passed)) (point-min)))
-          (l:failed-count (how-many (regexp-quote (get-label :test-failed)) (point-min))))
+    (let ((passed-count (how-many (regexp-quote (get-label :test-passed)) (point-min)))
+          (failed-count (how-many (regexp-quote (get-label :test-failed)) (point-min))))
       (message (buffer-string))
       (message "Test execution ends\nPassed %d\nFailed %d"
-               l:passed-count
-               l:failed-count)
-      l:failed-count)))
+               passed-count
+               failed-count)
+      failed-count)))
 
 (defun try-take (n lst)
   "Same with `take' for Emacs 28."
@@ -87,10 +87,10 @@ return a string that contains either ':test-passed' or ':test-failed' from
             (if (or (not (listp x))
                     (null x))
                 x
-              (let ((l:trimmed (trim-form x)))
-                (if (eq l:trimmed x)
+              (let ((trimmed (trim-form x)))
+                (if (eq trimmed x)
                     (trim-form-recursively x)
-                  l:trimmed))))
+                  trimmed))))
           forms))
 
 (provide 'common-test-defs)

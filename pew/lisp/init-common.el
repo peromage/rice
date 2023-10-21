@@ -47,15 +47,15 @@ Key can also be a list of symbols and the returned value will be a string
 concatenated with '\\|'.
 If IN-LIST is non-nil the returned value will be a list."
   (declare (indent 0))
-  (let ((l:keys (if (listp key) key (list key)))
-        (l:func (lambda (k)
-                  (let (l:it)
-                    (unless (setq l:it (assq k pew::special-buffer-alist))
+  (let ((keys (if (listp key) key (list key)))
+        (func (lambda (k)
+                  (let (it)
+                    (unless (setq it (assq k pew::special-buffer-alist))
                       (error "Invalid key: %S" k))
-                    (cdr l:it)))))
+                    (cdr it)))))
     (if in-list
-        (mapcar l:func l:keys)
-      (mapconcat l:func l:keys "\\|"))))
+        (mapcar func keys)
+      (mapconcat func keys "\\|"))))
 
 (defun pew::special-buffer-match-p (key name)
   "Check if given buffer NAME matches buffers defined by KEY.
@@ -80,8 +80,8 @@ current path.
 When COMPONENT is given it will be appended at the end of BASE.
 When FOLLOW is non-nil the result will an absolute path with all symlink
 resolved."
-  (let ((l:result (expand-file-name (file-name-concat base component))))
-    (if follow (file-truename l:result) l:result)))
+  (let ((result (expand-file-name (file-name-concat base component))))
+    (if follow (file-truename result) result)))
 
 ;;; Editor
 (defun pew::delete-trailing-whitespaces ()
@@ -97,13 +97,13 @@ resolved."
   "Switch to the next editing buffer.
 If BACKWARDS is non-nil switch to the previous one."
   (interactive "P")
-  (let ((l:current-buffer (current-buffer))
-        (l:switch-func (if backwards #'previous-buffer #'next-buffer)))
-    (funcall l:switch-func)
-    (while (and (not (eq l:current-buffer (current-buffer)))
+  (let ((current-buffer (current-buffer))
+        (switch-func (if backwards #'previous-buffer #'next-buffer)))
+    (funcall switch-func)
+    (while (and (not (eq current-buffer (current-buffer)))
                 (or (pew::special-buffer-match-p pew::hidden-buffer-list (buffer-name))
                     (pew::dired-buffer-p (buffer-name))))
-      (funcall l:switch-func))))
+      (funcall switch-func))))
 
 (defun pew::previous-editing-buffer ()
   "Like `pew::next-editing-buffer' but does it backwards."
@@ -113,11 +113,11 @@ If BACKWARDS is non-nil switch to the previous one."
 (defun pew::close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
-  (let ((l:this-buffer (current-buffer)))
-    (dolist (l:buffer (buffer-list))
-      (if (and (eq mode (buffer-local-value 'major-mode l:buffer))
-               (not (eq l:this-buffer l:buffer)))
-          (kill-buffer l:buffer)))))
+  (let ((this-buffer (current-buffer)))
+    (dolist (buffer (buffer-list))
+      (if (and (eq mode (buffer-local-value 'major-mode buffer))
+               (not (eq this-buffer buffer)))
+          (kill-buffer buffer)))))
 
 ;;; Windows
 (defun pew::side-window-p (window)
@@ -156,12 +156,12 @@ specified side.  If SIDE is nil it means check all sides."
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
-  (let ((l:current-buffer (current-buffer)))
+  (let ((current-buffer (current-buffer)))
     (if (and (null arg) (not (pew::last-normal-window-p (selected-window))))
         (delete-window))
     (tab-bar-new-tab) ;; Duplicate current layout
     (select-window (car (pew::list-normal-windows)))
-    (switch-to-buffer l:current-buffer)
+    (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
 (defun pew::pop-window-in-new-tab-persist ()
@@ -233,8 +233,8 @@ place."
     (load-theme theme t))
   ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
-      (dolist (l:theme (cdr custom-enabled-themes))
-        (disable-theme l:theme))))
+      (dolist (theme (cdr custom-enabled-themes))
+        (disable-theme theme))))
 
 (defun pew::find-font (&rest args)
   "Return a font object is it's found on the current system.
@@ -251,11 +251,11 @@ Used by `pew::increase-frame-opacity'and `pew::decrease-frame-opacity'.")
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
-  (let ((l:value (cond ((> val 100) 100)
+  (let ((value (cond ((> val 100) 100)
                        ((< val 0) 0)
                        (t val))))
-    (message "Set Frame opacity: %d%%" l:value)
-    (set-frame-parameter (selected-frame) 'alpha (cons l:value l:value))))
+    (message "Set Frame opacity: %d%%" value)
+    (set-frame-parameter (selected-frame) 'alpha (cons value value))))
 
 (defun pew::increase-frame-opacity ()
   "Increase frame opacity."
@@ -274,11 +274,11 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
-  (let ((l:current-buffer (current-buffer)))
+  (let ((current-buffer (current-buffer)))
     (if (and (null arg) (not (pew::last-normal-window-p (selected-window))))
         (delete-window))
     (select-frame (make-frame-command))
-    (switch-to-buffer l:current-buffer)
+    (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
 (defun pew::pop-window-in-new-frame-persist ()
@@ -419,15 +419,15 @@ The result will be shown in the message buffer.
 If NOPRINT is non-nil, the expanded list will be returned instead of printing
 out in the message buffer."
   (declare (indent 0))
-  (let ((l:result (funcall (intern (format "macroexpand%s"
+  (let ((result (funcall (intern (format "macroexpand%s"
                                            (pcase step
                                              ('nil "")
                                              (1 "-1")
                                              (_ "-all"))))
                            form)))
     (if noprint
-        `(quote ,l:result)
-      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string l:result))
+        `(quote ,result)
+      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
       t)))
 
 (defun pew::display-keycode (keycode)
@@ -445,12 +445,12 @@ out in the message buffer."
 If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
   (interactive "P")
-  (let ((l:mode-to-check (pcase mode
+  (let ((mode-to-check (pcase mode
                            ('nil major-mode)
                            ('(4) (read))
                            (_ mode))))
-    (named-let find-parent ((major-mode l:mode-to-check)
-                            (results (list l:mode-to-check)))
+    (named-let find-parent ((major-mode mode-to-check)
+                            (results (list mode-to-check)))
       (let ((parent-major-mode (get major-mode 'derived-mode-parent)))
         (if (not parent-major-mode)
             (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))

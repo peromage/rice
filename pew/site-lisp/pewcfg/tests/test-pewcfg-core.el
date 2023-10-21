@@ -79,16 +79,16 @@
       (enable-theme pewcfg::custom-theme)
       (disable-theme pewcfg::custom-theme)
       (setq unittest-var 'foo)
-      (let ((l:test-result (list unittest-var)))                               ;; foo
+      (let ((test-result (list unittest-var)))                               ;; foo
         (custom-theme-set-variables pewcfg::custom-theme '(unittest-var 'bar))
         (pewcfg::enable-custom-theme)
-        (push unittest-var l:test-result)                                      ;; bar
+        (push unittest-var test-result)                                      ;; bar
         (enable-theme pewcfg::custom-theme)
         (disable-theme pewcfg::custom-theme)
-        (push unittest-var l:test-result)                                      ;; foo
+        (push unittest-var test-result)                                      ;; foo
         (pewcfg::enable-custom-theme)
-        (push unittest-var l:test-result)                                      ;; bar
-        (nreverse l:test-result))))
+        (push unittest-var test-result)                                      ;; bar
+        (nreverse test-result))))
 
 ;;; Test keyword application
   (expect-equal "Test apply-keyword: Happy path"

@@ -20,10 +20,10 @@ Currently keywords that start with ':init' or ':config' are checked since
 Return a cons where the car is the `use-package' section keyword and cdr is the
 keyword used by `pewcfg' if KEYWORD matches a certain format.
 Otherwise return nil."
-  (let ((l:keyword-str (symbol-name keyword)))
-    (if (string-match "^:\\(config\\|init\\)/\\(.+\\)" l:keyword-str)
-        (cons (intern (concat ":" (match-string 1 l:keyword-str)))
-              (intern (concat ":" (match-string 2 l:keyword-str))))
+  (let ((keyword-str (symbol-name keyword)))
+    (if (string-match "^:\\(config\\|init\\)/\\(.+\\)" keyword-str)
+        (cons (intern (concat ":" (match-string 1 keyword-str)))
+              (intern (concat ":" (match-string 2 keyword-str))))
       nil)))
 
 (defmacro pewcfg::use-package (name &rest args)
@@ -47,9 +47,9 @@ will be translated to:
   (declare (indent 1))
   `(use-package ,name
      ,@(mapcan (lambda (seg)
-                 (let ((l:matched (pewcfg::use-package::translate-pewcfg-keyword (car seg))))
-                   (if l:matched
-                       `(,(car l:matched) ,(macroexpand `(pewcfg ,(cdr l:matched) ,@(cdr seg))))
+                 (let ((matched (pewcfg::use-package::translate-pewcfg-keyword (car seg))))
+                   (if matched
+                       `(,(car matched) ,(macroexpand `(pewcfg ,(cdr matched) ,@(cdr seg))))
                      seg)))
                (pewcfg::slice-keyword-segments args))))
 

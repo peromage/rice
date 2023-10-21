@@ -136,10 +136,10 @@ then each element of the results will be expanded as the generate function's
 input.
 The results of this function is a list of unevaluated forms."
   (if (memq keyword pewcfg::keywords)
-      (let ((l:gfunc (intern-soft (format pewcfg::keyword-generate-function-format keyword)))
-            (l:nfunc (intern-soft (format pewcfg::keyword-normalize-function-format keyword))))
-        (mapcan (lambda (form) (apply l:gfunc form))
-                (funcall l:nfunc forms)))
+      (let ((gfunc (intern-soft (format pewcfg::keyword-generate-function-format keyword)))
+            (nfunc (intern-soft (format pewcfg::keyword-normalize-function-format keyword))))
+        (mapcan (lambda (form) (apply gfunc form))
+                (funcall nfunc forms)))
     (error "Invalid keyword %S" keyword)))
 
 ;;; Main entry
@@ -261,22 +261,22 @@ extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
 enabled and put the following code for the keymap.
   (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
   (declare (indent 1))
-  (let ((l:command-map (intern (format "%s-map" command)))
-        (l:command-repeat (intern (format "%s-repeat" command))))
-    `(,@(apply 'pewcfg::generate--:map l:command-map bindings)
-      (define-key ,l:command-map ,(kbd "C-g") #'keyboard-quit) ;; Necessary to exit transient mode
+  (let ((command-map (intern (format "%s-map" command)))
+        (command-repeat (intern (format "%s-repeat" command))))
+    `(,@(apply 'pewcfg::generate--:map command-map bindings)
+      (define-key ,command-map ,(kbd "C-g") #'keyboard-quit) ;; Necessary to exit transient mode
       (defun ,command (arg)
         ,(format "Activate map `%s' temporarily.
-If prefix ARG is given the map will be activated in a repeatable manner." l:command-map)
+If prefix ARG is given the map will be activated in a repeatable manner." command-map)
         (interactive "P")
         (if arg
-            (set-transient-map ,l:command-map
+            (set-transient-map ,command-map
                                (lambda () (not (equal (this-command-keys) (kbd "C-g"))))
                                nil
-                               ,(format "%s activated, C-g to exit" l:command-repeat))
-          (set-transient-map ,l:command-map nil nil ,(format "%s activated" command))))
-      (defun ,l:command-repeat ()
-        ,(format "Activate map `%s' in a repeatable manner." l:command-map)
+                               ,(format "%s activated, C-g to exit" command-repeat))
+          (set-transient-map ,command-map nil nil ,(format "%s activated" command))))
+      (defun ,command-repeat ()
+        ,(format "Activate map `%s' in a repeatable manner." command-map)
         (interactive)
         (,command :repeat)))))
 
@@ -294,21 +294,21 @@ A new command `switch::VARIABLE' and variable `switch::VARIABLE' will be created
 The variable is used for multiple purposes.  The car of the variable stores the
 current index of the list of values that is stored in the cdr."
   (declare (indent 0))
-  (let ((l:switch-symbol (intern (format "switch::%s" variable))))
-    `((defvar ,l:switch-symbol ',(if values
+  (let ((switch-symbol (intern (format "switch::%s" variable))))
+    `((defvar ,switch-symbol ',(if values
                                      (cons -1 values)
                                    (cons -1 '(t nil)))
         ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
-cycles through the list each the switch command is called." l:switch-symbol))
-      (defun ,l:switch-symbol ()
+cycles through the list each the switch command is called." switch-symbol))
+      (defun ,switch-symbol ()
         ,(format "Switch the value of variable `%s'.
-The values are read from the list `%s'." variable l:switch-symbol)
+The values are read from the list `%s'." variable switch-symbol)
         (interactive)
-        (setq ,variable (nth (setcar ,l:switch-symbol
-                                     (mod (1+ (car ,l:switch-symbol))
-                                          (length (cdr ,l:switch-symbol))))
-                             (cdr ,l:switch-symbol)))
+        (setq ,variable (nth (setcar ,switch-symbol
+                                     (mod (1+ (car ,switch-symbol))
+                                          (length (cdr ,switch-symbol))))
+                             (cdr ,switch-symbol)))
         (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face

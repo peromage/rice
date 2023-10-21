@@ -72,11 +72,11 @@ BINDINGS is an alist in the form of
   ((KEY . DEF) (KEY . DEF) ...)
 See `evil-define-key*'."
     (declare (indent 3))
-    (let ((l:bindings (mapcan (if leader
+    (let ((bindings (mapcan (if leader
                                   (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
                                 (lambda (x) (list (kbd (car x)) (cdr x))))
                               bindings)))
-      (mapc (lambda (m) (apply 'evil-define-key* state m l:bindings))
+      (mapc (lambda (m) (apply 'evil-define-key* state m bindings))
             (if (listp map) map (list map)))))
 
   ;; This search action searches words selected in visual mode, escaping any special
@@ -178,7 +178,7 @@ This is an advanced method to determine initial state rather than using
        nil)
 
       ;; State by rules
-      ((and (let l:state (cdr-safe (or
+      ((and (let state (cdr-safe (or
                                     ;; State by minor mode
                                     ;; TODO: Currently bugged due to the delay of the minor mode variable setting.
                                     (seq-find
@@ -194,8 +194,8 @@ This is an advanced method to determine initial state rather than using
                                     (seq-find
                                      (lambda (cons) (string-match-p (car cons) (buffer-name)))
                                      (plist-get pew::evil::initial-state-plist :name)))))
-            (guard l:state))
-       (evil-change-state l:state))
+            (guard state))
+       (evil-change-state state))
 
       ;; General editable buffer
       ((guard (or
