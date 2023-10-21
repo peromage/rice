@@ -296,8 +296,8 @@ current index of the list of values that is stored in the cdr."
   (declare (indent 0))
   (let ((switch-symbol (intern (format "switch::%s" variable))))
     `((defvar ,switch-symbol ',(if values
-                                     (cons -1 values)
-                                   (cons -1 '(t nil)))
+                                   (cons -1 values)
+                                 (cons -1 '(t nil)))
         ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
 cycles through the list each the switch command is called." switch-symbol))

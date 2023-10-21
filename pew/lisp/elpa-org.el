@@ -140,13 +140,13 @@ Otherwise the cursor is placed at the beginning of the heading."
                         ((not (numberp level)) (read-number "Search heading level: "))
                         (t level)))
       (let* ((headings (mapcar (lambda (e) (cons (org-element-property :title e) e))
-                                 (seq-filter
-                                  (if (zerop level) #'identity
-                                    (lambda (e) (= level (org-element-property :level e))))
-                                  (org-map-entries #'org-element-at-point))))
+                               (seq-filter
+                                (if (zerop level) #'identity
+                                  (lambda (e) (= level (org-element-property :level e))))
+                                (org-map-entries #'org-element-at-point))))
              (selected (cdr (assoc
-                               (completing-read "Select a heading: " headings nil t)
-                               headings))))
+                             (completing-read "Select a heading: " headings nil t)
+                             headings))))
         ;; When used in `org-capture-templateas', `narrow-to-region' can be used
         ;; together with `:unnarrowed' to resume from existing entries.
         (goto-char (org-element-property

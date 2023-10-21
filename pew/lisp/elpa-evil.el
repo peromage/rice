@@ -73,9 +73,9 @@ BINDINGS is an alist in the form of
 See `evil-define-key*'."
     (declare (indent 3))
     (let ((bindings (mapcan (if leader
-                                  (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
-                                (lambda (x) (list (kbd (car x)) (cdr x))))
-                              bindings)))
+                                (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
+                              (lambda (x) (list (kbd (car x)) (cdr x))))
+                            bindings)))
       (mapc (lambda (m) (apply 'evil-define-key* state m bindings))
             (if (listp map) map (list map)))))
 
@@ -179,21 +179,21 @@ This is an advanced method to determine initial state rather than using
 
       ;; State by rules
       ((and (let state (cdr-safe (or
-                                    ;; State by minor mode
-                                    ;; TODO: Currently bugged due to the delay of the minor mode variable setting.
-                                    (seq-find
-                                     (lambda (cons)
-                                       (and (symbolp (car cons))
-                                            (symbol-value (car cons))))
-                                     (plist-get pew::evil::initial-state-plist :minor))
-                                    ;; State by major mode
-                                    (seq-find
-                                     (lambda (cons) (eq major-mode (car cons)))
-                                     (plist-get pew::evil::initial-state-plist :major))
-                                    ;; State by buffer name
-                                    (seq-find
-                                     (lambda (cons) (string-match-p (car cons) (buffer-name)))
-                                     (plist-get pew::evil::initial-state-plist :name)))))
+                                  ;; State by minor mode
+                                  ;; TODO: Currently bugged due to the delay of the minor mode variable setting.
+                                  (seq-find
+                                   (lambda (cons)
+                                     (and (symbolp (car cons))
+                                          (symbol-value (car cons))))
+                                   (plist-get pew::evil::initial-state-plist :minor))
+                                  ;; State by major mode
+                                  (seq-find
+                                   (lambda (cons) (eq major-mode (car cons)))
+                                   (plist-get pew::evil::initial-state-plist :major))
+                                  ;; State by buffer name
+                                  (seq-find
+                                   (lambda (cons) (string-match-p (car cons) (buffer-name)))
+                                   (plist-get pew::evil::initial-state-plist :name)))))
             (guard state))
        (evil-change-state state))
 

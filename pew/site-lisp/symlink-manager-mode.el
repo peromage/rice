@@ -14,8 +14,8 @@
 If ASK is a non-nil the link will be force overridden or prompted for
 confirmation if it is an integer."
   (if (not (file-exists-p target)) nil
-     (make-symbolic-link target default-directory ask)
-     t))
+    (make-symbolic-link target default-directory ask)
+    t))
 
 (defun sm-delete-link (target)
   "Delete a link of TARGET from the current directory."

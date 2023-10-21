@@ -49,10 +49,10 @@ If IN-LIST is non-nil the returned value will be a list."
   (declare (indent 0))
   (let ((keys (if (listp key) key (list key)))
         (func (lambda (k)
-                  (let (it)
-                    (unless (setq it (assq k pew::special-buffer-alist))
-                      (error "Invalid key: %S" k))
-                    (cdr it)))))
+                (let (it)
+                  (unless (setq it (assq k pew::special-buffer-alist))
+                    (error "Invalid key: %S" k))
+                  (cdr it)))))
     (if in-list
         (mapcar func keys)
       (mapconcat func keys "\\|"))))
@@ -252,8 +252,8 @@ Used by `pew::increase-frame-opacity'and `pew::decrease-frame-opacity'.")
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
   (let ((value (cond ((> val 100) 100)
-                       ((< val 0) 0)
-                       (t val))))
+                     ((< val 0) 0)
+                     (t val))))
     (message "Set Frame opacity: %d%%" value)
     (set-frame-parameter (selected-frame) 'alpha (cons value value))))
 
@@ -420,11 +420,11 @@ If NOPRINT is non-nil, the expanded list will be returned instead of printing
 out in the message buffer."
   (declare (indent 0))
   (let ((result (funcall (intern (format "macroexpand%s"
-                                           (pcase step
-                                             ('nil "")
-                                             (1 "-1")
-                                             (_ "-all"))))
-                           form)))
+                                         (pcase step
+                                           ('nil "")
+                                           (1 "-1")
+                                           (_ "-all"))))
+                         form)))
     (if noprint
         `(quote ,result)
       (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
@@ -446,9 +446,9 @@ If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
   (interactive "P")
   (let ((mode-to-check (pcase mode
-                           ('nil major-mode)
-                           ('(4) (read))
-                           (_ mode))))
+                         ('nil major-mode)
+                         ('(4) (read))
+                         (_ mode))))
     (named-let find-parent ((major-mode mode-to-check)
                             (results (list mode-to-check)))
       (let ((parent-major-mode (get major-mode 'derived-mode-parent)))

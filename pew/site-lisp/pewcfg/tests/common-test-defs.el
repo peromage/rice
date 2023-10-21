@@ -6,10 +6,10 @@
 ;;; Code:
 
 ;;; Helpers functions
-(defvar test-labels '(:test-passed "[ PASSED ]"
-                      :test-failed "[ FAILED ]"
-                      :suite-begin "[ BEGIN ]"
-                      :suite-end "[ END ]")
+(defvar test-labels '( :test-passed "[ PASSED ]"
+                       :test-failed "[ FAILED ]"
+                       :suite-begin "[ BEGIN ]"
+                       :suite-end "[ END ]" )
   "A plist defining various labels used in testing.")
 
 (defvar assertion-names '(expect-equal)
@@ -39,15 +39,15 @@ The function will be named with `execute-suite-NAME'."
   (let* ((suite-str (symbol-name name))
          (suite-exec (intern (format "execute-suite-%s" suite-str))))
     `(defun ,suite-exec ()
-         (let (result)
-           (push ,(format "%s %s" (get-label :suite-begin) suite-str) result)
-           ,@(mapcar (lambda (b)
-                       (if (check-assertion (car b))
-                           `(push ,b result)
-                         b))
-                     body)
-           (push ,(format "%s %s" (get-label :suite-end) suite-str) result)
-           (nreverse result)))))
+       (let (result)
+         (push ,(format "%s %s" (get-label :suite-begin) suite-str) result)
+         ,@(mapcar (lambda (b)
+                     (if (check-assertion (car b))
+                         `(push ,b result)
+                       b))
+                   body)
+         (push ,(format "%s %s" (get-label :suite-end) suite-str) result)
+         (nreverse result)))))
 
 (defun execute-test-suites (&rest suites)
   "Execute passed in test SUITES.

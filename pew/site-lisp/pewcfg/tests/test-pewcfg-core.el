@@ -216,12 +216,8 @@
 
 ;;; Test :transient
   (expect-equal "Test :transient: Normalize"
-    '((command "key"
-       ("a" . func1)
-       ("b" . func2)))
-    (pewcfg::normalize--:map '((command "key"
-                                ("a" . func1)
-                                ("b" . func2)))))
+    '((command "key" ("a" . func1) ("b" . func2)))
+    (pewcfg::normalize--:map '((command "key" ("a" . func1) ("b" . func2)))))
 
   (expect-equal "Test :transient: Generate"
     (nconc (pewcfg::generate--:map 'command-map
