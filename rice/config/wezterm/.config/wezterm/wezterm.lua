@@ -333,7 +333,7 @@ if ok then m.customize(conf) end
 --         name = "Dev Domain",
 --         remote_address = "dev",
 --         remote_wezterm_path = "/home/fang/bin/wezterm",
---       }
+--       },
 --     }
 --
 --     config.wsl_domains:_append {
@@ -341,7 +341,7 @@ if ok then m.customize(conf) end
 --         name = "WSL::Ubuntu-20.04",
 --         distribution = "Ubuntu-20.04",
 --         default_cwd = "~",
---       }
+--       },
 --     }
 --
 --     config.launch_menu:_append {
@@ -349,7 +349,7 @@ if ok then m.customize(conf) end
 --         label = "SSH to dev desktop",
 --         args = { "ssh", "-t", "dev" },
 --         domain = { DomainName = "local" },
---       }
+--       },
 --     }
 --   end
 -- }
