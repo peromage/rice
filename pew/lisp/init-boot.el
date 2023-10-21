@@ -10,7 +10,7 @@
       read-process-output-max 1000000) ;; 1mb
 
 ;;; Daemon
-(defun pew::start--daemon()
+(defun pew::start--daemon ()
   "Start Emacs daemon if not running."
   (require 'server)
   (if (server-running-p)

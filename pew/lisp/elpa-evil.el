@@ -120,7 +120,7 @@ See `evil-define-key*'."
      (read-string (concat (car evil-ex-search-pattern) " -> "))
      (list ?g ?c)))
 
-  (defun pew::evil::search-word()
+  (defun pew::evil::search-word ()
     "Search and highlight the word under cursor but don't jumpt to the next."
     (interactive)
     (evil-ex-search-word-forward)
