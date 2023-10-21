@@ -108,13 +108,20 @@ For the first time setup, =nerd-icons-install-fonts= and =all-the-icons-install-
 
 * Misc
 ** Naming conventions
-Personally I don't like the Emacs traditional naming which prepends package name with =-=.  I prefer using =::= because it divides namespace and symbol name in a more visual appealing way.
+This is a complicated topic but I'll try making my points with much sense.
 
-Also to distinguish local variables better, I use prefix =l:= for =let= bound variables and =ql:= for =let= bound variables in macros expansion.
+For the namespace, personally, I don't like the Emacs traditional naming convention which uses a =-= to separate the package name and the function/variable name.  Since the tradition also uses the same =-= to separate words, say if the function/variable name has more than one word, it will later on make it hard to distinguish these two parts.  I prefer using =::= because it's a second nature if you're familiar C/C++.  Also I feel this is more visual appealing.
 
-There are a lot discussions about ELisp naming convention.  Xah Lee had a pretty reasonable one here: [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][discussion]].
+I used to use a prefix for =let= bound variables to distinguish them from names from outer scope, but eventually removed them.  This is because I found that it was contradictory to my convention in other programming languages.  Clearly, in most of the cases I don't actually care about if my local names conflict outer scope names.  They get shadowed anyway.  Except some impure functions whose behavior are affected by certain global variables, in that case, I must be aware that I'm overriding them by intention.  Also, using a consistent style (no prefixing) for all variables makes less mind burden whiling coding stuff (no worry about the format).
 
-The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][shorthands]] is a good practice to simplify naming things, too.
+This is totally a personal taste.  There are a lot discussions about the naming convention.  Especially I think Xah Lee has very comprehensive articles.  I recommend to read them.
+
+- [[http://xahlee.info/emacs/misc/elisp_dollar_sign_name.html][Emacs Lisp: What is DOLLAR Sign $var and AT Sign @var, in Variable Names]]
+- [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][Emacs Lisp Naming Convention]]
+- [[http://xahlee.info/comp/sigil_for_function_parameter_names.html][Sigil for Variable Names]]
+- [[http://xahlee.info/comp/programing_variable_naming.html][Variable Naming: English Words Considered Harmful]]
+
+Note: The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][shorthands]] is a good practice to simplify naming things, too.
 
 ** use-package keyword order
 No strict order but I prefer to put =:custom= =:init= and =:config= at the end of declaration in this order, since they consist of the most part of a package configuration.
