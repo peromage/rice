@@ -41,8 +41,8 @@ users to specify the shell to start with."
 
 ;;; Package: separedit
 (pewcfg::use-package separedit
-  :bind (:map pew::M-u-map
-         ("'" . separedit-dwim)))
+  :bind ( :map pew::M-u-map
+          ("'" . separedit-dwim)) )
 
 ;;; Package: paredit -- Simplify S-expression editing
 (pewcfg::use-package paredit
@@ -52,15 +52,15 @@ users to specify the shell to start with."
 
 ;;; Package: avy -- Jump among texts
 (pewcfg::use-package avy
-  :bind (:map pew::M-u-map
-         ("f" . avy-goto-char)
-         ("j" . avy-goto-line)))
+  :bind ( :map pew::M-u-map
+          ("f" . avy-goto-char)
+          ("j" . avy-goto-line)) )
 
 ;;; Package: ace-window -- Jump between windows
 (pewcfg::use-package ace-window
-  :bind (:map pew::M-u-map
-         ("w" . ace-window)
-         ("W" . ace-swap-window)))
+  :bind ( :map pew::M-u-map
+          ("w" . ace-window)
+          ("W" . ace-swap-window)) )
 
 ;;; Lazy loadeding for these packages
 (pewcfg::use-package-defer

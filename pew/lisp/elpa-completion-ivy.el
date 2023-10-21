@@ -9,15 +9,15 @@
 ;;; Package: counsel
 (pewcfg::use-package counsel
   :demand t
-  :bind (("C-s" . swiper)
-         ("C-x d" . counsel-dired)
-         ("C-x f" . counsel-find-file)
-         ("C-c r" . ivy-resume)
-         ("C-c f" . counsel-git)
-         ("C-c h" . counsel-git-grep)
-         ("C-c g" . counsel-ag)
-         :map minibuffer-local-map
-         ("C-r" . counsel-minibuffer-history))
+  :bind ( ("C-s" . swiper)
+          ("C-x d" . counsel-dired)
+          ("C-x f" . counsel-find-file)
+          ("C-c r" . ivy-resume)
+          ("C-c f" . counsel-git)
+          ("C-c h" . counsel-git-grep)
+          ("C-c g" . counsel-ag)
+          :map minibuffer-local-map
+          ("C-r" . counsel-minibuffer-history) )
 
   :custom
   (ivy-use-virtual-buffers t)

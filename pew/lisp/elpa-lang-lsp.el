@@ -61,13 +61,13 @@ MODES is a list of major mode symbols."
 (pewcfg::use-package lsp-ui
   :commands lsp-ui-mode
   :hook (lsp-mode . pew::lsp-ui::oninit)
-  :bind (:map lsp-ui-mode-map
-         ([remap xref-find-references] . lsp-ui-peek-find-references)
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ;; Same prefix with lsp-mode-map
-         ("C-c l l" . lsp-ui-doc-glance)
-         ("C-c l L" . lsp-ui-doc-show)
-         ("C-c l j" . lsp-ui-doc-focus-frame))
+  :bind ( :map lsp-ui-mode-map
+          ([remap xref-find-references] . lsp-ui-peek-find-references)
+          ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+          ;; Same prefix with lsp-mode-map
+          ("C-c l l" . lsp-ui-doc-glance)
+          ("C-c l L" . lsp-ui-doc-show)
+          ("C-c l j" . lsp-ui-doc-focus-frame) )
 
   :custom
   ;; Sideline

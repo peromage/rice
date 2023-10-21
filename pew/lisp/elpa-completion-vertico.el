@@ -8,15 +8,15 @@
 ;;; Package: vertico
 (pewcfg::use-package vertico
   :demand t
-  :bind (:map vertico-map
-         ("RET" . vertico-directory-enter)
-         ("DEL" . vertico-directory-delete-char)
-         ("M-DEL" . vertico-directory-delete-word)
-         ("M-q 1" . vertico-multiform-vertical)
-         ("M-q 2" . vertico-multiform-grid)
-         ("M-q 3" . vertico-multiform-flat)
-         ("M-q 4" . vertico-multiform-reverse)
-         ("M-q 5" . vertico-multiform-unobtrusive))
+  :bind ( :map vertico-map
+          ("RET" . vertico-directory-enter)
+          ("DEL" . vertico-directory-delete-char)
+          ("M-DEL" . vertico-directory-delete-word)
+          ("M-q 1" . vertico-multiform-vertical)
+          ("M-q 2" . vertico-multiform-grid)
+          ("M-q 3" . vertico-multiform-flat)
+          ("M-q 4" . vertico-multiform-reverse)
+          ("M-q 5" . vertico-multiform-unobtrusive) )
 
   :custom
   ;; Default views for different commands/results
@@ -39,21 +39,21 @@
 ;;; Package: consult -- Search and navigation commands
 (pewcfg::use-package consult
   :demand t
-  :bind (("C-s" . consult-line)
-         ("C-x b" . consult-buffer)
-         ("C-x B" . consult-buffer-other-window)
-         ("C-x F" . consult-find)
-         ("C-x g" . consult-ripgrep)
-         ("C-x G" . consult-git-grep)
-         ("C-x l" . consult-outline)
-         ("C-x L" . consult-flymake)
-         ([remap imenu] . consult-imenu)
-         ([remap goto-line] . consult-goto-line)
-         ([remap bookmark-jump] . consult-bookmark)
-         ([remap recentf-open-files] . consult-recent-file)
-         ([remap evil-show-marks] . consult-mark)
-         :map minibuffer-local-map
-         ("M-q h" . consult-history))
+  :bind ( ("C-s" . consult-line)
+          ("C-x b" . consult-buffer)
+          ("C-x B" . consult-buffer-other-window)
+          ("C-x F" . consult-find)
+          ("C-x g" . consult-ripgrep)
+          ("C-x G" . consult-git-grep)
+          ("C-x l" . consult-outline)
+          ("C-x L" . consult-flymake)
+          ([remap imenu] . consult-imenu)
+          ([remap goto-line] . consult-goto-line)
+          ([remap bookmark-jump] . consult-bookmark)
+          ([remap recentf-open-files] . consult-recent-file)
+          ([remap evil-show-marks] . consult-mark)
+          :map minibuffer-local-map
+          ("M-q h" . consult-history) )
 
   :custom
   (register-preview-function #'consult-register-format)
@@ -110,8 +110,8 @@ ARGS should be a string of arguments passed to ripgrep."
 ;;; Package: marginalia -- Rich annotations in the minibuffer
 (pewcfg::use-package marginalia
   :demand t ;; :bind would cause lazy loading which is not we expect
-  :bind (:map vertico-map
-         ("M-q m" . marginalia-cycle))
+  :bind ( :map vertico-map
+          ("M-q m" . marginalia-cycle) )
 
   :config
   (marginalia-mode 1))
@@ -134,12 +134,12 @@ ARGS should be a string of arguments passed to ripgrep."
 ;;; Package: embark -- Minibuffer actions and context menu
 (pewcfg::use-package embark
   :hook (embark-collect-mode . pew::embark::collect-oninit)
-  :bind (([remap describe-bindings] . embark-bindings)
-         :map pew::M-u-map
-         ("e a" . embark-act)
-         ("e d" . embark-dwim)
-         ("e e" . embark-export)
-         ("e c" . embark-collect))
+  :bind ( ([remap describe-bindings] . embark-bindings)
+          :map pew::M-u-map
+          ("e a" . embark-act)
+          ("e d" . embark-dwim)
+          ("e e" . embark-export)
+          ("e c" . embark-collect) )
 
   :custom
   (prefix-help-command #'embark-prefix-help-command)

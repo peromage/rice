@@ -5,12 +5,12 @@
 ;;; Package: company -- Completion frontend
 (pewcfg::use-package company
   :demand t
-  :bind (:map company-mode-map
-         ([remap completion-at-point] . company-complete)
-         :map company-active-map
-         ("TAB" . company-complete-common-or-cycle)
-         ("C-c" . company-complete-selection)
-         ("C-k" . company-abort))
+  :bind ( :map company-mode-map
+          ([remap completion-at-point] . company-complete)
+          :map company-active-map
+          ("TAB" . company-complete-common-or-cycle)
+          ("C-c" . company-complete-selection)
+          ("C-k" . company-abort) )
 
   :custom
   (company-tooltip-align-annotations t)

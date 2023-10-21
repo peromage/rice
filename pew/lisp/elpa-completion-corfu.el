@@ -8,16 +8,16 @@
 ;;; Package: corfu -- Completion frontend
 (pewcfg::use-package corfu
   :demand t
-  :bind (:map corfu-map
-         ("TAB" . corfu-complete)
-         ("<tab>" . corfu-complete)
-         ("C-s" . corfu-insert-separator)
-         ("C-c" . corfu-insert)
-         ("C-k" . corfu-quit)
-         ("C-u" . corfu-reset)
-         ("RET" . corfu-insert)
-         ("<return>" . corfu-insert)
-         ("C-j" . pew::corfu::move-to-minibuffer))
+  :bind ( :map corfu-map
+          ("TAB" . corfu-complete)
+          ("<tab>" . corfu-complete)
+          ("C-s" . corfu-insert-separator)
+          ("C-c" . corfu-insert)
+          ("C-k" . corfu-quit)
+          ("C-u" . corfu-reset)
+          ("RET" . corfu-insert)
+          ("<return>" . corfu-insert)
+          ("C-j" . pew::corfu::move-to-minibuffer) )
 
   :custom
   (corfu-auto t)
@@ -75,20 +75,20 @@
          (lisp-data-mode . pew::cape::elisp-oninit)
          (eshell-mode . pew::cape::eshell-oninit))
 
-  :bind (:map pew::M-c-map
-         ("p"  . completion-at-point)
-         ("t"  . complete-tag)
-         ("d"  . cape-dabbrev)
-         ("h"  . cape-history)
-         ("f"  . cape-file)
-         ("k"  . cape-keyword)
-         ("s"  . cape-symbol)
-         ("a"  . cape-abbrev)
-         ("l"  . cape-line)
-         ("w"  . cape-dict)
-         ("\\" . cape-tex)
-         ("&"  . cape-sgml)
-         ("r"  . cape-rfc1345))
+  :bind ( :map pew::M-c-map
+          ("p"  . completion-at-point)
+          ("t"  . complete-tag)
+          ("d"  . cape-dabbrev)
+          ("h"  . cape-history)
+          ("f"  . cape-file)
+          ("k"  . cape-keyword)
+          ("s"  . cape-symbol)
+          ("a"  . cape-abbrev)
+          ("l"  . cape-line)
+          ("w"  . cape-dict)
+          ("\\" . cape-tex)
+          ("&"  . cape-sgml)
+          ("r"  . cape-rfc1345) )
 
   :config
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
