@@ -1,0 +1,4 @@
+### -*- mode: sh; -*-
+
+## Fix touchpad kinetic scrolling
+export MOZ_USE_XINPUT2=1
