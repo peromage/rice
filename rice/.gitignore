@@ -41,7 +41,7 @@
 #!/**/.config/fish/conf.d/
 
 ## Custom files
-/**/custom.bash
-/**/custom.ps1
-/**/custom.lua
-/**/custom.tmux.conf
+/**/.bashrc-custom
+/**/profile-custom.ps1
+/**/wezterm-custom.lua
+/**/.tmux-custom.conf

@@ -24,7 +24,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ### Environment variables ######################################################
 $RICE = @{}
 $RICE.root_dir = Get-Item "$PSScriptRoot"
-$RICE.custom_rc = (Join-Path $RICE.root_dir "custom.ps1")
+$RICE.custom_rc = (Join-Path $RICE.root_dir "profile-custom.ps1")
 $RICE.privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
 ## Modules will be autoloaded
 $Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.root_dir librice)

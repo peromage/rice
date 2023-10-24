@@ -318,7 +318,7 @@ local conf = meta:_bind {
 }
 
 --- Disposable changes ---------------------------------------------------------
-local ok, m = pcall(require, "custom")
+local ok, m = pcall(require, "wezterm-custom")
 if ok then m.customize(conf) end
 
 --- Example --------------------------------------------------------------------

@@ -11,7 +11,7 @@
 ### Environment variables ######################################################
 declare -A RICE
 RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-RICE[custom_rc]="${RICE[root_dir]}/custom.bash"
+RICE[custom_rc]="${RICE[root_dir]}/.bashrc-custom"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ### Commands ###################################################################
