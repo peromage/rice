@@ -7,7 +7,7 @@ local act = wezterm.action
 local util = {
   platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 
-  custom_color_scheme = function(scheme_name)
+  custom_color_scheme = function(self, scheme_name)
     -- Load a builtin color scheme and return the object with some personal flavors.
     -- Returned value is a color scheme object.
     local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
@@ -18,7 +18,7 @@ local util = {
     return scheme
   end,
 
-  step = function(val, min_val, max_val, step)
+  step = function(self, val, min_val, max_val, step)
     -- Increment/decrement the value based on the step.
     -- The returned value always falls between min_val and max_val.
     -- If input value is nil , nil is returned.
@@ -44,9 +44,9 @@ local util = {
     return val
   end,
 
-  adjust_window_opacity = function(overrides, step)
+  adjust_window_opacity = function(self, overrides, step)
     -- Window opacity change
-    overrides.window_background_opacity = meta.util.step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
+    overrides.window_background_opacity = self:step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
     return overrides
   end,
 }
@@ -87,15 +87,69 @@ local meta = {
 
 --- Events ---------------------------------------------------------------------
 wezterm.on("rice-increase-window-opacity", function(window, pane)
-  window:set_config_overrides(meta.util.adjust_window_opacity(window:get_config_overrides() or {}, 0.1))
+  window:set_config_overrides(meta.util:adjust_window_opacity(window:get_config_overrides() or {}, 0.1))
 end)
 
 wezterm.on("rice-decrease-window-opacity", function(window, pane)
-  window:set_config_overrides(meta.util.adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
+  window:set_config_overrides(meta.util:adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
 end)
 
+--- Config table ---------------------------------------------------------------
+local conf = meta:_bind {
+  -- System
+  check_for_updates = false,
+  automatically_reload_config = false,
+  adjust_window_size_when_changing_font_size = false,
+  audible_bell = "Disabled",
+  -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually
+  -- close the window
+  exit_behavior = "Close",
+  window_close_confirmation = 'AlwaysPrompt',
+  hide_mouse_cursor_when_typing = true,
+  enable_wayland = true,
+  front_end = "OpenGL",
+  webgpu_power_preference = "LowPower",
+  webgpu_force_fallback_adapter = false,
+  use_ime = true,
+  pane_focus_follows_mouse = false,
+
+  -- Appearance
+  initial_cols = 100,
+  initial_rows = 20,
+  window_decorations = "TITLE | RESIZE",
+  enable_tab_bar = true,
+  use_fancy_tab_bar = true,
+  hide_tab_bar_if_only_one_tab = true,
+  tab_bar_at_bottom = true,
+  tab_max_width = 16,
+  enable_scroll_bar = true,
+  min_scroll_bar_height = "1cell",
+  window_padding = {
+    left = "0.5cell",
+    right = "0.5cell",
+    top = "0.5cell",
+    bottom = "0.5cell",
+  },
+
+  -- Visual
+  font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
+  font_size = 12,
+  -- Overwrites `color_scheme'
+  colors = meta.util:custom_color_scheme("Galaxy"),
+  cursor_blink_rate = 0,
+  default_cursor_style = "SteadyBlock",
+  window_background_opacity = 0.9,
+  text_background_opacity = 1.0,
+
+  -- Use my own keybindings
+  disable_default_key_bindings = true,
+  disable_default_mouse_bindings = false,
+  key_map_preference = "Mapped",
+}
+
 --- Keybindings ----------------------------------------------------------------
-local keys = meta:_bind {
+--conf.leader = { mods = "CTRL", key = "`" },
+conf.keys = meta:_bind {
   { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
   { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
   { mods = "CTRL|SHIFT",  key = "C",      action = act.CopyTo "Clipboard" },
@@ -112,7 +166,9 @@ local keys = meta:_bind {
   { mods = "CTRL|SHIFT",  key = "?",      action = act.ShowDebugOverlay },
 }
 
-local transient_mode_table = meta:_bind {
+conf.key_tables = meta:_bind {}
+
+conf.key_tables.transient_mode_table = meta:_bind {
   -- Exit keys
   { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
   { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
@@ -152,7 +208,7 @@ local transient_mode_table = meta:_bind {
   { mods = "CTRL",  key = "o",           action = act.RotatePanes "Clockwise" },
 }
 
-local copy_mode_table = meta:_bind {
+conf.key_tables.copy_mode_table = meta:_bind {
   -- Exit
   { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
   { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
@@ -202,7 +258,7 @@ local copy_mode_table = meta:_bind {
   { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
 }
 
-local search_mode_table = meta:_bind {
+conf.key_tables.search_mode_table = meta:_bind {
   -- Switch back to the CopyMode when the search pattern is accepted or canceled
   -- Avoid accidentally exiting the CopyMode
   { mods = "NONE",  key = "Enter",   action = act.ActivateCopyMode },
@@ -216,7 +272,7 @@ local search_mode_table = meta:_bind {
 }
 
 --- Launch menu ----------------------------------------------------------------
-local launch_menu = meta:_bind {
+conf.launch_menu = meta:_bind {
   {
     label = "Bash",
     args = { "bash", "-i" },
@@ -235,7 +291,7 @@ local launch_menu = meta:_bind {
 }
 
 --- Domains --------------------------------------------------------------------
-local wsl_domains = meta:_bind {
+conf.wsl_domains = meta:_bind {
   {
     name = "WSL::Ubuntu-22.04",
     distribution = "Ubuntu-22.04",
@@ -249,74 +305,7 @@ local wsl_domains = meta:_bind {
   },
 }
 
-local ssh_domains = meta:_bind {}
-
---- Module table ---------------------------------------------------------------
-local conf = meta:_bind {
-  -- System
-  check_for_updates = false,
-  automatically_reload_config = false,
-  adjust_window_size_when_changing_font_size = false,
-  audible_bell = "Disabled",
-  -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually
-  -- close the window
-  exit_behavior = "Close",
-  window_close_confirmation = 'AlwaysPrompt',
-  hide_mouse_cursor_when_typing = true,
-  enable_wayland = true,
-  front_end = "OpenGL",
-  webgpu_power_preference = "LowPower",
-  webgpu_force_fallback_adapter = false,
-  use_ime = true,
-  pane_focus_follows_mouse = false,
-
-  -- Appearance
-  initial_cols = 100,
-  initial_rows = 20,
-  window_decorations = "TITLE | RESIZE",
-  enable_tab_bar = true,
-  use_fancy_tab_bar = true,
-  hide_tab_bar_if_only_one_tab = true,
-  tab_bar_at_bottom = true,
-  tab_max_width = 16,
-  enable_scroll_bar = true,
-  min_scroll_bar_height = "1cell",
-  window_padding = {
-    left = "0.5cell",
-    right = "0.5cell",
-    top = "0.5cell",
-    bottom = "0.5cell",
-  },
-
-  -- Visual
-  font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
-  font_size = 12,
-  -- Overwrites `color_scheme'
-  colors = meta.util.custom_color_scheme("Galaxy"),
-  cursor_blink_rate = 0,
-  default_cursor_style = "SteadyBlock",
-  window_background_opacity = 0.9,
-  text_background_opacity = 1.0,
-
-  -- Use my own keybindings
-  disable_default_key_bindings = true,
-  disable_default_mouse_bindings = false,
-  key_map_preference = "Mapped",
-  -- leader = { mods = "CTRL", key = "`" },
-  keys = keys,
-  key_tables = {
-    search_mode = search_mode_table,
-    copy_mode = copy_mode_table,
-    transient_mode_table = transient_mode_table,
-  },
-
-  -- Launch menu
-  launch_menu = launch_menu,
-
-  -- Domains
-  wsl_domains = wsl_domains,
-  ssh_domains = ssh_domains,
-}
+conf.ssh_domains = meta:_bind {}
 
 --- Disposable changes ---------------------------------------------------------
 local ok, m = pcall(require, "wezterm-custom")
