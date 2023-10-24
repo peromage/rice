@@ -20,7 +20,7 @@ function rice_include {
     ## The name should be the file basename without extension .bash.
     ## Usage: rice_include name [args]
     local name="${1:-}"; shift
-    source "${RICE[root_dir]}/librice/${name}" "$@";
+    source "${RICE[root_dir]}/.librice/${name}" "$@";
 }
 
 function string_join {
