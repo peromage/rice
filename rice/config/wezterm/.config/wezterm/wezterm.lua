@@ -4,93 +4,94 @@ local wezterm = require "wezterm"
 local act = wezterm.action
 
 --- Utility --------------------------------------------------------------------
-local util = {}
+local util = {
+  platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 
-function util.custom_color_scheme(scheme_name)
-  -- Load a builtin color scheme and return the object with some personal flavors.
-  -- Returned value is a color scheme object.
-  local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
-  -- Make the scrollbar more visible (lightness less than 0.6 considered as
-  -- a dark theme)
-  local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
-  scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
-  return scheme
-end
+  custom_color_scheme = function(scheme_name)
+    -- Load a builtin color scheme and return the object with some personal flavors.
+    -- Returned value is a color scheme object.
+    local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
+    -- Make the scrollbar more visible (lightness less than 0.6 considered as
+    -- a dark theme)
+    local h, s, l, a = wezterm.color.parse(scheme.background):hsla()
+    scheme.scrollbar_thumb = wezterm.color.from_hsla(h, s, l < 0.6 and 1 or 0, a)
+    return scheme
+  end,
 
+  step = function(val, min_val, max_val, step)
+    -- Increment/decrement the value based on the step.
+    -- The returned value always falls between min_val and max_val.
+    -- If input value is nil , nil is returned.
+    -- If input value is out of range, it will be stepped from the closest boundary.
+    if nil == val or nil == min_val or nil == max_val or nil == step then
+      return nil
+    end
+    -- Step the value
+    if val < min_val then
+      val = min_val + step
+    elseif val > max_val then
+      val = max_val + step
+    else
+      val = val + step
+    end
+    -- Boundary check
+    if val < min_val then
+      return min_val
+    end
+    if val > max_val then
+      return max_val
+    end
+    return val
+  end,
 
-function util.step(val, min_val, max_val, step)
-  -- Increment/decrement the value based on the step.
-  -- The returned value always falls between min_val and max_val.
-  -- If input value is nil , nil is returned.
-  -- If input value is out of range, it will be stepped from the closest boundary.
-  if nil == val or nil == min_val or nil == max_val or nil == step then
-    return nil
-  end
-  -- Step the value
-  if val < min_val then
-    val = min_val + step
-  elseif val > max_val then
-    val = max_val + step
-  else
-    val = val + step
-  end
-  -- Boundary check
-  if val < min_val then
-    return min_val
-  end
-  if val > max_val then
-    return max_val
-  end
-  return val
-end
-
-util.platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix"
+  adjust_window_opacity = function(overrides, step)
+    -- Window opacity change
+    overrides.window_background_opacity = meta.util.step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
+    return overrides
+  end,
+}
 
 --- Meta table -----------------------------------------------------------------
 -- Since the config for Wezterm cannot have any function property, use meta table
 -- to provide some additional functionalities.
-local meta = { util = util }
+local meta = {
+  util = util,
 
-function meta._bind(self, conf)
-  -- Bind the meta table
-  setmetatable(conf, self)
-  self.__index = self
-  return conf
-end
+  _bind = function(self, conf)
+    -- Bind the meta table
+    setmetatable(conf, self)
+    self.__index = self
+    return conf
+  end,
 
-function meta._update(self, tbl)
-  -- A utility function to merge a table to the current one in place.
-  -- Config comes later will overwrite the former if they share the same name.
-  -- Return self after merging.
-  for k, v in pairs(tbl) do
-    self[k] = v
-  end
-  return self
-end
+  _update = function(self, tbl)
+    -- A utility function to merge a table to the current one in place.
+    -- Config comes later will overwrite the former if they share the same name.
+    -- Return self after merging.
+    for k, v in pairs(tbl) do
+      self[k] = v
+    end
+    return self
+  end,
 
-function meta._append(self, arr)
-  -- A utility function to push a list of elements to the end of the table in
-  -- place.
-  -- Return self after pushing.
-  for _, v in ipairs(arr) do
-    table.insert(self, v)
-  end
-  return self
-end
+  _append = function(self, arr)
+    -- A utility function to push a list of elements to the end of the table in
+    -- place.
+    -- Return self after pushing.
+    for _, v in ipairs(arr) do
+      table.insert(self, v)
+    end
+    return self
+  end,
+}
 
 --- Events ---------------------------------------------------------------------
-local function adjust_window_opacity(overrides, step)
-  -- Window opacity change
-  overrides.window_background_opacity = meta.util.step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
-  return overrides
-end
-
 wezterm.on("rice-increase-window-opacity", function(window, pane)
-  window:set_config_overrides(adjust_window_opacity(window:get_config_overrides() or {}, 0.1))
+  window:set_config_overrides(meta.util.adjust_window_opacity(window:get_config_overrides() or {}, 0.1))
 end)
 
 wezterm.on("rice-decrease-window-opacity", function(window, pane)
-  window:set_config_overrides(adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
+  window:set_config_overrides(meta.util.adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
 end)
 
 --- Keybindings ----------------------------------------------------------------
