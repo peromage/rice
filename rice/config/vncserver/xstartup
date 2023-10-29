@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 ## Hints:
 ## To disable local graphical interface, set the default target

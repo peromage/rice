@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 emacsclient -n -c -a= "$@"

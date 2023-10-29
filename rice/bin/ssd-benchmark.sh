@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "Root is required"

@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 ################################################################################
 #
 # Test color support for the shell

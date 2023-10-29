@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 ## From: https://kevinlocke.name/bits/2019/07/31/prefer-terminal-for-gpg-pinentry/
 ## Use this in conjunction with reload-gpg-agent.sh

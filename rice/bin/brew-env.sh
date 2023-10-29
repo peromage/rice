@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 ## NOTE: This file has to be sourced by Bash
 

@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 OPTION="$1" && shift
 SOURCE="$1" && shift
