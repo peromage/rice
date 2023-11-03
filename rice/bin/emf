@@ -1,10 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env -S emacs -Q -nw --load
+;;; -*- mode: emacs-lisp; -*-
 
-emacs -Q -nw --eval "$(cat <<EOF
-(progn
-  (xterm-mouse-mode 1)
-  (setq dired-dwim-target t)
-  (put 'dired-find-alternate-file 'disabled nil)
-  (dired "$(pwd)"))
-EOF
-)"
+(xterm-mouse-mode 1)
+(setq dired-dwim-target t)
+(put 'dired-find-alternate-file 'disabled nil)
+(dired default-directory)
