@@ -21,6 +21,7 @@ gpgsign = true
 autocrlf = input
 quotepath = false
 editor = vim -u NONE
+filemode = true
 
 ## To make git works with ssh-agent on Windows:
 ## 1. Enable `OpenSSH Authentication Agent` from `Services` panel
