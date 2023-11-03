@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+tmpfile=/tmp/.emcd-workdir
+
+emacs -Q -nw --eval "$(cat <<EOF
+(progn
+  (defun write-workdir-to-tmp ()
+    (with-temp-file "$tmpfile"
+      (erase-buffer)
+      (insert (file-truename default-directory) "\n")))
+  (xterm-mouse-mode 1)
+  (setq dired-dwim-target t)
+  (put 'dired-find-alternate-file 'disabled nil)
+  (add-hook 'kill-emacs-hook #'write-workdir-to-tmp)
+  (dired default-directory))
+EOF
+)"
+
+cat $tmpfile && rm $tmpfile
