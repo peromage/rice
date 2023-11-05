@@ -4,6 +4,10 @@
 /cache/
 /.cache/
 
+## Vim (whitelist)
+/config/vim/.vim/*
+!/config/vim/.vim/vimrc
+
 ## GnuPG (whitelist)
 /config/gnupg/.gnupg/*
 !/config/gnupg/.gnupg/gpg-agent.conf
