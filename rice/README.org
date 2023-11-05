@@ -33,11 +33,22 @@ Use the script [[./stow.sh][stow.sh]] to quickly manage presets.
 ./stow --restow PRESET-general
 #+end_src
 
-* Appendix: a list of CLI alternatives
-- Better ~ls~: [[https://github.com/ogham/exa][exa]]
-- Better ~cat~: [[https://github.com/sharkdp/bat][bat]]
-- Better ~grep~: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
-- Better ~find~: [[https://github.com/junegunn/fzf][fzf]]
+* Appendix
+** Fcitx5 with Rime
+Customization should go into =name.custom.yaml= in order to avoid overwrite from redeployment.  For example, =~/.config/share/fcitx5/rime/default.yaml=, the corresponding customization file is =~/.config/share/fcitx5/rime/default.custom.yaml=.
+
+To redeploy (rebuild), run
+#+begin_src sh
+fcitx5 -r
+#+end_src
+
+NOTE: In Gnome, ~super+space~ is eatten by mutter.  Need to find a workaround to enable it by users or simply use a different key binding like ~Ctrl+|~ (a mnemonic key corresponding to Emacs's ~Ctrl+\~).
+
+** Common CLI alternatives
+- Better =ls=: [[https://github.com/ogham/exa][exa]]
+- Better =cat=: [[https://github.com/sharkdp/bat][bat]]
+- Better =grep=: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
+- Better =find=: [[https://github.com/junegunn/fzf][fzf]]
 - Quick jump: [[https://github.com/ajeetdsouza/zoxide][zoxide]], [[https://github.com/skywind3000/z.lua][z.lua]]
 - File manager: [[https://github.com/gokcehan/lf][lf]], [[https://midnight-commander.org][mc]]
 - Automation: [[https://github.com/eradman/entr][entr]]
