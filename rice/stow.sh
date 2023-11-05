@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 
-OPTION="$1" && shift
+ACTION="$1" && shift
 SOURCE="$1" && shift
 
-case "$OPTION" in
+case "$ACTION" in
     -S|--stow|-D|--delete|-R|--restow) ;;
     *)
-        echo "Invalid option: $OPTION"
+        >&2 cat <<EOF
+Invalid action: $ACTION
+
+Usage:
+  $0 action path-to-package-top [arguments]
+
+Actions:
+  -S, --stow
+  -D, --delete
+  -R, --restow
+EOF
         exit 1
         ;;
 esac
@@ -18,4 +28,6 @@ if ! test -d "$SOURCE"; then
     exit 1
 fi
 
-eval "stow --dir=$SOURCE --target=$HOME $OPTION ."
+CMD="stow $@ --dir=$SOURCE --target=$HOME $ACTION ."
+echo "Invoking: $CMD"
+eval "$CMD"
