@@ -5,43 +5,42 @@
 /.cache/
 
 ## GnuPG (whitelist)
-/**/.gnupg/*
-!/**/.gnupg/gpg-agent.conf
-!/**/.gnupg/gpg.conf
-!/**/.gnupg/sshcontrol
+/config/gnupg/.gnupg/*
+!/config/gnupg/.gnupg/gpg-agent.conf
+!/config/gnupg/.gnupg/gpg.conf
+!/config/gnupg/.gnupg/sshcontrol
 
 ## Fcitx5 (whitelist)
-/**/.config/fcitx5/*
-!/**/.config/fcitx5/conf/
-/**/.config/fcitx5/conf/*
-/**/.local/share/fcitx5/*
+/config/fcitx5/.config/fcitx5/*
+!/config/fcitx5/.config/fcitx5/config
+!/config/fcitx5/.config/fcitx5/profile
+!/config/fcitx5/.config/fcitx5/conf/notifications.conf
+!/config/fcitx5/.config/fcitx5/conf/rime.conf
 
-!/**/.config/fcitx5/config
-!/**/.config/fcitx5/profile
-!/**/.config/fcitx5/conf/notifications.conf
-!/**/.config/fcitx5/conf/rime.conf
-!/**/.local/share/fcitx5/default.custom.yaml
-!/**/.local/share/fcitx5/fcitx5.custom.yaml
+/config/fcitx5/.local/share/fcitx5/*
+!/config/fcitx5/.local/share/fcitx5/default.custom.yaml
+!/config/fcitx5/.local/share/fcitx5/fcitx5.custom.yaml
 
 ## Vifm (whitelist)
-/**/.config/vifm/*
-!/**/.config/vifm/colors/
-!/**/.config/vifm/vifmrc
+/config/vifm/.config/vifm/*
+!/config/vifm/.config/vifm/colors/
+!/config/vifm/.config/vifm/vifmrc
 
 ## Total Commander (whitelist)
-/**/AppData/Roaming/GHISLER/*
-!/**/AppData/Roaming/GHISLER/conf/
-!/**/AppData/Roaming/GHISLER/wincmd.ini
+/config/totalcmd/AppData/Roaming/GHISLER/*
+!/config/totalcmd/AppData/Roaming/GHISLER/conf/
+!/config/totalcmd/AppData/Roaming/GHISLER/wincmd.ini
 
 ## Fish (whitelist)
-/**/.config/fish/*
-!/**/.config/fish/config.fish
-#!/**/.config/fish/functions/
-#!/**/.config/fish/completions/
-#!/**/.config/fish/conf.d/
+/config/fish/.config/fish/*
+!/config/fish/.config/fish/config.fish
+## Local changes that may not need to be tracked
+#!/config/fish/.config/fish/functions/
+#!/config/fish/.config/fish/completions/
+#!/config/fish/.config/fish/conf.d/
 
 ## Custom files
-/**/.bashrc-custom
-/**/profile-custom.ps1
-/**/wezterm-custom.lua
-/**/.tmux-custom.conf
+.bashrc-custom
+profile-custom.ps1
+wezterm-custom.lua
+.tmux-custom.conf
