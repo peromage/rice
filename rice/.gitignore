@@ -14,12 +14,18 @@
 /config/fcitx5/.config/fcitx5/*
 !/config/fcitx5/.config/fcitx5/config
 !/config/fcitx5/.config/fcitx5/profile
+!/config/fcitx5/.config/fcitx5/conf/
+
+/config/fcitx5/.config/fcitx5/conf/*
 !/config/fcitx5/.config/fcitx5/conf/notifications.conf
 !/config/fcitx5/.config/fcitx5/conf/rime.conf
 
 /config/fcitx5/.local/share/fcitx5/*
-!/config/fcitx5/.local/share/fcitx5/default.custom.yaml
-!/config/fcitx5/.local/share/fcitx5/fcitx5.custom.yaml
+!/config/fcitx5/.local/share/fcitx5/rime/
+
+/config/fcitx5/.local/share/fcitx5/rime/*
+!/config/fcitx5/.local/share/fcitx5/rime/default.custom.yaml
+!/config/fcitx5/.local/share/fcitx5/rime/fcitx5.custom.yaml
 
 ## Vifm (whitelist)
 /config/vifm/.config/vifm/*
