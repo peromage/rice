@@ -228,7 +228,9 @@ This is an advanced method to determine initial state rather than using
   (pew::evil::set-key '(normal motion visual) 'global nil
     '(("SPC" . pewkey-map)
       ;; Search
-      ("#" . evil-ex-nohighlight)))
+      ("#" . evil-ex-nohighlight)
+      ;; Default jump forward is C-i which is bad in terminal environment
+      ("C-M-o" . evil-jump-forward)))
 
   ;; Normal and motion state specific
   (pew::evil::set-key '(normal motion) 'global nil
