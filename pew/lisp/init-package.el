@@ -43,14 +43,17 @@
       use-package-verbose nil)
 
 ;; A convenient function to enable custom values from the synthetic theme
-(defun use-package--enable-custom-theme ()
+(defun pew::enable--use-package-custom-theme ()
   "A quick way to enable all the settings from the `use-package' theme.
 After enabling, remove the synthetic theme from the enabled themes, so iterating
-over them to disable-all-themes won't disable it."
+over them to disable-all-themes won't disable it.
+Note: This is used as a workaround to fix some variables that are set with
+:custom in `use-package'."
   (interactive)
-  (let ((theme 'use-package))
-    (enable-theme theme)
-    (setq custom-enabled-themes (remq theme custom-enabled-themes))))
+  (enable-theme 'use-package)
+  (setq custom-enabled-themes (remq 'use-package custom-enabled-themes))
+  (message "[pew] Reloaded use-package custom theme"))
+(add-hook 'after-init-hook #'pew::enable--use-package-custom-theme)
 
 (provide 'init-package)
 ;;; init-package.el ends here
