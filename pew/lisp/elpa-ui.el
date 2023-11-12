@@ -33,6 +33,12 @@
   all-the-icons
   nerd-icons)
 
+;;; Setup functions for convenience
+(defun pew::install-fonts ()
+  (interactive)
+  (all-the-icons-install-fonts :silent)
+  (nerd-icons-install-fonts :silent))
+
 ;;; Default looking
 (pew::load-theme 'catppuccin)
 
