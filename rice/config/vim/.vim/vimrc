@@ -21,7 +21,7 @@ set nowrap
 set colorcolumn=80,120
 "" Line numbers
 set number
-set relativenumber
+set norelativenumber
 set signcolumn=yes
 "" Colors
 set background=dark
