@@ -1,5 +1,8 @@
 ;;; elpa-org.el --- org mode -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; For the babel reference: https://org-babel.readthedocs.io/en/latest/
+
 ;;; Code:
 
 ;;; Package: org
@@ -172,10 +175,12 @@ Duplicated pairs will be removed."
                                  (nconc alist org-babel-load-languages)))
 
   :config/setq
+  ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
   (org-babel-default-header-args '((:session . "none")
                                    (:results . "output replace")
                                    ;; (:wrap . "example") ;; Might be problematic for pictures
-                                   (:exports . "code")
+                                   (:exports . "both")
+                                   (:eval . "never-export")
                                    (:cache . "no")
                                    (:noweb . "yes")
                                    (:hlines . "no")
@@ -183,6 +188,7 @@ Duplicated pairs will be removed."
   (org-babel-default-inline-header-args '((:session . "none")
                                           (:results . "output replace")
                                           (:exports . "results")
+                                          (:eval . "never-export")
                                           (:cache . "no")
                                           (:noweb . "yes")
                                           (:hlines . "no")
