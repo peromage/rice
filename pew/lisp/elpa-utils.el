@@ -78,7 +78,9 @@ users to specify the shell to start with."
   ;; Highlight current line
   beacon
   ;; Sometimes useful to get prompted for LSP commands
-  which-key)
+  which-key
+  ;; Hyperbole
+  hyperbole)
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
