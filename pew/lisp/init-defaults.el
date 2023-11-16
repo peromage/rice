@@ -197,11 +197,13 @@
   (repeat-mode t)
 
 ;;;; Dired
-  (dired-listing-switches "-alFD --group-directories-first")
+  (dired-listing-switches "-lahD --group-directories-first")
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
   (dired-kill-when-opening-new-dired-buffer nil "Cannot open multiple dired windows if on")
+  (dired-hide-details-hide-symlink-targets nil)
+  (dired-hide-details-hide-information-lines nil)
 
 ;;;; Eshell
   (eshell-banner-message "")
@@ -437,6 +439,9 @@
 
   ;; Enable folding
   (prog-mode-hook . outline-minor-mode)
+
+  ;; Show less in Dired
+  (dired-mode-hook . dired-hide-details-mode)
 
 ;;; Symbol properties
   :property
