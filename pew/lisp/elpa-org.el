@@ -74,7 +74,8 @@
 
 ;;;; Babel
   (org-babel-load-languages '((emacs-lisp . t)
-                              (shell . t)))
+                              (shell . t)
+                              (perl . t)))
   (org-confirm-babel-evaluate nil)
 
 ;;;; Todo
