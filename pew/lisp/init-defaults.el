@@ -249,8 +249,8 @@
 ;;;; electric
   (electric-pair-preserve-balance t)
   (electric-pair-delete-adjacent-pairs t)
-  (electric-pair-mode nil "Annoying sometimes")
-  (electric-indent-mode nil "Annoying sometimes")
+  (electric-pair-mode t)
+  (electric-indent-mode t)
 
 ;;;; TRAMP
   (tramp-default-method "scp")
