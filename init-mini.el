@@ -26,8 +26,8 @@ loaded from other places.")
                        load-path))
 
 (require 'pewcfg-core)
-(require 'init-common)
-(require 'init-defaults)
+(require 'init-lib)
+(require 'init-config)
 
 (pewcfg
   :customize

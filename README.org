@@ -54,7 +54,7 @@ This keymap can be activated via =pewkey= command as well.  When it is activated
 
 =pewkey= supports repeat mode.  Unlike =repeat-mode= it is still a transient keymap.  A universal argument can be passed to =pewkey= to enable repeat mode or press =C-h= to enable it while =pewkey-map= is active.  Use =C-g= to exit.
 
-Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-defaults.el][init-default.el]] for details.
+Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-config.el][init-config.el]] for details.
 
 My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey=.
 
@@ -63,8 +63,8 @@ Global
 
 | Key         | Command                                                       | Definition                                                        |
 |-------------+---------------------------------------------------------------+-------------------------------------------------------------------|
-| =C-z=       | =pewkey=                                                      | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
-| =C-u C-z=   | =pewkey-repeat=                                               | [[./pew/lisp/init-defaults.el][init-default.el]]                  |
+| =C-z=       | =pewkey=                                                      | [[./pew/lisp/init-config.el][init-config.el]]                     |
+| =C-u C-z=   | =pewkey-repeat=                                               | [[./pew/lisp/init-config.el][init-config.el]]                     |
 | =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by =consult=              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
 | =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by =consult=                 | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
 | =C-x m=     | Toggle @@html:<b>@@M@@html:</b>@@ode edit state (Evil)        | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |

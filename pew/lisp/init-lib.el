@@ -1,4 +1,4 @@
-;;; init-common.el --- common library -*- lexical-binding: t; -*-
+;;; init-lib.el --- common library -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; This file should be loaded as early as possible.
@@ -456,5 +456,5 @@ If MODE is any non-nill value other than '(4), that mode name will be used."
             (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
           (find-parent parent-major-mode (cons parent-major-mode results)))))))
 
-(provide 'init-common)
-;;; init-common.el ends here
+(provide 'init-lib)
+;;; init-lib.el ends here

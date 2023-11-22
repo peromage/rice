@@ -1,4 +1,4 @@
-;;; init-defaults.el --- built-in config -*- lexical-binding: t; -*-
+;;; init-config.el --- built-in config -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; Set Emacs built-ins with my own flavor.
@@ -472,5 +472,5 @@
   (default :family "Iosevka" :foundry "UKWN" :slant normal :weight normal :height 120 :width normal)
   (tab-bar :inherit default))
 
-(provide 'init-defaults)
-;;; init-defaults.el ends here
+(provide 'init-config)
+;;; init-config.el ends here

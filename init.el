@@ -46,8 +46,8 @@ Default is under `pew::home-dir'.")
 (require 'init-boot)
 (require 'init-package)
 (require 'pewcfg)
-(require 'init-common)
-(require 'init-defaults)
+(require 'init-lib)
+(require 'init-config)
 
 ;; Load ELPA packages
 (require 'elpa-ui)
