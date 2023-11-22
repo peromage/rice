@@ -42,9 +42,7 @@
                                     "--header-insertion-decorators=0"
                                     "--suggest-missing-includes"
                                     "--all-scopes-completion"))
-    (lsp-deferred)
-    ;; Post LSP mode settings
-    (electric-indent-mode -1))
+    (lsp-deferred))
 
   (defun pew::cc-mode::c-oninit ()
     "Initialization for C mode."

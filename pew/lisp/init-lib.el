@@ -334,9 +334,7 @@ place."
   (visual-line-mode 1)
   (flyspell-mode 1)
   (display-line-numbers-mode -1)
-  (set-fill-column -1)
-  (electric-pair-mode -1)
-  (electric-indent-mode -1))
+  (set-fill-column -1))
 
 (defun pew::reuse-window-in-buffer ()
   "Make new spawned windows atttempt to reuse current ones.
