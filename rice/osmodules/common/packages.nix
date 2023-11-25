@@ -2,6 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
+    ## Most used CLI
     vim
     wget
     curl
@@ -9,5 +10,14 @@
     git
     git-lfs
     coreutils
+
+    ## File system
+    ntfs3g
+    exfat
+    exfatprogs
+    e2fsprogs
+
+    ## Disk
+    parted
   ];
 }
