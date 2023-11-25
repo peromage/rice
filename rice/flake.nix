@@ -19,6 +19,7 @@
     let
       importWithRice = path: lib.callPackageWith rice (import path) {};
       lib = nixpkgs.lib;
+      librice = rice.lib;
       rice = {
         inherit nixpkgs inputs;
         inherit (self) outputs;
@@ -30,13 +31,22 @@
     in
       {
         ## Via: 'nix build', 'nix shell', etc.
-        packages = rice.lib.forSupportedSystems
+        packages = librice.forSupportedSystems
           (system: import ./packages nixpkgs.legacyPackages.${system});
 
         ## Via: 'nix fmt'
         ## Other options beside 'alejandra' include 'nixpkgs-fmt'
-        formatter = rice.lib.forSupportedSystems
+        formatter = librice.forSupportedSystems
           (system: nixpkgs.legacyPackages.${system}.alejandra);
+
+        devShells = librice.forSupportedSystems
+          (system: import ./shells (import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowBroken = true;
+            };
+          }));
 
         overlays = import ./overlays { inherit inputs; };
 
@@ -44,7 +54,7 @@
 
         # Via: 'nixos-rebuild --flake .#host'
         nixosConfigurations = {
-          framepie = rice.lib.nixosImport ./instances/framepie;
+          framepie = librice.nixosImport ./instances/framepie;
         };
       };
 }
