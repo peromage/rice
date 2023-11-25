@@ -10,7 +10,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     ## Other flakes
-    nix-colors.url = "github:misterio77/nix-colors";
+    nix-colors.url = "github:misterio77/nix-colors/main";
+    dev-templates.url = "github:the-nix-way/dev-templates/main";
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:
@@ -37,6 +38,7 @@
           (system: nixpkgs.legacyPackages.${system}.alejandra);
 
         overlays = import ./overlays { inherit inputs; };
+        templates = inputs.dev-templates.templates; # I'm lazy
 
         # Via: 'nixos-rebuild --flake .#host'
         nixosConfigurations = {
