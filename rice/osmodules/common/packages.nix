@@ -19,5 +19,8 @@
 
     ## Disk
     parted
+
+    ## Apps
+    appimage-run
   ];
 }
