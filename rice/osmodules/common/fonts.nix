@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     iosevka
     cascadia-code
     emacs-all-the-icons-fonts
