@@ -5,4 +5,4 @@ let
   uid = 1001;
 
 in
-rice.lib.createSudoUser name uid
+rice.lib.createSudoUser name uid [ "users" "audio" "video" "cdrom" "networkmanager" ]

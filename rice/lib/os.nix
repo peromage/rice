@@ -25,12 +25,12 @@ in
   ## General sudo user creation
   ## To extend the module created by this function, put the result into the
   ## `imports' list and do your customs.
-  createSudoUser = name: uid: {
+  createSudoUser = name: uid: groups: {
     users.users.${name} = {
       isNormalUser = true;
       uid = uid;
       group = name;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" ] ++ groups;
     };
     users.groups.${name} = {
       gid = uid;
