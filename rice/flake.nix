@@ -6,13 +6,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/master";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     lanzaboote.url = "github:nix-community/lanzaboote/master";
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ## For Mac
     nixdarwin.url = "github:LnL7/nix-darwin/master";
-    darwin-home-manager.url = "github:nix-community/home-manager/master";
-    darwin-home-manager.inputs.nixpkgs.follows = "nixdarwin";
+    darwin-home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixdarwin";
+    };
 
     ## Other flakes
     nix-colors.url = "github:misterio77/nix-colors/main";
