@@ -10,6 +10,8 @@
     git
     git-lfs
     coreutils
+    pinentry
+    gnupg
 
     ## File system
     ntfs3g
