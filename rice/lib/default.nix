@@ -11,12 +11,12 @@ let
   importAll = with builtins;
     dir: args:
     (map (f: import (dir + "/${f}") args)
-      (filter f: "default.nix" != f
+      (filter (f: "default.nix" != f)
         (attrNames (readDir dir))));
 
   librice = with builtins;
-    foldl' (a: b: a // b) {} (importAll ./. {
-      { self = librice; inherit nixpkgs rice toplevel; }
+    foldl' (a: b: a // b) {} (importAll ./.{
+      self = librice; inherit nixpkgs rice toplevel;
     }) // {
       inherit importAll;
     };

@@ -1,4 +1,4 @@
-{ config, lib, rice, ... }:
+{ config, pkgs, lib, rice, ... }:
 
 let
   inherit (rice) nixpkgs;
@@ -9,8 +9,6 @@ in {
     nixpkgs.nixosModules.notDetected
     lanzaboote.nixosModules.lanzaboote
     nixos-hardware.nixosModules.framework-12th-gen-intel
-    ./mounts.nix
-    ./packages.nix
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
