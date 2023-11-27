@@ -15,7 +15,7 @@ in
     "common/locale.nix"
     "common/fonts.nix"
     "common/packages.nix"
-    "desktopenv/gnome.nix"
+    "desktops/gnome.nix"
     "programs/gnupg.nix"
     "services/firmware.nix"
     "services/peripherals.nix"

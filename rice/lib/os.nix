@@ -13,7 +13,7 @@ in
 
   ## Shorthand to get paths of NixOS modules relative to the toplevel.
   ## Usually used with `imports' block in a NixOS module.
-  getOSModules = list: self.withPrefix (toplevel + "/osmodules/") list;
+  getOSModules = list: self.withPrefix (toplevel + "/modules/") list;
 
   ## Supported platforms
   forSupportedSystems = lib.genAttrs [
