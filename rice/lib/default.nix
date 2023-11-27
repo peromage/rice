@@ -8,17 +8,19 @@
 let
   lib = nixpkgs.lib;
 
-  importAll = with builtins;
-    dir: args:
-    (map (f: import (dir + "/${f}") args)
+  allButDefault = with builtins; dir:
+    (map (f: dir + "/${f}")
       (filter (f: "default.nix" != f)
-        (attrNames (readDir dir))));
+      (attrNames (readDir dir))));
+
+  importAll = with builtins; dir: args:
+    (map (f: import f args) (allButDefault dir));
 
   librice = with builtins;
-    foldl' (a: b: a // b) {} (importAll ./.{
+    foldl' (a: b: a // b) {} (importAll ./. {
       self = librice; inherit nixpkgs rice toplevel;
     }) // {
-      inherit importAll;
+      inherit importAll allButDefault;
     };
 
 in

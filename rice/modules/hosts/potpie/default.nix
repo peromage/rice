@@ -1,6 +1,12 @@
-{ lib, ... }:
+{ lib, rice, ... }:
 
+let
+librice = rice.lib;
+
+in
 {
+  imports = librice.allButDefault ./.;
+
   ## Host name
   networking.hostName = lib.mkDefault "potpie";
 

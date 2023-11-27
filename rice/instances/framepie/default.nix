@@ -15,10 +15,6 @@ librice.buildNixOS "x86_64-linux" {
   ] ++ librice.getModules [
     "hosts/potpie"
     "users/fang"
-    "common/nix-settings.nix"
-    "common/locale.nix"
-    "common/fonts.nix"
-    "common/packages.nix"
     "desktops/gnome.nix"
     "programs/gnupg.nix"
     "services/firmware.nix"
