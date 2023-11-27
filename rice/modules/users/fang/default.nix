@@ -1,8 +1,10 @@
 { rice, ... }:
 
-let
-  name = "fang";
-  uid = 1001;
-
-in
-rice.lib.createSudoUser name uid [ "users" "audio" "video" "cdrom" "networkmanager" ]
+{
+  rice.user.users = {
+    fang = {
+      id = 1001;
+      groups = [ "users" "audio" "video" "cdrom" "networkmanager" ];
+    };
+  };
+}
