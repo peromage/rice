@@ -6,13 +6,20 @@
 { nixpkgs, rice, toplevel, ... }:
 
 let
-  importSubset = path: lib.callPackageWith
-    { self = librice; inherit nixpkgs rice toplevel; }
-    (import path)
-    {};
   lib = nixpkgs.lib;
-  librice = (importSubset ./imports.nix)
-            // (importSubset ./os.nix);
+
+  importAll = with builtins;
+    dir: args:
+    (map (f: import (dir + "/${f}") args)
+      (filter f: "default.nix" != f
+        (attrNames (readDir dir))));
+
+  librice = with builtins;
+    foldl' (a: b: a // b) {} (importAll ./. {
+      { self = librice; inherit nixpkgs rice toplevel; }
+    }) // {
+      inherit importAll;
+    };
 
 in
 librice
