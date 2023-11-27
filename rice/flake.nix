@@ -77,7 +77,7 @@
 
         # Via: 'nixos-rebuild --flake .#host'
         nixosConfigurations = {
-          framepie = librice.nixosImport ./instances/framepie;
+          framepie = librice.importNixOS ./instances/framepie;
         };
       };
 }

@@ -6,14 +6,18 @@ let
 in
 {
   ## Import a NixOS toplevel module
-  nixosImport = ostop: lib.nixosSystem {
-    specialArgs = { inherit rice; };
-    modules = [ (self.toDefaultFile ostop) ];
+  buildNixOS = system: topModule: lib.nixosSystem {
+    inherit system;
+    specialArgs = { inherit rice system; };
+    modules = [ topModule ];
   };
+
+  ## An alias of importWithRice
+  importNixOS = self.importWithRice;
 
   ## Shorthand to get paths of NixOS modules relative to the toplevel.
   ## Usually used with `imports' block in a NixOS module.
-  getOSModules = list: self.withPrefix (toplevel + "/modules/") list;
+  getModules = list: self.withPrefix (toplevel + "/modules/") list;
 
   ## Supported platforms
   forSupportedSystems = lib.genAttrs [
