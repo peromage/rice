@@ -41,7 +41,6 @@
 
   outputs = { self, nixpkgs, ... } @ inputs:
     let
-      importWithRice = path: lib.callPackageWith rice (import path) {};
       lib = nixpkgs.lib;
       librice = rice.lib;
       rice = {
@@ -49,7 +48,7 @@
         inherit (self) outputs;
         rice = rice; # Self reference
         toplevel = builtins.path { path = ./.; }; # Explicit copy
-        lib = importWithRice ./lib;
+        lib = import ./lib rice;
       };
 
     in

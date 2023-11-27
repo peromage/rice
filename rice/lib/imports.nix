@@ -1,11 +1,14 @@
 { self, nixpkgs, toplevel, rice, ... }:
 
-{
+let
+  lib = nixpkgs.lib;
+
+in {
   ## Like import but with predefined arguments
   importWithArgs = args: path: import path args;
 
-  ## Similar with importWithArgs but with rice added
-  importWithRice = args: path: import path (args // { inherit rice; });
+  ## Import with rice passed in
+  importWithRice = path: lib.callPackageWith rice path {};
 
   ## Append default.nix to path
   getDefaultFile = path: path + "/default.nix";
