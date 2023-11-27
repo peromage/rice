@@ -3,8 +3,7 @@
 let
   lib = nixpkgs.lib;
 
-in
-{
+in {
   ## Import a NixOS toplevel module
   buildNixOS = system: topModule: lib.nixosSystem {
     inherit system;

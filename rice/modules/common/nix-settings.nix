@@ -3,8 +3,7 @@
 let
   nixpkgs = rice.nixpkgs;
 
-in
-{
+in {
   ## Use unfree software
   nixpkgs.config.allowUnfree = true;
 
