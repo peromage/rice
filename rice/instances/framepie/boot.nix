@@ -4,8 +4,7 @@ let
   inherit (rice) nixpkgs;
   inherit (rice.inputs) lanzaboote nixos-hardware;
 
-in
-{
+in {
   imports = [
     nixpkgs.nixosModules.notDetected
     lanzaboote.nixosModules.lanzaboote
@@ -60,6 +59,10 @@ in
       efi.canTouchEfiVariables = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    tpm2-tss
+  ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
