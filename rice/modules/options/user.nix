@@ -4,7 +4,7 @@
 
 with lib;
 let
-  cfg = config.rice;
+  cfg = config.rice.user;
 
 in {
   options.rice.user = {
@@ -53,9 +53,9 @@ in {
           group = n;
           extraGroups = v.groups;
         })
-        cfg.user.users)
+        cfg.users)
       ## Handle user.disableRoot
-      // (if ! cfg.user.disableRoot then {}
+      // (if ! cfg.disableRoot then {}
           else {
             root = {
               hashedPassword = "**DISABLED**";
@@ -69,10 +69,10 @@ in {
         (n: v: {
           gid = v.id;
         })
-        cfg.user.users;
+        cfg.users;
 
     ## Handle user.immutable
-    mutableUsers = !cfg.user.immutable;
+    mutableUsers = !cfg.immutable;
 
   in {
     users.mutableUsers = mutableUsers;

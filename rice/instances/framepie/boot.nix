@@ -2,12 +2,11 @@
 
 let
   inherit (rice) nixpkgs;
-  inherit (rice.inputs) lanzaboote nixos-hardware;
+  inherit (rice.inputs) nixos-hardware;
 
 in {
   imports = [
     nixpkgs.nixosModules.notDetected
-    lanzaboote.nixosModules.lanzaboote
     nixos-hardware.nixosModules.framework-12th-gen-intel
   ];
 
@@ -42,20 +41,6 @@ in {
     ];
 
     extraModulePackages = [ ];
-
-    # Use the systemd-boot EFI boot loader.
-    # Secure boot: https://nixos.wiki/wiki/Secure_Boot
-    bootspec.enable = true;
-
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/etc/secureboot";
-    };
-
-    loader = {
-      systemd-boot.enable = lib.mkForce false;
-      efi.canTouchEfiVariables = true;
-    };
   };
 
   environment.systemPackages = with pkgs; [

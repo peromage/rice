@@ -4,7 +4,7 @@
 
 with lib;
 let
-  cfg = config.rice;
+  cfg = config.rice.host;
 
 in {
   options.rice.host = {
@@ -16,6 +16,6 @@ in {
   };
 
   config = {
-    networking.hostName = mkIf (null != cfg.host.name) cfg.host.name;
+    networking.hostName = mkIf (null != cfg.name) cfg.name;
   };
 }
