@@ -15,14 +15,14 @@
 with lib;
 let
   inherit (rice.inputs) lanzaboote;
-  cfg = config.rice.boot.secureboot;
+  cfg = config.rice.boot.secureBoot;
 
 in {
   imports = [
     lanzaboote.nixosModules.lanzaboote
   ];
 
-  options.rice.boot.secureboot = {
+  options.rice.boot.secureBoot = {
     enable = mkEnableOption "Enable secure boot support";
   };
 

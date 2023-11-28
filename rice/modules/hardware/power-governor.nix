@@ -2,10 +2,10 @@
 
 with lib;
 let
-  cfg = config.rice.power;
+  cfg = config.rice.powerGovernor;
 
 in {
-  options.rice.power = {
+  options.rice.powerGovernor = {
     enable = mkEnableOption "Enable power governor";
 
     profile = mkOption {
