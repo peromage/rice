@@ -1,25 +1,13 @@
-{ lib, rice, ... }:
+{ config, lib, pkgs, rice, ... }:
 
 let
   librice = rice.lib;
+  cfg = config.rice.hosts.potpie;
 
 in {
   imports = librice.allButDefault ./.;
 
-  ## Host name
-  networking.hostName = lib.mkDefault "potpie";
+  options.rice.hosts.potpie = librice.mkHostPreset "Potpie";
 
-  ## System state version
-  system.stateVersion = "23.05";
-
-  ## Sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  ## Network
-  networking = {
-    networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
-    firewall.enable = true;
-  };
+  config = librice.mkHostPresetConfig cfg {};
 }

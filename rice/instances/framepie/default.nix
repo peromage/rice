@@ -10,8 +10,8 @@ librice.buildNixOS "x86_64-linux" {
   imports = [
     ./boot.nix
     ./mounts.nix
+    librice.moduleToplevel
   ] ++ librice.getModules [
-    "options"
     "hosts/potpie"
     "users/fang"
     "desktops/gnome.nix"
@@ -22,9 +22,10 @@ librice.buildNixOS "x86_64-linux" {
   ];
 
   rice = {
-    host.name = "framepie";
-    boot.secureboot.enable = true;
-    power = {
+    hosts.potpie.enable = true;
+    hosts.potpie.name = "framepie";
+    boot.secureBoot.enable = true;
+    powerGovernor = {
       enable = true;
       profile = "powersave";
     };

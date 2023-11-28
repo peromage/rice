@@ -14,9 +14,12 @@ in with self; {
   ## Used to import an instance in a toplevel flake.
   importNixOS = importWithRice;
 
+  ## Module root directory
+  moduleToplevel = toplevel + "/modules";
+
   ## Shorthand to get paths of NixOS modules relative to the toplevel.
   ## Usually used with `imports' block in a NixOS module.
-  getModules = list: withPrefix (toplevel + "/modules/") list;
+  getModules = withPrefix "${moduleToplevel}/";
 
   ## Supported platforms
   forSupportedSystems = lib.genAttrs [
