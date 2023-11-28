@@ -11,8 +11,8 @@ librice.buildNixOS "x86_64-linux" {
     ./boot.nix
     ./mounts.nix
   ] ++ librice.getModules [
+    "options"
     "hosts/potpie"
-    "users"
     "users/fang"
     "desktops/gnome.nix"
     "programs/gnupg.nix"
@@ -21,5 +21,5 @@ librice.buildNixOS "x86_64-linux" {
     "services/ssh.nix"
   ];
 
-  networking.hostName = "framepie";
+  rice.host.name = "framepie";
 }

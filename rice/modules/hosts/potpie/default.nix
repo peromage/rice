@@ -1,10 +1,9 @@
 { lib, rice, ... }:
 
 let
-librice = rice.lib;
+  librice = rice.lib;
 
-in
-{
+in {
   imports = librice.allButDefault ./.;
 
   ## Host name
@@ -18,7 +17,7 @@ in
   hardware.pulseaudio.enable = true;
 
   ## Network
-  networking ={
+  networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
     firewall.enable = true;
