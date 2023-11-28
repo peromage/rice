@@ -90,7 +90,7 @@
           ("&"  . cape-sgml)
           ("r"  . cape-rfc1345) )
 
-  :config
+  :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   ;; NOTE: The order matters!
   (setq completion-at-point-functions (append (list #'cape-file
@@ -108,6 +108,7 @@
                                                     )
                                               completion-at-point-functions))
 
+  :config
   (defun pew::cape::elisp-oninit ()
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
