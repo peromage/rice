@@ -24,7 +24,7 @@ in {
       type = attrsOf (submodule {
         options = {
           id = mkOption {
-            type = int;
+            type = ints.unsigned;
             default = 1000;
             description = "User UID and GID";
           };
