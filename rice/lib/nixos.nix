@@ -3,7 +3,7 @@
 let
   lib = nixpkgs.lib;
 
-in {
+in with self; {
   ## Import a NixOS toplevel module
   buildNixOS = system: topModule: lib.nixosSystem {
     inherit system;
@@ -11,12 +11,12 @@ in {
     modules = [ topModule ];
   };
 
-  ## An alias of importWithRice
-  importNixOS = self.importWithRice;
+  ## Used to import an instance in a toplevel flake.
+  importNixOS = importWithRice;
 
   ## Shorthand to get paths of NixOS modules relative to the toplevel.
   ## Usually used with `imports' block in a NixOS module.
-  getModules = list: self.withPrefix (toplevel + "/modules/") list;
+  getModules = list: withPrefix (toplevel + "/modules/") list;
 
   ## Supported platforms
   forSupportedSystems = lib.genAttrs [
