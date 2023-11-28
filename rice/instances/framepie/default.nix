@@ -21,6 +21,12 @@ librice.buildNixOS "x86_64-linux" {
     "services/ssh.nix"
   ];
 
-  rice.host.name = "framepie";
-  rice.boot.secureboot.enable = true;
+  rice = {
+    host.name = "framepie";
+    boot.secureboot.enable = true;
+    power = {
+      enable = true;
+      profile = "powersave";
+    };
+  };
 }
