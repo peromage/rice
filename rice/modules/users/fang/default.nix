@@ -1,5 +1,3 @@
-{ rice, ... }:
-
 {
   rice.user.users = {
     fang = {

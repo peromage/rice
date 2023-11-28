@@ -1,4 +1,4 @@
-### My user options
+### User options
 
 { config, lib, ... }:
 
