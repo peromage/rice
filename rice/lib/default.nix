@@ -8,20 +8,23 @@
 let
   lib = nixpkgs.lib;
 
+  ## Return a list of all file/directory names under dir except default.nix
   allButDefault = with builtins; dir:
-    (map (f: dir + "/${f}")
-      (filter (f: "default.nix" != f)
-      (attrNames (readDir dir))));
+    (map (fn: dir + "/${fn}")
+      (filter (fn: "default.nix" != fn)
+        (attrNames (readDir dir))));
 
+  ## Import all files/directories from the list returned by `allButDefault'.
   importAll = with builtins; dir: args:
-    (map (f: import f args) (allButDefault dir));
+    (map (fn: lib.callPackageWith args fn {}) (allButDefault dir));
 
-  librice = with builtins;
-    foldl' (a: b: a // b) {} (importAll ./. {
-      self = librice; inherit nixpkgs rice toplevel;
-    }) // {
-      inherit importAll allButDefault;
-    };
+  ## Librice itself
+  librice = with builtins; foldl' (a: b: a // b) {
+    inherit importAll allButDefault;
+  } (importAll ./. {
+    self = librice;
+    inherit nixpkgs rice toplevel;
+  });
 
 in
 librice

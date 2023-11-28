@@ -5,7 +5,7 @@ let
 
 in {
   ## Like import but with predefined arguments
-  importWithArgs = args: path: import path args;
+  importWithArgs = args: path: callPackageWith args path {};
 
   ## Import with rice passed in
   importWithRice = path: lib.callPackageWith rice path {};
