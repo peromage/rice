@@ -9,7 +9,7 @@ in with lib; {
     printing = mkEnableOption "Enable printing service";
   };
 
-  config = librice.attrsCondFoldl [
+  config = librice.mkMergeTopLevelCond ["services"] [
     {
       ## Printing service
       cond = cfg.printing;
