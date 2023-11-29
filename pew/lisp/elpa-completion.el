@@ -18,6 +18,7 @@
 (pewcfg::use-package yasnippet
   :custom
   (yas-snippet-dirs (list pew::yasnippet-template-dir))
+  (yas-indent-line 'fixed)
 
   :config
   (yas-global-mode 1))
