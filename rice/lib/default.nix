@@ -8,7 +8,11 @@
 let
   lib = nixpkgs.lib;
 
-  ## Return a list of all file/directory names under dir except default.nix
+  /* Return a list of all file/directory names under dir except default.nix
+
+     Type:
+       allButDefault :: (Path | String) -> [String]
+  */
   allButDefault = dir: with builtins; map
     (fn: dir + "/${fn}")
     (filter (fn: "default.nix" != fn) (attrNames (readDir dir)));
