@@ -26,7 +26,4 @@ in with self; {
 
   ## Return the default.nix of path if it exists or path itself otherwise
   toDefaultFile = path: if hasDefaultFile path then getDefaultFile path else path;
-
-  ## Prepend a prefix to a list of strings
-  withPrefix = prefix: list: map (i: prefix + i) list;
 }
