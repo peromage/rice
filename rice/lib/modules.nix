@@ -26,9 +26,9 @@ in with self; {
   /* Module root directory
 
      Type:
-       moduleToplevel :: String
+       moduleTopLevel :: String
   */
-  moduleToplevel = toplevel + "/modules";
+  moduleTopLevel = toplevel + "/modules";
 
   /* Shorthand to get paths of NixOS modules relative to the toplevel.
      Usually used with `imports' block in a NixOS module.
@@ -36,7 +36,7 @@ in with self; {
      Type:
        getModules :: [String] -> [String]
   */
-  getModules = withPrefix "${moduleToplevel}/";
+  getModules = withPrefix "${moduleTopLevel}/";
 
   /* Generate an attribute set for supported platforms.
 

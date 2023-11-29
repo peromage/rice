@@ -1,4 +1,4 @@
-### Toplevel of the common code
+### Top level of the common code
 
 ## The rice parameter should only be used for passing down to the OS modules.
 ## The library itself should not know any implementation details of it so that

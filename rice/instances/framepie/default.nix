@@ -10,7 +10,7 @@ librice.buildNixOS "x86_64-linux" {
   imports = [
     ./boot.nix
     ./mounts.nix
-    librice.moduleToplevel
+    librice.moduleTopLevel
   ] ++ librice.getModules [
     "hosts/potpie"
     "users/fang"
