@@ -16,18 +16,25 @@ librice.buildNixOS "x86_64-linux" {
     "users/fang"
     "desktops/gnome.nix"
     "programs/gnupg.nix"
-    "services/firmware.nix"
-    "services/peripherals.nix"
     "services/ssh.nix"
   ];
 
   rice = {
-    hosts.potpie.enable = true;
-    hosts.potpie.name = "framepie";
-    boot.secureBoot.enable = true;
-    powerGovernor = {
+    hosts.potpie = {
       enable = true;
-      profile = "powersave";
+      name = "framepie";
+    };
+
+    hardware = {
+      secureBoot.enable = true;
+
+      powerGovernor = {
+        enable = true;
+        profile = "powersave";
+      };
+
+      firmware.enable = true;
+      peripherals.printing = true;
     };
   };
 }

@@ -12,17 +12,16 @@
 
 { config, pkgs, lib, rice, ... }:
 
-with lib;
 let
   inherit (rice.inputs) lanzaboote;
-  cfg = config.rice.boot.secureBoot;
+  cfg = config.rice.hardware.secureBoot;
 
-in {
+in with lib; {
   imports = [
     lanzaboote.nixosModules.lanzaboote
   ];
 
-  options.rice.boot.secureBoot = {
+  options.rice.hardware.secureBoot = {
     enable = mkEnableOption "Enable secure boot support";
   };
 
