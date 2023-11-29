@@ -39,12 +39,19 @@ in with self; {
   */
   mergeAttrs = listOfAttrs: builtins.foldl' concatAttr {} listOfAttrs;
 
-  /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
-     Each element in the list is an attribute set as follow:
+  /* Apply optionalAttrs on each attribute set from the list.
+     Each element in the list is of the form as follow:
        { cond = expr; as = attrset; }
+
+     Type:
+       optionalAttrList :: [AttrSet] -> [AttrSet]
+  */
+  optionalAttrList = listOfConds: (map (a: lib.optionalAttrs a.cond a.as) listOfConds);
+
+  /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
 
      Type:
        mergeAttrCond :: [AttrSet] -> AttrSet
   */
-  mergeAttrsCond = listOfConds: mergeAttrs (map (attr: lib.optionalAttrs attr.cond attr.as) listOfConds);
+  mergeAttrsCond = listOfConds: mergeAttrs (optionalAttrList listOfConds);
 }
