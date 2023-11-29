@@ -36,7 +36,7 @@ in with self; {
      Type:
        getModules :: [String] -> [String]
   */
-  getModules = withPrefix "${moduleTopLevel}/";
+  getModules = prefixWith "${moduleTopLevel}/";
 
   /* Generate an attribute set for supported platforms.
 
@@ -65,5 +65,5 @@ in with self; {
       (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   mkMergeTopLevelCond = attrNames: listOfConds:
-    with lib; getAttrs attrNames (attrsCondFoldl listOfConds);
+    with lib; getAttrs attrNames (mergeAttrsCond listOfConds);
 }

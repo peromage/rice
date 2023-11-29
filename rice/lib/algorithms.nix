@@ -7,44 +7,44 @@ in with self; {
   /* Concatenate strings.
 
      Type:
-       strConcat :: String -> String -> String
+       concatStr :: String -> String -> String
   */
-  strConcat = x: y: x + y;
+  concatStr = x: y: x + y;
 
   /* Concatenate lists.
 
      Type:
-       listConcat :: [a] -> [a] -> [a]
+       concatList :: [a] -> [a] -> [a]
   */
-  listConcat = x: y: x ++ y;
+  concatList = x: y: x ++ y;
 
   /* Concatenate (merge) attribute sets.
 
      Type:
-       attrConcat :: AttrSet -> AttrSet -> AttrSet
+       concatAttr :: AttrSet -> AttrSet -> AttrSet
   */
-  attrConcat = x: y: x // y;
+  concatAttr = x: y: x // y;
 
   /* Prepend a prefix to a list of strings.
 
      Type:
-       withPrefix :: String -> [String] -> [String]
+       prefixWith :: String -> [String] -> [String]
   */
-  withPrefix = prefix: list: map (strConcat prefix) list;
+  prefixWith = prefix: list: map (concatStr prefix) list;
 
   /* Merge a list of attribute sets.
 
      Type:
-       attrsFoldl :: [AttrSet] -> AttrSet
+       mergeAttrs :: [AttrSet] -> AttrSet
   */
-  attrsFoldl = listOfAttrs: builtins.foldl' attrConcat {} listOfAttrs;
+  mergeAttrs = listOfAttrs: builtins.foldl' concatAttr {} listOfAttrs;
 
-  /* Like `attrFoldl' but merge attribute sets based on each'es predicate.
+  /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
      Each element in the list is an attribute set as follow:
        { cond = expr; as = attrset; }
 
      Type:
-       attrsCondFoldl :: [AttrSet] -> AttrSet
+       mergeAttrCond :: [AttrSet] -> AttrSet
   */
-  attrsCondFoldl = listOfConds: attrsFoldl (map (attr: lib.optionalAttrs attr.cond attr.as) listOfConds);
+  mergeAttrsCond = listOfConds: mergeAttrs (map (attr: lib.optionalAttrs attr.cond attr.as) listOfConds);
 }
