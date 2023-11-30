@@ -1,13 +1,13 @@
 ### User options
 
-{ config, lib, ... }:
+{ lib, ... }:
 
-with lib;
-let
-  cfg = config.rice.user;
+with lib; {
+  imports = [
+    ./config.nix
+  ];
 
-in {
-  options.rice.user = {
+  options.rice.users = {
     immutable = mkOption {
       type = types.bool;
       default = false;
@@ -34,49 +34,11 @@ in {
             default = [];
             description = "Groups that user belongs to";
           };
+
+          ## TODO: Password
         };
       });
-
       description = "Individual user config";
     };
-  };
-
-  ## Option handling
-  config = let
-    ## Handle user.users
-    userList = with builtins;
-      (mapAttrs
-        (n: v: {
-          isNormalUser = true;
-          isSystemUser = false;
-          uid = v.id;
-          group = n;
-          extraGroups = v.groups;
-        })
-        cfg.users)
-      ## Handle user.disableRoot
-      // (if ! cfg.disableRoot then {}
-          else {
-            root = {
-              hashedPassword = "**DISABLED**";
-            };
-          });
-
-
-    ## Handle user.users
-    groupList = with builtins;
-      mapAttrs
-        (n: v: {
-          gid = v.id;
-        })
-        cfg.users;
-
-    ## Handle user.immutable
-    mutableUsers = !cfg.immutable;
-
-  in {
-    users.mutableUsers = mutableUsers;
-    users.users = userList;
-    users.groups = groupList;
   };
 }
