@@ -54,4 +54,16 @@ in with self; {
        mergeAttrCond :: [AttrSet] -> AttrSet
   */
   mergeAttrsCond = listOfConds: mergeAttrs (optionalAttrList listOfConds);
+
+  /* Return the first non-null value between a and b.
+     If both are null the result is null.
+
+     Type:
+       either :: a -> a -> a
+  */
+  either = a: b:
+    with builtins;
+    if ! isNull a then a
+    else if ! isNull b then b
+    else null;
 }
