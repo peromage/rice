@@ -20,8 +20,8 @@ with lib; {
       description = "Make root user inaccessible.";
     };
 
-    users = with types; mkOption {
-      type = attrsOf (submodule {
+    users = mkOption {
+      type = with types; attrsOf (submodule {
         options = {
           id = mkOption {
             type = ints.unsigned;

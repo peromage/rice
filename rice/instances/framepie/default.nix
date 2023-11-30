@@ -20,11 +20,6 @@ librice.buildNixOS "x86_64-linux" {
   ];
 
   rice = {
-    hosts.potpie = {
-      enable = true;
-      name = "framepie";
-    };
-
     hardware = {
       secureBoot.enable = true;
 

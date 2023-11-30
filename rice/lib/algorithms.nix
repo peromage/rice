@@ -61,9 +61,12 @@ in with self; {
      Type:
        either :: a -> a -> a
   */
-  either = a: b:
-    with builtins;
-    if ! isNull a then a
-    else if ! isNull b then b
-    else null;
+  either = a: b: if null != a then a else if null != b then b else null;
+
+  /* Like `either' but a default return value can be specified.
+
+     Type:
+       either' :: a -> a -> a -> a
+  */
+  either' = a: b: r: let x = either a b; in if null != x then x else r;
 }
