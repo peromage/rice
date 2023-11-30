@@ -7,7 +7,7 @@ let
 
 in {
   config = let
-    ## Handle user.disableRoot
+    ## Handle users.disableRoot
     rootConfig = if ! cfg.disableRoot
                  then {}
                  else {
@@ -36,7 +36,7 @@ in {
         })
         cfg.users;
 
-    ## Handle user.immutable
+    ## Handle users.immutable
     mutableUsers = !cfg.immutable;
 
   in {

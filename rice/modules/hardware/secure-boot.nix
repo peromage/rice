@@ -22,7 +22,7 @@ in with lib; {
   ];
 
   options.rice.hardware.secureBoot = {
-    enable = mkEnableOption "Enable secure boot support";
+    enable = mkEnableOption "Enable secure boot support.";
   };
 
   config = mkIf cfg.enable {

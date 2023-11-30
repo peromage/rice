@@ -11,13 +11,13 @@ with lib; {
     immutable = mkOption {
       type = types.bool;
       default = false;
-      description = "Immutable user management";
+      description = "Immutable user management.";
     };
 
     disableRoot = mkOption {
       type = types.bool;
       default = false;
-      description = "Make root user inaccessible";
+      description = "Make root user inaccessible.";
     };
 
     users = with types; mkOption {
@@ -26,19 +26,19 @@ with lib; {
           id = mkOption {
             type = ints.unsigned;
             default = 1000;
-            description = "User UID and GID";
+            description = "User UID and GID.";
           };
 
           groups = mkOption {
             type = listOf str;
             default = [];
-            description = "Groups that user belongs to";
+            description = "Groups that user belongs to.";
           };
 
           ## TODO: Password
         };
       });
-      description = "Individual user config";
+      description = "Individual user config.";
     };
   };
 }
