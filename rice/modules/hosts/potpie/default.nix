@@ -1,13 +1,10 @@
-{ config, lib, pkgs, rice, ... }:
+{ rice, ... }:
 
 let
   librice = rice.lib;
-  cfg = config.rice.hosts.potpie;
 
 in {
   imports = librice.allButDefault ./.;
 
-  options.rice.hosts.potpie = librice.mkHostPreset "Potpie";
-
-  config = librice.mkHostPresetConfig cfg {};
+  rice.hosts.hosts.potpie.name = "Potpie";
 }
