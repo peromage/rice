@@ -14,12 +14,16 @@ with lib; {
       description = "Immutable user management.";
     };
 
-    disableRoot = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Make root user inaccessible.";
+    ## Root user
+    root = {
+      disable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Disable root user access.";
+      };
     };
 
+    ## Normal users
     users = mkOption {
       type = with types; attrsOf (submodule {
         options = {
@@ -38,7 +42,7 @@ with lib; {
           ## TODO: Password
         };
       });
-      description = "Individual user config.";
+      description = "Normal user configurations.";
     };
   };
 }

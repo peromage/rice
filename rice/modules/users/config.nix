@@ -8,14 +8,13 @@ let
 in {
   config = let
     ## Handle users.disableRoot
-    rootConfig = if ! cfg.disableRoot
-                 then {}
-                 else {
+    rootConfig = if cfg.root.disable
+                 then {
                    root = {
                      ## TODO: Remove this plain password
                      hashedPassword = "**DISABLED**";
                    };
-                 };
+                 } else {};
 
     ## Handle users.users
     userList = with builtins; mapAttrs
