@@ -1,8 +1,13 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
-{
-  services.globalprotect.enable = true;
-  environment.systemPackages = with pkgs; [
-    globalprotect-openconnect
-  ];
+let
+  cfg = config.rice.services.globalprotect;
+
+in {
+  config = lib.mkIf cfg.enable {
+    services.globalprotect.enable = true;
+    environment.systemPackages = with pkgs; [
+      globalprotect-openconnect
+    ];
+  };
 }
