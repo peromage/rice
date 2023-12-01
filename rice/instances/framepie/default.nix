@@ -14,13 +14,13 @@ librice.buildNixOS "x86_64-linux" {
   ] ++ librice.getModules [
     "hosts/potpie"
     "users/fang"
-    "desktops/gnome.nix"
     "programs/gnupg.nix"
-    "services/ssh.nix"
   ];
 
   rice = {
     hosts.hostName = "framepie";
+
+    desktops.env.gnome.enable = true;
 
     hardware = {
       secureBoot.enable = true;
