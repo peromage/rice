@@ -1,7 +1,6 @@
 { nixpkgs, inputs, rice, ... }:
 
 let
-  lib = nixpkgs.lib;
   librice = rice.lib;
 
   customPackages = pkgs: {

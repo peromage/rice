@@ -1,4 +1,4 @@
-{ nixpkgs, inputs, outputs, rice, ... }:
+{ nixpkgs, outputs, rice, ... }:
 
 let
   librice = rice.lib;

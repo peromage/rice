@@ -1,11 +1,8 @@
-{ inputs, rice, ... }:
+{ nixpkgs, ... }:
 
-let
-  librice = rice.lib;
-
-in {
+{
   unrestricted-packages = final: prev: {
-    pkgsUnrestricted = import inputs.nixpkgs {
+    pkgsUnrestricted = import nixpkgs {
       inherit (final) system;
       config = {
         allowUnfree = true;
