@@ -33,5 +33,9 @@ librice.buildNixOS "x86_64-linux" {
       firmware.enable = true;
       peripherals.printing = true;
     };
+
+    services = {
+      ssh.enable = true;
+    };
   };
 }

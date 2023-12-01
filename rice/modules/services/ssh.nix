@@ -10,7 +10,7 @@ in {
       openFirewall = true; # Whitelist the ports
       settings = {
         X11Forwarding = false;
-        PermitRootLogin = false;
+        PermitRootLogin = "no";
         PasswordAuthentication = false;
       };
     };
