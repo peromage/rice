@@ -24,13 +24,13 @@ in with lib; {
 
     env = {
       gnome = {
-        enable = mkEnableOption "Enable Gnome desktop environment.";
-        disableGDM = mkEnableOption "Disable GDM.";
+        enable = mkEnableOption "Gnome desktop environment";
+        disableGDM = mkEnableOption "GDM off";
       };
 
       kde = {
-        enable = mkEnableOption "Enable KDE Plasma desktop environment.";
-        disableSDDM = mkEnableOption "Disable SDDM.";
+        enable = mkEnableOption "KDE Plasma desktop environment";
+        disableSDDM = mkEnableOption "SDDM off";
       };
     };
   };

@@ -11,12 +11,12 @@ in with lib; {
   options.rice.services = {
     ## SSH
     ssh = {
-      enable = mkEnableOption "Enable SSH service.";
+      enable = mkEnableOption "SSH service";
     };
 
     ## VPN: Globalprotect
     globalprotect = {
-      enable = mkEnableOption "Enable GlobalProtect VPN client.";
+      enable = mkEnableOption "GlobalProtect VPN client";
     };
   };
 }

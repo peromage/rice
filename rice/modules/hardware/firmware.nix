@@ -5,7 +5,8 @@ let
 
 in with lib; {
   options.rice.hardware.firmware = {
-    enable = mkEnableOption "Enable firmware management. Don't forget `fwupdmgr update'.";
+    ## Don't forget `fwupdmgr update'
+    enable = mkEnableOption "Firmware management";
   };
 
   config = mkIf cfg.enable {
