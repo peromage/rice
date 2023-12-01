@@ -68,17 +68,14 @@
         */
 
         ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
-        packages = forSupportedSystems (system: import ./packages nixpkgs.legacyPackages.${system});
+        packages = importWithRice ./packages;
 
         ## Via: `nix fmt'
         ## Other options beside `alejandra' include `nixpkgs-fmt'
         formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
         ## Via: `nix develop .#SHELL_NAME'
-        devShells = forSupportedSystems (system: import ./devshells (import nixpkgs {
-          inherit system;
-          overlays = [ rice.outputs.overlays.unrestricted-packages ];
-        }));
+        devShells = importWithRice ./devshells;
 
         ## Imported by other flakes
         overlays = importWithRice ./overlays;

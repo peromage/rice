@@ -58,27 +58,6 @@
         "type": "github"
       }
     },
-    "dev-templates": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1692727998,
-        "narHash": "sha256-ulLL1OrvPav2LvNJmzDViPuFGOIMDWdSpcpT7+vcXmE=",
-        "owner": "the-nix-way",
-        "repo": "dev-templates",
-        "rev": "1117b469aa83bef9e29616b7c67d80b14beb2c14",
-        "type": "github"
-      },
-      "original": {
-        "owner": "the-nix-way",
-        "ref": "main",
-        "repo": "dev-templates",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -460,7 +439,6 @@
     "root": {
       "inputs": {
         "darwin-home-manager": "darwin-home-manager",
-        "dev-templates": "dev-templates",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nix-alien": "nix-alien",

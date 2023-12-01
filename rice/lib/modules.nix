@@ -39,6 +39,7 @@ in with self; {
   getModules = prefixWith "${moduleTopLevel}/";
 
   /* Generate an attribute set for supported platforms.
+     More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
 
      Type:
        forSupportedSystems :: (String -> a) -> AttrSet
