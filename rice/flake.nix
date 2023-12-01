@@ -28,15 +28,15 @@
     ## Other flakes
     nix-colors.url = "github:misterio77/nix-colors/main";
 
-    dev-templates = {
-      url = "github:the-nix-way/dev-templates/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-alien = {
       url = "github:thiagokokada/nix-alien/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ## Some useful flakes (inspected by `nix flake show <url>')
+    # urls = [
+    #   "github:the-nix-way/dev-templates/main"
+    # ];
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:
@@ -51,8 +51,7 @@
         lib = import ./lib rice;
       };
 
-    in
-      {
+    in with librice; {
         /* Notice that there is a minor difference between `packages' and `legacyPackages'.
 
         From: https://github.com/NixOS/nixpkgs/blob/b2e41a5bd20d4114f27fe8d96e84db06b841d035/flake.nix#L47
@@ -69,30 +68,27 @@
         */
 
         ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
-        packages = librice.forSupportedSystems
-          (system: import ./packages nixpkgs.legacyPackages.${system});
+        packages = forSupportedSystems (system: import ./packages nixpkgs.legacyPackages.${system});
 
         ## Via: `nix fmt'
         ## Other options beside `alejandra' include `nixpkgs-fmt'
-        formatter = librice.forSupportedSystems
-          (system: nixpkgs.legacyPackages.${system}.alejandra);
+        formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
         ## Via: `nix develop .#SHELL_NAME'
-        devShells = librice.forSupportedSystems
-          (system: import ./devshells (import nixpkgs {
-            inherit system;
-            overlays = [ rice.outputs.overlays.unrestricted-packages ];
-          }));
+        devShells = forSupportedSystems (system: import ./devshells (import nixpkgs {
+          inherit system;
+          overlays = [ rice.outputs.overlays.unrestricted-packages ];
+        }));
 
         ## Imported by other flakes
-        overlays = librice.importWithRice ./overlays;
+        overlays = importWithRice ./overlays;
 
         ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
-        templates = inputs.dev-templates.templates; # I'm lazy
+        templates = importWithRice ./templates;
 
         ## Via: `nixos-rebuild --flake .#HOST_NAME'
         nixosConfigurations = {
-          framepie = librice.importNixOS ./instances/framepie;
+          framepie = importNixOS ./instances/framepie;
         };
       };
 }
