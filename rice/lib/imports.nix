@@ -7,14 +7,14 @@ in with self; {
   /* Like import but with predefined arguments.
 
      Type:
-       importWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
+       importWithArgs :: AttrSet -> Path -> a
   */
-  importWithArgs = args: path: lib.callPackageWith args path {};
+  importWithArgs = args: path: import path args;
 
   /* Import with rice passed in.
 
      Type:
-       importWithRice :: ((AttrSet -> a) | Path) -> a
+       importWithRice :: Path -> a
   */
   importWithRice = importWithArgs rice;
 
