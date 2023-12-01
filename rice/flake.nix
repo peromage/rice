@@ -53,29 +53,29 @@
 
     in
       {
-        ## Via: 'nix build', 'nix shell', etc.
+        ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
         packages = librice.forSupportedSystems
           (system: import ./packages nixpkgs.legacyPackages.${system});
 
-        ## Via: 'nix fmt'
-        ## Other options beside 'alejandra' include 'nixpkgs-fmt'
+        ## Via: `nix fmt'
+        ## Other options beside `alejandra' include `nixpkgs-fmt'
         formatter = librice.forSupportedSystems
           (system: nixpkgs.legacyPackages.${system}.alejandra);
 
+        ## Via: `nix develop .#SHELL_NAME'
         devShells = librice.forSupportedSystems
-          (system: import ./shells (import nixpkgs {
+          (system: import ./devshells (import nixpkgs {
             inherit system;
-            config = {
-              allowUnfree = true;
-              allowBroken = true;
-            };
+            overlays = [ rice.outputs.overlays.unrestricted-packages ];
           }));
 
-        overlays = import ./overlays { inherit inputs; };
+        ## Imported by other flakes
+        overlays = librice.importWithRice ./overlays;
 
+        ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
         templates = inputs.dev-templates.templates; # I'm lazy
 
-        # Via: 'nixos-rebuild --flake .#host'
+        ## Via: `nixos-rebuild --flake .#HOST_NAME'
         nixosConfigurations = {
           framepie = librice.importNixOS ./instances/framepie;
         };
