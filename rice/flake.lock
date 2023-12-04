@@ -37,27 +37,6 @@
         "type": "github"
       }
     },
-    "darwin-home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "nixdarwin"
-        ]
-      },
-      "locked": {
-        "lastModified": 1701071203,
-        "narHash": "sha256-lQywA7QU/vzTdZ1apI0PfgCWNyQobXUYghVrR5zuIeM=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "db1878f013b52ba5e4034db7c1b63e8d04173a86",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "master",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -296,7 +275,9 @@
     },
     "nixdarwin": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1700795494,
@@ -378,19 +359,6 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1687274257,
-        "narHash": "sha256-TutzPriQcZ8FghDhEolnHcYU2oHIG5XWF+/SUBNnAOE=",
-        "path": "/nix/store/22qgs3skscd9bmrxv9xv4q5d4wwm5ppx-source",
-        "rev": "2c9ecd1f0400076a4d6b2193ad468ff0a7e7fdc5",
-        "type": "path"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1701068326,
         "narHash": "sha256-vmMceA+q6hG1yrjb+MP8T0YFDQIrW3bl45e7z24IEts=",
         "owner": "nixos",
@@ -438,14 +406,13 @@
     },
     "root": {
       "inputs": {
-        "darwin-home-manager": "darwin-home-manager",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nix-alien": "nix-alien",
         "nix-colors": "nix-colors",
         "nixdarwin": "nixdarwin",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "rust-overlay": {

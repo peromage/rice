@@ -18,11 +18,9 @@
     };
 
     ## For Mac
-    nixdarwin.url = "github:LnL7/nix-darwin/master";
-
-    darwin-home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixdarwin";
+    nixdarwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ## Other flakes
@@ -52,7 +50,10 @@
       };
 
     in with librice; {
-        /* Notice that there is a minor difference between `packages' and `legacyPackages'.
+      ## Expose my lib
+      lib.librice = librice;
+
+      /* Notice that there is a minor difference between `packages' and `legacyPackages'.
 
         From: https://github.com/NixOS/nixpkgs/blob/b2e41a5bd20d4114f27fe8d96e84db06b841d035/flake.nix#L47
 
@@ -67,25 +68,25 @@
         information rich.
         */
 
-        ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
-        packages = importWithRice ./packages;
+      ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
+      packages = importWithRice ./packages;
 
-        ## Via: `nix fmt'
-        ## Other options beside `alejandra' include `nixpkgs-fmt'
-        formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      ## Via: `nix fmt'
+      ## Other options beside `alejandra' include `nixpkgs-fmt'
+      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-        ## Via: `nix develop .#SHELL_NAME'
-        devShells = importWithRice ./devshells;
+      ## Via: `nix develop .#SHELL_NAME'
+      devShells = importWithRice ./devshells;
 
-        ## Imported by other flakes
-        overlays = importWithRice ./overlays;
+      ## Imported by other flakes
+      overlays = importWithRice ./overlays;
 
-        ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
-        templates = importWithRice ./templates;
+      ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
+      templates = importWithRice ./templates;
 
-        ## Via: `nixos-rebuild --flake .#HOST_NAME'
-        nixosConfigurations = {
-          framepie = importNixOS ./instances/framepie;
-        };
+      ## Via: `nixos-rebuild --flake .#HOST_NAME'
+      nixosConfigurations = {
+        framepie = importNixOS ./instances/framepie;
       };
+    };
 }
