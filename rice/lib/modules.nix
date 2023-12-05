@@ -6,22 +6,18 @@ let
 in with self; {
   /* Import a NixOS toplevel module.
 
+     Note that the `system' attribute is not explicitly set (default to null)
+     to allow modules to set it themselves.  This allows a hermetic configuration
+     that doesn't depend on the system architecture when it is imported.
+     See: https://github.com/NixOS/nixpkgs/pull/177012
+
      Type:
-       buildNixOS :: String -> (Path | String) -> AttrSet
+       buildNixOS :: (Path | AttrSet) -> AttrSet
   */
-  buildNixOS = system: topModule: lib.nixosSystem {
-    inherit system;
-    specialArgs = { inherit rice system; };
+  importNixOS = topModule: lib.nixosSystem {
+    specialArgs = { inherit rice; };
     modules = [ topModule ];
   };
-
-  /* Used to import an instance in a toplevel flake.
-     Alias of `importWithRice'.
-     Type:
-       importWithRice :: ((AttrSet -> a) | Path) -> a
-
-  */
-  importNixOS = importWithRice;
 
   /* Module root directory
 

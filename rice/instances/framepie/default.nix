@@ -1,12 +1,12 @@
 ### Instance for my 13-inch 12th-gen-Intel Framework laptop
 
-{ rice, ... }:
+{ lib, rice, ... }:
 
 let
   librice = rice.lib;
+  arch = "x86_64-linux";
 
-in
-librice.buildNixOS "x86_64-linux" {
+in {
   imports = [
     ./boot.nix
     ./mounts.nix
@@ -16,6 +16,8 @@ librice.buildNixOS "x86_64-linux" {
     "users/fang"
     "programs/gnupg.nix"
   ];
+
+  nixpkgs.hostPlatform = lib.mkDefault arch;
 
   rice = {
     hosts.hostName = "framepie";

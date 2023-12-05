@@ -10,8 +10,6 @@ in {
     nixos-hardware.nixosModules.framework-12th-gen-intel
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
   boot = {
     initrd = {
       systemd.enable = true;
