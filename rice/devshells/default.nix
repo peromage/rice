@@ -5,7 +5,7 @@ let
 
   shells = pkgs: {
     default = pkgs.mkShell {
-      packages = with pkgs.pkgsUnrestricted; [
+      packages = with pkgs.pkgsCustom; [
         hello
       ];
     };
@@ -14,5 +14,5 @@ let
 in with librice; forSupportedSystems (system:
   shells (import nixpkgs {
     inherit system;
-    overlays = [ outputs.overlays.unrestricted-packages ];
+    overlays = [ outputs.overlays.pkgsCustom ];
   }))
