@@ -4,9 +4,6 @@ let
   librice = rice.lib;
 
 in {
-  ## System state version
-  system.stateVersion = "23.05";
-
   ## Sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;

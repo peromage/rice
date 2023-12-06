@@ -17,10 +17,10 @@ in {
     "programs/gnupg.nix"
   ];
 
-  nixpkgs.hostPlatform = lib.mkDefault arch;
+  nixpkgs.hostPlatform = arch;
 
   rice = {
-    hosts.hostName = "framepie";
+    hosts.hostName = "Framepie";
 
     desktops.env.gnome.enable = true;
 
