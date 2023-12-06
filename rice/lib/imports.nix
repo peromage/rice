@@ -4,33 +4,48 @@ let
   lib = nixpkgs.lib;
 
 in with self; {
-  /* Like import but with predefined arguments.
+  /* Import the given path with predefined arguments.
 
      Type:
-       importWithArgs :: AttrSet -> Path -> a
+       callWithArgs :: AttrSet -> Path -> a
   */
-  importWithArgs = args: path: import path args;
+  callWithArgs = args: path: import path args;
 
   /* Import with rice passed in.
 
      Type:
-       importWithRice :: Path -> a
+       callWithRice :: Path -> a
   */
-  importWithRice = importWithArgs rice;
+  callWithRice = callWithArgs rice;
 
-  /* Import all files/directories from the list returned by `allButDefault'.
+  /* Treat all elements imported as attrsets and merge them into one.
 
      Type:
-       importAll :: Path -> AttrSet -> [a]
+       callAsMerged :: AttrSet -> [Path] -> AttrSet
   */
-  importAll = dir: args: with builtins; map (importWithArgs args) (allButDefault dir);
+  callAsMerged = args: listOfPaths: builtins.foldl'
+    concatAttr {} (map (callWithArgs args) listOfPaths);
 
-  /* Treat all elements returned by importAll as attribute sets and merge them.
+  /* Import all files/directories under the given path excluding `default.nix'.
 
      Type:
-       importAllMerged :: Path -> AttrSet -> AttrSet
+       importAllButDefault :: Path -> [a]
   */
-  importAllMerged = dir: args: with builtins; foldl' (a: b: a // b) {} (importAll dir args);
+  importAllButDefault = dir: map import (allButDefault dir);
+
+  /* Import all directories under the given path.
+
+     Type:
+       importAllDirs :: Path -> [a]
+  */
+  importAllDirs = dir: map import (allDirs dir);
+
+  /* Import all files under the given path.
+
+     Type:
+       importAllFiles :: Path -> [a]
+  */
+  importAllFiles = dir: map import (allFiles dir);
 
   /* Append default.nix to path.
 
