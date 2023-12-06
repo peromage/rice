@@ -9,14 +9,14 @@ let
   lib = nixpkgs.lib;
 
   ## Auxiliary file functions
-  fileFuncs = {
+  debris = rec {
     /* A generic function that filters all the files/directories under the given
        directory.  Return a list of names prepended with the given directory.
 
        Type:
        allWithFilter :: (String -> a -> Bool) -> Path -> [String]
     */
-    allWithFilter = f: dir: with lib; attrsToList
+    allWithFilter = f: dir: with lib; mapAttrsToList
       (n: v: dir + "/${n}")
       (filterAttrs f (builtins.readDir dir));
 
@@ -50,8 +50,8 @@ let
     };
   in with builtins; foldl'
     (a: b: a // b)
-    fileFuncs
-    (map (fn: import fn args) (allButDefault ./.));
+    debris
+    (map (fn: import fn args) (debris.allButDefault ./.));
 
 in
 librice

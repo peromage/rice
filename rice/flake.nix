@@ -53,6 +53,13 @@
       ## Expose my lib
       lib.librice = librice;
 
+      ## Expose my modules
+      nixosModules = with lib; {
+        default = import ./instances/framepie;
+        hosts = importAllAsAttrs (allDirs ./modules/hosts);
+        users = importAllAsAttrs (allDirs ./modules/users);
+      };
+
       /* Notice that there is a minor difference between `packages' and `legacyPackages'.
 
         From: https://github.com/NixOS/nixpkgs/blob/b2e41a5bd20d4114f27fe8d96e84db06b841d035/flake.nix#L47
@@ -69,24 +76,24 @@
         */
 
       ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
-      packages = importWithRice ./packages;
+      packages = callWithRice ./packages;
 
       ## Via: `nix fmt'
       ## Other options beside `alejandra' include `nixpkgs-fmt'
       formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       ## Via: `nix develop .#SHELL_NAME'
-      devShells = importWithRice ./devshells;
+      devShells = callWithRice ./devshells;
 
       ## Imported by other flakes
-      overlays = importWithRice ./overlays;
+      overlays = callWithRice ./overlays;
 
       ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
-      templates = importWithRice ./templates;
+      templates = callWithRice ./templates;
 
       ## Via: `nixos-rebuild --flake .#HOST_NAME'
       nixosConfigurations = {
-        framepie = importNixOS ./instances/framepie;
+        framepie = nixosTopModule ./instances/framepie;
       };
     };
 }

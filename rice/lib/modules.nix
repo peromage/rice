@@ -12,9 +12,9 @@ in with self; {
      See: https://github.com/NixOS/nixpkgs/pull/177012
 
      Type:
-       buildNixOS :: (Path | AttrSet) -> AttrSet
+       nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
-  importNixOS = topModule: lib.nixosSystem {
+  nixosTopModule = topModule: lib.nixosSystem {
     specialArgs = { inherit rice; };
     modules = [ topModule ];
   };

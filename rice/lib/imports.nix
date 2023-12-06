@@ -26,26 +26,42 @@ in with self; {
   callAsMerged = args: listOfPaths: builtins.foldl'
     concatAttr {} (map (callWithArgs args) listOfPaths);
 
+  /* Import paths from the given list.
+
+     Type:
+       importAll :: [Path] -> [a]
+  */
+  importAll = listOfPaths: map import listOfPaths;
+
+  /* Like `importAll' but instead of returning a list this returns an attrset
+     with keys as the file names.
+
+     Type:
+       importAllAsAttrs :: [Path] -> AttrSet
+  */
+  importAllAsAttrs = listOfPaths: with lib;
+    listToAttrs (map (d: nameValuePair (baseNameOf d) (import d)) listOfPaths);
+
   /* Import all files/directories under the given path excluding `default.nix'.
 
      Type:
        importAllButDefault :: Path -> [a]
   */
-  importAllButDefault = dir: map import (allButDefault dir);
+  importAllButDefault = dir: importAll (allButDefault dir);
 
   /* Import all directories under the given path.
 
      Type:
        importAllDirs :: Path -> [a]
   */
-  importAllDirs = dir: map import (allDirs dir);
+  importAllDirs = dir: importAll (allDirs dir);
 
   /* Import all files under the given path.
 
      Type:
        importAllFiles :: Path -> [a]
   */
-  importAllFiles = dir: map import (allFiles dir);
+  importAllFiles = dir: importAll (allFiles dir);
 
   /* Append default.nix to path.
 
