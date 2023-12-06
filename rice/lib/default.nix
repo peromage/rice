@@ -8,28 +8,50 @@
 let
   lib = nixpkgs.lib;
 
-  /* Return a list of all file/directory names under dir except default.nix
+  ## Auxiliary file functions
+  fileFuncs = {
+    /* A generic function that filters all the files/directories under the given
+       directory.  Return a list of names prepended with the given directory.
+
+       Type:
+       allWithFilter :: (String -> a -> Bool) -> Path -> [String]
+    */
+    allWithFilter = f: dir: with lib; attrsToList
+      (n: v: dir + "/${n}")
+      (filterAttrs f (builtins.readDir dir));
+
+    /* Return a list of all file/directory names under dir except default.nix
 
      Type:
-       allButDefault :: (Path | String) -> [String]
-  */
-  allButDefault = dir: with builtins; map
-    (fn: dir + "/${fn}")
-    (filter (fn: "default.nix" != fn) (attrNames (readDir dir)));
+       allButDefault :: Path -> [String]
+    */
+    allButDefault = allWithFilter (n: v: "default.nix" != n);
+
+    /* Return a list of directories.
+
+       Type:
+         allDirs :: Path -> [String]
+    */
+    allDirs = allWithFilter (n: v: "directory" == v);
+
+    /* Return a list of files.
+
+       Type:
+         allFiles :: Path -> [String]
+    */
+    allFiles = allWithFilter (n: v: "regular" == v);
+  };
 
   ## Librice itself
   librice = let
-    subset = {
-      inherit allButDefault;
-    };
     args = {
       self = librice;
       inherit nixpkgs rice toplevel;
     };
   in with builtins; foldl'
     (a: b: a // b)
-    subset
-    (map (fn: lib.callPackageWith args fn {}) (allButDefault ./.));
+    fileFuncs
+    (map (fn: import fn args) (allButDefault ./.));
 
 in
 librice
