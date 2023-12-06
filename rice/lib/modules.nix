@@ -24,13 +24,17 @@ in with self; {
      TODO: Maybe there is a better way to configure pkgs architecture modularly?
 
      Type:
-       homemanagerTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
+       homemanagerTopModule :: [(AttrSet -> AttrSet -> AttrSet)] -> (Path | AttrSet) -> AttrSet
   */
-  homemanagerTopModule = pkgs: topModule: libhm.homeManagerConfiguration {
-    inherit pkgs;
-    extraSpecialArgs = { inherit rice; };
-    modules = [ topModule ];
-  };
+  homemanagerTopModule = overlays: topModule: forSupportedSystems (system:
+    libhm.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        inherit system;
+        inherit overlays;
+      };
+      extraSpecialArgs = { inherit rice; };
+      modules = [ topModule ];
+    });
 
   /* Module root directory
 

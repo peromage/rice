@@ -41,9 +41,9 @@
     let
       lib = nixpkgs.lib;
       librice = rice.lib;
+      outputs = self.outputs;
       rice = {
-        inherit nixpkgs inputs;
-        inherit (self) outputs;
+        inherit nixpkgs inputs outputs;
         rice = rice; # Self reference
         toplevel = builtins.path { path = ./.; }; # Explicit copy
         lib = import ./lib rice;
@@ -98,7 +98,7 @@
 
       ## Via: 'home-manager --flake .#name'
       homeConfigurations = {
-        fang = homemanagerTopModule outputs.overlays.x86_64-linux.unrestricted-packages ./modules/homes/fang;
+        fang = homemanagerTopModule [outputs.overlays.pkgsCustom] ./homes/fang/home.nix;
       };
     };
 }
