@@ -95,5 +95,10 @@
       nixosConfigurations = {
         framepie = nixosTopModule ./instances/framepie;
       };
+
+      ## Via: 'home-manager --flake .#name'
+      homeConfigurations = {
+        fang = homemanagerTopModule outputs.overlays.x86_64-linux.unrestricted-packages ./modules/homes/fang;
+      };
     };
 }

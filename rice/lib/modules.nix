@@ -2,6 +2,7 @@
 
 let
   lib = nixpkgs.lib;
+  libhm = rice.inputs.home-manager.lib;
 
 in with self; {
   /* Import a NixOS toplevel module.
@@ -16,6 +17,18 @@ in with self; {
   */
   nixosTopModule = topModule: lib.nixosSystem {
     specialArgs = { inherit rice; };
+    modules = [ topModule ];
+  };
+
+  /* Import a HomeManager top module.
+     TODO: Maybe there is a better way to configure pkgs architecture modularly?
+
+     Type:
+       homemanagerTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
+  */
+  homemanagerTopModule = pkgs: topModule: libhm.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = { inherit rice; };
     modules = [ topModule ];
   };
 
