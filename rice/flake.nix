@@ -93,7 +93,7 @@
 
       ## Via: `nixos-rebuild --flake .#HOST_NAME'
       nixosConfigurations = {
-        framepie = nixosTopModule ./instances/framepie;
+        Framepie = nixosTopModule ./instances/framepie;
       };
 
       ## Via: 'home-manager --flake .#name'

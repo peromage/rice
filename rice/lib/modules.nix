@@ -29,8 +29,7 @@ in with self; {
   homemanagerTopModule = overlays: topModule: forSupportedSystems (system:
     libhm.homeManagerConfiguration {
       pkgs = import nixpkgs {
-        inherit system;
-        inherit overlays;
+        inherit system overlays;
       };
       extraSpecialArgs = { inherit rice; };
       modules = [ topModule ];
