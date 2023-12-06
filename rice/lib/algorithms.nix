@@ -69,4 +69,18 @@ in with self; {
        either' :: a -> a -> a -> a
   */
   either' = a: b: r: let x = either a b; in if null != x then x else r;
+
+  /* Return the first argument passed to this function.
+
+     Type:
+       pairName :: a -> a -> a
+  */
+  pairName = n: v: n;
+
+  /* Return the second argument passed to this function.
+
+     Type:
+       pairName :: a -> a -> a
+  */
+  pairValue = n: v: v;
 }
