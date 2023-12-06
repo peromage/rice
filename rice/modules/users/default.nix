@@ -1,5 +1,8 @@
 ### User options
 
+## Subdirectories are not imported by default.
+## Selectively import them as needed.
+
 { lib, ... }:
 
 with lib; {
