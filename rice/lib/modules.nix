@@ -58,9 +58,10 @@ in with self; {
        forSupportedSystems :: (String -> a) -> AttrSet
   */
   forSupportedSystems = lib.genAttrs [
-    "aarch64-linux"
     "x86_64-linux"
     "x86_64-darwin"
+    "aarch64-linux"
+    "aarch64-darwin"
   ];
 
   /* Merge a list of attribute sets from config top level.
