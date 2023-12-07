@@ -98,7 +98,7 @@
 
       ## Via: 'home-manager --flake .#name'
       homeConfigurations = {
-        fang = homemanagerTopModule [outputs.overlays.pkgsCustom] ./homes/fang/home.nix;
+        fang = homeTopModule [outputs.overlays.pkgsCustom] ./homes/fang/home.nix;
       };
     };
 }

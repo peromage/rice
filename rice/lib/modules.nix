@@ -26,7 +26,7 @@ in with self; {
      Type:
        homemanagerTopModule :: [(AttrSet -> AttrSet -> AttrSet)] -> (Path | AttrSet) -> AttrSet
   */
-  homemanagerTopModule = overlays: topModule: forSupportedSystems (system:
+  homeTopModule = overlays: topModule: forSupportedSystems (system:
     libhm.homeManagerConfiguration {
       pkgs = import nixpkgs {
         inherit system overlays;
