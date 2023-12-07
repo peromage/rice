@@ -39,6 +39,13 @@ in with self; {
   */
   mergeAttrs = listOfAttrs: builtins.foldl' concatAttr {} listOfAttrs;
 
+  /* Like `mergeAttrs' but merge the first level instead of top level.
+
+     Type:
+       mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
+  */
+  mergeAttrsFirstLevel = listOfAttrs: lib.foldAttrs concatAttr {} listOfAttrs;
+
   /* Apply optionalAttrs on each attribute set from the list.
      Each element in the list is of the form as follow:
        { cond = expr; as = attrset; }
