@@ -5,7 +5,7 @@ let
   libhm = rice.inputs.home-manager.lib;
 
 in with self; {
-  /* Import a NixOS toplevel module.
+  /* Import a NixOS top level module.
 
      Note that the `system' attribute is not explicitly set (default to null)
      to allow modules to set it themselves.  This allows a hermetic configuration
@@ -20,20 +20,19 @@ in with self; {
     modules = [ topModule ];
   };
 
-  /* Import a HomeManager top module.
-     TODO: Maybe there is a better way to configure pkgs architecture modularly?
+  /* Import a HomeManager top level module.
+
+     Note that this is a generic import so the `pkgs' needs to be passed from
+     the caller.
 
      Type:
-       homemanagerTopModule :: [(AttrSet -> AttrSet -> AttrSet)] -> (Path | AttrSet) -> AttrSet
+       homeTopModule :: AttrSet -> Path -> AttrSet
   */
-  homeTopModule = overlays: topModule: forSupportedSystems (system:
-    libhm.homeManagerConfiguration {
-      pkgs = import nixpkgs {
-        inherit system overlays;
-      };
-      extraSpecialArgs = { inherit rice; };
-      modules = [ topModule ];
-    });
+  homeTopModule = pkgs: topModule: libhm.homeManagerConfiguration {
+    inherit pkgs;
+    extraSpecialArgs = { inherit rice; };
+    modules = [ topModule ];
+  };
 
   /* Module root directory
 
