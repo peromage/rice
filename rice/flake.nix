@@ -2,7 +2,7 @@
   description = "Nix Rice";
 
   inputs = {
-    ## Essential flakes
+    /* Essential flakes */
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
@@ -17,13 +17,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## For Mac
+    /* For Mac */
     nixdarwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## Other flakes
+    /* Other flakes */
     nix-colors.url = "github:misterio77/nix-colors/main";
 
     nix-alien = {
@@ -31,10 +31,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ## Some useful flakes (inspected by `nix flake show <url>')
-    # urls = [
-    #   "github:the-nix-way/dev-templates/main"
-    # ];
+    /* Some useful flakes (inspected by `nix flake show URL')
+
+       github:the-nix-way/dev-templates/main
+    */
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:
@@ -50,10 +50,10 @@
       };
 
     in with librice; {
-      ## Expose my lib
+      /* Expose my lib */
       lib.librice = librice;
 
-      ## Expose my modules
+      /* Expose my modules */
       nixosModules = with lib; {
         default = import ./instances/framepie;
         hosts = importAllAsAttrs (allDirs ./modules/hosts);
@@ -75,28 +75,29 @@
         information rich.
         */
 
-      ## Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
+      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc. */
       packages = callWithRice ./packages;
 
-      ## Via: `nix fmt'
-      ## Other options beside `alejandra' include `nixpkgs-fmt'
+      /* Via: `nix fmt'
+         Other options beside `alejandra' include `nixpkgs-fmt'
+      */
       formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-      ## Via: `nix develop .#SHELL_NAME'
+      /* Via: `nix develop .#SHELL_NAME' */
       devShells = callWithRice ./devshells;
 
-      ## Imported by other flakes
+      /* Imported by other flakes */
       overlays = callWithRice ./overlays;
 
-      ## Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME'
+      /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
       templates = callWithRice ./templates;
 
-      ## Via: `nixos-rebuild --flake .#HOST_NAME'
+      /* Via: `nixos-rebuild --flake .#HOST_NAME' */
       nixosConfigurations = {
         Framepie = nixosTopModule ./instances/framepie;
       };
 
-      ## Via: 'home-manager --flake .#name'
+      /* Via: `home-manager --flake .#NAME' */
       homeConfigurations = {
         fang = homeTopModule [outputs.overlays.pkgsCustom] ./homes/fang/home.nix;
       };
