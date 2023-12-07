@@ -3,7 +3,8 @@
 let
   librice = rice.lib;
 
-  shells = pkgs: {
+  mkDevshells = pkgs: {
+    ## Example
     default = pkgs.mkShell {
       packages = with pkgs.pkgsCustom; [
         hello
@@ -12,7 +13,7 @@ let
   };
 
 in with librice; forSupportedSystems (system:
-  shells (import nixpkgs {
+  mkDevshells (import nixpkgs {
     inherit system;
     overlays = [ outputs.overlays.pkgsCustom ];
   }))
