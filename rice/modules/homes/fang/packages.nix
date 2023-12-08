@@ -34,10 +34,6 @@
     ## Security
     pinentry
     gnupg
-    (pass.withExtensions (exts: with exts; [
-      pass-otp
-      pass-genphrase
-    ]))
 
     ## Fancy stuff
     neofetch

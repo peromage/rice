@@ -3,8 +3,7 @@
 {
   imports = rice.lib.allWithFilter
     (n: v:
-      "regular" == v
-      && "default.nix" != n
+      "default.nix" != n
       && "home.nix" != n)
     ./.;
 
