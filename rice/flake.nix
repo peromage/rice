@@ -61,9 +61,11 @@
 
       /* Expose my modules */
       nixosModules = with lib; {
-        default = import ./instances/framepie;
+        main = import ./modules;
         hosts = importAllAsAttrs (allDirs ./modules/hosts);
         users = importAllAsAttrs (allDirs ./modules/users);
+        instances = importAllAsAttrs (allDirs ./modules/instances);
+        homes = importAllAsAttrs (allDirs ./modules/homes);
       };
 
       /* Notice that there is a minor difference between `packages' and `legacyPackages'.
@@ -111,7 +113,7 @@
 
       /* Via: `nixos-rebuild --flake .#HOST_NAME' */
       nixosConfigurations = {
-        Framepie = nixosTopModule ./instances/framepie;
+        Framepie = nixosTopModule ./modules/instances/framepie;
       };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
@@ -123,7 +125,7 @@
       homeConfigurations = forSupportedSystems (system:
         let inc = homeTopModule (withCustomPkgs system);
         in {
-          fang = inc ./homes/fang/home.nix;
+          fang = inc ./modules/homes/fang;
         }
       );
     };
