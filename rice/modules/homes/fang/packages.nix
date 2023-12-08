@@ -17,7 +17,7 @@
     rsync
 
     ## Coding
-    emacs
+    emacs29
     vim
     graphviz
 
