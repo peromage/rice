@@ -2,10 +2,28 @@
 
 {
   home.packages = with pkgs; [
+    ## CLI
+    fish
+    ripgrep
+    stow
+    tmux
+    git
+    git-lfs
+
+    ## Data transfer
+    wget
+    curl
+    aria2
+    rsync
+
     ## Coding
     emacs
     vim
     graphviz
+
+    ## Writing
+    ispell
+    hugo
 
     ## Devices
     android-tools
@@ -13,22 +31,17 @@
     ## Security
     pinentry
     gnupg
-    pass
-    passExtensions.pass-otp
-    passExtensions.pass-genphrase
+    (pass.withExtensions (exts: with exts; [
+      pass-otp
+      pass-genphrase
+    ]))
 
-    ## CLI
-    fish
-    ispell
-    ripgrep
-    stow
-    tmux
-    wget
-    curl
-    rsync
-    git
-    git-lfs
-    unzip
+    ## Fancy stuff
+    neofetch
+    btop # Replace `htop'
+    eza # Replace `ls'
+    fzf
+    jq # Json parser
 
     ## GUI
     brave
