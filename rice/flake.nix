@@ -42,11 +42,17 @@
       lib = nixpkgs.lib;
       librice = rice.lib;
       outputs = self.outputs;
+
       rice = {
         inherit nixpkgs inputs outputs;
         rice = rice; # Self reference
         toplevel = builtins.path { path = ./.; }; # Explicit copy
         lib = import ./lib rice;
+      };
+
+      withCustomPkgs = system: import nixpkgs {
+        inherit system;
+        overlays = [ outputs.overlays.pkgsCustom ];
       };
 
     in with librice; {
@@ -97,9 +103,16 @@
         Framepie = nixosTopModule ./instances/framepie;
       };
 
-      /* Via: `home-manager --flake .#NAME' */
-      homeConfigurations = {
-        fang = homeTopModule [outputs.overlays.pkgsCustom] ./homes/fang/home.nix;
-      };
+      /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
+
+         Note that `home-manager --flake .#NAME' will not work since the system
+         architecture needs to be specified.
+      */
+      homeConfigurations = forSupportedSystems (system:
+        let inc = homeTopModule (withCustomPkgs system);
+        in {
+          fang = inc ./homes/fang/home.nix;
+        }
+      );
     };
 }
