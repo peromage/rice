@@ -12,6 +12,8 @@
     coreutils
     pinentry
     gnupg
+    unzip
+    tmux
 
     ## File system
     ntfs3g
