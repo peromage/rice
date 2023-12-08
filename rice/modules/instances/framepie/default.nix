@@ -14,7 +14,6 @@ in {
   ] ++ librice.getModules [
     "hosts/potpie"
     "users/fang"
-    "programs/gnupg.nix"
   ];
 
   nixpkgs.hostPlatform = arch;
