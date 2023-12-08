@@ -50,7 +50,7 @@
         lib = import ./lib rice;
         dirs = with rice; {
           modules = "${topLevel}/modules";
-          dotfiles = "${topLevel}/config";
+          dotfiles = "${topLevel}/dotfiles";
         };
       };
 
