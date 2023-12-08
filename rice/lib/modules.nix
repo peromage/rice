@@ -39,7 +39,7 @@ in with self; {
      Type:
        moduleTopLevel :: String
   */
-  moduleTopLevel = topLevel + "/modules";
+  moduleTopLevel = "${topLevel}/modules";
 
   /* Shorthand to get paths of NixOS modules relative to the toplevel.
      Usually used with `imports' block in a NixOS module.

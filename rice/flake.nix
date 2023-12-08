@@ -48,6 +48,10 @@
         rice = rice; # Self reference
         topLevel = builtins.path { path = ./.; }; # Explicit copy
         lib = import ./lib rice;
+        dirs = with rice; {
+          modules = "${topLevel}/modules";
+          dotfiles = "${topLevel}/config";
+        };
       };
 
       withCustomPkgs = system: import nixpkgs {
