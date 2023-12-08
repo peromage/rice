@@ -1,8 +1,5 @@
 { rice, ... }:
 
-let
-  librice = rice.lib;
-
-in {
-  imports = librice.allButDefault ./.;
+{
+  imports = rice.lib.allButDefault ./.;
 }

@@ -2,10 +2,7 @@
 
 { rice, ... }:
 
-let
-  librice = rice.lib;
-
-in {
+{
   ## NOTE: The subdirectories are not imported recursively.
-  imports = librice.allButDefault ./.;
+  imports = rice.lib.allButDefault ./.;
 }
