@@ -38,8 +38,9 @@ in {
   };
 
   xdg.configFile = {
-    "tmux/tmux.conf" = {
-      source = "${src}/tmux/.tmux.conf";
+    "tmux" = {
+      source = "${src}/tmux/.config/tmux";
+      recursive = true;
     };
 
     "alacritty" = {
