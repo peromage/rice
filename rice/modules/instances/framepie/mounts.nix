@@ -1,3 +1,5 @@
+{ ... }:
+
 {
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/35154f6e-27aa-49f8-b1b6-6472127cb524";
