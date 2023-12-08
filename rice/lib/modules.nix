@@ -1,4 +1,4 @@
-{ self, nixpkgs, toplevel, rice, ... }:
+{ self, nixpkgs, topLevel, rice, ... }:
 
 let
   lib = nixpkgs.lib;
@@ -39,7 +39,7 @@ in with self; {
      Type:
        moduleTopLevel :: String
   */
-  moduleTopLevel = toplevel + "/modules";
+  moduleTopLevel = topLevel + "/modules";
 
   /* Shorthand to get paths of NixOS modules relative to the toplevel.
      Usually used with `imports' block in a NixOS module.

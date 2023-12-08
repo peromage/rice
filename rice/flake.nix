@@ -46,7 +46,7 @@
       rice = {
         inherit nixpkgs inputs outputs;
         rice = rice; # Self reference
-        toplevel = builtins.path { path = ./.; }; # Explicit copy
+        topLevel = builtins.path { path = ./.; }; # Explicit copy
         lib = import ./lib rice;
       };
 

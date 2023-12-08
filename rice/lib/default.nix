@@ -3,7 +3,7 @@
 ## The rice parameter should only be used for passing down to the OS modules.
 ## The library itself should not know any implementation details of it so that
 ## functionalities provided by this library is guaranteed to be generic.
-{ nixpkgs, rice, toplevel, ... }:
+{ nixpkgs, rice, topLevel, ... }:
 
 let
   lib = nixpkgs.lib;
@@ -46,7 +46,7 @@ let
   librice = let
     args = {
       self = librice;
-      inherit nixpkgs rice toplevel;
+      inherit nixpkgs rice topLevel;
     };
   in with builtins; foldl'
     (a: b: a // b)

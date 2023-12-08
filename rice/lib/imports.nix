@@ -1,4 +1,4 @@
-{ self, nixpkgs, toplevel, rice, ... }:
+{ self, nixpkgs, rice, ... }:
 
 let
   lib = nixpkgs.lib;
