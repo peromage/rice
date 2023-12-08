@@ -81,8 +81,18 @@
          information rich.
       */
 
-      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc. */
-      packages = callWithRice ./packages;
+      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
+
+         Note that this also enables:
+           `home-manager { build | switch } --flake .#NAME
+      */
+      packages = mergeAttrsFirstLevel [
+        (callWithRice ./packages)
+        (lib.mapAttrs
+          ## Fake derivation to enable `nix flake show'
+          (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
+          outputs.homeConfigurations)
+      ];
 
       /* Via: `nix fmt'
 
@@ -106,8 +116,9 @@
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
 
-         Note that `home-manager --flake .#NAME' will not work since the system
-         architecture needs to be specified.
+         Note that the Home Manager command:
+           `home-manager { build | switch } --flake .#NAME'
+         is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
         let inc = homeTopModule (withCustomPkgs system);
