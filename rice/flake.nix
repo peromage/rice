@@ -85,7 +85,7 @@
 
       /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
 
-         Note that this also enables:
+         NOTE: This also enables:
            `home-manager { build | switch } --flake .#NAME
       */
       packages = mergeAttrsFirstLevel [
@@ -118,7 +118,7 @@
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
 
-         Note that the Home Manager command:
+         NOTE: The Home Manager command:
            `home-manager { build | switch } --flake .#NAME'
          is actually implemented by the `packages' output not this.
       */
