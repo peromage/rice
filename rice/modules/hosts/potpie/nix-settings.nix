@@ -26,8 +26,8 @@ in {
 
     ## Use the nixpkgs from the toplevel flake
     registry.nixpkgs.flake = nixpkgs;
-    nixPath = [ "/etc/nix/paths" ];
+    nixPath = [ "/etc/nix/path" ];
   };
 
-  environment.etc."nix/paths/nixpkgs".source = "${nixpkgs}";
+  environment.etc."nix/path/nixpkgs".source = "${nixpkgs}";
 }
