@@ -22,6 +22,9 @@
     graphviz
 
     ## Writing
+    hunspell
+    hunspellDicts.en-ca
+    hunspellDicts.en-us
     ispell
     hugo
 
