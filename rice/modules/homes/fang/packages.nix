@@ -32,7 +32,7 @@
     android-tools
 
     ## Security
-    pinentry
+    pinentry-gtk2
     gnupg
 
     ## Fancy stuff
