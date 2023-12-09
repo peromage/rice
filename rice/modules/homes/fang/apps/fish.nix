@@ -1,7 +1,7 @@
 { rice, ... }:
 
 let
-  src = "${rice.dirs.dotfiles}/fish";
+  src = "${rice.dirs.dotfiles}/fish/.config/fish";
 
 in {
   programs.fish = {
@@ -9,7 +9,14 @@ in {
     shellInit = "";
     loginShellInit = "";
     interactiveShellInit = ''
-source ${src}/.config/fish/config.fish
+source ${src}/config.fish
 '';
+  };
+
+  xdg.configFile = {
+    "fish/functions" = {
+      source = "${src}/functions";
+      recursive = true;
+    };
   };
 }
