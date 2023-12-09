@@ -9,14 +9,6 @@
 ## path = "/path/to/this/file"
 ##
 
-[user]
-name = Fang Deng
-email = fang@elfang.com
-signingkey = 3BC74D5C9342835D!
-
-[commit]
-gpgsign = true
-
 [core]
 autocrlf = input
 quotepath = false

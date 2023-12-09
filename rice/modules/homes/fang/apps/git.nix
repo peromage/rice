@@ -9,6 +9,7 @@ in {
     lfs.enable = true;
     includes = [
       { path = "${src}/config"; }
+      { path = "${src}/user-fang"; }
     ];
   };
 }
