@@ -16,7 +16,21 @@ in {
 
   nix = {
     ## Enable experimental features
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+    };
+
+    optimise = {
+      automatic = true;
+      dates = [ "weekly" ];
+    };
+
+    gc = {
+      automatic = false; # Manual GC
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
 
     ## Synonyms
     ## pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
