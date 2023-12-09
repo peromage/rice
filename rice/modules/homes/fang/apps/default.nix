@@ -26,11 +26,15 @@ in {
   imports = rice.lib.allButDefault ./.;
 
   home.file = {
+    "bin" = {
+      source = "${src}/bin/bin";
+      recursive = true;
+    };
+
     ".vim" = {
       source = "${src}/vim/.vim";
       recursive = true;
     };
-
   };
 
   xdg.configFile = {
