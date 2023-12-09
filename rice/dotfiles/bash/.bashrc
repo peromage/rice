@@ -38,7 +38,14 @@ RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this s
 RICE[custom_rc]="${RICE[root_dir]}/.bashrc-custom"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
-## Set it up
+## History
+shopt -s histappend
+HISTCONTROL=ignoredups
+HISTFILESIZE=100000
+HISTSIZE=10000
+PROMPT_COMMAND="history -a" # Update history immediately
+
+## Prompt
 rice_include env/prompt-classic
 
 ## Random stuff

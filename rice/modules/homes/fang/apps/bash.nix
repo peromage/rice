@@ -8,6 +8,7 @@ in {
     enable = true;
     enableCompletion = true;
     enableVteIntegration = true;
+    bashrcExtra = "";
     profileExtra = "";
     logoutExtra = "";
     initExtra = ''
