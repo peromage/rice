@@ -11,7 +11,7 @@ in {
     profileExtra = "";
     logoutExtra = "";
     initExtra = ''
-source ${src}/.bashrc
+source ${src}/.bashrc noenv
 '';
   };
 
