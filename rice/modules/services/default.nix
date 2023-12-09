@@ -18,5 +18,14 @@ in with lib; {
     globalprotect = {
       enable = mkEnableOption "GlobalProtect VPN client";
     };
+
+    ## Input method
+    ime = {
+      enabled = mkOption {
+        type = types.enum [ "fcitx" "ibus" ];
+        default = null;
+        description = "Enabled input method";
+      };
+    };
   };
 }

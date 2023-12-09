@@ -2,6 +2,7 @@
 
 let
   cfg = config.rice.services.ssh;
+
 in {
   config = lib.mkIf cfg.enable {
     services.openssh = {
