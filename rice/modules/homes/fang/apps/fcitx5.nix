@@ -1,0 +1,26 @@
+{ pkgs, rice, ... }:
+
+let
+  src = "${rice.dirs.dotfiles}/fcitx5";
+
+in {
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-rime
+      fcitx5-configtool
+      fcitx5-chinese-addons
+      fcitx5-gtk
+    ];
+  };
+
+  xdg.configFile."fcitx5" = {
+    source = "${src}/.config/fcitx5";
+    recursive = true;
+  };
+
+  xdg.dataFile."fcitx5" = {
+    source = "${src}/.local/share/fcitx5";
+    recursive = true;
+  };
+}
