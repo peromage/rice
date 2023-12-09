@@ -31,10 +31,6 @@ in {
       recursive = true;
     };
 
-    ".gnupg" = {
-      source = "${src}/gnupg/.gnupg";
-      recursive = true;
-    };
   };
 
   xdg.configFile = {
