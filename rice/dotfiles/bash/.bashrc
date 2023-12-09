@@ -38,6 +38,9 @@ RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this s
 RICE[custom_rc]="${RICE[root_dir]}/.bashrc-custom"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
+## Environment variable
+PATH="$HOME/bin:$HOME/.local/bin:${PATH}"
+
 ## History
 shopt -s histappend
 HISTCONTROL=ignoredups
