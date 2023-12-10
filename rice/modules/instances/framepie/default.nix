@@ -11,17 +11,14 @@ in {
     ./boot.nix
     ./mounts.nix
     librice.moduleTopLevel
-  ] ++ librice.getModules [
-    "hosts/potpie"
   ];
 
   nixpkgs.hostPlatform = arch;
 
   rice = {
     hosts.hostName = "Framepie";
-
+    hosts.hosts.potpie.enable = true;
     users.users.fang.enable = true;
-
     desktops.env.gnome.enable = true;
 
     hardware = {
