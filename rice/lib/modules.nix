@@ -63,6 +63,7 @@ in with self; {
   ];
 
   /* Merge a list of attribute sets from config top level.
+
      NOTE: This is a workaround to solve the infinite recursion issue when trying
      merge configs from top level.  The first level of attribute names must be
      specified explicitly.
@@ -78,15 +79,14 @@ in with self; {
         (n: v: mkMerge v)
         (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
-  /* Like `mkMergeTopLevel' but with conditions for each subset.
 
-     NOTE: Besides the cumbersome explict toplevel attribute name specifying,
-     another drawback of this approach is that if certain conditions are false
-     and lead to an non-existed toplevel, the evaluation could break.
+  /* Merge multiple module block conditonally.
+
+     To leverage lazyness and avoid infinit recursion when some module blocks
+     need to be evaluated conditionally.
 
      Type:
-       mkMergeTopLevelCond :: [String] -> [AttrSet] -> AttrSet
+       mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeTopLevelCond = firstLevelNames: listOfConds:
-    mkMergeTopLevel firstLevelNames (optionalAttrList listOfConds);
+  mkMergeIf = listOfAttrs: with lib; mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
 }
