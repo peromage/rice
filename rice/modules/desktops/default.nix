@@ -1,7 +1,11 @@
-{ lib, rice, ... }:
+{ config, lib, rice, ... }:
 
 let
   librice = rice.lib;
+  cfg = config.rice.desktops;
+
+  ## Don't enable display server if no desktop environment is enabled
+  enableDisplayServer = lib.foldlAttrs (a: _: v: v.enable || a) false cfg.env;
 
 in with lib; {
   imports = librice.allButDefault ./.;
@@ -22,16 +26,15 @@ in with lib; {
       description = "Enable OpenGL support.";
     };
 
-    env = {
-      gnome = {
-        enable = mkEnableOption "Gnome desktop environment";
-        disableGDM = mkEnableOption "GDM off";
-      };
+    env = {};
+  };
 
-      kde = {
-        enable = mkEnableOption "KDE Plasma desktop environment";
-        disableSDDM = mkEnableOption "SDDM off";
-      };
+  config = mkIf enableDisplayServer {
+    services.xserver = {
+      enable = true;
+      libinput.enable = true;
     };
+    programs.xwayland.enable = cfg.enableWayland;
+    hardware.opengl.enable = cfg.enableOpenGL;
   };
 }
