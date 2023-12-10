@@ -13,13 +13,14 @@ in {
     librice.moduleTopLevel
   ] ++ librice.getModules [
     "hosts/potpie"
-    "users/fang"
   ];
 
   nixpkgs.hostPlatform = arch;
 
   rice = {
     hosts.hostName = "Framepie";
+
+    users.users.fang.enable = true;
 
     desktops.env.gnome.enable = true;
 
