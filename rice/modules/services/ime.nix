@@ -41,7 +41,7 @@ let
 in with lib; {
   options.rice.services.ime = {
     enabled = mkOption {
-      type = types.enum [ "fcitx" "ibus" ];
+      type = with types; nullOr (enum [ "fcitx" "ibus" ]);
       default = null;
       description = "Enabled input method";
     };
