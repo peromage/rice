@@ -3,8 +3,12 @@
 let
   cfg = config.rice.services.ssh;
 
-in {
-  config = lib.mkIf cfg.enable {
+in with lib; {
+  options.rice.services.ssh = {
+    enable = mkEnableOption "SSH service";
+  };
+
+  config = mkIf cfg.enable {
     services.openssh = {
       enable = true;
       ports = [ 22 ];

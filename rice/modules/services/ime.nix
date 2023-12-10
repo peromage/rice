@@ -38,8 +38,16 @@ let
     };
   };
 
-in {
+in with lib; {
+  options.rice.services.ime = {
+    enabled = mkOption {
+      type = types.enum [ "fcitx" "ibus" ];
+      default = null;
+      description = "Enabled input method";
+    };
+  };
+
   config = let
-    enabled = lib.optionalAttrs (frontends ? cfg.enabled) frontends.${cfg.enabled};
+    enabled = optionalAttrs (frontends ? cfg.enabled) frontends.${cfg.enabled};
   in enabled;
 }
