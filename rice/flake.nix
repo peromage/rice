@@ -66,8 +66,6 @@
       /* Expose my modules */
       nixosModules = with lib; {
         main = import ./modules;
-        hosts = importAllAsAttrs (allDirs ./modules/hosts);
-        users = importAllAsAttrs (allDirs ./modules/users);
         instances = importAllAsAttrs (allDirs ./modules/instances);
         homes = importAllAsAttrs (allDirs ./modules/homes);
       };
