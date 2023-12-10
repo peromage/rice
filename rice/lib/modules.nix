@@ -80,6 +80,10 @@ in with self; {
 
   /* Like `mkMergeTopLevel' but with conditions for each subset.
 
+     NOTE: Besides the cumbersome explict toplevel attribute name specifying,
+     another drawback of this approach is that if certain conditions are false
+     and lead to an non-existed toplevel, the evaluation could break.
+
      Type:
        mkMergeTopLevelCond :: [String] -> [AttrSet] -> AttrSet
   */
