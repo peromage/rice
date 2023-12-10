@@ -23,7 +23,11 @@ let
   src = rice.dirs.dotfiles;
 
 in {
-  imports = rice.lib.allButDefault ./.;
+  imports = rice.lib.allWithFilter
+    (n: v: with builtins; "default.nix" != n && isNull (match "^DISABLED-.*" n))
+    ./.;
+
+  xdg.enable = true;
 
   home.file = {
     "bin" = {

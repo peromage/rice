@@ -14,6 +14,12 @@ in {
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    librime
+    rime-cli
+    rime-data
+  ];
+
   xdg.configFile."fcitx5" = {
     source = "${src}/.config/fcitx5";
     recursive = true;
