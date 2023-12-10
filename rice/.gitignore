@@ -3,3 +3,6 @@
 profile-custom.ps1
 wezterm-custom.lua
 .tmux-custom.conf
+
+## Nix build
+result
