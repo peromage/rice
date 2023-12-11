@@ -12,7 +12,7 @@
 --   overlay = function(prev)
 --     return {
 --       default_prog = { "fish", "-i" },
---       ssh_domains = prev.ssh_domains:__append__ {
+--       ssh_domains = prev.ssh_domains:__concat__ {
 --         {
 --           name = "Dev Domain",
 --           remote_address = "dev",
@@ -20,7 +20,7 @@
 --         },
 --       },
 --
---       wsl_domains = prev.wsl_domains:__append__ {
+--       wsl_domains = prev.wsl_domains:__concat__ {
 --         {
 --           name = "WSL::Ubuntu-20.04",
 --           distribution = "Ubuntu-20.04",
@@ -28,7 +28,7 @@
 --         },
 --       },
 --
---       launch_menu = prev.launch_menu:__append__ {
+--       launch_menu = prev.launch_menu:__concat__ {
 --         {
 --           label = "SSH to dev desktop",
 --           args = { "ssh", "-t", "dev" },
@@ -44,12 +44,13 @@ local wezterm = require "wezterm"
 local act = wezterm.action
 
 --- Utility --------------------------------------------------------------------
-local util = {
+local util
+util = {
   platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 
   -- Load a builtin color scheme and return the object with some personal flavors.
   -- Returned value is a color scheme object.
-  custom_color_scheme = function(self, scheme_name)
+  custom_color_scheme = function(scheme_name)
     local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
     -- Make the scrollbar more visible (lightness less than 0.6 considered as
     -- a dark theme)
@@ -59,35 +60,16 @@ local util = {
   end,
 
   -- Increment/decrement the value based on the step.
-  -- The returned value always falls between min_val and max_val.
-  -- If input value is nil , nil is returned.
+  -- The returned value always falls between min and max.
   -- If input value is out of range, it will be stepped from the closest boundary.
-  step = function(self, val, min_val, max_val, step)
-    if nil == val or nil == min_val or nil == max_val or nil == step then
-      return nil
-    end
-    -- Step the value
-    if val < min_val then
-      val = min_val + step
-    elseif val > max_val then
-      val = max_val + step
-    else
-      val = val + step
-    end
-    -- Boundary check
-    if val < min_val then
-      return min_val
-    end
-    if val > max_val then
-      return max_val
-    end
-    return val
+  step = function(val, min, max, step)
+    local res = val + step
+    return (res < min and min) or (res > max and max) or res
   end,
 
-    -- Window opacity change
-  adjust_window_opacity = function(self, overrides, step)
-    overrides.window_background_opacity = self:step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
-    return overrides
+  -- Change by percentage
+  step_percentage = function(current, percent)
+    return util.step(current, 0.0, 1.0, percent)
   end,
 }
 
@@ -155,13 +137,16 @@ Overridable = {
 }
 
 --- Events ---------------------------------------------------------------------
-wezterm.on("rice-increase-window-opacity", function(window, pane)
-  window:set_config_overrides(util:adjust_window_opacity(window:get_config_overrides() or {}, 0.1))
-end)
+local function adjust_window_opacity(step)
+  return function(window, pane)
+    local overrides = window:get_config_overrides() or {}
+    overrides.window_background_opacity = util.step_percentage(overrides.window_background_opacity and overrides.window_background_opacity or 1.0, step)
+    window:set_config_overrides(overrides)
+  end
+end
 
-wezterm.on("rice-decrease-window-opacity", function(window, pane)
-  window:set_config_overrides(util:adjust_window_opacity(window:get_config_overrides() or {}, -0.1))
-end)
+wezterm.on("rice-increase-window-opacity", adjust_window_opacity(0.1))
+wezterm.on("rice-decrease-window-opacity", adjust_window_opacity(-0.1))
 
 --- Keybindings ----------------------------------------------------------------
 --conf.leader = { mods = "CTRL", key = "`" },
