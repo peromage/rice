@@ -35,7 +35,7 @@ function string_join {
 ## Global variables
 declare -A RICE
 RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-RICE[custom_rc]="${RICE[root_dir]}/.bashrc-custom"
+RICE[overlay]="${RICE[root_dir]}/.bashrc-overlay"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ## Environment variable
@@ -52,4 +52,4 @@ PROMPT_COMMAND="history -a" # Update history immediately
 rice_include env/prompt-classic
 
 ## Random stuff
-[[ -e "${RICE[custom_rc]}" ]] && source "${RICE[custom_rc]}"
+[[ -e "${RICE[overlay]}" ]] && source "${RICE[overlay]}"

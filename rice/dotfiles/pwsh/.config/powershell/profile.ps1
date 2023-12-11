@@ -24,7 +24,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ### Environment variables ######################################################
 $RICE = @{}
 $RICE.root_dir = Get-Item "$PSScriptRoot"
-$RICE.custom_rc = (Join-Path $RICE.root_dir "profile-custom.ps1")
+$RICE.overlay = (Join-Path $RICE.root_dir "profile-overlay.ps1")
 $RICE.privileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
 ## Modules will be autoloaded
 $Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.root_dir librice)
@@ -59,4 +59,4 @@ function simplify_home_path {
 Import-Module win-to-unix
 
 ### Random stuff ###############################################################
-if (Test-Path -Type Leaf $RICE.custom_rc) { . $RICE.custom_rc }
+if (Test-Path -Type Leaf $RICE.overlay) { . $RICE.overlay }
