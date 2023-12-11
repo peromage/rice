@@ -1,13 +1,9 @@
-{ rice, ... }:
+{ pkgs, rice, ... }:
 
 {
-  imports = rice.lib.allWithFilter
-    (n: v:
-      "default.nix" != n
-      && "home.nix" != n)
-    ./.;
+  imports = [ ./apps ];
 
-  ## Let Home Manager install and manage itself.
+  /* Home settings */
   programs.home-manager.enable = true;
 
   home = {
@@ -15,4 +11,70 @@
     homeDirectory = "/home/fang";
     stateVersion = "23.11";
   };
+
+  /* Alternatively source in a manual way:
+     ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+     or
+     /etc/profiles/per-user/fang/etc/profile.d/hm-session-vars.sh
+  */
+  home.sessionVariables = {
+    EDITOR = "vim";
+  };
+
+  home.sessionPath = [
+    "\${HOME}/bin"
+    "\${HOME}/.local/bin"
+  ];
+
+  /* Packages */
+  home.packages = with pkgs; [
+    ## CLI
+    fish
+    ripgrep
+    stow
+    tmux
+    git
+    git-lfs
+
+    ## Data transfer
+    wget
+    curl
+    aria2
+    rsync
+
+    ## Coding
+    emacs29
+    vim
+    graphviz
+
+    ## Writing
+    hunspell
+    hunspellDicts.en-ca
+    hunspellDicts.en-us
+    ispell
+    hugo
+
+    ## Devices
+    android-tools
+
+    ## Security
+    pinentry-gtk2
+    gnupg
+
+    ## Fancy stuff
+    neofetch
+    btop # Replace `htop'
+    eza # Replace `ls'
+    fzf
+    jq # Json parser
+
+    ## GUI
+    brave
+    firefox
+    wezterm
+    remmina
+
+    ## Wayland
+    wl-clipboard
+  ];
 }
