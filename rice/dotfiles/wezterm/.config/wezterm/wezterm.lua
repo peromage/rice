@@ -133,8 +133,8 @@ Overridable = {
   end,
 
   -- Append to the last index and return a copy
-  __append__ = function(self, arr)
-    return Overridable:__new__(Overridable.__copy_array__(self)):__concat_impure__(arr)
+  __concat__ = function(self, arr)
+    return Overridable:__new__(Overridable.__copy_array__(self)):__append_impure__(arr)
   end,
 
   -- Update keys and values (side effects)
@@ -146,7 +146,7 @@ Overridable = {
   end,
 
   -- Concatenate two arraies (side effects)
-  __concat_impure__ = function(self, arr)
+  __append_impure__ = function(self, arr)
     for _, v in ipairs(arr) do
       table.insert(self, v)
     end
@@ -385,6 +385,7 @@ local config = Overridable:__new__ {
 --- Apply the overlay ----------------------------------------------------------
 local ok, m = pcall(require, "wezterm-overlay")
 if ok then
-  return config:__override__(m.overlay(config))
+  -- For the sake of performance use the impure method here
+  return config:__update_impure__(m.overlay(config))
 end
 return config
