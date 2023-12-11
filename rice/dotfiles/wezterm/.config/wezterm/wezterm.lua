@@ -1,5 +1,45 @@
 --- wezterm.lua --- Wezterm config -*- lua-indent-level: 2; outline-regexp: "---\\(-* [^ \t\n]\\)"; -*-
 
+--
+-- Thie configuration accepts an overlay file to apply customizations on top of
+-- the default settings without touching this file itself.
+--
+-- The overlay function should return a subset of the config table.
+--
+-- Example: wezterm-overlay.lua
+--
+-- return {
+--   overlay = function(prev)
+--     return {
+--       default_prog = { "fish", "-i" },
+--       ssh_domains = prev.ssh_domains:__append__ {
+--         {
+--           name = "Dev Domain",
+--           remote_address = "dev",
+--           remote_wezterm_path = "/home/fang/bin/wezterm",
+--         },
+--       },
+--
+--       wsl_domains = prev.wsl_domains:__append__ {
+--         {
+--           name = "WSL::Ubuntu-20.04",
+--           distribution = "Ubuntu-20.04",
+--           default_cwd = "~",
+--         },
+--       },
+--
+--       launch_menu = prev.launch_menu:__append__ {
+--         {
+--           label = "SSH to dev desktop",
+--           args = { "ssh", "-t", "dev" },
+--           domain = { DomainName = "local" },
+--         },
+--       },
+--     }
+--   end
+-- }
+--
+
 local wezterm = require "wezterm"
 local act = wezterm.action
 
@@ -7,9 +47,9 @@ local act = wezterm.action
 local util = {
   platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
 
+  -- Load a builtin color scheme and return the object with some personal flavors.
+  -- Returned value is a color scheme object.
   custom_color_scheme = function(self, scheme_name)
-    -- Load a builtin color scheme and return the object with some personal flavors.
-    -- Returned value is a color scheme object.
     local scheme = wezterm.get_builtin_color_schemes()[scheme_name]
     -- Make the scrollbar more visible (lightness less than 0.6 considered as
     -- a dark theme)
@@ -18,11 +58,11 @@ local util = {
     return scheme
   end,
 
+  -- Increment/decrement the value based on the step.
+  -- The returned value always falls between min_val and max_val.
+  -- If input value is nil , nil is returned.
+  -- If input value is out of range, it will be stepped from the closest boundary.
   step = function(self, val, min_val, max_val, step)
-    -- Increment/decrement the value based on the step.
-    -- The returned value always falls between min_val and max_val.
-    -- If input value is nil , nil is returned.
-    -- If input value is out of range, it will be stepped from the closest boundary.
     if nil == val or nil == min_val or nil == max_val or nil == step then
       return nil
     end
@@ -44,8 +84,8 @@ local util = {
     return val
   end,
 
-  adjust_window_opacity = function(self, overrides, step)
     -- Window opacity change
+  adjust_window_opacity = function(self, overrides, step)
     overrides.window_background_opacity = self:step(not overrides.window_background_opacity and 1.0 or overrides.window_background_opacity, 0.1, 1.0, step)
     return overrides
   end,
@@ -342,45 +382,9 @@ local config = Overridable:__new__ {
   ssh_domains = ssh_domains,
 }
 
---- Additional config on top of the default ------------------------------------
+--- Apply the overlay ----------------------------------------------------------
 local ok, m = pcall(require, "wezterm-overlay")
 if ok then
   return config:__override__(m.overlay(config))
 end
-
 return config
-
---- Example --------------------------------------------------------------------
--- The overlay function should return a subset of the config table
---
--- return {
---   overlay = function(prev)
---     return {
---       default_prog = { "fish", "-i" },
---       ssh_domains = prev.ssh_domains:__append__ {
---         {
---           name = "Dev Domain",
---           remote_address = "dev",
---           remote_wezterm_path = "/home/fang/bin/wezterm",
---         },
---       },
---
---       wsl_domains = prev.wsl_domains:__append__ {
---         {
---           name = "WSL::Ubuntu-20.04",
---           distribution = "Ubuntu-20.04",
---           default_cwd = "~",
---         },
---       },
---
---       launch_menu = prev.launch_menu:__append__ {
---         {
---           label = "SSH to dev desktop",
---           args = { "ssh", "-t", "dev" },
---           domain = { DomainName = "local" },
---         },
---       },
---     }
---   end
--- }
---
