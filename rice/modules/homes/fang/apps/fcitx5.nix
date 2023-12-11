@@ -14,7 +14,7 @@ in {
     ];
   };
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     librime
     rime-cli
     rime-data
