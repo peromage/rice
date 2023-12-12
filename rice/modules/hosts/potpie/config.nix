@@ -170,5 +170,12 @@ in lib.mkIf cfg.enable {
 
     ## Apps
     appimage-run
+
+    ## Development
+    libgcc
+    gnumake
+    cmake
+    autoconf
+    libtool
   ];
 }

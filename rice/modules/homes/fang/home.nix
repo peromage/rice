@@ -78,13 +78,9 @@
     wl-clipboard
 
     ## Development
-    gnumake
-    cmake
     python3
-    libgcc
     nodejs_21
     dotnet-sdk_8
     lua
-    libtool
   ];
 }
