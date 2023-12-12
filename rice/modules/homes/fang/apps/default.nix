@@ -72,4 +72,14 @@ in {
       recursive = true;
     };
   };
+
+  ## Comment out this if `fcitx5.nix' is enabled
+  xdg.configFile."fcitx5" = {
+    source = "${src}/fcitx5/.config/fcitx5";
+    recursive = true;
+  };
+  xdg.dataFile."fcitx5" = {
+    source = "${src}/fcitx5/.local/share/fcitx5";
+    recursive = true;
+  };
 }
