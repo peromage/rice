@@ -3,6 +3,7 @@
 let
   librice = rice.lib;
   cfg = config.rice.services.ime;
+  gnomeEnabled = config.rice.desktops.env.gnome.enable;
 
 in with lib; {
   options.rice.services.ime = {
@@ -50,7 +51,8 @@ in with lib; {
           librime
           rime-cli
           rime-data
-        ];
+        ]
+        ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
       };
     }
   ];
