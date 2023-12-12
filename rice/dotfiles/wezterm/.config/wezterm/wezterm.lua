@@ -348,7 +348,7 @@ local config = Overridable:__new__ {
   font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
   font_size = 12,
   -- Overwrites `color_scheme'
-  colors = util:custom_color_scheme("Galaxy"),
+  colors = util.custom_color_scheme("Galaxy"),
   cursor_blink_rate = 0,
   default_cursor_style = "SteadyBlock",
   window_background_opacity = 0.9,
