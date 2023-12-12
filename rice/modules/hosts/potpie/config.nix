@@ -29,20 +29,6 @@ in lib.mkIf cfg.enable {
     firewall.enable = true;
   };
 
-  /* Fonts */
-  fonts.packages = with pkgs; [
-    iosevka
-    cascadia-code
-    emacs-all-the-icons-fonts
-    nerdfonts
-    liberation_ttf
-    noto-fonts
-    noto-fonts-emoji
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    noto-fonts-lgc-plus
-  ];
-
   /* Nix settings */
   nixpkgs = {
     hostPlatform = lib.mkDefault "x86_64-linux";
@@ -82,6 +68,48 @@ in lib.mkIf cfg.enable {
   };
 
   environment.etc."nix/path/nixpkgs".source = "${nixpkgs}";
+
+  /* Fonts */
+  fonts = {
+    fontDir.eanble = true;
+
+    packages = with pkgs; [
+      iosevka
+      cascadia-code
+      emacs-all-the-icons-fonts
+      nerdfonts
+      liberation_ttf
+      noto-fonts
+      noto-fonts-emoji
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-lgc-plus
+    ];
+
+    fontconfig = {
+      emoji = [
+        "Noto Color Emoji"
+      ];
+
+      monospace = [
+        "Cascadia Code"
+        "Iosevka"
+        "DejaVu Sans Mono"
+      ];
+
+      sansSerif = [
+        "Noto Sans CJK SC"
+        "Noto Sans CJK TC"
+        "Dejavu Sans"
+      ];
+
+      serif = [
+        "Noto Serif CJK SC"
+        "Noto Serif CJK TC"
+        "Dejavu Serif"
+      ];
+    };
+  };
 
   /* Packages */
   environment.systemPackages = with pkgs; [
