@@ -71,7 +71,7 @@ in lib.mkIf cfg.enable {
 
   /* Fonts */
   fonts = {
-    fontDir.eanble = true;
+    fontDir.enable = true;
 
     packages = with pkgs; [
       iosevka
@@ -87,27 +87,38 @@ in lib.mkIf cfg.enable {
     ];
 
     fontconfig = {
-      emoji = [
-        "Noto Color Emoji"
-      ];
+      enable = true;
+      includeUserConf = true;
+      antialias = true;
 
-      monospace = [
-        "Cascadia Code"
-        "Iosevka"
-        "DejaVu Sans Mono"
-      ];
+      hinting = {
+        enable = true;
+        style = "slight";
+      };
 
-      sansSerif = [
-        "Noto Sans CJK SC"
-        "Noto Sans CJK TC"
-        "Dejavu Sans"
-      ];
+      defaultFonts= {
+        emoji = [
+          "Noto Color Emoji"
+        ];
 
-      serif = [
-        "Noto Serif CJK SC"
-        "Noto Serif CJK TC"
-        "Dejavu Serif"
-      ];
+        monospace = [
+          "Cascadia Code"
+          "Iosevka"
+          "DejaVu Sans Mono"
+        ];
+
+        sansSerif = [
+          "Noto Sans CJK SC"
+          "Noto Sans CJK TC"
+          "Dejavu Sans"
+        ];
+
+        serif = [
+          "Noto Serif CJK SC"
+          "Noto Serif CJK TC"
+          "Dejavu Serif"
+        ];
+      };
     };
   };
 
