@@ -35,6 +35,7 @@ in {
 
     services = {
       ssh.enable = true;
+      ime.enabled = "fcitx";
     };
   };
 }
