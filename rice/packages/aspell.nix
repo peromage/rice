@@ -11,8 +11,4 @@ let
     en
   ];
 
-in {
-  home.packages = [
-    (useAspellWith aspellDicts)
-  ];
-}
+in useAspellWith aspellDicts

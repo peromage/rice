@@ -11,9 +11,4 @@ let
     vterm # Since vterm cannot be compiled in user environment, use this instead
   ];
 
-in {
-  home.packages = with pkgs; [
-    (useEmacsWith emacsPackages)
-    libvterm-neovim # libvterm is not maintained, use this instead
-  ];
-}
+in useEmacsWith emacsPackages
