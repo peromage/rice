@@ -6,32 +6,27 @@
 #+end_quote
 
 * About
-This is a configuration collection of my daily drivers.
+This is my personal configuration collection built on top of NixOS with Nix Flake.
 
-[[./config][config]] directory contains all the configurations.  They are organized in a way that how they are located in the actual home directory, so each of them can be managed by =stow= individually.
+* Some thoughts when writing the configurations (as a reminder for myself)
+** Top level directories
+The top level (root of Rice) is categorized based on the outputs of the root flake.
 
-[[./bin][bin]] directory contains scripts and small executables which I use most of the times.
+** NixOS modules
+The [[./modules][modules]] are implemented in a way where they can be easily (sort of) reused.
 
-Directories that starts with =PRESET-= are the combinations I use often for different scenarios.  They can be managed by =stow= directly.
+The [[./modules/hosts][hosts]] directory contains basic, hardware abstracted configurations for a computer.  Each host profile should be put into a subdirectory and provide basic system level settings.
 
-* Get started
-All the configurations are managed by GNU =stow=.
+The [[./modules/instances][instances]] directory is the place to store top level configurations for a specific hardware.  Each profile has the hardware specific setup like mounting, booting, encryption etc..  Each profile should be put into a subdirectory and can be imported as a part of =nixosConfigurations= in the flake.
 
-Use the script [[./stow.sh][stow.sh]] to quickly manage presets.
+[[./modules/homes][homes]] directory stores user space configurations.  Each profile should be put into a directory and can be imported as a part of =homeConfigurations= in the flake.
 
-#+begin_src shell
-# Stow
-./stow -S PRESET-general
-./stow --stow PRESET-general
+The rest of the modules are reusable modules which can be used anywhere.  Some of them also provide options to set.
 
-# Unstow
-./stow -D PRESET-general
-./stow --delete PRESET-general
+** Dotfiles
+I didn't rewrite all my dotfiles into Nix modules since I also need to work on platforms other than NixOS.  Although I do have some apps configured in the Nix way, most of them are still linked to their directories via Home Manager.
 
-# Restow
-./stow -R PRESET-general
-./stow --restow PRESET-general
-#+end_src
+A convenient [[./dotfiles/stow.sh][script]] is provided in case I need to quickly deploy some configurations on non-Nix systems.
 
 * Appendix
 ** Fcitx5 with Rime
