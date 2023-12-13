@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.rice.desktops.env.gnome;
@@ -16,5 +16,9 @@ in with lib; {
       displayManager.gdm.enable = !cfg.disableGDM;
       displayManager.gdm.wayland = cfgAll.enableWayland;
     };
+
+    environment.systemPackages = with pkgs.gnomeExtensions; [
+      tray-icons-reloaded
+    ];
   };
 }
