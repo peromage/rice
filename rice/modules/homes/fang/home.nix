@@ -47,10 +47,12 @@
     graphviz
 
     ## Writing
+    ispell
     hunspell
     hunspellDicts.en-ca
     hunspellDicts.en-us
-    ispell
+    aspell
+    aspellDicts.en
     hugo
 
     ## Devices
