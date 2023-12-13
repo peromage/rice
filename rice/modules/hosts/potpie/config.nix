@@ -172,6 +172,7 @@ in lib.mkIf cfg.enable {
     appimage-run
 
     ## Development
+    gcc
     libgcc
     gnumake
     cmake
