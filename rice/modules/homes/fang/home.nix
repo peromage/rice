@@ -27,7 +27,7 @@
   ];
 
   /* Packages */
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     ## CLI
     fish
     ripgrep
@@ -73,5 +73,8 @@
     nodejs_21
     dotnet-sdk_8
     lua
-  ];
+  ]) ++ (with pkgs.ricePkgs; [
+    emacs
+    aspell
+  ]);
 }

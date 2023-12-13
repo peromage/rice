@@ -131,7 +131,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (withCustomPkgs system);
+        let inc = homeTopModule (rice.withCustomPkgs system);
         in {
           fang = inc ./modules/homes/fang;
         }
