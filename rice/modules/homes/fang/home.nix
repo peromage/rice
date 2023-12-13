@@ -43,7 +43,6 @@
     rsync
 
     ## Coding
-    emacs29
     vim
     graphviz
 
