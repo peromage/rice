@@ -16,5 +16,5 @@ let
 in with librice; forSupportedSystems (system:
   mkPackages (import nixpkgs {
     inherit system;
-    overlays = [ outputs.overlays.pkgsUnrestricted ];
+    overlays = [ outputs.overlays.unrestrictedPkgs ];
   }) // (exposePackages system))

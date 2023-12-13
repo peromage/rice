@@ -56,7 +56,7 @@
 
       withUnrestrictedPkgs = system: import nixpkgs {
         inherit system;
-        overlays = [ outputs.overlays.pkgsUnrestricted ];
+        overlays = [ outputs.overlays.unrestrictedPkgs ];
       };
 
     in with librice; {

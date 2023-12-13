@@ -11,5 +11,5 @@ let
 in with librice; forSupportedSystems (system:
   mkDevShells (import nixpkgs {
     inherit system;
-    overlays = [ outputs.overlays.pkgsUnrestricted ];
+    overlays = [ outputs.overlays.unrestrictedPkgs ];
   }))

@@ -1,8 +1,8 @@
 { nixpkgs, ... }:
 
 {
-  pkgsUnrestricted = final: prev: {
-    pkgsUnrestricted = import nixpkgs {
+  unrestrictedPkgs = final: prev: {
+    unrestrictedPkgs = import nixpkgs {
       inherit (final) system;
       config = {
         allowUnfree = true;
