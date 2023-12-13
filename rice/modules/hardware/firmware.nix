@@ -10,6 +10,10 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
+    hardware = {
+      enableAllFirmware = true;
+      enableRedistributableFirmware = true;
+    };
     services.fwupd.enable = true;
   };
 }
