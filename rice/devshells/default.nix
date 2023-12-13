@@ -6,7 +6,7 @@ let
 
   mkDevShells =
     let allShells = with librice; importAllAsAttrs' (allButDefault ./.);
-    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v {}) allShells;
+    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allShells;
 
 in with librice; forSupportedSystems (system:
   mkDevShells (import nixpkgs {
