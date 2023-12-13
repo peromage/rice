@@ -1,4 +1,4 @@
-{ nixpkgs, inputs, rice, ... }:
+{ nixpkgs, inputs, rice, withCustomPkgs, ... }:
 
 let
   lib = nixpkgs.lib;
@@ -14,7 +14,4 @@ let
   };
 
 in with librice; forSupportedSystems (system:
-  mkPackages (import nixpkgs {
-    inherit system;
-    overlays = [ outputs.overlays.unrestrictedPkgs ];
-  }) // (exposePackages system))
+  mkPackages (withCustomPkgs system) // (exposePackages system))

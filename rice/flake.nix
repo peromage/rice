@@ -48,18 +48,19 @@
         rice = rice; # Self reference
         topLevel = builtins.path { path = ./.; }; # Explicit copy
         lib = import ./lib rice;
+
         dirs = with rice; {
           modules = "${topLevel}/modules";
           dotfiles = "${topLevel}/dotfiles";
         };
-      };
 
-      withCustomPkgs = system: import nixpkgs {
-        inherit system;
-        overlays = with outputs.overlays; [
-          unrestrictedPkgs
-          ricePkgs
-        ];
+        withCustomPkgs = system: import nixpkgs {
+          inherit system;
+          overlays = with outputs.overlays; [
+            unrestrictedPkgs
+            ricePkgs
+          ];
+        };
       };
 
     in with librice; {
