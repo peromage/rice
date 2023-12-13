@@ -1,4 +1,4 @@
-{ rice, ... }:
+{ rice, pkgs, ... }:
 
 let
   src = "${rice.dirs.dotfiles}/gnupg";
@@ -16,6 +16,10 @@ in {
     enableBashIntegration = true;
     enableFishIntegration = true;
   };
+
+  home.packages = with pkgs; [
+    pinentry-gtk2 # Only one pinentry package at a time, conflicts otherwise
+  ];
 
   ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
   ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling

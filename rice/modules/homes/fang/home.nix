@@ -52,10 +52,6 @@
     ## Devices
     android-tools
 
-    ## Security
-    pinentry-gtk2
-    gnupg
-
     ## Fancy stuff
     neofetch
     btop # Replace `htop'
