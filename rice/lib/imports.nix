@@ -24,7 +24,7 @@ in with self; {
        callAsMerged :: AttrSet -> [Path] -> AttrSet
   */
   callAsMerged = args: listOfPaths: builtins.foldl'
-    concatAttr {} (map (callWithArgs args) listOfPaths);
+    concatAttrs {} (map (callWithArgs args) listOfPaths);
 
   /* Import paths from the given list.
 

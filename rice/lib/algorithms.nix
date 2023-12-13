@@ -21,9 +21,9 @@ in with self; {
   /* Concatenate (merge) attribute sets.
 
      Type:
-       concatAttr :: AttrSet -> AttrSet -> AttrSet
+       concatAttrs :: AttrSet -> AttrSet -> AttrSet
   */
-  concatAttr = x: y: x // y;
+  concatAttrs = x: y: x // y;
 
   /* Prepend a prefix to a list of strings.
 
@@ -37,30 +37,30 @@ in with self; {
      Type:
        mergeAttrs :: [AttrSet] -> AttrSet
   */
-  mergeAttrs = listOfAttrs: builtins.foldl' concatAttr {} listOfAttrs;
+  mergeAttrs = listOfAttrs: builtins.foldl' concatAttrs {} listOfAttrs;
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = listOfAttrs: lib.foldAttrs concatAttr {} listOfAttrs;
+  mergeAttrsFirstLevel = listOfAttrs: lib.foldAttrs concatAttrs {} listOfAttrs;
 
   /* Apply optionalAttrs on each attribute set from the list.
      Each element in the list is of the form as follow:
        { cond = expr; as = attrset; }
 
      Type:
-       optionalAttrList :: [AttrSet] -> [AttrSet]
+       optionalAttrsList :: [AttrSet] -> [AttrSet]
   */
-  optionalAttrList = listOfConds: (map (a: lib.optionalAttrs a.cond a.as) listOfConds);
+  optionalAttrsList = listOfConds: (map (a: lib.optionalAttrs a.cond a.as) listOfConds);
 
   /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
 
      Type:
-       mergeAttrCond :: [AttrSet] -> AttrSet
+       mergeAttrsCond :: [AttrSet] -> AttrSet
   */
-  mergeAttrsCond = listOfConds: mergeAttrs (optionalAttrList listOfConds);
+  mergeAttrsCond = listOfConds: mergeAttrs (optionalAttrsList listOfConds);
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.
