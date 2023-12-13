@@ -5,7 +5,7 @@ let
   librice = rice.lib;
 
   mkPackages =
-    let allPackages = with librice; importAllAsAttrs' (allButDefault ./.);
+    let allPackages = with librice; importListAsAttrs' (allButDefault ./.);
     in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allPackages;
 
   ## Packages from inputs

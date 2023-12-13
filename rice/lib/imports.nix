@@ -21,55 +21,34 @@ in with self; {
   /* Treat all elements imported as attrsets and merge them into one.
 
      Type:
-       callAsMerged :: AttrSet -> [Path] -> AttrSet
+       callListAsMerged :: AttrSet -> [Path] -> AttrSet
   */
-  callAsMerged = args: listOfPaths: builtins.foldl'
+  callListAsMerged = args: listOfPaths: builtins.foldl'
     concatAttrs {} (map (callWithArgs args) listOfPaths);
 
   /* Import paths from the given list.
 
      Type:
-       importAll :: [Path] -> [a]
+       importList :: [Path] -> [a]
   */
-  importAll = listOfPaths: map import listOfPaths;
+  importList = listOfPaths: map import listOfPaths;
 
-  /* Like `importAll' but instead of returning a list this returns an attrset
+  /* Like `importList' but instead of returning a list this returns an attrset
      with keys as the file names.
 
      Type:
-       importAllAsAttrs :: [Path] -> AttrSet
+       importListAsAttrs :: [Path] -> AttrSet
   */
-  importAllAsAttrs = listOfPaths: with lib;
+  importListAsAttrs = listOfPaths: with lib;
     mapListToAttrs baseNameOf import listOfPaths;
 
-  /* Similar with `importAllAsAttrs' but extensions are stripped from names.
+  /* Similar with `importListAsAttrs' but extensions are stripped from names.
 
      Type:
-       importAllAsAttrs' :: [Path] -> AttrSet
+       importListAsAttrs' :: [Path] -> AttrSet
   */
-  importAllAsAttrs' = listOfPaths: with lib;
+  importListAsAttrs' = listOfPaths: with lib;
     mapListToAttrs baseNameNoExt import listOfPaths;
-
-  /* Import all files/directories under the given path excluding `default.nix'.
-
-     Type:
-       importAllButDefault :: Path -> [a]
-  */
-  importAllButDefault = dir: importAll (allButDefault dir);
-
-  /* Import all directories under the given path.
-
-     Type:
-       importAllDirs :: Path -> [a]
-  */
-  importAllDirs = dir: importAll (allDirs dir);
-
-  /* Import all files under the given path.
-
-     Type:
-       importAllFiles :: Path -> [a]
-  */
-  importAllFiles = dir: importAll (allFiles dir);
 
   /* Append default.nix to path.
 

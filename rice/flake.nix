@@ -64,10 +64,12 @@
       lib.librice = librice;
 
       /* Expose my modules */
-      nixosModules = with lib; {
+      nixosModules = with lib; let
+        importDir = dir: importListAsAttrs (allDirs dir);
+      in {
         main = import ./modules;
-        instances = importAllAsAttrs (allDirs ./modules/instances);
-        homes = importAllAsAttrs (allDirs ./modules/homes);
+        instances = importDir ./modules/instances;
+        homes = importDir ./modules/homes;
       };
 
       /* Notice that there is a minor difference between `packages' and `legacyPackages'.
