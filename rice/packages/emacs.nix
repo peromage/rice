@@ -11,4 +11,10 @@ let
     vterm # Since vterm cannot be compiled in user environment, use this instead
   ];
 
-in useEmacsWith emacsPackages
+in pkgs.buildEnv {
+  name = "my-emacs";
+  paths = with pkgs; [
+    (useEmacsWith emacsPackages)
+    libvterm-neovim # libvterm is not maintained, use this instead
+  ];
+}
