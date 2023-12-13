@@ -6,7 +6,9 @@ let
 
   mkPackages =
     let allPackages = with librice; importListAsAttrs' (allButDefault ./.);
-    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allPackages;
+    in pkgs: with lib; mapAttrs
+      (n: v: pkgs.unrestrictedPkgs.callPackage v { inherit rice; })
+      allPackages;
 
   ## Packages from inputs
   exposePackages = system: with inputs; {

@@ -73,8 +73,18 @@
     nodejs_21
     dotnet-sdk_8
     lua
+
   ]) ++ (with pkgs.ricePkgs; [
+    ## Editors
     emacs
     aspell
+
+    ## Gaming
+    steam
+
+  ]) ++ (with pkgs.unrestrictedPkgs; [
+    ## Gaming
+    discord
+
   ]);
 }
