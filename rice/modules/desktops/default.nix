@@ -35,6 +35,10 @@ in with lib; {
       libinput.enable = true;
     };
     programs.xwayland.enable = cfg.enableWayland;
-    hardware.opengl.enable = cfg.enableOpenGL;
+    hardware.opengl = {
+      enable = cfg.enableOpenGL;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
   };
 }
