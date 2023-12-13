@@ -47,12 +47,6 @@
     graphviz
 
     ## Writing
-    ispell
-    hunspell
-    hunspellDicts.en-ca
-    hunspellDicts.en-us
-    aspell
-    aspellDicts.en
     hugo
 
     ## Devices
