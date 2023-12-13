@@ -83,4 +83,15 @@ in with self; {
        toDefaultFile :: (Path | String) -> (Path | String)
   */
   toDefaultFile = path: if hasDefaultFile path then getDefaultFile path else path;
+
+  /* Return the basename without extension.
+
+     Type:
+       baseNameNoExt :: String -> String
+  */
+  baseNameNoExt = name: with builtins;
+    let
+      b = baseNameOf name;
+      m = match "(.*)\\.[^.]+$" b;
+    in if null == m then b else elemAt m 0;
 }
