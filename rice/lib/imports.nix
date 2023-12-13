@@ -40,7 +40,15 @@ in with self; {
        importAllAsAttrs :: [Path] -> AttrSet
   */
   importAllAsAttrs = listOfPaths: with lib;
-    listToAttrs (map (d: nameValuePair (baseNameOf d) (import d)) listOfPaths);
+    mapListToAttrs baseNameOf import listOfPaths;
+
+  /* Similar with `importAllAsAttrs' but extensions are stripped from names.
+
+     Type:
+       importAllAsAttrs' :: [Path] -> AttrSet
+  */
+  importAllAsAttrs' = listOfPaths: with lib;
+    mapListToAttrs baseNameNoExt import listOfPaths;
 
   /* Import all files/directories under the given path excluding `default.nix'.
 

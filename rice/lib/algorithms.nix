@@ -90,4 +90,15 @@ in with self; {
        pairName :: a -> a -> a
   */
   pairValue = n: v: v;
+
+  /* Map a list to an attrs.
+
+     `fn' and `fv' are used to map each element from the list to the name and
+     value respectively.
+
+     Type:
+       mapListToAttrs :: (a -> String) -> (a -> a) -> [a] -> AttrSet
+  */
+  mapListToAttrs = fn: fv: list: with lib;
+    listToAttrs (map (i: nameValuePair (fn i) (fv i)) list);
 }
