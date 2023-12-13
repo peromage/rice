@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 pkgs.mkShell {
-  packages = with pkgs.pkgsCustom; [
+  packages = with pkgs.pkgsUnrestricted; [
     hello
   ];
 }
