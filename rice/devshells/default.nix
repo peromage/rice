@@ -4,12 +4,12 @@ let
   lib = nixpkgs.lib;
   librice = rice.lib;
 
-  mkDevshells =
-    let allPackages = with librice; importAllAsAttrs' (allButDefault ./.);
-    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v {}) allPackages;
+  mkDevShells =
+    let allShells = with librice; importAllAsAttrs' (allButDefault ./.);
+    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v {}) allShells;
 
 in with librice; forSupportedSystems (system:
-  mkDevshells (import nixpkgs {
+  mkDevShells (import nixpkgs {
     inherit system;
     overlays = [ outputs.overlays.pkgsCustom ];
   }))
