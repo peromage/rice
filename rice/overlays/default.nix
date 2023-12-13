@@ -1,4 +1,4 @@
-{ nixpkgs, ... }:
+{ nixpkgs, rice, ... }:
 
 {
   unrestrictedPkgs = final: prev: {
@@ -9,5 +9,9 @@
         allowBroken = true;
       };
     };
+  };
+
+  ricePkgs = final: prev: {
+    ricePkgs = rice.outputs.packages.${final.system};
   };
 }

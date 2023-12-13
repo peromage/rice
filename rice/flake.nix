@@ -54,9 +54,12 @@
         };
       };
 
-      withUnrestrictedPkgs = system: import nixpkgs {
+      withCustomPkgs = system: import nixpkgs {
         inherit system;
-        overlays = [ outputs.overlays.unrestrictedPkgs ];
+        overlays = with outputs.overlays; [
+          unrestrictedPkgs
+          ricePkgs
+        ];
       };
 
     in with librice; {
@@ -127,7 +130,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (withUnrestrictedPkgs system);
+        let inc = homeTopModule (withCustomPkgs system);
         in {
           fang = inc ./modules/homes/fang;
         }
