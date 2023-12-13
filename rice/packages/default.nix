@@ -1,16 +1,20 @@
 { nixpkgs, inputs, rice, ... }:
 
 let
+  lib = nixpkgs.lib;
   librice = rice.lib;
 
-  customPackages = pkgs: {
-    ## TODO: Add more packages
-  };
+  mkPackages =
+    let allPackages = with librice; importAllAsAttrs' (allButDefault ./.);
+    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v {}) allPackages;
 
-  exposedPackages = system: with inputs; {
+  ## Packages from inputs
+  exposePackages = system: with inputs; {
     home-manager = home-manager.packages.${system}.default;
   };
 
 in with librice; forSupportedSystems (system:
-  (customPackages nixpkgs.legacyPackages.${system})
-  // (exposedPackages system))
+  mkPackages (import nixpkgs {
+    inherit system;
+    overlays = [ outputs.overlays.pkgsCustom ];
+  }) // (exposePackages system))
