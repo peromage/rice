@@ -6,15 +6,50 @@ let
   librice = rice.lib;
   cfg = config.rice.users;
 
+  /* Additional arguments to import submodules.
+
+     CONTRACT: Each profile declared in this set must have options:
+
+       - enable
+       - name
+       - id
+       - groups
+  */
+  args = {
+    mkUserOptions = { name, id, groups }: with lib; {
+      enable = mkEnableOption "Activate user ${name}";
+
+      name = mkOption {
+        type = types.str;
+        default = name;
+        description = "User ${name}";
+      };
+
+      id = mkOption {
+        type = types.ints.unsigned;
+        default = id;
+        description = "User ${name}'s UID and GID.";
+      };
+
+      groups = mkOption {
+        type = with types; listOf str;
+        default = groups;
+        description = "Groups that user ${name} belongs to.";
+      };
+
+      ## TODO: Password
+    };
+  };
+
   ## Handle users.disableRoot
   rootConfig = lib.optionalAttrs cfg.root.disable {
     root = {
-      ## TODO: Remove this plain password
+      ## FIXME: Remove this plain password
       hashedPassword = "**DISABLED**";
     };
   };
 
-  enabledUsers = lib.filterAttrs (n: v: v.enable) cfg.users;
+  enabledUsers = lib.filterAttrs (n: v: v.enable) cfg.profiles;
 
   ## Handle users.users
   userList = with lib; mapAttrs'
@@ -38,7 +73,7 @@ let
   mutableUsers = !cfg.immutable;
 
 in with lib; {
-  imports = librice.allButDefault ./.;
+  imports = with librice; callListWithArgs args (allButDefault ./.);
 
   options.rice.users = {
     immutable = mkOption {
@@ -57,33 +92,7 @@ in with lib; {
     };
 
     ## Normal users
-    users = mkOption {
-      type = with types; attrsOf (submodule {
-        options = {
-          enable = mkEnableOption "User activation";
-
-          name = mkOption {
-            type = str;
-            description = "User name";
-          };
-
-          id = mkOption {
-            type = ints.unsigned;
-            default = 1000;
-            description = "User UID and GID.";
-          };
-
-          groups = mkOption {
-            type = listOf str;
-            default = [];
-            description = "Groups that user belongs to.";
-          };
-
-          ## TODO: Password
-        };
-      });
-      description = "Normal user configurations.";
-    };
+    profiles = {};
   };
 
   config = {
