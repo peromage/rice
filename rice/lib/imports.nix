@@ -7,14 +7,14 @@ in with self; {
   /* Import the given path with predefined arguments.
 
      Type:
-       callWithArgs :: AttrSet -> Path -> a
+       callWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
   */
-  callWithArgs = args: path: import path args;
+  callWithArgs = args: fn: import fn args;
 
-  /* Import with rice passed in.
+  /* Import using `rice' as the arguments.
 
      Type:
-       callWithRice :: Path -> a
+       callWithRice :: ((AttrSet -> a) | Path) -> a
   */
   callWithRice = callWithArgs rice;
 
@@ -30,34 +30,35 @@ in with self; {
   /* Treat all elements imported as attrsets and merge them into one.
 
      Type:
-       callListAsMerged :: AttrSet -> [Path] -> AttrSet
+       callListAsMerged :: AttrSet -> [(AttrSet -> a) | Path] -> AttrSet
   */
-  callListAsMerged = args: listOfPaths: builtins.foldl'
-    concatAttrs {} (map (callWithArgs args) listOfPaths);
+  callListAsMerged = args: fns:
+    let call = callWithArgs args;
+    in builtins.foldl' concatAttrs {} (map call fns);
 
   /* Import paths from the given list.
 
      Type:
-       importList :: [Path] -> [a]
+       importList :: [(AttrSet -> a) | Path] -> [a]
   */
-  importList = listOfPaths: map import listOfPaths;
+  importList = fns: map import fns;
 
   /* Like `importList' but instead of returning a list this returns an attrset
      with keys as the file names.
 
      Type:
-       importListAsAttrs :: [Path] -> AttrSet
+       importListAsAttrs :: [(AttrSet -> a) | Path] -> AttrSet
   */
-  importListAsAttrs = listOfPaths: with lib;
-    mapListToAttrs baseNameOf import listOfPaths;
+  importListAsAttrs = fns: with lib;
+    mapListToAttrs baseNameOf import fns;
 
   /* Similar with `importListAsAttrs' but extensions are stripped from names.
 
      Type:
-       importListAsAttrs' :: [Path] -> AttrSet
+       importListAsAttrs' :: [(AttrSet -> a) | Path] -> AttrSet
   */
-  importListAsAttrs' = listOfPaths: with lib;
-    mapListToAttrs baseNameNoExt import listOfPaths;
+  importListAsAttrs' = fns: with lib;
+    mapListToAttrs baseNameNoExt import fns;
 
   /* Append default.nix to path.
 
