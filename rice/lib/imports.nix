@@ -9,7 +9,7 @@ in with self; {
      Type:
        callWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
   */
-  callWithArgs = args: fn: (if lib.isFunction then fn else import fn) args;
+  callWithArgs = args: fn: (if lib.isFunction fn then fn else import fn) args;
 
   /* Import using `rice' as the arguments.
 
