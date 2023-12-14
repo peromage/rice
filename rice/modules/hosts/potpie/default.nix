@@ -1,17 +1,12 @@
+{ mkProfileOptions, ... }:
 { rice, lib, ... }:
 
 {
   imports = rice.lib.allButDefault ./.;
 
-  options.rice.hosts.profiles.potpie = with lib; {
-    enable = mkEnableOption "Host activation";
-
-    name = mkOption {
-      type = types.str;
-      default = "Potpie";
-      description = "Host name";
-    };
-
-    disableFirewall = lib.mkEnableOption "Firewall";
-  };
+  options.rice.hosts.profiles.potpie = mkProfileOptions {
+    name = "Potpie";
+  } // (with lib; {
+    disableFirewall = mkEnableOption "Firewall";
+  });
 }

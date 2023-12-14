@@ -6,7 +6,27 @@ let
   librice = rice.lib;
   cfg = config.rice.hosts;
 
+  /* Additional arguments to import submodules.
+
+     CONTRACT: Each profile declared in this set must have options:
+
+       - enable
+       - name
+  */
+  args = {
+    mkProfileOptions = { name }: with lib; {
+      enable = mkEnableOption "Host ${name} activation";
+
+      name = mkOption {
+        type = types.str;
+        default = name;
+        description = "Host name for ${name}";
+      };
+    };
+  };
+
   enabledHosts = lib.filterAttrs (n: v: v.enable) cfg.profiles;
+
   /* Handle host name.
      The precedence of the host name specified in options is as follow:
        1. hosts.hostName
@@ -26,7 +46,7 @@ let
       enabledHosts);
 
 in with lib; {
-  imports = librice.allButDefault ./.;
+  imports = with librice; callListWithArgs args (allButDefault ./.);
 
   options.rice.hosts = {
     hostName = mkOption {
@@ -35,11 +55,6 @@ in with lib; {
       description = "Host name for this machine.";
     };
 
-    /* CONTRACT: Each profile declared in this set must have options:
-
-       - enable
-       - name
-    */
     profiles = {};
   };
 
