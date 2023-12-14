@@ -41,14 +41,6 @@ let
     };
   };
 
-  ## Handle users.disableRoot
-  rootConfig = lib.optionalAttrs cfg.root.disable {
-    root = {
-      ## FIXME: Remove this plain password
-      hashedPassword = "**DISABLED**";
-    };
-  };
-
   enabledUsers = lib.filterAttrs (n: v: v.enable) cfg.profiles;
 
   ## Handle users.users
@@ -83,13 +75,7 @@ in with lib; {
     };
 
     ## Root user
-    root = {
-      disable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Disable root user access.";
-      };
-    };
+    root = {};
 
     ## Normal users
     profiles = {};
@@ -97,7 +83,7 @@ in with lib; {
 
   config = {
     users.mutableUsers = mutableUsers;
-    users.users = userList // rootConfig;
+    users.users = userList;
     users.groups = groupList;
   };
 }
