@@ -121,7 +121,7 @@
 
       /* Via: `nixos-rebuild --flake .#HOST_NAME' */
       nixosConfigurations = {
-        Framepie = nixosTopModule ./modules/instances/framepie;
+        Framepie = nixosTopModule ./modules/instances/Framepie;
       };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
