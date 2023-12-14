@@ -3,7 +3,7 @@
 let
   nixpkgs = rice.nixpkgs;
   librice = rice.lib;
-  cfg = config.rice.hosts.hosts.potpie;
+  cfg = config.rice.hosts.profiles.potpie;
 
 in lib.mkIf cfg.enable {
   /* Locale */

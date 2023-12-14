@@ -1,8 +1,17 @@
-{ rice, ... }:
+{ rice, lib, ... }:
 
 {
   imports = rice.lib.allButDefault ./.;
 
-  ## Default host name
-  rice.hosts.hosts.potpie.name = "Potpie";
+  options.rice.hosts.profiles.potpie = with lib; {
+    enable = mkEnableOption "Host activation";
+
+    name = mkOption {
+      type = types.str;
+      default = "Potpie";
+      description = "Host name";
+    };
+
+    disableFirewall = lib.mkEnableOption "Firewall";
+  };
 }

@@ -17,7 +17,7 @@ in {
 
   rice = {
     hosts.hostName = "Framepie";
-    hosts.hosts.potpie.enable = true;
+    hosts.profiles.potpie.enable = true;
     users.users.fang.enable = true;
     desktops.env.gnome.enable = true;
 
