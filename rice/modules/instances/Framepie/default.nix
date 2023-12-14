@@ -10,7 +10,7 @@ in {
   imports = [
     ./boot.nix
     ./mounts.nix
-    librice.moduleTopLevel
+    rice.dirs.modules
   ];
 
   nixpkgs.hostPlatform = arch;

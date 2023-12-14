@@ -2,7 +2,7 @@
 
 let
   inherit (rice) nixpkgs;
-  inherit (rice.inputs) nixos-hardware;
+  inherit (rice.flake.inputs) nixos-hardware;
 
 in {
   imports = [

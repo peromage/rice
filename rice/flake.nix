@@ -40,28 +40,9 @@
   outputs = { self, nixpkgs, ... } @ inputs:
     let
       lib = nixpkgs.lib;
-      librice = rice.lib;
       outputs = self.outputs;
-
-      rice = {
-        inherit nixpkgs inputs outputs;
-        rice = rice; # Self reference
-        topLevel = builtins.path { path = ./.; }; # Explicit copy
-        lib = import ./lib rice;
-
-        dirs = with rice; {
-          modules = "${topLevel}/modules";
-          dotfiles = "${topLevel}/dotfiles";
-        };
-
-        withCustomPkgs = system: import nixpkgs {
-          inherit system;
-          overlays = with outputs.overlays; [
-            unrestrictedPkgs
-            ricePkgs
-          ];
-        };
-      };
+      rice = import ./rice.nix { inherit nixpkgs; flake = self; };
+      librice = rice.lib;
 
     in with librice; {
       /* Expose rice */
@@ -132,7 +113,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (rice.withCustomPkgs system);
+        let inc = homeTopModule (rice.withPkgsOverlays system);
         in {
           fang = inc ./modules/homes/fang;
         }

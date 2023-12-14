@@ -1,8 +1,8 @@
-{ self, nixpkgs, topLevel, rice, ... }:
+{ self, nixpkgs, rice, ... }:
 
 let
   lib = nixpkgs.lib;
-  libhm = rice.inputs.home-manager.lib;
+  libhm = rice.flake.inputs.home-manager.lib;
 
 in with self; {
   /* Import a NixOS top level module.
@@ -33,21 +33,6 @@ in with self; {
     extraSpecialArgs = { inherit rice; };
     modules = [ topModule ];
   };
-
-  /* Module root directory
-
-     Type:
-       moduleTopLevel :: String
-  */
-  moduleTopLevel = "${topLevel}/modules";
-
-  /* Shorthand to get paths of NixOS modules relative to the toplevel.
-     Usually used with `imports' block in a NixOS module.
-
-     Type:
-       getModules :: [String] -> [String]
-  */
-  getModules = prefixWith "${moduleTopLevel}/";
 
   /* Generate an attribute set for supported platforms.
      More values can be checked from `nixpkgs.lib.systems.flakeExposed'.

@@ -14,7 +14,7 @@
 { config, pkgs, lib, rice, ... }:
 
 let
-  inherit (rice.inputs) lanzaboote;
+  inherit (rice.flake.inputs) lanzaboote;
   cfg = config.rice.hardware.secureBoot;
 
 in with lib; {

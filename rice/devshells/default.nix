@@ -1,4 +1,4 @@
-{ nixpkgs, rice, withCustomPkgs, ... }:
+{ nixpkgs, rice, withPkgsOverlays, ... }:
 
 let
   lib = nixpkgs.lib;
@@ -8,4 +8,4 @@ let
     let allShells = with librice; importListAsAttrs' (allButDefault ./.);
     in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allShells;
 
-in with librice; forSupportedSystems (system: mkDevShells (withCustomPkgs system))
+in with librice; forSupportedSystems (system: mkDevShells (withPkgsOverlays system))

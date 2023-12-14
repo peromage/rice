@@ -1,4 +1,4 @@
-{ nixpkgs, inputs, rice, withCustomPkgs, ... }:
+{ nixpkgs, flake, rice, withPkgsOverlays, ... }:
 
 let
   lib = nixpkgs.lib;
@@ -11,9 +11,9 @@ let
       allPackages;
 
   ## Packages from inputs
-  exposePackages = system: with inputs; {
+  exposePackages = system: with flake.inputs; {
     home-manager = home-manager.packages.${system}.default;
   };
 
 in with librice; forSupportedSystems (system:
-  mkPackages (withCustomPkgs system) // (exposePackages system))
+  mkPackages (withPkgsOverlays system) // (exposePackages system))
