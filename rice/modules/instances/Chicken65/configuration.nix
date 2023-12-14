@@ -93,7 +93,6 @@ in {
     uid = id;
     group = name;
     isNormalUser = true;
-    description = "System manager";
     extraGroups = [
       "networkmanager"
       "wheel"
