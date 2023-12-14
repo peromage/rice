@@ -64,8 +64,8 @@
       };
 
     in with librice; {
-      /* Expose my lib */
-      lib.librice = librice;
+      /* Expose rice */
+      rice = rice;
 
       /* Expose my modules */
       nixosModules = with lib; let
