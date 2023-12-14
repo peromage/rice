@@ -122,6 +122,7 @@
       /* Via: `nixos-rebuild --flake .#HOST_NAME' */
       nixosConfigurations = {
         Framepie = nixosTopModule ./modules/instances/Framepie;
+        Chicken65 = nixosTopModule ./modules/instances/Chicken65;
       };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
