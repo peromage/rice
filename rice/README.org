@@ -21,10 +21,12 @@ The [[./modules/instances][instances]] directory is the place to store top level
 
 [[./modules/homes][homes]] directory stores user space configurations.  Each profile should be put into a directory and can be imported as a part of =homeConfigurations= in the flake.
 
+The rest of the modules are reusable modules which can be used anywhere.  Some of them also provide options to set.
+
 ** Special arguments
 All special arguments from this repo are encapsulated in the =rice= variable within the top level flake.  Except the top level =default.nix= for each subdirectories from the repo root, which are passed with =rice='s content, all the submodules (NixOS modules, packages, devshells etc.) are passed with that single =rice= variable if needed.  Doing so to reduce the mind burden while writing modules.
 
-The rest of the modules are reusable modules which can be used anywhere.  Some of them also provide options to set.
+The [[./lib][lib]] itself should have zero knowledge about the content of =rice=, except passing =rice= via wrapper functions.  This is to ensure its generic nature.
 
 ** Dotfiles
 I didn't rewrite all my dotfiles into Nix modules since I also need to work on platforms other than NixOS.  Although I do have some apps configured in the Nix way, most of them are still linked to their directories via Home Manager.
