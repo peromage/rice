@@ -1,4 +1,4 @@
-{ nixpkgs, flake, ... }:
+{ nixpkgs, flake }:
 
 let
   rice = self: {
