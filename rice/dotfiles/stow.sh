@@ -29,5 +29,5 @@ if ! test -d "$SOURCE"; then
 fi
 
 CMD="stow $@ --dir=$SOURCE --target=$HOME $ACTION ."
-echo "Invoking: $CMD"
+echo "[DEBUG]: $CMD"
 eval "$CMD"
