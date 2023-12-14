@@ -26,6 +26,10 @@ in with lib; {
       description = "Enable OpenGL support.";
     };
 
+    /* CONTRACT: Each profile declared in this set must have options:
+
+       - enable
+    */
     env = {};
   };
 
