@@ -18,6 +18,15 @@ in with self; {
   */
   callWithRice = callWithArgs rice;
 
+  /* Import each module from the list with given argument.
+
+     Type:
+       callListWithArgs :: AttrSet -> [(AttrSet -> a) | Path] -> [a]
+  */
+  callListWithArgs = args: fns:
+    let call = callWithArgs args;
+    in map call fns;
+
   /* Treat all elements imported as attrsets and merge them into one.
 
      Type:
