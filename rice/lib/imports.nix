@@ -9,7 +9,7 @@ in with self; {
      Type:
        callWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
   */
-  callWithArgs = args: fn: import fn args;
+  callWithArgs = args: fn: (if lib.isFunction then fn else import fn) args;
 
   /* Import using `rice' as the arguments.
 
@@ -39,7 +39,7 @@ in with self; {
   /* Import paths from the given list.
 
      Type:
-       importList :: [(AttrSet -> a) | Path] -> [a]
+       importList :: [Path] -> [a]
   */
   importList = fns: map import fns;
 
@@ -47,7 +47,7 @@ in with self; {
      with keys as the file names.
 
      Type:
-       importListAsAttrs :: [(AttrSet -> a) | Path] -> AttrSet
+       importListAsAttrs :: [Path] -> AttrSet
   */
   importListAsAttrs = fns: with lib;
     mapListToAttrs baseNameOf import fns;
@@ -55,7 +55,7 @@ in with self; {
   /* Similar with `importListAsAttrs' but extensions are stripped from names.
 
      Type:
-       importListAsAttrs' :: [(AttrSet -> a) | Path] -> AttrSet
+       importListAsAttrs' :: [Path] -> AttrSet
   */
   importListAsAttrs' = fns: with lib;
     mapListToAttrs baseNameNoExt import fns;
