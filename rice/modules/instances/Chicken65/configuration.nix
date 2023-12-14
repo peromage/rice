@@ -55,7 +55,7 @@ in {
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.mate.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -112,12 +112,22 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    firefox
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    tmux
     git
     curl
     wget
-    emacs29
+    rsync
+    tree
+
+    ## Filesystems
     ntfs3g
+    exfat
+    exfatprogs
+    e2fsprogs
+    fuse
+    fuse3
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
