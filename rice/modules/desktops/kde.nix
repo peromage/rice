@@ -1,3 +1,4 @@
+{ mkDesktopOptions, ... }:
 { config, lib, ... }:
 
 let
@@ -5,10 +6,11 @@ let
   cfgAll = config.rice.desktops;
 
 in with lib; {
-  options.rice.desktops.env.kde = {
-    enable = mkEnableOption "KDE Plasma desktop environment";
+  options.rice.desktops.env.kde = mkDesktopOptions {
+    name = "KDE";
+  } // (with lib; {
     disableSDDM = mkEnableOption "SDDM off";
-  };
+  });
 
   config = mkIf cfg.enable {
     services.xserver = {

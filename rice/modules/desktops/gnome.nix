@@ -1,3 +1,4 @@
+{ mkDesktopOptions, ... }:
 { config, lib, pkgs, ... }:
 
 let
@@ -5,10 +6,11 @@ let
   cfgAll = config.rice.desktops;
 
 in with lib; {
-  options.rice.desktops.env.gnome = {
-    enable = mkEnableOption "Gnome desktop environment";
+  options.rice.desktops.env.gnome = mkDesktopOptions {
+    name = "Gnome";
+  } // (with lib; {
     disableGDM = mkEnableOption "GDM off";
-  };
+  });
 
   config = mkIf cfg.enable {
     services.xserver = {
