@@ -6,13 +6,15 @@ let
   userCfg = config.rice.users;
 
   ## If immutable is enabled hashed password must be supplied
-  hashedPassword = with lib; optionalAttrs cfg.immutable
+  password = if cfg.immutable then
     (assert null != cfg.hashedPassword;
-      (if isString cfg.hashedPassword then {
+      (if lib.isString cfg.hashedPassword then {
         hashedPassword = cfg.hashedPassword;
       } else {
         hashedPasswordFile = cfg.hashedPassword;
-      }));
+      })) else {
+        initialPassword = cfg.initialPassword;
+      };
 
   disabledPassword = {
     ## FIXME: Remove this plain password
@@ -41,8 +43,6 @@ in {
   };
 
   config = {
-    users.users.root = {
-      initialPassword = cfg.initialPassword;
-    } // (if cfg.disable then disabledPassword else hashedPassword);
+    users.users.root = if cfg.disable then disabledPassword else password;
   };
 }

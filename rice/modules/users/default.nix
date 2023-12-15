@@ -68,14 +68,15 @@ let
   enabledUsers = lib.filterAttrs (n: v: v.enable) cfg.profiles;
 
   ## If immutable is enabled hashed password must be supplied
-  getHashedPassword = user: with lib; optionalAttrs
-    cfg.immutable
+  getPassword = user: if cfg.immutable then
     (assert null != user.hashedPassword;
-      (if isString user.hashedPassword then {
+      (if lib.isString user.hashedPassword then {
         hashedPassword = user.hashedPassword;
       } else {
         hashedPasswordFile = user.hashedPassword;
-      }));
+      })) else {
+        initialPassword = assert null != user.initialPassword; user.initialPassword;
+      };
 
   ## Handle users.users
   userList = with lib; mapAttrs'
@@ -89,8 +90,7 @@ let
       home = "/home/${v.name}";
       homeMode = "700";
       createHome = true;
-      initialPassword = assert null != v.initialPassword; v.initialPassword;
-    } // (getHashedPassword v)))
+    } // (getPassword v)))
     enabledUsers;
 
   ## Handle users.users
