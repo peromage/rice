@@ -74,4 +74,19 @@ in with self; {
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
   mkMergeIf = listOfAttrs: with lib; mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
+
+  /* Check the `enable' attribute for each name in the set and return true if
+     at least one is true;
+
+     Type:
+       anyEnable :: AttrSet -> Bool
+  */
+  anyEnable = attrs: lib.foldlAttrs (a: _: v: v.enable || a) false attrs;
+
+  /* Return an attrs for names that have `enable' attribute true;
+
+     Type:
+       filterEnable :: AttrSet -> AttrSet
+  */
+  filterEnable = attrs: lib.filterAttrs (n: v: v.enable) attrs;
 }

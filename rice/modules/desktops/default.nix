@@ -16,8 +16,8 @@ let
     };
   };
 
-  ## Don't enable display server if no desktop environment is enabled
-  enableDisplayServer = lib.foldlAttrs (a: _: v: v.enable || a) false cfg.env;
+  ## Do not enable desktop settings if no desktop environment is enabled
+  enableDesktopConfig = librice.anyEnable cfg.env;
 
 in with lib; {
   imports = with librice; callListWithArgs args (allButDefault ./.);
@@ -32,7 +32,7 @@ in with lib; {
     env = {};
   };
 
-  config = mkIf enableDisplayServer {
+  config = mkIf enableDesktopConfig {
     services.xserver = {
       enable = true;
       libinput.enable = true;

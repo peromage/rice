@@ -25,7 +25,7 @@ let
     };
   };
 
-  enabledHosts = lib.filterAttrs (n: v: v.enable) cfg.profiles;
+  enabledHosts = librice.filterEnable cfg.profiles;
 
   /* Handle host name.
      The precedence of the host name specified in options is as follow:

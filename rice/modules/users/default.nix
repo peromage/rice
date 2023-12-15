@@ -74,7 +74,7 @@ let
     };
   };
 
-  enabledUsers = lib.filterAttrs (n: v: v.enable) cfg.profiles;
+  enabledUsers = librice.filterEnable cfg.profiles;
 
   ## If immutable is enabled hashed password must be supplied
   getPassword = user: if cfg.immutable then
