@@ -1,7 +1,6 @@
 { config, lib, pkgs, rice, ... }:
 
 let
-  nixpkgs = rice.nixpkgs;
   librice = rice.lib;
   cfg = config.rice.hosts.profiles.potpie;
 

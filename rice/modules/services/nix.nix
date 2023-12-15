@@ -1,15 +1,15 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, rice, ... }:
 
 let
+  nixpkgs = rice.nixpkgs;
   cfg = config.rice.services.nix;
 
 in with lib; {
-
   options.rice.services.nix = {
     enable = mkEnableOption "Nix settings";
   };
 
-  config = cfg.enable {
+  config = mkIf cfg.enable {
     nixpkgs = {
       hostPlatform = lib.mkDefault "x86_64-linux";
       config = {
@@ -19,7 +19,6 @@ in with lib; {
     };
 
     nix = {
-      ## Enable experimental features
       settings = {
         experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
@@ -37,10 +36,10 @@ in with lib; {
       };
 
       /* Synonyms
-       pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
-       pkgs.nixVersions.unstable -> pkgs.nixUnstable
-       See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
-    */
+         pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
+         pkgs.nixVersions.unstable -> pkgs.nixUnstable
+         See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
+      */
       package = pkgs.nixFlakes;
 
       ## Use the nixpkgs from the toplevel flake
