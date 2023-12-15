@@ -31,13 +31,34 @@ users to specify the shell to start with."
 (pewcfg::use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::oninit)
+  :bind ( :map treemacs-mode-map
+          ("j" . treemacs-find-file) )
+
   :custom
   (treemacs-wrap-around nil)
+  (treemacs-eldoc-display 'detailed)
+  (treemacs-show-hidden-files t)
+  (treemacs-hide-dot-git-directory nil)
 
   :config
   (defun pew::treemacs::oninit ()
     "`treemacs-mode' initialization."
-    (display-line-numbers-mode -1)))
+    (display-line-numbers-mode -1))
+
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode 'always)
+  (treemacs-hide-gitignored-files-mode nil)
+
+  (when treemacs-python-executable
+    (treemacs-git-commit-diff-mode t))
+
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null treemacs-python-executable)))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple))))
 
 ;;; Package: separedit
 (pewcfg::use-package separedit
