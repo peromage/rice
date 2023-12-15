@@ -25,6 +25,8 @@ let
     };
   };
 
+  ## Host config is only enabled if any one of the profiles is turned on
+  enableHostConfig = librice.anyEnable cfg.profiles;
   enabledHosts = librice.filterEnable cfg.profiles;
 
   /* Handle host name.
@@ -64,7 +66,7 @@ in with lib; {
     profiles = {};
   };
 
-  config = {
+  config = mkIf enableHostConfig {
     nixpkgs.hostPlatform = assert null != cfg.platform; cfg.platform;
     networking.hostName = assert null != finalHostName; finalHostName;
   };

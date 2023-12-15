@@ -74,6 +74,8 @@ let
     };
   };
 
+  ## User config is only enabled if any one of the profiles is turned on
+  enableUserConfig = librice.anyEnable cfg.profiles;
   enabledUsers = librice.filterEnable cfg.profiles;
 
   ## If immutable is enabled hashed password must be supplied
@@ -133,7 +135,7 @@ in with lib; {
     profiles = {};
   };
 
-  config = {
+  config = mkIf enableUserConfig {
     users.mutableUsers = mutableUsers;
     users.users = userList;
     users.groups = groupList;
