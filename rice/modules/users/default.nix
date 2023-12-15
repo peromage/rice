@@ -54,10 +54,10 @@ let
         type = with types; nullOr str;
         default = initialPassword;
         description = ''
-          Initial password for user if immutable user option is disabled.  In
+          Initial password for user if `immutable' user option is disabled.  In
           that case this option is mandatory.
-          If immutable user option is enabled, this will be ignored and hashed
-          password must be supplied.
+          If `immutable' user option is enabled, this will be ignored and
+          `hashedPassword' must be supplied.
         '';
       };
 
@@ -67,8 +67,8 @@ let
         default = hashedPassword;
         description = ''
           Hashed password or hashed password file.
-          If immutable user option is enabled, this is mandatory.  Otherwise
-          it is ignored and use initial password instead.
+          If `immutable' user option is enabled, this is mandatory.  Otherwise
+          it is ignored and use `initialPassword' instead.
         '';
       };
     };
@@ -121,7 +121,7 @@ in with lib; {
       default = false;
       description = ''
         Immutable user management.
-        Note that when this is enabled the hashed password must be specified
+        Note that when this is enabled the `hashedPassword' must be specified
         for each user declared within rice namespace.
       '';
     };
