@@ -103,10 +103,11 @@ in lib.mkIf cfg.enable {
 
     ## Use the nixpkgs from the toplevel flake
     registry.nixpkgs.flake = nixpkgs;
-    nixPath = [ "/etc/nix/path" ];
+    nixPath = [
+      "nixpkgs=${nixpkgs}"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
   };
-
-  environment.etc."nix/path/nixpkgs".source = "${nixpkgs}";
 
   /* Documentation */
   documentation = {
