@@ -8,32 +8,7 @@
 * About
 This is my personal configuration collection built on top of NixOS with Nix Flake.
 
-* Some thoughts when writing the configurations (as a reminder for myself)
-** Top level directories
-The top level (root of Rice) is categorized based on the outputs of the root flake.
-
-** NixOS modules
-The [[./modules][modules]] are implemented in a way where they can be easily (sort of) reused.
-
-The [[./modules/hosts][hosts]] directory contains basic, hardware abstracted configurations for a computer.  Each host profile should be put into a subdirectory and provide basic system level settings.
-
-The [[./modules/instances][instances]] directory is the place to store top level configurations for a specific hardware.  Each profile has the hardware specific setup like mounting, booting, encryption etc..  Each profile should be put into a subdirectory and can be imported as a part of =nixosConfigurations= in the flake.
-
-[[./modules/homes][homes]] directory stores user space configurations.  Each profile should be put into a directory and can be imported as a part of =homeConfigurations= in the flake.
-
-The rest of the modules are reusable modules which can be used anywhere.  Some of them also provide options to set.
-
-** Special arguments
-All special arguments from this repo are encapsulated in the =rice= variable within the top level flake.  Except the top level =default.nix= for each subdirectories from the repo root, which are passed with =rice='s content, all the submodules (NixOS modules, packages, devshells etc.) are passed with that single =rice= variable if needed.  Doing so to reduce the mind burden while writing modules.
-
-The [[./lib][lib]] itself should have zero knowledge about the content of =rice=, except passing =rice= via wrapper functions.  This is to ensure its generic nature.
-
-** Dotfiles
-I didn't rewrite all my dotfiles into Nix modules since I also need to work on platforms other than NixOS.  Although I do have some apps configured in the Nix way, most of them are still linked to their directories via Home Manager.
-
-A convenient [[./dotfiles/stow.sh][script]] is provided in case I need to quickly deploy some configurations on non-Nix systems.
-
-* Appendix
+* Notes
 ** Fcitx5 with Rime
 Customization should go into =name.custom.yaml= in order to avoid overwrite from redeployment.  For example, =~/.config/share/fcitx5/rime/default.yaml=, the corresponding customization file is =~/.config/share/fcitx5/rime/default.custom.yaml=.
 
@@ -52,3 +27,84 @@ NOTE: In Gnome, ~super+space~ is eatten by mutter.  Need to find a workaround to
 - Quick jump: [[https://github.com/ajeetdsouza/zoxide][zoxide]], [[https://github.com/skywind3000/z.lua][z.lua]]
 - File manager: [[https://github.com/gokcehan/lf][lf]], [[https://midnight-commander.org][mc]]
 - Automation: [[https://github.com/eradman/entr][entr]]
+
+* Side notes (for myself)
+** Top level directories
+I tried keeping the rice root directory clean so directories are categorized based on the outputs of the flake.
+
+** NixOS modules
+The [[./modules][modules]] are implemented in a way where they can be easily (sort of) reused.  Modules should not have dependency of each other.  This is to ensure reusability, unless modules like [[./modules/users][users]] and [[./modules/hosts][hosts]] that share some common stuff from the their top level directories with submodules.
+
+The [[./modules/hosts][hosts]] directory contains basic, hardware abstracted configurations for a computer.  Each host profile should be put into a subdirectory and provide basic system level settings.
+
+The [[./modules/instances][instances]] directory is the place to store top level configurations for a specific hardware system.  Each profile has the hardware specific setup like mounting, booting, encryption etc..  Each profile should be put into a subdirectory and can be imported as a part of =nixosConfigurations= in the flake.
+
+[[./modules/homes][homes]] directory stores user space configurations.  Each profile should be put into a subdirectory and can be imported as a part of =homeConfigurations= in the flake.
+
+The rest of the modules are reusable modules which can be used anywhere.  Some of them also provide options to set.
+
+** Special variables
+All special variables from this repo are encapsulated in the [[./rice.nix][rice.nix]] within the flake outputs.
+
+[[./modules][Modules]] are passed with a single =rice= argument to reduce complexity and mind burden.  However, when importing flake outputs like [[./packages][packages]] and [[./devshells][devshells]], the =rice= variable are passed as the argument attribute set.
+
+The [[./lib][lib]] itself should have zero knowledge about the content of =rice= except passing =rice= via wrapper functions.  This is to ensure its generic nature.
+
+The =rice= set takes the =nixpkgs= from this flake per se.  This can be overridden by =rice.override= function.
+
+** Dotfiles
+I didn't rewrite all my dotfiles into Nix modules since I also need to work on platforms other than NixOS.  Although I do have some apps configured in the Nix way, most of them are still linked to their directories via Home Manager.
+
+A convenient [[./dotfiles/stow.sh][script]] is provided in case I need to quickly deploy some configurations on non-Nix systems.
+
+** Immutability and dynamics
+Most of the time I still need some dynamics in the system so immutable user option =rice.users.immutable= is disabled by default.  However, when it is enabled each user declared within =rice.users.profiles= namespace must supply either a hashed password or hashed password file by =rice.users.profiles.<name>.hashedPassword=.
+
+To generate a hashed password:
+
+#+begin_src bash
+mkpasswd -m sha-512
+#+end_src
+
+However, there is problem that if a hashed password file is used, it must be tracked by git so that flake can recognize it, or paste the password in config files.  I'm not a big fan of storing secrets in my configurations in either way.  There are some solutions out there to encrypt/decrypt secrets automatically like [[https://github.com/ryantm/agenix][agenix]].  Like I said I'm not into it.  Adding it introduces more dependencies and managing the SSH key is another hassle.  Some dynamics are necessary and it is easier, at least for me.
+
+A simple solution would be creating a local =flake.nix= that is not tracked anywhere (dynamic part) and making Rice as its input:
+
+#+begin_src nix
+{
+  inputs = {
+    conf.url = "/path/to/rice?ref=master";
+  };
+  outputs = { self, conf }: {
+    nixosConfigurations = {
+      Framepie = conf.rice.lib.nixosTopModule {
+        imports = [ conf.nixosModules.instances.Framepie ];
+        rice.users.immutable = true;
+        rice.users.profiles.fang.hashedPassword = "secret";
+      };
+    };
+  };
+}
+#+end_src
+
+Dynamic override is also possible (=conf.inputs.nixpkgs.follows= can still be used though):
+
+#+begin_src nix
+{
+  inputs = {
+    nixpkgs-2305.url = "github:nixos/nixpkgs/nixos-23.05";
+    conf.url = "/path/to/rice?ref=master";
+  };
+  outputs = { self, conf }:
+    let
+      rice = conf.rice;
+      rice2305 = conf.rice.override { nixpkgs = nixpkgs-2305; };
+
+    in{
+      nixosConfigurations = {
+        Framepie = rice.lib.nixosTopModule conf.nixosModules.instances.Framepie;
+        Framepie2305 = rice2305.lib.nixosTopModule conf.nixosModules.instances.Framepie;
+      };
+    };
+}
+#+end_src
