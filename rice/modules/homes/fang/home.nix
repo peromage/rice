@@ -29,35 +29,40 @@
   /* Packages */
   home.packages = (with pkgs; [
     ## CLI
+    vim
     fish
     ripgrep
     stow
     tmux
     git
     git-lfs
-
+    powershell
     ## Data transfer
     wget
     curl
     aria2
     rsync
-
-    ## Coding
-    vim
-    graphviz
-
-    ## Writing
-    hugo
-
-    ## Devices
-    android-tools
-
     ## Fancy stuff
     neofetch
     btop # Replace `htop'
     eza # Replace `ls'
     fzf
     jq # Json parser
+
+    ## Development
+    python3
+    nodejs_21
+    dotnet-sdk_8
+    lua
+
+    ## Devices
+    android-tools
+
+    ## Productivity
+    graphviz
+    hugo
+    libreoffice-fresh
+    gimp
 
     ## GUI
     brave
@@ -67,12 +72,6 @@
 
     ## Wayland
     wl-clipboard
-
-    ## Development
-    python3
-    nodejs_21
-    dotnet-sdk_8
-    lua
 
   ]) ++ (with pkgs.ricePkgs; [
     ## Editors
