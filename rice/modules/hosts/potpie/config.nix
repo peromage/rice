@@ -77,19 +77,6 @@ in lib.mkIf cfg.enable {
     ];
   };
 
-  /* Documentation */
-  documentation = {
-    enable = true;
-    man.enable = true;
-    info.enable = true;
-    doc.enable = true;
-    dev.enable = true;
-    nixos = {
-      enable = true;
-      includeAllModules = true;
-    };
-  };
-
   /* Fonts */
   fonts = {
     fontDir.enable = true;
