@@ -106,7 +106,7 @@ For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]
 
 For the first time setup, =nerd-icons-install-fonts= and =all-the-icons-install-fonts= should be run in order to ensure modeline and other parts to display properly.
 
-* Misc
+* Side notes (for myself)
 ** Naming conventions
 This is a complicated topic but I'll try making my points with much sense.
 
