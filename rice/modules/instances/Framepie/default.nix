@@ -4,7 +4,6 @@
 
 let
   librice = rice.lib;
-  arch = "x86_64-linux";
 
 in {
   imports = [
@@ -13,10 +12,9 @@ in {
     rice.dirs.modules
   ];
 
-  nixpkgs.hostPlatform = arch;
-
   rice = {
     hosts.hostName = "Framepie";
+    hosts.platform = "x86_64-linux";
     hosts.profiles.potpie.enable = true;
     users.profiles.fang.enable = true;
     users.root.enable = false;

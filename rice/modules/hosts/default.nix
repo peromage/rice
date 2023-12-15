@@ -55,10 +55,17 @@ in with lib; {
       description = "Host name for this machine.";
     };
 
+    platform = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = "Host platform architecture.";
+    };
+
     profiles = {};
   };
 
   config = {
-    networking.hostName = (assert null != finalHostName; finalHostName);
+    nixpkgs.hostPlatform = assert null != cfg.platform; cfg.platform;
+    networking.hostName = assert null != finalHostName; finalHostName;
   };
 }
