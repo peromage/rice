@@ -9,13 +9,13 @@ in with lib; {
   options.rice.desktops.env.kde = mkDesktopOptions {
     name = "KDE";
   } // (with lib; {
-    disableSDDM = mkEnableOption "SDDM off";
+    enableSDDM = mkEnableOption "SDDM display manager" // { default = true; };
   });
 
   config = mkIf cfg.enable {
     services.xserver = {
       desktopManager.plasma5.enable = true;
-      displayManager.sddm.enable = !cfg.disableSDDM;
+      displayManager.sddm.enable = cfg.enableSDDM;
       displayManager.sddm.wayland.enable = cfgAll.enableWayland;
     };
   };

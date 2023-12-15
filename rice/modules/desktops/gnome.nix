@@ -9,13 +9,13 @@ in with lib; {
   options.rice.desktops.env.gnome = mkDesktopOptions {
     name = "Gnome";
   } // (with lib; {
-    disableGDM = mkEnableOption "GDM off";
+    enableGDM = mkEnableOption "GDM display manager" // { default = true; };
   });
 
   config = mkIf cfg.enable {
     services.xserver = {
       desktopManager.gnome.enable = true;
-      displayManager.gdm.enable = !cfg.disableGDM;
+      displayManager.gdm.enable = cfg.enableGDM;
       displayManager.gdm.wayland = cfgAll.enableWayland;
     };
 
