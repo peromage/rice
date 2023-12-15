@@ -9,17 +9,20 @@
 This is my personal configuration collection built on top of NixOS with Nix Flake.
 
 * Get started
-Create a local =flake.nix= shown as the follow.  This enables local dynamics (contrary to reproducibility though):
+This configuration can be used as is.
+
+If local changes need to be made but not necessarily to be tracked, create a local =flake.nix= shown as the follow (contrary to reproducibility though):
 
 #+begin_src nix
 {
   inputs = {
-    conf.url = "/url_or_path/to/rice?ref=master";
+    conf.url = "/url-or-path/to/rice?ref=master";
   };
   outputs = { self, conf }: {
     nixosConfigurations = {
-      Framepie = conf.rice.lib.nixosTopModule {
+      Foobar = conf.rice.lib.nixosTopModule {
         imports = [ conf.nixosModules.instances.Framepie ];
+        rice.hosts.hostName = conf.rice.nixpkgs.lib.mkForce "Foobar";
         rice.users.immutable = true;
         rice.users.profiles.fang.hashedPassword = "secret";
       };
@@ -34,7 +37,7 @@ Dynamic override is also possible (=conf.inputs.nixpkgs.follows= can still be us
 {
   inputs = {
     nixpkgs-2305.url = "github:nixos/nixpkgs/nixos-23.05";
-    conf.url = "/path/to/rice?ref=master";
+    conf.url = "/url-or-path/to/rice?ref=master";
   };
   outputs = { self, conf }:
     let
