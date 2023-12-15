@@ -33,38 +33,6 @@ in lib.mkIf cfg.enable {
   networking = {
     networkmanager.enable = true;
     useDHCP = lib.mkDefault true;
-    nftables.enable = false; # Explicitly disable this to use iptables instead for better compatibility
-  };
-
-  /* Firewall */
-  networking.firewall = {
-    enable = true;
-    rejectPackets = false; # Maybe ignore
-    allowPing = true; # Maybe refuse
-    autoLoadConntrackHelpers = false;
-
-    ## Logging
-    checkReversePath = true; # Restrict responses via the same interface
-    logReversePathDrops = false;
-    logRefusedUnicastsOnly = true;
-    logRefusedPackets = false; # There would be a lot log if enabled
-    logRefusedConnections = true;
-
-    allowedTCPPorts = [
-      22 # SSH
-      27036 # Steam remote play
-      27015 # # SRCDS Rcon port
-    ];
-
-    allowedTCPPortRanges = [];
-
-    allowedUDPPorts = [
-      27015 # Gameplay traffic
-    ];
-
-    allowedUDPPortRanges = [
-      { from = 27031; to = 27036; } # Steam remote play
-    ];
   };
 
   /* Nix settings */
