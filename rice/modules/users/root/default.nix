@@ -17,7 +17,7 @@ let
       };
 
   disabledPassword = {
-    ## FIXME: Remove this plain password
+    ## Do not disable root if a custom hashed password needs to be used
     hashedPassword = "**DISABLED**";
   };
 
