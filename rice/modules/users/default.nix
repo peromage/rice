@@ -24,7 +24,7 @@ let
       , initialPassword ? null
       , hashedPassword ? null
     }: with lib; {
-      enable = mkEnableOption "User ${name}";
+      enable = mkEnableOption "user";
 
       name = mkOption {
         type = types.str;
@@ -34,7 +34,7 @@ let
 
       description = mkOption {
         type = types.str;
-        default = "";
+        default = description;
         description = "User description.";
       };
 
@@ -53,14 +53,23 @@ let
       initialPassword = mkOption {
         type = with types; nullOr str;
         default = initialPassword;
-        description = "Initial password (mandatory).";
+        description = ''
+          Initial password for user if immutable user option is disabled.  In
+          that case this option is mandatory.
+          If immutable user option is enabled, this will be ignored and hashed
+          password must be supplied.
+        '';
       };
 
       ## This option is effective only when immutable is enabled
       hashedPassword = mkOption {
         type = with types; nullOr (either str path);
         default = hashedPassword;
-        description = "Hashed password or hashed password file (Used when immutable is enabled).";
+        description = ''
+          Hashed password or hashed password file.
+          If immutable user option is enabled, this is mandatory.  Otherwise
+          it is ignored and use initial password instead.
+        '';
       };
     };
   };
@@ -78,14 +87,14 @@ let
         initialPassword = assert null != user.initialPassword; user.initialPassword;
       };
 
-  ## Handle users.users
+  ## Handle rice.users.profiles.<name>
   userList = with lib; mapAttrs'
     (n: v: nameValuePair v.name ({
       description = v.description;
       isNormalUser = true;
       isSystemUser = false;
       uid = v.id;
-      group = n;
+      group = v.name;
       extraGroups = v.groups;
       home = "/home/${v.name}";
       homeMode = "700";
@@ -93,7 +102,7 @@ let
     } // (getPassword v)))
     enabledUsers;
 
-  ## Handle users.users
+  ## Handle rice.users.profiles.<name>
   groupList = with lib; mapAttrs'
     (n: v: nameValuePair v.name {
       gid = v.id;
@@ -110,7 +119,11 @@ in with lib; {
     immutable = mkOption {
       type = types.bool;
       default = false;
-      description = "Immutable user management.";
+      description = ''
+        Immutable user management.
+        Note that when this is enabled the hashed password must be specified
+        for each user declared within rice namespace.
+      '';
     };
 
     ## Root user
