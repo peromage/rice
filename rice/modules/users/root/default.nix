@@ -23,15 +23,15 @@ let
 
 in {
   options.rice.users.root = with lib; {
-    disable = mkOption {
+    enable = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = ''
-        Disable root user access.
-        Note that if this is enabled both `initialPassword' and `hashedPassword'
+        Enable root user access.  This is on by default.
+        Note that if this is disabled both `initialPassword' and `hashedPassword'
         will be ignored.
-        If root access needs to be controlled by a custom password, do not enable
-        this option.
+        If root access needs to be controlled by a custom password, do not
+        disable this option.
       '';
     };
 
@@ -53,13 +53,13 @@ in {
         Hashed password or hashed password file.
         If `immutable' user option is enabled, this is mandatory.  Otherwise
         it is ignored and use `initialPassword' instead.
-        Note that if `disable' option is enabled for root, both `initialPassword'
+        Note that if `enable' option is off for root, both `initialPassword'
         and `hashedPassword' will be ignored.
       '';
     };
   };
 
   config = {
-    users.users.root = if cfg.disable then disabledPassword else password;
+    users.users.root = if cfg.enable then password else disabledPassword;
   };
 }

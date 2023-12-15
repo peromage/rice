@@ -19,7 +19,7 @@ in {
     hosts.hostName = "Framepie";
     hosts.profiles.potpie.enable = true;
     users.profiles.fang.enable = true;
-    users.root.disable = true;
+    users.root.enable = false;
     desktops.env.gnome.enable = true;
 
     hardware = {
