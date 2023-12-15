@@ -49,13 +49,14 @@
       rice = rice;
 
       /* Expose my modules */
-      nixosModules = with lib; let
-        importDir = dir: importListAsAttrs (allDirs dir);
-      in {
-        main = import ./modules;
-        instances = importDir ./modules/instances;
-        homes = importDir ./modules/homes;
-      };
+      nixosModules = with lib;
+        let
+          importDirs = dir: importListAsAttrs (allDirs dir);
+        in {
+          main = import ./modules;
+          instances = importDirs ./modules/instances;
+          homes = importDirs ./modules/homes;
+        };
 
       /* Notice that there is a minor difference between `packages' and `legacyPackages'.
 
