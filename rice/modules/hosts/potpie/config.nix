@@ -7,9 +7,8 @@ let
 
 in lib.mkIf cfg.enable {
   /* Locale */
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-  };
+  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = "America/Detroit";
 
   console = {
     enable = true;
@@ -22,8 +21,6 @@ in lib.mkIf cfg.enable {
     font = null;
     useXkbConfig = true; # use xkbOptions in tty.
   };
-
-  time.timeZone = "America/Detroit";
 
   /* Sound */
   sound.enable = true;
