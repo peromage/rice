@@ -12,7 +12,7 @@ let
   */
   args = {
     mkDesktopOptions = { name }: with lib; {
-      enable = mkEnableOption "${name} desktop environment";
+      enable = mkEnableOption "desktop environment";
     };
   };
 

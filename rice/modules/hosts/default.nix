@@ -15,12 +15,12 @@ let
   */
   args = {
     mkProfileOptions = { name }: with lib; {
-      enable = mkEnableOption "Host ${name} activation";
+      enable = mkEnableOption "host";
 
       name = mkOption {
         type = types.str;
         default = name;
-        description = "Host name for ${name}";
+        description = "Host name.";
       };
     };
   };

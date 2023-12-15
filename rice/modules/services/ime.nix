@@ -10,7 +10,7 @@ in with lib; {
     enabled = mkOption {
       type = with types; nullOr (enum [ "fcitx" "ibus" ]);
       default = null;
-      description = "Enabled input method";
+      description = "Enabled input method.";
     };
   };
 

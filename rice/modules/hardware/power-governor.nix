@@ -5,7 +5,7 @@ let
 
 in with lib; {
   options.rice.hardware.powerGovernor = {
-    enable = mkEnableOption "Power governor";
+    enable = mkEnableOption "power governor";
 
     profile = mkOption {
       type = types.enum [ "ondemand" "powersave" "performance" ];

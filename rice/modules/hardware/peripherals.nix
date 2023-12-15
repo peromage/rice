@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.rice.hardware.peripherals = {
-    printing = mkEnableOption "Printing service.";
+    printing = mkEnableOption "printing service";
   };
 
   config = librice.mkMergeIf [
