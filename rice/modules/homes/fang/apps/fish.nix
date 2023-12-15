@@ -9,8 +9,8 @@ in {
     shellInit = "";
     loginShellInit = "";
     interactiveShellInit = ''
-source ${src}/config.fish
-'';
+      source ${src}/config.fish
+    '';
   };
 
   xdg.configFile = {
