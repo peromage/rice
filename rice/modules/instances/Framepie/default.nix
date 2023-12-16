@@ -20,24 +20,23 @@ in {
     users.root.enable = false;
     desktops.env.gnome.enable = true;
 
-    hardware = {
-      secureBoot.enable = true;
-
-      powerGovernor = {
+    services = {
+      secureboot.enable = true;
+      i18n.enable = true;
+      networking.enable = true;
+      firewall.enable = true;
+      audio.enable = true;
+      vconsole.enable = true;
+      ssh.enable = true;
+      documentation.enable = true;
+      nix.enable = true;
+      firmware.enable = true;
+      peripherals.enable = true;
+      ime.enabled = "fcitx";
+      power = {
         enable = true;
         profile = "powersave";
       };
-
-      firmware.enable = true;
-      peripherals.printing = true;
-    };
-
-    services = {
-      ssh.enable = true;
-      ime.enabled = "fcitx";
-      documentation.enable = true;
-      nix.enable = true;
-      firewall.enable = true;
     };
   };
 }
