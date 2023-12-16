@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.hardware.powerGovernor;
+  cfg = config.rice.services.powerGovernor;
 
 in with lib; {
-  options.rice.hardware.powerGovernor = {
+  options.rice.services.powerGovernor = {
     enable = mkEnableOption "power governor";
 
     profile = mkOption {

@@ -13,14 +13,14 @@
 
 let
   inherit (rice.flake.inputs) lanzaboote;
-  cfg = config.rice.hardware.secureBoot;
+  cfg = config.rice.services.secureBoot;
 
 in with lib; {
   imports = [
     lanzaboote.nixosModules.lanzaboote
   ];
 
-  options.rice.hardware.secureBoot = {
+  options.rice.services.secureBoot = {
     enable = mkEnableOption "secure boot support";
   };
 

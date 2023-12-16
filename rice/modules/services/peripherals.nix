@@ -2,10 +2,10 @@
 
 let
   librice = rice.lib;
-  cfg = config.rice.hardware.peripherals;
+  cfg = config.rice.services.peripherals;
 
 in with lib; {
-  options.rice.hardware.peripherals = {
+  options.rice.services.peripherals = {
     printing = mkEnableOption "printing service";
   };
 
