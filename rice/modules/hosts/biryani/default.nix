@@ -1,5 +1,5 @@
 { mkProfileOptions, ... }:
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.rice.hosts.profiles.biryani;
