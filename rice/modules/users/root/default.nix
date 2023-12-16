@@ -2,27 +2,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.users.root;
   userCfg = config.rice.users;
+  cfg = config.rice.users.root;
 
-  ## If immutable is enabled hashed password must be supplied
-  password = if cfg.immutable then
-    (assert null != cfg.hashedPassword;
-      (if lib.isString cfg.hashedPassword then {
-        hashedPassword = cfg.hashedPassword;
-      } else {
-        hashedPasswordFile = cfg.hashedPassword;
-      })) else {
-        initialPassword = cfg.initialPassword;
-      };
-
-  disabledPassword = {
-    ## Do not disable root if a custom hashed password needs to be used
-    hashedPassword = "**DISABLED**";
-  };
-
-in {
-  options.rice.users.root = with lib; {
+  options = with lib; {
     enable = mkOption {
       type = types.bool;
       default = true;
@@ -58,6 +41,25 @@ in {
       '';
     };
   };
+
+  ## If immutable is enabled hashed password must be supplied
+  password = if cfg.immutable then
+    (assert null != cfg.hashedPassword;
+      (if lib.isString cfg.hashedPassword then {
+        hashedPassword = cfg.hashedPassword;
+      } else {
+        hashedPasswordFile = cfg.hashedPassword;
+      })) else {
+        initialPassword = cfg.initialPassword;
+      };
+
+  disabledPassword = {
+    ## Do not disable root if a custom hashed password needs to be used
+    hashedPassword = "**DISABLED**";
+  };
+
+in {
+  options.rice.users.root = options;
 
   config = {
     users.users.root = if cfg.enable then password else disabledPassword;

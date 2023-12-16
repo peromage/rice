@@ -1,10 +1,23 @@
-### Host options
-
 { config, lib, rice, ... }:
 
 let
-  librice = rice.lib;
   cfg = config.rice.hosts;
+
+  options = with lib; {
+    hostName = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = "Host name for this machine.";
+    };
+
+    platform = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = "Host platform architecture.";
+    };
+
+    profiles = {};
+  };
 
   /* Additional arguments to import submodules.
 
@@ -13,8 +26,8 @@ let
        - enable
        - name
   */
-  args = {
-    mkProfileOptions = { name }: with lib; {
+  args = with lib; {
+    mkProfileOptions = { name }: {
       enable = mkEnableOption "host";
 
       name = mkOption {
@@ -24,6 +37,8 @@ let
       };
     };
   };
+
+  librice = rice.lib;
 
   ## Host config is only enabled if any one of the profiles is turned on
   enableHostConfig = librice.anyEnable cfg.profiles;
@@ -47,26 +62,11 @@ let
       null
       enabledHosts);
 
-in with lib; {
+in {
   imports = with librice; callListWithArgs args (allButDefault ./.);
+  options.rice.hosts = options;
 
-  options.rice.hosts = {
-    hostName = mkOption {
-      type = with types; nullOr str;
-      default = null;
-      description = "Host name for this machine.";
-    };
-
-    platform = mkOption {
-      type = with types; nullOr str;
-      default = null;
-      description = "Host platform architecture.";
-    };
-
-    profiles = {};
-  };
-
-  config = mkIf enableHostConfig {
+  config = with lib; mkIf enableHostConfig {
     nixpkgs.hostPlatform = assert null != cfg.platform; cfg.platform;
     networking.hostName = assert null != finalHostName; finalHostName;
   };

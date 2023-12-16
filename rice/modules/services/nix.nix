@@ -1,17 +1,20 @@
 { config, lib, pkgs, rice, ... }:
 
 let
-  librice = rice.lib;
-  nixpkgs = rice.nixpkgs;
   cfg = config.rice.services.nix;
 
-in with lib; {
-  options.rice.services.nix = {
+  options = with lib; {
     enable = mkEnableOption "Nix settings";
     enableOptimization = mkEnableOption "Nix optimization" // { default = true; };
   };
 
-  config = librice.mkMergeIf [
+  librice = rice.lib;
+  nixpkgs = rice.nixpkgs;
+
+in {
+  options.rice.services.nix = options;
+
+  config = with lib; librice.mkMergeIf [
     {
       cond = cfg.enable;
       as = {

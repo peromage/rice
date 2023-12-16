@@ -5,6 +5,6 @@
   imports = rice.lib.allButDefault ./.;
 
   options.rice.hosts.profiles.potpie = mkProfileOptions {
-    name = "Potpie";
+    name = "potpie";
   };
 }

@@ -3,6 +3,35 @@
 let
   cfg = config.rice.services.firewall;
 
+  options = with lib; {
+    enable = mkEnableOption "stateful firewall";
+    enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
+
+    tcp = mkOption {
+      type = with types; listOf port;
+      default = [];
+      description = "Allowed TCP ports.";
+    };
+
+    tcpRange = mkOption {
+      type = with types; listOf (attrsOf port);
+      default = [];
+      description = "Allowed TCP port ranges.";
+    };
+
+    udp = mkOption {
+      type = with types; listOf port;
+      default = [];
+      description = "Allowed UDP ports.";
+    };
+
+    udpRange = mkOption {
+      type = with types; listOf (attrsOf port);
+      default = [];
+      description = "Allowed UDP port ranges.";
+    };
+  };
+
   tcpPreset = [
     27036 # Steam remote play
     27015 # # SRCDS Rcon port
@@ -32,37 +61,10 @@ let
     allowedUDPPortRanges = cfg.udpRange;
   };
 
-in with lib; {
-  options.rice.services.firewall = {
-    enable = mkEnableOption "stateful firewall";
-    enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
+in {
+  options.rice.services.firewall = options;
 
-    tcp = mkOption {
-      type = with types; listOf port;
-      default = [];
-      description = "Allowed TCP ports.";
-    };
-
-    tcpRange = mkOption {
-      type = with types; listOf (attrsOf port);
-      default = [];
-      description = "Allowed TCP port ranges.";
-    };
-
-    udp = mkOption {
-      type = with types; listOf port;
-      default = [];
-      description = "Allowed UDP ports.";
-    };
-
-    udpRange = mkOption {
-      type = with types; listOf (attrsOf port);
-      default = [];
-      description = "Allowed UDP port ranges.";
-    };
-  };
-
-  config = mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility
     networking.nftables.enable = false;
 

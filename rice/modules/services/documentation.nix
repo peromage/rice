@@ -3,12 +3,14 @@
 let
   cfg = config.rice.services.documentation;
 
-in with lib; {
-  options.rice.services.documentation = {
+  options = with lib; {
     enable = mkEnableOption "documentation generation";
   };
 
-  config = mkIf cfg.enable {
+in {
+  options.rice.services.documentation = options;
+
+  config = with lib; mkIf cfg.enable {
     documentation = {
       enable = true;
       man.enable = true;

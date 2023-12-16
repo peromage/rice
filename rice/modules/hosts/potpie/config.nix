@@ -1,8 +1,8 @@
 { config, lib, pkgs, rice, ... }:
 
 let
-  librice = rice.lib;
   cfg = config.rice.hosts.profiles.potpie;
+  librice = rice.lib;
 
 in lib.mkIf cfg.enable {
   /* Locale */

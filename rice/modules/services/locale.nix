@@ -1,11 +1,9 @@
 { config, lib, rice, ... }:
 
 let
-  librice = rice.lib;
   cfg = config.rice.services.locale;
 
-in with lib; {
-  options.rice.services.locale = {
+  options = with lib; {
     enabled = mkOption {
       type = with types; nullOr str;
       default = null;
@@ -16,10 +14,15 @@ in with lib; {
       type = with types; nullOr str;
       default = null;
       description = "Default time zone";
-    }
+    };
   };
 
-  config = librice.mkMergeIf [
+  librice = rice.lib;
+
+in {
+  options.rice.services.locale = options;
+
+  config = with lib; librice.mkMergeIf [
     {
       cond = null != cfg.enabled;
       as = let lc = cfg.enabled; in {

@@ -2,17 +2,19 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.desktops.env.kde;
   cfgAll = config.rice.desktops;
+  cfg = config.rice.desktops.env.kde;
 
-in with lib; {
-  options.rice.desktops.env.kde = mkDesktopOptions {
+  options = with lib; mkDesktopOptions {
     name = "KDE";
-  } // (with lib; {
+  } // {
     enableSDDM = mkEnableOption "SDDM display manager" // { default = true; };
-  });
+  };
 
-  config = mkIf cfg.enable {
+in {
+  options.rice.desktops.env.kde = options;
+
+  config = with lib; mkIf cfg.enable {
     services.xserver = {
       desktopManager.plasma5.enable = true;
       displayManager.sddm.enable = cfg.enableSDDM;

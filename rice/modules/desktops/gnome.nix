@@ -2,17 +2,19 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.rice.desktops.env.gnome;
   cfgAll = config.rice.desktops;
+  cfg = config.rice.desktops.env.gnome;
 
-in with lib; {
-  options.rice.desktops.env.gnome = mkDesktopOptions {
+  options = with lib; mkDesktopOptions {
     name = "Gnome";
-  } // (with lib; {
+  } // {
     enableGDM = mkEnableOption "GDM display manager" // { default = true; };
-  });
+  };
 
-  config = mkIf cfg.enable {
+in {
+  options.rice.desktops.env.gnome = options;
+
+  config = with lib; mkIf cfg.enable {
     services.xserver = {
       desktopManager.gnome.enable = true;
       displayManager.gdm.enable = cfg.enableGDM;

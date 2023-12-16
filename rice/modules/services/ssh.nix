@@ -3,13 +3,15 @@
 let
   cfg = config.rice.services.ssh;
 
-in with lib; {
-  options.rice.services.ssh = {
+  options = with lib; {
     enable = mkEnableOption "SSH service";
     enablePassword = mkEnableOption "SSH password login";
   };
 
-  config = mkIf cfg.enable {
+in {
+  options.rice.services.ssh = options;
+
+  config = with lib; mkIf cfg.enable {
     services.openssh = {
       enable = true;
       ports = [ 22 ];

@@ -1,17 +1,20 @@
 { config, lib, rice, ... }:
 
 let
-  librice = rice.lib;
   cfg = config.rice.services.networking;
 
-in with lib; {
-  options.rice.services.networking = {
+  options = with lib; {
     enable = mkEnableOption "network management";
     enableWireless = mkEnableOption "wireless management" // { default = true; };
     enableBluetooth = mkEnableOption "Bluetooth management" // { default = true; };
   };
 
-  config = librice.mkMergeIf [
+  librice = rice.lib;
+
+in {
+  options.rice.services.networking = options;
+
+  config = with lib; librice.mkMergeIf [
     {
       cond = cfg.enable;
       as = {

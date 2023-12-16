@@ -1,10 +1,9 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.powerGovernor;
+  cfg = config.rice.services.power;
 
-in with lib; {
-  options.rice.services.powerGovernor = {
+  options = with lib; {
     enable = mkEnableOption "power governor";
 
     profile = mkOption {
@@ -14,7 +13,10 @@ in with lib; {
     };
   };
 
-  config = mkIf cfg.enable {
+in {
+  options.rice.services.power = options;
+
+  config = with lib; mkIf cfg.enable {
     powerManagement.cpuFreqGovernor = cfg.profile;
   };
 }

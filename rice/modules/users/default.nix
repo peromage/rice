@@ -1,10 +1,25 @@
-### User options
-
 { config, lib, rice, ... }:
 
 let
-  librice = rice.lib;
   cfg = config.rice.users;
+
+  options = with lib; {
+    immutable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Immutable user management.
+        Note that when this is enabled the `hashedPassword' must be specified
+        for each user declared within rice namespace.
+      '';
+    };
+
+    ## Root user
+    root = {};
+
+    ## Normal users
+    profiles = {};
+  };
 
   /* Additional arguments to import submodules.
 
@@ -15,7 +30,7 @@ let
        - id
        - groups
   */
-  args = {
+  args = with lib; {
     mkUserOptions = {
       name
       , id
@@ -23,7 +38,7 @@ let
       , description ? ""
       , initialPassword ? null
       , hashedPassword ? null
-    }: with lib; {
+    }: {
       enable = mkEnableOption "user";
 
       name = mkOption {
@@ -74,6 +89,8 @@ let
     };
   };
 
+  librice = rice.lib;
+
   ## User config is only enabled if any one of the profiles is turned on
   enableUserConfig = librice.anyEnable cfg.profiles;
   enabledUsers = librice.filterEnable cfg.profiles;
@@ -114,28 +131,11 @@ let
   ## Handle users.immutable
   mutableUsers = !cfg.immutable;
 
-in with lib; {
+in {
   imports = with librice; callListWithArgs args (allButDefault ./.);
+  options.rice.users = options;
 
-  options.rice.users = {
-    immutable = mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        Immutable user management.
-        Note that when this is enabled the `hashedPassword' must be specified
-        for each user declared within rice namespace.
-      '';
-    };
-
-    ## Root user
-    root = {};
-
-    ## Normal users
-    profiles = {};
-  };
-
-  config = mkIf enableUserConfig {
+  config = with lib; mkIf enableUserConfig {
     users.mutableUsers = mutableUsers;
     users.users = userList;
     users.groups = groupList;
