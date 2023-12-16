@@ -1,5 +1,3 @@
-### Sucure boot support
-
 /* Information is from https://nixos.wiki/wiki/Secure_Boot
 
    Simplified steps:
