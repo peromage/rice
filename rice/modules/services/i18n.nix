@@ -42,5 +42,5 @@ in {
       };
     };
     time.timeZone = cfg.timeZone;
-  }
+  };
 }

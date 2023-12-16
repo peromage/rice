@@ -14,6 +14,6 @@ in {
   options.rice.services.peripherals = options;
 
   config = with lib; mkIf cfg.enable {
-    services.printing.enable = enablePrinting;
+    services.printing.enable = cfg.enablePrinting;
   };
 }
