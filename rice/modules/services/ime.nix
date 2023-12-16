@@ -12,6 +12,12 @@ in with lib; {
       default = null;
       description = "Enabled input method.";
     };
+
+    layout = mkOption {
+      type = types.str;
+      default = "us";
+      description = "X keyboard layout, or multiple keyboard layouts separated by commas.";
+    };
   };
 
   config = librice.mkMergeIf [
@@ -53,6 +59,13 @@ in with lib; {
           rime-data
         ]
         ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
+      };
+    }
+
+    {
+      cond = null != cfg.enabled;
+      as = {
+        services.xserver.xkb.layout = cfg.layout;
       };
     }
   ];
