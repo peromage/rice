@@ -1,5 +1,5 @@
 { ... }:
-{ config, lib, ... }:
+{ config, lib, rice, ... }:
 
 let
   userCfg = config.rice.users;
@@ -42,8 +42,11 @@ let
     };
   };
 
+  ## User config is only enabled if any one of the profiles is turned on
+  enableUserConfig = rice.lib.anyEnable userCfg.profiles;
+
   ## If immutable is enabled hashed password must be supplied
-  password = if cfg.immutable then
+  password = if userCfg.immutable then
     (assert null != cfg.hashedPassword;
       (if lib.isString cfg.hashedPassword then {
         hashedPassword = cfg.hashedPassword;
@@ -61,7 +64,7 @@ let
 in {
   options.rice.users.root = options;
 
-  config = {
+  config = with lib; mkIf enableUserConfig {
     users.users.root = if cfg.enable then password else disabledPassword;
   };
 }
