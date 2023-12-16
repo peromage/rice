@@ -5,7 +5,6 @@ let
 
   options = with lib; {
     enable = mkEnableOption "network management";
-    enableWireless = mkEnableOption "wireless management" // { default = true; };
     enableBluetooth = mkEnableOption "Bluetooth management" // { default = true; };
   };
 
@@ -25,20 +24,11 @@ in {
             enable = true;
             dns = "default";
             dhcp = "internal";
-          };
-        };
-      };
-    }
-
-    {
-      cond = cfg.enable && cfg.enableWireless;
-      as = {
-        networking = {
-          wireless.enable = mkDefault true;
-          networkmanager.wifi = {
-            backend = "wpa_supplicant";
-            powersave = true;
-            scanRandMacAddress = true;
+            wifi = {
+              backend = "wpa_supplicant";
+              powersave = true;
+              scanRandMacAddress = true;
+            };
           };
         };
       };
