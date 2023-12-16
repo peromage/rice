@@ -4,7 +4,8 @@ let
   cfg = config.rice.services.peripherals;
 
   options = with lib; {
-    printing = mkEnableOption "printing service";
+    enable = mkEnableOption "peripheral management";
+    enablePrinting = mkEnableOption "printing service" // { default = true; };
   };
 
   librice = rice.lib;
@@ -12,12 +13,7 @@ let
 in {
   options.rice.services.peripherals = options;
 
-  config = with lib; librice.mkMergeIf [
-    {
-      cond = cfg.printing;
-      as = {
-        services.printing.enable = true;
-      };
-    }
-  ];
+  config = with lib; mkIf cfg.enable {
+    services.printing.enable = enablePrinting;
+  };
 }
