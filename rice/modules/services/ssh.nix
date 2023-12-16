@@ -6,6 +6,7 @@ let
 in with lib; {
   options.rice.services.ssh = {
     enable = mkEnableOption "SSH service";
+    enablePassword = mkEnableOption "SSH password login";
   };
 
   config = mkIf cfg.enable {
@@ -16,7 +17,7 @@ in with lib; {
       settings = {
         X11Forwarding = false;
         PermitRootLogin = "no";
-        PasswordAuthentication = false;
+        PasswordAuthentication = cfg.enablePassword;
       };
     };
   };

@@ -4,7 +4,6 @@ let
   cfg = config.rice.services.firewall;
 
   tcpPreset = [
-    22 # SSH
     27036 # Steam remote play
     27015 # # SRCDS Rcon port
   ];
