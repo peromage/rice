@@ -67,7 +67,19 @@ in {
   options.rice.hosts = options;
 
   config = with lib; mkIf enableHostConfig {
-    nixpkgs.hostPlatform = assert null != cfg.platform; cfg.platform;
-    networking.hostName = assert null != finalHostName; finalHostName;
+    assertions = [
+      {
+        assertion = null != cfg.platform;
+        message = "No platform specified.";
+      }
+
+      {
+        assertion = null != finalHostName;
+        message = "No hostname provided.";
+      }
+    ];
+
+    nixpkgs.hostPlatform = cfg.platform;
+    networking.hostName = finalHostName;
   };
 }
