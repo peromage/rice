@@ -95,16 +95,14 @@ let
   enableUserConfig = librice.anyEnable cfg.profiles;
   enabledUsers = librice.filterEnable cfg.profiles;
 
-  ## If immutable is enabled hashed password must be supplied
-  getPassword = user: if cfg.immutable then
-    (assert null != user.hashedPassword;
-      (if lib.isString user.hashedPassword then {
-        hashedPassword = user.hashedPassword;
-      } else {
-        hashedPasswordFile = user.hashedPassword;
-      })) else {
-        initialPassword = assert null != user.initialPassword; user.initialPassword;
-      };
+  getPassword = user:
+    if cfg.immutable then
+      if lib.isString user.hashedPassword then
+        { hashedPassword = user.hashedPassword; }
+      else
+        { hashedPasswordFile = toString user.hashedPassword; }
+    else
+      { initialPassword = user.initialPassword; };
 
   ## Handle rice.users.profiles.<name>
   userList = with lib; mapAttrs'
@@ -136,6 +134,18 @@ in {
   options.rice.users = options;
 
   config = with lib; mkIf enableUserConfig {
+    assertions = [
+      {
+        assertion = cfg.immutable -> librice.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
+        message = "Hashed password for normal users must be provided when immutable user is enabled.";
+      }
+
+      {
+        assertion = !cfg.immutable -> librice.allAttrs (n: v: null != v.initialPassword) enabledUsers;
+        message = "Initial password for normal users must be provided.";
+      }
+    ];
+
     users.mutableUsers = mutableUsers;
     users.users = userList;
     users.groups = groupList;

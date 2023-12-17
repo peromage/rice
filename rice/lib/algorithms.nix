@@ -101,4 +101,21 @@ in with self; {
   */
   mapListToAttrs = fn: fv: list: with lib;
     listToAttrs (map (i: nameValuePair (fn i) (fv i)) list);
+
+  /* Return true if the function pred returns true for at least one element of
+     attrs, and false otherwise.
+
+     Type:
+       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+
+  */
+  anyAttrs = pred: attrs: with lib; any id (mapAttrsToList pred attrs);
+
+  /* Return true if the function pred returns true for all elements of attrs,
+     and false otherwise.
+
+     Type:
+       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+  */
+  allAttrs = pred: attrs: with lib; all id (mapAttrsToList pred attrs);
 }
