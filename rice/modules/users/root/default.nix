@@ -45,16 +45,14 @@ let
   ## User config is only enabled if any one of the profiles is turned on
   enableUserConfig = rice.lib.anyEnable userCfg.profiles;
 
-  ## If immutable is enabled hashed password must be supplied
-  password = if userCfg.immutable then
-    (assert null != cfg.hashedPassword;
-      (if lib.isString cfg.hashedPassword then {
-        hashedPassword = cfg.hashedPassword;
-      } else {
-        hashedPasswordFile = cfg.hashedPassword;
-      })) else {
-        initialPassword = cfg.initialPassword;
-      };
+  password =
+    if userCfg.immutable then
+      if lib.isString cfg.hashedPassword then
+        { hashedPassword = cfg.hashedPassword; }
+      else
+        { hashedPasswordFile = toString cfg.hashedPassword; }
+    else
+      { initialPassword = cfg.initialPassword; };
 
   disabledPassword = {
     ## Do not disable root if a custom hashed password needs to be used
@@ -65,6 +63,11 @@ in {
   options.rice.users.root = options;
 
   config = with lib; mkIf enableUserConfig {
+    assertions = singleton {
+      assertion = userCfg.immutable -> null != cfg.hashedPassword;
+      message = "Hashed password for root must be provided when immutable user is enabled.";
+    };
+
     users.users.root = if cfg.enable then password else disabledPassword;
   };
 }
