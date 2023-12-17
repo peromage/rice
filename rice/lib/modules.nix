@@ -34,19 +34,6 @@ in with self; {
     modules = [ topModule ];
   };
 
-  /* Generate an attribute set for supported platforms.
-     More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
-
-     Type:
-       forSupportedSystems :: (String -> a) -> AttrSet
-  */
-  forSupportedSystems = lib.genAttrs [
-    "x86_64-linux"
-    "x86_64-darwin"
-    "aarch64-linux"
-    "aarch64-darwin"
-  ];
-
   /* Merge a list of attribute sets from config top level.
 
      NOTE: This is a workaround to solve the infinite recursion issue when trying

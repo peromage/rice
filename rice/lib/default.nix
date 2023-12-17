@@ -10,6 +10,19 @@ let
 
   ## Auxiliary file functions
   debris = rec {
+    /* Generate an attribute set for supported platforms.
+       More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
+
+       Type:
+         forSupportedSystems :: (String -> a) -> AttrSet
+    */
+    forSupportedSystems = lib.genAttrs [
+      "x86_64-linux"
+      "x86_64-darwin"
+      "aarch64-linux"
+      "aarch64-darwin"
+    ];
+
     /* A generic function that filters all the files/directories under the given
        directory.  Return a list of names prepended with the given directory.
 
