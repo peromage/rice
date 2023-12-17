@@ -14,32 +14,39 @@ let
        directory.  Return a list of names prepended with the given directory.
 
        Type:
-       allWithFilter :: (String -> a -> Bool) -> Path -> [String]
+       allWithFilter :: (String -> String -> Bool) -> Path -> [String]
     */
     allWithFilter = f: dir: with lib; mapAttrsToList
-      (n: v: dir + "/${n}")
+      (n: t: dir + "/${n}")
       (filterAttrs f (builtins.readDir dir));
 
-    /* Return a list of all file/directory names under dir except default.nix
+    /* Return a list of all file/directory names under dir except default.nix.
 
      Type:
        allButDefault :: Path -> [String]
     */
-    allButDefault = allWithFilter (n: v: "default.nix" != n);
+    allButDefault = allWithFilter (n: t: "default.nix" != n);
 
     /* Return a list of directories.
 
        Type:
          allDirs :: Path -> [String]
     */
-    allDirs = allWithFilter (n: v: "directory" == v);
+    allDirs = allWithFilter (n: t: "directory" == t);
 
     /* Return a list of files.
 
        Type:
          allFiles :: Path -> [String]
     */
-    allFiles = allWithFilter (n: v: "regular" == v);
+    allFiles = allWithFilter (n: t: "regular" == t);
+
+    /* Return a list of files except default.nix.
+
+       Type:
+         allFiles :: Path -> [String]
+    */
+    allFilesButDefault = allWithFilter (n: t: "regular" == t && "default.nix" != n);
   };
 
   ## Librice itself
