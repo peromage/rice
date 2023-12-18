@@ -3,5 +3,5 @@
 { rice, ... }:
 
 {
-  imports = rice.lib.allButDefault ./.;
+  imports = rice.lib.listDirNoDefault ./.;
 }

@@ -51,7 +51,7 @@
       /* Expose my modules */
       nixosModules = with lib;
         let
-          importDirs = dir: importListAsAttrs (allDirs dir);
+          importDirs = dir: importListAsAttrs (listDirAllDirs dir);
         in {
           main = import ./modules;
           instances = importDirs ./modules/instances;

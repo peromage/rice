@@ -130,7 +130,7 @@ let
   mutableUsers = !cfg.immutable;
 
 in {
-  imports = with librice; callListWithArgs args (allButDefault ./.);
+  imports = with librice; callListWithArgs args (listDirNoDefault ./.);
   options.rice.users = options;
 
   config = with lib; mkIf enableUserConfig {

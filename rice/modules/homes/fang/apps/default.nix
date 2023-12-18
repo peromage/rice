@@ -23,7 +23,7 @@ let
   src = rice.dirs.dotfiles;
 
 in {
-  imports = rice.lib.allWithFilter
+  imports = rice.lib.filterDir
     (n: v: with builtins; "default.nix" != n && isNull (match "^DISABLED-.*" n))
     ./.;
 

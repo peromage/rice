@@ -27,39 +27,39 @@ let
        directory.  Return a list of names prepended with the given directory.
 
        Type:
-       allWithFilter :: (String -> String -> Bool) -> Path -> [String]
+       filterDir :: (String -> String -> Bool) -> Path -> [String]
     */
-    allWithFilter = f: dir: with lib; mapAttrsToList
+    filterDir = pred: dir: with lib; mapAttrsToList
       (n: t: dir + "/${n}")
-      (filterAttrs f (builtins.readDir dir));
+      (filterAttrs pred (builtins.readDir dir));
 
     /* Return a list of all file/directory names under dir except default.nix.
 
      Type:
-       allButDefault :: Path -> [String]
+       listDirNoDefault :: Path -> [String]
     */
-    allButDefault = allWithFilter (n: t: "default.nix" != n);
+    listDirNoDefault = filterDir (n: t: "default.nix" != n);
 
     /* Return a list of directories.
 
        Type:
-         allDirs :: Path -> [String]
+         listDirAllDirs :: Path -> [String]
     */
-    allDirs = allWithFilter (n: t: "directory" == t);
+    listDirAllDirs = filterDir (n: t: "directory" == t);
 
     /* Return a list of files.
 
        Type:
-         allFiles :: Path -> [String]
+         listDirAllFiles :: Path -> [String]
     */
-    allFiles = allWithFilter (n: t: "regular" == t);
+    listDirAllFiles = filterDir (n: t: "regular" == t);
 
     /* Return a list of files except default.nix.
 
        Type:
-         allFiles :: Path -> [String]
+         listDirAllFilesNoDefault :: Path -> [String]
     */
-    allFilesButDefault = allWithFilter (n: t: "regular" == t && "default.nix" != n);
+    listDirAllFilesNoDefault = filterDir (n: t: "regular" == t && "default.nix" != n);
   };
 
   ## Librice itself
@@ -71,7 +71,7 @@ let
   in with builtins; foldl'
     (a: b: a // b)
     debris
-    (map (fn: import fn args) (debris.allButDefault ./.));
+    (map (fn: import fn args) (debris.listDirNoDefault ./.));
 
 in
 librice

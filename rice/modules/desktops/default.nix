@@ -31,7 +31,7 @@ let
   enableDesktopConfig = librice.anyEnable cfg.env;
 
 in {
-  imports = with librice; callListWithArgs args (allButDefault ./.);
+  imports = with librice; callListWithArgs args (listDirNoDefault ./.);
   options.rice.desktops = options;
 
   config = with lib; mkIf enableDesktopConfig {

@@ -10,14 +10,14 @@ let
   ## specific packages in its directory, e.g. x86_64-linux.
   mkPackages =
     let commonPackages = with librice; importListAsAttrs'
-      (allWithFilter (n: t: !(lib.hasAttr n supportedSystems) && "default.nix" != n) ./.);
+      (filterDir (n: t: !(lib.hasAttr n supportedSystems) && "default.nix" != n) ./.);
     in system:
       let
         pkgs = withPkgsOverlays system;
         platformPath = ./. + "/${system}";
         platformPackages = with lib; optionalAttrs
           (pathExists platformPath)
-          (with librice; importListAsAttrs' (allButDefault platformPath));
+          (with librice; importListAsAttrs' (listDirNoDefault platformPath));
       in with lib; mapAttrs
         (n: v: pkgs.unrestrictedPkgs.callPackage v { inherit rice; })
         (commonPackages // platformPackages);
