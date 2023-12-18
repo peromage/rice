@@ -64,6 +64,7 @@
     libreoffice-fresh
     gimp
     kdenlive
+    flameshot
 
     ## GUI
     brave
