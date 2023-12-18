@@ -28,6 +28,6 @@ if ! test -d "$SOURCE"; then
     exit 1
 fi
 
-CMD="stow $@ --dir=$SOURCE --target=$HOME $ACTION ."
+CMD="stow $@ --no-folding --dir=$SOURCE --target=$HOME $ACTION ."
 echo "[DEBUG]: $CMD"
 eval "$CMD"
