@@ -63,6 +63,7 @@
     hugo
     libreoffice-fresh
     gimp
+    kdenlive
 
     ## GUI
     brave
