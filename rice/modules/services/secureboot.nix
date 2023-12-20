@@ -7,19 +7,13 @@
    4. Reboot and set UEFI in setup mode.
    5. Run: sudo nix run nixpkgs#sbctl enroll-keys -- --microsoft
    6. Run: bootctl status
-
-   NOTE: To avoid bringing in unnecessary dependencies this service module does
-   not import `lanzaboote' by itself.  The caller who wishes to enable this
-   module needs to import it explicitly.
-
-   For example:
-   imports = [ lanzaboote.nixosModules.lanzaboote ];
 */
 
 { config, pkgs, lib, rice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf mkForce;
+  inherit (rice.flake.inputs) lanzaboote;
 
   cfg = config.rice.services.secureboot;
 
@@ -28,6 +22,7 @@ let
   };
 
 in {
+  imports = [ lanzaboote.nixosModules.lanzaboote ];
   options.rice.services.secureboot = options;
 
   config = mkIf cfg.enable {

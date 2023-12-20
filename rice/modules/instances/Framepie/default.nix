@@ -2,15 +2,11 @@
 
 { lib, rice, ... }:
 
-let
-  inherit (rice.flake.inputs) lanzaboote;
-
-in {
+{
   imports = [
     ./boot.nix
     ./mounts.nix
     rice.dirs.modules
-    lanzaboote.nixosModules.lanzaboote
   ];
 
   rice = {
