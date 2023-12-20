@@ -25,7 +25,9 @@ let
   ## Packages from inputs
   exposePackages = system: with flake.inputs; {
     home-manager = home-manager.packages.${system}.default;
-  };
+  } // (lib.optionalAttrs (null != (builtins.match ".*-darwin" system)) {
+    nix-darwin = nix-darwin.packages.${system}.default;
+  });
 
 in with librice; forSupportedSystems (system:
   (mkPackages system) // (exposePackages system))
