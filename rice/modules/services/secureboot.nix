@@ -21,12 +21,12 @@
 let
   cfg = config.rice.services.secureboot;
 
-  options  = with lib; {
+  options = with lib; {
     enable = mkEnableOption "secure boot support";
   };
 
 in {
-  options.rice.services.secureboot =  options;
+  options.rice.services.secureboot = options;
 
   config = with lib; mkIf cfg.enable {
     boot = {
@@ -38,7 +38,7 @@ in {
       };
 
       loader = {
-        systemd-boot.enable = lib.mkForce false;
+        systemd-boot.enable = mkForce false;
         efi.canTouchEfiVariables = false;
       };
     };
