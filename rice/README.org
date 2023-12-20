@@ -16,7 +16,7 @@ If local changes need to be made but not necessarily to be tracked, create a loc
 #+begin_src nix
 {
   inputs = {
-    conf.url = "github:peromage/pew?dir=rice?&?ref=master";
+    conf.url = "github:peromage/pew/master?dir=rice";
   };
   outputs = { self, conf }: {
     nixosConfigurations = {
@@ -37,7 +37,7 @@ Dynamic override is also possible (=conf.inputs.nixpkgs.follows= can still be us
 {
   inputs = {
     nixpkgs-2305.url = "github:nixos/nixpkgs/nixos-23.05";
-    conf.url = "github:peromage/pew?dir=rice?&?ref=master";
+    conf.url = "github:peromage/pew/master?dir=rice";
   };
   outputs = { self, conf }:
     let
