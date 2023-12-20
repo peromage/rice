@@ -40,7 +40,9 @@
   outputs = { self, nixpkgs, ... } @ inputs:
     let
       inherit (rice) withPkgsOverlays;
-      inherit (rice.lib) importListAsAttrs listDirAllDirs callWithRice mergeAttrsFirstLevel nixosTopModule homeTopModule forSupportedSystems;
+      inherit (rice.lib)
+        importListAsAttrs listDirAllDirs callWithRice mergeAttrsFirstLevel
+        forSupportedSystems nixosTopModule homeTopModule darwinTopModule;
       inherit (nixpkgs.lib) mapAttrs;
 
       outputs = self.outputs;
@@ -102,10 +104,15 @@
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
       templates = callWithRice ./templates;
 
-      /* Via: `nixos-rebuild --flake .#HOST_NAME' */
+      /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations = {
         Framepie = nixosTopModule ./modules/instances/Framepie;
         Chicken65 = nixosTopModule ./modules/instances/Chicken65;
+      };
+
+      /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
+      darwinConfigurations = {
+        Applepie = darwinTopModule ./modules/instances/Applepie;
       };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'

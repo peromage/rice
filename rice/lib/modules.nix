@@ -3,6 +3,7 @@
 let
   inherit (nixpkgs.lib) nixosSystem getAttrs mapAttrs foldAttrs foldlAttrs filterAttrs mkMerge mkIf;
   inherit (rice.flake.inputs.home-manager.lib) homeManagerConfiguration;
+  inherit (rice.flake.inputs.nix-darwin.lib) darwinSystem;
 
 in with self; {
   /* Import a NixOS top level module.
@@ -16,6 +17,16 @@ in with self; {
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
   nixosTopModule = topModule: nixosSystem {
+    specialArgs = { inherit rice; };
+    modules = [ topModule ];
+  };
+
+  /* Import a Darwin top level module.
+
+     Type:
+       darwinTopModule :: (Path | AttrSet) -> AttrSet
+  */
+  darwinTopModule = topModule: darwinSystem {
     specialArgs = { inherit rice; };
     modules = [ topModule ];
   };
