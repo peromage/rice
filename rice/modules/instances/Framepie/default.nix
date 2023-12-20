@@ -3,6 +3,7 @@
 { lib, rice, ... }:
 
 let
+  inherit (rice.flake.inputs) lanzaboote;
   librice = rice.lib;
 
 in {
@@ -10,6 +11,7 @@ in {
     ./boot.nix
     ./mounts.nix
     rice.dirs.modules
+    lanzaboote.nixosModules.lanzaboote
   ];
 
   rice = {
