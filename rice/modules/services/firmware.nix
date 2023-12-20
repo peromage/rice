@@ -1,9 +1,11 @@
 { config, lib, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.rice.services.firmware;
 
-  options = with lib; {
+  options = {
     ## Don't forget `fwupdmgr update'
     enable = mkEnableOption "firmware management";
   };
@@ -11,7 +13,7 @@ let
 in {
   options.rice.services.firmware = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     hardware = {
       enableAllFirmware = true;
       enableRedistributableFirmware = true;

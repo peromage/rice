@@ -1,9 +1,11 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) types mkEnableOption mkOption mkIf;
+
   cfg = config.rice.services.i18n;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "internationalization";
 
     locale = mkOption {
@@ -19,14 +21,12 @@ let
     };
   };
 
-  librice = rice.lib;
-
   lc = cfg.locale;
 
 in {
   options.rice.services.i18n = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     i18n = {
       defaultLocale = lc;
       extraLocaleSettings = {

@@ -2,10 +2,12 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfgAll = config.rice.desktops;
   cfg = config.rice.desktops.env.gnome;
 
-  options = with lib; mkDesktopOptions {
+  options = mkDesktopOptions {
     name = "Gnome";
   } // {
     enableGDM = mkEnableOption "GDM display manager" // { default = true; };
@@ -14,7 +16,7 @@ let
 in {
   options.rice.desktops.env.gnome = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.xserver = {
       desktopManager.gnome.enable = true;
       displayManager.gdm.enable = cfg.enableGDM;

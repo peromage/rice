@@ -1,9 +1,11 @@
 { config, lib, ... }:
 
 let
+  inherit (lib) types mkEnableOption mkOption mkIf;
+
   cfg = config.rice.services.firewall;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "stateful firewall";
     enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
 
@@ -64,7 +66,7 @@ let
 in {
   options.rice.services.firewall = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility
     networking.nftables.enable = false;
 

@@ -1,19 +1,20 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) mkEnableOption mkDefault;
+  inherit (rice.lib) mkMergeIf;
+
   cfg = config.rice.services.networking;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "network management";
     enableBluetooth = mkEnableOption "Bluetooth management" // { default = true; };
   };
 
-  librice = rice.lib;
-
 in {
   options.rice.services.networking = options;
 
-  config = with lib; librice.mkMergeIf [
+  config = mkMergeIf [
     {
       cond = cfg.enable;
       as = {

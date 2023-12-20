@@ -20,12 +20,13 @@
 { rice, ... }:
 
 let
+  inherit (rice.lib) filterDir;
+  inherit (builtins) match;
+
   src = rice.dirs.dotfiles;
 
 in {
-  imports = rice.lib.filterDir
-    (n: v: with builtins; "default.nix" != n && isNull (match "^DISABLED-.*" n))
-    ./.;
+  imports = filterDir (n: v: "default.nix" != n && null == (match "^DISABLED-.*" n)) ./.;
 
   xdg.enable = true;
 

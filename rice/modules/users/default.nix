@@ -1,9 +1,12 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) types mkOption mkEnableOption isString mapAttrs' nameValuePair mkIf;
+  inherit (rice.lib) anyEnable filterEnable callListWithArgs listDirNoDefault allAttrs;
+
   cfg = config.rice.users;
 
-  options = with lib; {
+  options = {
     immutable = mkOption {
       type = types.bool;
       default = false;
@@ -30,7 +33,7 @@ let
        - id
        - groups
   */
-  args = with lib; {
+  args = {
     mkUserOptions = {
       name
       , id
@@ -89,15 +92,13 @@ let
     };
   };
 
-  librice = rice.lib;
-
   ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = librice.anyEnable cfg.profiles;
-  enabledUsers = librice.filterEnable cfg.profiles;
+  enableUserConfig = anyEnable cfg.profiles;
+  enabledUsers = filterEnable cfg.profiles;
 
   getPassword = user:
     if cfg.immutable then
-      if lib.isString user.hashedPassword then
+      if isString user.hashedPassword then
         { hashedPassword = user.hashedPassword; }
       else
         { hashedPasswordFile = toString user.hashedPassword; }
@@ -105,7 +106,7 @@ let
       { initialPassword = user.initialPassword; };
 
   ## Handle rice.users.profiles.<name>
-  userList = with lib; mapAttrs'
+  userList = mapAttrs'
     (n: v: nameValuePair v.name ({
       description = v.description;
       isNormalUser = true;
@@ -120,7 +121,7 @@ let
     enabledUsers;
 
   ## Handle rice.users.profiles.<name>
-  groupList = with lib; mapAttrs'
+  groupList = mapAttrs'
     (n: v: nameValuePair v.name {
       gid = v.id;
     })
@@ -130,18 +131,18 @@ let
   mutableUsers = !cfg.immutable;
 
 in {
-  imports = with librice; callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (listDirNoDefault ./.);
   options.rice.users = options;
 
-  config = with lib; mkIf enableUserConfig {
+  config = mkIf enableUserConfig {
     assertions = [
       {
-        assertion = cfg.immutable -> librice.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
+        assertion = cfg.immutable -> allAttrs (n: v: null != v.hashedPassword) enabledUsers;
         message = "Hashed password for normal users must be provided when immutable user is enabled.";
       }
 
       {
-        assertion = !cfg.immutable -> librice.allAttrs (n: v: null != v.initialPassword) enabledUsers;
+        assertion = !cfg.immutable -> allAttrs (n: v: null != v.initialPassword) enabledUsers;
         message = "Initial password for normal users must be provided.";
       }
     ];

@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs  mapAttrsToList nameValuePair any all id foldl';
 
 in with self; {
   /* Concatenate strings.
@@ -37,14 +37,14 @@ in with self; {
      Type:
        mergeAttrs :: [AttrSet] -> AttrSet
   */
-  mergeAttrs = listOfAttrs: builtins.foldl' concatAttrs {} listOfAttrs;
+  mergeAttrs = listOfAttrs: foldl' concatAttrs {} listOfAttrs;
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = listOfAttrs: lib.foldAttrs concatAttrs {} listOfAttrs;
+  mergeAttrsFirstLevel = listOfAttrs: foldAttrs concatAttrs {} listOfAttrs;
 
   /* Apply optionalAttrs on each attribute set from the list.
      Each element in the list is of the form as follow:
@@ -53,7 +53,7 @@ in with self; {
      Type:
        optionalAttrsList :: [AttrSet] -> [AttrSet]
   */
-  optionalAttrsList = listOfConds: (map (a: lib.optionalAttrs a.cond a.as) listOfConds);
+  optionalAttrsList = listOfConds: (map (a: optionalAttrs a.cond a.as) listOfConds);
 
   /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
 
@@ -99,7 +99,7 @@ in with self; {
      Type:
        mapListToAttrs :: (a -> String) -> (a -> a) -> [a] -> AttrSet
   */
-  mapListToAttrs = fn: fv: list: with lib;
+  mapListToAttrs = fn: fv: list:
     listToAttrs (map (i: nameValuePair (fn i) (fv i)) list);
 
   /* Return true if the function pred returns true for at least one element of
@@ -109,7 +109,7 @@ in with self; {
        anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
 
   */
-  anyAttrs = pred: attrs: with lib; any id (mapAttrsToList pred attrs);
+  anyAttrs = pred: attrs: any id (mapAttrsToList pred attrs);
 
   /* Return true if the function pred returns true for all elements of attrs,
      and false otherwise.
@@ -117,5 +117,5 @@ in with self; {
      Type:
        anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
-  allAttrs = pred: attrs: with lib; all id (mapAttrsToList pred attrs);
+  allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
 }

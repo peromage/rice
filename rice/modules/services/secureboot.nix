@@ -19,16 +19,18 @@
 { config, pkgs, lib, rice, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf mkForce;
+
   cfg = config.rice.services.secureboot;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "secure boot support";
   };
 
 in {
   options.rice.services.secureboot = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
 

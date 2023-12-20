@@ -1,25 +1,26 @@
 { config, lib, pkgs, rice, ... }:
 
 let
+  inherit (lib) mkEnableOption mkDefault;
+  inherit (rice.lib) mkMergeIf;
+  inherit (rice) nixpkgs;
+
   cfg = config.rice.services.nix;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "Nix settings";
     enableOptimization = mkEnableOption "Nix optimization" // { default = true; };
   };
 
-  librice = rice.lib;
-  nixpkgs = rice.nixpkgs;
-
 in {
   options.rice.services.nix = options;
 
-  config = with lib; librice.mkMergeIf [
+  config = mkMergeIf [
     {
       cond = cfg.enable;
       as = {
         nixpkgs = {
-          hostPlatform = lib.mkDefault "x86_64-linux";
+          hostPlatform = mkDefault "x86_64-linux";
           config = {
             allowUnfree = true;
             allowBroken = true;

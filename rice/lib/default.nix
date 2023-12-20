@@ -6,7 +6,8 @@
 { nixpkgs, rice, ... }:
 
 let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs.lib) genAttrs mapAttrsToList foldl' filterAttrs;
+  inherit (builtins) readDir;
 
   ## Auxiliary file functions
   debris = rec {
@@ -16,7 +17,7 @@ let
        Type:
          forSupportedSystems :: (String -> a) -> AttrSet
     */
-    forSupportedSystems = lib.genAttrs [
+    forSupportedSystems = genAttrs [
       "x86_64-linux"
       "x86_64-darwin"
       "aarch64-linux"
@@ -29,9 +30,9 @@ let
        Type:
        filterDir :: (String -> String -> Bool) -> Path -> [String]
     */
-    filterDir = pred: dir: with lib; mapAttrsToList
+    filterDir = pred: dir: mapAttrsToList
       (n: t: dir + "/${n}")
-      (filterAttrs pred (builtins.readDir dir));
+      (filterAttrs pred (readDir dir));
 
     /* Return a list of all file/directory names under dir except default.nix.
 
@@ -68,7 +69,7 @@ let
       self = librice;
       inherit nixpkgs rice;
     };
-  in with builtins; foldl'
+  in foldl'
     (a: b: a // b)
     debris
     (map (fn: import fn args) (debris.listDirNoDefault ./.));

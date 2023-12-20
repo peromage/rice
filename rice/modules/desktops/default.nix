@@ -1,9 +1,12 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf ;
+  inherit (rice.lib) anyEnable callListWithArgs listDirNoDefault;
+
   cfg = config.rice.desktops;
 
-  options = with lib; {
+  options = {
     /* The display server is actually selected by the display manager.
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
@@ -19,22 +22,20 @@ let
 
        - enable
   */
-  args = with lib; {
+  args = {
     mkDesktopOptions = { name }: {
       enable = mkEnableOption "desktop environment";
     };
   };
 
-  librice = rice.lib;
-
   ## Do not enable desktop settings if no desktop environment is enabled
-  enableDesktopConfig = librice.anyEnable cfg.env;
+  enableDesktopConfig = anyEnable cfg.env;
 
 in {
-  imports = with librice; callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (listDirNoDefault ./.);
   options.rice.desktops = options;
 
-  config = with lib; mkIf enableDesktopConfig {
+  config = mkIf enableDesktopConfig {
     services.xserver = {
       enable = true;
       libinput.enable = true;

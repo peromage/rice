@@ -2,10 +2,13 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) types mkOption isString mkIf singleton;
+  inherit (rice.lib) anyEnable;
+
   userCfg = config.rice.users;
   cfg = config.rice.users.root;
 
-  options = with lib; {
+  options = {
     enable = mkOption {
       type = types.bool;
       default = true;
@@ -43,11 +46,11 @@ let
   };
 
   ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = rice.lib.anyEnable userCfg.profiles;
+  enableUserConfig = anyEnable userCfg.profiles;
 
   password =
     if userCfg.immutable then
-      if lib.isString cfg.hashedPassword then
+      if isString cfg.hashedPassword then
         { hashedPassword = cfg.hashedPassword; }
       else
         { hashedPasswordFile = toString cfg.hashedPassword; }
@@ -62,7 +65,7 @@ let
 in {
   options.rice.users.root = options;
 
-  config = with lib; mkIf enableUserConfig {
+  config = mkIf enableUserConfig {
     assertions = singleton {
       assertion = userCfg.immutable -> null != cfg.hashedPassword;
       message = "Hashed password for root must be provided when immutable user is enabled.";

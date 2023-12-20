@@ -39,19 +39,20 @@
 
   outputs = { self, nixpkgs, ... } @ inputs:
     let
-      lib = nixpkgs.lib;
+      inherit (rice) withPkgsOverlays;
+      inherit (rice.lib) importListAsAttrs listDirAllDirs callWithRice mergeAttrsFirstLevel nixosTopModule homeTopModule forSupportedSystems;
+      inherit (nixpkgs.lib) mapAttrs;
+
       outputs = self.outputs;
       rice = import ./rice.nix { inherit nixpkgs; flake = self; };
-      librice = rice.lib;
 
-    in with librice; {
+    in {
       /* Expose rice */
       rice = rice;
 
       /* Expose my modules */
-      nixosModules = with lib;
-        let
-          importDirs = dir: importListAsAttrs (listDirAllDirs dir);
+      nixosModules =
+        let importDirs = dir: importListAsAttrs (listDirAllDirs dir);
         in {
           main = import ./modules;
           instances = importDirs ./modules/instances;
@@ -80,7 +81,7 @@
       */
       packages = mergeAttrsFirstLevel [
         (callWithRice ./packages)
-        (lib.mapAttrs
+        (mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
           outputs.homeConfigurations)

@@ -4,7 +4,6 @@
 
 let
   inherit (rice.flake.inputs) lanzaboote;
-  librice = rice.lib;
 
 in {
   imports = [

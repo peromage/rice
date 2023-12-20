@@ -2,16 +2,18 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib) mkIf;
+
   cfg = config.rice.hosts.profiles.potpie;
 
-  options = with lib; mkProfileOptions {
+  options = mkProfileOptions {
     name = "potpie";
   };
 
 in {
   options.rice.hosts.profiles.potpie = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     /* Fonts */
     fonts = {
       fontDir.enable = true;

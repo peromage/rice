@@ -1,16 +1,18 @@
 { config, lib, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.rice.services.audio;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "audio services";
   };
 
 in {
   options.rice.services.audio = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     sound = {
       enable = true;
       mediaKeys.enable = false; # Gnome and KDE has their own handling

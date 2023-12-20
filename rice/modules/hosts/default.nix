@@ -1,9 +1,12 @@
 { config, lib, rice, ... }:
 
 let
+  inherit (lib) mkOption mkEnableOption types foldlAttrs mkIf;
+  inherit (rice.lib) anyEnable filterEnable either callListWithArgs listDirNoDefault;
+
   cfg = config.rice.hosts;
 
-  options = with lib; {
+  options = {
     hostName = mkOption {
       type = with types; nullOr str;
       default = null;
@@ -26,7 +29,7 @@ let
        - enable
        - name
   */
-  args = with lib; {
+  args = {
     mkProfileOptions = { name }: {
       enable = mkEnableOption "host";
 
@@ -38,11 +41,9 @@ let
     };
   };
 
-  librice = rice.lib;
-
   ## Host config is only enabled if any one of the profiles is turned on
-  enableHostConfig = librice.anyEnable cfg.profiles;
-  enabledHosts = librice.filterEnable cfg.profiles;
+  enableHostConfig = anyEnable cfg.profiles;
+  enabledHosts = filterEnable cfg.profiles;
 
   /* Handle host name.
      The precedence of the host name specified in options is as follow:
@@ -55,18 +56,18 @@ let
      If no global hostName exists, the last host name in the set (in alphabetic
      order) will be used.
     */
-  finalHostName = librice.either
+  finalHostName = either
     cfg.hostName
-    (lib.foldlAttrs
-      (a: n: v: librice.either v.name n)
+    (foldlAttrs
+      (a: n: v: either v.name n)
       null
       enabledHosts);
 
 in {
-  imports = with librice; callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (listDirNoDefault ./.);
   options.rice.hosts = options;
 
-  config = with lib; mkIf enableHostConfig {
+  config = mkIf enableHostConfig {
     assertions = [
       {
         assertion = null != cfg.platform;

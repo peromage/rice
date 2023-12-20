@@ -1,6 +1,9 @@
 { config, lib, ... }:
 
-{
+let
+  inherit (lib) mkDefault;
+
+in {
   ## Disk
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/9213f352-4bf8-4e57-824a-7135aaee46bf";
@@ -22,5 +25,5 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
 }

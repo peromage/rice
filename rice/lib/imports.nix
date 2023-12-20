@@ -1,7 +1,8 @@
 { self, nixpkgs, rice, ... }:
 
 let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs.lib) isFunction foldl' pathExists elemAt;
+  inherit (builtins) baseNameOf match;
 
 in with self; {
   /* Import the given path with predefined arguments.
@@ -9,7 +10,7 @@ in with self; {
      Type:
        callWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
   */
-  callWithArgs = args: fn: (if lib.isFunction fn then fn else import fn) args;
+  callWithArgs = args: fn: (if isFunction fn then fn else import fn) args;
 
   /* Import using `rice' as the arguments.
 
@@ -34,7 +35,7 @@ in with self; {
   */
   callListAsMerged = args: fns:
     let call = callWithArgs args;
-    in builtins.foldl' concatAttrs {} (map call fns);
+    in foldl' concatAttrs {} (map call fns);
 
   /* Import paths from the given list.
 
@@ -49,16 +50,14 @@ in with self; {
      Type:
        importListAsAttrs :: [Path] -> AttrSet
   */
-  importListAsAttrs = fns: with lib;
-    mapListToAttrs baseNameOf import fns;
+  importListAsAttrs = fns: mapListToAttrs baseNameOf import fns;
 
   /* Similar with `importListAsAttrs' but extensions are stripped from names.
 
      Type:
        importListAsAttrs' :: [Path] -> AttrSet
   */
-  importListAsAttrs' = fns: with lib;
-    mapListToAttrs baseNameNoExt import fns;
+  importListAsAttrs' = fns: mapListToAttrs baseNameNoExt import fns;
 
   /* Append default.nix to path.
 
@@ -72,7 +71,7 @@ in with self; {
      Type:
        hasDefaultFile :: (Path | String) -> Bool
   */
-  hasDefaultFile = path: builtins.pathExists (getDefaultFile path);
+  hasDefaultFile = path: pathExists (getDefaultFile path);
 
   /* Return the default.nix of path if it exists or path itself otherwise.
 
@@ -86,7 +85,7 @@ in with self; {
      Type:
        baseNameNoExt :: String -> String
   */
-  baseNameNoExt = name: with builtins;
+  baseNameNoExt = name:
     let
       b = baseNameOf name;
       m = match "(.*)\\.[^.]+$" b;

@@ -1,16 +1,18 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.rice.services.globalprotect;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "GlobalProtect VPN client";
   };
 
 in {
   options.rice.services.globalprotect = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.globalprotect.enable = true;
     environment.systemPackages = with pkgs; [
       globalprotect-openconnect

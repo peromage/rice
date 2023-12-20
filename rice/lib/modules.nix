@@ -1,8 +1,8 @@
 { self, nixpkgs, rice, ... }:
 
 let
-  lib = nixpkgs.lib;
-  libhm = rice.flake.inputs.home-manager.lib;
+  inherit (nixpkgs.lib) nixosSystem getAttrs mapAttrs foldAttrs foldlAttrs filterAttrs mkMerge mkIf;
+  inherit (rice.flake.inputs.home-manager.lib) homeManagerConfiguration;
 
 in with self; {
   /* Import a NixOS top level module.
@@ -15,7 +15,7 @@ in with self; {
      Type:
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
-  nixosTopModule = topModule: lib.nixosSystem {
+  nixosTopModule = topModule: nixosSystem {
     specialArgs = { inherit rice; };
     modules = [ topModule ];
   };
@@ -28,7 +28,7 @@ in with self; {
      Type:
        homeTopModule :: AttrSet -> Path -> AttrSet
   */
-  homeTopModule = pkgs: topModule: libhm.homeManagerConfiguration {
+  homeTopModule = pkgs: topModule: homeManagerConfiguration {
     inherit pkgs;
     extraSpecialArgs = { inherit rice; };
     modules = [ topModule ];
@@ -46,8 +46,8 @@ in with self; {
        mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    with lib; getAttrs firstLevelNames
-      (builtins.mapAttrs
+    getAttrs firstLevelNames
+      (mapAttrs
         (n: v: mkMerge v)
         (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
@@ -60,7 +60,7 @@ in with self; {
      Type:
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: with lib; mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
 
   /* Check the `enable' attribute for each name in the set and return true if
      at least one is true;
@@ -68,12 +68,12 @@ in with self; {
      Type:
        anyEnable :: AttrSet -> Bool
   */
-  anyEnable = attrs: lib.foldlAttrs (a: _: v: v.enable || a) false attrs;
+  anyEnable = attrs: foldlAttrs (a: _: v: v.enable || a) false attrs;
 
   /* Return an attrs for names that have `enable' attribute true;
 
      Type:
        filterEnable :: AttrSet -> AttrSet
   */
-  filterEnable = attrs: lib.filterAttrs (n: v: v.enable) attrs;
+  filterEnable = attrs: filterAttrs (n: v: v.enable) attrs;
 }

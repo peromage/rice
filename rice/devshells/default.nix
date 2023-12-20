@@ -1,11 +1,11 @@
 { nixpkgs, rice, withPkgsOverlays, ... }:
 
 let
-  lib = nixpkgs.lib;
-  librice = rice.lib;
+  inherit (rice.lib) importListAsAttrs' listDirNoDefault forSupportedSystems;
+  inherit (nixpkgs.lib) mapAttrs;
 
   mkDevShells =
-    let allShells = with librice; importListAsAttrs' (listDirNoDefault ./.);
-    in pkgs: with lib; mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allShells;
+    let allShells = importListAsAttrs' (listDirNoDefault ./.);
+    in pkgs: mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allShells;
 
-in with librice; forSupportedSystems (system: mkDevShells (withPkgsOverlays system))
+in forSupportedSystems (system: mkDevShells (withPkgsOverlays system))

@@ -1,16 +1,18 @@
 { config, lib, ... }:
 
 let
+  inherit (lib) mkEnableOption mkIf;
+
   cfg = config.rice.services.documentation;
 
-  options = with lib; {
+  options = {
     enable = mkEnableOption "documentation generation";
   };
 
 in {
   options.rice.services.documentation = options;
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     documentation = {
       enable = true;
       man.enable = true;

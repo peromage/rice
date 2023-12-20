@@ -1,6 +1,7 @@
 { config, pkgs, lib, rice, ... }:
 
 let
+  inherit (lib) mkDefault;
   inherit (rice) nixpkgs;
   inherit (rice.flake.inputs) nixos-hardware;
 
@@ -45,5 +46,5 @@ in {
     tpm2-tss
   ];
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = mkDefault config.hardware.enableRedistributableFirmware;
 }

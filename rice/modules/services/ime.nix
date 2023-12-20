@@ -1,9 +1,12 @@
 { config, pkgs, lib, rice, ... }:
 
 let
+  inherit (lib) types mkEnableOption mkOption optional;
+  inherit (rice.lib) mkMergeIf;
+
   cfg = config.rice.services.ime;
 
-  options = with lib; {
+  options = {
     enabled = mkOption {
       type = with types; nullOr (enum [ "fcitx" "ibus" ]);
       default = null;
@@ -17,13 +20,12 @@ let
     };
   };
 
-  librice = rice.lib;
   gnomeEnabled = config.rice.desktops.env.gnome.enable;
 
 in {
   options.rice.services.ime = options;
 
-  config = with lib; librice.mkMergeIf [
+  config = mkMergeIf [
     {
       cond = "ibus" == cfg.enabled;
       as = {
@@ -61,7 +63,7 @@ in {
           rime-cli
           rime-data
         ]
-        ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
+        ++ optional gnomeEnabled gnomeExtensions.kimpanel;
       };
     }
 
