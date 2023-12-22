@@ -11,7 +11,9 @@ This is my personal configuration collection built on top of NixOS with Nix Flak
 * Get started
 This configuration can be used as is.
 
-If local changes need to be made but not necessarily to be tracked, create a local =flake.nix= shown as the follow (contrary to reproducibility though):
+Another way to use it gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to the nature of deterministic builds, sometimes it is convenient to add temporary settings as well as confidential information outside of the version control system.
+
+Simply create a local =flake.nix= shown as follow:
 
 #+begin_src nix
 {
@@ -20,8 +22,7 @@ If local changes need to be made but not necessarily to be tracked, create a loc
   };
   outputs = { self, conf }: {
     nixosConfigurations = {
-      Foobar = conf.rice.lib.nixosTopModule {
-        imports = [ conf.nixosModules.instances.Framepie ];
+      Foobar = conf.nixosConfigurations.Framepie.addModule {
         rice.hosts.hostName = conf.rice.nixpkgs.lib.mkForce "Foobar";
         rice.users.immutable = true;
         rice.users.profiles.fang.hashedPassword = "secret";
@@ -46,8 +47,11 @@ Dynamic override is also possible (=conf.inputs.nixpkgs.follows= can still be us
 
     in{
       nixosConfigurations = {
-        Framepie = rice.lib.nixosTopModule conf.nixosModules.instances.Framepie;
-        Framepie2305 = rice2305.lib.nixosTopModule conf.nixosModules.instances.Framepie;
+        Foobar = rice.lib.nixosTopModule conf.nixosModules.instances.Framepie;
+        Foobar2305 = rice2305.lib.nixosTopModule {
+          imports = [ conf.nixosModules.instances.Framepie ];
+          networking.hostName = "Foobar2305";
+        };
       };
     };
 }
