@@ -113,7 +113,7 @@
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     ;; Combined completion style
-                                                    (cape-super-capf
+                                                    (cape-capf-super
                                                      #'elisp-completion-at-point
                                                      #'cape-dabbrev))))
 
@@ -121,7 +121,7 @@
     "Set completion style for Eshell mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     #'pcomplete-completions-at-point
-                                                    (cape-super-capf
+                                                    (cape-capf-super
                                                      #'elisp-completion-at-point
                                                      #'cape-dabbrev))))) ;; End cape
 
