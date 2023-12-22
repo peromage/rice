@@ -6,6 +6,26 @@ let
   inherit (rice.flake.inputs.nix-darwin.lib) darwinSystem;
 
 in with self; {
+  /* A generice function to generate a module that has ability to add additonal
+     modules.  Similar to the concept of override.
+
+     `f' is a function like `nixosSystem' `darwinSystem' or `homeManagerConfiguration'.
+
+     `init' is a function that takes a list of modules and returns an attrs that
+     can be consumed by `f'.
+
+     `mod' is the module itself.  It can be either a path or attrs.
+
+     Type:
+       mkTopModule :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet) -> AttrSet
+  */
+  mkTopModule = f: init: mod:
+    let
+      add = f: init: mods:
+        f (init mods) // { addModule = mod: add f init (mods ++ [mod]); };
+    in add f init [mod];
+
+
   /* Import a NixOS top level module.
 
      Note that the `system' attribute is not explicitly set (default to null)
@@ -16,20 +36,20 @@ in with self; {
      Type:
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
-  nixosTopModule = topModule: nixosSystem {
+  nixosTopModule = mkTopModule nixosSystem (mods: {
     specialArgs = { inherit rice; };
-    modules = [ topModule ];
-  };
+    modules = mods;
+  });
 
   /* Import a Darwin top level module.
 
      Type:
        darwinTopModule :: (Path | AttrSet) -> AttrSet
   */
-  darwinTopModule = topModule: darwinSystem {
+  darwinTopModule = mkTopModule darwinSystem (mods: {
     specialArgs = { inherit rice; };
-    modules = [ topModule ];
-  };
+    modules = mods;
+  });
 
   /* Import a HomeManager top level module.
 
@@ -37,13 +57,13 @@ in with self; {
      the caller.
 
      Type:
-       homeTopModule :: AttrSet -> Path -> AttrSet
+       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
   */
-  homeTopModule = pkgs: topModule: homeManagerConfiguration {
+  homeTopModule = pkgs: mkTopModule homeManagerConfiguration (mods: {
     inherit pkgs;
     extraSpecialArgs = { inherit rice; };
-    modules = [ topModule ];
-  };
+    modules = mods;
+  });
 
   /* Merge a list of attribute sets from config top level.
 
