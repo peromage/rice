@@ -2,11 +2,10 @@
 
 let
   inherit (rice) nixpkgs;
+  inherit (rice.lib) listDirNoDefault;
 
 in {
-  imports = [
-    ./packages.nix
-  ];
+  imports = listDirNoDefault ./.;
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";
