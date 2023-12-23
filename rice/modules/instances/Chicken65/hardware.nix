@@ -1,9 +1,13 @@
-{ config, lib, ... }:
+{ config, lib, modulesPath, ... }:
 
 let
   inherit (lib) mkDefault;
 
 in {
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
+
   ## Disk
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/9213f352-4bf8-4e57-824a-7135aaee46bf";
