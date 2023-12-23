@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
-TARGET_BRANCH=master
+TOP="$(cd ${BASH_SOURCE[0]%/*} && git rev-parse --show-toplevel)"
+BRANCH="master"
+PREFIX="rice"
+URL="git@github.com:peromage/rice.git"
 
-if [[ ! -d rice ]]; then
-    echo "Not at the repo root directory!"
-    exit 1
-fi
+[[ -d "${TOP}/pew" ]] || { echo "Git top level is not Pew"; exit 1; }
 
-if [[ $(git branch --show-current) != "$TARGET_BRANCH" ]]; then
-    echo "Checkout branch \"$TARGET_BRANCH\" to proceed!"
-    exit 1
-fi
+[[ $(git branch --show-current) == "$BRANCH" ]] || { echo "Not on $BRANCH branch"; exit 1; }
 
-git subtree push --prefix rice git@github.com:peromage/rice.git $TARGET_BRANCH
+git subtree push --prefix "$PREFIX" "$URL" "$BRANCH"
