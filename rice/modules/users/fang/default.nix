@@ -9,4 +9,10 @@
     groups = [ "wheel" "users" "audio" "video" "cdrom" "networkmanager" ];
     initialPassword = "P@55w0rd";
   };
+
+  config = {
+    nix.settings = {
+      trusted-users = [ "fang" ];
+    };
+  };
 }
