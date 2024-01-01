@@ -28,7 +28,16 @@ in {
         };
 
         nix = {
-          settings.experimental-features = [ "nix-command" "flakes" ];
+          enable = true;
+          channel.enable = true;
+
+          settings = {
+            sandbox = true;
+            experimental-features = [ "nix-command" "flakes" ];
+            trusted-users = [
+              "@wheel"
+            ];
+          };
 
           /* Synonyms
              pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
