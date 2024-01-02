@@ -37,6 +37,10 @@ in {
             trusted-users = [
               "@wheel"
             ];
+            allowed-users = [
+              "@wheel"
+              "@users"
+            ];
           };
 
           /* Synonyms
