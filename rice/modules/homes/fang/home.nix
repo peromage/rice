@@ -80,9 +80,6 @@
     emacs
     aspell
 
-    ## Gaming
-    steam
-
   ]) ++ (with pkgs.unrestrictedPkgs; [
     ## Gaming
     discord
