@@ -34,6 +34,10 @@
         enable = true;
         profile = "powersave";
       };
+      steam = {
+        enable = true;
+        openFirewall.remotePlay = true;
+      };
     };
   };
 }
