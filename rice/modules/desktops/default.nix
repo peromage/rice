@@ -1,4 +1,4 @@
-{ config, lib, rice, ... }:
+{ config, lib, pkgs, rice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf ;
@@ -40,11 +40,17 @@ in {
       enable = true;
       libinput.enable = true;
     };
+
     programs.xwayland.enable = cfg.enableWayland;
+
     hardware.opengl = {
       enable = cfg.enableOpenGL;
       driSupport = true;
       driSupport32Bit = true;
     };
+
+    environment.systemPackages = with pkgs; [
+      desktop-file-utils
+    ];
   };
 }
