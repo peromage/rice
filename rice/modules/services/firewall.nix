@@ -35,8 +35,7 @@ let
   };
 
   tcpPreset = [
-    27036 # Steam remote play
-    27015 # # SRCDS Rcon port
+
   ];
 
   tcpRangePreset = [
@@ -44,11 +43,11 @@ let
   ];
 
   udpPreset = [
-    27015 # Gameplay traffic
+
   ];
 
   udpRangePreset = [
-    { from = 27031; to = 27036; } # Steam remote play
+
   ];
 
   combinedRules = if cfg.enablePreset then {
