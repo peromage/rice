@@ -40,11 +40,16 @@ in {
       cond = cfg.enable;
       as = {
         hardware.steam-hardware.enable = true;
+
         programs.steam = {
           enable = true;
           gamescopeSession.enable = true;
           package = ricedSteam;
         };
+
+        environment.systemPackages = with pkgs; [
+          protonup-qt
+        ];
       };
     }
 
