@@ -26,7 +26,6 @@ let
       stdenv.cc.cc.lib
       libkrb5
       keyutils
-      steam-run
       steamPackages.steamcmd
       steamPackages.steam-runtime
     ];
@@ -48,6 +47,7 @@ in {
         };
 
         environment.systemPackages = with pkgs; [
+          steam-run
           protonup-qt
         ];
       };
