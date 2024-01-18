@@ -29,6 +29,9 @@ in {
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-lgc-plus
+        dejavu_fonts
+        wqy_zenhei
+        wqy_microhei
       ];
 
       fontconfig = {
@@ -49,18 +52,21 @@ in {
           monospace = [
             "Cascadia Code"
             "Iosevka"
+            "WenQuanYi Zen Hei Mono"
             "DejaVu Sans Mono"
           ];
 
           sansSerif = [
             "Noto Sans CJK SC"
             "Noto Sans CJK TC"
+            "WenQuanYi Zen Hei"
             "Dejavu Sans"
           ];
 
           serif = [
             "Noto Serif CJK SC"
             "Noto Serif CJK TC"
+            "WenQuanYi Zen Hei"
             "Dejavu Serif"
           ];
         };
