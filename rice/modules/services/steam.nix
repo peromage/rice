@@ -28,6 +28,8 @@ let
       keyutils
       steamPackages.steamcmd
       steamPackages.steam-runtime
+      wqy_zenhei
+      wqy_microhei
     ];
   };
 
