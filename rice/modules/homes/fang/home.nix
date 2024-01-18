@@ -65,6 +65,7 @@
     gimp
     kdenlive
     flameshot
+    diceware
 
     ## GUI
     brave
