@@ -1,4 +1,17 @@
 /* Settings while traveling to some restricted regions.
+
+   For flakes the following options can be added to avoid problems during
+   evaluation.
+
+   For example:
+
+   {
+     nixConfig = {
+       substituters = [
+         "https://mirror.sjtu.edu.cn/nix-channels/store"
+       ];
+     };
+   }
 */
 
 { config, lib, rice, ... }:
