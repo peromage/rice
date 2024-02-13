@@ -22,7 +22,7 @@ in with self; {
   mkTopModule = f: init: mod:
     let
       add = f: init: mods:
-        f (init mods) // { addModule = mod: add f init (mods ++ [mod]); };
+        f (init mods) // { extraModule = mod: add f init (mods ++ [mod]); };
     in add f init [mod];
 
 

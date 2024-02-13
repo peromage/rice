@@ -22,7 +22,7 @@ Simply create a local =flake.nix= shown as follow:
   };
   outputs = { self, conf }: {
     nixosConfigurations = {
-      Foobar = conf.nixosConfigurations.Framepie.addModule {
+      Foobar = conf.nixosConfigurations.Framepie.extraModule {
         rice.hosts.hostName = conf.rice.nixpkgs.lib.mkForce "Foobar";
         rice.users.immutable = true;
         rice.users.profiles.fang.hashedPassword = "secret";
