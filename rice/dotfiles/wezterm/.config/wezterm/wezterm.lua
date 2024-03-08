@@ -293,6 +293,17 @@ local launch_menu = Overridable:__new__ {
 --- Domains --------------------------------------------------------------------
 local wsl_domains = Overridable:__new__ {
   {
+    name = "WSL::Ubuntu-20.04",
+    distribution = "Ubuntu-20.04",
+    default_cwd = "~",
+  },
+  {
+    name = "WSL::Ubuntu-20.04-tmux",
+    distribution = "Ubuntu-20.04",
+    default_cwd = "~",
+    default_prog = {"sh", "-c", "tmux a || tmux"},
+  },
+  {
     name = "WSL::Ubuntu-22.04",
     distribution = "Ubuntu-22.04",
     default_cwd = "~",
