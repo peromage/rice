@@ -7,7 +7,7 @@ set -e
 function help {
     cat <<EOF
 Usage:
-  $0 <device> <dump | test | kill-slot | kill-token | add-pin> [arguments]
+  $0 <command> [arguments]
 
   dump        DEVICE
   test        DEVICE
@@ -39,8 +39,7 @@ case "$CMD" in
         sudo cryptsetup luksKillSlot "$device" "$slot_id"
         ;;
     (kill-token)
-        { device="$1" && shift; } || help
-        token_id="${1:?Token ID is required}"
+        { device="$1" && shift && token_id="$1" && shift; } || help
         sudo cryptsetup token remove "$device" --token-id "$token_id"
         ;;
     (add-pin)
