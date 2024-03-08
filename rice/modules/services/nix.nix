@@ -25,6 +25,11 @@ in {
             allowUnfree = true;
             allowBroken = true;
           };
+          ## Make sure <nixpkgs> is consistent with the one from flake
+          flake = {
+            setNixPath = true;
+            setFlakeRegistry = true;
+          };
         };
 
         nix = {
@@ -49,13 +54,6 @@ in {
              See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
           */
           package = pkgs.nixFlakes;
-
-          ## Use the nixpkgs from the toplevel flake
-          registry.nixpkgs.flake = nixpkgs;
-          nixPath = [
-            "nixpkgs=${nixpkgs}"
-            "/nix/var/nix/profiles/per-user/root/channels"
-          ];
         };
       };
     }
