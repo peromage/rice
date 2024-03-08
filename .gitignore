@@ -27,4 +27,4 @@
 !/init-mini.el
 
 ## Cached package bundle
-!/elpa.tar.gz
+!/elpa-*.tar.gz
