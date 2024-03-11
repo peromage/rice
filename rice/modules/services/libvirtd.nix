@@ -31,7 +31,7 @@ in {
        https://github.com/strongtz/i915-sriov-dkms
     */
     {
-      cond = cfg.enableIntelSRIOV;
+      cond = cfg.enable && cfg.enableIntelSRIOV;
       as = {
         boot = {
           kernelParams = [
