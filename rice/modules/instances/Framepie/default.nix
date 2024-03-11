@@ -38,6 +38,7 @@
         enable = true;
         openFirewall.remotePlay = true;
       };
+      libvirtd.enable = true;
     };
   };
 }
