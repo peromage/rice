@@ -121,7 +121,6 @@ Non-nil NO-RESTART to suppress `org-mode-restart'."
     ;; Those variables are global
     (setq-default org-hide-emphasis-markers pew::org::marker--hidden
                   org-hide-leading-stars pew::org::marker--hidden
-                  org-indent-mode-turns-on-hiding-stars pew::org::marker--hidden
                   org-hide-macro-markers pew::org::marker--hidden
                   org-link-descriptive pew::org::marker--hidden
                   org-pretty-entities pew::org::marker--hidden)
