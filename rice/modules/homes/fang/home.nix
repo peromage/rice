@@ -51,7 +51,7 @@
 
     ## Development
     python3
-    nodejs_21
+    nodejs_latest
     dotnet-sdk_8
     lua
 
