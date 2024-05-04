@@ -6,11 +6,11 @@
 { nixpkgs, rice, ... }:
 
 let
-  inherit (nixpkgs.lib) genAttrs mapAttrsToList foldl' filterAttrs;
+  inherit (nixpkgs.lib) genAttrs mapAttrsToList filterAttrs;
   inherit (builtins) readDir;
 
-  ## Auxiliary file functions
-  debris = rec {
+  ## A fraction of librice
+  fraction = {
     /* Generate an attribute set for supported platforms.
        More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
 
@@ -23,56 +23,21 @@ let
       "aarch64-linux"
       "aarch64-darwin"
     ];
-
-    /* A generic function that filters all the files/directories under the given
-       directory.  Return a list of names prepended with the given directory.
-
-       Type:
-         filterDir :: (String -> String -> Bool) -> Path -> [String]
-    */
-    filterDir = pred: dir: mapAttrsToList
-      (n: t: dir + "/${n}")
-      (filterAttrs pred (readDir dir));
-
-    /* Return a list of all file/directory names under dir except default.nix.
-
-       Type:
-         listDirNoDefault :: Path -> [String]
-    */
-    listDirNoDefault = filterDir (n: t: "default.nix" != n);
-
-    /* Return a list of directories.
-
-       Type:
-         listDirAllDirs :: Path -> [String]
-    */
-    listDirAllDirs = filterDir (n: t: "directory" == t);
-
-    /* Return a list of files.
-
-       Type:
-         listDirAllFiles :: Path -> [String]
-    */
-    listDirAllFiles = filterDir (n: t: "regular" == t);
-
-    /* Return a list of files except default.nix.
-
-       Type:
-         listDirAllFilesNoDefault :: Path -> [String]
-    */
-    listDirAllFilesNoDefault = filterDir (n: t: "regular" == t && "default.nix" != n);
   };
 
-  ## Librice itself
+  importAllFiles = root: map
+    (fn: import fn libArgs)
+    (mapAttrsToList
+      (n: t: root + "/${n}")
+      (filterAttrs (n: t: n != "default.nix") (readDir root)));
+
+  ## Import other lib files
   librice = let
     args = {
       self = librice;
       inherit nixpkgs rice;
     };
-  in foldl'
-    (a: b: a // b)
-    debris
-    (map (fn: import fn args) (debris.listDirNoDefault ./.));
+  in foldl' (a: b: a // b) fraction (importAllFiles ./.);
 
 in
 librice
