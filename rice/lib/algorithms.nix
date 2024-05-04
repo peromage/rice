@@ -118,4 +118,81 @@ in with self; {
        anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
   allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
+
+  /* Logic not.
+
+     Type:
+       not :: Bool -> Bool
+  */
+  not = a: !a;
+
+  /* Logic and.
+
+     Type:
+       and :: Bool -> Bool -> Bool
+  */
+  and = a: b: a && b;
+
+  /* logic or.
+
+     type:
+       and :: Bool -> Bool -> Bool
+  */
+  or = a: b: a || b;
+
+  /* Comparison equal to.
+
+     type:
+       eq :: a -> a -> Bool
+  */
+  eq = a: b: a == b;
+
+  /* Comparison not equal to.
+
+     type:
+       ne :: a -> a -> Bool
+  */
+  ne = a: b: a != b;
+
+  /* Comparison greater than.
+
+     type:
+       gt :: a -> a -> Bool
+  */
+  gt = a: b: a > b;
+
+  /* Comparison greater than or equal to.
+
+     type:
+       ge :: a -> a -> Bool
+  */
+  ge = a: b: a >= b;
+
+  /* Comparison less than.
+
+     type:
+       lt :: a -> a -> Bool
+  */
+  lt = a: b: a < b;
+
+  /* Comparison less than or equal to.
+
+     type:
+       le :: a -> a -> Bool
+  */
+  le = a: b: a <= b;
+
+  /* Increment by 1.
+
+     Type
+       addOne :: a -> a
+  */
+  addOne = a: a + 1;
+
+  /* Decrement by 1.
+
+     Type
+       addOne :: a -> a
+  */
+  minusOne = a: a - 1;
 }
