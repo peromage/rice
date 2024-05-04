@@ -2,6 +2,9 @@
 
 { rice, ... }:
 
-{
-  imports = rice.lib.listDirNoDefault ./.;
+let
+  inherit (rice.lib) filterDir isNotDefaultNix;
+
+in {
+  imports = filterDir isNotDefaultNix ./.;
 }

@@ -2,7 +2,7 @@
 
 let
   inherit (lib) mkOption mkEnableOption types foldlAttrs mkIf;
-  inherit (rice.lib) anyEnable filterEnable either callListWithArgs listDirNoDefault;
+  inherit (rice.lib) anyEnable filterEnable either callListWithArgs filterDir isNotDefaultNix;
 
   cfg = config.rice.hosts;
 
@@ -64,7 +64,7 @@ let
       enabledHosts);
 
 in {
-  imports = callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (filterDir isNotDefaultNix ./.);
   options.rice.hosts = options;
 
   config = mkIf enableHostConfig {

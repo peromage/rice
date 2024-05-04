@@ -17,34 +17,9 @@ in with self; {
 
   /* Predications used for `filterDir'. */
   isDirType = name: type: type == "directory";
+  isNotDirType = name: type: ! isDirType name type;
   isFileType = name: type: type == "regular";
+  isNotFileType = name: type: ! isFileType name type;
   isDefaultNix = name: type: name == "default.nix";
-
-  /* Return a list of all file/directory names under dir except default.nix.
-
-     Type:
-       listDirNoDefault :: Path -> [String]
-  */
-  listDirNoDefault = filterDir (n: t: "default.nix" != n);
-
-  /* Return a list of directories.
-
-     Type:
-       listDirAllDirs :: Path -> [String]
-  */
-  listDirAllDirs = filterDir (n: t: "directory" == t);
-
-  /* Return a list of files.
-
-     Type:
-       listDirAllFiles :: Path -> [String]
-  */
-  listDirAllFiles = filterDir (n: t: "regular" == t);
-
-  /* Return a list of files except default.nix.
-
-     Type:
-       listDirAllFilesNoDefault :: Path -> [String]
-  */
-  listDirAllFilesNoDefault = filterDir (n: t: "regular" == t && "default.nix" != n);
+  isNotDefaultNix = name: type: ! isDefaultNix name type;
 }

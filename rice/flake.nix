@@ -41,7 +41,7 @@
     let
       inherit (rice) withPkgsOverlays;
       inherit (rice.lib)
-        importListAsAttrs listDirAllDirs callWithRice mergeAttrsFirstLevel
+        importListAsAttrs filterDir isDirType callWithRice mergeAttrsFirstLevel
         forSupportedSystems nixosTopModule homeTopModule darwinTopModule;
       inherit (nixpkgs.lib) mapAttrs;
 
@@ -54,7 +54,7 @@
 
       /* Expose my modules */
       nixosModules =
-        let importDirs = dir: importListAsAttrs (listDirAllDirs dir);
+        let importDirs = dir: importListAsAttrs (filterDir isDirType dir);
         in {
           main = import ./modules;
           instances = importDirs ./modules/instances;

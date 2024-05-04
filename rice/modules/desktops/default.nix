@@ -2,7 +2,7 @@
 
 let
   inherit (lib) mkEnableOption mkIf ;
-  inherit (rice.lib) anyEnable callListWithArgs listDirNoDefault;
+  inherit (rice.lib) anyEnable callListWithArgs filterDir isNotDefaultNix;
 
   cfg = config.rice.desktops;
 
@@ -32,7 +32,7 @@ let
   enableDesktopConfig = anyEnable cfg.env;
 
 in {
-  imports = callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (filterDir isNotDefaultNix ./.);
   options.rice.desktops = options;
 
   config = mkIf enableDesktopConfig {

@@ -2,7 +2,7 @@
 
 let
   inherit (lib) types mkOption mkEnableOption isString mapAttrs' nameValuePair mkIf;
-  inherit (rice.lib) anyEnable filterEnable callListWithArgs listDirNoDefault allAttrs;
+  inherit (rice.lib) anyEnable filterEnable callListWithArgs filterDir isNotDefaultNix allAttrs;
 
   cfg = config.rice.users;
 
@@ -131,7 +131,7 @@ let
   mutableUsers = !cfg.immutable;
 
 in {
-  imports = callListWithArgs args (listDirNoDefault ./.);
+  imports = callListWithArgs args (filterDir isNotDefaultNix ./.);
   options.rice.users = options;
 
   config = mkIf enableUserConfig {

@@ -1,7 +1,7 @@
 { nixpkgs, flake, rice, withPkgsOverlays, ... }:
 
 let
-  inherit (rice.lib) forSupportedSystems importListAsAttrs' listDirNoDefault filterDir;
+  inherit (rice.lib) forSupportedSystems importListAsAttrs' filterDir isNotDefaultNix;
   inherit (nixpkgs.lib) hasAttr optionalAttrs pathExists mapAttrs id;
   inherit (builtins) match;
 
@@ -18,7 +18,7 @@ let
         platformPath = ./. + "/${system}";
         platformPackages = optionalAttrs
           (pathExists platformPath)
-          (importListAsAttrs' (listDirNoDefault platformPath));
+          (importListAsAttrs' (filterDir isNotDefaultNix platformPath));
       in mapAttrs
         (n: v: pkgs.unrestrictedPkgs.callPackage v { inherit rice; })
         (commonPackages // platformPackages);
