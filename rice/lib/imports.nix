@@ -58,36 +58,4 @@ in with self; {
        importListAsAttrs' :: [Path] -> AttrSet
   */
   importListAsAttrs' = fns: mapListToAttrs baseNameNoExt import fns;
-
-  /* Append default.nix to path.
-
-     Type:
-       getDefaultFile :: (Path | String) -> String
-  */
-  getDefaultFile = path: path + "/default.nix";
-
-  /* Determine if a path contains default.nix.
-
-     Type:
-       hasDefaultFile :: (Path | String) -> Bool
-  */
-  hasDefaultFile = path: pathExists (getDefaultFile path);
-
-  /* Return the default.nix of path if it exists or path itself otherwise.
-
-     Type:
-       toDefaultFile :: (Path | String) -> (Path | String)
-  */
-  toDefaultFile = path: if hasDefaultFile path then getDefaultFile path else path;
-
-  /* Return the basename without extension.
-
-     Type:
-       baseNameNoExt :: String -> String
-  */
-  baseNameNoExt = name:
-    let
-      b = baseNameOf name;
-      m = match "(.*)\\.[^.]+$" b;
-    in if null == m then b else elemAt m 0;
 }

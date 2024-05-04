@@ -28,7 +28,7 @@ let
        directory.  Return a list of names prepended with the given directory.
 
        Type:
-       filterDir :: (String -> String -> Bool) -> Path -> [String]
+         filterDir :: (String -> String -> Bool) -> Path -> [String]
     */
     filterDir = pred: dir: mapAttrsToList
       (n: t: dir + "/${n}")
@@ -36,8 +36,8 @@ let
 
     /* Return a list of all file/directory names under dir except default.nix.
 
-     Type:
-       listDirNoDefault :: Path -> [String]
+       Type:
+         listDirNoDefault :: Path -> [String]
     */
     listDirNoDefault = filterDir (n: t: "default.nix" != n);
 
