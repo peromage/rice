@@ -18,12 +18,12 @@ in with self; {
   */
   concatList = x: y: x ++ y;
 
-  /* Concatenate (merge) attribute sets.
+  /* Merge attribute sets.
 
      Type:
-       concatAttrs :: AttrSet -> AttrSet -> AttrSet
+       mergeAttrs :: AttrSet -> AttrSet -> AttrSet
   */
-  concatAttrs = x: y: x // y;
+  mergeAttrs = x: y: x // y;
 
   /* Prepend a prefix to a list of strings.
 
@@ -37,14 +37,14 @@ in with self; {
      Type:
        mergeAttrs :: [AttrSet] -> AttrSet
   */
-  mergeAttrs = listOfAttrs: foldl' concatAttrs {} listOfAttrs;
+  mergeAttrs = listOfAttrs: foldl' mergeAttrs {} listOfAttrs;
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = listOfAttrs: foldAttrs concatAttrs {} listOfAttrs;
+  mergeAttrsFirstLevel = listOfAttrs: foldAttrs mergeAttrs {} listOfAttrs;
 
   /* Apply optionalAttrs on each attribute set from the list.
      Each element in the list is of the form as follow:

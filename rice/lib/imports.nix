@@ -35,7 +35,7 @@ in with self; {
   */
   callListAsMerged = args: fns:
     let call = callWithArgs args;
-    in foldl' concatAttrs {} (map call fns);
+    in foldl' mergeAttrs {} (map call fns);
 
   /* Import paths from the given list.
 
