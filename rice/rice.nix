@@ -6,11 +6,18 @@ let
     rice = self; # Self reference
     lib = import ./lib self;
 
-    dirs = with self.dirs; {
-      topLevel = builtins.path { path = ./.; }; # Explicit copy
-      modules = "${topLevel}/modules";
-      dotfiles = "${topLevel}/dotfiles";
-    };
+    dirs = with self.dirs;
+      let withTopLevel = p: "${topLevel}/${p}";
+      in {
+        topLevel = builtins.path { path = ./.; }; # Explicit copy
+        devshells = withTopLevel "devshells";
+        dotfiles = withTopLevel "dotfiles";
+        instances = withTopLevel "instances";
+        modules = withTopLevel "modules";
+        overlays = withTopLevel "overlays";
+        packages = withTopLevel "packages";
+        templates = withTopLevel "templates";
+      };
 
     withPkgsOverlays = system: with self; import nixpkgs {
       inherit system;
