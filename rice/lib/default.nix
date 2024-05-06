@@ -1,9 +1,8 @@
 ### Top level of the common code
 
-## The rice parameter should only be used for passing down to the OS modules.
-## The library itself should not know any implementation details of it so that
-## functionalities provided by this library is guaranteed to be generic.
-{ nixpkgs, rice, ... }:
+## This lib only requires nixpkgs with an exception of other flakes from the top
+## level flake inputs, e.g. home-manager.
+{ nixpkgs, flakeInputs, ... }:
 
 let
   inherit (nixpkgs.lib) genAttrs mapAttrsToList filterAttrs;
@@ -25,19 +24,20 @@ let
     ];
   };
 
-  importAllFiles = root: map
-    (fn: import fn libArgs)
+  importAllFiles = args: root: map
+    (fn: import fn args)
     (mapAttrsToList
       (n: t: root + "/${n}")
       (filterAttrs (n: t: n != "default.nix") (readDir root)));
 
   ## Import other lib files
   librice = let
-    args = {
+    args = flakeInputs // {
+      ## Note: This nixpkgs will be used if it is different from the one from flakeInputs
+      inherit nixpkgs flakeInputs;
       self = librice;
-      inherit nixpkgs rice;
     };
-  in foldl' (a: b: a // b) fraction (importAllFiles ./.);
+  in foldl' (a: b: a // b) fraction (importAllFiles args ./.);
 
 in
 librice

@@ -10,7 +10,7 @@ let
       librice = self.lib;
     };
 
-    lib = import ./lib self;
+    lib = import ./lib self.passthrough;
 
     dirs = with self.dirs;
       let withTopLevel = p: "${topLevel}/${p}";
