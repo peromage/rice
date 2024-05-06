@@ -24,9 +24,7 @@ in with self; {
      Type:
        callListWithArgs :: AttrSet -> [(AttrSet -> a) | Path] -> [a]
   */
-  callListWithArgs = args: fns:
-    let call = callWithArgs args;
-    in map call fns;
+  callListWithArgs = args: map (callWithArgs args);
 
   /* Treat all elements imported as attrsets and merge them into one.
 
