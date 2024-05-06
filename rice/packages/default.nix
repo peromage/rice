@@ -1,34 +1,36 @@
-{ nixpkgs, flake, rice, withPkgsOverlays, ... }:
+{ nixpkgs, rice, withPkgsAllOverlays, home-manager, nix-darwin, ... }:
 
 let
-  inherit (rice.lib) forSupportedSystems importListAsAttrs' filterDir isNotDefaultNix;
-  inherit (nixpkgs.lib) hasAttr optionalAttrs pathExists mapAttrs id;
+  inherit (rice.lib) joinPath mkPackageList;
+  inherit (nixpkgs.lib) optionalAttrs pathExists mapAttrs;
   inherit (builtins) match;
 
-  supportedSystems = forSupportedSystems id;
-
-  ## Packages within this directory (single file or directory) and platform
-  ## specific packages in its directory, e.g. x86_64-linux.
-  mkPackages =
-    let commonPackages = importListAsAttrs'
-      (filterDir (n: t: !(hasAttr n supportedSystems) && "default.nix" != n) ./.);
-    in system:
-      let
-        pkgs = withPkgsOverlays system;
-        platformPath = ./. + "/${system}";
-        platformPackages = optionalAttrs
-          (pathExists platformPath)
-          (importListAsAttrs' (filterDir isNotDefaultNix platformPath));
-      in mapAttrs
-        (n: v: pkgs.unrestrictedPkgs.callPackage v { inherit rice; })
-        (commonPackages // platformPackages);
-
-  ## Packages from inputs
-  exposePackages = system: with flake.inputs; {
+  /* Create an AttrSet of packages from the root flake inputs
+  */
+  mkFlakeInputPackages = system: {
     home-manager = home-manager.packages.${system}.default;
-  } // (optionalAttrs (null != (match ".*-darwin" system)) {
+  } // (optionalAttrs ((match ".*-darwin" system) != null) {
     nix-darwin = nix-darwin.packages.${system}.default;
   });
 
-in forSupportedSystems (system:
-  (mkPackages system) // (exposePackages system))
+  ## Exclude any file or directory that has the name of the supported platform.
+  ## Scanning is done once to avoid additional overhead.
+  commonPackages = mkPackageList ./.;
+
+  /* Get all packages within this directory (single file or directory) and
+     platform specific packages in its directory, e.g. x86_64-linux.
+
+     That is, for any file or directory that has the name of the supported
+     platform it will be imported for that platform only.
+  */
+  mkPlatformPackages = system:
+    let
+      pkgs = withPkgsAllOverlays system;
+      flakeInputPackages = mkFlakeInputPackages system;
+      platformPackages = let platformPath = joinPath [./. system];
+                         in optionalAttrs (pathExists platformPath) (import platformPath rice.passthrough);
+    in (mapAttrs
+      (n: v: pkgs.unrestrictedPkgs.callPackage v rice.passthrough)
+      (commonPackages // platformPackages)) // flakeInputPackages;
+
+in forSupportedSystems mkPlatformPackages;
