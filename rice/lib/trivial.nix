@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs  mapAttrsToList nameValuePair any all id foldl';
+  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl';
 
 in with self; {
   /* Concatenate strings.
@@ -9,58 +9,51 @@ in with self; {
      Type:
        concatStr :: String -> String -> String
   */
-  concatStr = x: y: x + y;
+  concatStr = a: b: a + b;
 
   /* Concatenate lists.
 
      Type:
        concatList :: [a] -> [a] -> [a]
   */
-  concatList = x: y: x ++ y;
+  concatList = a: b: a ++ b;
 
   /* Merge attribute sets.
 
      Type:
        mergeAttrs :: AttrSet -> AttrSet -> AttrSet
   */
-  mergeAttrs = x: y: x // y;
+  mergeAttrs = a: b: a // b;
 
   /* Prepend a prefix to a list of strings.
 
      Type:
        prefixWith :: String -> [String] -> [String]
   */
-  prefixWith = prefix: list: map (concatStr prefix) list;
+  prefixWith = prefix: map (concatStr prefix);
 
   /* Merge a list of attribute sets.
 
      Type:
        mergeAttrs :: [AttrSet] -> AttrSet
   */
-  mergeAttrs = listOfAttrs: foldl' mergeAttrs {} listOfAttrs;
+  mergeAttrs = foldl' mergeAttrs {};
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = listOfAttrs: foldAttrs mergeAttrs {} listOfAttrs;
+  mergeAttrsFirstLevel = foldAttrs mergeAttrs {};
 
   /* Apply optionalAttrs on each attribute set from the list.
      Each element in the list is of the form as follow:
        { cond = expr; as = attrset; }
 
      Type:
-       optionalAttrsList :: [AttrSet] -> [AttrSet]
+       evalOptionalAttrsList :: [AttrSet] -> [AttrSet]
   */
-  optionalAttrsList = listOfConds: (map (a: optionalAttrs a.cond a.as) listOfConds);
-
-  /* Like `mergeAttrs' but merge attribute sets based on each'es predicate.
-
-     Type:
-       mergeAttrsCond :: [AttrSet] -> AttrSet
-  */
-  mergeAttrsCond = listOfConds: mergeAttrs (optionalAttrsList listOfConds);
+  evalOptionalAttrsList = map (a: optionalAttrs a.cond a.as);
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.

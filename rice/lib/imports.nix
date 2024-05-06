@@ -42,7 +42,7 @@ in with self; {
      Type:
        importList :: [Path] -> [a]
   */
-  importList = fns: map import fns;
+  importList = map import;
 
   /* Like `importList' but instead of returning a list this returns an attrset
      with keys as the file names.
@@ -50,12 +50,12 @@ in with self; {
      Type:
        importListAsAttrs :: [Path] -> AttrSet
   */
-  importListAsAttrs = fns: mapListToAttrs baseNameOf import fns;
+  importListAsAttrs = mapListToAttrs baseNameOf import;
 
   /* Similar with `importListAsAttrs' but extensions are stripped from names.
 
      Type:
        importListAsAttrs' :: [Path] -> AttrSet
   */
-  importListAsAttrs' = fns: mapListToAttrs baseNameNoExt import fns;
+  importListAsAttrs' = mapListToAttrs baseNameNoExt import;
 }
