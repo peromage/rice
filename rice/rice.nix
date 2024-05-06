@@ -25,19 +25,9 @@ let
         templates = withTopLevel "templates";
       };
 
-    withPkgsOverlays = system: with self; import nixpkgs {
-      inherit system;
-      overlays = with flake.outputs.overlays; [
-        unrestrictedPkgs
-        ricePkgs
-      ];
-    };
-
     callWithRice = self.lib.callWithArgs self.passthrough;
 
-    override = args:
-      let newRice = rice (newRice // args) // args;
-      in newRice;
+    override = args: let newRice = rice (newRice // args) // args; in newRice;
   };
 
   ## Make it easier to test so that we don't have to rely on the fix function from nixpkgs

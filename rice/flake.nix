@@ -39,14 +39,15 @@
 
   outputs = { self, nixpkgs, ... } @ inputs:
     let
-      inherit (rice) withPkgsOverlays;
       inherit (rice.lib)
         importListAsAttrs filterDir isDirType callWithRice mergeAttrsFirstLevel
         forSupportedSystems nixosTopModule homeTopModule darwinTopModule;
-      inherit (nixpkgs.lib) mapAttrs;
+      inherit (nixpkgs.lib) mapAttrs mapAttrsToList;
 
       outputs = self.outputs;
       rice = import ./rice.nix { inherit nixpkgs; flake = self; };
+
+      withPkgsAllOverlays = system: import nixpkgs { inherit system; overlays = mapAttrsToList (n: v: v) outputs.overlays; };
 
     in {
       /* Expose rice */
@@ -122,7 +123,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (rice.withPkgsOverlays system);
+        let inc = homeTopModule (rice.withPkgsAllOverlays system);
         in {
           fang = inc ./modules/homes/fang;
         }
