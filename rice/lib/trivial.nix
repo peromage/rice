@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl';
+  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl' getAttr;
 
 in with self; {
   /* Concatenate strings.
@@ -111,6 +111,14 @@ in with self; {
        anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
   allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
+
+  /* Get attribute base on a list of names.
+     This is useful for nested access.
+
+     Type:
+       getAttrs :: [String] -> AttrSet -> a
+  */
+  getAttrs = names: attrs: foldl' (a: n: getAttr n a) attrs names;
 
   /* Logic not.
 
