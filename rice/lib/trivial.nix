@@ -135,63 +135,63 @@ in with self; {
 
   /* logic or.
 
-     type:
+     Type:
        and :: Bool -> Bool -> Bool
   */
   or = a: b: a || b;
 
   /* Comparison equal to.
 
-     type:
+     Type:
        eq :: a -> a -> Bool
   */
   eq = a: b: a == b;
 
   /* Comparison not equal to.
 
-     type:
+     Type:
        ne :: a -> a -> Bool
   */
   ne = a: b: a != b;
 
   /* Comparison greater than.
 
-     type:
+     Type:
        gt :: a -> a -> Bool
   */
   gt = a: b: a > b;
 
   /* Comparison greater than or equal to.
 
-     type:
+     Type:
        ge :: a -> a -> Bool
   */
   ge = a: b: a >= b;
 
   /* Comparison less than.
 
-     type:
+     Type:
        lt :: a -> a -> Bool
   */
   lt = a: b: a < b;
 
   /* Comparison less than or equal to.
 
-     type:
+     Type:
        le :: a -> a -> Bool
   */
   le = a: b: a <= b;
 
   /* Increment by 1.
 
-     Type
+     Type:
        addOne :: a -> a
   */
   addOne = a: a + 1;
 
   /* Decrement by 1.
 
-     Type
+     Type:
        addOne :: a -> a
   */
   minusOne = a: a - 1;
