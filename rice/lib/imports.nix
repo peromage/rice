@@ -1,4 +1,4 @@
-{ self, nixpkgs, rice, ... }:
+{ self, nixpkgs, ... }:
 
 let
   inherit (nixpkgs.lib) isFunction foldl' pathExists elemAt;
@@ -11,13 +11,6 @@ in with self; {
        callWithArgs :: AttrSet -> ((AttrSet -> a) | Path) -> a
   */
   callWithArgs = args: fn: (if isFunction fn then fn else import fn) args;
-
-  /* Import using `rice' as the arguments.
-
-     Type:
-       callWithRice :: ((AttrSet -> a) | Path) -> a
-  */
-  callWithRice = callWithArgs rice;
 
   /* Import each module from the list with given argument.
 

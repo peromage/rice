@@ -27,6 +27,8 @@ let
       ];
     };
 
+    callWithRice = self.lib.callWithArgs self;
+
     override = args:
       let newRice = rice (newRice // args) // args;
       in newRice;
