@@ -2,8 +2,14 @@
 
 let
   rice = self: {
-    inherit nixpkgs flake;
-    rice = self; # Self reference
+    passthrough = {
+      inherit nixpkgs flake;
+      flakeInputs = flake.inputs;
+      flakeOutputs = flake.outputs;
+      rice = self; # Self reference
+      librice = self.lib;
+    };
+
     lib = import ./lib self;
 
     dirs = with self.dirs;
@@ -27,7 +33,7 @@ let
       ];
     };
 
-    callWithRice = self.lib.callWithArgs self;
+    callWithRice = self.lib.callWithArgs self.passthrough;
 
     override = args:
       let newRice = rice (newRice // args) // args;
