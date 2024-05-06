@@ -195,4 +195,42 @@ in with self; {
        addOne :: a -> a
   */
   minusOne = a: a - 1;
+
+  /* Apply a list of arguments to the function.
+
+     Type:
+       apply :: (a -> a) -> [a]
+  */
+  apply = foldl' (f: x: f x)
+
+  /* Filter the return value of the original function.
+
+     Note that n (the number of arguments) must be greater than 0 since a
+     function should at least have one argument.  This is required because for
+     curried functions the number of arguments can not be known beforehand.  The
+     caller must tell this function where to end.
+
+     Type:
+       wrapReturn :: (a -> a) -> Int -> (a -> ... -> a)
+  */
+  wrapReturn = wf: n: f:
+    let wrap = f: n: a: if n == 1 then wf (f a) else wrap (f a) (n - 1);
+    in assert n > 0; wrap f n;
+
+  /* Filter the arguments of the original function.
+
+     Note that n (the number of arguments) must be greater than 0 since a
+     function should at least have one argument.  This is required because for
+     curried functions the number of arguments can not be known beforehand.  The
+     caller must tell the wrapper function where to end.
+
+     The wrapper function must have the same signature of the original function
+     and return a list of altered arguments.
+
+     Type:
+       wrapArgs :: (a -> ... -> [a]) -> Int -> (a -> ... -> a)
+  */
+  wrapArgs = wf: n: f:
+    let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
+    in assert n > 0; wrap wf n;
 }
