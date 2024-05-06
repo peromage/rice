@@ -204,9 +204,9 @@ in with self; {
      caller must tell this function where to end.
 
      Type:
-       wrapReturn :: (a -> a) -> Int -> (a -> ... -> a)
+       wrapReturn :: Int -> (a -> a) -> (a -> ... -> a)
   */
-  wrapReturn = wf: n: f:
+  wrapReturn = n: wf: f:
     let wrap = f: n: a: if n == 1 then wf (f a) else wrap (f a) (n - 1);
     in assert n > 0; wrap f n;
 
@@ -221,9 +221,9 @@ in with self; {
      and return a list of altered arguments.
 
      Type:
-       wrapArgs :: (a -> ... -> [a]) -> Int -> (a -> ... -> a)
+       wrapArgs :: Int -> (a -> ... -> [a]) -> (a -> ... -> a)
   */
-  wrapArgs = wf: n: f:
+  wrapArgs = n: wf: f:
     let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
     in assert n > 0; wrap wf n;
 }
