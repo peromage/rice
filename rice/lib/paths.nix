@@ -17,9 +17,9 @@ in with self; {
 
   /* Predications used for `filterDir'. */
   isDirType = name: type: type == "directory";
-  isNotDirType = name: type: ! isDirType name type;
+  isNotDirType = wrapReturn 2 not isDirType;
   isFileType = name: type: type == "regular";
-  isNotFileType = name: type: ! isFileType name type;
+  isNotFileType = wrapReturn 2 not isFileType
   isDefaultNix = name: type: name == "default.nix";
-  isNotDefaultNix = name: type: ! isDefaultNix name type;
+  isNotDefaultNix = wrapReturn 2 not isDefaultNix;
 }
