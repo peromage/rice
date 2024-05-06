@@ -40,14 +40,22 @@
   outputs = { self, nixpkgs, ... } @ inputs:
     let
       inherit (rice.lib)
-        importListAsAttrs filterDir isDirType callWithRice mergeAttrsFirstLevel
-        forSupportedSystems nixosTopModule homeTopModule darwinTopModule;
+        importListAsAttrs filterDir isDirType mergeAttrsFirstLevel
+        forSupportedSystems nixosTopModule homeTopModule darwinTopModule
+        callWithArgs;
       inherit (nixpkgs.lib) mapAttrs mapAttrsToList;
 
       outputs = self.outputs;
       rice = import ./rice.nix { inherit nixpkgs; flake = self; };
 
-      withPkgsAllOverlays = system: import nixpkgs { inherit system; overlays = mapAttrsToList (n: v: v) outputs.overlays; };
+      withPkgsAllOverlays = system: import nixpkgs {
+        inherit system;
+        overlays = mapAttrsToList (n: v: v) outputs.overlays;
+      };
+
+      withCommonArgs = callWithArgs (rice.passthrough // rice.passthrough.flakeInputs // {
+        inherit withPkgsAllOverlays;
+      });
 
     in {
       /* Expose rice */
@@ -83,7 +91,7 @@
            `home-manager { build | switch } --flake .#NAME
       */
       packages = mergeAttrsFirstLevel [
-        (callWithRice ./packages)
+        (withCommonArgs ./packages)
         (mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
@@ -97,13 +105,13 @@
       formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = callWithRice ./devshells;
+      devShells = withCommonArgs ./devshells;
 
       /* Imported by other flakes */
-      overlays = callWithRice ./overlays;
+      overlays = withCommonArgs ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = callWithRice ./templates;
+      templates = withCommonArgs ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations = {
@@ -123,7 +131,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (rice.withPkgsAllOverlays system);
+        let inc = homeTopModule (withPkgsAllOverlays system);
         in {
           fang = inc ./modules/homes/fang;
         }

@@ -25,8 +25,6 @@ let
         templates = withTopLevel "templates";
       };
 
-    callWithRice = self.lib.callWithArgs self.passthrough;
-
     override = args: let newRice = rice (newRice // args) // args; in newRice;
   };
 
