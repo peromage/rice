@@ -1,4 +1,4 @@
-{ nixpkgs, rice, withPkgsOverlays, ... }:
+{ nixpkgs, rice, withPkgsAllOverlays, ... }:
 
 let
   inherit (rice.lib) importListAsAttrs' filterDir isNotDefaultNix forSupportedSystems;
@@ -8,4 +8,4 @@ let
     let allShells = importListAsAttrs' (filterDir isNotDefaultNix ./.);
     in pkgs: mapAttrs (n: v: pkgs.callPackage v { inherit rice; }) allShells;
 
-in forSupportedSystems (system: mkDevShells (withPkgsOverlays system))
+in forSupportedSystems (system: mkDevShells (withPkgsAllOverlays system))
