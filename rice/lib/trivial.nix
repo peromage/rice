@@ -14,7 +14,7 @@ in with self; {
   /* Concatenate lists.
 
      Type:
-       concatList :: [a] -> [a] -> [a]
+       concatList :: [Any] -> [Any] -> [Any]
   */
   concatList = a: b: a ++ b;
 
@@ -36,28 +36,28 @@ in with self; {
      If both are null the result is null.
 
      Type:
-       either :: a -> a -> a
+       either :: Any -> Any -> Any
   */
   either = a: b: if null != a then a else if null != b then b else null;
 
   /* Like `either' but a default return value can be specified.
 
      Type:
-       either' :: a -> a -> a -> a
+       either' :: Any -> Any -> Any -> Any
   */
   either' = a: b: r: let x = either a b; in if null != x then x else r;
 
   /* Return the first argument passed to this function.
 
      Type:
-       pairFirst :: a -> a -> a
+       pairFirst :: a -> b -> a
   */
   pairFirst = a: b: a;
 
   /* Return the second argument passed to this function.
 
      Type:
-       pairSecond :: a -> a -> a
+       pairSecond :: a -> b -> b
   */
   pairSecond = a: b: b;
 
@@ -67,7 +67,7 @@ in with self; {
      value respectively.
 
      Type:
-       mapListToAttrs :: (a -> String) -> (a -> a) -> [a] -> AttrSet
+       mapListToAttrs :: (Any -> String) -> (Any -> Any) -> [Any] -> AttrSet
   */
   mapListToAttrs = fn: fv: list:
     listToAttrs (map (i: nameValuePair (fn i) (fv i)) list);
@@ -76,7 +76,7 @@ in with self; {
      attrs, and false otherwise.
 
      Type:
-       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+       anyAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
 
   */
   anyAttrs = pred: attrs: any id (mapAttrsToList pred attrs);
@@ -85,7 +85,7 @@ in with self; {
      and false otherwise.
 
      Type:
-       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+       anyAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
   */
   allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
 
@@ -93,7 +93,7 @@ in with self; {
      This is useful for nested access.
 
      Type:
-       getNestedAttrs :: [String] -> AttrSet -> a
+       getNestedAttrs :: [String] -> AttrSet -> Any
   */
   getNestedAttrs = names: attrs: foldl' (a: n: getAttr n a) attrs names;
 
@@ -163,21 +163,21 @@ in with self; {
   /* Increment by 1.
 
      Type:
-       addOne :: a -> a
+       addOne :: Number -> Number
   */
   addOne = a: a + 1;
 
   /* Decrement by 1.
 
      Type:
-       addOne :: a -> a
+       addOne :: Number -> Number
   */
   minusOne = a: a - 1;
 
   /* Apply a list of arguments to the function.
 
      Type:
-       apply :: (a -> a) -> [a]
+       apply :: (Any -> Any) -> [Any] -> Any
   */
   apply = foldl' (f: x: f x)
 
@@ -189,7 +189,7 @@ in with self; {
      caller must tell this function where to end.
 
      Type:
-       wrapReturn :: Int -> (a -> a) -> (a -> ... -> a)
+       wrapReturn :: Number -> (Any -> Any) -> (Any -> ... -> Any) -> Any
   */
   wrapReturn = n: wf: f:
     let wrap = f: n: a: if n == 1 then wf (f a) else wrap (f a) (n - 1);
@@ -206,7 +206,7 @@ in with self; {
      and return a list of altered arguments.
 
      Type:
-       wrapArgs :: Int -> (a -> ... -> [a]) -> (a -> ... -> a)
+       wrapArgs :: Number -> (Any -> ... -> [Any]) -> (Any -> ... -> Any) -> Any
   */
   wrapArgs = n: wf: f:
     let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);

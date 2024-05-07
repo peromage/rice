@@ -14,7 +14,7 @@ let
        More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
 
        Type:
-         forSupportedSystems :: (String -> a) -> AttrSet
+         forSupportedSystems :: (String -> Any) -> AttrSet
     */
     forSupportedSystems = genAttrs [
       "x86_64-linux"

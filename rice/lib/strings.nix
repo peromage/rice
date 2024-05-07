@@ -7,7 +7,7 @@ in with self; {
   /* Join a list of strings/paths with separaters.
 
      Type:
-       join :: String -> [a] -> a
+       join :: String -> [Any] -> String
   */
   join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
 }
