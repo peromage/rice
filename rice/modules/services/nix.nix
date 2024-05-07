@@ -1,8 +1,8 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, librice, ... }:
 
 let
   inherit (lib) mkEnableOption mkDefault;
-  inherit (rice.lib) mkMergeIf;
+  inherit (librice) mkMergeIf;
   inherit (rice) nixpkgs;
 
   cfg = config.rice.services.nix;

@@ -1,8 +1,8 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, librice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf ;
-  inherit (rice.lib) anyEnable callListWithArgs filterDir isNotDefaultNix;
+  inherit (librice) anyEnable callListWithArgs filterDir isNotDefaultNix;
 
   cfg = config.rice.desktops;
 

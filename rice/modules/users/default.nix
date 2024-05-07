@@ -1,8 +1,8 @@
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) types mkOption mkEnableOption isString mapAttrs' nameValuePair mkIf;
-  inherit (rice.lib) anyEnable filterEnable callListWithArgs filterDir isNotDefaultNix allAttrs;
+  inherit (librice) anyEnable filterEnable callListWithArgs filterDir isNotDefaultNix allAttrs;
 
   cfg = config.rice.users;
 

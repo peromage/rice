@@ -1,8 +1,8 @@
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (rice.lib) mkMergeIf;
+  inherit (librice) mkMergeIf;
 
   cfg = config.rice.services.libvirtd;
 

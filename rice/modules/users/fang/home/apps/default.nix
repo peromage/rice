@@ -17,13 +17,13 @@
    Ref: https://nix-community.github.io/home-manager/options.html#opt-xdg.dataFile
 */
 
-{ rice, ... }:
+{ librice, dirrice, ... }:
 
 let
-  inherit (rice.lib) filterDir;
+  inherit (librice) filterDir;
   inherit (builtins) match;
 
-  src = rice.dirs.dotfiles;
+  src = dirrice.dotfiles;
 
 in {
   imports = filterDir (n: v: "default.nix" != n && null == (match "^DISABLED-.*" n)) ./.;

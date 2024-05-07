@@ -1,7 +1,7 @@
-{ pkgs, rice, ... }:
+{ pkgs, librice, dirrice, ... }:
 
 let
-  src = "${rice.dirs.dotfiles}/fcitx5";
+  src = "${dirrice.dotfiles}/fcitx5";
 
 in {
   i18n.inputMethod = {

@@ -1,9 +1,9 @@
 { ... }:
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) types mkOption isString mkIf singleton;
-  inherit (rice.lib) anyEnable;
+  inherit (librice) anyEnable;
 
   userCfg = config.rice.users;
   cfg = config.rice.users.root;

@@ -1,8 +1,8 @@
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) mkOption mkEnableOption types foldlAttrs mkIf;
-  inherit (rice.lib) anyEnable filterEnable either callListWithArgs filterDir isNotDefaultNix;
+  inherit (librice) anyEnable filterEnable either callListWithArgs filterDir isNotDefaultNix;
 
   cfg = config.rice.hosts;
 

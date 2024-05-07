@@ -1,9 +1,9 @@
 ### Convenient top level imports
 
-{ rice, ... }:
+{ librice, ... }:
 
 let
-  inherit (rice.lib) filterDir isNotDefaultNix;
+  inherit (librice) filterDir isNotDefaultNix;
 
 in {
   ## NOTE: The subdirectories are not imported recursively.

@@ -1,4 +1,4 @@
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf;

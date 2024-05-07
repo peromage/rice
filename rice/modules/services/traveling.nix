@@ -14,11 +14,11 @@
    }
 */
 
-{ config, lib, rice, ... }:
+{ config, lib, librice, ... }:
 
 let
   inherit (lib) mkOption types mkForce;
-  inherit (rice.lib) mkMergeIf;
+  inherit (librice) mkMergeIf;
 
   cfg = config.rice.services.traveling;
 

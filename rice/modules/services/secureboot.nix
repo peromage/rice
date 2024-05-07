@@ -9,11 +9,10 @@
    6. Run: bootctl status
 */
 
-{ config, pkgs, lib, rice, ... }:
+{ config, pkgs, lib, librice, lanzaboote, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf mkForce;
-  inherit (rice.flake.inputs) lanzaboote;
 
   cfg = config.rice.services.secureboot;
 

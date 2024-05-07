@@ -1,4 +1,4 @@
-{ pkgs, rice, ... }:
+{ pkgs, librice, ... }:
 
 {
   imports = [ ./apps ];

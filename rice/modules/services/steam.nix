@@ -1,8 +1,8 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, librice, ... }:
 
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (rice.lib) mkMergeIf;
+  inherit (librice) mkMergeIf;
 
   cfg = config.rice.services.steam;
 

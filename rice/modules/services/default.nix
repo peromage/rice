@@ -1,9 +1,9 @@
 ### All service options
 
-{ rice, ... }:
+{ librice, ... }:
 
 let
-  inherit (rice.lib) filterDir isNotDefaultNix;
+  inherit (librice) filterDir isNotDefaultNix;
 
 in {
   imports = filterDir isNotDefaultNix ./.;

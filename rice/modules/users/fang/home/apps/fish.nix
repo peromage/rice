@@ -1,7 +1,7 @@
-{ rice, ... }:
+{ librice, dirrice, ... }:
 
 let
-  src = "${rice.dirs.dotfiles}/fish/.config/fish";
+  src = "${dirrice.dotfiles}/fish/.config/fish";
 
 in {
   programs.fish = {

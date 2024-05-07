@@ -1,8 +1,8 @@
-{ config, pkgs, lib, rice, ... }:
+{ config, pkgs, lib, librice, ... }:
 
 let
   inherit (lib) types mkEnableOption mkOption optional;
-  inherit (rice.lib) mkMergeIf;
+  inherit (librice) mkMergeIf;
 
   cfg = config.rice.services.ime;
 
