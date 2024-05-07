@@ -116,9 +116,9 @@ in with self; {
      This is useful for nested access.
 
      Type:
-       getAttrs :: [String] -> AttrSet -> a
+       getNestedAttrs :: [String] -> AttrSet -> a
   */
-  getAttrs = names: attrs: foldl' (a: n: getAttr n a) attrs names;
+  getNestedAttrs = names: attrs: foldl' (a: n: getAttr n a) attrs names;
 
   /* Logic not.
 
