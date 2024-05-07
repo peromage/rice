@@ -1,8 +1,8 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) isFunction foldl' pathExists elemAt;
-  inherit (builtins) baseNameOf match;
+  inherit (nixpkgs.lib) isFunction;
+  inherit (builtins) baseNameOf;
 
 in with self; {
   /* Import the given path with predefined arguments.

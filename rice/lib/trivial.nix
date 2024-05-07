@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) foldAttrs optionalAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl' getAttr;
+  inherit (nixpkgs.lib) foldAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl' getAttr;
 
 in with self; {
   /* Concatenate strings.
