@@ -22,6 +22,8 @@ in with self; {
   isNotFileType = wrapReturn 2 not isFileType
   isDefaultNix = name: type: name == "default.nix";
   isNotDefaultNix = wrapReturn 2 not isDefaultNix;
+  isNixFile = name: type: (isFileType name type) && ((match ".+\\.nix$" name) != null);
+  isNotNixFile = wrapReturn 2 not isNixFile;
 
   /* Join a list of paths.
 
@@ -38,6 +40,6 @@ in with self; {
   baseNameNoExt = name:
     let
       b = baseNameOf name;
-      m = match "(.*)\\.[^.]+$" b;
+      m = match "(.+)\\.[^.]+$" b;
     in if null == m then b else elemAt m 0;
 }

@@ -1,7 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) isFunction;
+  inherit (nixpkgs.lib) isFunction hasAttr id;
   inherit (builtins) baseNameOf;
 
 in with self; {
@@ -40,4 +40,24 @@ in with self; {
        importListAsAttrs' :: [Path] -> AttrSet
   */
   importListAsAttrs' = mapListToAttrs baseNameNoExt import;
+
+  /* Supported system attribute constant. */
+  supportedSystems = forSupportedSystems id;
+
+  /* Create an AttrSet of Nix expressions from the given directory.
+     Each attribute name is the file base name without extension.
+
+     Note that the exceptions are, a) if the file/directory name is defined
+     in the `supportedSystems'; b) if it is `default.nix'.
+     For those files/directories they will not be imported by this function.
+
+     Type:
+       mkPackageList :: Path -> AttrSet
+  */
+  importNonPlatformSpecific = node:
+    importListAsAttrs' (filterDir
+      (n: t: (isNotDefaultNix n t)
+             && !(hasAttr n supportedSystems)
+             && ((isNixFile n t) || (isDirType n t)))
+      node);
 }
