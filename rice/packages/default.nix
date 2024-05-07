@@ -1,7 +1,7 @@
 { nixpkgs, rice, withPkgsAllOverlays, home-manager, nix-darwin, ... }:
 
 let
-  inherit (rice.lib) joinPath mkPackageList;
+  inherit (rice.lib) joinPath mkPackageList forSupportedSystems genSpecialArgs;
   inherit (nixpkgs.lib) optionalAttrs pathExists mapAttrs;
   inherit (builtins) match;
 
@@ -28,7 +28,11 @@ let
       pkgs = withPkgsAllOverlays system;
       flakeInputPackages = mkFlakeInputPackages system;
       platformPackages = let platformPath = joinPath [./. system];
-                         in optionalAttrs (pathExists platformPath) (import platformPath rice.passthrough);
+                         in optionalAttrs
+                           (pathExists platformPath)
+                           (import platformPath (genSpecialArgs {
+                             inherit withPkgsAllOverlays;
+                           }));
     in (mapAttrs
       (n: v: pkgs.unrestrictedPkgs.callPackage v rice.passthrough)
       (commonPackages // platformPackages)) // flakeInputPackages;
