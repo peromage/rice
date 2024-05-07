@@ -50,16 +50,16 @@ in with self; {
   /* Return the first argument passed to this function.
 
      Type:
-       pairName :: a -> a -> a
+       pairFirst :: a -> a -> a
   */
-  pairName = n: v: n;
+  pairFirst = a: b: a;
 
   /* Return the second argument passed to this function.
 
      Type:
-       pairName :: a -> a -> a
+       pairSecond :: a -> a -> a
   */
-  pairValue = n: v: v;
+  pairSecond = a: b: b;
 
   /* Map a list to an attrs.
 
