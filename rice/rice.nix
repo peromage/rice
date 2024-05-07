@@ -4,13 +4,15 @@ let
   rice = self: {
     passthrough = {
       inherit nixpkgs flake;
-      flakeInputs = flake.inputs;
-      flakeOutputs = flake.outputs;
       rice = self; # Self reference
       librice = self.lib;
+      dirrice = self.dirs;
     };
 
-    lib = import ./lib self.passthrough;
+    lib = import ./lib (self.passthrough // {
+      ## Blend with flake inputs
+      specialArgs = self.passthrough.flake.inputs // self.passthrough;
+    });
 
     dirs = with self.dirs;
       let withTopLevel = p: "${topLevel}/${p}";

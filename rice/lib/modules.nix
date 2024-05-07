@@ -1,4 +1,4 @@
-{ self, nixpkgs, flakeInputs, home-manager, nix-darwin, ... }:
+{ self, nixpkgs, specialArgs, home-manager, nix-darwin, ... }:
 
 let
   inherit (nixpkgs.lib) nixosSystem getAttrs mapAttrs foldAttrs foldlAttrs filterAttrs mkMerge mkIf;
@@ -9,9 +9,9 @@ in with self; {
   /* Generate an attrs of special arguments used for module import.
 
      Type:
-       withSpecialArgs :: AttrSet -> AttrSet
+       genSpecialArgs :: AttrSet -> AttrSet
   */
-  withSpecialArgs = args: flakeInputs // { inherit flakeInputs; librice = self; } // args;
+  genSpecialArgs = args: specialArgs // args;
 
   /* A generice function to generate a module that has ability to add additonal
      modules.  Similar to the concept of override.
@@ -44,7 +44,7 @@ in with self; {
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
   nixosTopModule = mkTopModule nixosSystem (mods: {
-    specialArgs = withSpecialArgs {};
+    specialArgs = genSpecialArgs {};
     modules = mods;
   });
 
@@ -54,7 +54,7 @@ in with self; {
        darwinTopModule :: (Path | AttrSet) -> AttrSet
   */
   darwinTopModule = mkTopModule darwinSystem (mods: {
-    specialArgs = withSpecialArgs {};
+    specialArgs = genSpecialArgs {};
     modules = mods;
   });
 
@@ -68,7 +68,7 @@ in with self; {
   */
   homeTopModule = pkgs: mkTopModule homeManagerConfiguration (mods: {
     inherit pkgs;
-    extraSpecialArgs = withSpecialArgs {};
+    extraSpecialArgs = genSpecialArgs {};
     modules = mods;
   });
 

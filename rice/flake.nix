@@ -42,7 +42,7 @@
       inherit (rice.lib)
         importListAsAttrs filterDir isDirType mergeAttrsFirstLevel
         forSupportedSystems nixosTopModule homeTopModule darwinTopModule
-        callWithArgs;
+        callWithArgs genSpecialArgs;
       inherit (nixpkgs.lib) mapAttrs mapAttrsToList;
 
       outputs = self.outputs;
@@ -53,7 +53,7 @@
         overlays = mapAttrsToList (n: v: v) outputs.overlays;
       };
 
-      withCommonArgs = callWithArgs (rice.passthrough // rice.passthrough.flakeInputs // {
+      withCommonArgs = callWithArgs (genSpecialArgs {
         inherit withPkgsAllOverlays;
       });
 
