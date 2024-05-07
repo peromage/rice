@@ -25,35 +25,12 @@ in with self; {
   */
   mergeAttrs = a: b: a // b;
 
-  /* Prepend a prefix to a list of strings.
-
-     Type:
-       prefixWith :: String -> [String] -> [String]
-  */
-  prefixWith = prefix: map (concatStr prefix);
-
-  /* Merge a list of attribute sets.
-
-     Type:
-       mergeAttrs :: [AttrSet] -> AttrSet
-  */
-  mergeAttrs = foldl' mergeAttrs {};
-
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
   mergeAttrsFirstLevel = foldAttrs mergeAttrs {};
-
-  /* Apply optionalAttrs on each attribute set from the list.
-     Each element in the list is of the form as follow:
-       { cond = expr; as = attrset; }
-
-     Type:
-       evalOptionalAttrsList :: [AttrSet] -> [AttrSet]
-  */
-  evalOptionalAttrsList = map (a: optionalAttrs a.cond a.as);
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.

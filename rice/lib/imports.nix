@@ -19,15 +19,6 @@ in with self; {
   */
   callListWithArgs = args: map (callWithArgs args);
 
-  /* Treat all elements imported as attrsets and merge them into one.
-
-     Type:
-       callListAsMerged :: AttrSet -> [(AttrSet -> a) | Path] -> AttrSet
-  */
-  callListAsMerged = args: fns:
-    let call = callWithArgs args;
-    in foldl' mergeAttrs {} (map call fns);
-
   /* Import paths from the given list.
 
      Type:
