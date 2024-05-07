@@ -1,8 +1,8 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) mapAttrsToList filterAttrs;
-  inherit (builtins) readDir;
+  inherit (nixpkgs.lib) mapAttrsToList filterAttrs elemAt;
+  inherit (builtins) readDir baseNameOf match;
 
 in with self; {
   /* A generic function that filters all the files/directories under the given
@@ -22,4 +22,22 @@ in with self; {
   isNotFileType = wrapReturn 2 not isFileType
   isDefaultNix = name: type: name == "default.nix";
   isNotDefaultNix = wrapReturn 2 not isDefaultNix;
+
+  /* Join a list of paths.
+
+     Type:
+       joinPaths :: [Path] -> Path
+  */
+  joinPaths = join "/";
+
+  /* Return the basename without extension.
+
+     Type:
+       baseNameNoExt :: String -> String
+  */
+  baseNameNoExt = name:
+    let
+      b = baseNameOf name;
+      m = match "(.*)\\.[^.]+$" b;
+    in if null == m then b else elemAt m 0;
 }
