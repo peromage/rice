@@ -5,30 +5,18 @@
 { nixpkgs, specialArgs ? {}, ... }:
 
 let
-  inherit (nixpkgs.lib) genAttrs mapAttrsToList filterAttrs;
-  inherit (builtins) readDir;
+  inherit (nixpkgs.lib) foldl';
 
-  ## A fraction of librice
-  fraction = {
-    /* Generate an attribute set for supported platforms.
-       More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
+  pr = let
+    f = import ./prelude.nix;
+    x = f { inherit nixpkgs; self = x; };
+  in x;
 
-       Type:
-         forSupportedSystems :: (String -> Any) -> AttrSet
-    */
-    forSupportedSystems = genAttrs [
-      "x86_64-linux"
-      "x86_64-darwin"
-      "aarch64-linux"
-      "aarch64-darwin"
-    ];
-  };
-
-  importAllFiles = args: root: map
-    (fn: import fn args)
-    (mapAttrsToList
-      (n: t: root + "/${n}")
-      (filterAttrs (n: t: n != "default.nix") (readDir root)));
+  call = args: node: with pr; foldl'
+    (a: i: a // i)
+    {}
+    (callListWithArgs args
+      (listDir (n: t: isNotDefaultNix n t && isImportable n t) node));
 
   ## Import other lib files
   librice = let
@@ -37,7 +25,7 @@ let
       inherit nixpkgs specialArgs;
       self = librice;
     };
-  in foldl' (a: b: a // b) fraction (importAllFiles args ./.);
+  in call args ./.;
 
 in
 librice
