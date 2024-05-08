@@ -96,4 +96,27 @@ in with self; {
       b = baseNameOf name;
       m = match "(.+)(\\.[^.]+)$" b;
     in if null == m then b else elemAt m 0;
+
+  /* Create an AttrSet of Nix expressions from the given directory.
+     Each attribute name is the file base name without extension.
+
+     Note that the exceptions are, a) if the file/directory name is defined
+     in the `supportedSystems'; b) if it is `default.nix'.
+     For those files/directories they will not be imported by this function.
+
+     Type:
+       mkPackageList :: Path -> AttrSet
+  */
+  listNonPlatformSpecific = filterDir (n: t:
+    isNotBaseNameSupportSystem n t
+    && isNotDefaultNix n t
+    && isImportable n t);
+
+  listPlatformSpecific = node: system:
+    assert isSupportedSystem system;
+    let
+      dir = node + "/${system}";
+      file = dir + ".nix";
+      get = p: optional (pathExists p) p;
+    in get dir ++ get file;
 }
