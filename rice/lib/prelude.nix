@@ -40,7 +40,7 @@ in with self; {
   /* Import each module from the list with given argument.
 
      Type:
-       callListWithArgs :: AttrSet -> [(AttrSet -> a) | Path] -> [Any]
+       callListWithArgs :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
   */
   callListWithArgs = args: map (callWithArgs args);
 
@@ -63,13 +63,13 @@ in with self; {
      directory.  Return a list of names prepended with the given directory.
 
      Type:
-       filterDir :: (String -> String -> Bool) -> Path -> [String]
+       listDir :: (String -> String -> Bool) -> Path -> [String]
   */
-  filterDir = pred: dir: mapAttrsToList
+  listDir = pred: dir: mapAttrsToList
     (n: t: dir + "/${n}")
     (filterAttrs pred (readDir dir));
 
-  /* Predications used for `filterDir'. */
+  /* Predications used for `listDir'. */
   isDirType = name: type: type == "directory";
   isFileType = name: type: type == "regular";
   isSymbolicType = name: type: type == "symlink";
@@ -107,7 +107,7 @@ in with self; {
      Type:
        mkPackageList :: Path -> AttrSet
   */
-  listNonPlatformSpecific = filterDir (n: t:
+  listNonPlatformSpecific = listDir (n: t:
     isNotBaseNameSupportSystem n t
     && isNotDefaultNix n t
     && isImportable n t);
