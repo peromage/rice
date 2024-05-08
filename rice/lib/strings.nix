@@ -10,4 +10,11 @@ in with self; {
        join :: String -> [Any] -> String
   */
   join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
+
+  /* Join a list of paths.
+
+     Type:
+       joinPaths :: [Path] -> Path
+  */
+  joinPaths = join "/";
 }
