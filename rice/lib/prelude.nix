@@ -105,13 +105,19 @@ in with self; {
      For those files/directories they will not be imported by this function.
 
      Type:
-       mkPackageList :: Path -> AttrSet
+       listNonPlatformSpecific :: Path -> [Path]
   */
   listNonPlatformSpecific = listDir (n: t:
     isNotBaseNameSupportSystem n t
     && isNotDefaultNix n t
     && isImportable n t);
 
+  /* Similar with `listNonPlatformSpecific' this only lists files/folders for
+     supported systems.
+
+     Type:
+       listPlatformSpecific :: Path -> String -> [Path]
+  */
   listPlatformSpecific = node: system:
     assert isSupportedSystem system;
     let
