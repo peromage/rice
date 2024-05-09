@@ -1,7 +1,8 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) foldAttrs listToAttrs mapAttrsToList nameValuePair any all id foldl' getAttr;
+  inherit (nixpkgs.lib) foldAttrs listToAttrs mapAttrsToList nameValuePair any
+    all id foldl' getAttr head tail;
 
 in with self; {
   /* Concatenate strings.
@@ -211,4 +212,18 @@ in with self; {
   wrapArgs = n: wf: f:
     let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
     in assert n > 0; wrap wf n;
+
+  /* Join a list of strings/paths with separaters.
+
+     Type:
+       join :: String -> [Any] -> String
+  */
+  join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
+
+  /* Join a list of paths.
+
+     Type:
+       joinPaths :: [Path] -> Path
+  */
+  joinPaths = join "/";
 }
