@@ -22,16 +22,16 @@ in with self; {
   /* Merge attribute sets.
 
      Type:
-       mergeAttrs :: AttrSet -> AttrSet -> AttrSet
+       mergeSets :: AttrSet -> AttrSet -> AttrSet
   */
-  mergeAttrs = a: b: a // b;
+  mergeSets = a: b: a // b;
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
-       mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
+       mergeSetsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = foldAttrs mergeAttrs {};
+  mergeSetsFirstLevel = foldAttrs mergeAttrs {};
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.
@@ -62,17 +62,6 @@ in with self; {
   */
   pairSecond = a: b: b;
 
-  /* Map a list to an attrs.
-
-     `fn' and `fv' are used to map each element from the list to the name and
-     value respectively.
-
-     Type:
-       mapListToAttrs :: (Any -> String) -> (Any -> Any) -> [Any] -> AttrSet
-  */
-  mapListToAttrs = fn: fv: list:
-    listToAttrs (map (i: nameValuePair (fn i) (fv i)) list);
-
   /* Return true if the function pred returns true for at least one element of
      attrs, and false otherwise.
 
@@ -86,7 +75,7 @@ in with self; {
      and false otherwise.
 
      Type:
-       anyAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
+       allAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
   */
   allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
 
