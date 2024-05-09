@@ -5,19 +5,33 @@ let
     all id foldl' getAttr head tail;
 
 in with self; {
+  /* Join a list of strings/paths with separaters.
+
+     Type:
+       joinStrs :: String -> [Any] -> String
+  */
+  joinStrs = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
+
+  /* Join a list of paths.
+
+     Type:
+       joinPaths :: [Path] -> Path
+  */
+  joinPaths = joinStrs "/";
+
   /* Concatenate strings.
 
      Type:
-       concatStr :: String -> String -> String
+       concatStrs :: String -> String -> String
   */
-  concatStr = a: b: a + b;
+  concatStrs = a: b: a + b;
 
   /* Concatenate lists.
 
      Type:
-       concatList :: [Any] -> [Any] -> [Any]
+       concatLists :: [Any] -> [Any] -> [Any]
   */
-  concatList = a: b: a ++ b;
+  concatLists = a: b: a ++ b;
 
   /* Merge attribute sets.
 
@@ -201,18 +215,4 @@ in with self; {
   wrapArgs = n: wf: f:
     let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
     in assert n > 0; wrap wf n;
-
-  /* Join a list of strings/paths with separaters.
-
-     Type:
-       join :: String -> [Any] -> String
-  */
-  join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
-
-  /* Join a list of paths.
-
-     Type:
-       joinPaths :: [Path] -> Path
-  */
-  joinPaths = join "/";
 }
