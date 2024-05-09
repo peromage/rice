@@ -44,20 +44,13 @@ in with self; {
   */
   callListWithArgs = args: map (callWithArgs args);
 
-  /* Import paths from the given list.
-
-     Type:
-       importList :: [Path] -> [Any]
-  */
-  importList = map import;
-
-  /* Like `importList' but instead of returning a list this returns an attrset
-     with file names as the attributes.
+  /* Returns an attrset with file names as the attributes and imported content
+     as the values.
 
      Type:
        importListAsAttrs :: [Path] -> AttrSet
   */
-  importListAsAttrs = list: genAttrs list import;
+  importList = list: genAttrs list import;
 
   /* A generic function that filters all the files/directories under the given
      directory.  Return a list of names prepended with the given directory.
