@@ -40,29 +40,29 @@ in with self; {
   /* Import each module from the list with given argument.
 
      Type:
-       callListWithArgs :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
+       callAllWithArgs :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
   */
-  callListWithArgs = args: map (callWithArgs args);
+  callAllWithArgs = args: map (callWithArgs args);
 
   /* Returns an attrset with file names as the attributes and imported content
      as the values.
 
      Type:
-       importList :: [Path] -> AttrSet
+       importAll :: [Path] -> AttrSet
   */
-  importList = list: genAttrs list import;
+  importAll = list: genAttrs list import;
 
-  /* Similar with `importList' but normalize the attribute names with the given
+  /* Similar with `importAll' but normalize the attribute names with the given
      function.
      Note that if there are duplicated results of attribute names, only the first
      one takes effect.
 
      Type:
-       importListNormalized :: (String -> String) -> [Path] -> AttrSet
+       importAllNormalized :: (String -> String) -> [Path] -> AttrSet
   */
-  importListNormalized = norm: list: mapAttrs'
+  importAllNormalized = norm: list: mapAttrs'
     (n: v: nameValuePair (norm n) v)
-    (importList list)
+    (importAll list)
 
   /* A generic function that filters all the files/directories under the given
      directory.  Return a list of names prepended with the given directory.
