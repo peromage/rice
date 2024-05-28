@@ -2,16 +2,16 @@
 
 let
   rice = self: {
-    passthrough = {
+    args = {
       inherit nixpkgs flake;
       rice = self; # Self reference
       librice = self.lib;
       dirrice = self.dirs;
     };
 
-    lib = import ./lib (self.passthrough // {
+    lib = import ./lib (self.args // {
       ## Blend with flake inputs
-      specialArgs = self.passthrough.flake.inputs // self.passthrough;
+      specialArgs = self.args.flake.inputs // self.args;
     });
 
     dirs = with self.dirs;
