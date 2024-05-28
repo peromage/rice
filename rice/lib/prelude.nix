@@ -48,7 +48,7 @@ in with self; {
      as the values.
 
      Type:
-       importAll :: [Path] -> AttrSet
+       importAll :: [String] -> AttrSet
   */
   importAll = list: genAttrs list import;
 
@@ -58,7 +58,7 @@ in with self; {
      one takes effect.
 
      Type:
-       importAllNormalized :: (String -> String) -> [Path] -> AttrSet
+       importAllNormalized :: (String -> String) -> [String] -> AttrSet
   */
   importAllNormalized = norm: list: mapAttrs'
     (n: v: nameValuePair (norm n) v)
@@ -110,7 +110,7 @@ in with self; {
      For those files/directories they will not be imported by this function.
 
      Type:
-       listNonPlatformSpecific :: Path -> [Path]
+       listNonPlatformSpecific :: Path -> [String]
   */
   listNonPlatformSpecific = listDir (n: t:
     isNotBaseNameSupportSystem n t
@@ -121,13 +121,14 @@ in with self; {
      supported systems.
 
      Type:
-       listPlatformSpecific :: Path -> String -> [Path]
+       listPlatformSpecific :: Path -> String -> [String]
   */
   listPlatformSpecific = node: system:
     assert isSupportedSystem system;
     let
       dir = node + "/${system}";
       file = dir + ".nix";
-      get = p: optional (pathExists p) p;
-    in get dir ++ get file;
+      get = p: optional (pathExists p) (toString p);
+    in
+      get dir ++ get file;
 }
