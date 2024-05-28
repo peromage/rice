@@ -183,7 +183,7 @@ in with self; {
      Type:
        apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = foldl' (f: x: f x)
+  apply = foldl' (f: x: f x);
 
   /* Filter the return value of the original function.
 

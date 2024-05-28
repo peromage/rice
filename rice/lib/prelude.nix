@@ -2,8 +2,8 @@
 
 let
   inherit (nixpkgs.lib) isFunction genAttrs mapAttrsToList filterAttrs elemAt
-    pathExists optional mapAttrs' nameValuePair;
-  inherit (builtins) readDir baseNameOf match;
+    pathExists optional mapAttrs' nameValuePair id;
+  inherit (builtins) readDir baseNameOf match hasAttr toString;
 
 in with self; {
   /* Generate an attribute set for supported platforms.
@@ -62,7 +62,7 @@ in with self; {
   */
   importAllNormalized = norm: list: mapAttrs'
     (n: v: nameValuePair (norm n) v)
-    (importAll list)
+    (importAll list);
 
   /* A generic function that filters all the files/directories under the given
      directory.  Return a list of names prepended with the given directory.
@@ -71,7 +71,7 @@ in with self; {
        listDir :: (String -> String -> Bool) -> Path -> [String]
   */
   listDir = pred: dir: mapAttrsToList
-    (n: t: dir + "/${n}")
+    (n: t: toString (dir + "/${n}"))
     (filterAttrs pred (readDir dir));
 
   /* Predications used for `listDir'. */

@@ -7,18 +7,18 @@
 let
   inherit (nixpkgs.lib) foldl';
 
-  pr = let
+  prelude = let
     f = import ./prelude.nix;
     x = f { inherit nixpkgs; self = x; };
   in x;
 
-  call = args: node: with pr; foldl'
+  call = args: node: with prelude; foldl'
     (a: i: a // i)
     {}
-    (callListWithArgs args
+    (callAllWithArgs args
       (listDir (n: t: isNotDefaultNix n t && isImportable n t) node));
 
-  ## Import other lib files
+  ## Import all nix files within this folder
   librice = let
     args = specialArgs // {
       ## Note: This nixpkgs will be used if it is different from the one in specialArgs
