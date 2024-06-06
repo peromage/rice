@@ -45,7 +45,7 @@ in with self; {
      Type:
        mergeSetsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeSetsFirstLevel = foldAttrs mergeAttrs {};
+  mergeSetsFirstLevel = foldAttrs mergeSets {};
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.

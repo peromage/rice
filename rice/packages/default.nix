@@ -1,21 +1,24 @@
 { nixpkgs, rice, withPkgsAllOverlays, home-manager, nix-darwin, ... }:
 
 let
-  inherit (rice.lib) joinPath mkPackageList forSupportedSystems genSpecialArgs;
-  inherit (nixpkgs.lib) optionalAttrs pathExists mapAttrs;
+  inherit (rice.lib) listNonPlatformSpecific listPlatformSpecific baseNameNoExt
+    importAllNormalized forSupportedSystems;
+  inherit (nixpkgs.lib) mapAttrs optionalAttrs;
   inherit (builtins) match;
 
   /* Create an AttrSet of packages from the root flake inputs
   */
   mkFlakeInputPackages = system: {
     home-manager = home-manager.packages.${system}.default;
-  } // (optionalAttrs ((match ".*-darwin" system) != null) {
+  } // optionalAttrs ((match ".*-darwin" system) != null) {
     nix-darwin = nix-darwin.packages.${system}.default;
-  });
+  };
+
+  importAll = importAllNormalized baseNameNoExt;
 
   ## Exclude any file or directory that has the name of the supported platform.
   ## Scanning is done once to avoid additional overhead.
-  commonPackages = mkPackageList ./.;
+  commonPackages = importAll (listNonPlatformSpecific ./.);
 
   /* Get all packages within this directory (single file or directory) and
      platform specific packages in its directory, e.g. x86_64-linux.
@@ -27,14 +30,11 @@ let
     let
       pkgs = withPkgsAllOverlays system;
       flakeInputPackages = mkFlakeInputPackages system;
-      platformPackages = let platformPath = joinPath [./. system];
-                         in optionalAttrs
-                           (pathExists platformPath)
-                           (import platformPath (genSpecialArgs {
-                             inherit withPkgsAllOverlays;
-                           }));
-    in (mapAttrs
-      (n: v: pkgs.unrestrictedPkgs.callPackage v rice.passthrough)
-      (commonPackages // platformPackages)) // flakeInputPackages;
+      platformPackages = importAll (listPlatformSpecific ./. system);
+    in
+      (mapAttrs
+        (n: v: pkgs.unrestrictedPkgs.callPackage v rice.args)
+        (commonPackages // platformPackages))
+      // flakeInputPackages;
 
-in forSupportedSystems mkPlatformPackages;
+in forSupportedSystems mkPlatformPackages

@@ -40,7 +40,7 @@
   outputs = { self, nixpkgs, ... } @ inputs:
     let
       inherit (rice.lib)
-        importListAsAttrs filterDir isDirType mergeAttrsFirstLevel
+        importListAsAttrs filterDir isDirType mergeSetsFirstLevel
         forSupportedSystems nixosTopModule homeTopModule darwinTopModule
         callWithArgs genSpecialArgs;
       inherit (nixpkgs.lib) mapAttrs mapAttrsToList;
@@ -90,7 +90,7 @@
          NOTE: This also enables:
            `home-manager { build | switch } --flake .#NAME
       */
-      packages = mergeAttrsFirstLevel [
+      packages = mergeSetsFirstLevel [
         (withCommonArgs ./packages)
         (mapAttrs
           ## Fake derivation to enable `nix flake show'
