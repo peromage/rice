@@ -1,11 +1,11 @@
 { nixpkgs, rice, withPkgsAllOverlays, ... }:
 
 let
-  inherit (rice.lib) importAllNormalized baseNameNoExt listNonPlatformSpecific
+  inherit (rice.lib) importAllNameMapped baseNameNoExt listNonPlatformSpecific
     listPlatformSpecific forSupportedSystems;
   inherit (nixpkgs.lib) mapAttrs foldl';
 
-  importShells = importAllNormalized baseNameNoExt;
+  importShells = importAllNameMapped baseNameNoExt;
 
   commonShells = importShells (listNonPlatformSpecific ./.);
 

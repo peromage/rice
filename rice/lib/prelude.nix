@@ -58,9 +58,9 @@ in with self; {
      one takes effect.
 
      Type:
-       importAllNormalized :: (String -> String) -> [String] -> AttrSet
+       importAllNameMapped :: (String -> String) -> [String] -> AttrSet
   */
-  importAllNormalized = norm: list: mapAttrs'
+  importAllNameMapped = norm: list: mapAttrs'
     (n: v: nameValuePair (norm n) v)
     (importAll list);
 

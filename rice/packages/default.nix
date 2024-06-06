@@ -2,7 +2,7 @@
 
 let
   inherit (rice.lib) listNonPlatformSpecific listPlatformSpecific baseNameNoExt
-    importAllNormalized forSupportedSystems;
+    importAllNameMapped forSupportedSystems;
   inherit (nixpkgs.lib) mapAttrs optionalAttrs;
   inherit (builtins) match;
 
@@ -14,7 +14,7 @@ let
     nix-darwin = nix-darwin.packages.${system}.default;
   };
 
-  importAll = importAllNormalized baseNameNoExt;
+  importAll = importAllNameMapped baseNameNoExt;
 
   ## Exclude any file or directory that has the name of the supported platform.
   ## Scanning is done once to avoid additional overhead.
