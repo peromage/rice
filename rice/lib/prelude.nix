@@ -80,16 +80,16 @@ in with self; {
   isSymbolicType = name: type: type == "symlink";
   isDefaultNix = name: type: name == "default.nix";
   isNixFile = name: type: isNotDirType name type && match ".+\\.nix$" name != null;
-  isBaseNameSupportedSystem = name: type: isSupportedSystem (baseNameNoExt name);
   isImportable = name: type: isDirType name type || isNixFile name type;
+  isSupportedSystemDir = name: type: isSupportedSystem name && isDirType name type;
 
   isNotDirType = name: type: ! isDirType name type;
   isNotFileType = name: type: ! isFileType name type;
   isNotSymbolicType = name: type: ! isSymbolicType name type;
   isNotDefaultNix = name: type: ! isDefaultNix name type;
   isNotNixFile = name: type: ! isNixFile name type;
-  isNotBaseNameSupportSystem = name: type: ! isBaseNameSupportedSystem name type;
   isNotImportable = name: type: ! isImportable name type;
+  isNotSupportedSystemDir = name: type: ! isSupportedSystemDir name type;
 
   /* Return the basename without extension.
 
