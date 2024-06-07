@@ -1,9 +1,7 @@
-{ self, nixpkgs, specialArgs, home-manager, nix-darwin, ... }:
+{ self, nixpkgs, specialArgs, ... }:
 
 let
-  inherit (nixpkgs.lib) nixosSystem getAttrs mapAttrs foldAttrs foldlAttrs filterAttrs mkMerge mkIf;
-  inherit (home-manager.lib) homeManagerConfiguration;
-  inherit (nix-darwin.lib) darwinSystem;
+  lib = nixpkgs.lib;
 
 in with self; {
   /* Generate an attrs of special arguments used for module import.
@@ -43,32 +41,8 @@ in with self; {
      Type:
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
-  nixosTopModule = mkTopModule nixosSystem (mods: {
+  nixosTopModule = mkTopModule lib.nixosSystem (mods: {
     specialArgs = genSpecialArgs {};
-    modules = mods;
-  });
-
-  /* Import a Darwin top level module.
-
-     Type:
-       darwinTopModule :: (Path | AttrSet) -> AttrSet
-  */
-  darwinTopModule = mkTopModule darwinSystem (mods: {
-    specialArgs = genSpecialArgs {};
-    modules = mods;
-  });
-
-  /* Import a HomeManager top level module.
-
-     Note that this is a generic import so the `pkgs' needs to be passed from
-     the caller.
-
-     Type:
-       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
-  */
-  homeTopModule = pkgs: mkTopModule homeManagerConfiguration (mods: {
-    inherit pkgs;
-    extraSpecialArgs = genSpecialArgs {};
     modules = mods;
   });
 
@@ -84,10 +58,10 @@ in with self; {
        mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    getAttrs firstLevelNames
-      (mapAttrs
-        (n: v: mkMerge v)
-        (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    lib.getAttrs firstLevelNames
+      (lib.mapAttrs
+        (n: v: lib.mkMerge v)
+        (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
 
   /* Merge multiple module block conditonally.
@@ -98,7 +72,7 @@ in with self; {
      Type:
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
 
   /* Check the `enable' attribute for each name in the set and return true if
      at least one is true;
@@ -106,12 +80,12 @@ in with self; {
      Type:
        anyEnable :: AttrSet -> Bool
   */
-  anyEnable = attrs: foldlAttrs (a: _: v: v.enable || a) false attrs;
+  anyEnable = attrs: lib.foldlAttrs (a: _: v: v.enable || a) false attrs;
 
   /* Return an attrs for names that have `enable' attribute true;
 
      Type:
        filterEnable :: AttrSet -> AttrSet
   */
-  filterEnable = filterAttrs (n: v: v.enable);
+  filterEnable = lib.filterAttrs (n: v: v.enable);
 }

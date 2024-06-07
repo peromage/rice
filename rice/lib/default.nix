@@ -1,18 +1,18 @@
 ### Top level of the common code
 
 ## This lib only requires nixpkgs with an exception of other flakes from the top
-## level flake inputs, e.g. home-manager, which should be include in specialArgs.
-{ nixpkgs, specialArgs ? {}, ... }:
+## level flake inputs, e.g. home-manager, which should be included in specialArgs.
+{ nixpkgs, specialArgs, ... }@args:
 
 let
-  inherit (nixpkgs.lib) foldl';
+  lib = nixpkgs.lib;
 
   prelude = let
     f = import ./prelude.nix;
     x = f { inherit nixpkgs; self = x; };
   in x;
 
-  call = args: node: with prelude; foldl'
+  call = args: node: with prelude; lib.foldl'
     (a: i: a // i)
     {}
     (callAllWithArgs args
@@ -20,12 +20,9 @@ let
 
   ## Import all nix files within this folder
   librice = let
-    args = specialArgs // {
-      ## Note: This nixpkgs will be used if it is different from the one in specialArgs
-      inherit nixpkgs specialArgs;
+    arguments = args // specialArgs // {
       self = librice;
     };
-  in call args ./.;
+  in call arguments ./.;
 
-in
-librice
+in librice
