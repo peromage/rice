@@ -29,7 +29,6 @@ in with self; {
   */
   isSupportedSystem = system: hasAttr system supportedSystems;
 
-
   /* Import the given path with predefined arguments.
 
      Type:

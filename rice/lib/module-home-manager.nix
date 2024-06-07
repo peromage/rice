@@ -1,4 +1,4 @@
-{ self, home-manager, ... }:
+{ self, specialArgs, home-manager, ... }:
 
 let libhm = home-manager.lib;
 in with self; {
@@ -12,7 +12,7 @@ in with self; {
   */
   homeTopModule = pkgs: mkTopModule libhm.homeManagerConfiguration (mods: {
     inherit pkgs;
-    extraSpecialArgs = genSpecialArgs {};
+    extraSpecialArgs = specialArgs;
     modules = mods;
   });
 }

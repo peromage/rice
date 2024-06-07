@@ -4,13 +4,6 @@ let
   lib = nixpkgs.lib;
 
 in with self; {
-  /* Generate an attrs of special arguments used for module import.
-
-     Type:
-       genSpecialArgs :: AttrSet -> AttrSet
-  */
-  genSpecialArgs = args: specialArgs // args;
-
   /* A generice function to generate a module that has ability to add additonal
      modules.  Similar to the concept of override.
 
@@ -42,7 +35,7 @@ in with self; {
        nixosTopModule :: (Path | AttrSet) -> AttrSet
   */
   nixosTopModule = mkTopModule lib.nixosSystem (mods: {
-    specialArgs = genSpecialArgs {};
+    specialArgs = specialArgs;
     modules = mods;
   });
 

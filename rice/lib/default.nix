@@ -4,7 +4,7 @@
 , specialArgs ? {} # Passed around when invoking module importing.
 , home-manager ? {} # Used for home config module importing.
 , nix-darwin ? {} # Used for darwin module importing.
-, ... }@args:
+, ... } @ args:
 
 let
   lib = nixpkgs.lib;

@@ -1,4 +1,4 @@
-{ self, nix-darwin, ... }:
+{ self, specialArgs, nix-darwin, ... }:
 
 let libdw = nix-darwin.lib;
 in with self; {
@@ -8,7 +8,7 @@ in with self; {
        darwinTopModule :: (Path | AttrSet) -> AttrSet
   */
   darwinTopModule = mkTopModule libdw.darwinSystem (mods: {
-    specialArgs = genSpecialArgs {};
+    specialArgs = specialArgs;
     modules = mods;
   });
 }
