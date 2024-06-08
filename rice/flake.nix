@@ -71,9 +71,9 @@
         overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
       };
 
-      callWithCommonArgs = librice.callWithArgs {
+      callWithCommonArgs = librice.callWithArgs (self.inputs // {
         inherit nixpkgs rice pkgsWithMyOverlays callWithCommonArgs;
-      };
+      });
 
     in {
       /* Expose rice */
