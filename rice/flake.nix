@@ -37,25 +37,43 @@
     */
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, ... }:
     let
-      inherit (rice.lib)
-        importListAsAttrs filterDir isDirType mergeSetsFirstLevel
-        forSupportedSystems nixosTopModule homeTopModule darwinTopModule
-        callWithArgs genSpecialArgs;
-      inherit (nixpkgs.lib) mapAttrs mapAttrsToList;
+      lib = nixpkgs.lib;
+      librice = rice.lib;
 
-      outputs = self.outputs;
-      rice = import ./rice.nix { inherit nixpkgs; flake = self; };
+      rice = (import ./rice.nix {}).override {
+        inherit nixpkgs;
+        myFlake = self;
 
-      withPkgsAllOverlays = system: import nixpkgs {
-        inherit system;
-        overlays = mapAttrsToList (n: v: v) outputs.overlays;
+        dirs = {
+          topLevel = ./.;
+          devshells = ./devshells;
+          dotfiles = ./dotfiles;
+          instances = ./instances;
+          modules = ./modules;
+          overlays = ./overlays;
+          packages = ./packages;
+          templates = ./templates;
+        };
+
+        lib = import ./lib {
+          inherit nixpkgs;
+          inherit (self.inputs) home-manager nix-darwin;
+          specialArgs = self.inputs // {
+            inherit rice;
+          };
+        };
       };
 
-      withCommonArgs = callWithArgs (genSpecialArgs {
-        inherit withPkgsAllOverlays;
-      });
+      pkgsWithMyOverlays = system: import nixpkgs {
+        inherit system;
+        overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
+      };
+
+      callWithCommonArgs = librice.callWithArgs {
+        inherit nixpkgs rice pkgsWithMyOverlays callWithCommonArgs;
+      };
 
     in {
       /* Expose rice */
@@ -63,7 +81,7 @@
 
       /* Expose my modules */
       nixosModules =
-        let importDirs = dir: importListAsAttrs (filterDir isDirType dir);
+        let importDirs = dir: with librice; importListAsAttrs (filterDir isDirType dir);
         in {
           main = import ./modules;
           instances = importDirs ./modules/instances;
@@ -90,37 +108,37 @@
          NOTE: This also enables:
            `home-manager { build | switch } --flake .#NAME
       */
-      packages = mergeSetsFirstLevel [
-        (withCommonArgs ./packages)
-        (mapAttrs
+      packages = librice.mergeSetsFirstLevel [
+        (callWithCommonArgs ./packages)
+        (lib.mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
-          outputs.homeConfigurations)
+          self.outputs.homeConfigurations)
       ];
 
       /* Via: `nix fmt'
 
          Other options beside `alejandra' include `nixpkgs-fmt'
       */
-      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = withCommonArgs ./devshells;
+      devShells = callWithCommonArgs ./devshells;
 
       /* Imported by other flakes */
-      overlays = withCommonArgs ./overlays;
+      overlays = callWithCommonArgs ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = withCommonArgs ./templates;
+      templates = callWithCommonArgs ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
-      nixosConfigurations = {
+      nixosConfigurations = with librice; {
         Framepie = nixosTopModule ./modules/instances/Framepie;
         Chicken65 = nixosTopModule ./modules/instances/Chicken65;
       };
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
-      darwinConfigurations = {
+      darwinConfigurations = with librice; {
         Applepie = darwinTopModule ./modules/instances/Applepie;
       };
 
@@ -130,8 +148,8 @@
            `home-manager { build | switch } --flake .#NAME'
          is actually implemented by the `packages' output not this.
       */
-      homeConfigurations = forSupportedSystems (system:
-        let inc = homeTopModule (withPkgsAllOverlays system);
+      homeConfigurations = with librice; forSupportedSystems (system:
+        let inc = homeTopModule (pkgsWithMyOverlays system);
         in {
           fang = inc ./modules/homes/fang;
         }
