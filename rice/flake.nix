@@ -42,6 +42,10 @@
       lib = nixpkgs.lib;
       librice = rice.lib;
 
+      myArgs = self.inputs // {
+        inherit rice pkgsWithMyOverlays callWithMyArgs;
+      };
+
       rice = (import ./rice.nix {}).override {
         inherit nixpkgs;
         myFlake = self;
@@ -57,13 +61,7 @@
           templates = ./templates;
         };
 
-        lib = import ./lib {
-          inherit nixpkgs;
-          inherit (self.inputs) home-manager nix-darwin;
-          specialArgs = self.inputs // {
-            inherit rice;
-          };
-        };
+        lib = import ./lib myArgs;
       };
 
       pkgsWithMyOverlays = system: import nixpkgs {
@@ -71,9 +69,7 @@
         overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
       };
 
-      callWithCommonArgs = librice.callWithArgs (self.inputs // {
-        inherit nixpkgs rice pkgsWithMyOverlays callWithCommonArgs;
-      });
+      callWithMyArgs = librice.callWithArgs myArgs;
 
     in {
       /* Expose rice */
@@ -109,7 +105,7 @@
            `home-manager { build | switch } --flake .#NAME
       */
       packages = librice.mergeSetsFirstLevel [
-        (callWithCommonArgs ./packages)
+        (callWithMyArgs ./packages)
         (lib.mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
@@ -123,13 +119,13 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = callWithCommonArgs ./devshells;
+      devShells = callWithMyArgs ./devshells;
 
       /* Imported by other flakes */
-      overlays = callWithCommonArgs ./overlays;
+      overlays = callWithMyArgs ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = callWithCommonArgs ./templates;
+      templates = callWithMyArgs ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations = with librice; {
