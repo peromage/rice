@@ -1,7 +1,9 @@
-{ self, nixpkgs, specialArgs, ... }:
+{ self, nixpkgs, nix-darwn, home-manager, ... }:
 
 let
   lib = nixpkgs.lib;
+  libhm = home-manager.lib;
+  libdw = nix-darwn.lib;
 
 in with self; {
   /* A generice function to generate a module that has ability to add additonal
@@ -36,6 +38,30 @@ in with self; {
   */
   nixosTopModule = mkTopModule lib.nixosSystem (mods: {
     specialArgs = specialArgs;
+    modules = mods;
+  });
+
+  /* Import a Darwin top level module.
+
+     Type:
+       darwinTopModule :: (Path | AttrSet) -> AttrSet
+  */
+  darwinTopModule = mkTopModule libdw.darwinSystem (mods: {
+    specialArgs = specialArgs;
+    modules = mods;
+  });
+
+  /* Import a HomeManager top level module.
+
+     Note that this is a generic import so the `pkgs' needs to be passed from
+     the caller.
+
+     Type:
+       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
+  */
+  homeTopModule = pkgs: mkTopModule libhm.homeManagerConfiguration (mods: {
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
     modules = mods;
   });
 
