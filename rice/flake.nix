@@ -97,7 +97,12 @@
           homes = importDirs ./modules/homes;
         };
 
-      /* Notice that there is a minor difference between `packages' and `legacyPackages'.
+      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
+
+         NOTE: This also enables:
+           `home-manager { build | switch } --flake .#NAME
+
+         Notice that there is a minor difference between `packages' and `legacyPackages'.
 
          From: https://github.com/NixOS/nixpkgs/blob/b2e41a5bd20d4114f27fe8d96e84db06b841d035/flake.nix#L47
 
@@ -111,28 +116,16 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
+      packages = librice.forSupportedSystems (system: callWith { inherit system; } ./packages);
 
-      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
-
-         NOTE: This also enables:
-           `home-manager { build | switch } --flake .#NAME
-      */
-      packages = librice.mergeSetsFirstLevel [
-        (callWith {} ./packages)
-        (lib.mapAttrs
-          ## Fake derivation to enable `nix flake show'
-          (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
-          self.outputs.homeConfigurations)
-      ];
+      /* Via: `nix develop .#SHELL_NAME' */
+      devShells = librice.forSupportedSystems (system: callWith { inherit system; } ./devshells);
 
       /* Via: `nix fmt'
 
          Other options beside `alejandra' include `nixpkgs-fmt'
       */
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-      /* Via: `nix develop .#SHELL_NAME' */
-      devShells = librice.forSupportedSystems (system: callWith { inherit system; } ./devshells);
 
       /* Imported by other flakes */
       overlays = callWith {} ./overlays;

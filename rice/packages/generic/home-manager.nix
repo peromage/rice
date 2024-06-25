@@ -1,3 +1,3 @@
-{ home-manager, ... }:
+{ system, home-manager, ... }:
 
 home-manager.packages.${system}.default
