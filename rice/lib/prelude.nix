@@ -51,7 +51,7 @@ in with self; {
   */
   importAll = list: genAttrs list import;
 
-  /* Similar with `importAll' but normalize the attribute names with the given
+  /* Similar with `importAll' but transforms the attribute names with the given
      function.
      Note that if there are duplicated results of attribute names, only the first
      one takes effect.
@@ -59,8 +59,8 @@ in with self; {
      Type:
        importAllNameMapped :: (String -> String) -> [String] -> AttrSet
   */
-  importAllNameMapped = norm: list: mapAttrs'
-    (n: v: nameValuePair (norm n) v)
+  importAllNameMapped = func: list: mapAttrs'
+    (n: v: nameValuePair (func n) v)
     (importAll list);
 
   /* A generic function that filters all the files/directories under the given
