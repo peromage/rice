@@ -19,6 +19,6 @@ let
 
      The system directory is optional, which is something like x86_64-linux.
   */
-  callAllIn = callPackages pkgs.callPackage {};
+  callAllIn = callPackages pkgs.callPackage { inherit system; };
 
 in callAllIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callAllIn (pathSystem))
