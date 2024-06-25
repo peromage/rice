@@ -1,40 +1,24 @@
-{ nixpkgs, rice, withPkgsAllOverlays, home-manager, nix-darwin, ... }:
+{ system, nixpkgs, rice, callPackages, pkgsWithMyOverlays, ... }:
 
 let
-  inherit (rice.lib) listNonPlatformSpecific listPlatformSpecific baseNameNoExt
-    importAllNameMapped forSupportedSystems;
-  inherit (nixpkgs.lib) mapAttrs optionalAttrs;
-  inherit (builtins) match;
+  lib = nixpkgs.lib;
+  librice = rice.lib;
+  pkgs = pkgsWithMyOverlays system;
+  pathGeneric = ./generic;
+  pathSystem = ./. + "/${system}";
 
-  /* Create an AttrSet of packages from the root flake inputs
+  /* Import shell derivations from files/directories.
+
+     Each shell must be a function that returns a derivation by `pkgs.mkShell',
+     `pkgs.buildFHSEnv' or any other equivalent and can be called with
+     `pkgs.callPackage'.
+
+     During the import, two directories will be included:
+     - generic
+     - [system]
+
+     The system directory is optional, which is something like x86_64-linux.
   */
-  mkFlakeInputPackages = system: {
-    home-manager = home-manager.packages.${system}.default;
-  } // optionalAttrs ((match ".*-darwin" system) != null) {
-    nix-darwin = nix-darwin.packages.${system}.default;
-  };
+  callAllIn = callPackages pkgs.callPackage { inherit system; };
 
-  importAll = importAllNameMapped baseNameNoExt;
-
-  ## Exclude any file or directory that has the name of the supported platform.
-  ## Scanning is done once to avoid additional overhead.
-  commonPackages = importAll (listNonPlatformSpecific ./.);
-
-  /* Get all packages within this directory (single file or directory) and
-     platform specific packages in its directory, e.g. x86_64-linux.
-
-     That is, for any file or directory that has the name of the supported
-     platform it will be imported for that platform only.
-  */
-  mkPlatformPackages = system:
-    let
-      pkgs = withPkgsAllOverlays system;
-      flakeInputPackages = mkFlakeInputPackages system;
-      platformPackages = importAll (listPlatformSpecific ./. system);
-    in
-      (mapAttrs
-        (n: v: pkgs.unrestrictedPkgs.callPackage v rice.args)
-        (commonPackages // platformPackages))
-      // flakeInputPackages;
-
-in forSupportedSystems mkPlatformPackages
+in callAllIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callAllIn (pathSystem))
