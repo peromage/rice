@@ -1,4 +1,4 @@
-{ nixpkgs, flake, ... }:
+{ nixpkgs, packages, ... }:
 
 {
   unrestrictedPkgs = final: prev: {
@@ -12,6 +12,6 @@
   };
 
   ricePkgs = final: prev: {
-    ricePkgs = flake.outputs.packages.${final.system};
+    ricePkgs = packages.${final.system};
   };
 }

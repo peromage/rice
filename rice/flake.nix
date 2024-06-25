@@ -42,13 +42,16 @@
       lib = nixpkgs.lib;
       librice = rice.lib;
 
-      myArgs = self.inputs // {
-        inherit rice pkgsWithMyOverlays callWithMyArgs;
+      /* Blend flake inputs and outputs with additional utilities.
+
+         This is usually used by modules.
+      */
+      myArgs = self.inputs // self.outputs // {
+        inherit pkgsWithMyOverlays callWithMyArgs;
       };
 
       rice = (import ./rice.nix {}).override {
-        inherit nixpkgs;
-        myFlake = self;
+        flake = self;
 
         dirs = {
           topLevel = ./.;
@@ -69,7 +72,7 @@
         overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
       };
 
-      callWithMyArgs = librice.callWithArgs myArgs;
+      callWithMyArgs = extraArgs: librice.callWithArgs (myArgs // extraArgs);
 
     in {
       /* Expose rice */
@@ -105,7 +108,7 @@
            `home-manager { build | switch } --flake .#NAME
       */
       packages = librice.mergeSetsFirstLevel [
-        (callWithMyArgs ./packages)
+        (callWithMyArgs {} ./packages)
         (lib.mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
@@ -119,13 +122,13 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = callWithMyArgs ./devshells;
+      devShells = librice.forSupportedSystems (system: callWithMyArgs { inherit system; } ./devshells);
 
       /* Imported by other flakes */
-      overlays = callWithMyArgs ./overlays;
+      overlays = callWithMyArgs {} ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = callWithMyArgs ./templates;
+      templates = callWithMyArgs {} ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations = with librice; {
