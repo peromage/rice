@@ -47,7 +47,7 @@
          This is usually used by modules.
       */
       myArgs = self.inputs // self.outputs // {
-        inherit pkgsWithMyOverlays callWithMyArgs;
+        inherit pkgsWithMyOverlays callWith callPackages;
       };
 
       rice = (import ./rice.nix {}).override {
@@ -72,7 +72,17 @@
         overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
       };
 
-      callWithMyArgs = extraArgs: librice.callWithArgs (myArgs // extraArgs);
+      callWith = extraArgs: librice.callWithArgs (myArgs // extraArgs);
+
+      /* Call all packages under the given path.
+
+         Note: `default.nix' will be ignored.
+      */
+      callPackages = callPackage: extraArgs: path: lib.mapAttrs
+        (n: v: callPackage v (myArgs // extraArgs))
+        (librice.importAllNameMapped
+          librice.baseNameNoExt
+          (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
 
     in {
       /* Expose rice */
@@ -108,7 +118,7 @@
            `home-manager { build | switch } --flake .#NAME
       */
       packages = librice.mergeSetsFirstLevel [
-        (callWithMyArgs {} ./packages)
+        (callWith {} ./packages)
         (lib.mapAttrs
           ## Fake derivation to enable `nix flake show'
           (n: v: { homeConfigurations = v // { type = "derivation"; name = "homeConfigurations"; }; })
@@ -122,13 +132,13 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = librice.forSupportedSystems (system: callWithMyArgs { inherit system; } ./devshells);
+      devShells = librice.forSupportedSystems (system: callWith { inherit system; } ./devshells);
 
       /* Imported by other flakes */
-      overlays = callWithMyArgs {} ./overlays;
+      overlays = callWith {} ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = callWithMyArgs {} ./templates;
+      templates = callWith {} ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations = with librice; {
