@@ -1,9 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) isFunction genAttrs mapAttrsToList filterAttrs elemAt
-    pathExists optional mapAttrs' nameValuePair id;
-  inherit (builtins) readDir baseNameOf match hasAttr toString;
+  lib = nixpkgs.lib;
 
 in with self; {
   /* Generate an attribute set for supported platforms.
@@ -12,7 +10,7 @@ in with self; {
      Type:
        forSupportedSystems :: (String -> Any) -> AttrSet
   */
-  forSupportedSystems = genAttrs [
+  forSupportedSystems = lib.genAttrs [
     "x86_64-linux"
     "x86_64-darwin"
     "aarch64-linux"
@@ -20,21 +18,21 @@ in with self; {
   ];
 
   /* Supported system attribute constant. */
-  supportedSystems = forSupportedSystems id;
+  supportedSystems = forSupportedSystems lib.id;
 
   /* Check if the given system is in the supported list.
 
      Type:
        isSupportedSystem :: String -> Bool
   */
-  isSupportedSystem = system: hasAttr system supportedSystems;
+  isSupportedSystem = system: builtins.hasAttr system supportedSystems;
 
   /* Import the given path with predefined arguments.
 
      Type:
        callWithArgs :: AttrSet -> ((AttrSet -> Any) | Path) -> Any
   */
-  callWithArgs = args: fn: (if isFunction fn then fn else import fn) args;
+  callWithArgs = args: fn: (if lib.isFunction fn then fn else import fn) args;
 
   /* Import each module from the list with given argument.
 
@@ -49,7 +47,7 @@ in with self; {
      Type:
        importAll :: [String] -> AttrSet
   */
-  importAll = list: genAttrs list import;
+  importAll = list: lib.genAttrs list import;
 
   /* Similar with `importAll' but transforms the attribute names with the given
      function.
@@ -59,7 +57,7 @@ in with self; {
      Type:
        importAllNameMapped :: (String -> String) -> [String] -> AttrSet
   */
-  importAllNameMapped = func: list: mapAttrs'
+  importAllNameMapped = func: list: with lib; mapAttrs'
     (n: v: nameValuePair (func n) v)
     (importAll list);
 
@@ -69,16 +67,16 @@ in with self; {
      Type:
        listDir :: (String -> String -> Bool) -> Path -> [String]
   */
-  listDir = pred: dir: mapAttrsToList
-    (n: t: toString (dir + "/${n}"))
-    (filterAttrs pred (readDir dir));
+  listDir = pred: dir: lib.mapAttrsToList
+    (n: t: builtins.toString (dir + "/${n}"))
+    (lib.filterAttrs pred (builtins.readDir dir));
 
   /* Predications used for `listDir'. */
   isDirType = name: type: type == "directory";
   isFileType = name: type: type == "regular";
   isSymbolicType = name: type: type == "symlink";
   isDefaultNix = name: type: name == "default.nix";
-  isNixFile = name: type: isNotDirType name type && match ".+\\.nix$" name != null;
+  isNixFile = name: type: isNotDirType name type && builtins.match ".+\\.nix$" name != null;
   isImportable = name: type: isDirType name type || isNixFile name type;
   isSupportedSystemDir = name: type: isSupportedSystem name && isDirType name type;
   isDisabled = name: type: builtins.match "^DISABLED-.*" name != null;
@@ -99,7 +97,7 @@ in with self; {
   */
   baseNameNoExt = name:
     let
-      b = baseNameOf name;
-      m = match "(.+)(\\.[^.]+)$" b;
-    in if null == m then b else elemAt m 0;
+      b = builtins.baseNameOf name;
+      m = builtins.match "(.+)(\\.[^.]+)$" b;
+    in if null == m then b else lib.elemAt m 0;
 }

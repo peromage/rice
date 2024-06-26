@@ -1,8 +1,7 @@
 { self, nixpkgs, ... }:
 
 let
-  inherit (nixpkgs.lib) foldAttrs listToAttrs mapAttrsToList nameValuePair any
-    all id foldl' getAttr head tail;
+  lib = nixpkgs.lib;
 
 in with self; {
   /* Join a list of strings/paths with separaters.
@@ -10,7 +9,7 @@ in with self; {
      Type:
        joinStrs :: String -> [Any] -> String
   */
-  joinStrs = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
+  joinStrs = sep: list: with lib; foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
 
   /* Join a list of paths.
 
@@ -45,7 +44,7 @@ in with self; {
      Type:
        mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeAttrsFirstLevel = foldAttrs mergeAttrs {};
+  mergeAttrsFirstLevel = lib.foldAttrs mergeAttrs {};
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.
@@ -83,7 +82,7 @@ in with self; {
        anyAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
 
   */
-  anyAttrs = pred: attrs: any id (mapAttrsToList pred attrs);
+  anyAttrs = pred: attrs: with lib; any id (mapAttrsToList pred attrs);
 
   /* Return true if the function pred returns true for all elements of attrs,
      and false otherwise.
@@ -91,7 +90,7 @@ in with self; {
      Type:
        allAttrs :: (String -> Any -> Bool) -> AttrSet -> Bool
   */
-  allAttrs = pred: attrs: all id (mapAttrsToList pred attrs);
+  allAttrs = pred: attrs: with lib; all id (mapAttrsToList pred attrs);
 
   /* Get attribute base on a list of names.
      This is useful for nested access.
@@ -99,7 +98,7 @@ in with self; {
      Type:
        getNestedAttrs :: [String] -> AttrSet -> Any
   */
-  getNestedAttrs = names: attrs: foldl' (a: n: getAttr n a) attrs names;
+  getNestedAttrs = names: attrs: with lib; foldl' (a: n: getAttr n a) attrs names;
 
   /* Logic not.
 
@@ -183,7 +182,7 @@ in with self; {
      Type:
        apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = foldl' (f: x: f x);
+  apply = lib.foldl' (f: x: f x);
 
   /* Filter the return value of the original function.
 
