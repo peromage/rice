@@ -15,7 +15,7 @@ let
   librice = with prelude; lib.foldl'
     (acc: x: acc // x)
     {}
-    (callAllWithArgs (args // { self = librice; })
+    (callAll (args // { self = librice; })
       (listDir (n: t: isNotDefaultNix n t && isImportable n t) ./.));
 
 in librice

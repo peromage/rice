@@ -65,7 +65,7 @@
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        callWith = extraArgs: librice.callWithArgs (allFlakes // extraArgs);
+        callWith = extraArgs: librice.call (allFlakes // extraArgs);
 
         /* Call all packages under the given path.
 

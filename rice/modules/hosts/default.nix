@@ -63,7 +63,7 @@ let
       enabledHosts);
 
 in {
-  imports = with librice; callAllWithArgs args (listDir isNotDefaultNix ./.);
+  imports = with librice; callAll args (listDir isNotDefaultNix ./.);
   options.rice.hosts = options;
 
   config = lib.mkIf enableHostConfig {
