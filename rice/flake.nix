@@ -48,7 +48,7 @@
       */
       allArgs = self.inputs // self.outputs;
 
-      rice = (import ./rice.nix {}).override {
+      rice = (import ./rice.nix).override {
         flake = self;
 
         paths = {
