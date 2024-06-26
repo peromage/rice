@@ -30,16 +30,16 @@ in with self; {
   /* Import the given path with predefined arguments.
 
      Type:
-       callWithArgs :: AttrSet -> ((AttrSet -> Any) | Path) -> Any
+       call :: AttrSet -> ((AttrSet -> Any) | Path) -> Any
   */
-  callWithArgs = args: fn: (if lib.isFunction fn then fn else import fn) args;
+  call = args: fn: (if lib.isFunction fn then fn else import fn) args;
 
   /* Import each module from the list with given argument.
 
      Type:
-       callAllWithArgs :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
+       callAll :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
   */
-  callAllWithArgs = args: map (callWithArgs args);
+  callAll = args: map (call args);
 
   /* Returns an attrset with file names as the attributes and imported content
      as the values.
