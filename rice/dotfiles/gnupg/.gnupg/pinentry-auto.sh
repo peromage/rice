@@ -15,7 +15,7 @@
 
 ## A list of pinentry executables
 ## NOTE: The order matters
-PROGS=(pinentry-gtk2 pinentry-qt pinentry-curses pinentry)
+PROGS=(pinentry-gnome3 pinentry-gtk-2 pinentry-qt pinentry-curses pinentry)
 executable=
 
 for i in "${PROGS[@]}"; do

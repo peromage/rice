@@ -15,10 +15,11 @@ in {
     enableSshSupport = true;
     enableBashIntegration = true;
     enableFishIntegration = true;
+    # pinentryPackage = pkgs.pinentry-gnome3;
   };
 
   home.packages = with pkgs; [
-    pinentry-gtk2 # Only one pinentry package at a time, conflicts otherwise
+    pinentry-gnome3 # Only one pinentry package at a time, conflicts otherwise
   ];
 
   ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
