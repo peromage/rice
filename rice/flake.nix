@@ -51,12 +51,13 @@
       rice = (import ./rice.nix {}).override {
         flake = self;
 
-        dirs = {
+        paths = {
           topLevel = ./.;
           devshells = ./devshells;
           dotfiles = ./dotfiles;
-          instances = ./instances;
           modules = ./modules;
+          homes = ./modules-home/;
+          instances = ./modules-instance/;
           overlays = ./overlays;
           packages = ./packages;
           templates = ./templates;
@@ -96,10 +97,10 @@
       /* Expose my modules */
       nixosModules =
         let importDirs = dir: with librice; importListAsAttrs (filterDir isDirType dir);
-        in {
-          main = import ./modules;
-          instances = importDirs ./modules/instances;
-          homes = importDirs ./modules/homes;
+        in with rice.paths; {
+          main = import modules;
+          instances = importDirs instances;
+          homes = importDirs homes;
         };
 
       /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
@@ -121,10 +122,10 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with librice; forSupportedSystems (system: callWith { inherit system; } ./packages);
+      packages = with librice; forSupportedSystems (system: callWith { inherit system; } rice.paths.packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } ./devshells);
+      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } rice.paths.devshells);
 
       /* Via: `nix fmt'
 
@@ -133,24 +134,24 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = librice.callWith {} ./overlays;
+      overlays = librice.callWith {} rice.paths.overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = librice.callWith {} ./templates;
+      templates = librice.callWith {} rice.paths.templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = librice.nixosTopModule allArgs;
+        let inc = ins: librice.nixosTopModule allArgs (rice.paths.instances + "/${ins}");
         in {
-          Framepie = inc ./modules/instances/Framepie;
-          Chicken65 = inc ./modules/instances/Chicken65;
+          Framepie = inc "Framepie";
+          Chicken65 = inc "Chicken65";
         };
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = librice.darwinTopModule allArgs;
+        let inc = ins: librice.darwinTopModule allArgs (rice.paths.instances + "/${ins}");
         in {
-          Applepie = inc ./modules/instances/Applepie;
+          Applepie = inc "Applepie";
         };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
@@ -160,9 +161,9 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = homeTopModule (pkgsWithFlakeOverlays system) allArgs;
+        let inc = home: homeTopModule (pkgsWithFlakeOverlays system) allArgs (rice.paths.homes + "/${home}");
         in {
-          fang = inc ./modules/homes/fang;
+          fang = inc "fang";
         }
       );
     };
