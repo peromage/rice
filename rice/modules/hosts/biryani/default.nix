@@ -2,8 +2,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib) mkIf;
-
   cfg = config.rice.hosts.profiles.biryani;
 
   options = mkProfileOptions {
@@ -13,7 +11,7 @@ let
 in {
   options.rice.hosts.profiles.biryani = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       firefox
       vim

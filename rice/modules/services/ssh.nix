@@ -1,11 +1,9 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
-
   cfg = config.rice.services.ssh;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "SSH service";
     enablePassword = mkEnableOption "SSH password login";
   };
@@ -13,7 +11,7 @@ let
 in {
   options.rice.services.ssh = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.openssh = {
       enable = true;
       ports = [ 22 ];

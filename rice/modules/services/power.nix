@@ -1,11 +1,9 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) types mkEnableOption mkOption mkIf;
-
   cfg = config.rice.services.power;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "power governor";
 
     profile = mkOption {
@@ -18,7 +16,7 @@ let
 in {
   options.rice.services.power = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     powerManagement.cpuFreqGovernor = cfg.profile;
   };
 }

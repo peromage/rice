@@ -1,13 +1,13 @@
 ### Convenient top level imports
 
-{ librice, ... }:
+{ rice, ... }:
 
 let
-  inherit (librice) filterDir isNotDefaultNix;
+  librice = rice.lib;
 
 in {
   ## NOTE: The subdirectories are not imported recursively.
-  imports = filterDir isNotDefaultNix ./.;
+  imports = listDir isNotDefaultNix ./.;
 
   ## System state version
   system.stateVersion = "24.05";

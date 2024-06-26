@@ -1,19 +1,18 @@
-{ config, lib, librice, ... }:
+{ config, lib, rice, ... }:
 
 let
-  inherit (lib) mkOption mkEnableOption types foldlAttrs mkIf;
-  inherit (librice) anyEnable filterEnable either callListWithArgs filterDir isNotDefaultNix;
+  librice = rice.lib;
 
   cfg = config.rice.hosts;
 
   options = {
-    hostName = mkOption {
+    hostName = with lib; mkOption {
       type = with types; nullOr str;
       default = null;
       description = "Host name for this machine.";
     };
 
-    platform = mkOption {
+    platform = with lib; mkOption {
       type = with types; nullOr str;
       default = null;
       description = "Host platform architecture.";
@@ -30,7 +29,7 @@ let
        - name
   */
   args = {
-    mkProfileOptions = { name }: {
+    mkProfileOptions = { name }: with lib; {
       enable = mkEnableOption "host";
 
       name = mkOption {
@@ -42,8 +41,8 @@ let
   };
 
   ## Host config is only enabled if any one of the profiles is turned on
-  enableHostConfig = anyEnable cfg.profiles;
-  enabledHosts = filterEnable cfg.profiles;
+  enableHostConfig = librice.anyEnable cfg.profiles;
+  enabledHosts = librice.filterEnable cfg.profiles;
 
   /* Handle host name.
      The precedence of the host name specified in options is as follow:
@@ -56,18 +55,18 @@ let
      If no global hostName exists, the last host name in the set (in alphabetic
      order) will be used.
     */
-  finalHostName = either
+  finalHostName = with librice; either
     cfg.hostName
-    (foldlAttrs
+    (lib.foldlAttrs
       (a: n: v: either v.name n)
       null
       enabledHosts);
 
 in {
-  imports = callListWithArgs args (filterDir isNotDefaultNix ./.);
+  imports = with librice; callAllWithArgs args (listDir isNotDefaultNix ./.);
   options.rice.hosts = options;
 
-  config = mkIf enableHostConfig {
+  config = lib.mkIf enableHostConfig {
     assertions = [
       {
         assertion = null != cfg.platform;

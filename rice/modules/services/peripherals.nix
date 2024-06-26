@@ -1,11 +1,9 @@
-{ config, lib, librice, ... }:
+{ config, lib, rice, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
-
   cfg = config.rice.services.peripherals;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "peripheral management";
     enablePrinting = mkEnableOption "printing service" // { default = true; };
   };
@@ -13,7 +11,7 @@ let
 in {
   options.rice.services.peripherals = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.printing.enable = cfg.enablePrinting;
   };
 }

@@ -1,13 +1,12 @@
-{ config, lib, librice, ... }:
+{ config, lib, rice, ... }:
 
 let
-  inherit (lib) types mkOption mkEnableOption isString mapAttrs' nameValuePair mkIf;
-  inherit (librice) anyEnable filterEnable callListWithArgs filterDir isNotDefaultNix allAttrs;
+  librice = rice.lib;
 
   cfg = config.rice.users;
 
   options = {
-    immutable = mkOption {
+    immutable = with lib; mkOption {
       type = types.bool;
       default = false;
       description = ''
@@ -42,33 +41,33 @@ let
       , initialPassword ? null
       , hashedPassword ? null
     }: {
-      enable = mkEnableOption "user";
+      enable = lib.mkEnableOption "user";
 
-      name = mkOption {
+      name = with lib; mkOption {
         type = types.str;
         default = name;
         description = "User name.";
       };
 
-      description = mkOption {
+      description = with lib; mkOption {
         type = types.str;
         default = description;
         description = "User description.";
       };
 
-      id = mkOption {
+      id = with lib; mkOption {
         type = types.ints.unsigned;
         default = id;
         description = "User's UID and GID.";
       };
 
-      groups = mkOption {
+      groups = with lib; mkOption {
         type = with types; listOf str;
         default = groups;
         description = "Groups that user belongs to.";
       };
 
-      initialPassword = mkOption {
+      initialPassword = with lib; mkOption {
         type = with types; nullOr str;
         default = initialPassword;
         description = ''
@@ -80,7 +79,7 @@ let
       };
 
       ## This option is effective only when immutable is enabled
-      hashedPassword = mkOption {
+      hashedPassword = with lib; mkOption {
         type = with types; nullOr (either str path);
         default = hashedPassword;
         description = ''
@@ -93,12 +92,12 @@ let
   };
 
   ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = anyEnable cfg.profiles;
-  enabledUsers = filterEnable cfg.profiles;
+  enableUserConfig = librice.anyEnable cfg.profiles;
+  enabledUsers = librice.filterEnable cfg.profiles;
 
   getPassword = user:
     if cfg.immutable then
-      if isString user.hashedPassword then
+      if lib.isString user.hashedPassword then
         { hashedPassword = user.hashedPassword; }
       else
         { hashedPasswordFile = toString user.hashedPassword; }
@@ -106,7 +105,7 @@ let
       { initialPassword = user.initialPassword; };
 
   ## Handle rice.users.profiles.<name>
-  userList = mapAttrs'
+  userList = with lib; mapAttrs'
     (n: v: nameValuePair v.name ({
       description = v.description;
       isNormalUser = true;
@@ -121,7 +120,7 @@ let
     enabledUsers;
 
   ## Handle rice.users.profiles.<name>
-  groupList = mapAttrs'
+  groupList = with lib; mapAttrs'
     (n: v: nameValuePair v.name {
       gid = v.id;
     })
@@ -131,18 +130,18 @@ let
   mutableUsers = !cfg.immutable;
 
 in {
-  imports = callListWithArgs args (filterDir isNotDefaultNix ./.);
+  imports = with librice; callAllWithArgs args (listDir isNotDefaultNix ./.);
   options.rice.users = options;
 
-  config = mkIf enableUserConfig {
+  config = lib.mkIf enableUserConfig {
     assertions = [
       {
-        assertion = cfg.immutable -> allAttrs (n: v: null != v.hashedPassword) enabledUsers;
+        assertion = cfg.immutable -> librice.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
         message = "Hashed password for normal users must be provided when immutable user is enabled.";
       }
 
       {
-        assertion = !cfg.immutable -> allAttrs (n: v: null != v.initialPassword) enabledUsers;
+        assertion = !cfg.immutable -> librice.allAttrs (n: v: null != v.initialPassword) enabledUsers;
         message = "Initial password for normal users must be provided.";
       }
     ];

@@ -9,22 +9,20 @@
    6. Run: bootctl status
 */
 
-{ config, pkgs, lib, librice, lanzaboote, ... }:
+{ config, pkgs, lib, lanzaboote, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf mkForce;
-
   cfg = config.rice.services.secureboot;
 
   options = {
-    enable = mkEnableOption "secure boot support";
+    enable = lib.mkEnableOption "secure boot support";
   };
 
 in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
   options.rice.services.secureboot = options;
 
-  config = mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
 

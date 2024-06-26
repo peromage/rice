@@ -1,11 +1,9 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) types mkEnableOption mkOption mkIf singleton;
-
   cfg = config.rice.services.shadowsocks;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "ShadowSocks";
 
     port = mkOption {
@@ -36,7 +34,7 @@ let
 in {
   options.rice.services.shadowsocks = options;
 
-  config = mkIf cfg.enable {
+  config = with lib; mkIf cfg.enable {
     assertions = singleton {
       assertion = null != cfg.password;
       message = "No password specified for service Shadowsocks.";

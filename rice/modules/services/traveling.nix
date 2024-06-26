@@ -14,15 +14,14 @@
    }
 */
 
-{ config, lib, librice, ... }:
+{ config, lib, rice, ... }:
 
 let
-  inherit (lib) mkOption types mkForce;
-  inherit (librice) mkMergeIf;
+  librice = rice.lib;
 
   cfg = config.rice.services.traveling;
 
-  options = {
+  options = with lib; {
     region = mkOption {
       type = with types; nullOr (enum [ "China" ]);
       default = null;
@@ -34,10 +33,10 @@ let
 in {
   options.rice.services.traveling = options;
 
-  config = mkMergeIf [
+  config = librice.mkMergeIf [
     {
       cond = "China" == cfg.region;
-      as = {
+      as = with lib; {
         time.timeZone = mkForce "Asia/Shanghai";
         nix.settings.substituters = mkForce [
           # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"

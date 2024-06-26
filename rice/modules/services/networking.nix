@@ -1,12 +1,11 @@
-{ config, lib, librice, ... }:
+{ config, lib, rice, ... }:
 
 let
-  inherit (lib) mkEnableOption mkDefault;
-  inherit (librice) mkMergeIf;
+  librice = rice.lib;
 
   cfg = config.rice.services.networking;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "network management";
     enableBluetooth = mkEnableOption "Bluetooth management" // { default = true; };
   };
@@ -14,12 +13,12 @@ let
 in {
   options.rice.services.networking = options;
 
-  config = mkMergeIf [
+  config = librice.mkMergeIf [
     {
       cond = cfg.enable;
       as = {
         networking = {
-          useDHCP = mkDefault true;
+          useDHCP = lib.mkDefault true;
           useHostResolvConf = false;
           networkmanager = {
             enable = true;

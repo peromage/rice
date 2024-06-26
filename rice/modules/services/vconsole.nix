@@ -1,18 +1,16 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
-
   cfg = config.rice.services.vconsole;
 
   options = {
-    enable = mkEnableOption "virtual console";
+    enable = lib.mkEnableOption "virtual console";
   };
 
 in {
   options.rice.services.vconsole = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     console = {
       enable = true;
       earlySetup = false;

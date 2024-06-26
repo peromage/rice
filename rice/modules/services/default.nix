@@ -1,10 +1,7 @@
 ### All service options
 
-{ librice, ... }:
+{ rice, ... }:
 
-let
-  inherit (librice) filterDir isNotDefaultNix;
-
-in {
-  imports = filterDir isNotDefaultNix ./.;
+{
+  imports = with rice.lib; listDir isNotDefaultNix ./.;
 }

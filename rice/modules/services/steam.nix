@@ -1,12 +1,11 @@
-{ config, lib, pkgs, librice, ... }:
+{ config, lib, pkgs, rice, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (librice) mkMergeIf;
+  librice = rice.lib;
 
   cfg = config.rice.services.steam;
 
-  options = {
+  options = with lib; {
     enable = mkEnableOption "Steam";
     openFirewall = {
       remotePlay = mkEnableOption "Steam remote play ports";
@@ -36,7 +35,7 @@ let
 in {
   options.rice.services.steam = options;
 
-  config = mkMergeIf [
+  config = librice.mkMergeIf [
     {
       cond = cfg.enable;
       as = {

@@ -1,18 +1,16 @@
 { config, lib, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
-
   cfg = config.rice.services.audio;
 
   options = {
-    enable = mkEnableOption "audio services";
+    enable = lib.mkEnableOption "audio services";
   };
 
 in {
   options.rice.services.audio = options;
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     sound = {
       enable = false; # No ALSA sound
       mediaKeys.enable = false; # Gnome and KDE has their own handling
