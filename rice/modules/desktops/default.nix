@@ -10,7 +10,7 @@ let
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
     enableWayland = mkEnableOption "Wayland display server" // { default = true; };
-    enableOpenGL = mkEnableOption "OpenGL support" // { default = true; };
+    enableGraphicAcceleration = mkEnableOption "Graphic acceleration support" // { default = true; };
 
     env = {};
   };
@@ -35,17 +35,16 @@ in {
   options.rice.desktops = options;
 
   config = lib.mkIf enableDesktopConfig {
-    services.xserver = {
-      enable = true;
+    services = {
+      xserver.enable = true;
       libinput.enable = true;
     };
 
     programs.xwayland.enable = cfg.enableWayland;
 
-    hardware.opengl = {
-      enable = cfg.enableOpenGL;
-      driSupport = true;
-      driSupport32Bit = true;
+    hardware.graphics = {
+      enable = cfg.enableGraphicAcceleration;
+      enable32Bit = cfg.enableGraphicAcceleration;
     };
 
     environment.systemPackages = with pkgs; [
