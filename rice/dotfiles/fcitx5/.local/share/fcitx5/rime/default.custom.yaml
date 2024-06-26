@@ -1,5 +1,6 @@
 # Default Rime config
 patch:
   schema_list:
+    # Ziranma scheme
     - schema: double_pinyin
     - schema: bopomofo
