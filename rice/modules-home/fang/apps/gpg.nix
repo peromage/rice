@@ -1,7 +1,7 @@
-{ pkgs, librice, dirrice, ... }:
+{ pkgs, rice, ... }:
 
 let
-  src = "${dirrice.dotfiles}/gnupg";
+  src = "${rice.paths.dotfiles}/gnupg";
 
 in {
   programs.gpg = {

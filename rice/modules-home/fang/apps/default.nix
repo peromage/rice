@@ -17,16 +17,13 @@
    Ref: https://nix-community.github.io/home-manager/options.html#opt-xdg.dataFile
 */
 
-{ librice, dirrice, ... }:
+{ rice, ... }:
 
 let
-  inherit (librice) filterDir;
-  inherit (builtins) match;
-
-  src = dirrice.dotfiles;
+  src = rice.paths.dotfiles;
 
 in {
-  imports = filterDir (n: v: "default.nix" != n && null == (match "^DISABLED-.*" n)) ./.;
+  imports = with rice.lib; listDir (n: t: isNotDefaultNix n t && isNotDisabled n t) ./.;
 
   xdg.enable = true;
 

@@ -1,7 +1,7 @@
-{ librice, dirrice, ... }:
+{ rice, ... }:
 
 let
-  src = "${dirrice.dotfiles}/bash";
+  src = "${rice.paths.dotfiles}/bash";
 
 in {
   programs.bash = {
