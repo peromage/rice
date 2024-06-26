@@ -46,9 +46,7 @@
 
          This is usually used by modules.
       */
-      myArgs = self.inputs // self.outputs // {
-        inherit pkgsWithMyOverlays callWith callPackages;
-      };
+      allArgs = self.inputs // self.outputs;
 
       rice = (import ./rice.nix {}).override {
         flake = self;
@@ -64,29 +62,32 @@
           templates = ./templates;
         };
 
-        lib = import ./lib myArgs;
+        lib = (import ./lib allArgs) // {
+          /* Improvised functions to librice.
+          */
+
+          pkgsWithFlakeOverlays = system: import nixpkgs {
+            inherit system;
+            overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
+          };
+
+          callWith = extraArgs: librice.callWithArgs (allArgs // extraArgs);
+
+          /* Call all packages under the given path.
+
+             Each package must be a function that returns a derivation by
+             `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
+             any other equivalent and can be called with `pkgs.callPackage'.
+
+             Note: `default.nix' will be ignored.
+          */
+          callPackages = callPackage: extraArgs: path: lib.mapAttrs
+            (n: v: callPackage v (allArgs // extraArgs))
+            (librice.importAllNameMapped
+              librice.baseNameNoExt
+              (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
+        };
       };
-
-      pkgsWithMyOverlays = system: import nixpkgs {
-        inherit system;
-        overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
-      };
-
-      callWith = extraArgs: librice.callWithArgs (myArgs // extraArgs);
-
-      /* Call all packages under the given path.
-
-         Each package must be a function that returns a derivation by
-         `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
-         any other equivalent and can be called with `pkgs.callPackage'.
-
-         Note: `default.nix' will be ignored.
-      */
-      callPackages = callPackage: extraArgs: path: lib.mapAttrs
-        (n: v: callPackage v (myArgs // extraArgs))
-        (librice.importAllNameMapped
-          librice.baseNameNoExt
-          (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
 
     in {
       /* Expose rice */
@@ -120,10 +121,10 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = librice.forSupportedSystems (system: callWith { inherit system; } ./packages);
+      packages = with librice; forSupportedSystems (system: callWith { inherit system; } ./packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = librice.forSupportedSystems (system: callWith { inherit system; } ./devshells);
+      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } ./devshells);
 
       /* Via: `nix fmt'
 
@@ -132,14 +133,14 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = callWith {} ./overlays;
+      overlays = librice.callWith {} ./overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = callWith {} ./templates;
+      templates = librice.callWith {} ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = librice.nixosTopModule myArgs;
+        let inc = librice.nixosTopModule allArgs;
         in {
           Framepie = inc ./modules/instances/Framepie;
           Chicken65 = inc ./modules/instances/Chicken65;
@@ -147,7 +148,7 @@
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = librice.darwinTopModule myArgs;
+        let inc = librice.darwinTopModule allArgs;
         in {
           Applepie = inc ./modules/instances/Applepie;
         };
@@ -159,7 +160,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = homeTopModule (pkgsWithMyOverlays system) myArgs;
+        let inc = homeTopModule (pkgsWithFlakeOverlays system) allArgs;
         in {
           fang = inc ./modules/homes/fang;
         }

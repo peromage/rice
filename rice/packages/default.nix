@@ -1,9 +1,9 @@
-{ system, nixpkgs, rice, callPackages, pkgsWithMyOverlays, ... }:
+{ system, nixpkgs, rice, ... }:
 
 let
   lib = nixpkgs.lib;
   librice = rice.lib;
-  pkgs = pkgsWithMyOverlays system;
+  pkgs = librice.pkgsWithFlakeOverlays system;
   pathGeneric = ./generic;
   pathSystem = ./. + "/${system}";
 
@@ -13,6 +13,6 @@ let
 
      The system directory is optional, which is something like x86_64-linux.
   */
-  callAllIn = callPackages pkgs.callPackage { inherit system; };
+  callAllIn = librice.callPackages pkgs.callPackage { inherit system; };
 
 in callAllIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callAllIn (pathSystem))

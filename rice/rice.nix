@@ -6,9 +6,7 @@ let
   };
 
   rice = self: {
-    ## Overridden by the caller
-    lib = {};
-    dirs = {};
+    /* Attributes are added by the caller on demand */
     override = fixOverride rice;
   };
 
