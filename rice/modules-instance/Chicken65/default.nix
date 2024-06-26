@@ -1,10 +1,10 @@
-{ lib, nixosModules, ... }:
+{ lib, rice, ... }:
 
 {
   imports = [
     ./accounts.nix
     ./hardware.nix
-    nixosModules.default
+    rice.nixosModules.default
   ];
 
   rice = {

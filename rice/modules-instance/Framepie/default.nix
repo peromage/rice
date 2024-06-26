@@ -1,12 +1,12 @@
 ### Instance for my 13-inch 12th-gen-Intel Framework laptop
 
-{ lib, nixosModules, ... }:
+{ lib, rice, ... }:
 
 {
   imports = [
     ./boot.nix
     ./mounts.nix
-    nixosModules.default
+    rice.nixosModules.default
   ];
 
   rice = {

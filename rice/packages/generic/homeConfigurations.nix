@@ -1,4 +1,4 @@
-{ system, homeConfigurations, ... }:
+{ system, rice, ... }:
 
 /* Fake derivation */
-homeConfigurations.${system} // { type = "derivation"; name = "homeConfigurations"; }
+rice.homeConfigurations.${system} // { type = "derivation"; name = "homeConfigurations"; }

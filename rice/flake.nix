@@ -130,7 +130,7 @@
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = ins: librice.nixosTopModule allArgs (paths.instances + "/${ins}");
+        let inc = ins: librice.nixosTopModule allFlakes (paths.instances + "/${ins}");
         in {
           Framepie = inc "Framepie";
           Chicken65 = inc "Chicken65";
@@ -138,7 +138,7 @@
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = ins: librice.darwinTopModule allArgs (paths.instances + "/${ins}");
+        let inc = ins: librice.darwinTopModule allFlakes (paths.instances + "/${ins}");
         in {
           Applepie = inc "Applepie";
         };
@@ -150,7 +150,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = home: homeTopModule (flakeOverlaidPkgs system) allArgs (paths.homes + "/${home}");
+        let inc = home: homeTopModule (flakeOverlaidPkgs system) allFlakes (paths.homes + "/${home}");
         in {
           fang = inc "fang";
         }
