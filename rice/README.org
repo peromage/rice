@@ -13,27 +13,10 @@ This configuration can be used as is.
 
 There is another way that gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.
 
-To start, simply create a local =flake.nix= shown as following.  This is for showcase only.  Do not attempt to use the OS configs directly though.
+To start, initialize a template and then make desired modifications to it.
 
-#+begin_src nix
-{
-  inputs = {
-    conf.url = "github:peromage/pew/master?dir=rice";
-
-    ## Dynamic binding
-    #nixpkgs-2305.url = "github:nixos/nixpkgs/nixos-23.05";
-    #conf.inputs.nixpkgs.follows = "nixpkgs-2305";
-  };
-  outputs = { self, conf }: {
-    nixosConfigurations = {
-      Foobar = conf.nixosConfigurations.Framepie.extraModule {
-        rice.hosts.hostName = conf.rice.nixpkgs.lib.mkForce "Foobar";
-        rice.users.immutable = true;
-        rice.users.profiles.fang.hashedPassword = "secret";
-      };
-    };
-  };
-}
+#+begin_src bash
+nix flake init -t "github:peromage/pew/master?dir=rice#"
 #+end_src
 
 * Appendix
@@ -41,7 +24,7 @@ To start, simply create a local =flake.nix= shown as following.  This is for sho
 Customization should go into =name.custom.yaml= in order to avoid overwrite from redeployment.  For example, =~/.config/share/fcitx5/rime/default.yaml=, the corresponding customization file is =~/.config/share/fcitx5/rime/default.custom.yaml=.
 
 To redeploy (rebuild), run
-#+begin_src sh
+#+begin_src bash
 fcitx5 -r
 #+end_src
 
