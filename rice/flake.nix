@@ -95,13 +95,9 @@
       rice = rice;
 
       /* Expose my modules */
-      nixosModules =
-        let importDirs = dir: with librice; importListAsAttrs (filterDir isDirType dir);
-        in with rice.paths; {
-          main = import modules;
-          instances = importDirs instances;
-          homes = importDirs homes;
-        };
+      nixosModules = with rice.paths; {
+        default = import modules;
+      };
 
       /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
 
