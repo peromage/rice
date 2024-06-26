@@ -39,42 +39,35 @@
 
   outputs = { self, nixpkgs, ... }:
     let
+      /* All flakes including this one */
+      allFlakes = self.inputs // { rice = self.outputs; };
       lib = nixpkgs.lib;
-      librice = rice.lib;
 
-      /* Blend flake inputs and outputs with additional utilities.
+      paths = {
+        topLevel = ./.;
+        lib = ./lib;
+        devshells = ./devshells;
+        dotfiles = ./dotfiles;
+        modules = ./modules;
+        homes = ./modules-home;
+        instances = ./modules-instance;
+        overlays = ./overlays;
+        packages = ./packages;
+        templates = ./templates;
+      };
 
-         This is usually used by modules.
-      */
-      allArgs = self.inputs // self.outputs;
+      librice = (import paths.lib allFlakes) // {
+        /* Improvised functions
+        */
 
-      rice = (import ./rice.nix).override {
-        flake = self;
-
-        paths = {
-          topLevel = ./.;
-          devshells = ./devshells;
-          dotfiles = ./dotfiles;
-          modules = ./modules;
-          homes = ./modules-home;
-          instances = ./modules-instance;
-          overlays = ./overlays;
-          packages = ./packages;
-          templates = ./templates;
+        pkgsWithFlakeOverlays = system: import nixpkgs {
+          inherit system;
+          overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        lib = (import ./lib allArgs) // {
-          /* Improvised functions to librice.
-          */
+        callWith = extraArgs: librice.callWithArgs (allFlakes // extraArgs);
 
-          pkgsWithFlakeOverlays = system: import nixpkgs {
-            inherit system;
-            overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
-          };
-
-          callWith = extraArgs: librice.callWithArgs (allArgs // extraArgs);
-
-          /* Call all packages under the given path.
+        /* Call all packages under the given path.
 
              Each package must be a function that returns a derivation by
              `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
@@ -82,21 +75,21 @@
 
              Note: `default.nix' will be ignored.
           */
-          callPackages = callPackage: extraArgs: path: lib.mapAttrs
-            (n: v: callPackage v (allArgs // extraArgs))
-            (librice.importAllNameMapped
-              librice.baseNameNoExt
-              (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
-        };
+        callPackages = callPackage: extraArgs: path: lib.mapAttrs
+          (n: v: callPackage v (allFlakes // extraArgs))
+          (librice.importAllNameMapped
+            librice.baseNameNoExt
+            (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
       };
 
     in {
-      /* Expose rice */
-      rice = rice;
+      /* Rice */
+      paths = paths;
+      lib = librice;
 
       /* Expose my modules */
-      nixosModules = with rice.paths; {
-        default = import modules;
+      nixosModules = {
+        default = import paths.modules;
       };
 
       /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
@@ -118,10 +111,10 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with librice; forSupportedSystems (system: callWith { inherit system; } rice.paths.packages);
+      packages = with librice; forSupportedSystems (system: callWith { inherit system; } paths.packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } rice.paths.devshells);
+      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } paths.devshells);
 
       /* Via: `nix fmt'
 
@@ -130,14 +123,14 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = librice.callWith {} rice.paths.overlays;
+      overlays = librice.callWith {} paths.overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = librice.callWith {} rice.paths.templates;
+      templates = librice.callWith {} paths.templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = ins: librice.nixosTopModule allArgs (rice.paths.instances + "/${ins}");
+        let inc = ins: librice.nixosTopModule allArgs (paths.instances + "/${ins}");
         in {
           Framepie = inc "Framepie";
           Chicken65 = inc "Chicken65";
@@ -145,7 +138,7 @@
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = ins: librice.darwinTopModule allArgs (rice.paths.instances + "/${ins}");
+        let inc = ins: librice.darwinTopModule allArgs (paths.instances + "/${ins}");
         in {
           Applepie = inc "Applepie";
         };
@@ -157,7 +150,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = home: homeTopModule (pkgsWithFlakeOverlays system) allArgs (rice.paths.homes + "/${home}");
+        let inc = home: homeTopModule (pkgsWithFlakeOverlays system) allArgs (paths.homes + "/${home}");
         in {
           fang = inc "fang";
         }
