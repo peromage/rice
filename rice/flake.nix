@@ -60,12 +60,12 @@
         /* Improvised functions
         */
 
-        pkgsWithFlakeOverlays = system: import nixpkgs {
+        flakeOverlaidPkgs = system: import nixpkgs {
           inherit system;
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        callWith = extraArgs: librice.call (allFlakes // extraArgs);
+        flakeCall = extraArgs: librice.call (allFlakes // extraArgs);
 
         /* Call all packages under the given path.
 
@@ -75,7 +75,7 @@
 
              Note: `default.nix' will be ignored.
           */
-        callPackages = callPackage: extraArgs: path: lib.mapAttrs
+        flakeCallPackages = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (allFlakes // extraArgs))
           (librice.importAllNameMapped
             librice.baseNameNoExt
@@ -111,10 +111,10 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with librice; forSupportedSystems (system: callWith { inherit system; } paths.packages);
+      packages = with librice; forSupportedSystems (system: flakeCall { inherit system; } paths.packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with librice; forSupportedSystems (system: callWith { inherit system; } paths.devshells);
+      devShells = with librice; forSupportedSystems (system: flakeCall { inherit system; } paths.devshells);
 
       /* Via: `nix fmt'
 
@@ -123,10 +123,10 @@
       formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = librice.callWith {} paths.overlays;
+      overlays = librice.flakeCall {} paths.overlays;
 
       /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = librice.callWith {} paths.templates;
+      templates = librice.flakeCall {} paths.templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
@@ -150,7 +150,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = home: homeTopModule (pkgsWithFlakeOverlays system) allArgs (paths.homes + "/${home}");
+        let inc = home: homeTopModule (flakeOverlaidPkgs system) allArgs (paths.homes + "/${home}");
         in {
           fang = inc "fang";
         }
