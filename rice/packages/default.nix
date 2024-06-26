@@ -7,13 +7,7 @@ let
   pathGeneric = ./generic;
   pathSystem = ./. + "/${system}";
 
-  /* Import shell derivations from files/directories.
-
-     Each shell must be a function that returns a derivation by `pkgs.mkShell',
-     `pkgs.buildFHSEnv' or any other equivalent and can be called with
-     `pkgs.callPackage'.
-
-     During the import, two directories will be included:
+  /* During the import, two directories will be included:
      - generic
      - [system]
 

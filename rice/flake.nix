@@ -76,6 +76,10 @@
 
       /* Call all packages under the given path.
 
+         Each package must be a function that returns a derivation by
+         `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
+         any other equivalent and can be called with `pkgs.callPackage'.
+
          Note: `default.nix' will be ignored.
       */
       callPackages = callPackage: extraArgs: path: lib.mapAttrs
