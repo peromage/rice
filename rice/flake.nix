@@ -49,8 +49,8 @@
         devshells = ./devshells;
         dotfiles = ./dotfiles;
         modules = ./modules;
-        homes = ./modules-home;
-        instances = ./modules-instance;
+        homes = ./homeConfigs;
+        instances = ./instanceConfigs;
         overlays = ./overlays;
         packages = ./packages;
         templates = ./templates;
