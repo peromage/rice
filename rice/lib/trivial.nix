@@ -36,16 +36,16 @@ in with self; {
   /* Merge attribute sets.
 
      Type:
-       mergeSets :: AttrSet -> AttrSet -> AttrSet
+       mergeAttrs :: AttrSet -> AttrSet -> AttrSet
   */
-  mergeSets = a: b: a // b;
+  mergeAttrs = a: b: a // b;
 
   /* Like `mergeAttrs' but merge the first level instead of top level.
 
      Type:
-       mergeSetsFirstLevel :: [AttrSet] -> AttrSet
+       mergeAttrsFirstLevel :: [AttrSet] -> AttrSet
   */
-  mergeSetsFirstLevel = foldAttrs mergeSets {};
+  mergeAttrsFirstLevel = foldAttrs mergeAttrs {};
 
   /* Return the first non-null value between a and b.
      If both are null the result is null.
