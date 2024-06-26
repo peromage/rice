@@ -81,6 +81,7 @@ in with self; {
   isNixFile = name: type: isNotDirType name type && match ".+\\.nix$" name != null;
   isImportable = name: type: isDirType name type || isNixFile name type;
   isSupportedSystemDir = name: type: isSupportedSystem name && isDirType name type;
+  isDisabled = name: type: builtins.match "^DISABLED-.*" name != null;
 
   isNotDirType = name: type: ! isDirType name type;
   isNotFileType = name: type: ! isFileType name type;
@@ -89,6 +90,7 @@ in with self; {
   isNotNixFile = name: type: ! isNixFile name type;
   isNotImportable = name: type: ! isImportable name type;
   isNotSupportedSystemDir = name: type: ! isSupportedSystemDir name type;
+  isNotDisabled = name: type: ! isDisabled name type;
 
   /* Return the basename without extension.
 
