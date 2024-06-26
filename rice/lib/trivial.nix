@@ -214,4 +214,16 @@ in with self; {
   wrapArgs = n: wf: f:
     let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
     in assert n > 0; wrap wf n;
+
+  /* Fix point and override pattern.
+     See: http://r6.ca/blog/20140422T142911Z.html
+  */
+  fixOverride = f: let x = f x; in x // {
+    override = overrides: fixOverride (self: f self // (
+      if builtins.isFunction overrides then
+        overrides self
+      else
+        overrides
+    ));
+  };
 }
