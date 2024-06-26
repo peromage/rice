@@ -134,15 +134,19 @@
       templates = callWith {} ./templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
-      nixosConfigurations = with librice; {
-        Framepie = nixosTopModule ./modules/instances/Framepie;
-        Chicken65 = nixosTopModule ./modules/instances/Chicken65;
-      };
+      nixosConfigurations =
+        let inc = librice.nixosTopModule myArgs;
+        in {
+          Framepie = inc ./modules/instances/Framepie;
+          Chicken65 = inc ./modules/instances/Chicken65;
+        };
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
-      darwinConfigurations = with librice; {
-        Applepie = darwinTopModule ./modules/instances/Applepie;
-      };
+      darwinConfigurations =
+        let inc = librice.darwinTopModule myArgs;
+        in {
+          Applepie = inc ./modules/instances/Applepie;
+        };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
 
@@ -151,7 +155,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with librice; forSupportedSystems (system:
-        let inc = homeTopModule (pkgsWithMyOverlays system);
+        let inc = homeTopModule (pkgsWithMyOverlays system) myArgs;
         in {
           fang = inc ./modules/homes/fang;
         }

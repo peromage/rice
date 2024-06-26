@@ -25,46 +25,6 @@ in with self; {
         f (init mods) // { extraModule = mod: add f init (mods ++ [mod]); };
     in add f init [mod];
 
-
-  /* Import a NixOS top level module.
-
-     Note that the `system' attribute is not explicitly set (default to null)
-     to allow modules to set it themselves.  This allows a hermetic configuration
-     that doesn't depend on the system architecture when it is imported.
-     See: https://github.com/NixOS/nixpkgs/pull/177012
-
-     Type:
-       nixosTopModule :: (Path | AttrSet) -> AttrSet
-  */
-  nixosTopModule = mkTopModule lib.nixosSystem (mods: {
-    specialArgs = specialArgs;
-    modules = mods;
-  });
-
-  /* Import a Darwin top level module.
-
-     Type:
-       darwinTopModule :: (Path | AttrSet) -> AttrSet
-  */
-  darwinTopModule = mkTopModule libdw.darwinSystem (mods: {
-    specialArgs = specialArgs;
-    modules = mods;
-  });
-
-  /* Import a HomeManager top level module.
-
-     Note that this is a generic import so the `pkgs' needs to be passed from
-     the caller.
-
-     Type:
-       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
-  */
-  homeTopModule = pkgs: mkTopModule libhm.homeManagerConfiguration (mods: {
-    inherit pkgs;
-    extraSpecialArgs = specialArgs;
-    modules = mods;
-  });
-
   /* Merge a list of attribute sets from config top level.
 
      NOTE: This is a workaround to solve the infinite recursion issue when trying
@@ -107,4 +67,44 @@ in with self; {
        filterEnable :: AttrSet -> AttrSet
   */
   filterEnable = lib.filterAttrs (n: v: v.enable);
+
+  /* Import a NixOS top level module.
+
+     Note that the `system' attribute is not explicitly set (default to null)
+     to allow modules to set it themselves.  This allows a hermetic configuration
+     that doesn't depend on the system architecture when it is imported.
+     See: https://github.com/NixOS/nixpkgs/pull/177012
+
+     Type:
+       nixosTopModule :: (Path | AttrSet) -> AttrSet
+  */
+  nixosTopModule = specialArgs: mkTopModule lib.nixosSystem (mods: {
+    specialArgs = specialArgs;
+    modules = mods;
+  });
+
+  /* Import a Darwin top level module.
+
+     Type:
+       darwinTopModule :: (Path | AttrSet) -> AttrSet
+  */
+  darwinTopModule = specialArgs: mkTopModule libdw.darwinSystem (mods: {
+    specialArgs = specialArgs;
+    modules = mods;
+  });
+
+  /* Import a HomeManager top level module.
+
+     Note that this is a generic import so the `pkgs' needs to be passed from
+     the caller.
+
+     Type:
+       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
+  */
+  homeTopModule = pkgs: specialArgs: mkTopModule libhm.homeManagerConfiguration (mods: {
+    inherit pkgs;
+    extraSpecialArgs = specialArgs;
+    modules = mods;
+  });
+
 }
