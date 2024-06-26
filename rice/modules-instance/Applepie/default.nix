@@ -1,11 +1,7 @@
-{ rice, pkgs, ... }:
+{ rice, pkgs, nixpkgs, ... }:
 
-let
-  inherit (rice) nixpkgs;
-  inherit (rice.lib) filterDir isNotDefaultNix;
-
-in {
-  imports = filterDir isNotDefaultNix ./.;
+{
+  imports = with rice.lib; listDir isNotDefaultNix ./.;
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";

@@ -6,7 +6,7 @@
   imports = [
     ./boot.nix
     ./mounts.nix
-    rice.dirs.modules
+    rice.paths.modules
   ];
 
   rice = {

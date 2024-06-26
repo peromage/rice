@@ -4,7 +4,7 @@
   imports = [
     ./accounts.nix
     ./hardware.nix
-    rice.dirs.modules
+    rice.paths.modules
   ];
 
   rice = {

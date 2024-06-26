@@ -1,8 +1,6 @@
 { lib, ... }:
 
-let
-  inherit (lib) mkMerge;
-in mkMerge [
+lib.mkMerge [
   /* Homebrew basic config
 
      Note that Homebrew will not be installed automatically even `homebrew.enable'
