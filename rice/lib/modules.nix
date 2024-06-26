@@ -1,9 +1,9 @@
-{ self, nixpkgs, nix-darwn, home-manager, ... }:
+{ self, nixpkgs, nix-darwin, home-manager, ... }:
 
 let
   lib = nixpkgs.lib;
   libhm = home-manager.lib;
-  libdw = nix-darwn.lib;
+  libdw = nix-darwin.lib;
 
 in with self; {
   /* A generice function to generate a module that has ability to add additonal
