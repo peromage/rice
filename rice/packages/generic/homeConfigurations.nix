@@ -1,5 +1,4 @@
-{ system, nixpkgs, homeConfigurations, ... }:
+{ system, homeConfigurations, ... }:
 
-nixpkgs.lib.mapAttrs
-  (n: v: v // { type = "derivation"; name = "homeConfigurations"; })
-  homeConfigurations.${system}
+/* Fake derivation */
+homeConfigurations.${system} // { type = "derivation"; name = "homeConfigurations"; }
