@@ -9,7 +9,7 @@
   home = {
     username = "fang";
     homeDirectory = "/home/fang";
-    stateVersion = "23.11";
+    stateVersion = "24.05";
   };
 
   /* Alternatively source in a manual way:
