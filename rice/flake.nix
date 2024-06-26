@@ -77,9 +77,9 @@
           */
         flakeCallPackages = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (specialArgs // extraArgs))
-          (librice.importAllNameMapped
-            librice.baseNameNoExt
-            (librice.listDir (n: t: librice.isNotDefaultNix n t && librice.isImportable n t) path));
+          (with librice; importAllNameMapped
+            baseNameNoExt
+            (listDir (n: t: isNotDefaultNix n t && isImportable n t) path));
       };
 
     in {
