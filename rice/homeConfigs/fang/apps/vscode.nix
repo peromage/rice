@@ -1,4 +1,3 @@
-
 { rice, ... }:
 
 let
@@ -11,5 +10,4 @@ in {
     source = src;
     recursive = true;
   };
-
 }
