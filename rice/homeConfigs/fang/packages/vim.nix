@@ -7,7 +7,7 @@ in {
   programs.vim.enable = true;
 
   home.file.".vim" = {
-    source = src
+    source = src;
     recursive = true;
   };
 }

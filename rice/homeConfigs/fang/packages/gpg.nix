@@ -1,7 +1,7 @@
 { pkgs, rice, ... }:
 
 let
-  src = "${rice.paths.dotfiles}/gnupg";
+  src = "${rice.paths.dotfiles}/gnupg/.gnupg";
 
 in {
   programs.gpg = {
@@ -33,7 +33,7 @@ in {
 
   ## Override with my own settings
   home.file.".gnupg" = {
-    source = "${src}/.gnupg";
+    source = src;
     recursive = true;
   };
 }

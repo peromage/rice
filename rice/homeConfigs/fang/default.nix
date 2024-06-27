@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ rice, pkgs, ... }:
 
 let
   src = rice.paths.dotfiles;
 
 in {
-  imports = [ ./apps ];
+  imports = [ ./packages.nix ];
 
   /* Managed by Home Manager */
   programs.home-manager.enable = true;

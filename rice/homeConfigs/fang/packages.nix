@@ -1,6 +1,20 @@
 { pkgs, ... }:
 
 {
+  /* Packages with configs */
+  imports = map (p: ./packages + "/${p}.nix") [
+    "bash"
+    "fcitx5"
+    "fish"
+    "git"
+    "gpg"
+    "password-store"
+    "powershell"
+    "tmux"
+    "vim"
+    "wezterm"
+  ];
+
   home.packages = (with pkgs; [
     ## CLI
     ripgrep
