@@ -1,10 +1,32 @@
 { pkgs, ... }:
 
-{
+let
+  src = rice.paths.dotfiles;
+
+in {
   imports = [ ./apps ];
 
-  /* Home settings */
+  /* Managed by Home Manager */
   programs.home-manager.enable = true;
+
+
+  /* Mapped paths from Home Manager's variables:
+
+     `~/.config': config.xdg.configHome
+     `~/.local/share': config.xdg.dataHome
+
+     Shorthands for creating files under directories:
+
+     `~': home.file.<name>
+     Ref: https://nix-community.github.io/home-manager/options.html#opt-home.file
+
+     `~/.config': xdg.configFile.<name>
+     Ref: https://nix-community.github.io/home-manager/options.html#opt-xdg.configFile
+
+     `~/.local/share': xdg.dataFile.<name>
+     Ref: https://nix-community.github.io/home-manager/options.html#opt-xdg.dataFile
+  */
+  xdg.enable = true;
 
   home = {
     username = "fang";
@@ -26,57 +48,10 @@
     "\${HOME}/.local/bin"
   ];
 
-  /* Packages */
-  home.packages = (with pkgs; [
-    ## CLI
-    ripgrep
-    stow
-    ## Data transfer
-    wget
-    curl
-    aria2
-    rsync
-    ## Fancy stuff
-    neofetch
-    btop # Replace `htop'
-    eza # Replace `ls'
-    fzf
-    jq # Json parser
-
-    ## Development
-    python3
-    nodejs_latest
-    dotnet-sdk_8
-    lua
-
-    ## Devices
-    android-tools
-
-    ## Productivity
-    graphviz
-    hugo
-    libreoffice-fresh
-    gimp
-    kdenlive
-    flameshot
-    diceware
-
-    ## GUI
-    brave
-    firefox
-    remmina
-
-    ## Wayland
-    wl-clipboard
-
-  ]) ++ (with pkgs.ricePkgs; [
-    ## Editors
-    emacs
-    aspell
-
-  ]) ++ (with pkgs.unrestrictedPkgs; [
-    ## Gaming
-    discord
-
-  ]);
+  home.file = {
+    "bin" = {
+      source = "${src}/bin/bin";
+      recursive = true;
+    };
+  };
 }
