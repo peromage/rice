@@ -34,13 +34,6 @@ in {
     };
   };
 
-  xdg.configFile = {
-    "wezterm" = {
-      source = "${src}/wezterm/.config/wezterm";
-      recursive = true;
-    };
-  };
-
   ## Comment out this if `fcitx5.nix' is enabled
   xdg.configFile."fcitx5" = {
     source = "${src}/fcitx5/.config/fcitx5";
