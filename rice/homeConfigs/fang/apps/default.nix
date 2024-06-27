@@ -35,11 +35,6 @@ in {
   };
 
   xdg.configFile = {
-    "tmux" = {
-      source = "${src}/tmux/.config/tmux";
-      recursive = true;
-    };
-
     "alacritty" = {
       source = "${src}/alacritty/.config/alacritty";
       recursive = true;
