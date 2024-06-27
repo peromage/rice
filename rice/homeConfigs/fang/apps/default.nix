@@ -35,11 +35,6 @@ in {
   };
 
   xdg.configFile = {
-    "mc" = {
-      source = "${src}/mc/.config/mc";
-      recursive = true;
-    };
-
     "powershell" = {
       source = "${src}/pwsh/.config/powershell";
       recursive = true;
