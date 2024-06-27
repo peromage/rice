@@ -35,11 +35,6 @@ in {
   };
 
   xdg.configFile = {
-    "powershell" = {
-      source = "${src}/pwsh/.config/powershell";
-      recursive = true;
-    };
-
     "wezterm" = {
       source = "${src}/wezterm/.config/wezterm";
       recursive = true;
