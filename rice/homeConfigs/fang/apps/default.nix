@@ -35,11 +35,6 @@ in {
   };
 
   xdg.configFile = {
-    "alacritty" = {
-      source = "${src}/alacritty/.config/alacritty";
-      recursive = true;
-    };
-
     "Code" = {
       source = "${src}/vscode/.config/Code";
       recursive = true;
