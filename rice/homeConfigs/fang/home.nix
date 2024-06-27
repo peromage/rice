@@ -29,14 +29,8 @@
   /* Packages */
   home.packages = (with pkgs; [
     ## CLI
-    vim
-    fish
     ripgrep
     stow
-    tmux
-    git
-    git-lfs
-    powershell
     ## Data transfer
     wget
     curl
@@ -70,7 +64,6 @@
     ## GUI
     brave
     firefox
-    wezterm
     remmina
 
     ## Wayland
