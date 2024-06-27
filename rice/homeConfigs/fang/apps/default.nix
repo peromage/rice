@@ -35,11 +35,6 @@ in {
   };
 
   xdg.configFile = {
-    "Code" = {
-      source = "${src}/vscode/.config/Code";
-      recursive = true;
-    };
-
     "mc" = {
       source = "${src}/mc/.config/mc";
       recursive = true;
