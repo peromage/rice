@@ -18,7 +18,7 @@
     desktops.env.gnome.enable = true;
 
     services = {
-      secureboot.enable = true;
+      boot.enabled = "secure-boot";
       i18n.enable = true;
       networking.enable = true;
       firewall.enable = true;
