@@ -3,39 +3,26 @@
 let
   withDefaultSubvolOptions =
     { vol
-    , compress ? true
-    , cow ? true
-    , extraOptions ? []
+    , optionOverrides ? []
     }: {
       device = "/dev/disk/by-uuid/35154f6e-27aa-49f8-b1b6-6472127cb524";
       fsType = "btrfs";
-      options = [
+      options = if [] != optionOverrides then optionOverrides else [
         "subvol=${vol}"
         "ssd"
         "noatime"
         "autodefrag"
-      ]
-      ++ (lib.optional compress "compress=zstd:3")
-      ++ (lib.optional (!cow) "nodatacow")
-      ++ extraOptions;
+        "compress=zstd:3"
+      ];
     };
 
 in {
   fileSystems."/" = withDefaultSubvolOptions { vol = "@nixos"; };
-  fileSystems."/nix" = withDefaultSubvolOptions { vol = "@nixstore"; };
+  fileSystems."/nix" = withDefaultSubvolOptions { vol = "@nix"; };
   fileSystems."/home" = withDefaultSubvolOptions { vol = "@home"; };
-
-  fileSystems."/ff/swap" = withDefaultSubvolOptions {
-    vol = "@swap";
-    compress = false;
-    cow = false;
-  };
-
-  fileSystems."/ff/vm" = withDefaultSubvolOptions {
-    vol = "@vm";
-    compress = false;
-    cow = false;
-  };
+  fileSystems."/vol/swap" = withDefaultSubvolOptions { vol = "@swap"; };
+  fileSystems."/vol/vm" = withDefaultSubvolOptions { vol = "@vm"; };
+  fileSystems."/vol/snapshot" = withDefaultSubvolOptions { vol = "@snapshot"; };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/8F86-D998";
@@ -44,7 +31,7 @@ in {
 
   swapDevices = [
     {
-      device = "/ffstore/swap/swap32gb.img";
+      device = "/vol/swap/32gb.img";
     }
   ];
 }
