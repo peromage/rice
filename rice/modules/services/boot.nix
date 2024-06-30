@@ -3,7 +3,7 @@
 let
   librice = rice.lib;
 
-  cfg = config.rice.services.secureboot;
+  cfg = config.rice.services.boot;
 
   options = with lib; {
     enabled = mkOption {
@@ -27,12 +27,18 @@ let
       5. Run: sudo nix run nixpkgs#sbctl enroll-keys -- --microsoft
       6. Run: bootctl status
       '';
-    }
+    };
+
+    grubDevice = with lib; mkOption {
+      type = types.str;
+      default = "";
+      description = "Same option `boot.loader.grub.device'.";
+    };
   };
 
 in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
-  options.rice.services.secureboot = options;
+  options.rice.services.boot = options;
 
   config = with lib; librice.mkMergeIf [
     {
@@ -55,7 +61,10 @@ in {
         boot = {
           bootspec.enable = true;
           loader = {
-            grub.enable = mkForce true;
+            grub = {
+              enable = mkForce true;
+              device = cfg.grubDevice;
+            };
             systemd-boot.enable = mkForce false;
             efi.canTouchEfiVariables = false;
           };
