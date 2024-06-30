@@ -34,4 +34,6 @@ in {
       device = "/vol/swap/32gb.img";
     }
   ];
+
+  boot.tmp.useTmpfs = true;
 }
