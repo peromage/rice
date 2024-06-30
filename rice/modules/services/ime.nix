@@ -28,6 +28,8 @@ in {
     {
       cond = "ibus" == cfg.enabled;
       as = {
+        services.xserver.xkb.layout = cfg.layout;
+
         i18n.inputMethod = {
           enabled = "ibus";
           ibus.engines = with pkgs.ibus-engines; [
@@ -47,6 +49,8 @@ in {
     {
       cond = "fcitx" == cfg.enabled;
       as = {
+        services.xserver.xkb.layout = cfg.layout;
+
         i18n.inputMethod = {
           enabled = "fcitx5";
           fcitx5.addons = with pkgs; [
@@ -63,13 +67,6 @@ in {
           rime-data
         ]
         ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
-      };
-    }
-
-    {
-      cond = null != cfg.enabled;
-      as = {
-        services.xserver.xkb.layout = cfg.layout;
       };
     }
   ];
