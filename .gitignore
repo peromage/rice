@@ -5,14 +5,27 @@
 *
 
 ## Include pew files
-!/pew/
-!/pew/**
-## But without compiled ELisp files
-/pew/**/*.elc
+!/__pew__/
+!/__pew__/**
+## No compiled ELisp files
+/__pew__/**/*.elc
 
 ## Include my rice config
-!/rice/
-!/rice/**
+!/__rice__/
+!/__rice__/**
+
+## Include dotfiles
+!/__dots__/
+!/__dots__/**
+## No local configs
+/__dots__/**/.bashrc-custom
+/__dots__/**/.bashrc-overlay
+/__dots__/**/profile-custom.ps1
+/__dots__/**/profile-overlay.ps1
+/__dots__/**/wezterm-custom.lua
+/__dots__/**/wezterm-overlay.lua
+/__dots__/**/tmux-custom.conf
+/__dots__/**/tmux-overlay.conf
 
 ## Include GitHub workflows
 !/.github/
@@ -25,6 +38,9 @@
 !/early-init.el
 !/init.el
 !/init-mini.el
+!/flake.nix
+!/flake.lock
+!/bin
 
 ## Cached package bundle
 !/elpa-*.tar.gz
