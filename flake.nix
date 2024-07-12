@@ -43,17 +43,19 @@
       specialArgs = self.inputs // { rice = self.outputs; };
       lib = nixpkgs.lib;
 
-      paths = {
-        topLevel = ./.;
-        lib = ./lib;
-        devshells = ./devshells;
-        dotfiles = ./dotfiles;
-        modules = ./modules;
-        homes = ./homeConfigs;
-        instances = ./instanceConfigs;
-        overlays = ./overlays;
-        packages = ./packages;
-        templates = ./templates;
+      paths = let
+        withTop = p: ./__rice__ + "/${p}";
+      in {
+        topLevel = withTop "";
+        lib = withTop "lib";
+        devshells = withTop "devshells";
+        dotfiles = withTop "dotfiles";
+        modules = withTop "modules";
+        homes = withTop "homeConfigs";
+        instances = withTop "instanceConfigs";
+        overlays = withTop "overlays";
+        packages = withTop "packages";
+        templates = withTop "templates";
       };
 
       librice = (import paths.lib specialArgs) // {
