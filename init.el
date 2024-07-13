@@ -10,14 +10,15 @@
 (defvar pew::paths-plist
   (let* ((root (file-name-directory load-file-name))
          (topLevel (expand-file-name "__pew__" root)))
-    `(:topLevel ,topLevel
-      :lisp ,(expand-file-name "lisp" topLevel)
-      :site-lisp ,(expand-file-name "site-lisp" topLevel)
-      :pewcfg ,(expand-file-name "site-lisp/pewcfg" topLevel)
-      :org-template ,(expand-file-name "org-templates" topLevel)
-      :yas-template ,(expand-file-name "yasnippet-templates" topLevel)
-      :custom ,(expand-file-name "custom.el" root)
-      :org ,(expand-file-name "my-org-notes" root)))
+    (list
+     :topLevel topLevel
+     :lisp (expand-file-name "lisp" topLevel)
+     :site-lisp (expand-file-name "site-lisp" topLevel)
+     :pewcfg (expand-file-name "site-lisp/pewcfg" topLevel)
+     :org-template (expand-file-name "org-templates" topLevel)
+     :yas-template (expand-file-name "yasnippet-templates" topLevel)
+     :custom (expand-file-name "custom.el" root)
+     :org (expand-file-name "my-org-notes" root)))
   "Path definitions in this configuration.")
 
 ;;; Emacs variables
