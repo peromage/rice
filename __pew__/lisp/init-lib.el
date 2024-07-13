@@ -6,39 +6,49 @@
 ;;; Code:
 
 ;;; Buffer definitions
-(defvar pew::special-buffer-alist
-  '(;; VC
-    (magit . "^ *[Mm]agit")
-    (vc . "^ *\\*[Vv][Cc]-.*\\*$")
-    (ediff . "^ *\\*[Ee]diff.*\\*$")
-    ;; Interactive
-    (shell . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$")
-    (terminal . "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$")
-    (scratch . "^ *\\*[Ss]cratch\\*$")
-    ;; Org mode
-    (org-starred . "^ *\\*[Oo]rg ")
-    (org-src . "^ *\\*[Oo]rg [Ss]rc .*\\*$")
-    (org-export . "^ *\\*[Oo]rg .* [Ee]xport\\*$")
-    ;; Edit mode
-    (edit-indirect . "^ *\\*edit-indirect .*\\*$")
-    ;; Man page
-    (man . "^ *\\*[Mm]an .*\\*$")
-    ;; Message and output
-    (help . "^ *\\*.*\\b[Hh]elp\\*$")
-    (message . "^ *\\*.*\\b[Mm]essages?\\*$")
-    (backtrace . "^ *\\*.*\\b[Bb]acktrace\\*$")
-    (warning . "^ *\\*.*\\b[Ww]arnings?\\*$")
-    (log . "^ *\\*.*\\b[Ll]og\\*$")
-    (compilation . "^ *\\*.*\\b[Cc]ompilation\\*$")
-    (output . "^ *\\*.*\\b[Oo]utput\\*$")
-    (command . "^ *\\*.*\\b[Cc]ommands?\\*$")
-    ;; General
-    (starred . "^ *\\*.*\\*")
-    (non-starred . "^ *[^* ]"))
+(defvar pew::special-buffer-regex-plist
+  (list
+   ;; VC
+   :magit "^ *[Mm]agit"
+   :vc "^ *\\*[Vv][Cc]-.*\\*$"
+   :ediff "^ *\\*[Ee]diff.*\\*$"
+   ;; Interactive
+   :shell "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$"
+   :terminal "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$"
+   :scratch "^ *\\*[Ss]cratch\\*$"
+   ;; Org mode
+   :org-starred "^ *\\*[Oo]rg "
+   :org-src "^ *\\*[Oo]rg [Ss]rc .*\\*$"
+   :org-export "^ *\\*[Oo]rg .* [Ee]xport\\*$"
+   ;; Edit mode
+   :edit-indirect "^ *\\*edit-indirect .*\\*$"
+   ;; Man page
+   :man "^ *\\*[Mm]an .*\\*$"
+   ;; Message and output
+   :help "^ *\\*.*\\b[Hh]elp\\*$"
+   :message "^ *\\*.*\\b[Mm]essages?\\*$"
+   :backtrace "^ *\\*.*\\b[Bb]acktrace\\*$"
+   :warning "^ *\\*.*\\b[Ww]arnings?\\*$"
+   :log "^ *\\*.*\\b[Ll]og\\*$"
+   :compilation "^ *\\*.*\\b[Cc]ompilation\\*$"
+   :output "^ *\\*.*\\b[Oo]utput\\*$"
+   :command "^ *\\*.*\\b[Cc]ommands?\\*$"
+   ;; General
+   :starred "^ *\\*.*\\*"
+   :non-starred "^ *[^* ]")
   "An alist of special buffer pattern regex.")
 
-(defvar pew::hidden-buffer-list '(magit starred)
+(defvar pew::hidden-buffer-list '(:magit :starred)
   "Buffers that are hiddens for general purposes.")
+
+(defun pew::special-buffer-regex-get (keys)
+  "Return a list of special buffer regexs."
+  (mapcar (lambda (k) (plist-get pew::special-buffer-regex-plist k)) (pew::tolist keys)))
+
+(defun pew::special-buffer-p (key name)
+  "Check if the given buffer NAME matches special buffer patterns defined in
+`pew::special-buffer-regex-plist'."
+  (string-match-p (pew::concat-regex (pew::get-special-buffer-regexs key)) name))
 
 (defun pew::special-buffer (key &optional in-list)
   "Return the corresponding buffer pattern with given KEY.
@@ -368,6 +378,19 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
   (not (pew::evenp num)))
 
 ;;; Data functions
+(defun pew::concat (strings &optional separator)
+  "Joing a list of STRINGS with SEPARATOR delimited."
+  (mapconcat #'identity strings separator))
+
+(defun pew::concat-regex (strings)
+  "Specialized `pew::concat' for regex concatenation."
+  (pew::concat strings "\\|"))
+
+(defun pew::tolist (x)
+  "Wrap input X in a list.
+If X is a list already, it is returned as is."
+  (if (listp x) x (list x)))
+
 (defun pew::gethash (table &rest keys)
   "Access a hashtable TABLE recursively with a list of KEYS.
 This functions is similar to `gethash' but it allows user to specify a list of
