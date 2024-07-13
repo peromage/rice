@@ -41,9 +41,15 @@
 (defvar pew::hidden-buffer-list '(:magit :starred)
   "Buffers that are hiddens for general purposes.")
 
-(defun pew::special-buffer-regex-get (keys)
-  "Return a list of special buffer regexs."
-  (mapcar (lambda (k) (plist-get pew::special-buffer-regex-plist k)) (pew::tolist keys)))
+(defun pew::get-special-buffer-regex (keys &optional concat)
+  "Return a list of special buffer regexs.
+If CONCAT is non-nil the result is a concatenated regex string."
+  (let ((f (lambda (k)
+             (let ((v (plist-get pew::special-buffer-regex-plist k)))
+               (if v v (error "Invalid key: %S" k))))))
+    (if concat
+        (mapconcat f (pew::tolist keys) "\\|")
+      (mapcar f (pew::tolist keys)))))
 
 (defun pew::special-buffer-p (key name)
   "Check if the given buffer NAME matches special buffer patterns defined in
@@ -381,10 +387,6 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
 (defun pew::concat (strings &optional separator)
   "Joing a list of STRINGS with SEPARATOR delimited."
   (mapconcat #'identity strings separator))
-
-(defun pew::concat-regex (strings)
-  "Specialized `pew::concat' for regex concatenation."
-  (pew::concat strings "\\|"))
 
 (defun pew::tolist (x)
   "Wrap input X in a list.
