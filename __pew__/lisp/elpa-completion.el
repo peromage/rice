@@ -17,7 +17,7 @@
 ;;; Package: yasnippet -- Easy snippets
 (pewcfg::use-package yasnippet
   :custom
-  (yas-snippet-dirs (list pew::yasnippet-template-dir))
+  (yas-snippet-dirs (list (plist-get pew::paths-plist :yas-template)))
   (yas-indent-line 'fixed)
 
   :config

@@ -2,43 +2,30 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Configuration variables.
-(defvar pew::minimal-emacs-version "28.1"
-  "The minimal Emacs version that PEW supports.")
-
-(defvar pew::home-dir (file-name-directory load-file-name)
-  "The PEW configuration's home directory.
-Not necessarily to be `user-emacs-directory' since this configuration can be
-loaded from other places.")
-
-(defvar pew::default-org-dir (expand-file-name "my-org-notes" pew::home-dir)
-  "The default directory to place org note files.
-Default is under `pew::home-dir'.")
-
-(defvar pew::org-template-dir (expand-file-name "pew/org-templates" pew::home-dir)
-  "The directory where to put org template files.
-Default is under `pew::home-dir'.")
-
-(defvar pew::yasnippet-template-dir (expand-file-name "pew/yasnippet-templates" pew::home-dir)
-  "The directory where to put yasnippet template files.
-Default is under `pew::home-dir'.")
-
-(defvar pew::custom-file (expand-file-name "custom.el" pew::home-dir)
-  "Custom file path.  This is loaded after this init.el.
-Default is under `pew::home-dir'.")
-
 ;;; Emacs version check
-(if (version< emacs-version pew::minimal-emacs-version)
-    (error "[pew] Emacs version %s+ is required" pew::minimal-emacs-version))
+(let ((min-ver "28.1"))
+  (if (version< emacs-version min-ver)
+      (error "[pew] Emacs version %s+ is required" min-ver)))
+
+(defvar pew::paths-plist
+  (let* ((root (file-name-directory load-file-name))
+         (topLevel (expand-file-name "__pew__" root)))
+    `(:topLevel ,topLevel
+      :lisp ,(expand-file-name "lisp" topLevel)
+      :site-lisp ,(expand-file-name "site-lisp" topLevel)
+      :pewcfg ,(expand-file-name "site-lisp/pewcfg" topLevel)
+      :org-template ,(expand-file-name "org-templates" topLevel)
+      :yas-template ,(expand-file-name "yasnippet-templates" topLevel)
+      :custom ,(expand-file-name "custom.el" root)
+      :org ,(expand-file-name "my-org-notes" root)))
+  "Path definitions in this configuration.")
 
 ;;; Emacs variables
 ;; Configurations from the interactive `customize' interfaces.
-(setq custom-file pew::custom-file)
-;; The runtime path should be relative to `pew::home-dir' instead of `user-emacs-directory'
-(setq load-path (nconc (mapcar (lambda (p) (expand-file-name p pew::home-dir))
-                               '("pew/lisp"
-                                 "pew/site-lisp"
-                                 "pew/site-lisp/pewcfg"))
+(setq custom-file (plist-get pew::paths-plist :custom))
+;; This config
+(setq load-path (nconc (mapcar (lambda (k) (plist-get pew::paths-plist k))
+                               '(:lisp :site-lisp :pewcfg))
                        load-path))
 
 ;;; Module loading

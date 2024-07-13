@@ -4,26 +4,17 @@
 ;;   emacs -q -l /path/to/init-mini.el
 ;;; Code:
 
-;;; Configuration variables.
-(defvar pew::minimal-emacs-version "28.1"
-  "The minimal Emacs version that PEW supports.")
-
-(defvar pew::home-dir (file-name-directory load-file-name)
-  "The PEW configuration's home directory.
-Not necessarily to be `user-emacs-directory' since this configuration can be
-loaded from other places.")
-
 ;;; Emacs version check
-(if (version< emacs-version pew::minimal-emacs-version)
-    (error "[pew] Emacs version %s+ is required" pew::minimal-emacs-version))
+(let ((min-ver "28.1"))
+  (if (version< emacs-version min-ver)
+      (error "[pew] Emacs version %s+ is required" min-ver)))
 
 ;;; Emacs variables
-;; The runtime path should be relative to `pew::home-dir' instead of `user-emacs-directory'
-(setq load-path (nconc (mapcar (lambda (p) (expand-file-name p pew::home-dir))
-                               '("pew/lisp"
-                                 "pew/site-lisp"
-                                 "pew/site-lisp/pewcfg"))
-                       load-path))
+(let ((topLevel (expand-file-name "__pew__" (file-name-directory load-file-name))))
+  ;; This config
+  (setq load-path (nconc (mapcar (lambda (p) (expand-file-name p topLevel))
+                                 '("lisp" "site-lisp" "site-lisp/pewcfg"))
+                         load-path)))
 
 (require 'pewcfg-core)
 (require 'init-lib)
