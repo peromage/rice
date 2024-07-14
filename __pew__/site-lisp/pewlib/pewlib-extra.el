@@ -6,12 +6,12 @@
 ;;; Code:
 
 ;;; Dired
-(defun pew::dired-go-to ()
+(defun pewlib::dired-go-to ()
   "Go into the target under the cursor without creating a new buffer."
   (interactive)
   (dired-find-alternate-file))
 
-(defun pew::dired-go-up ()
+(defun pewlib::dired-go-up ()
   "Go to the parent directory without creating a new buffer."
   (interactive)
   ;; Create a new buffer of the parent path
@@ -21,13 +21,13 @@
   ;; Go up and close the current path buffer then the cursor will be on the current path
   (find-alternate-file ".."))
 
-(defun pew::dired-close-others ()
+(defun pewlib::dired-close-others ()
   "Close other Dired buffers but this one."
   (interactive)
-  (pew::close-other-buffers-in-major-mode 'dired-mode))
+  (pewlib::close-other-buffers-in-major-mode 'dired-mode))
 
 ;;; Eshell
-(defun pew::eshell-clear-buffer ()
+(defun pewlib::eshell-clear-buffer ()
   "Clear eshell buffer."
   (interactive)
   (if (eq 'eshell-mode major-mode)

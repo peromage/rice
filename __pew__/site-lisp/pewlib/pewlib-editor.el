@@ -6,12 +6,12 @@
 ;;; Code:
 
 ;;; Editor
-(defun pew::delete-trailing-whitespaces ()
+(defun pewlib::delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
 
 ;;; Themes
-(defun pew::load-theme (theme)
+(defun pewlib::load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '__PEW_LOAD_THEME__))
   (if (eq '__PEW_LOAD_THEME__ theme)
@@ -22,21 +22,21 @@
       (dolist (theme (cdr custom-enabled-themes))
         (disable-theme theme))))
 
-(defun pew::find-font (&rest args)
+(defun pewlib::find-font (&rest args)
   "Return a font object is it's found on the current system.
 ARGS is the same as the ones defined in `font-spec'.
 Return nil if no match."
   (find-font (apply 'font-spec args)))
 
 ;;; Lisp data file
-(defun pew::load-data-file (file)
+(defun pewlib::load-data-file (file)
   "Read the FILE and return a Lisp data object.
 Only the first list will be read."
   (read (with-temp-buffer
           (insert-file-contents file)
           (buffer-string))))
 
-(defun pew::save-data-file (file obj)
+(defun pewlib::save-data-file (file obj)
   "Save a Lisp data OBJ to the FILE.
 Existing content will be overwritten."
   (with-temp-file file
@@ -44,7 +44,7 @@ Existing content will be overwritten."
     (pp obj (current-buffer))))
 
 ;;; Hook functions
-(defun pew::terminal-mode-oninit ()
+(defun pewlib::terminal-mode-oninit ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
               truncate-lines nil
@@ -54,7 +54,7 @@ Existing content will be overwritten."
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun pew::text-mode-oninit ()
+(defun pewlib::text-mode-oninit ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)
@@ -62,7 +62,7 @@ Existing content will be overwritten."
   (display-line-numbers-mode -1)
   (set-fill-column -1))
 
-(defun pew::reuse-window-in-buffer ()
+(defun pewlib::reuse-window-in-buffer ()
   "Make new spawned windows atttempt to reuse current ones.
 This is usually useful in some major modes like `grep-mode'."
   (setq-local display-buffer-base-action '((display-buffer-reuse-window
@@ -70,17 +70,17 @@ This is usually useful in some major modes like `grep-mode'."
               display-buffer-alist nil))
 
 ;;; Debugging
-(defun pew::reload-init-file ()
+(defun pewlib::reload-init-file ()
   "Reload the config file."
   (interactive)
   (load-file user-init-file))
 
-(defun pew::open-init-file ()
+(defun pewlib::open-init-file ()
   "Open the config file."
   (interactive)
   (find-file user-init-file))
 
-(defmacro pew::expand-macro (form &optional step noprint)
+(defmacro pewlib::expand-macro (form &optional step noprint)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
@@ -101,17 +101,17 @@ out in the message buffer."
       (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
       t)))
 
-(defun pew::display-keycode (keycode)
+(defun pewlib::display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun pew::display-buffer-path ()
+(defun pewlib::display-buffer-path ()
   "Display current file path in the minibuffer."
   (interactive)
   (message buffer-file-name))
 
-(defun pew::display-mode-inheritance (mode)
+(defun pewlib::display-mode-inheritance (mode)
   "Display current major mode inheritance in the minibuffer.
 If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
