@@ -61,10 +61,32 @@ Especially useful when accessing a JSON object."
       (gethash (car keys) table)
     (apply #'pewlib::gethash (gethash (car keys) table) (cdr keys))))
 
+;;; Macro helpers
 (defmacro pewlib::swap (a b)
   "Swap values in A and B.
 NOTE: A and B must be lvalues."
   `(setq ,a (prog1 ,b (setq ,b ,a))))
+
+(defmacro pewlib::expand-macro (form &optional step noprint)
+  "Expand the macro in FORM and print the expanded results.
+Possible value for STEP:
+  nil              - call `macroexpand'
+  1                - call `macroexpand-1'
+  any other values - call `macroexpand-all'
+The result will be shown in the message buffer.
+If NOPRINT is non-nil, the expanded list will be returned instead of printing
+out in the message buffer."
+  (declare (indent 0))
+  (let ((result (funcall (intern (format "macroexpand%s"
+                                         (pcase step
+                                           ('nil "")
+                                           (1 "-1")
+                                           (_ "-all"))))
+                         form)))
+    (if noprint
+        `(quote ,result)
+      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
+      t)))
 
 (provide 'pewlib-trivial)
 ;;; pewlib-trivial.el ends here

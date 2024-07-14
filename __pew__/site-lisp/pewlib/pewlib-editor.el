@@ -80,27 +80,6 @@ This is usually useful in some major modes like `grep-mode'."
   (interactive)
   (find-file user-init-file))
 
-(defmacro pewlib::expand-macro (form &optional step noprint)
-  "Expand the macro in FORM and print the expanded results.
-Possible value for STEP:
-  nil              - call `macroexpand'
-  1                - call `macroexpand-1'
-  any other values - call `macroexpand-all'
-The result will be shown in the message buffer.
-If NOPRINT is non-nil, the expanded list will be returned instead of printing
-out in the message buffer."
-  (declare (indent 0))
-  (let ((result (funcall (intern (format "macroexpand%s"
-                                         (pcase step
-                                           ('nil "")
-                                           (1 "-1")
-                                           (_ "-all"))))
-                         form)))
-    (if noprint
-        `(quote ,result)
-      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
-      t)))
-
 (defun pewlib::display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
