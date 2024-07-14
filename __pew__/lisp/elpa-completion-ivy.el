@@ -33,7 +33,7 @@
   :config
   (ivy-mode 1)
   (counsel-mode 1)
-  (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pew::special-buffer pew::hidden-buffer-list :in-list)))
+  (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pew::get-special-buffers pew::special-buffer-hidden)))
 
 ;;; Package: ivy-rich -- Make Ivy show more information
 (pewcfg::use-package ivy-rich

@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Buffer definitions
-(defvar pew::special-buffer-regex-plist
+(defvar pew::special-buffers
   (list
    ;; VC
    :magit "^ *[Mm]agit"
@@ -36,16 +36,16 @@
    ;; General
    :starred "^ *\\*.*\\*"
    :non-starred "^ *[^* ]")
-  "An alist of special buffer pattern regex.")
+  "Special buffer patterns.")
 
-(defvar pew::hidden-buffer-list '(:magit :starred)
+(defvar pew::special-buffer-hidden '(:magit :starred)
   "Buffers that are hiddens for general purposes.")
 
-(defun pew::get-special-buffer-regex (keys &optional concat)
+(defun pew::get-special-buffers (keys &optional concat)
   "Return a list of special buffer regexs.
 If CONCAT is non-nil the result is a concatenated regex string."
   (let ((f (lambda (k)
-             (let ((v (plist-get pew::special-buffer-regex-plist k)))
+             (let ((v (plist-get pew::special-buffers k)))
                (if v v (error "Invalid key: %S" k))))))
     (if concat
         (mapconcat f (pew::tolist keys) "\\|")
@@ -54,29 +54,7 @@ If CONCAT is non-nil the result is a concatenated regex string."
 (defun pew::special-buffer-p (key name)
   "Check if the given buffer NAME matches special buffer patterns defined in
 `pew::special-buffer-regex-plist'."
-  (string-match-p (pew::concat-regex (pew::get-special-buffer-regexs key)) name))
-
-(defun pew::special-buffer (key &optional in-list)
-  "Return the corresponding buffer pattern with given KEY.
-Key is a symbol and should be one of the keys from `pew::special-buffer-alist'.
-Key can also be a list of symbols and the returned value will be a string
-concatenated with '\\|'.
-If IN-LIST is non-nil the returned value will be a list."
-  (declare (indent 0))
-  (let ((keys (if (listp key) key (list key)))
-        (func (lambda (k)
-                (let (it)
-                  (unless (setq it (assq k pew::special-buffer-alist))
-                    (error "Invalid key: %S" k))
-                  (cdr it)))))
-    (if in-list
-        (mapcar func keys)
-      (mapconcat func keys "\\|"))))
-
-(defun pew::special-buffer-match-p (key name)
-  "Check if given buffer NAME matches buffers defined by KEY.
-KEY is the same one with `pew::special-buffer'."
-  (string-match-p (pew::special-buffer key) name))
+  (string-match-p (pew::get-special-buffers key 'concat) name))
 
 (defun pew::side-window-actions (side slot)
   "Return a list of pre-configured side window actions.
@@ -117,7 +95,7 @@ If BACKWARDS is non-nil switch to the previous one."
         (switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall switch-func)
     (while (and (not (eq current-buffer (current-buffer)))
-                (or (pew::special-buffer-match-p pew::hidden-buffer-list (buffer-name))
+                (or (pew::special-buffer-p pew::special-buffer-hidden (buffer-name))
                     (pew::dired-buffer-p (buffer-name))))
       (funcall switch-func))))
 

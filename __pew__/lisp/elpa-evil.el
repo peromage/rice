@@ -163,7 +163,7 @@ an advice."
                                             (image-mode . motion)
                                             (view-mode . motion))
                                            :name
-                                           ((,(pew::special-buffer '(scratch edit-indirect org-starred)) . normal)))
+                                           ((,(pew::get-special-buffers '(:scratch :edit-indirect :org-starred) 'concat) . normal)))
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
@@ -202,7 +202,7 @@ This is an advanced method to determine initial state rather than using
                ;; Visiting files
                (buffer-file-name)
                ;; New unsaved buffers
-               (and (pew::special-buffer-match-p 'non-starred (buffer-name))
+               (and (pew::special-buffer-p :non-starred (buffer-name))
                     (not buffer-read-only))))
        (evil-change-state 'normal))
 

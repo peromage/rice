@@ -18,11 +18,11 @@
 ;;;; Windows and frames
   ;; When 3 side windows present `window-toggle-side-windows' may cause problem
   ;; Use `winner-undo' to revert the mess
-  (display-buffer-alist `((,(pew::special-buffer '(shell terminal))
+  (display-buffer-alist `((,(pew::get-special-buffers '(:shell :terminal) 'concat)
                            ,@(pew::side-window-actions 'bottom 0))
-                          (,(pew::special-buffer '(help))
+                          (,(pew::get-special-buffers '(:help) 'concat)
                            ,@(pew::side-window-actions 'bottom 1))
-                          (,(pew::special-buffer '(message backtrace warning log compilation output command))
+                          (,(pew::get-special-buffers '(:message :backtrace :warning :log :compilation :output :command) 'concat)
                            ,@(pew::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
@@ -223,9 +223,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew::special-buffer 'magit)))
-                                  ("VC" (name . ,(pew::special-buffer 'vc)))
-                                  ("Ediff" (name . ,(pew::special-buffer 'ediff)))
+                                  ("Git" (name . ,(pew::get-special-buffers '(:magit) 'concat)))
+                                  ("VC" (name . ,(pew::get-special-buffers '(:vc) 'concat)))
+                                  ("Ediff" (name . ,(pew::get-special-buffers '(:ediff) 'concat)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
