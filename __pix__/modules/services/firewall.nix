@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.firewall;
+  cfg = config.pix.services.firewall;
 
   options = with lib; {
     enable = mkEnableOption "stateful firewall";
@@ -61,7 +61,7 @@ let
   };
 
 in {
-  options.rice.services.firewall = options;
+  options.pix.services.firewall = options;
 
   config = lib.mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility

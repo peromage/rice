@@ -57,7 +57,7 @@
     ## Wayland
     wl-clipboard
 
-  ]) ++ (with pkgs.ricePkgs; [
+  ]) ++ (with pkgs.pixPkgs; [
     ## Editors
     emacs
     aspell

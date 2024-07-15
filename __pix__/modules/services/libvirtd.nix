@@ -1,9 +1,9 @@
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.libvirtd;
+  cfg = config.pix.services.libvirtd;
 
   options = with lib; {
     enable = mkEnableOption "virtual manager";
@@ -11,9 +11,9 @@ let
   };
 
 in {
-  options.rice.services.libvirtd = options;
+  options.pix.services.libvirtd = options;
 
-  config = librice.mkMergeIf [
+  config = libpix.mkMergeIf [
     {
       cond = cfg.enable;
       as = {

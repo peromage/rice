@@ -1,15 +1,15 @@
 ### Instance for my 13-inch 12th-gen-Intel Framework laptop
 
-{ lib, rice, ... }:
+{ lib, pix, ... }:
 
 {
   imports = [
     ./boot.nix
     ./mounts.nix
-    rice.nixosModules.default
+    pix.nixosModules.default
   ];
 
-  rice = {
+  pix = {
     hosts.hostName = "Framepie";
     hosts.platform = "x86_64-linux";
     hosts.profiles.potpie.enable = true;

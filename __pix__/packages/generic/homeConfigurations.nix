@@ -1,4 +1,4 @@
-{ system, rice, ... }:
+{ system, pix, ... }:
 
 /* Fake derivation */
-rice.homeConfigurations.${system} // { type = "derivation"; name = "homeConfigurations"; }
+pix.homeConfigurations.${system} // { type = "derivation"; name = "homeConfigurations"; }

@@ -1,4 +1,4 @@
-{ nixpkgs, rice, ... }:
+{ nixpkgs, pix, ... }:
 
 {
   unrestrictedPkgs = final: prev: {
@@ -11,7 +11,7 @@
     };
   };
 
-  ricePkgs = final: prev: {
-    ricePkgs = rice.packages.${final.system};
+  pixPkgs = final: prev: {
+    pixPkgs = pix.packages.${final.system};
   };
 }

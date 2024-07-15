@@ -2,8 +2,8 @@
 { config, lib, ... }:
 
 let
-  cfgAll = config.rice.desktops;
-  cfg = config.rice.desktops.env.xfce;
+  cfgAll = config.pix.desktops;
+  cfg = config.pix.desktops.env.xfce;
 
   options = mkDesktopOptions {
     name = "XFCE";
@@ -12,7 +12,7 @@ let
   };
 
 in {
-  options.rice.desktops.env.xfce = options;
+  options.pix.desktops.env.xfce = options;
 
   config = lib.mkIf cfg.enable {
     services.xserver = {

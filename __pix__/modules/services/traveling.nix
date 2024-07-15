@@ -14,12 +14,12 @@
    }
 */
 
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.traveling;
+  cfg = config.pix.services.traveling;
 
   options = with lib; {
     region = mkOption {
@@ -31,9 +31,9 @@ let
 
 
 in {
-  options.rice.services.traveling = options;
+  options.pix.services.traveling = options;
 
-  config = librice.mkMergeIf [
+  config = libpix.mkMergeIf [
     {
       cond = "China" == cfg.region;
       as = with lib; {

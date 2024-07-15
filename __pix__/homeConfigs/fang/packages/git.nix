@@ -1,7 +1,7 @@
-{ rice, ... }:
+{ pix, ... }:
 
 let
-  src = "${rice.paths.dotfiles}/git/.config/git";
+  src = "${pix.paths.dotfiles}/git/.config/git";
 
 in {
   programs.git = {

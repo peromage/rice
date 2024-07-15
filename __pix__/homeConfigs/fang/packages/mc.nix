@@ -1,7 +1,7 @@
-{ rice, pkgs, ... }:
+{ pix, pkgs, ... }:
 
 let
-  src = "${rice.paths.dotfiles}/mc/.config/mc";
+  src = "${pix.paths.dotfiles}/mc/.config/mc";
 
 in {
   home.packages = [ pkgs.mc ];

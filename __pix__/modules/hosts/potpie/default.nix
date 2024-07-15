@@ -2,14 +2,14 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.rice.hosts.profiles.potpie;
+  cfg = config.pix.hosts.profiles.potpie;
 
   options = mkProfileOptions {
     name = "potpie";
   };
 
 in {
-  options.rice.hosts.profiles.potpie = options;
+  options.pix.hosts.profiles.potpie = options;
 
   config = lib.mkIf cfg.enable {
     /* Fonts */

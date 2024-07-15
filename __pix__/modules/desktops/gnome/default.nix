@@ -2,8 +2,8 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfgAll = config.rice.desktops;
-  cfg = config.rice.desktops.env.gnome;
+  cfgAll = config.pix.desktops;
+  cfg = config.pix.desktops.env.gnome;
 
   options = mkDesktopOptions {
     name = "Gnome";
@@ -12,7 +12,7 @@ let
   };
 
 in {
-  options.rice.desktops.env.gnome = options;
+  options.pix.desktops.env.gnome = options;
 
   config = lib.mkIf cfg.enable {
     services.xserver = {

@@ -2,7 +2,7 @@
 { ... }:
 
 {
-  options.rice.users.profiles.fang = mkUserOptions {
+  options.pix.users.profiles.fang = mkUserOptions {
     name = "fang";
     description = "Fang The Handsome";
     id = 1001;

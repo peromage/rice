@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.audio;
+  cfg = config.pix.services.audio;
 
   options = {
     enable = lib.mkEnableOption "audio services";
   };
 
 in {
-  options.rice.services.audio = options;
+  options.pix.services.audio = options;
 
   config = lib.mkIf cfg.enable {
     sound = {

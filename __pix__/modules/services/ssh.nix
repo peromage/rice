@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.ssh;
+  cfg = config.pix.services.ssh;
 
   options = with lib; {
     enable = mkEnableOption "SSH service";
@@ -9,7 +9,7 @@ let
   };
 
 in {
-  options.rice.services.ssh = options;
+  options.pix.services.ssh = options;
 
   config = lib.mkIf cfg.enable {
     services.openssh = {

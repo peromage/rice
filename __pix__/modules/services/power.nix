@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.power;
+  cfg = config.pix.services.power;
 
   options = with lib; {
     enable = mkEnableOption "power governor";
@@ -14,7 +14,7 @@ let
   };
 
 in {
-  options.rice.services.power = options;
+  options.pix.services.power = options;
 
   config = lib.mkIf cfg.enable {
     powerManagement.cpuFreqGovernor = cfg.profile;

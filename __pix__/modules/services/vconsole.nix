@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.vconsole;
+  cfg = config.pix.services.vconsole;
 
   options = {
     enable = lib.mkEnableOption "virtual console";
   };
 
 in {
-  options.rice.services.vconsole = options;
+  options.pix.services.vconsole = options;
 
   config = lib.mkIf cfg.enable {
     console = {

@@ -1,9 +1,9 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.nix;
+  cfg = config.pix.services.nix;
 
   options = with lib; {
     enable = mkEnableOption "Nix settings";
@@ -11,9 +11,9 @@ let
   };
 
 in {
-  options.rice.services.nix = options;
+  options.pix.services.nix = options;
 
-  config = librice.mkMergeIf [
+  config = libpix.mkMergeIf [
     {
       cond = cfg.enable;
       as = {

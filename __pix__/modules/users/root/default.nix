@@ -1,11 +1,11 @@
 { ... }:
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  userCfg = config.rice.users;
-  cfg = config.rice.users.root;
+  userCfg = config.pix.users;
+  cfg = config.pix.users.root;
 
   options = {
     enable = with lib; mkOption {
@@ -45,7 +45,7 @@ let
   };
 
   ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = librice.anyEnable userCfg.profiles;
+  enableUserConfig = libpix.anyEnable userCfg.profiles;
 
   password =
     if userCfg.immutable then
@@ -62,7 +62,7 @@ let
   };
 
 in {
-  options.rice.users.root = options;
+  options.pix.users.root = options;
 
   config = with lib; mkIf enableUserConfig {
     assertions = singleton {

@@ -1,9 +1,9 @@
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.users;
+  cfg = config.pix.users;
 
   options = {
     immutable = with lib; mkOption {
@@ -12,7 +12,7 @@ let
       description = ''
         Immutable user management.
         Note that when this is enabled the `hashedPassword' must be specified
-        for each user declared within rice namespace.
+        for each user declared within pix namespace.
       '';
     };
 
@@ -92,8 +92,8 @@ let
   };
 
   ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = librice.anyEnable cfg.profiles;
-  enabledUsers = librice.filterEnable cfg.profiles;
+  enableUserConfig = libpix.anyEnable cfg.profiles;
+  enabledUsers = libpix.filterEnable cfg.profiles;
 
   getPassword = user:
     if cfg.immutable then
@@ -104,7 +104,7 @@ let
     else
       { initialPassword = user.initialPassword; };
 
-  ## Handle rice.users.profiles.<name>
+  ## Handle pix.users.profiles.<name>
   userList = with lib; mapAttrs'
     (n: v: nameValuePair v.name ({
       description = v.description;
@@ -119,7 +119,7 @@ let
     } // (getPassword v)))
     enabledUsers;
 
-  ## Handle rice.users.profiles.<name>
+  ## Handle pix.users.profiles.<name>
   groupList = with lib; mapAttrs'
     (n: v: nameValuePair v.name {
       gid = v.id;
@@ -130,18 +130,18 @@ let
   mutableUsers = !cfg.immutable;
 
 in {
-  imports = with librice; callAll args (listDir isNotDefaultNix ./.);
-  options.rice.users = options;
+  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
+  options.pix.users = options;
 
   config = lib.mkIf enableUserConfig {
     assertions = [
       {
-        assertion = cfg.immutable -> librice.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
+        assertion = cfg.immutable -> libpix.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
         message = "Hashed password for normal users must be provided when immutable user is enabled.";
       }
 
       {
-        assertion = !cfg.immutable -> librice.allAttrs (n: v: null != v.initialPassword) enabledUsers;
+        assertion = !cfg.immutable -> libpix.allAttrs (n: v: null != v.initialPassword) enabledUsers;
         message = "Initial password for normal users must be provided.";
       }
     ];

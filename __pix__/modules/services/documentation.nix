@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.documentation;
+  cfg = config.pix.services.documentation;
 
   options = {
     enable = lib.mkEnableOption "documentation generation";
   };
 
 in {
-  options.rice.services.documentation = options;
+  options.pix.services.documentation = options;
 
   config = lib.mkIf cfg.enable {
     documentation = {

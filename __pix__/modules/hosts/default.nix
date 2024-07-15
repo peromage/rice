@@ -1,9 +1,9 @@
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.hosts;
+  cfg = config.pix.hosts;
 
   options = {
     hostName = with lib; mkOption {
@@ -41,8 +41,8 @@ let
   };
 
   ## Host config is only enabled if any one of the profiles is turned on
-  enableHostConfig = librice.anyEnable cfg.profiles;
-  enabledHosts = librice.filterEnable cfg.profiles;
+  enableHostConfig = libpix.anyEnable cfg.profiles;
+  enabledHosts = libpix.filterEnable cfg.profiles;
 
   /* Handle host name.
      The precedence of the host name specified in options is as follow:
@@ -55,7 +55,7 @@ let
      If no global hostName exists, the last host name in the set (in alphabetic
      order) will be used.
     */
-  finalHostName = with librice; either
+  finalHostName = with libpix; either
     cfg.hostName
     (lib.foldlAttrs
       (a: n: v: either v.name n)
@@ -63,8 +63,8 @@ let
       enabledHosts);
 
 in {
-  imports = with librice; callAll args (listDir isNotDefaultNix ./.);
-  options.rice.hosts = options;
+  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
+  options.pix.hosts = options;
 
   config = lib.mkIf enableHostConfig {
     assertions = [

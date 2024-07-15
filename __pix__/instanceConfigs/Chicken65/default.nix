@@ -1,13 +1,13 @@
-{ lib, rice, ... }:
+{ lib, pix, ... }:
 
 {
   imports = [
     ./accounts.nix
     ./hardware.nix
-    rice.nixosModules.default
+    pix.nixosModules.default
   ];
 
-  rice = {
+  pix = {
     hosts.hostName = "Chicken65";
     hosts.platform = "x86_64-linux";
     hosts.profiles.biryani.enable = true;

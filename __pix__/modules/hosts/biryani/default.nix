@@ -2,14 +2,14 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.rice.hosts.profiles.biryani;
+  cfg = config.pix.hosts.profiles.biryani;
 
   options = mkProfileOptions {
     name = "biryani";
   };
 
 in {
-  options.rice.hosts.profiles.biryani = options;
+  options.pix.hosts.profiles.biryani = options;
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

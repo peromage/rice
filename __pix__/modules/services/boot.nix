@@ -1,9 +1,9 @@
-{ config, rice, pkgs, lib, lanzaboote, ... }:
+{ config, pix, pkgs, lib, lanzaboote, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.boot;
+  cfg = config.pix.services.boot;
 
   options = with lib; {
     enabled = mkOption {
@@ -38,9 +38,9 @@ let
 
 in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
-  options.rice.services.boot = options;
+  options.pix.services.boot = options;
 
-  config = with lib; librice.mkMergeIf [
+  config = with lib; libpix.mkMergeIf [
     {
       cond = "systemd-boot" == cfg.enabled;
       as = {

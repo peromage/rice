@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.shadowsocks;
+  cfg = config.pix.services.shadowsocks;
 
   options = with lib; {
     enable = mkEnableOption "ShadowSocks";
@@ -32,7 +32,7 @@ let
   };
 
 in {
-  options.rice.services.shadowsocks = options;
+  options.pix.services.shadowsocks = options;
 
   config = with lib; mkIf cfg.enable {
     assertions = singleton {

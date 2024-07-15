@@ -1,7 +1,7 @@
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  cfg = config.rice.services.peripherals;
+  cfg = config.pix.services.peripherals;
 
   options = with lib; {
     enable = mkEnableOption "peripheral management";
@@ -9,7 +9,7 @@ let
   };
 
 in {
-  options.rice.services.peripherals = options;
+  options.pix.services.peripherals = options;
 
   config = lib.mkIf cfg.enable {
     services.printing.enable = cfg.enablePrinting;

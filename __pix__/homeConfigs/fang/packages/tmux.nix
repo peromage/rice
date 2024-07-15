@@ -1,7 +1,7 @@
-{ rice, ... }:
+{ pix, ... }:
 
 let
-  src = "${rice.paths.dotfiles}/tmux/.config/tmux";
+  src = "${pix.paths.dotfiles}/tmux/.config/tmux";
 
 in {
   programs.tmux.enable = true;

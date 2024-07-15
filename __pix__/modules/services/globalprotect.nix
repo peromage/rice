@@ -1,14 +1,14 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.rice.services.globalprotect;
+  cfg = config.pix.services.globalprotect;
 
   options = {
     enable = lib.mkEnableOption "GlobalProtect VPN client";
   };
 
 in {
-  options.rice.services.globalprotect = options;
+  options.pix.services.globalprotect = options;
 
   config = lib.mkIf cfg.enable {
     services.globalprotect.enable = true;

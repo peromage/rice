@@ -1,7 +1,7 @@
 ### All service options
 
-{ rice, ... }:
+{ pix, ... }:
 
 {
-  imports = with rice.lib; listDir isNotDefaultNix ./.;
+  imports = with pix.lib; listDir isNotDefaultNix ./.;
 }

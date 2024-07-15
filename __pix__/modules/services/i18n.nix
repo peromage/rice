@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.i18n;
+  cfg = config.pix.services.i18n;
 
   options = with lib; {
     enable = mkEnableOption "internationalization";
@@ -22,7 +22,7 @@ let
   lc = cfg.locale;
 
 in {
-  options.rice.services.i18n = options;
+  options.pix.services.i18n = options;
 
   config = lib.mkIf cfg.enable {
     i18n = {

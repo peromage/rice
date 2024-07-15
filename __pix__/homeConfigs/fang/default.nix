@@ -1,7 +1,7 @@
-{ rice, pkgs, ... }:
+{ pix, pkgs, ... }:
 
 let
-  src = rice.paths.dotfiles;
+  src = pix.paths.dotfiles;
 
 in {
   imports = [ ./packages.nix ];

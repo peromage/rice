@@ -1,9 +1,9 @@
-{ config, pkgs, lib, rice, ... }:
+{ config, pkgs, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.ime;
+  cfg = config.pix.services.ime;
 
   options = with lib; {
     enabled = mkOption {
@@ -19,12 +19,12 @@ let
     };
   };
 
-  gnomeEnabled = config.rice.desktops.env.gnome.enable;
+  gnomeEnabled = config.pix.desktops.env.gnome.enable;
 
 in {
-  options.rice.services.ime = options;
+  options.pix.services.ime = options;
 
-  config = librice.mkMergeIf [
+  config = libpix.mkMergeIf [
     {
       cond = "ibus" == cfg.enabled;
       as = {

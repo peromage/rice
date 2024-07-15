@@ -1,7 +1,7 @@
-{ rice, ... }:
+{ pix, ... }:
 
 let
-  src = "${rice.paths.dotfiles}/vscode/.config/Code";
+  src = "${pix.paths.dotfiles}/vscode/.config/Code";
 
 in {
   programs.vscode.enable = true;

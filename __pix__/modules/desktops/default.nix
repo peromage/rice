@@ -1,9 +1,9 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.desktops;
+  cfg = config.pix.desktops;
 
   options = with lib; {
     /* The display server is actually selected by the display manager.
@@ -28,11 +28,11 @@ let
   };
 
   ## Do not enable desktop settings if no desktop environment is enabled
-  enableDesktopConfig = librice.anyEnable cfg.env;
+  enableDesktopConfig = libpix.anyEnable cfg.env;
 
 in {
-  imports = with librice; callAll args (listDir isNotDefaultNix ./.);
-  options.rice.desktops = options;
+  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
+  options.pix.desktops = options;
 
   config = lib.mkIf enableDesktopConfig {
     services = {

@@ -1,9 +1,9 @@
-{ config, lib, pkgs, rice, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.steam;
+  cfg = config.pix.services.steam;
 
   options = with lib; {
     enable = mkEnableOption "Steam";
@@ -13,7 +13,7 @@ let
     };
   };
 
-  ricedSteam = pkgs.steam.override {
+  customSteam = pkgs.steam.override {
     extraPkgs = spkgs: with spkgs; [
       xorg.libXcursor
       xorg.libXi
@@ -33,9 +33,9 @@ let
   };
 
 in {
-  options.rice.services.steam = options;
+  options.pix.services.steam = options;
 
-  config = librice.mkMergeIf [
+  config = libpix.mkMergeIf [
     {
       cond = cfg.enable;
       as = {
@@ -44,7 +44,7 @@ in {
         programs.steam = {
           enable = true;
           gamescopeSession.enable = true;
-          package = ricedSteam;
+          package = customSteam;
         };
 
         environment.systemPackages = with pkgs; [

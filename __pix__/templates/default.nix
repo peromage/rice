@@ -1,5 +1,5 @@
-{ rice, ... }:
+{ pix, ... }:
 
-with rice.lib; importAllNameMapped
+with pix.lib; importAllNameMapped
   baseNameNoExt
   (listDir isNotDefaultNix ./.)

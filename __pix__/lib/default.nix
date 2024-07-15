@@ -12,10 +12,10 @@ let
   prelude = let x = (import ./prelude.nix) (args // { self = x; }); in x;
 
   ## Import all nix files within this folder
-  librice = with prelude; lib.foldl'
+  libpix = with prelude; lib.foldl'
     (acc: x: acc // x)
     {}
-    (callAll (args // { self = librice; })
+    (callAll (args // { self = libpix; })
       (listDir (n: t: isNotDefaultNix n t && isImportable n t) ./.));
 
-in librice
+in libpix

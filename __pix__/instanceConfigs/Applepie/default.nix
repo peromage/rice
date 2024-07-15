@@ -1,7 +1,7 @@
-{ rice, pkgs, nixpkgs, ... }:
+{ pix, pkgs, nixpkgs, ... }:
 
 {
-  imports = with rice.lib; listDir isNotDefaultNix ./.;
+  imports = with pix.lib; listDir isNotDefaultNix ./.;
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";

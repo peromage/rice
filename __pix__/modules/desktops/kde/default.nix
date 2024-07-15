@@ -2,8 +2,8 @@
 { config, lib, ... }:
 
 let
-  cfgAll = config.rice.desktops;
-  cfg = config.rice.desktops.env.kde;
+  cfgAll = config.pix.desktops;
+  cfg = config.pix.desktops.env.kde;
 
   options = mkDesktopOptions {
     name = "KDE";
@@ -12,7 +12,7 @@ let
   };
 
 in {
-  options.rice.desktops.env.kde = options;
+  options.pix.desktops.env.kde = options;
 
   config = lib.mkIf cfg.enable {
     services.xserver = {

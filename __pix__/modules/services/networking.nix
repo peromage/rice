@@ -1,16 +1,16 @@
-{ config, lib, rice, ... }:
+{ config, lib, pix, ... }:
 
 let
-  librice = rice.lib;
+  libpix = pix.lib;
 
-  cfg = config.rice.services.networking;
+  cfg = config.pix.services.networking;
 
   options = with lib; {
     enable = mkEnableOption "network management";
   };
 
 in {
-  options.rice.services.networking = options;
+  options.pix.services.networking = options;
 
   config = lib.mkIf cfg.enable {
     networking = {

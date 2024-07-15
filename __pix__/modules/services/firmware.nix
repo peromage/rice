@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.rice.services.firmware;
+  cfg = config.pix.services.firmware;
 
   options = {
     ## Don't forget `fwupdmgr update'
@@ -9,7 +9,7 @@ let
   };
 
 in {
-  options.rice.services.firmware = options;
+  options.pix.services.firmware = options;
 
   config = lib.mkIf cfg.enable {
     hardware = {

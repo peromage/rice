@@ -6,7 +6,7 @@ let
   libdw = nix-darwin.lib;
 
 in with self; {
-  /* A generice function to generate a module that has ability to add additonal
+  /* A generic function to generate a module that has ability to add additonal
      modules.  Similar to the concept of override.
 
      `f' is a function like `nixosSystem' `darwinSystem' or `homeManagerConfiguration'.
