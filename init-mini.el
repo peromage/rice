@@ -13,11 +13,11 @@
 (let ((topLevel (expand-file-name "__pew__" (file-name-directory load-file-name))))
   ;; This config
   (setq load-path (nconc (mapcar (lambda (p) (expand-file-name p topLevel))
-                                 '("lisp" "site-lisp" "site-lisp/pewcfg"))
+                                 '("lisp" "site-lisp/pewcfg" "site-lisp/pewlib"))
                          load-path)))
 
 (require 'pewcfg-core)
-(require 'init-lib)
+(require 'pewlib)
 (require 'init-config)
 
 (pewcfg

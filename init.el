@@ -14,7 +14,6 @@
      :topLevel topLevel
      :lisp (expand-file-name "lisp" topLevel)
      :site-lisp (expand-file-name "site-lisp" topLevel)
-     :pewcfg (expand-file-name "site-lisp/pewcfg" topLevel)
      :org-template (expand-file-name "org-templates" topLevel)
      :yas-template (expand-file-name "yasnippet-templates" topLevel)
      :custom (expand-file-name "custom.el" root)
@@ -26,15 +25,18 @@
 (setq custom-file (plist-get pew::paths-plist :custom))
 ;; This config
 (setq load-path (nconc (mapcar (lambda (k) (plist-get pew::paths-plist k))
-                               '(:lisp :site-lisp :pewcfg))
+                               '(:lisp :site-lisp))
                        load-path))
+(let ((default-directory (plist-get pew::paths-plist :site-lisp)))
+  (normal-top-level-add-subdirs-to-load-path))
+
 
 ;;; Module loading
 ;; NOTE: The loading sequence is important
+(require 'pewcfg)
+(require 'pewlib)
 (require 'init-boot)
 (require 'init-package)
-(require 'pewcfg)
-(require 'init-lib)
 (require 'init-config)
 
 ;; Load ELPA packages
