@@ -4,13 +4,17 @@
 ## First, exclude all files
 *
 
-## Include pew files
+## Include pew config
 !/__pew__/
 !/__pew__/**
 ## No compiled ELisp files
 /__pew__/**/*.elc
 
-## Include my rice config
+## Include pix config
+!/__pix__/
+!/__pix__/**
+
+## Include rice config
 !/__rice__/
 !/__rice__/**
 
