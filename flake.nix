@@ -1,5 +1,5 @@
 {
-  description = "Nix Rice";
+  description = "PIX - Peromage's nIX configuration";
 
   inputs = {
     /* Essential flakes */
@@ -40,11 +40,11 @@
   outputs = { self, nixpkgs, ... }:
     let
       /* All flakes including this one */
-      specialArgs = self.inputs // { rice = self.outputs; };
+      specialArgs = self.inputs // { pix = self.outputs; };
       lib = nixpkgs.lib;
 
       paths = let
-        withTop = p: ./__rice__ + "/${p}";
+        withTop = p: ./__pix__ + "/${p}";
       in {
         topLevel = withTop "";
         lib = withTop "lib";
@@ -58,7 +58,7 @@
         templates = withTop "templates";
       };
 
-      librice = (import paths.lib specialArgs) // {
+      libpix = (import paths.lib specialArgs) // {
         /* Improvised functions
         */
 
@@ -67,7 +67,7 @@
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        flakeCall = extraArgs: librice.call (specialArgs // extraArgs);
+        flakeCall = extraArgs: libpix.call (specialArgs // extraArgs);
 
         /* Call all packages under the given path.
 
@@ -79,15 +79,15 @@
           */
         flakeCallPackages = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (specialArgs // extraArgs))
-          (with librice; importAllNameMapped
+          (with libpix; importAllNameMapped
             baseNameNoExt
             (listDir (n: t: isNotDefaultNix n t && isImportable n t) path));
       };
 
     in {
-      /* Rice */
+      /* Pix */
       paths = paths;
-      lib = librice;
+      lib = libpix;
       specialArgs = specialArgs;
 
       /* Expose my modules */
@@ -114,26 +114,26 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with librice; forSupportedSystems (system: flakeCall { inherit system; } paths.packages);
+      packages = with libpix; forSupportedSystems (system: flakeCall { inherit system; } paths.packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with librice; forSupportedSystems (system: flakeCall { inherit system; } paths.devshells);
+      devShells = with libpix; forSupportedSystems (system: flakeCall { inherit system; } paths.devshells);
 
       /* Via: `nix fmt'
 
          Other options beside `alejandra' include `nixpkgs-fmt'
       */
-      formatter = librice.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = libpix.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = librice.flakeCall {} paths.overlays;
+      overlays = libpix.flakeCall {} paths.overlays;
 
-      /* Via: `nix flake init -t /path/to/rice#TEMPLATE_NAME' */
-      templates = librice.flakeCall {} paths.templates;
+      /* Via: `nix flake init -t /path/to/this_config#TEMPLATE_NAME' */
+      templates = libpix.flakeCall {} paths.templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = ins: librice.nixosTopModule specialArgs (paths.instances + "/${ins}");
+        let inc = ins: libpix.nixosTopModule specialArgs (paths.instances + "/${ins}");
         in {
           Framepie = inc "Framepie";
           Chicken65 = inc "Chicken65";
@@ -141,7 +141,7 @@
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = ins: librice.darwinTopModule specialArgs (paths.instances + "/${ins}");
+        let inc = ins: libpix.darwinTopModule specialArgs (paths.instances + "/${ins}");
         in {
           Applepie = inc "Applepie";
         };
@@ -152,7 +152,7 @@
            `home-manager { build | switch } --flake .#NAME'
          is actually implemented by the `packages' output not this.
       */
-      homeConfigurations = with librice; forSupportedSystems (system:
+      homeConfigurations = with libpix; forSupportedSystems (system:
         let inc = home: homeTopModule (flakeOverlaidPkgs system) specialArgs (paths.homes + "/${home}");
         in {
           fang = inc "fang";
