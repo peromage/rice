@@ -279,14 +279,14 @@
    ("C-r" . pewkey-repeat)
 
 ;;;; Windows
-   ("q" . pew::close-window)
+   ("q" . pewlib::close-window)
    ("1" . delete-other-windows)
    ("2" . split-window-below)
    ("3" . split-window-right)
    ("9" . window-toggle-side-windows)
-   ("0" . pew::close-window)
-   ("o" . pew::next-window)
-   ("O" . pew::prev-window)
+   ("0" . pewlib::close-window)
+   ("o" . pewlib::next-window)
+   ("O" . pewlib::prev-window)
    ("h" . windmove-left)
    ("j" . windmove-down)
    ("k" . windmove-up)
@@ -301,11 +301,11 @@
    ("Y" . winner-redo)
 
 ;;;; Other window
-   ("C-v" . pew::scroll-other-window-page-down)
-   ("M-v" . pew::scroll-other-window-page-up)
-   ("C-n" . pew::scroll-other-window-line-down)
-   ("C-p" . pew::scroll-other-window-line-up)
-   ("C-l" . pew::recenter-other-window)
+   ("C-v" . pewlib::scroll-other-window-page-down)
+   ("M-v" . pewlib::scroll-other-window-page-up)
+   ("C-n" . pewlib::scroll-other-window-line-down)
+   ("C-p" . pewlib::scroll-other-window-line-up)
+   ("C-l" . pewlib::recenter-other-window)
 
 ;;;; Tabbar
    ("Q"   . tab-bar-close-tab)
@@ -314,17 +314,17 @@
    ("F"   . tab-bar-select-tab-by-name)
    ("b"   . tab-bar-switch-to-prev-tab)
    ("t"   . tab-bar-new-tab)
-   ("T"   . pew::pop-window-in-new-tab)
-   ("C-t" . pew::pop-window-in-new-tab-persist)
-   ("m"   . pew::move-tab-next)
-   ("M"   . pew::move-tab-prev)
+   ("T"   . pewlib::pop-window-in-new-tab)
+   ("C-t" . pewlib::pop-window-in-new-tab-persist)
+   ("m"   . pewlib::move-tab-next)
+   ("M"   . pewlib::move-tab-prev)
 
 ;;;; Buffers
    ("r" . rename-buffer)
    ("w" . save-buffer)
-   ("n" . pew::next-editing-buffer)
-   ("p" . pew::previous-editing-buffer)
-   ("i" . pew::display-buffer-path)
+   ("n" . pewlib::next-editing-buffer)
+   ("p" . pewlib::previous-editing-buffer)
+   ("i" . pewlib::display-buffer-path)
    ("B" . display-buffer)
    ("g" . revert-buffer-quick)
 
@@ -349,10 +349,10 @@
    ("C-0" . text-scale-adjust)
 
 ;;;; Frame Transparency
-   ("M-=" . pew::increase-frame-opacity)
-   ("M--" . pew::decrease-frame-opacity)
-   ("A"   . pew::pop-window-in-new-frame)
-   ("C-a" . pew::pop-window-in-new-frame-persist)
+   ("M-=" . pewlib::increase-frame-opacity)
+   ("M--" . pewlib::decrease-frame-opacity)
+   ("A"   . pewlib::pop-window-in-new-frame)
+   ("C-a" . pewlib::pop-window-in-new-frame-persist)
    ("a"   . other-frame)
 
 ;;;; Rebind word manipulations
@@ -390,8 +390,8 @@
    ("C-x C-d" . dired-jump)
 
    ;; Remap for better experience
-   ([remap next-buffer] . pew::next-editing-buffer)
-   ([remap previous-buffer] . pew::previous-editing-buffer)
+   ([remap next-buffer] . pewlib::next-editing-buffer)
+   ([remap previous-buffer] . pewlib::previous-editing-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
@@ -415,8 +415,8 @@
 
 ;;;; Dired
   (dired-mode-map
-   ("RET" . pew::dired-go-to)
-   ("DEL" . pew::dired-go-up)
+   ("RET" . pewlib::dired-go-to)
+   ("DEL" . pewlib::dired-go-up)
    ("f" . dired-find-file)
    ("b" . dired-up-directory)
    ("<left>" . dired-up-directory)
@@ -425,17 +425,17 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode-hook . pew::terminal-mode-oninit)
-  (shell-mode-hook . pew::terminal-mode-oninit)
+  (eshell-mode-hook . pewlib::terminal-mode-oninit)
+  (shell-mode-hook . pewlib::terminal-mode-oninit)
 
   ;; Don't save trailing spaces
-  (after-save-hook . pew::delete-trailing-whitespaces)
+  (after-save-hook . pewlib::delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
   (minibuffer-setup-hook . cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode-hook . pew::reuse-window-in-buffer)
+  (grep-mode-hook . pewlib::reuse-window-in-buffer)
 
   ;; Enable folding
   (prog-mode-hook . outline-minor-mode)

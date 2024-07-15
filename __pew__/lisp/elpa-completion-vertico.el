@@ -147,7 +147,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :config
   (defun pew::embark::collect-oninit ()
     "`embark-collect-mode' initialization."
-    (pew::reuse-window-in-buffer)
+    (pewlib::reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
 ;;; Consult and embark integration
