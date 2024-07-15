@@ -1,0 +1,45 @@
+#+title: RICE - Rice Is Complex Enchantment
+#+author: Peromage
+
+#+begin_quote
+> Keep ricing.
+#+end_quote
+
+* About
+This my Emacs + Nix configuration.  I purposely put them together for my own convenience.
+
+Before proceeding, be aware of that this is highly customized and it may NOT work for you.
+
+* Get started
+Use as an Emacs configuration.
+
+#+begin_src bash
+git clone https://github.com/peromage/rice.git ~/.emacs.d
+#+end_src
+
+Use as a Nix flake.
+
+#+begin_src bash
+nix flake show ~/.emacs.d
+#+end_src
+
+Generate a flake template.
+
+#+begin_src bash
+nix flake init -t "github:peromage/rice/master#"
+#+end_src
+
+Quickly deploy dotfiles.
+
+#+begin_src bash
+# Single
+stow.sh -S <name>
+
+# Multiple
+echo <name1> <name2> <name3> | xargs -n1 stow.sh -S
+#+end_src
+
+* Project Overview
+- [[./__pew__][pew]]: Emacs configuration.
+- [[./__pix__][pix]]: NixOS configuration.
+- [[__dots__][dots]]: Daily driver configurations.

@@ -1,0 +1,36 @@
+#+title: DOTS - Peromage's DOTfileS
+#+author: Peromage
+
+#+begin_quote
+> I exhausted my idea for this slogan.
+#+end_quote
+
+* About
+This is my dotfiles for daily drivers.
+
+* Get Started
+Most of the configurations are managed via GNU =stow=.  Use the script quickly deploy them.
+
+#+begin_src bash
+# Deploy
+stow.sh -S <name>
+
+# Deploy multiple
+echo <name1> <name2> <name3> | xargs -n1 stow.sh -S
+
+# Delete
+stow.sh -D <name>
+
+# Re-deploy
+stow.sh -R <name>
+#+end_src
+
+* Appendix
+** Common CLI alternatives
+- Better =ls=: [[https://github.com/ogham/exa][exa]]
+- Better =cat=: [[https://github.com/sharkdp/bat][bat]]
+- Better =grep=: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
+- Better =find=: [[https://github.com/junegunn/fzf][fzf]]
+- Quick jump: [[https://github.com/ajeetdsouza/zoxide][zoxide]], [[https://github.com/skywind3000/z.lua][z.lua]]
+- File manager: [[https://github.com/gokcehan/lf][lf]], [[https://midnight-commander.org][mc]]
+- Automation: [[https://github.com/eradman/entr][entr]]

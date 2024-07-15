@@ -10,8 +10,6 @@ This is my personal Emacs configuration.  Be aware that it might not fit your ne
 
 This configuration intends to be as minimal as possible so it prioritizes using Emacs built-in functionalities.
 
-For convenience, I've included my [[https://github.com/peromage/rice][personal configuration collection]] in [[./rice][rice]] directory which is synchronized regularly via =git subtree=.
-
 The file structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.
 
 * Features
@@ -20,32 +18,29 @@ The file structure was borrowed from [[https://github.com/purcell/emacs.d][Steve
 - Terminal friendly
 - Emacs 28+ only
 
-* Get started
-** Option 1 -- Clone to ~/.emacs.d
-This is the traditional way to use this configuration.  Simply clone this repo to =~/.emacs.d=.
+* Get Started
+Simply clone to the canonical Emacs configuration location.
 
-#+begin_src sh
-git clone https://github.com/peromage/pew.git ~/.emacs.d
+#+begin_src bash
+git clone https://github.com/peromage/rice.git ~/.emacs.d
 #+end_src
 
-** Option 2 -- Clone to somewhere else
-This configuration also supports loading from non-canonical path.
+Or load it along with your personal configuration.
 
-#+begin_src sh
-git clone https://github.com/peromage/pew.git ~/pew
+#+begin_src bash
+git clone https://github.com/peromage/rice.git ~/rice
 #+end_src
 
-While in the =.emacs= or =~/.emacs.d/init.el=,
+In your =.emacs= or =~/.emacs.d/init.el=,
 
 #+begin_src elisp
-(load-file "~/pew/init.el")
+(load-file "~/rice/init.el")
 #+end_src
 
-** Local configuration files
 Disposable changes are stored in =custom.el= at the root of this config directory.
 
-* Key bindings
-** Major keybindings
+* Key Bindings
+** Major Keybindings
 =evil-mode= is enabled for editing buffers and outside of it the key bindings are kept in a vanilla fashion.
 
 In =evil-mode= the =SPC= is bound to =pewkey-map= where my personal key bindings go.
@@ -54,28 +49,28 @@ This keymap can be activated via =pewkey= command as well.  When it is activated
 
 =pewkey= supports repeat mode.  Unlike =repeat-mode= it is still a transient keymap.  A universal argument can be passed to =pewkey= to enable repeat mode or press =C-h= to enable it while =pewkey-map= is active.  Use =C-g= to exit.
 
-Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-config.el][init-config.el]] for details.
+Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-config.el][init-config.el]] for details.
 
 My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey=.
 
-** A brief list of keybindings
+** A Brief List of Keybindings
 Global
 
 | Key         | Command                                                       | Definition                                                        |
 |-------------+---------------------------------------------------------------+-------------------------------------------------------------------|
-| =C-z=       | =pewkey=                                                      | [[./pew/lisp/init-config.el][init-config.el]]                     |
-| =C-u C-z=   | =pewkey-repeat=                                               | [[./pew/lisp/init-config.el][init-config.el]]                     |
-| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by =consult=              | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by =consult=                 | [[./pew/lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x m=     | Toggle @@html:<b>@@M@@html:</b>@@ode edit state (Evil)        | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-x C-m=   | Toggle global @@html:<b>@@M@@html:</b>@@ode edit state (Evil) | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by =lsp-mode=                    | [[./pew/lisp/elpa-lsp.el][elpa-lsp.el]]                           |
-| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                           | [[./pew/lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
-| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by =magit=                       | [[./pew/lisp/elpa-git.el][elpa-git.el]]                           |
-| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by =ace-window=          | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by =avy-goto-char=    | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by =avy-goto-line=      | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u '=     | Separate edit by =separedit=                                  | [[./pew/lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =C-z=       | =pewkey=                                                      | [[./lisp/init-config.el][init-config.el]]                     |
+| =C-u C-z=   | =pewkey-repeat=                                               | [[./lisp/init-config.el][init-config.el]]                     |
+| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by =consult=              | [[./lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by =consult=                 | [[./lisp/elpa-vertico.el][elpa-vertico.el]]                   |
+| =C-x m=     | Toggle @@html:<b>@@M@@html:</b>@@ode edit state (Evil)        | [[./lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-x C-m=   | Toggle global @@html:<b>@@M@@html:</b>@@ode edit state (Evil) | [[./lisp/elpa-evil.el][elpa-evil.el]]                         |
+| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by =lsp-mode=                    | [[./lisp/elpa-lsp.el][elpa-lsp.el]]                           |
+| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                           | [[./lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
+| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by =magit=                       | [[./lisp/elpa-git.el][elpa-git.el]]                           |
+| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by =ace-window=          | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by =avy-goto-char=    | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by =avy-goto-line=      | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u '=     | Separate edit by =separedit=                                  | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
 
 Evil
 
@@ -85,9 +80,9 @@ Evil
 | =DEL=                         | Local leader |
 | =SPC=                         | =pewkey=     |
 
-See [[./pew/lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
+See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
 
-** Available key prefixes
+** Available Key Prefixes
 The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in =pewkey-map=.
 
 | Prefix | Map            | Intention  |
@@ -101,13 +96,13 @@ The following key prefixes are cleared and available for binding since they are 
 | =M-q=  | =pew::M-q-map= |            |
 | =M-h=  | =pew::M-h-map= |            |
 
-* Fonts and icons
+* Fonts and Icons
 For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]] which is also the default font used by this configuration.
 
 For the first time setup, =nerd-icons-install-fonts= and =all-the-icons-install-fonts= should be run in order to ensure modeline and other parts to display properly.
 
-* Side notes (for myself)
-** Naming conventions
+* Side Notes (for myself)
+** Naming Conventions
 This is a complicated topic but I'll try making my points with much sense.
 
 For the namespace, personally, I don't like the Emacs traditional naming convention which uses a =-= to separate the package name and the function/variable name.  Since the tradition also uses the same =-= to separate words, say if the function/variable name has more than one word, it will later on make it hard to distinguish these two parts.  I prefer using =::= because it's a second nature if you're familiar C/C++.  Also I feel this is more visual appealing.
@@ -123,7 +118,7 @@ This is totally a personal taste.  There are a lot discussions about the naming 
 
 Note: The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][shorthands]] is a good practice to simplify naming things, too.
 
-** use-package keyword order
+** use-package Keyword Order
 No strict order but I prefer to put =:custom= =:init= and =:config= at the end of declaration in this order, since they consist of the most part of a package configuration.
 
 * Acknowledgment

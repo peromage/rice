@@ -1,22 +1,30 @@
-#+title: RICE - Rice Is Complex Enchantment
+#+title: PIX - Peromage's nIX Flake
 #+author: Peromage
 
 #+begin_quote
-> Keep ricing
+> By the way I use Nix.
 #+end_quote
 
 * About
 This is my personal configuration collection built on top of NixOS with Nix Flake.
 
 * Get started
-This configuration can be used as is.
-
-There is another way that gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.
-
-To start, initialize a template and then make desired modifications to it.
+Clone and evaluate.
 
 #+begin_src bash
-nix flake init -t "github:peromage/pew/master?dir=rice#"
+git clone https://github.com/peromage/rice.git ~/rice
+
+nix flake show ~/rice
+#+end_src
+
+Or use as a flake along with yours.
+
+This gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.
+
+Generate a template flake to get to know the basic use case.
+
+#+begin_src bash
+nix flake init -t "github:peromage/rice/master#"
 #+end_src
 
 * Appendix
@@ -33,10 +41,8 @@ NOTE: In Gnome, ~super+space~ is eatten by mutter.  Need to find a workaround to
 ** Dotfiles
 I didn't rewrite all my dotfiles into Nix modules since I also work on other distributions.  Most apps are simply wrapped by HomeManager and they still use dotfiles configurations under the hood.  This works best for me as a balanced option as it still gives me the freedom to drop the configs in place on other systems.
 
-A convenient [[./dotfiles/stow.sh][script]] is written in case I need to quickly deploy some configurations on non-Nix systems.
-
-** Immutability and dynamics
-Most of the time I still need some dynamics in the system so immutable user option =rice.users.immutable= is disabled by default.  However, when it is enabled each user declared within =rice.users.profiles= namespace must supply either a hashed password or hashed password file by =rice.users.profiles.<name>.hashedPassword=.
+** Immutability and Dynamics
+Most of the time I still need some dynamics in the system so immutable user option =pix.users.immutable= is disabled by default.  However, when it is enabled each user declared within =pix.users.profiles= namespace must supply either a hashed password or hashed password file by =pix.users.profiles.<name>.hashedPassword=.
 
 To generate a hashed password:
 
@@ -47,12 +53,3 @@ mkpasswd -m sha-512
 However, there is problem that if a hashed password file is used, it must be tracked by git so that flake can recognize it, or paste the password in config files.  I'm not a big fan of storing secrets in my configurations in either way.  There are some solutions out there to encrypt/decrypt secrets automatically like [[https://github.com/ryantm/agenix][agenix]].  Like I said I'm not into it.  Adding it introduces more dependencies and managing the SSH key is another hassle.  Some dynamics are necessary and it is easier, at least for me.
 
 A simple solution would be creating a local =flake.nix= that is not tracked anywhere, which has been demonstrated previously already.
-
-** Common CLI alternatives
-- Better =ls=: [[https://github.com/ogham/exa][exa]]
-- Better =cat=: [[https://github.com/sharkdp/bat][bat]]
-- Better =grep=: [[https://github.com/BurntSushi/ripgrep][ripgrep]]
-- Better =find=: [[https://github.com/junegunn/fzf][fzf]]
-- Quick jump: [[https://github.com/ajeetdsouza/zoxide][zoxide]], [[https://github.com/skywind3000/z.lua][z.lua]]
-- File manager: [[https://github.com/gokcehan/lf][lf]], [[https://midnight-commander.org][mc]]
-- Automation: [[https://github.com/eradman/entr][entr]]
