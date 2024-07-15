@@ -20,7 +20,7 @@ jobs:
           - 28.1
           - 28.2
           - 29.1
-          # - snapshot
+          - snapshot
         os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
