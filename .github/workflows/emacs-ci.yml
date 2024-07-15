@@ -1,6 +1,6 @@
 # -*- yaml-indent-offset: 2; -*-
 
-name: CI
+name: Emacs CI
 
 on:
   pull_request:
@@ -18,12 +18,14 @@ jobs:
       matrix:
         emacs_version:
           - 28.1
-          - 28.2
-          - 29.1
+          # - 28.2
+          # - 29.1
+          # - 29.2
+          # - 29.3
+          - 29.4
           - snapshot
-        os: [ubuntu-latest]
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     continue-on-error: true
 
     ##
@@ -44,8 +46,8 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Check out this config
-        uses: actions/checkout@v3
+      - name: Check out repo
+        uses: actions/checkout@v4
 
       - name: Test - Fresh startup with package installation
         run: ./${PEW_TOPLEVEL}/tests/test-init.sh $(pwd)
