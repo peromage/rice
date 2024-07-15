@@ -18,20 +18,20 @@
       lib = conf.inputs.nixpkgs.lib;
 
     in {
-    nixosConfigurations = {
-      FramepieAlter = conf.nixosConfigurations.Framepie.extraModule {
-        pix.hosts.hostName = conf.pix.nixpkgs.lib.mkForce "FramepieAlter";
-        pix.users.immutable = true;
-        pix.users.profiles.fang.hashedPassword = "secret";
-      };
+      nixosConfigurations = {
+        FramepieAlter = conf.nixosConfigurations.Framepie.extraModule {
+          pix.hosts.hostName = conf.pix.nixpkgs.lib.mkForce "FramepieAlter";
+          pix.users.immutable = true;
+          pix.users.profiles.fang.hashedPassword = "secret";
+        };
 
-      Foobar = lib.nixosSystem {
-        specialArgs = conf.specialArgs;
-        modules = [
-          conf.nixosModules.default
-          /* Your modules */
-        ];
+        Foobar = lib.nixosSystem {
+          specialArgs = conf.specialArgs;
+          modules = [
+            conf.nixosModules.default
+            /* Your modules */
+          ];
+        };
       };
     };
-  };
 }
