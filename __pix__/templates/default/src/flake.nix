@@ -6,7 +6,7 @@
 
 {
   inputs = {
-    conf.url = "github:peromage/pew/master?dir=pix";
+    conf.url = "github:peromage/rice/master";
 
     /* Override the release version */
     #nixpkgs-2305.url = "github:nixos/nixpkgs/nixos-23.05";
