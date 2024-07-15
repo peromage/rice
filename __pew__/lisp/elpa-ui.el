@@ -40,7 +40,7 @@
   (nerd-icons-install-fonts :silent))
 
 ;;; Default looking
-(pew::load-theme 'dracula)
+(pewlib::load-theme 'dracula)
 
 (provide 'elpa-ui)
 ;;; elpa-ui.el ends here

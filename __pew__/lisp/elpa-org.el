@@ -82,7 +82,7 @@
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
   ;; generate them automatically
-  (org-todo-keywords (pew::load-data-file (expand-file-name "todo.eld" (plist-get pew::paths-plist :org-template))))
+  (org-todo-keywords (pewlib::load-data-file (expand-file-name "todo.eld" (plist-get pew::paths-plist :org-template))))
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
@@ -93,7 +93,7 @@
   ;; Take every org files under `org-directory'
   (org-agenda-files (list (expand-file-name "agenda.org" org-directory)))
   ;; Templates
-  (org-capture-templates (pew::load-data-file (expand-file-name "capture.eld" (plist-get pew::paths-plist :org-template))))
+  (org-capture-templates (pewlib::load-data-file (expand-file-name "capture.eld" (plist-get pew::paths-plist :org-template))))
 
   :init
   (defvar pew::org::marker--hidden nil

@@ -18,12 +18,12 @@
 ;;;; Windows and frames
   ;; When 3 side windows present `window-toggle-side-windows' may cause problem
   ;; Use `winner-undo' to revert the mess
-  (display-buffer-alist `((,(pew::get-special-buffers '(:shell :terminal) 'concat)
-                           ,@(pew::side-window-actions 'bottom 0))
-                          (,(pew::get-special-buffers '(:help) 'concat)
-                           ,@(pew::side-window-actions 'bottom 1))
-                          (,(pew::get-special-buffers '(:message :backtrace :warning :log :compilation :output :command) 'concat)
-                           ,@(pew::side-window-actions 'bottom 2))))
+  (display-buffer-alist `((,(pewlib::get-special-buffers '(:shell :terminal) 'concat)
+                           ,@(pewlib::side-window-actions 'bottom 0))
+                          (,(pewlib::get-special-buffers '(:help) 'concat)
+                           ,@(pewlib::side-window-actions 'bottom 1))
+                          (,(pewlib::get-special-buffers '(:message :backtrace :warning :log :compilation :output :command) 'concat)
+                           ,@(pewlib::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
   (split-height-threshold 20 "10 lines minimal")
@@ -223,9 +223,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pew::get-special-buffers '(:magit) 'concat)))
-                                  ("VC" (name . ,(pew::get-special-buffers '(:vc) 'concat)))
-                                  ("Ediff" (name . ,(pew::get-special-buffers '(:ediff) 'concat)))
+                                  ("Git" (name . ,(pewlib::get-special-buffers '(:magit) 'concat)))
+                                  ("VC" (name . ,(pewlib::get-special-buffers '(:vc) 'concat)))
+                                  ("Ediff" (name . ,(pewlib::get-special-buffers '(:ediff) 'concat)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
