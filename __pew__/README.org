@@ -56,8 +56,8 @@ My personal key bindings mostly are bound in =pewkey-map=. It can be activated b
 ** A Brief List of Keybindings
 Global
 
-| Key         | Command                                                       | Definition                                                        |
-|-------------+---------------------------------------------------------------+-------------------------------------------------------------------|
+| Key         | Command                                                       | Definition                                                    |
+|-------------+---------------------------------------------------------------+---------------------------------------------------------------|
 | =C-z=       | =pewkey=                                                      | [[./lisp/init-config.el][init-config.el]]                     |
 | =C-u C-z=   | =pewkey-repeat=                                               | [[./lisp/init-config.el][init-config.el]]                     |
 | =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by =consult=              | [[./lisp/elpa-vertico.el][elpa-vertico.el]]                   |
@@ -70,7 +70,7 @@ Global
 | =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by =ace-window=          | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
 | =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by =avy-goto-char=    | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
 | =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by =avy-goto-line=      | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u '=     | Separate edit by =separedit=                                  | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
+| =M-u ''=    | Separate edit by =separedit=                                  | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
 
 Evil
 

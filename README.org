@@ -40,6 +40,8 @@ echo <name1> <name2> <name3> | xargs -n1 stow.sh -S
 #+end_src
 
 * Project Overview
+The tracked directories are intentionally surrounded by underscores since there are many local files/directories generated as use the configurations.
+
 - [[./__pew__][pew]]: Emacs configuration.
 - [[./__pix__][pix]]: NixOS configuration.
 - [[__dots__][dots]]: Daily driver configurations.
