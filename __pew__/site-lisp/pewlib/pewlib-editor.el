@@ -62,13 +62,6 @@ Existing content will be overwritten."
   (display-line-numbers-mode -1)
   (set-fill-column -1))
 
-(defun pewlib::reuse-window-in-buffer ()
-  "Make new spawned windows atttempt to reuse current ones.
-This is usually useful in some major modes like `grep-mode'."
-  (setq-local display-buffer-base-action '((display-buffer-reuse-window
-                                            display-buffer-use-some-window))
-              display-buffer-alist nil))
-
 ;;; Debugging
 (defun pewlib::reload-init-file ()
   "Reload the config file."

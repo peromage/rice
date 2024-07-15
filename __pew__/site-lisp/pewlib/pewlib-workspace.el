@@ -57,10 +57,6 @@ If CONCAT is non-nil the result is a concatenated regex string."
 The buffer patterns are defined in `pewlib::special-buffer-regex-plist'."
   (string-match-p (pewlib::get-special-buffers key 'concat) name))
 
-(defun pewlib::dired-buffer-p (name)
-  "Check if the given buffer NAME is a Dired buffer."
-  (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
-
 (defun pewlib::next-editing-buffer (&optional backwards)
   "Switch to the next editing buffer.
 If BACKWARDS is non-nil switch to the previous one."
@@ -88,6 +84,13 @@ If BACKWARDS is non-nil switch to the previous one."
           (kill-buffer buffer)))))
 
 ;;; Windows
+(defun pewlib::reuse-window-in-buffer ()
+  "Make new spawned windows atttempt to reuse current ones.
+This is usually useful in some major modes like `grep-mode'."
+  (setq-local display-buffer-base-action '((display-buffer-reuse-window
+                                            display-buffer-use-some-window))
+              display-buffer-alist nil))
+
 (defun pewlib::side-window-actions (side slot)
   "Return a list of pre-configured side window actions.
 See `display-buffer' for property SIDE, SLOT."

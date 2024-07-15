@@ -26,6 +26,10 @@
   (interactive)
   (pewlib::close-other-buffers-in-major-mode 'dired-mode))
 
+(defun pewlib::dired-buffer-p (name)
+  "Check if the given buffer NAME is a Dired buffer."
+  (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
+
 ;;; Eshell
 (defun pewlib::eshell-clear-buffer ()
   "Clear eshell buffer."
