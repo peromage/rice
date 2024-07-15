@@ -8,6 +8,9 @@ on:
     branches:
       - master
 
+env:
+  PEW_TOPLEVEL: __pew__
+
 jobs:
   sanity:
     strategy:
@@ -41,17 +44,17 @@ jobs:
         with:
           version: ${{ matrix.emacs_version }}
 
-      - name: Check out PEW
+      - name: Check out this config
         uses: actions/checkout@v3
 
       - name: Test - Fresh startup with package installation
-        run: ./pew/tests/test-init.sh $(pwd)
+        run: ./${PEW_TOPLEVEL}/tests/test-init.sh $(pwd)
 
       - name: Test - Normal startup
-        run: ./pew/tests/test-init.sh $(pwd)
+        run: ./${PEW_TOPLEVEL}/tests/test-init.sh $(pwd)
 
       - name: Test - Mini startup
-        run: ./pew/tests/test-init-mini.sh $(pwd)
+        run: ./${PEW_TOPLEVEL}/tests/test-init-mini.sh $(pwd)
 
       - name: Test - pewcfg unittest
-        run: ./pew/site-lisp/pewcfg/tests/run-tests.sh $(pwd)
+        run: ./${PEW_TOPLEVEL}/site-lisp/pewcfg/tests/run-tests.sh $(pwd)/${PEW_TOPLEVEL}/site-lisp/pewcfg

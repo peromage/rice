@@ -6,17 +6,17 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'files)
+
 ;;; Process arguments
-(if (< (length argv) 1) (error "Not enough arguments"))
-(setq repo-root-path (nth 0 argv))
+(if (< (length argv) 1)
+    (error "No pewcfg root specified"))
+(setq repo-root-path (file-truename (nth 0 argv)))
 
 ;;; Load paths
-(setq load-path (nconc (mapcar (lambda (p) (expand-file-name p repo-root-path))
-                               '("pew/lisp"
-                                 "pew/site-lisp"
-                                 "pew/site-lisp/pewcfg"
-                                 "pew/site-lisp/pewcfg/tests"))
-                       load-path))
+(add-to-list 'load-path repo-root-path)
+(let ((default-directory repo-root-path))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;;; Load required modules
 (require 'pewcfg)
