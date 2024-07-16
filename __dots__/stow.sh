@@ -41,12 +41,13 @@ function run_stow {
 }
 
 while [[ "$OPTIND" -le $# ]]; do
-    if getopts "sdrv" o; then
+    if getopts "sdrhv" o; then
         case "$o" in
             s) current_list=stow_list ;;
             d) current_list=delete_list ;;
             r) current_list=restow_list ;;
             v) verbose_mode=1 ;;
+            h) ;&
             *) usage; exit 1 ;;
         esac
     else
