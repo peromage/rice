@@ -33,10 +33,10 @@ Quickly deploy dotfiles.
 
 #+begin_src bash
 # Single
-stow.sh -S <name>
+stow.sh -s <name>
 
 # Multiple
-echo <name1> <name2> <name3> | xargs -n1 stow.sh -S
+stow.sh -s <name1> <name2> <name3>
 #+end_src
 
 * Project Overview

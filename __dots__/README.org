@@ -13,16 +13,16 @@ Most of the configurations are managed via GNU =stow=.  Use the script quickly d
 
 #+begin_src bash
 # Deploy
-stow.sh -S <name>
+stow.sh -s <name>
 
 # Deploy multiple
-echo <name1> <name2> <name3> | xargs -n1 stow.sh -S
+stow.sh -s <name1> <name2> <name3>
 
 # Delete
-stow.sh -D <name>
+stow.sh -d <name>
 
 # Re-deploy
-stow.sh -R <name>
+stow.sh -r <name>
 #+end_src
 
 * Appendix
