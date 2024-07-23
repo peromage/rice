@@ -44,18 +44,19 @@
       lib = nixpkgs.lib;
 
       paths = let
-        withTop = p: ./__pix__ + "/${p}";
+        pixTop = p: ./__pix__ + "/${p}";
+        top = p: ./. + "/${p}";
       in {
-        topLevel = ./.;
-        lib = withTop "lib";
-        devshells = withTop "devshells";
-        dotfiles = withTop "dotfiles";
-        modules = withTop "modules";
-        homes = withTop "homeConfigs";
-        instances = withTop "instanceConfigs";
-        overlays = withTop "overlays";
-        packages = withTop "packages";
-        templates = withTop "templates";
+        topLevel = top "";
+        dotfiles = top "__dots__";
+        lib = pixTop "lib";
+        devshells = pixTop "devshells";
+        modules = pixTop "modules";
+        homes = pixTop "homeConfigs";
+        instances = pixTop "instanceConfigs";
+        overlays = pixTop "overlays";
+        packages = pixTop "packages";
+        templates = pixTop "templates";
       };
 
       libpix = (import paths.lib specialArgs) // {
