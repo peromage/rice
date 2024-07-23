@@ -46,7 +46,7 @@
       paths = let
         withTop = p: ./__pix__ + "/${p}";
       in {
-        topLevel = withTop "";
+        topLevel = ./.;
         lib = withTop "lib";
         devshells = withTop "devshells";
         dotfiles = withTop "dotfiles";
