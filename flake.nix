@@ -45,10 +45,9 @@
 
       paths = let
         pixTop = p: ./__pix__ + "/${p}";
-        top = p: ./. + "/${p}";
       in {
-        topLevel = top "";
-        dotfiles = top "__dots__";
+        ## Root directory can be accessed through `rice.outPath'
+        dotfiles = ./__dots__;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
         modules = pixTop "modules";
