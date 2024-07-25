@@ -52,8 +52,8 @@
 (require 'elpa-utils)
 
 ;; Language supports
+(require 'elpa-lsp) ;; LSP is the dependency of language modules
 (require 'elpa-lang)
-(require 'elpa-lang-lsp) ;; LSP is the dependency of language modules
 (require 'elpa-lang-c)
 (require 'elpa-lang-csharp)
 (require 'elpa-lang-java)
