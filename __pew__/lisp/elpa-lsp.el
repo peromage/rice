@@ -16,6 +16,7 @@
   (lsp-enable-links nil) ;; Remove underline
   (lsp-auto-configure t)
   (lsp-auto-guess-root t)
+  (lsp-enable-suggest-server-download nil) ;; Don't pop up unless told
   ;; Shutdown server automatically
   (lsp-keep-workspace-alive nil)
   ;; User interface
