@@ -71,6 +71,11 @@ in {
       };
     };
 
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [];
+    };
+
     /* Packages */
     environment.systemPackages = with pkgs; [
       ## Most used CLI
