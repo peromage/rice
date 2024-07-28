@@ -111,6 +111,7 @@
   (indent-tabs-mode nil)
   (tab-width 4)
   (tab-always-indent t "Hybrid indentation and completion with `complete'")
+  (indent-line-function #'insert-tab)
   (backward-delete-char-untabify-method nil "Delete only one character at once")
 
 ;;;; Completion
