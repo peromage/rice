@@ -250,8 +250,10 @@
 ;;;; electric
   (electric-pair-preserve-balance t)
   (electric-pair-delete-adjacent-pairs t)
-  (electric-pair-mode t)
-  (electric-indent-mode t)
+  (electric-pair-mode nil)
+  (electric-indent-mode nil)
+  (electric-quote-mode nil)
+  (electric-layout-mode nil)
 
 ;;;; TRAMP
   (tramp-default-method "scp")
