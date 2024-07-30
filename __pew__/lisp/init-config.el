@@ -111,7 +111,7 @@
   (indent-tabs-mode nil)
   (tab-width 4)
   (tab-always-indent t "Hybrid indentation and completion with `complete'")
-  (indent-line-function #'insert-tab)
+  (indent-line-function #'indent-relative) ;; indent-relative or insert-tab
   (backward-delete-char-untabify-method nil "Delete only one character at once")
 
 ;;;; Completion
@@ -250,8 +250,8 @@
 ;;;; electric
   (electric-pair-preserve-balance t)
   (electric-pair-delete-adjacent-pairs t)
-  (electric-pair-mode nil)
-  (electric-indent-mode nil)
+  (electric-indent-mode t)
+  (electric-pair-mode t)
   (electric-quote-mode nil)
   (electric-layout-mode nil)
 
