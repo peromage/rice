@@ -31,5 +31,6 @@
   pix.hardware = {
     networking.enable = true;
     bluetooth.enable = true;
+    audio.enable = true;
   };
 }

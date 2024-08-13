@@ -49,6 +49,7 @@
     bluetooth.enable = true;
     firmware.enable = true;
     peripherals.enable = true;
+    audio.enable = true;
     power = {
       enable = true;
       profile = "powersave";

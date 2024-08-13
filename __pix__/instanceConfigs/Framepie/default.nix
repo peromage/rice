@@ -20,7 +20,6 @@
     services = {
       i18n.enable = true;
       firewall.enable = true;
-      audio.enable = true;
       vconsole.enable = true;
       ssh.enable = true;
       documentation.enable = true;
