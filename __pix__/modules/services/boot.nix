@@ -20,12 +20,17 @@ let
       `grub' should be used and switch to `secure-boot' after.  The steps are
       as follow:
 
-      1. Run: sudo nix run nixpkgs#sbctl create-keys
-      2. Switch to the option `secure-boot', build and reboot.
-      3. Run: sudo nix run nixpkgs#sbctl verify
-      4. Reboot and set BIOS in setup mode (Erase all secure boot settings).
-      5. Run: sudo nix run nixpkgs#sbctl enroll-keys -- --microsoft
-      6. Run: bootctl status
+      For a clean installation:
+      1. Disable secure boot in BIOS.
+      2. In NixOS: sudo nix run nixpkgs#sbctl create-keys
+      3. Switch to the option `secure-boot', build and reboot.
+      4. In NixOS: sudo nix run nixpkgs#sbctl -- verify && sudo nix run nixpkgs#sbctl -- status
+      5. Reboot and set BIOS in setup mode (Reset all secure boot keys and secure boot should be disabled).
+      6. In NixOS: sudo nix run nixpkgs#sbctl enroll-keys -- --microsoft
+      7. Reboot and enable secure boot in BIOS.
+      8. In NixOS: bootctl status
+
+      To regain secure boot on an existing installation (with Lanzaboote already), start from step 5.
       '';
     };
 
