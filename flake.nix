@@ -135,15 +135,15 @@
       nixosConfigurations =
         let inc = ins: libpix.nixosTopModule specialArgs (paths.instances + "/${ins}");
         in {
-          Framepie = inc "Framepie";
-          Chicken65 = inc "Chicken65";
+          Framework = inc "Framework-13";
+          NUC = inc "NUC-Server";
         };
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
         let inc = ins: libpix.darwinTopModule specialArgs (paths.instances + "/${ins}");
         in {
-          Applepie = inc "Applepie";
+          Macbook = inc "Macbook-13";
         };
 
       /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'

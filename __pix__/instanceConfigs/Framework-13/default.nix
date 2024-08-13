@@ -10,7 +10,7 @@
   ];
 
   pix = {
-    hosts.hostName = "Framepie";
+    hosts.hostName = "PRMG";
     hosts.platform = "x86_64-linux";
     hosts.profiles.potpie.enable = true;
     users.profiles.fang.enable = true;

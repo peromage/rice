@@ -8,7 +8,7 @@
   ];
 
   pix = {
-    hosts.hostName = "Chicken65";
+    hosts.hostName = "LADDER";
     hosts.platform = "x86_64-linux";
     hosts.profiles.biryani.enable = true;
     desktops.env.xfce.enable = true;
