@@ -2,8 +2,8 @@
 
 let
   admin = {
-    name = "chick";
-    id = 1000;
+    name = "felix";
+    id = 1100;
   };
 
 in {
@@ -17,6 +17,7 @@ in {
       "networkmanager"
       "wheel"
     ];
+    home = "/home/${name}";
     initialPassword = "${name}${name}";
   };
 

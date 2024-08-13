@@ -15,8 +15,6 @@
 
     services = {
       i18n.enable = true;
-      networking.enable = true;
-      bluetooth.enable = true;
       firewall.enable = true;
       audio.enable = true;
       vconsole.enable = true;
