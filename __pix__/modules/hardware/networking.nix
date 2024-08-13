@@ -3,14 +3,14 @@
 let
   libpix = pix.lib;
 
-  cfg = config.pix.services.networking;
+  cfg = config.pix.hardware.networking;
 
   options = with lib; {
     enable = mkEnableOption "network management";
   };
 
 in {
-  options.pix.services.networking = options;
+  options.pix.hardware.networking = options;
 
   config = lib.mkIf cfg.enable {
     networking = {

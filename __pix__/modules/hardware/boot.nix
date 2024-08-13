@@ -3,7 +3,7 @@
 let
   libpix = pix.lib;
 
-  cfg = config.pix.services.boot;
+  cfg = config.pix.hardware.boot;
 
   options = with lib; {
     enabled = mkOption {
@@ -43,7 +43,7 @@ let
 
 in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
-  options.pix.services.boot = options;
+  options.pix.hardware.boot = options;
 
   config = with lib; libpix.mkMergeIf [
     {

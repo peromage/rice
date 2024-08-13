@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.pix.services.power;
+  cfg = config.pix.hardware.power;
 
   options = with lib; {
     enable = mkEnableOption "power governor";
@@ -14,7 +14,7 @@ let
   };
 
 in {
-  options.pix.services.power = options;
+  options.pix.hardware.power = options;
 
   config = lib.mkIf cfg.enable {
     powerManagement.cpuFreqGovernor = cfg.profile;

@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.pix.services.firmware;
+  cfg = config.pix.hardware.firmware;
 
   options = {
     ## Don't forget `fwupdmgr update'
@@ -9,7 +9,7 @@ let
   };
 
 in {
-  options.pix.services.firmware = options;
+  options.pix.hardware.firmware = options;
 
   config = lib.mkIf cfg.enable {
     hardware = {
