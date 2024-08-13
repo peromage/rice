@@ -1,14 +1,14 @@
 { config, lib, ... }:
 
 let
-  cfg = config.pix.services.audio;
+  cfg = config.pix.hardware.audio;
 
   options = {
     enable = lib.mkEnableOption "audio services";
   };
 
 in {
-  options.pix.services.audio = options;
+  options.pix.hardware.audio = options;
 
   config = lib.mkIf cfg.enable {
     sound = {
