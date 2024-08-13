@@ -84,6 +84,8 @@ let
         default = hashedPassword;
         description = ''
           Hashed password or hashed password file.
+          If the provided value is a path then it will be treated as a hashed
+          password file, otherwise it is a hashed password.
           If `immutable' user option is enabled, this is mandatory.  Otherwise
           it is ignored and use `initialPassword' instead.
         '';

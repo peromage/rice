@@ -36,16 +36,15 @@ let
       default = null;
       description = ''
         Hashed password or hashed password file.
-        If `immutable' user option is enabled, this is mandatory.  Otherwise
-        it is ignored and use `initialPassword' instead.
+        If the provided value is a path then it will be treated as a hashed
+        password file, otherwise it is a hashed password.
+        If `immutable' user option is enabled and root user is enabled, this is
+        mandatory.  Otherwise it is ignored and use `initialPassword' instead.
         Note that if `enable' option is off for root, both `initialPassword'
         and `hashedPassword' will be ignored.
       '';
     };
   };
-
-  ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = libpix.anyEnable userCfg.profiles;
 
   password =
     if userCfg.immutable then
@@ -64,7 +63,7 @@ let
 in {
   options.pix.users.root = options;
 
-  config = with lib; mkIf enableUserConfig {
+  config = with lib; mkIf cfg.enable {
     assertions = singleton {
       assertion = userCfg.immutable -> null != cfg.hashedPassword;
       message = "Hashed password for root must be provided when immutable user is enabled.";
