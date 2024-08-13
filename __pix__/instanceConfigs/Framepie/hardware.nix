@@ -42,4 +42,16 @@
   ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  pix.hardware = {
+    boot.enabled = "secure-boot";
+    networking.enable = true;
+    bluetooth.enable = true;
+    firmware.enable = true;
+    peripherals.enable = true;
+    power = {
+      enable = true;
+      profile = "powersave";
+    };
+  };
 }

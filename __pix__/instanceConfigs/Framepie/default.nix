@@ -4,7 +4,7 @@
 
 {
   imports = [
-    ./boot.nix
+    ./hardware.nix
     ./mounts.nix
     pix.nixosModules.default
   ];
@@ -18,23 +18,14 @@
     desktops.env.gnome.enable = true;
 
     services = {
-      boot.enabled = "secure-boot";
       i18n.enable = true;
-      networking.enable = true;
-      bluetooth.enable = true;
       firewall.enable = true;
       audio.enable = true;
       vconsole.enable = true;
       ssh.enable = true;
       documentation.enable = true;
       nix.enable = true;
-      firmware.enable = true;
-      peripherals.enable = true;
       ime.enabled = "fcitx";
-      power = {
-        enable = true;
-        profile = "powersave";
-      };
       steam = {
         enable = true;
         openFirewall.remotePlay = true;
