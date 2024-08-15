@@ -8,12 +8,6 @@ let
   /* User profile options. */
   userProfileOptions = { name, config, ... }: {
     options = with lib; {
-      name = mkOption {
-        type = types.str;
-        default = name;
-        description = "User name";
-      };
-
       enable = mkEnableOption "user ${name}";
 
       enableNixManagement = mkEnableOption "Nix trusted user";
