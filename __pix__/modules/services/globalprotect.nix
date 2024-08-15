@@ -3,12 +3,10 @@
 let
   cfg = config.pix.services.globalprotect;
 
-  options = {
+in {
+  options.pix.services.globalprotect = {
     enable = lib.mkEnableOption "GlobalProtect VPN client";
   };
-
-in {
-  options.pix.services.globalprotect = options;
 
   config = lib.mkIf cfg.enable {
     services.globalprotect.enable = true;

@@ -3,12 +3,10 @@
 let
   cfg = config.pix.services.vconsole;
 
-  options = {
+in {
+  options.pix.services.vconsole = {
     enable = lib.mkEnableOption "virtual console";
   };
-
-in {
-  options.pix.services.vconsole = options;
 
   config = lib.mkIf cfg.enable {
     console = {

@@ -14,14 +14,13 @@
    }
 */
 
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
-  libpix = pix.lib;
-
   cfg = config.pix.services.traveling;
 
-  options = with lib; {
+in {
+  options.pix.services.traveling = with lib; {
     region = mkOption {
       type = with types; nullOr (enum [ "China" ]);
       default = null;
@@ -29,21 +28,14 @@ let
     };
   };
 
-
-in {
-  options.pix.services.traveling = options;
-
-  config = libpix.mkMergeIf [
-    {
-      cond = "China" == cfg.region;
-      as = with lib; {
-        time.timeZone = mkForce "Asia/Shanghai";
-        nix.settings.substituters = mkForce [
-          # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-          # "https://mirrors.ustc.edu.cn/nix-channels/store"
-          "https://mirror.sjtu.edu.cn/nix-channels/store"
-        ];
-      };
-    }
+  config = with lib; mkMerge [
+    (mkIf ("China" == cfg.region) {
+      time.timeZone = mkForce "Asia/Shanghai";
+      nix.settings.substituters = mkForce [
+        # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+        # "https://mirrors.ustc.edu.cn/nix-channels/store"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+      ];
+    })
   ];
 }

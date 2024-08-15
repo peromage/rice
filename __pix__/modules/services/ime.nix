@@ -1,11 +1,11 @@
-{ config, pkgs, lib, pix, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  libpix = pix.lib;
-
   cfg = config.pix.services.ime;
+  gnomeEnabled = config.pix.desktops.env.gnome.enable;
 
-  options = with lib; {
+in {
+  options.pix.services.ime = with lib; {
     enabled = mkOption {
       type = with types; nullOr (enum [ "fcitx" "ibus" ]);
       default = null;
@@ -19,55 +19,44 @@ let
     };
   };
 
-  gnomeEnabled = config.pix.desktops.env.gnome.enable;
+  config = with lib; mkMerge [
+    (mkIf ("ibus" == cfg.enabled) {
+      services.xserver.xkb.layout = cfg.layout;
 
-in {
-  options.pix.services.ime = options;
-
-  config = libpix.mkMergeIf [
-    {
-      cond = "ibus" == cfg.enabled;
-      as = {
-        services.xserver.xkb.layout = cfg.layout;
-
-        i18n.inputMethod = {
-          enabled = "ibus";
-          ibus.engines = with pkgs.ibus-engines; [
-            rime
-            libpinyin
-          ];
-        };
-
-        environment.systemPackages = with pkgs; [
-          librime
-          rime-cli
-          rime-data
+      i18n.inputMethod = {
+        enabled = "ibus";
+        ibus.engines = with pkgs.ibus-engines; [
+          rime
+          libpinyin
         ];
       };
-    }
 
-    {
-      cond = "fcitx" == cfg.enabled;
-      as = {
-        services.xserver.xkb.layout = cfg.layout;
+      environment.systemPackages = with pkgs; [
+        librime
+        rime-cli
+        rime-data
+      ];
+    })
 
-        i18n.inputMethod = {
-          enabled = "fcitx5";
-          fcitx5.addons = with pkgs; [
-            fcitx5-rime
-            fcitx5-configtool
-            fcitx5-chinese-addons
-            fcitx5-gtk
-          ];
-        };
+    (mkIf ("fcitx" == cfg.enabled) {
+      services.xserver.xkb.layout = cfg.layout;
 
-        environment.systemPackages = with pkgs; [
-          librime
-          rime-cli
-          rime-data
-        ]
-        ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
+      i18n.inputMethod = {
+        enabled = "fcitx5";
+        fcitx5.addons = with pkgs; [
+          fcitx5-rime
+          fcitx5-configtool
+          fcitx5-chinese-addons
+          fcitx5-gtk
+        ];
       };
-    }
+
+      environment.systemPackages = with pkgs; [
+        librime
+        rime-cli
+        rime-data
+      ]
+      ++ lib.optional gnomeEnabled gnomeExtensions.kimpanel;
+    })
   ];
 }

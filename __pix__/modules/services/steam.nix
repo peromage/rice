@@ -1,17 +1,7 @@
-{ config, lib, pkgs, pix, ... }:
+{ config, lib, pkgs, ... }:
 
 let
-  libpix = pix.lib;
-
   cfg = config.pix.services.steam;
-
-  options = with lib; {
-    enable = mkEnableOption "Steam";
-    openFirewall = {
-      remotePlay = mkEnableOption "Steam remote play ports";
-      sourceServer = mkEnableOption "Steam Source server ports";
-    };
-  };
 
   customSteam = pkgs.steam.override {
     extraPkgs = spkgs: with spkgs; [
@@ -33,39 +23,36 @@ let
   };
 
 in {
-  options.pix.services.steam = options;
+  options.pix.services.steam = with lib; {
+    enable = mkEnableOption "Steam";
+    openFirewall = {
+      remotePlay = mkEnableOption "Steam remote play ports";
+      sourceServer = mkEnableOption "Steam Source server ports";
+    };
+  };
 
-  config = libpix.mkMergeIf [
-    {
-      cond = cfg.enable;
-      as = {
-        hardware.steam-hardware.enable = true;
+  config = with lib; mkMerge [
+    (mkIf cfg.enable {
+      hardware.steam-hardware.enable = true;
 
-        programs.steam = {
-          enable = true;
-          gamescopeSession.enable = true;
-          package = customSteam;
-        };
-
-        environment.systemPackages = with pkgs; [
-          steam-run
-          protonup-qt
-        ];
+      programs.steam = {
+        enable = true;
+        gamescopeSession.enable = true;
+        package = customSteam;
       };
-    }
 
-    {
-      cond = cfg.enable && cfg.openFirewall.remotePlay;
-      as = {
-        programs.steam.remotePlay.openFirewall = true;
-      };
-    }
+      environment.systemPackages = with pkgs; [
+        steam-run
+        protonup-qt
+      ];
+    })
 
-    {
-      cond = cfg.enable && cfg.openFirewall.sourceServer;
-      as = {
-        programs.steam.dedicatedServer.openFirewall = true;
-      };
-    }
+    (mkIf (cfg.enable && cfg.openFirewall.remotePlay) {
+      programs.steam.remotePlay.openFirewall = true;
+    })
+
+    (mkIf (cfg.enable && cfg.openFirewall.sourceServer) {
+      programs.steam.dedicatedServer.openFirewall = true;
+    })
   ];
 }

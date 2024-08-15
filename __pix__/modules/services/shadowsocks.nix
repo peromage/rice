@@ -3,7 +3,8 @@
 let
   cfg = config.pix.services.shadowsocks;
 
-  options = with lib; {
+in {
+  options.pix.services.shadowsocks = with lib; {
     enable = mkEnableOption "ShadowSocks";
 
     port = mkOption {
@@ -31,15 +32,7 @@ let
     };
   };
 
-in {
-  options.pix.services.shadowsocks = options;
-
   config = with lib; mkIf cfg.enable {
-    assertions = singleton {
-      assertion = null != cfg.password;
-      message = "No password specified for service Shadowsocks.";
-    };
-
     services.shadowsocks = {
       enable = true;
       password = cfg.password;
@@ -52,5 +45,10 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [ cfg.port ];
+
+    assertions = singleton {
+      assertion = null != cfg.password;
+      message = "No password specified for service Shadowsocks.";
+    };
   };
 }

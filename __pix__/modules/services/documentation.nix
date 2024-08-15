@@ -3,12 +3,10 @@
 let
   cfg = config.pix.services.documentation;
 
-  options = {
+in {
+  options.pix.services.documentation = {
     enable = lib.mkEnableOption "documentation generation";
   };
-
-in {
-  options.pix.services.documentation = options;
 
   config = lib.mkIf cfg.enable {
     documentation = {

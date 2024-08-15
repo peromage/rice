@@ -3,35 +3,6 @@
 let
   cfg = config.pix.services.firewall;
 
-  options = with lib; {
-    enable = mkEnableOption "stateful firewall";
-    enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
-
-    tcp = mkOption {
-      type = with types; listOf port;
-      default = [];
-      description = "Allowed TCP ports.";
-    };
-
-    tcpRange = mkOption {
-      type = with types; listOf (attrsOf port);
-      default = [];
-      description = "Allowed TCP port ranges.";
-    };
-
-    udp = mkOption {
-      type = with types; listOf port;
-      default = [];
-      description = "Allowed UDP ports.";
-    };
-
-    udpRange = mkOption {
-      type = with types; listOf (attrsOf port);
-      default = [];
-      description = "Allowed UDP port ranges.";
-    };
-  };
-
   tcpPreset = [
 
   ];
@@ -61,7 +32,34 @@ let
   };
 
 in {
-  options.pix.services.firewall = options;
+  options.pix.services.firewall = with lib; {
+    enable = mkEnableOption "stateful firewall";
+    enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
+
+    tcp = mkOption {
+      type = with types; listOf port;
+      default = [];
+      description = "Allowed TCP ports.";
+    };
+
+    tcpRange = mkOption {
+      type = with types; listOf (attrsOf port);
+      default = [];
+      description = "Allowed TCP port ranges.";
+    };
+
+    udp = mkOption {
+      type = with types; listOf port;
+      default = [];
+      description = "Allowed UDP ports.";
+    };
+
+    udpRange = mkOption {
+      type = with types; listOf (attrsOf port);
+      default = [];
+      description = "Allowed UDP port ranges.";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility
