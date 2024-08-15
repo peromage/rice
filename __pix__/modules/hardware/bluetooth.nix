@@ -3,12 +3,10 @@
 let
   cfg = config.pix.hardware.bluetooth;
 
-  options = with lib; {
+in {
+  options.pix.hardware.bluetooth = with lib; {
     enable = mkEnableOption "Bluetooth management";
   };
-
-in {
-  options.pix.hardware.bluetooth = options;
 
   config = lib.mkIf cfg.enable {
     hardware.bluetooth = {

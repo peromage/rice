@@ -3,13 +3,11 @@
 let
   cfg = config.pix.hardware.firmware;
 
-  options = {
+in {
+  options.pix.hardware.firmware = {
     ## Don't forget `fwupdmgr update'
     enable = lib.mkEnableOption "firmware management";
   };
-
-in {
-  options.pix.hardware.firmware = options;
 
   config = lib.mkIf cfg.enable {
     hardware = {

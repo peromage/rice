@@ -1,16 +1,12 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
-  libpix = pix.lib;
-
   cfg = config.pix.hardware.networking;
 
-  options = with lib; {
+in {
+  options.pix.hardware.networking = with lib; {
     enable = mkEnableOption "network management";
   };
-
-in {
-  options.pix.hardware.networking = options;
 
   config = lib.mkIf cfg.enable {
     networking = {

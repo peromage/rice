@@ -3,7 +3,8 @@
 let
   cfg = config.pix.hardware.power;
 
-  options = with lib; {
+in {
+  options.pix.hardware.power = with lib; {
     enable = mkEnableOption "power governor";
 
     profile = mkOption {
@@ -12,9 +13,6 @@ let
       description = "Default power governor profile.";
     };
   };
-
-in {
-  options.pix.hardware.power = options;
 
   config = lib.mkIf cfg.enable {
     powerManagement.cpuFreqGovernor = cfg.profile;

@@ -3,12 +3,10 @@
 let
   cfg = config.pix.hardware.audio;
 
-  options = {
+in {
+  options.pix.hardware.audio = {
     enable = lib.mkEnableOption "audio services";
   };
-
-in {
-  options.pix.hardware.audio = options;
 
   config = lib.mkIf cfg.enable {
     sound = {

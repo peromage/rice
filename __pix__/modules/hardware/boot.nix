@@ -1,11 +1,12 @@
-{ config, pix, pkgs, lib, lanzaboote, ... }:
+{ config, pkgs, lib, lanzaboote, ... }:
 
 let
-  libpix = pix.lib;
-
   cfg = config.pix.hardware.boot;
 
-  options = with lib; {
+in {
+  imports = [ lanzaboote.nixosModules.lanzaboote ];
+
+  options.pix.hardware.boot = with lib; {
     enabled = mkOption {
       type = with types; nullOr (enum [ "systemd-boot" "grub" "secure-boot"]);
       default = "systemd-boot";
@@ -41,63 +42,50 @@ let
     };
   };
 
-in {
-  imports = [ lanzaboote.nixosModules.lanzaboote ];
-  options.pix.hardware.boot = options;
-
-  config = with lib; libpix.mkMergeIf [
-    {
-      cond = "systemd-boot" == cfg.enabled;
-      as = {
-        boot = {
-          bootspec.enable = true;
-          loader = {
-            grub.enable = mkForce false;
-            systemd-boot.enable = mkForce true;
-            efi.canTouchEfiVariables = false;
-          };
+  config = with lib; mkMerge [
+    (mkIf ("systemd-boot" == cfg.enabled) {
+      boot = {
+        bootspec.enable = true;
+        loader = {
+          grub.enable = mkForce false;
+          systemd-boot.enable = mkForce true;
+          efi.canTouchEfiVariables = false;
         };
       };
-    }
+    })
 
-    {
-      cond = "grub" == cfg.enabled;
-      as = {
-        boot = {
-          bootspec.enable = true;
-          loader = {
-            grub = {
-              enable = mkForce true;
-              device = cfg.grubDevice;
-            };
-            systemd-boot.enable = mkForce false;
-            efi.canTouchEfiVariables = false;
+    (mkIf ("grub" == cfg.enabled) {
+      boot = {
+        bootspec.enable = true;
+        loader = {
+          grub = {
+            enable = mkForce true;
+            device = cfg.grubDevice;
           };
+          systemd-boot.enable = mkForce false;
+          efi.canTouchEfiVariables = false;
         };
       };
-    }
+    })
 
-    {
-      cond = "secure-boot" == cfg.enabled;
-      as = {
-        boot = {
-          bootspec.enable = true;
-          lanzaboote = {
-            enable = true;
-            pkiBundle = "/etc/secureboot";
-          };
-
-          loader = {
-            grub.enable = mkForce false;
-            systemd-boot.enable = mkForce false;
-            efi.canTouchEfiVariables = false;
-          };
+    (mkIf ("secure-boot" == cfg.enabled) {
+      boot = {
+        bootspec.enable = true;
+        lanzaboote = {
+          enable = true;
+          pkiBundle = "/etc/secureboot";
         };
 
-        environment.systemPackages = with pkgs; [
-          sbctl
-        ];
+        loader = {
+          grub.enable = mkForce false;
+          systemd-boot.enable = mkForce false;
+          efi.canTouchEfiVariables = false;
+        };
       };
-    }
+
+      environment.systemPackages = with pkgs; [
+        sbctl
+      ];
+    })
   ];
 }
