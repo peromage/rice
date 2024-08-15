@@ -2,84 +2,92 @@
 
 let
   libpix = pix.lib;
-
   cfg = config.pix.hosts;
 
-  options = {
-    hostName = with lib; mkOption {
-      type = with types; nullOr str;
-      default = null;
-      description = "Host name for this machine.";
-    };
+  hostProfileOptions = {name, config, ...}: {
+    options = with lib; {
+      enable = mkEnableOption "host ${name}";
 
-    platform = with lib; mkOption {
-      type = with types; nullOr str;
-      default = null;
-      description = "Host platform architecture.";
-    };
-
-    profiles = {};
-  };
-
-  /* Additional arguments to import submodules.
-
-     CONTRACT: Each profile declared in this set must have options:
-
-       - enable
-       - name
-  */
-  args = {
-    mkProfileOptions = { name }: with lib; {
-      enable = mkEnableOption "host";
-
-      name = mkOption {
-        type = types.str;
-        default = name;
-        description = "Host name.";
+      config = mkOption {
+        type = types.attrs;
+        default = {};
+        description = ''
+          Host detailed configurations.
+          The content of this option should be the normal toplevel NixOS config.
+        '';
       };
     };
   };
 
-  ## Host config is only enabled if any one of the profiles is turned on
-  enableHostConfig = libpix.anyEnable cfg.profiles;
-  enabledHosts = libpix.filterEnable cfg.profiles;
-
-  /* Handle host name.
-     The precedence of the host name specified in options is as follow:
-       1. hosts.hostName
-       2. hosts.<profile>.name
-       3. hosts.<profile>
-
-     Any one of them must be specified.
-     If `hosts.hostName' exists, the rest of the options will be ignored.
-     If no global hostName exists, the last host name in the set (in alphabetic
-     order) will be used.
-    */
-  finalHostName = with libpix; either
-    cfg.hostName
-    (lib.foldlAttrs
-      (a: n: v: either v.name n)
-      null
-      enabledHosts);
-
 in {
-  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
-  options.pix.hosts = options;
+  imports = with libpix; listDir isNotDefaultNix ./.;
 
-  config = lib.mkIf enableHostConfig {
-    assertions = [
-      {
-        assertion = null != cfg.platform;
-        message = "No platform specified.";
-      }
+  /* Interface */
+  options.pix.hosts = with lib; {
+    hostName = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = ''
+        Host name for this machine.
+        This takes precedence over the name defined in each host profile.
+        If this is not defined, the name of last enabled host profile will be
+        used.
+      '';
+    };
 
-      {
-        assertion = null != finalHostName;
-        message = "No hostname provided.";
-      }
-    ];
+    platform = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = ''
+        Host platform architecture.
+        For clarification, this needs to be specified explicitly.
+      '';
+    };
 
-    nixpkgs.hostPlatform = cfg.platform;
-    networking.hostName = finalHostName;
+    profiles = mkOption {
+      type = with types; attrsOf (submodule hostProfileOptions);
+      default = {};
+      description = ''
+        Host profile definitions.
+      '';
+    };
   };
+
+  /* Implementation */
+  config = let
+    enabledHosts = lib.filterAttrs (name: config: config.enable) cfg.profiles;
+
+    /* Use the value from `pix.hosts.hostName' if defined.
+       Otherwise, use the name of last host profile.
+    */
+    hostName = with lib;
+      if cfg.hostName != null then cfg.hostName
+      else foldl (_: config: config.name) null enableHosts;
+
+    # hostConfigList = with lib; mapAttrsToList (name: config: config.config) enabledHosts;
+
+  in
+    with lib; mkMerge [
+    {
+      ## Common
+      nixpkgs.hostPlatform = cfg.platform;
+      networking.hostName = hostName;
+
+      ## Assertions
+      assertions = [
+        {
+          assertion = cfg.platform != null;
+          message = "Platform has be explicitly specified.";
+        }
+
+        {
+          assertion = hostName != null;
+          message = ''
+          No hostname provided.
+          Either `pix.hosts.hostName' is not set or no host profile is enabled."
+        '';
+        }
+      ];
+    }
+  ];
 }
