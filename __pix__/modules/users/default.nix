@@ -2,11 +2,68 @@
 
 let
   libpix = pix.lib;
-
   cfg = config.pix.users;
+  isRootUser = name: name == "root";
 
-  options = {
-    immutable = with lib; mkOption {
+  /* User profile options. */
+  userProfileOptions = { name, config, ... }: {
+    options = with lib; {
+      name = mkOption {
+        type = types.str;
+        default = name;
+        description = "User name";
+      };
+
+      enable = mkEnableOption "user ${name}";
+
+      enableNixManagement = mkEnableOption "Nix trusted user";
+
+      description = mkOption {
+        type = types.str;
+        default = "";
+        description = "User description.";
+      };
+
+      id = mkOption {
+        type = with types; nullOr int;
+        default = null;
+        description = "User's UID and GID.";
+      };
+
+      groups = mkOption {
+        type = with types; listOf str;
+        default = [];
+        description = "Groups that user belongs to.";
+      };
+
+      password = mkOption {
+        type = with types; nullOr (either str path);
+        default = null;
+        description = ''
+          This option serves three purposes.
+          - If `immutable' option is disabled, the value will be used as
+            `initialPassword'.
+          - If `immutable' option is enabled and the value is a path, it will be
+            used as `hashedPasswordFile'.
+          - If `immutable' option is enabled and the value is a string, it will
+            be used as `hashedPassword'.
+        '';
+      };
+    };
+
+    ## Disable root login by setting an invalid hashed password (if disabled).
+    ## May be hardened by overriding the password outside of VC (flake template).
+    config = with lib; mkIf (isRootUser name && ! config.enable) {
+      password = "**DISABLED**";
+    };
+  };
+
+in {
+  imports = with libpix; listDir isNotDefaultNix ./.;
+
+  /* Interface */
+  options.pix.users = with lib; {
+    immutable = mkOption {
       type = types.bool;
       default = false;
       description = ''
@@ -16,140 +73,83 @@ let
       '';
     };
 
-    ## Root user
-    root = {};
-
     ## Normal users
-    profiles = {};
-  };
-
-  /* Additional arguments to import submodules.
-
-     CONTRACT: Each profile declared in this set must have options:
-
-       - enable
-       - name
-       - id
-       - groups
-  */
-  args = {
-    mkUserOptions = {
-      name
-      , id
-      , groups
-      , description ? ""
-      , initialPassword ? null
-      , hashedPassword ? null
-    }: {
-      enable = lib.mkEnableOption "user";
-
-      name = with lib; mkOption {
-        type = types.str;
-        default = name;
-        description = "User name.";
-      };
-
-      description = with lib; mkOption {
-        type = types.str;
-        default = description;
-        description = "User description.";
-      };
-
-      id = with lib; mkOption {
-        type = types.ints.unsigned;
-        default = id;
-        description = "User's UID and GID.";
-      };
-
-      groups = with lib; mkOption {
-        type = with types; listOf str;
-        default = groups;
-        description = "Groups that user belongs to.";
-      };
-
-      initialPassword = with lib; mkOption {
-        type = with types; nullOr str;
-        default = initialPassword;
-        description = ''
-          Initial password for user if `immutable' user option is disabled.  In
-          that case this option is mandatory.
-          If `immutable' user option is enabled, this will be ignored and
-          `hashedPassword' must be supplied.
-        '';
-      };
-
-      ## This option is effective only when immutable is enabled
-      hashedPassword = with lib; mkOption {
-        type = with types; nullOr (either str path);
-        default = hashedPassword;
-        description = ''
-          Hashed password or hashed password file.
-          If the provided value is a path then it will be treated as a hashed
-          password file, otherwise it is a hashed password.
-          If `immutable' user option is enabled, this is mandatory.  Otherwise
-          it is ignored and use `initialPassword' instead.
-        '';
-      };
+    profiles = mkOption {
+      type = with types; attrsOf (submodule userProfileOptions);
+      default = {};
+      description = ''
+        User profile definitions.
+        NOTE: root can be defined here as well but only a few options will be
+        effective to it.
+      '';
     };
   };
 
-  ## User config is only enabled if any one of the profiles is turned on
-  enableUserConfig = libpix.anyEnable cfg.profiles;
-  enabledUsers = libpix.filterEnable cfg.profiles;
-
-  getPassword = user:
-    if cfg.immutable then
-      if lib.isString user.hashedPassword then
-        { hashedPassword = user.hashedPassword; }
+  /* Implementation */
+  config = let
+    definePassword = immutable: password:
+      if immutable then
+        if lib.isPath password then
+          { hashedPasswordFile = password; }
+        else
+          { hashedPassword = password; }
       else
-        { hashedPasswordFile = toString user.hashedPassword; }
-    else
-      { initialPassword = user.initialPassword; };
+        { initialPassword = password; };
 
-  ## Handle pix.users.profiles.<name>
-  userList = with lib; mapAttrs'
-    (n: v: nameValuePair v.name ({
-      description = v.description;
-      isNormalUser = true;
-      isSystemUser = false;
-      uid = v.id;
-      group = v.name;
-      extraGroups = v.groups;
-      home = "/home/${v.name}";
-      homeMode = "700";
-      createHome = true;
-    } // (getPassword v)))
-    enabledUsers;
+    enabledNormalUsers = lib.filterAttrs
+      (name: config: ! isRootUser name && config.enable)
+      cfg.profiles;
 
-  ## Handle pix.users.profiles.<name>
-  groupList = with lib; mapAttrs'
-    (n: v: nameValuePair v.name {
-      gid = v.id;
-    })
-    enabledUsers;
+  in {
+    ## Immutable user option
+    users.mutableUsers = ! cfg.immutable;
 
-  ## Handle users.immutable
-  mutableUsers = !cfg.immutable;
+    users.users = with lib; mkMerge [
+      ## Normal users
+      (mapAttrs
+        (name: config: {
+          name = name;
+          uid = config.id;
+          group = name;
+          extraGroups = config.groups;
+          description = config.description;
+          isNormalUser = true;
+          isSystemUser = false;
+          home = "/home/${name}";
+          homeMode = "700";
+          createHome = true;
+        } // (definePassword cfg.immutable config.password))
+        enabledNormalUsers)
 
-in {
-  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
-  options.pix.users = options;
-
-  config = lib.mkIf enableUserConfig {
-    assertions = [
+      ## Root user
       {
-        assertion = cfg.immutable -> libpix.allAttrs (n: v: null != v.hashedPassword) enabledUsers;
-        message = "Hashed password for normal users must be provided when immutable user is enabled.";
-      }
-
-      {
-        assertion = !cfg.immutable -> libpix.allAttrs (n: v: null != v.initialPassword) enabledUsers;
-        message = "Initial password for normal users must be provided.";
+        root = let rootCfg = cfg.profiles.root; in
+               if rootCfg.enable then definePassword cfg.immutable rootCfg.password
+               else { hashedPassword = rootCfg.password; };
       }
     ];
 
-    users.mutableUsers = mutableUsers;
-    users.users = userList;
-    users.groups = groupList;
+    ## User groups
+    users.groups = with lib; mapAttrs'
+      (name: config: nameValuePair name { gid = config.id; })
+      enabledNormalUsers;
+
+    ## Nix trusted users
+    nix.settings.trusted-users = with lib; mapAttrsToList
+      (name: config: name)
+      (filterAttrs (name: config: config.enableNixManagement) enabledNormalUsers);
+
+    ## Assertions
+    assertions = [
+      {
+        assertion = libpix.anyAttrs (_: config: config.password != null) enabledNormalUsers;
+        message = "Password must be provided.";
+      }
+      {
+        assertion = let rootCfg = cfg.profiles.root; in
+                    rootCfg.enable -> rootCfg.password != null;
+        message = "Root password must be provided when it is enabled.";
+      }
+    ];
   };
 }

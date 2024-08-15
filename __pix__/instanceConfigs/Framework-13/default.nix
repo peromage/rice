@@ -14,7 +14,7 @@
     hosts.platform = "x86_64-linux";
     hosts.profiles.potpie.enable = true;
     users.profiles.fang.enable = true;
-    users.root.enable = false;
+    users.profiles.root.enable = false;
     desktops.env.gnome.enable = true;
 
     services = {
