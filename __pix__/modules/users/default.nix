@@ -94,11 +94,13 @@ in {
       (name: config: ! isRootUser name && config.enable)
       cfg.profiles;
 
-  in {
+    ## NOTE: To get root disabling effective within this config, at least one
+    ## normal user must be enabled.
+  in with lib; mkIf (libpix.anyEnable cfg.profiles) {
     ## Immutable user option
     users.mutableUsers = ! cfg.immutable;
 
-    users.users = with lib; mkMerge [
+    users.users = mkMerge [
       ## Normal users
       (mapAttrs
         (name: config: {
@@ -124,21 +126,22 @@ in {
     ];
 
     ## User groups
-    users.groups = with lib; mapAttrs'
+    users.groups = mapAttrs'
       (name: config: nameValuePair name { gid = config.id; })
       enabledNormalUsers;
 
     ## Nix trusted users
-    nix.settings.trusted-users = with lib; mapAttrsToList
+    nix.settings.trusted-users = mapAttrsToList
       (name: config: name)
       (filterAttrs (name: config: config.enableNixManagement) enabledNormalUsers);
 
     ## Assertions
     assertions = [
       {
-        assertion = libpix.anyAttrs (_: config: config.password != null) enabledNormalUsers;
+        assertion = all (config: config.password != null) (attrValues enabledNormalUsers);
         message = "Password must be provided.";
       }
+
       {
         assertion = let rootCfg = cfg.profiles.root; in
                     rootCfg.enable -> rootCfg.password != null;

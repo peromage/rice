@@ -14,9 +14,7 @@ in {
       default = null;
       description = ''
         Host name for this machine.
-        This takes precedence over the name defined in each host profile.
-        If this is not defined, the name of last enabled host profile will be
-        used.
+        For clarification, this needs to be specified explicitly.
       '';
     };
 
@@ -34,7 +32,7 @@ in {
   };
 
   /* Implementation */
-  config = {
+  config = lib.mkIf (libpix.anyEnable cfg.profiles) {
     ## Common
     nixpkgs.hostPlatform = cfg.platform;
     networking.hostName = cfg.hostName;
