@@ -56,6 +56,7 @@ in {
   /* Implementation */
   config = let
     enabledHosts = lib.filterAttrs (name: config: config.enable) cfg.profiles;
+    anyHostEnabled = lib.length enabledHosts != 0;
 
     /* Use the value from `pix.hosts.hostName' if defined.
        Otherwise, use the name of last host profile.
@@ -64,30 +65,43 @@ in {
       if cfg.hostName != null then cfg.hostName
       else foldl (_: config: config.name) null enableHosts;
 
-    # hostConfigList = with lib; mapAttrsToList (name: config: config.config) enabledHosts;
+    allowedNames = ["fonts" "programs" "environment"];
 
   in
     with lib; mkMerge [
-    {
-      ## Common
-      nixpkgs.hostPlatform = cfg.platform;
-      networking.hostName = hostName;
+      (libpix.mkMergeTopLevel allowedNames (mapAttrsToList (_: config: config.config) enabledHosts))
 
-      ## Assertions
-      assertions = [
-        {
-          assertion = cfg.platform != null;
-          message = "Platform has be explicitly specified.";
-        }
+      {
+        ## Common
+        nixpkgs.hostPlatform = cfg.platform;
+        networking.hostName = hostName;
 
-        {
-          assertion = hostName != null;
-          message = ''
-          No hostname provided.
-          Either `pix.hosts.hostName' is not set or no host profile is enabled."
-        '';
-        }
-      ];
-    }
-  ];
+        ## Assertions
+        assertions = [
+          {
+            assertion = cfg.platform != null;
+            message = "Platform has be explicitly specified.";
+          }
+
+          {
+            assertion = hostName != null;
+            message = ''
+              No hostname provided.
+              Either `pix.hosts.hostName' is not set or no host profile is enabled."
+            '';
+          }
+
+          ## Only allowed options can be defined
+          {
+            assertion = all id (flatten
+              (mapAttrsToList
+                (_: config: (map
+                  (n: elem n allowedNames)
+                  (attrNames config.config)))
+                enabledHosts));
+            message = "Only these config names can be defined in host profiles: ${toString allowedNames}.";
+          }
+        ];
+      }
+    ];
 }
