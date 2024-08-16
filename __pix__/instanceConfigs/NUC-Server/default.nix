@@ -10,7 +10,7 @@
   pix = {
     hosts.hostName = "LADDER";
     hosts.platform = "x86_64-linux";
-    hosts.profiles.biryani.enable = true;
+    hosts.profiles.basic.enable = true;
     desktops.env.xfce.enable = true;
 
     services = {

@@ -12,7 +12,7 @@
   pix = {
     hosts.hostName = "PRMG";
     hosts.platform = "x86_64-linux";
-    hosts.profiles.potpie.enable = true;
+    hosts.profiles.dailyDriver.enable = true;
     users.profiles.fang.enable = true;
     users.profiles.root.enable = false;
     desktops.env.gnome.enable = true;
