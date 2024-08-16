@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.services.ime;
-  gnomeEnabled = config.pix.desktops.env.gnome.enable;
+  gnomeEnabled = config.pix.desktops.profiles.gnome.enable;
 
 in {
   options.pix.services.ime = with lib; {

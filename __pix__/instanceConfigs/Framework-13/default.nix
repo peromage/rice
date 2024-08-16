@@ -15,7 +15,7 @@
     hosts.profiles.dailyDriver.enable = true;
     users.profiles.fang.enable = true;
     users.profiles.root.enable = false;
-    desktops.env.gnome.enable = true;
+    desktops.profiles.gnome.enable = true;
 
     services = {
       i18n.enable = true;

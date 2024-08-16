@@ -11,7 +11,7 @@
     hosts.hostName = "LADDER";
     hosts.platform = "x86_64-linux";
     hosts.profiles.basic.enable = true;
-    desktops.env.xfce.enable = true;
+    desktops.profiles.xfce.enable = true;
 
     services = {
       i18n.enable = true;
