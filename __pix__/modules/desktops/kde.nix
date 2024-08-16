@@ -1,24 +1,20 @@
-{ mkDesktopOptions, ... }:
 { config, lib, ... }:
 
 let
-  cfgAll = config.pix.desktops;
-  cfg = config.pix.desktops.env.kde;
-
-  options = mkDesktopOptions {
-    name = "KDE";
-  } // {
-    enableSDDM = lib.mkEnableOption "SDDM display manager" // { default = true; };
-  };
+  cfgOverall = config.pix.desktops;
+  cfg = cfgOverall.env.kde;
 
 in {
-  options.pix.desktops.env.kde = options;
+  options.pix.desktops.env.kde = with lib; {
+    enable = mkEnableOption "KDE";
+    enableSDDM = mkEnableOption "SDDM display manager" // { default = true; };
+  };
 
   config = lib.mkIf cfg.enable {
     services.xserver = {
       desktopManager.plasma5.enable = true;
       displayManager.sddm.enable = cfg.enableSDDM;
-      displayManager.sddm.wayland.enable = cfgAll.enableWayland;
+      displayManager.sddm.wayland.enable = cfgOverall.enableWayland;
     };
   };
 }

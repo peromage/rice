@@ -2,39 +2,42 @@
 
 let
   libpix = pix.lib;
-
   cfg = config.pix.desktops;
 
-  options = with lib; {
+in {
+  imports = with libpix; listDir isNotDefaultNix ./.;
+
+  options.pix.desktops = with lib; {
     /* The display server is actually selected by the display manager.
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
-    enableWayland = mkEnableOption "Wayland display server" // { default = true; };
-    enableGraphicAcceleration = mkEnableOption "Graphic acceleration support" // { default = true; };
+    enableWayland = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Use Wayland as default display server.
+        This option has no effect if no DE is enabled in `pix.desktops.env'.
+      '';
+    };
 
+    enableGraphicAcceleration = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Graphic acceleration support.
+        This option has no effect if no DE is enabled in `pix.desktops.env'.
+      '';
+    };
+
+    ## Each DE can have their own options while `enable' is mandatory
     env = {};
   };
 
-  /* Additional arguments to import submodules.
+  config = let
+    ## If any DE enabled
+    deEnabled = with lib; any (config: config.enable) (attrValues cfg.env);
 
-     CONTRACT: Each profile declared in this set must have options:
-
-       - enable
-  */
-  args = {
-    mkDesktopOptions = { name }: {
-      enable = lib.mkEnableOption "desktop environment";
-    };
-  };
-
-  ## Do not enable desktop settings if no desktop environment is enabled
-  enableDesktopConfig = libpix.anyEnable cfg.env;
-
-in {
-  imports = with libpix; callAll args (listDir isNotDefaultNix ./.);
-  options.pix.desktops = options;
-
-  config = lib.mkIf enableDesktopConfig {
+  in lib.mkIf deEnabled {
     services = {
       xserver.enable = true;
       libinput.enable = true;
