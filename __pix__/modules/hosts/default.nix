@@ -4,6 +4,11 @@ let
   libpix = pix.lib;
   cfg = config.pix.hosts;
 
+  ## Explicitly specify which name can be defined in `<host>.config' below.
+  ## This is a workaround to aovid infinit recursion.
+  ## Details see `libpix.mkMergeTopLevel'.
+  allowedNames = ["fonts" "programs" "environment"];
+
   hostProfileOptions = {name, config, ...}: {
     options = with lib; {
       enable = mkEnableOption "host ${name}";
@@ -13,7 +18,7 @@ let
         default = {};
         description = ''
           Host detailed configurations.
-          The content of this option should be the normal toplevel NixOS config.
+          Attributes are equivalent to NixOS toplevel config.
         '';
       };
     };
@@ -58,14 +63,11 @@ in {
     enabledHosts = lib.filterAttrs (name: config: config.enable) cfg.profiles;
     anyHostEnabled = lib.length enabledHosts != 0;
 
-    /* Use the value from `pix.hosts.hostName' if defined.
-       Otherwise, use the name of last host profile.
-    */
+    ## Use the value from `pix.hosts.hostName' if defined.  Otherwise, use the
+    ## name of last host profile.
     hostName = with lib;
       if cfg.hostName != null then cfg.hostName
       else foldl (_: config: config.name) null enableHosts;
-
-    allowedNames = ["fonts" "programs" "environment"];
 
   in
     with lib; mkMerge [
@@ -93,12 +95,7 @@ in {
 
           ## Only allowed options can be defined
           {
-            assertion = all id (flatten
-              (mapAttrsToList
-                (_: config: (map
-                  (n: elem n allowedNames)
-                  (attrNames config.config)))
-                enabledHosts));
+            assertion = all (name: elem name allowedNames) (flatten (map (config: attrNames config.config) (attrValues enabledHosts)));
             message = "Only these config names can be defined in host profiles: ${toString allowedNames}.";
           }
         ];
