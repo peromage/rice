@@ -29,7 +29,7 @@ in {
       '';
     };
 
-    ## Each profile can have their own options, while `enable' is mandatory.
+    ## Each profile can have their own options, while `enable' is mandatory
     profiles = {};
   };
 

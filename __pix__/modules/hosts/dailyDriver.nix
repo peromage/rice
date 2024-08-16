@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.pix.hosts.profiles.potpie;
+  cfg = config.pix.hosts.profiles.dailyDriver;
 
 in {
-  options.pix.hosts.profiles.potpie = with lib; {
-    enable = mkEnableOption "host potpie";
+  options.pix.hosts.profiles.dailyDriver = with lib; {
+    enable = mkEnableOption "My daily driver host config";
   };
 
   config = lib.mkIf cfg.enable {

@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.pix.hosts.profiles.biryani;
+  cfg = config.pix.hosts.profiles.basic;
 
 in {
-  options.pix.hosts.profiles.biryani = with lib; {
-    enable = mkEnableOption "host biryani";
+  options.pix.hosts.profiles.basic = with lib; {
+    enable = mkEnableOption "basic host config";
   };
 
   config = lib.mkIf cfg.enable {
