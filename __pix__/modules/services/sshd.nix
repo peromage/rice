@@ -7,6 +7,7 @@ in {
   options.pix.services.sshd = with lib; {
     enable = mkEnableOption "SSH service";
     enablePassword = mkEnableOption "SSH password login";
+    enableOnDemandActivation = mkEnableOption "Only start service when there is incoming connection";
   };
 
   config = lib.mkIf cfg.enable {
