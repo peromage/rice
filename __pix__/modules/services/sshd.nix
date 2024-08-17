@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.pix.services.ssh;
+  cfg = config.pix.services.sshd;
 
 in {
-  options.pix.services.ssh = with lib; {
+  options.pix.services.sshd = with lib; {
     enable = mkEnableOption "SSH service";
     enablePassword = mkEnableOption "SSH password login";
   };
