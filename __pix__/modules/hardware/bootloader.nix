@@ -1,30 +1,31 @@
 { config, pkgs, lib, lanzaboote, ... }:
 
 let
-  cfg = config.pix.hardware.boot;
+  cfg = config.pix.hardware.bootloader;
 
 in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
 
-  options.pix.hardware.boot = with lib; {
-    enabled = mkOption {
-      type = with types; nullOr (enum [ "systemd-boot" "grub" "secure-boot"]);
-      default = "systemd-boot";
+  options.pix.hardware.bootloader = with lib; {
+    enable = mkEnableOption "customized boot config";
+
+    loader = mkOption {
+      type = with types; nullOr (enum [ "systemd-boot" "grub" "lanzaboote" ]);
+      default = "grub";
       description = ''Default boot loader mode.
 
       If this is set to null no boot loader will be configured.
 
-      The option `secure-boot' option implemented by `lanzaboote' which implies
-      systemd-boot.
+      The option `lanzaboote' option implies systemd-boot.
 
       Note: When installing the system for the first time, `systemd-boot' or
-      `grub' should be used and switch to `secure-boot' after.  The steps are
+      `grub' should be used and switch to `lanzaboote' after.  The steps are
       as follow:
 
       For a clean installation:
       1. Disable secure boot in BIOS.
       2. In NixOS: sudo nix run nixpkgs#sbctl create-keys
-      3. Switch to the option `secure-boot', build and reboot.
+      3. Switch to the option `lanzaboote', build and reboot.
       4. In NixOS: sudo nix run nixpkgs#sbctl -- verify && sudo nix run nixpkgs#sbctl -- status
       5. Reboot and set BIOS in setup mode (Reset all secure boot keys and secure boot should be disabled).
       6. In NixOS: sudo nix run nixpkgs#sbctl enroll-keys -- --microsoft
@@ -43,7 +44,7 @@ in {
   };
 
   config = with lib; mkMerge [
-    (mkIf ("systemd-boot" == cfg.enabled) {
+    (mkIf ("systemd-boot" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         loader = {
@@ -54,7 +55,7 @@ in {
       };
     })
 
-    (mkIf ("grub" == cfg.enabled) {
+    (mkIf ("grub" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         loader = {
@@ -68,7 +69,7 @@ in {
       };
     })
 
-    (mkIf ("secure-boot" == cfg.enabled) {
+    (mkIf ("lanzaboote" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         lanzaboote = {
