@@ -30,6 +30,7 @@
     bootloader = {
       enable = true;
       loader = "grub";
+      grubDevice = "/dev/disk/by-uuid/43E4-9AB3";
     };
     networking.enable = true;
     bluetooth.enable = true;
