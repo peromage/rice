@@ -23,5 +23,5 @@ nix flake update
 case "$action" in
     build) nixos-rebuild build --flake "${cwd}#${name}" --show-trace ;;
     boot) sudo nixos-rebuild boot --flake "${cwd}#${name}" --show-trace ;;
-    *) usage; exit 1;;
+    *) usage; exit 1 ;;
 esac
