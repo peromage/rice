@@ -1,7 +1,7 @@
-{ ... }:
+{ lib, ... }:
 
 {
-  config.pix.users.profiles.wangguan = {
+  config.pix.users.profiles.wangguan = with lib; {
     description = "Wangguan";
     id = 1100;
     groups = [ "wheel" "users" "networkmanager"];
