@@ -7,5 +7,5 @@
 
       The sample demonstrates how to make customized (mutable) configs without
       changing the original flake.
-'';
+  '';
 }

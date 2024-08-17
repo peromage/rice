@@ -22,7 +22,7 @@
 
     in {
       nixosConfigurations = {
-        Laptop = with lib; rice.nixosConfigurations.Framework.extraModules [
+        default = with lib; rice.nixosConfigurations.Framework.extraModules [
           {
             pix.hosts.hostName = mkForce "Foo";
             pix.users.immutable = true;
