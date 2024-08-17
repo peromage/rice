@@ -21,7 +21,10 @@
       i18n.enable = true;
       firewall.enable = true;
       vconsole.enable = true;
-      ssh.enable = true;
+      sshd = {
+        enable = true;
+        enableOnDemandActivation = true;
+      };
       documentation.enable = true;
       nix.enable = true;
       ime.enabled = "fcitx";
