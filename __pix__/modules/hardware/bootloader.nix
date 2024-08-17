@@ -44,7 +44,7 @@ in {
   };
 
   config = with lib; mkMerge [
-    (mkIf ("systemd-boot" == cfg.loader) {
+    (mkIf (cfg.enable && "systemd-boot" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         loader = {
@@ -55,7 +55,7 @@ in {
       };
     })
 
-    (mkIf ("grub" == cfg.loader) {
+    (mkIf (cfg.enable && "grub" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         loader = {
@@ -69,7 +69,7 @@ in {
       };
     })
 
-    (mkIf ("lanzaboote" == cfg.loader) {
+    (mkIf (cfg.enable && "lanzaboote" == cfg.loader) {
       boot = {
         bootspec.enable = true;
         lanzaboote = {
