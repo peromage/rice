@@ -9,21 +9,24 @@ in with self; {
   /* A generic function to generate a module that has ability to add additonal
      modules.  Similar to the concept of override.
 
-     `f' is a function like `nixosSystem' `darwinSystem' or `homeManagerConfiguration'.
+     `f' is a configuration generation function like `nixosSystem',
+     `darwinSystem' or `homeManagerConfiguration'.
 
-     `init' is a function that takes a list of modules and returns an attrs that
+     `genArgs' is a function that takes a list of modules and returns an attrs that
      can be consumed by `f'.
 
-     `mod' is the module itself.  It can be either a path or attrs.
+     `mods' is a list of modules passed to `genArgs'.
 
      Type:
-       mkTopModule :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet) -> AttrSet
+       mkTopModule :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet | [Path | AttrSet]) -> AttrSet
   */
-  mkTopModule = f: init: mod:
+  mkTopModule = f: genArgs: mods:
     let
-      add = f: init: mods:
-        f (init mods) // { extraModule = mod: add f init (mods ++ [mod]); };
-    in add f init [mod];
+      virtualMake = mods:
+        with lib; let savedList = toList mods;
+                  in f (genArgs savedList)
+                     // { extraModules = newMods: virtualMake (savedList ++ (toList newMods)); };
+    in virtualMake mods;
 
   /* Merge a list of attribute sets from config top level.
 
