@@ -44,7 +44,10 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   pix.hardware = {
-    boot.enabled = "secure-boot";
+    bootloader = {
+      enable = true;
+      loader = "lanzaboote";
+    };
     networking.enable = true;
     bluetooth.enable = true;
     firmware.enable = true;
