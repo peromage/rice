@@ -23,12 +23,14 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   pix.hardware = {
+    bootloader = {
+      enable = true;
+      loader = "grub";
+    };
     networking.enable = true;
     bluetooth.enable = true;
     audio.enable = true;
