@@ -122,6 +122,9 @@ in {
       ## Apps
       appimage-run
 
+      ## Media
+      mpv
+
       ## Development
       gcc
       libgcc
