@@ -45,14 +45,18 @@
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
+        moduleDir = "modules";
+        configDir = "configurations";
       in {
         ## Root directory can be accessed through `rice.outPath'
         dotfiles = ./__dots__;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
-        modules = pixTop "modules";
-        homeModules = pixTop "homeModules";
-        instances = pixTop "instances";
+        nixosModules = pixTop "${moduleDir}/nixos.nix";
+        homeManagerModules = pixTop "${moduleDir}/home-manager.nix";
+        nixosConfigurations = pixTop "${configDir}/nixos";
+        darwinConfigurations = pixTop "${configDir}/darwin";
+        homeConfigurations = pixTop "${configDir}/home";
         overlays = pixTop "overlays";
         packages = pixTop "packages";
         templates = pixTop "templates";
@@ -93,8 +97,8 @@
       /* Expose my modules */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
-        nixos = import (path.modules + "/nixos.nix");
-        home-manager = import (path.modules + "/home-manager.nix");
+        nixos = import path.nixosModules;
+        home-manager = import path.homeManagerModules;
       };
 
       /* Packages
@@ -155,7 +159,7 @@
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
       nixosConfigurations =
-        let inc = ins: libpix.nixosTopModule specialArgs (path.instances + "/${ins}");
+        let inc = conf: libpix.nixosTopModule specialArgs (path.nixosConfigurations + "/${conf}");
         in {
           Framework = inc "Framework-13";
           NUC = inc "NUC-Server";
@@ -167,7 +171,7 @@
            darwin-rebuild switch --flake .#HOST_NAME
       */
       darwinConfigurations =
-        let inc = ins: libpix.darwinTopModule specialArgs (path.instances + "/${ins}");
+        let inc = conf: libpix.darwinTopModule specialArgs (path.darwinConfigurations + "/${conf}");
         in {
           Macbook = inc "Macbook-13";
         };
@@ -187,7 +191,7 @@
          from there automatically.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = user: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeModules + "/${user}");
+        let inc = user: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeConfigurations + "/${user}");
         in {
           fang = inc "fang";
         }
