@@ -18,13 +18,6 @@ in {
       '';
     };
 
-    platform = mkOption {
-      type = with types; nullOr str;
-      default = null;
-      description = ''
-        Host platform architecture.
-        For clarification, this needs to be specified explicitly.
-      '';
     };
 
     ## Each profile can have their own options, while `enable' is mandatory
@@ -34,16 +27,10 @@ in {
   /* Implementation */
   config = lib.mkIf (libpix.anyEnable cfg.profiles) {
     ## Common
-    nixpkgs.hostPlatform = cfg.platform;
     networking.hostName = cfg.hostName;
 
     ## Assertions
     assertions = [
-      {
-        assertion = cfg.platform != null;
-        message = "Platform has be explicitly specified.";
-      }
-
       {
         assertion = cfg.hostName != null;
         message = ''
