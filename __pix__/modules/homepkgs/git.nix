@@ -16,6 +16,7 @@ in with lib; {
         This is equivalent to `programs.git.includes';
       '';
     };
+    # extraIncludes = options.programs.git.includes;
   };
 
   config = mkIf cfg.enable {
@@ -24,8 +25,7 @@ in with lib; {
       lfs.enable = true;
       includes = [
         { path = "${src}/config"; }
-        { path = "${src}/user-fang"; }
-      ];
+      ] ++ cfg.extraIncludes;
     };
   };
 }

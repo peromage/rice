@@ -10,7 +10,12 @@
     bash.enable = true;
     fcitx5.enable = true;
     fish.enable = true;
-    git.enable = true;
+    git = {
+      enable = true;
+      extraIncludes = [
+        { path = "${pix.path.dotfiles}/git/.config/git/user-fang"; }
+      ];
+    };
     gpg.enable = true;
     password-store.enable = true;
     powershell.enable = true;
