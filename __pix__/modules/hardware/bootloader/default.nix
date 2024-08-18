@@ -15,6 +15,7 @@ in {
   in with lib; {
     assertions = [
       {
+        ## One or none
         assertion = length (attrNames enabledBootloaders) < 2;
         message = "Only one bootloader can be activated at a time.";
       }
