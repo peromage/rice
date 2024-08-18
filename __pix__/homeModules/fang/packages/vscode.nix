@@ -1,13 +1,20 @@
-{ pix, ... }:
+{ config, lib, pix, ... }:
 
 let
+  cfg = config.pix.homepkgs.vscode;
   src = "${pix.path.dotfiles}/vscode/.config/Code";
 
-in {
-  programs.vscode.enable = true;
+in with lib; {
+  options.pix.homepkgs.vscode = {
+    enable = mkEnableOption "Visual Studio Code";
+  };
 
-  xdg.configFile."Code" = {
-    source = src;
-    recursive = true;
+  config = mkIf cfg.enable {
+    programs.vscode.enable = true;
+
+    xdg.configFile."Code" = {
+      source = src;
+      recursive = true;
+    };
   };
 }

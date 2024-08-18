@@ -1,39 +1,46 @@
-{ pkgs, pix, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
+  cfg = config.pix.homepkgs.gpg;
   src = "${pix.path.dotfiles}/gnupg/.gnupg";
 
-in {
-  programs.gpg = {
-    enable = true;
-    scdaemonSettings = {};
+in with lib; {
+  options.pix.homepkgs.gpg = {
+    enable = mkEnableOption "GPG";
   };
 
-  services.gpg-agent = {
-    enable = true;
-    enableScDaemon = true;
-    enableSshSupport = true;
-    enableBashIntegration = true;
-    enableFishIntegration = true;
-    # pinentryPackage = pkgs.pinentry-gnome3;
-  };
+  config = mkIf cfg.enable {
+    programs.gpg = {
+      enable = true;
+      scdaemonSettings = {};
+    };
 
-  home.packages = with pkgs; [
-    pinentry-gnome3 # Only one pinentry package at a time, conflicts otherwise
-  ];
+    services.gpg-agent = {
+      enable = true;
+      enableScDaemon = true;
+      enableSshSupport = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      # pinentryPackage = pkgs.pinentry-gnome3;
+    };
 
-  ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
-  ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling
-  xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
-    [Desktop Entry]
-    Name=SSH Key Agent
-    Type=Application
-    Hidden=true
-  '';
+    home.packages = with pkgs; [
+      pinentry-gnome3 # Only one pinentry package at a time, conflicts otherwise
+    ];
 
-  ## Override with my own settings
-  home.file.".gnupg" = {
-    source = src;
-    recursive = true;
+    ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
+    ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling
+    xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
+      [Desktop Entry]
+      Name=SSH Key Agent
+      Type=Application
+      Hidden=true
+    '';
+
+    ## Override with my own settings
+    home.file.".gnupg" = {
+      source = src;
+      recursive = true;
+    };
   };
 }

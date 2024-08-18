@@ -1,13 +1,20 @@
-{ pix, pkgs, ... }:
+{ config, lib, pix, pkgs, ... }:
 
 let
+  cfg = config.pix.homepkgs.mc;
   src = "${pix.path.dotfiles}/mc/.config/mc";
 
-in {
-  home.packages = [ pkgs.mc ];
+in with lib; {
+  options.pix.homepkgs.mc = {
+    enable = mkEnableOption "Midnight Commander";
+  };
 
-  xdg.configFile."mc" = {
-    source = src;
-    recursive = true;
+  config = mkIf cfg.enable {
+    home.packages = [ pkgs.mc ];
+
+    xdg.configFile."mc" = {
+      source = src;
+      recursive = true;
+    };
   };
 }

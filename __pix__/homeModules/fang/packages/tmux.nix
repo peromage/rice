@@ -1,13 +1,20 @@
-{ pix, ... }:
+{ config, lib, pix, ... }:
 
 let
+  cfg = config.pix.homepkgs.tmux;
   src = "${pix.path.dotfiles}/tmux/.config/tmux";
 
-in {
-  programs.tmux.enable = true;
+in with lib; {
+  options.pix.homepkgs.tmux = {
+    enable = mkEnableOption "Tmux";
+  };
 
-  xdg.configFile."tmux" = {
-    source = src;
-    recursive = true;
+  config = mkIf cfg.enable {
+    programs.tmux.enable = true;
+
+    xdg.configFile."tmux" = {
+      source = src;
+      recursive = true;
+    };
   };
 }
