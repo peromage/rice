@@ -9,11 +9,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    sound = {
-      enable = false; # No ALSA sound
-      mediaKeys.enable = false; # Gnome and KDE has their own handling
-    };
-
     hardware.pulseaudio.enable = false; # Use pipewire
     security.rtkit.enable = true;
 

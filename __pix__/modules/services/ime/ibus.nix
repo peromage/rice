@@ -18,7 +18,8 @@ in {
     services.xserver.xkb.layout = cfg.layout;
 
     i18n.inputMethod = {
-      enabled = "ibus";
+      enable = true;
+      type = "ibus";
       ibus.engines = with pkgs.ibus-engines; [
         rime
         libpinyin
