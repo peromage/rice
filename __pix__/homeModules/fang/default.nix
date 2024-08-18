@@ -1,7 +1,7 @@
 { pix, pkgs, ... }:
 
 let
-  src = pix.paths.dotfiles;
+  src = pix.path.dotfiles;
 
 in {
   imports = [ ./packages.nix ];
@@ -10,7 +10,7 @@ in {
   programs.home-manager.enable = true;
 
 
-  /* Mapped paths from Home Manager's variables:
+  /* Mapped path from Home Manager's variables:
 
      `~/.config': config.xdg.configHome
      `~/.local/share': config.xdg.dataHome

@@ -1,7 +1,7 @@
 { pix, pkgs, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/mc/.config/mc";
+  src = "${pix.path.dotfiles}/mc/.config/mc";
 
 in {
   home.packages = [ pkgs.mc ];

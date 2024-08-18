@@ -43,7 +43,7 @@
       specialArgs = self.inputs // { pix = self.outputs; };
       lib = nixpkgs.lib;
 
-      paths = let
+      path = let
         pixTop = p: ./__pix__ + "/${p}";
       in {
         ## Root directory can be accessed through `rice.outPath'
@@ -51,14 +51,14 @@
         lib = pixTop "lib";
         devshells = pixTop "devshells";
         modules = pixTop "modules";
-        homes = pixTop "homeConfigs";
-        instances = pixTop "instanceConfigs";
+        homeModules = pixTop "homeModules";
+        instances = pixTop "instances";
         overlays = pixTop "overlays";
         packages = pixTop "packages";
         templates = pixTop "templates";
       };
 
-      libpix = (import paths.lib specialArgs) // {
+      libpix = (import path.lib specialArgs) // {
         /* Improvised functions
         */
 
@@ -86,13 +86,13 @@
 
     in {
       /* Pix */
-      paths = paths;
+      path = path;
       lib = libpix;
       specialArgs = specialArgs;
 
       /* Expose my modules */
       nixosModules = {
-        default = import paths.modules;
+        default = import path.modules;
       };
 
       /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
@@ -114,10 +114,10 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with libpix; forSupportedSystems (system: flakeCall { inherit system; } paths.packages);
+      packages = with libpix; forSupportedSystems (system: flakeCall { inherit system; } path.packages);
 
       /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with libpix; forSupportedSystems (system: flakeCall { inherit system; } paths.devshells);
+      devShells = with libpix; forSupportedSystems (system: flakeCall { inherit system; } path.devshells);
 
       /* Via: `nix fmt'
 
@@ -126,14 +126,14 @@
       formatter = libpix.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Imported by other flakes */
-      overlays = libpix.flakeCall {} paths.overlays;
+      overlays = libpix.flakeCall {} path.overlays;
 
       /* Via: `nix flake init -t /path/to/this_config#TEMPLATE_NAME' */
-      templates = libpix.flakeCall {} paths.templates;
+      templates = libpix.flakeCall {} path.templates;
 
       /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
       nixosConfigurations =
-        let inc = ins: libpix.nixosTopModule specialArgs (paths.instances + "/${ins}");
+        let inc = ins: libpix.nixosTopModule specialArgs (path.instances + "/${ins}");
         in {
           Framework = inc "Framework-13";
           NUC = inc "NUC-Server";
@@ -141,7 +141,7 @@
 
       /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
       darwinConfigurations =
-        let inc = ins: libpix.darwinTopModule specialArgs (paths.instances + "/${ins}");
+        let inc = ins: libpix.darwinTopModule specialArgs (path.instances + "/${ins}");
         in {
           Macbook = inc "Macbook-13";
         };
@@ -153,7 +153,7 @@
          is actually implemented by the `packages' output not this.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = home: homeTopModule (flakeOverlaidPkgs system) specialArgs (paths.homes + "/${home}");
+        let inc = home: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeModules + "/${home}");
         in {
           fang = inc "fang";
         }

@@ -1,7 +1,7 @@
 { pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/vim/.vim";
+  src = "${pix.path.dotfiles}/vim/.vim";
 
 in {
   programs.vim.enable = true;

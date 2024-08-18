@@ -1,7 +1,7 @@
 { pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/tmux/.config/tmux";
+  src = "${pix.path.dotfiles}/tmux/.config/tmux";
 
 in {
   programs.tmux.enable = true;

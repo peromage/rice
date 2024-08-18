@@ -1,7 +1,7 @@
 { pkgs, pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/fcitx5";
+  src = "${pix.path.dotfiles}/fcitx5";
 
 in {
   /* Temporarily disabled since this is problematic in user space.  Instead, the

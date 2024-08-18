@@ -1,7 +1,7 @@
 { pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/wezterm/.config/wezterm";
+  src = "${pix.path.dotfiles}/wezterm/.config/wezterm";
 
 in {
   programs.wezterm = {

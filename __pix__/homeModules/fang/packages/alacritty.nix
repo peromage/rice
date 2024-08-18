@@ -1,7 +1,7 @@
 { pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/alacritty/.config/alacritty";
+  src = "${pix.path.dotfiles}/alacritty/.config/alacritty";
 
 in {
   programs.alacritty.enable = true;

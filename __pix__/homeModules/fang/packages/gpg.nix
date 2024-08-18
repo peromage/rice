@@ -1,7 +1,7 @@
 { pkgs, pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/gnupg/.gnupg";
+  src = "${pix.path.dotfiles}/gnupg/.gnupg";
 
 in {
   programs.gpg = {

@@ -1,7 +1,7 @@
 { pix, ... }:
 
 let
-  src = "${pix.paths.dotfiles}/git/.config/git";
+  src = "${pix.path.dotfiles}/git/.config/git";
 
 in {
   programs.git = {
