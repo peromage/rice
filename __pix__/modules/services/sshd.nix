@@ -15,7 +15,7 @@ in {
       type = with types; listOf port;
       default = [ 22 ];
       description = "SSH daemon listening ports.";
-    }
+    };
   };
 
   config = lib.mkIf cfg.enable {
