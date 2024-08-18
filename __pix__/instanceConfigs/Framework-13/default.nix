@@ -15,24 +15,5 @@
     hosts.profiles.dailyDriver.enable = true;
     users.profiles.fang.enable = true;
     users.profiles.root.enable = false;
-    desktops.profiles.gnome.enable = true;
-
-    services = {
-      i18n.enable = true;
-      firewall.enable = true;
-      vconsole.enable = true;
-      sshd = {
-        enable = true;
-        enableOnDemandActivation = true;
-      };
-      documentation.enable = true;
-      nix.enable = true;
-      ime.fcitx.enable = true;
-      steam = {
-        enable = true;
-        openFirewall.remotePlay = true;
-      };
-      libvirtd.enable = true;
-    };
   };
 }

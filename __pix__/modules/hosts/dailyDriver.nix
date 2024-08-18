@@ -9,6 +9,27 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    /* Pix options */
+    pix.services = {
+      i18n.enable = true;
+      firewall.enable = true;
+      vconsole.enable = true;
+      sshd = {
+        enable = true;
+        enableOnDemandActivation = true;
+      };
+      documentation.enable = true;
+      nix.enable = true;
+      ime.fcitx.enable = true;
+      steam = {
+        enable = true;
+        openFirewall.remotePlay = true;
+      };
+      libvirtd.enable = true;
+    };
+
+    pix.desktops.env.gnome.enable = true;
+
     /* Fonts */
     fonts = {
       fontDir.enable = true;

@@ -9,6 +9,17 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    /* Pix options */
+    pix.services = {
+      i18n.enable = true;
+      firewall.enable = true;
+      vconsole.enable = true;
+      sshd.enable = true;
+      nix.enable = true;
+    };
+
+    pix.desktops.env.xfce.enable = true;
+
     environment.systemPackages = with pkgs; [
       brave
       vim
