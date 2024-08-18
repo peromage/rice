@@ -1,8 +1,8 @@
 { config, lib, pix, ... }:
 
 let
-  libpix = pix.lib;
   cfg = config.pix.hosts;
+  libpix = pix.lib;
 
 in {
   imports = with libpix; listDir isNotDefaultNix ./.;
@@ -14,10 +14,10 @@ in {
       default = null;
       description = ''
         Host name for this machine.
-        For clarification, this needs to be specified explicitly.
+        This is default to the host profile name.  However, this option can be
+        used to override it.
+        NOTE: This only has effect when one of the host profiles is enabled.
       '';
-    };
-
     };
 
     ## Each profile can have their own options, while `enable' is mandatory
@@ -25,19 +25,20 @@ in {
   };
 
   /* Implementation */
-  config = lib.mkIf (libpix.anyEnable cfg.profiles) {
-    ## Common
+  config = let
+    enabledHosts = with lib; filterAttrs (_: config: config.enable) cfg.profiles;
+    numberOfEnabledHosts = with lib; length (attrNames enabledHosts);
+
+  in with lib; mkIf (numberOfEnabledHosts > 0) {
+    ## There is only one name if condition is right
+    pix.hosts.hostName = mkDefault (head (attrNames enabledHosts));
+
     networking.hostName = cfg.hostName;
 
     ## Assertions
-    assertions = [
-      {
-        assertion = cfg.hostName != null;
-        message = ''
-              No hostname provided.
-              Either `pix.hosts.hostName' is not set or no host profile is enabled."
-            '';
-      }
-    ];
+    assertions = singleton {
+      assertion = numberOfEnabledHosts == 1;
+      message = "Only one host can be enabled at a time.";
+    };
   };
 }
