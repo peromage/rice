@@ -3,14 +3,14 @@
 let
   cfg = config.pix.hardware.networking;
 
-in {
-  options.pix.hardware.networking = with lib; {
+in with lib; {
+  options.pix.hardware.networking = {
     enable = mkEnableOption "network management";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     networking = {
-      useDHCP = lib.mkDefault true;
+      useDHCP = mkDefault true;
       useHostResolvConf = false;
       networkmanager = {
         enable = true;

@@ -4,13 +4,13 @@ let
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.xfce;
 
-in {
-  options.pix.desktops.env.xfce = with lib; {
+in with lib; {
+  options.pix.desktops.env.xfce = {
     enable = mkEnableOption "XFCE";
-    enableLightDM = lib.mkEnableOption "LightDM display manager" // { default = true; };
+    enableLightDM = mkEnableOption "LightDM display manager" // { default = true; };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.xserver = {
       desktopManager.xfce.enable = true;
       displayManager.lightdm.enable = cfg.enableLightDM;

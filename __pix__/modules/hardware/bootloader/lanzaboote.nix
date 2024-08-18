@@ -3,10 +3,10 @@
 let
   cfg = config.pix.hardware.bootloader.lanzaboote;
 
-in {
+in with lib; {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
 
-  options.pix.hardware.bootloader.lanzaboote = with lib; {
+  options.pix.hardware.bootloader.lanzaboote = {
     enable = mkEnableOption ''
       Lanzaboote bootloader for secureboot
 
@@ -30,7 +30,7 @@ in {
     '';
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       lanzaboote = {

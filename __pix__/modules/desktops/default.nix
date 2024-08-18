@@ -4,10 +4,10 @@ let
   libpix = pix.lib;
   cfg = config.pix.desktops;
 
-in {
+in with lib; {
   imports = with libpix; listDir isNotDefaultNix ./.;
 
-  options.pix.desktops = with lib; {
+  options.pix.desktops = {
     /* The display server is actually selected by the display manager.
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
@@ -33,7 +33,7 @@ in {
     env = {};
   };
 
-  config = lib.mkIf (libpix.anyEnable cfg.env) {
+  config = mkIf (libpix.anyEnable cfg.env) {
     services = {
       xserver.enable = true;
       libinput.enable = true;

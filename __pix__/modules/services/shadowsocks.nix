@@ -3,8 +3,8 @@
 let
   cfg = config.pix.services.shadowsocks;
 
-in {
-  options.pix.services.shadowsocks = with lib; {
+in with lib; {
+  options.pix.services.shadowsocks = {
     enable = mkEnableOption "ShadowSocks";
 
     port = mkOption {
@@ -32,7 +32,7 @@ in {
     };
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.shadowsocks = {
       enable = true;
       password = cfg.password;

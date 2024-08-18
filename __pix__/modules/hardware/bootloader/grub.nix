@@ -3,8 +3,8 @@
 let
   cfg = config.pix.hardware.bootloader.grub;
 
-in {
-  options.pix.hardware.bootloader.grub = with lib; {
+in with lib; {
+  options.pix.hardware.bootloader.grub = {
     enable = mkEnableOption "Grub bootloader";
 
     device = mkOption {
@@ -16,7 +16,7 @@ in {
     probeOS = mkEnableOption "Detect other OS";
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       loader = {

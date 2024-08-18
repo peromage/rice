@@ -3,13 +3,13 @@
 let
   cfg = config.pix.services.libvirtd;
 
-in {
-  options.pix.services.libvirtd = with lib; {
+in with lib; {
+  options.pix.services.libvirtd = {
     enable = mkEnableOption "virtual manager";
     enableIntelSRIOV = mkEnableOption "Intel SR-IOV";
   };
 
-  config = with lib; mkMerge [
+  config = mkMerge [
     (mkIf cfg.enable {
       virtualisation.libvirtd = {
         enable = true;

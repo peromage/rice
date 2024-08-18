@@ -22,8 +22,8 @@ let
     ];
   };
 
-in {
-  options.pix.services.steam = with lib; {
+in with lib; {
+  options.pix.services.steam = {
     enable = mkEnableOption "Steam";
     openFirewall = {
       remotePlay = mkEnableOption "Steam remote play ports";
@@ -31,7 +31,7 @@ in {
     };
   };
 
-  config = with lib; mkMerge [
+  config = mkMerge [
     (mkIf cfg.enable {
       hardware.steam-hardware.enable = true;
 

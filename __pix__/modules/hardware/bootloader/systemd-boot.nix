@@ -3,12 +3,12 @@
 let
   cfg = config.pix.hardware.bootloader.systemd-boot;
 
-in {
-  options.pix.hardware.bootloader.systemd-boot = with lib; {
+in with lib; {
+  options.pix.hardware.bootloader.systemd-boot = {
     enable = mkEnableOption "Systemd-boot bootloader";
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       loader = {

@@ -4,11 +4,11 @@ let
   cfg = config.pix.hosts;
   libpix = pix.lib;
 
-in {
+in with lib; {
   imports = with libpix; listDir isNotDefaultNix ./.;
 
   /* Interface */
-  options.pix.hosts = with lib; {
+  options.pix.hosts = {
     hostName = mkOption {
       type = with types; nullOr str;
       default = null;
@@ -26,10 +26,10 @@ in {
 
   /* Implementation */
   config = let
-    enabledHosts = with lib; filterAttrs (_: config: config.enable) cfg.profiles;
-    numberOfEnabledHosts = with lib; length (attrNames enabledHosts);
+    enabledHosts = filterAttrs (_: config: config.enable) cfg.profiles;
+    numberOfEnabledHosts = length (attrNames enabledHosts);
 
-  in with lib; mkIf (numberOfEnabledHosts > 0) {
+  in mkIf (numberOfEnabledHosts > 0) {
     ## There is only one name if condition is right
     pix.hosts.hostName = mkDefault (head (attrNames enabledHosts));
 

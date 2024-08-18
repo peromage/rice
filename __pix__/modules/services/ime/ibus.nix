@@ -3,8 +3,8 @@
 let
   cfg = config.pix.services.ime.ibus;
 
-in {
-  options.pix.services.ime.ibus = with lib; {
+in with lib; {
+  options.pix.services.ime.ibus = {
     enable = mkEnableOption "Ibus";
 
     layout = mkOption {
@@ -14,7 +14,7 @@ in {
     };
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.xserver.xkb.layout = cfg.layout;
 
     i18n.inputMethod = {

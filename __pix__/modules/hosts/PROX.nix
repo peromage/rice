@@ -4,12 +4,12 @@ let
   name = "PROX";
   cfg = config.pix.hosts.profiles.${name};
 
-in {
-  options.pix.hosts.profiles.${name} = with lib; {
+in with lib; {
+  options.pix.hosts.profiles.${name} = {
     enable = mkEnableOption "basic host config";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     /* Pix options */
     pix.services = {
       i18n.enable = true;

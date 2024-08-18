@@ -4,8 +4,8 @@ let
   cfg = config.pix.services.ime.fcitx;
   gnomeCfg = config.pix.desktops.env.gnome;
 
-in {
-  options.pix.services.ime.fcitx = with lib; {
+in with lib; {
+  options.pix.services.ime.fcitx = {
     enable = mkEnableOption "Fcitx5";
 
     layout = mkOption {
@@ -15,7 +15,7 @@ in {
     };
   };
 
-  config = with lib; mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.xserver.xkb.layout = cfg.layout;
 
     i18n.inputMethod = {
@@ -34,6 +34,6 @@ in {
       rime-cli
       rime-data
     ]
-    ++ lib.optional gnomeCfg.enable gnomeExtensions.kimpanel;
+    ++ optional gnomeCfg.enable gnomeExtensions.kimpanel;
   };
 }

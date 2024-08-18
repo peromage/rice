@@ -6,8 +6,8 @@ let
   isRootUser = name: name == "root";
 
   /* User profile options. */
-  userProfileOptions = { name, config, ... }: {
-    options = with lib; {
+  userProfileOptions = { name, config, ... }: with lib; {
+    options = {
       enable = mkEnableOption "user ${name}";
 
       enableNixManagement = mkEnableOption "Nix trusted user";
@@ -49,16 +49,16 @@ let
 
     ## Disable root login by setting an invalid hashed password (if disabled).
     ## May be hardened by overriding the password outside of VC (flake template).
-    config = with lib; mkIf (isRootUser name && ! config.enable) {
+    config = mkIf (isRootUser name && ! config.enable) {
       password = "**DISABLED!**";
     };
   };
 
-in {
+in with lib; {
   imports = with libpix; listDir isNotDefaultNix ./.;
 
   /* Interface */
-  options.pix.users = with lib; {
+  options.pix.users = {
     immutable = mkOption {
       type = types.bool;
       default = false;
@@ -85,20 +85,20 @@ in {
   config = let
     definePassword = immutable: password:
       if immutable then
-        if lib.isPath password then
+        if isPath password then
           { hashedPasswordFile = password; }
         else
           { hashedPassword = password; }
       else
         { initialPassword = password; };
 
-    enabledNormalUsers = lib.filterAttrs
+    enabledNormalUsers = filterAttrs
       (name: config: ! isRootUser name && config.enable)
       cfg.profiles;
 
     ## NOTE: To get root disabling effective within this config, at least one
     ## normal user must be enabled.
-  in with lib; mkIf (libpix.anyEnable cfg.profiles) {
+  in mkIf (libpix.anyEnable cfg.profiles) {
     ## Immutable user option
     users.mutableUsers = ! cfg.immutable;
 

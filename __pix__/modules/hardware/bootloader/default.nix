@@ -4,15 +4,15 @@ let
   cfg = config.pix.hardware.bootloader;
   libpix = pix.lib;
 
-in {
+in with lib; {
   imports = with libpix; listDir isNotDefaultNix ./.;
 
   options.pix.hardware.bootloader = {};
 
   config = let
-    enabledBootloaders = with lib; filterAttrs (_: config: config.enable) cfg;
+    enabledBootloaders = filterAttrs (_: config: config.enable) cfg;
 
-  in with lib; {
+  in {
     assertions = [
       {
         ## One or none

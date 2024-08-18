@@ -3,8 +3,8 @@
 let
   cfg = config.pix.services.sshd;
 
-in {
-  options.pix.services.sshd = with lib; {
+in with lib; {
+  options.pix.services.sshd = {
     enable = mkEnableOption "SSH service";
 
     enablePassword = mkEnableOption "SSH password login";
@@ -18,7 +18,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.openssh = {
       enable = true;
       ports = cfg.ports;

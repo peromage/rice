@@ -4,13 +4,13 @@ let
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.gnome;
 
-in {
-  options.pix.desktops.env.gnome = with lib; {
+in with lib; {
+  options.pix.desktops.env.gnome = {
     enable = mkEnableOption "Gnome";
     enableGDM = mkEnableOption "GDM display manager" // { default = true; };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.xserver = {
       desktopManager.gnome.enable = true;
       displayManager.gdm.enable = cfg.enableGDM;

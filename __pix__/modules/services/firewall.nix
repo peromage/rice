@@ -31,8 +31,8 @@ let
     allowedUDPPortRanges = cfg.udpRange;
   };
 
-in {
-  options.pix.services.firewall = with lib; {
+in with lib; {
+  options.pix.services.firewall = {
     enable = mkEnableOption "stateful firewall";
     enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
 
@@ -61,7 +61,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility
     networking.nftables.enable = false;
 

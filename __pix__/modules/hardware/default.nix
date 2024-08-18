@@ -5,10 +5,10 @@
 let
   cfg = config.pix.hardware;
 
-in {
+in with lib; {
   imports = with pix.lib; listDir isNotDefaultNix ./.;
 
-  options.pix.hardware = with lib; {
+  options.pix.hardware = {
     platform = mkOption {
       type = with types; nullOr str;
       default = null;
@@ -22,7 +22,7 @@ in {
   config = {
     nixpkgs.hostPlatform = cfg.platform;
 
-    assertions = lib.singleton {
+    assertions = singleton {
       assertion = cfg.platform != null;
       message = "Platform must be explicitly specified.";
     };

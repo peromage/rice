@@ -3,16 +3,16 @@
 let
   cfg = config.pix.services.nix;
 
-in {
-  options.pix.services.nix = with lib; {
+in with lib; {
+  options.pix.services.nix = {
     enable = mkEnableOption "Nix settings";
     enableOptimization = mkEnableOption "Nix optimization" // { default = true; };
   };
 
-  config = with lib; mkMerge [
+  config = mkMerge [
     (mkIf cfg.enable {
       nixpkgs = {
-        hostPlatform = lib.mkDefault "x86_64-linux";
+        hostPlatform = mkDefault "x86_64-linux";
         config = {
           allowUnfree = true;
           allowBroken = true;

@@ -3,8 +3,8 @@
 let
   cfg = config.pix.services.i18n;
 
-in {
-  options.pix.services.i18n = with lib; {
+in with lib; {
+  options.pix.services.i18n = {
     enable = mkEnableOption "internationalization";
 
     locale = mkOption {
@@ -20,7 +20,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     i18n = {
       defaultLocale = cfg.locale;
       extraLocaleSettings = {

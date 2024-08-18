@@ -3,13 +3,13 @@
 let
   cfg = config.pix.hardware.peripherals;
 
-in {
-  options.pix.hardware.peripherals = with lib; {
+in with lib; {
+  options.pix.hardware.peripherals = {
     enable = mkEnableOption "peripheral management";
     enablePrinting = mkEnableOption "printing service" // { default = true; };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.printing.enable = cfg.enablePrinting;
   };
 }

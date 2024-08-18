@@ -19,8 +19,8 @@
 let
   cfg = config.pix.services.traveling;
 
-in {
-  options.pix.services.traveling = with lib; {
+in with lib; {
+  options.pix.services.traveling = {
     region = mkOption {
       type = with types; nullOr (enum [ "China" ]);
       default = null;
@@ -28,7 +28,7 @@ in {
     };
   };
 
-  config = with lib; mkMerge [
+  config = mkMerge [
     (mkIf ("China" == cfg.region) {
       time.timeZone = mkForce "Asia/Shanghai";
       nix.settings.substituters = mkForce [
