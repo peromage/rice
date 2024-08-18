@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.pix.hosts.profiles.basic;
+  name = "PROX";
+  cfg = config.pix.hosts.profiles.${name};
 
 in {
-  options.pix.hosts.profiles.basic = with lib; {
+  options.pix.hosts.profiles.${name} = with lib; {
     enable = mkEnableOption "basic host config";
   };
 

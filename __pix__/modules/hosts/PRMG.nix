@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.pix.hosts.profiles.dailyDriver;
+  name = "PRMG";
+  cfg = config.pix.hosts.profiles.${name};
 
 in {
-  options.pix.hosts.profiles.dailyDriver = with lib; {
+  options.pix.hosts.profiles.${name} = with lib; {
     enable = mkEnableOption "My daily driver host config";
   };
 
