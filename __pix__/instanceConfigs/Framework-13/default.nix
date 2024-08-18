@@ -27,7 +27,7 @@
       };
       documentation.enable = true;
       nix.enable = true;
-      ime.enabled = "fcitx";
+      ime.fcitx.enable = true;
       steam = {
         enable = true;
         openFirewall.remotePlay = true;
