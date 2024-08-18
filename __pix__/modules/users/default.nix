@@ -50,7 +50,7 @@ let
     ## Disable root login by setting an invalid hashed password (if disabled).
     ## May be hardened by overriding the password outside of VC (flake template).
     config = with lib; mkIf (isRootUser name && ! config.enable) {
-      password = "**DISABLED**";
+      password = "**DISABLED!**";
     };
   };
 
