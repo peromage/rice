@@ -2,10 +2,10 @@
 
 let
   cfgOverall = config.pix.desktops;
-  cfg = cfgOverall.profiles.kde;
+  cfg = cfgOverall.env.kde;
 
 in {
-  options.pix.desktops.profiles.kde = with lib; {
+  options.pix.desktops.env.kde = with lib; {
     enable = mkEnableOption "KDE";
     enableSDDM = mkEnableOption "SDDM display manager" // { default = true; };
   };

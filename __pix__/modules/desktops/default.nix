@@ -16,7 +16,7 @@ in {
       default = true;
       description = ''
         Use Wayland as default display server.
-        This option has no effect if no DE is enabled in `pix.desktops.profiles'.
+        This option has no effect if no DE is enabled in `pix.desktops.env'.
       '';
     };
 
@@ -25,15 +25,15 @@ in {
       default = true;
       description = ''
         Graphic acceleration support.
-        This option has no effect if no DE is enabled in `pix.desktops.profiles'.
+        This option has no effect if no DE is enabled in `pix.desktops.env'.
       '';
     };
 
     ## Each DE can have their own options while `enable' is mandatory
-    profiles = {};
+    env = {};
   };
 
-  config = lib.mkIf (libpix.anyEnable cfg.profiles) {
+  config = lib.mkIf (libpix.anyEnable cfg.env) {
     services = {
       xserver.enable = true;
       libinput.enable = true;

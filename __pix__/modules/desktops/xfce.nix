@@ -2,10 +2,10 @@
 
 let
   cfgOverall = config.pix.desktops;
-  cfg = cfgOverall.profiles.xfce;
+  cfg = cfgOverall.env.xfce;
 
 in {
-  options.pix.desktops.profiles.xfce = with lib; {
+  options.pix.desktops.env.xfce = with lib; {
     enable = mkEnableOption "XFCE";
     enableLightDM = lib.mkEnableOption "LightDM display manager" // { default = true; };
   };

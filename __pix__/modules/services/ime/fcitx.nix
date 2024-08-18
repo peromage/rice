@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.services.ime.fcitx;
-  gnomeCfg = config.pix.desktops.profiles.gnome;
+  gnomeCfg = config.pix.desktops.env.gnome;
 
 in {
   options.pix.services.ime.fcitx = with lib; {

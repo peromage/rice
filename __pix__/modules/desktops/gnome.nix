@@ -2,10 +2,10 @@
 
 let
   cfgOverall = config.pix.desktops;
-  cfg = cfgOverall.profiles.gnome;
+  cfg = cfgOverall.env.gnome;
 
 in {
-  options.pix.desktops.profiles.gnome = with lib; {
+  options.pix.desktops.env.gnome = with lib; {
     enable = mkEnableOption "Gnome";
     enableGDM = mkEnableOption "GDM display manager" // { default = true; };
   };
