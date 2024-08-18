@@ -62,22 +62,22 @@
         /* Improvised functions
         */
 
-        flakeOverlaidPkgs = system: import nixpkgs {
+        __pkgsOverlay = system: import nixpkgs {
           inherit system;
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        flakeCall = extraArgs: libpix.call (specialArgs // extraArgs);
+        __call = extraArgs: libpix.call (specialArgs // extraArgs);
 
         /* Call all packages under the given path.
 
-             Each package must be a function that returns a derivation by
-             `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
-             any other equivalent and can be called with `pkgs.callPackage'.
+           Each package must be a function that returns a derivation by
+           `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
+           any other equivalent and can be called with `pkgs.callPackage'.
 
-             Note: `default.nix' will be ignored.
+           Note: `default.nix' will be ignored.
           */
-        flakeCallPackages = callPackage: extraArgs: path: lib.mapAttrs
+        __callPackage = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (specialArgs // extraArgs))
           (with libpix; importAllNameMapped
             baseNameNoExt
@@ -95,10 +95,12 @@
         default = import path.modules;
       };
 
-      /* Via: `nix build .#PACKAGE_NAME', `nix shell', etc.
+      /* Packages
 
-         NOTE: This also enables:
-           `home-manager { build | switch } --flake .#NAME
+         Related commands:
+           nix build .#PACKAGE_NAME
+           nix shell
+           home-manager build|switch --flake .#NAME
 
          Notice that there is a minor difference between `packages' and `legacyPackages'.
 
@@ -114,24 +116,42 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with libpix; forSupportedSystems (system: flakeCall { inherit system; } path.packages);
+      packages = with libpix; forSupportedSystems (system: __call { inherit system; } path.packages);
 
-      /* Via: `nix develop .#SHELL_NAME' */
-      devShells = with libpix; forSupportedSystems (system: flakeCall { inherit system; } path.devshells);
+      /* Development Shells
 
-      /* Via: `nix fmt'
+         Related commands:
+           nix develop .#SHELL_NAME
+      */
+      devShells = with libpix; forSupportedSystems (system: __call { inherit system; } path.devshells);
 
-         Other options beside `alejandra' include `nixpkgs-fmt'
+      /* Code Formatter
+
+         Related commands:
+           nix fmt
+
+         Alternatively, `nixpkgs-fmt'
       */
       formatter = libpix.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-      /* Imported by other flakes */
-      overlays = libpix.flakeCall {} path.overlays;
+      /* Overlays
 
-      /* Via: `nix flake init -t /path/to/this_config#TEMPLATE_NAME' */
-      templates = libpix.flakeCall {} path.templates;
+         Imported by other flakes
+      */
+      overlays = libpix.__call {} path.overlays;
 
-      /* Via: `nixos-rebuild { build | boot | switch | test } --flake .#HOST_NAME' */
+      /* Templates
+
+         Related commands:
+           nix flake init -t /path/to/this_config#TEMPLATE_NAME
+      */
+      templates = libpix.__call {} path.templates;
+
+      /* NixOS Configurations
+
+         Related commands:
+           nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
+      */
       nixosConfigurations =
         let inc = ins: libpix.nixosTopModule specialArgs (path.instances + "/${ins}");
         in {
@@ -139,21 +159,33 @@
           NUC = inc "NUC-Server";
         };
 
-      /* Via: `darwin-rebuild switch --flake .#HOST_NAME' */
+      /* Darwin Configurations
+
+         Related commands:
+           darwin-rebuild switch --flake .#HOST_NAME
+      */
       darwinConfigurations =
         let inc = ins: libpix.darwinTopModule specialArgs (path.instances + "/${ins}");
         in {
           Macbook = inc "Macbook-13";
         };
 
-      /* Via: `nix build .#homeConfigurations.SYSTEM.NAME.activationPackage'
+      /* HomeManager Configurations
+
+         Related commands:
+           nix build .#homeConfigurations.SYSTEM.NAME.activationPackage
 
          NOTE: The Home Manager command:
-           `home-manager { build | switch } --flake .#NAME'
-         is actually implemented by the `packages' output not this.
+           home-manager build|switch --flake .#NAME
+
+         looks for `homeConfigurations.user' with pre-defined platform arch in
+         user config.  This is not flexible.  Instead, this section is set to
+         `homeConfigurations.arch.user' and mapped to
+         `packages.arch.homeConfigurations.user' and the command will pick it
+         from there automatically.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = home: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeModules + "/${home}");
+        let inc = user: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeModules + "/${user}");
         in {
           fang = inc "fang";
         }
