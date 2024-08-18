@@ -27,10 +27,7 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   pix.hardware = {
-    bootloader.grub = {
-      enable = true;
-      device = "/dev/disk/by-uuid/43E4-9AB3";
-    }
+    bootloader.systemd-boot.enable = true;
     networking.enable = true;
     bluetooth.enable = true;
     audio.enable = true;
