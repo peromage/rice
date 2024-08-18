@@ -92,7 +92,9 @@
 
       /* Expose my modules */
       nixosModules = {
-        default = import path.modules;
+        default = self.outputs.nixosModules.nixos;
+        nixos = import (path.modules + "/nixos.nix");
+        home-manager = import (path.modules + "/home-manager.nix");
       };
 
       /* Packages
