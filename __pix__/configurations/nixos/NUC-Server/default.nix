@@ -7,8 +7,6 @@
     pix.nixosModules.default
   ];
 
-  system.stateVersion = "24.05";
-
   pix = {
     hosts.profiles.PROX.enable = true;
     users.profiles.wangguan.enable = true;
