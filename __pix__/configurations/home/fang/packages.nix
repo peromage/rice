@@ -1,19 +1,23 @@
-{ pkgs, ... }:
+{ pix, pkgs, ... }:
 
 {
-  /* Packages with configs */
-  imports = map (p: ./packages + "/${p}.nix") [
-    "bash"
-    "fcitx5"
-    "fish"
-    "git"
-    "gpg"
-    "password-store"
-    "powershell"
-    "tmux"
-    "vim"
-    "wezterm"
+  imports = [
+    pix.nixosModules.home-manager
   ];
+
+  /* Pre-configured packages */
+  pix.homepkgs = {
+    bash.enable = true;
+    fcitx5.enable = true;
+    fish.enable = true;
+    git.enable = true;
+    gpg.enable = true;
+    password-store.enable = true;
+    powershell.enable = true;
+    tmux.enable = true;
+    vim.enable = true;
+    wezterm.enable = true;
+  };
 
   home.packages = (with pkgs; [
     ## CLI
