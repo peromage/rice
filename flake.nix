@@ -191,7 +191,7 @@
          from there automatically.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = user: homeTopModule (flakeOverlaidPkgs system) specialArgs (path.homeConfigurations + "/${user}");
+        let inc = user: homeTopModule (__pkgsOverlay system) specialArgs (path.homeConfigurations + "/${user}");
         in {
           fang = inc "fang";
         }
