@@ -21,7 +21,7 @@
     powershell.enable = true;
     tmux.enable = true;
     vim.enable = true;
-    wezterm.enable = true;
+    # wezterm.enable = true;
   };
 
   home.packages = (with pkgs; [
