@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware.nix
+    ./stateVersion.nix
     pix.nixosModules.default
   ];
 

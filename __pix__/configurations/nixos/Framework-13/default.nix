@@ -6,10 +6,9 @@
   imports = [
     ./hardware.nix
     ./mounts.nix
+    ./stateVersion.nix
     pix.nixosModules.default
   ];
-
-  system.stateVersion = "24.05";
 
   pix = {
     hosts.profiles.PRMG.enable = true;

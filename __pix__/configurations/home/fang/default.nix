@@ -4,7 +4,10 @@ let
   src = pix.path.dotfiles;
 
 in {
-  imports = [ ./packages.nix ];
+  imports = [
+    ./packages.nix
+    ./stateVersion.nix
+  ];
 
   /* Managed by Home Manager */
   programs.home-manager.enable = true;
@@ -31,7 +34,6 @@ in {
   home = {
     username = "fang";
     homeDirectory = "/home/fang";
-    stateVersion = "24.05";
   };
 
   /* Alternatively source in a manual way:
