@@ -7,9 +7,7 @@
   ];
 
   pix = {
-    hosts.hostName = "LADDER";
-    hosts.platform = "x86_64-linux";
-    hosts.profiles.basic.enable = true;
+    hosts.profiles.PROX.enable = true;
     users.profiles.wangguan.enable = true;
     users.profiles.root.enable = false;
   };

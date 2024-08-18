@@ -44,6 +44,7 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   pix.hardware = {
+    platform = "x86_64-linux";
     bootloader.lanzaboote.enable = true;
     networking.enable = true;
     bluetooth.enable = true;
