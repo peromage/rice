@@ -25,7 +25,7 @@ in with lib; {
       description = "Connection password.";
     };
 
-    extra = mkOption {
+    extraConfig = mkOption {
       type = types.attrs;
       default = {};
       description = "Extra configurations in keys and values.";
@@ -38,7 +38,7 @@ in with lib; {
       password = cfg.password;
       port = cfg.port;
       localAddress = cfg.bind;
-      extraConfig = cfg.extra;
+      extraConfig = cfg.extraConfig;
       encryptionMethod = "chacha20-ietf-poly1305";
       fastOpen = true;
       mode = "tcp_and_udp";
