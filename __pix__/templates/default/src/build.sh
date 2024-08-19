@@ -5,7 +5,7 @@ set -e
 function usage {
     >&2 cat <<EOF
 Usage:
-    $0 <build | boot> [name]
+    $0 build|boot|switch [name]
 EOF
 }
 
@@ -23,5 +23,6 @@ nix flake update
 case "$action" in
     build) nixos-rebuild build --flake "${cwd}#${name}" --show-trace ;;
     boot) sudo nixos-rebuild boot --flake "${cwd}#${name}" --show-trace ;;
+    switch) sudo nixos-rebuild switch --flake "${cwd}#${name}" --show-trace ;;
     *) usage; exit 1 ;;
 esac
