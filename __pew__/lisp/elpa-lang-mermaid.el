@@ -24,7 +24,7 @@
   :after (:all org mermaid-mode))
 
 ;;; `org-mode' support
-(pewcfg::use-package-depend org
+(pewcfg::use-package-fragment org
   :config
   (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
   (pew::org::add-babel-load-languages '((mermaid . t))))

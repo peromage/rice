@@ -84,7 +84,7 @@ users to specify the shell to start with."
           ("W" . ace-swap-window)) )
 
 ;;; Lazy loadeding for these packages
-(pewcfg::use-package-defer
+(pewcfg::defer-use-packages
   ;; Search
   rg
   ;; Focused view

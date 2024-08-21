@@ -53,17 +53,18 @@ will be translated to:
                      seg)))
                (pewcfg::slice-keyword-segments args))))
 
-(defmacro pewcfg::use-package-defer (&rest pkgs)
-  "Defer loading a list of PKGS by using `use-package'."
+(defmacro pewcfg::defer-use-packages (&rest names)
+  "Defer loading a list of packages in NAMES with `use-package'."
   (declare (indent 0))
   (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) pkgs)))
 
-(defmacro pewcfg::use-package-depend (name &rest args)
-  "Declare a dependency relationship of the package NAME.
-This simply wrapps around `use-package' with ':ensure' to nil and ':defer' to t.
-Usually this is used in one `use-package' form's ':init' or ':config' block to
-declare dependent configurations in another package whenever that package is
-loaded."
+(defmacro pewcfg::use-package-fragment (name &rest args)
+  "Declare a fragment of package NAME in `use-package' form.
+This implies `:ensure' nil and `:defer' t so that the fragment declaration is
+only effective when the original `use-package' is loaded.
+This mostly used in a `use-package' context where it has configuration for
+another `use-package' form.
+The ARGS is the same with normal `use-package'."
   (declare (indent 1))
   `(use-package ,name :ensure nil :defer t ,@args))
 

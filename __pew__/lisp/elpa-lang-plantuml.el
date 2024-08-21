@@ -13,7 +13,7 @@
   (plantuml-default-exec-mode 'jar))
 
 ;;; `org-mode' support
-(pewcfg::use-package-depend org
+(pewcfg::use-package-fragment org
   :custom
   (org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
   (org-plantuml-exec-mode 'jar)

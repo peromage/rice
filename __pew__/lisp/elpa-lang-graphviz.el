@@ -11,7 +11,7 @@
   (graphviz-dot-indent-width 4))
 
 ;;; `org-mode' support
-(pewcfg::use-package-depend org
+(pewcfg::use-package-fragment org
   :config
   (pew::org::add-src-lang-modes '(("dot" . graphviz-dot)
                                   ("gv" . graphviz-dot)))

@@ -210,7 +210,7 @@ Duplicated pairs will be removed."
     "`org-bullets' initialization."
     (org-bullets-mode 1)))
 
-(pewcfg::use-package-defer
+(pewcfg::defer-use-packages
   ;; Export backend for Hugo
   ox-hugo
   ;; Export backend for GitHub flavored Markdown
