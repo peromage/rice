@@ -1,4 +1,4 @@
-;;; elpa-completion-ivy.el --- ivy and complementary -*- lexical-binding: t; -*-
+;;; elpa-minibuffer-ivy.el --- ivy and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; NOTE: The `counsel' contains ivy, counsel and swipper.
@@ -98,5 +98,5 @@
   ;;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
 
-(provide 'elpa-completion-ivy)
-;;; elpa-completion-ivy.el ends here
+(provide 'elpa-minibuffer-ivy)
+;;; elpa-minibuffer-ivy.el ends here

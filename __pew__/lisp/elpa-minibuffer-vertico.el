@@ -1,4 +1,4 @@
-;;; elpa-completion-vertico.el --- vertico and complementary -*- lexical-binding: t; -*-
+;;; elpa-minibuffer-vertico.el --- vertico and complementary -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; Recommended package bundles are from: https://github.com/minad/vertico#complementary-packages
@@ -157,5 +157,5 @@ ARGS should be a string of arguments passed to ripgrep."
 (pewcfg::use-package wgrep
   :after (:all consult embark))
 
-(provide 'elpa-completion-vertico)
-;;; elpa-completion-vertico.el ends here
+(provide 'elpa-minibuffer-vertico)
+;;; elpa-minibuffer-vertico.el ends here
