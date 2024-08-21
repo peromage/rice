@@ -8,13 +8,21 @@
   yaml-mode
   json-mode
   fish-mode
-  nix-mode)
+  nix-mode
+  csharp-mode
+  powershell
+  python-mode)
 
-;;; Random packages
+;;; Language major modes with simple config
 (pewcfg::use-package cmake-mode
   :defer t
   :custom
   cmake-tab-width 4)
+
+(pewcfg::use-package lua-mode
+  :defer t
+  :custom
+  (lua-indent-level 2))
 
 (provide 'elpa-lang)
 ;;; elpa-lang.el ends here

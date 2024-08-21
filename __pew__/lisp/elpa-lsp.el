@@ -44,6 +44,17 @@
   ;; Other
   (lsp-log-io nil)
 
+  ;; Language settings
+  (lsp-clients-clangd-args '("-j=8"
+                             "--background-index"
+                             "--clang-tidy"
+                             "--completion-style=detailed"
+                             "--pch-storage=disk"
+                             "--header-insertion=never"
+                             "--header-insertion-decorators=0"
+                             "--suggest-missing-includes"
+                             "--all-scopes-completion"))
+
   :init
   (defmacro pew::lsp::define-remote (server modes)
     "A shortcut to define LSP remote client.
