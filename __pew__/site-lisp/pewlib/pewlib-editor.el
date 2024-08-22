@@ -10,6 +10,11 @@
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
 
+(defun pewlib::indent-space-in-buffer ()
+  "Use spaces for indentation in buffer."
+  (setq-local indent-tabs-mode nil
+              tab-width 4))
+
 ;;; Themes
 (defun pewlib::load-theme (theme)
   "Load THEME but make sure it is the only one active."
