@@ -20,7 +20,7 @@
   ;; Use `winner-undo' to revert the mess
   (display-buffer-alist `((,(pewlib::get-special-buffers '(:shell :terminal) 'concat)
                            ,@(pewlib::side-window-actions 'bottom 0))
-                          (,(pewlib::get-special-buffers '(:help) 'concat)
+                          (,(pewlib::get-special-buffers '(:help :eldoc) 'concat)
                            ,@(pewlib::side-window-actions 'bottom 1))
                           (,(pewlib::get-special-buffers '(:message :backtrace :warning :log :compilation :output :command) 'concat)
                            ,@(pewlib::side-window-actions 'bottom 2))))
