@@ -41,7 +41,6 @@
     jq # Json parser
 
     ## Development
-    python3
     nodejs_latest
     dotnet-sdk_8
     lua
@@ -65,15 +64,19 @@
 
     ## Wayland
     wl-clipboard
+  ])
 
-  ]) ++ (with pkgs.pixPkgs; [
+  ++ (with pkgs.pixPkgs; [
     ## Editors
     emacs
     aspell
 
-  ]) ++ (with pkgs.unrestrictedPkgs; [
+    ## Dev
+    python3
+  ])
+
+  ++ (with pkgs.unrestrictedPkgs; [
     ## Gaming
     discord
-
   ]);
 }
