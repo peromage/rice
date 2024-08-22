@@ -1,4 +1,4 @@
-;;; elpa-lang.el --- random language supports -*- lexical-binding: t; -*-
+;;; elpa-langs.el --- random language supports -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; Code:
 
@@ -24,5 +24,5 @@
   :custom
   (lua-indent-level 2))
 
-(provide 'elpa-lang)
-;;; elpa-lang.el ends here
+(provide 'elpa-langs)
+;;; elpa-langs.el ends here
