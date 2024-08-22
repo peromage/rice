@@ -53,8 +53,9 @@
 
 ;; Language supports
 (require 'elpa-langs)
-(require 'elpa-lsp) ;; LSP is the dependency of language modules
-(require 'elpa-lsp-langs)
+;; (require 'elpa-lsp) ;; LSP is the dependency of language modules
+;; (require 'elpa-lsp-langs)
+(require 'elpa-eglot)
 
 ;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)
