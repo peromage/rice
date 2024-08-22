@@ -5,10 +5,6 @@
 
 { pkgs, ... }:
 
-let
-  useAspellWith = with pkgs; aspellWithDicts;
-  aspellDicts = apkgs: with apkgs; [
-    en
-  ];
-
-in useAspellWith aspellDicts
+pkgs.aspellWithDicts (apkgs: with apkgs; [
+  en
+]);
