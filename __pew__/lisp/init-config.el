@@ -332,12 +332,14 @@
    ("g" . revert-buffer-quick)
 
 ;;;; Jump
-   ("C-o" . pop-global-mark)
-   ("."   . xref-find-definitions)
-   ("?"   . xref-find-references)
-   ("'"   . xref-find-apropos)
-   ("C-x" . exchange-point-and-mark)
-   ("SPC" . set-mark-command)
+   ("C-o"   . pop-global-mark)
+   ("M-."   . xref-find-definitions)
+   ("C-M-." . xref-find-apropos)
+   ("M-,"   . xref-go-back)
+   ("C-M-," . xref-go-forward)
+   ("M-?"   . xref-find-references)
+   ("C-x"   . exchange-point-and-mark)
+   ("SPC"   . set-mark-command)
 
 ;;;; Edit
    ("u" . undo)
