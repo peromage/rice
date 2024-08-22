@@ -6,15 +6,12 @@
 
 (pewcfg::use-package lsp-pyright
   :defer t
-  :hook (python-mode . pew::python-mode::oninit)
+  :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
   :custom
   (lsp-pyright-python-executable-cmd "python3")
-
   :config
-  (defun pew::python-mode::oninit ()
+  (defun pew::python-mode::on-enter-lsp-mode ()
     "`python-mode' initialization."
-    (setq-local indent-tabs-mode nil
-                tab-width 4)
     (require 'lsp-pyright)
     (require 'dap-python)))
 

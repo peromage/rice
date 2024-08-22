@@ -70,10 +70,10 @@
 ;;; Package: cape -- Completion backend
 (pewcfg::use-package cape
   :after corfu
-  :hook ((lisp-interaction-mode . pew::cape::elisp-oninit)
-         (emacs-lisp-mode . pew::cape::elisp-oninit)
-         (lisp-data-mode . pew::cape::elisp-oninit)
-         (eshell-mode . pew::cape::eshell-oninit))
+  :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)
+         (emacs-lisp-mode . pew::cape::on-elisp-mode)
+         (lisp-data-mode . pew::cape::on-elisp-mode)
+         (eshell-mode . pew::cape::on-eshell-mode))
 
   :bind ( :map pew::M-c-map
           ("p"  . completion-at-point)
@@ -109,7 +109,7 @@
                                               completion-at-point-functions))
 
   :config
-  (defun pew::cape::elisp-oninit ()
+  (defun pew::cape::on-elisp-mode ()
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     ;; Combined completion style
@@ -117,7 +117,7 @@
                                                      #'elisp-completion-at-point
                                                      #'cape-dabbrev))))
 
-  (defun pew::cape::eshell-oninit ()
+  (defun pew::cape::on-eshell-mode ()
     "Set completion style for Eshell mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     #'pcomplete-completions-at-point

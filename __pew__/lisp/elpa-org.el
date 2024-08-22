@@ -9,7 +9,7 @@
 ;; Let `use-package' ensure the latest org package to be installed
 (pewcfg::use-package org
   :commands org-mode
-  :hook ((org-mode . pew::org::oninit)
+  :hook ((org-mode . pew::org::on-enter)
          (org-babel-after-execute . pew::org::refresh-images))
 
   :custom
@@ -100,7 +100,7 @@
     "`org-mode' marker visibility.")
 
   :config
-  (defun pew::org::oninit ()
+  (defun pew::org::on-enter ()
     "Org mode initial setup."
     (pewlib::as-text-mode))
 
@@ -203,10 +203,10 @@ Duplicated pairs will be removed."
 ;;; Package: org-bullets -- Nice headings
 (pewcfg::use-package org-bullets
   :after org
-  :hook (org-mode . pew::org-bullets::oninit)
+  :hook (org-mode . pew::org-bullets::on-enter)
 
   :config
-  (defun pew::org-bullets::oninit ()
+  (defun pew::org-bullets::on-enter ()
     "`org-bullets' initialization."
     (org-bullets-mode 1)))
 

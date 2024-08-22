@@ -28,11 +28,11 @@
 ;;; C/C++
 (pewcfg::use-package cc-mode
   :defer t
-  :hook ((c-mode . pew::cc-mode::oninit)
-         (c++-mode . pew::cc-mode::oninit))
+  :hook ((c-mode . pew::cc-mode::on-enter)
+         (c++-mode . pew::cc-mode::on-enter))
   :config
   ;; Setup functions
-  (defun pew::cc-mode::oninit ()
+  (defun pew::cc-mode::on-enter ()
     "Common CC mode setup."
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)
@@ -55,9 +55,9 @@
 ;;; Markdown
 (pewcfg::use-package markdown-mode
   :defer t
-  :hook (markdown-mode . pew::markdown-mode::oninit)
+  :hook (markdown-mode . pew::markdown-mode::on-enter)
   :config
-  (defun pew::markdown-mode::oninit ()
+  (defun pew::markdown-mode::on-enter ()
     "`markdown-mode' initialization."
     (pewlib::as-text-mode)))
 

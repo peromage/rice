@@ -30,7 +30,7 @@ users to specify the shell to start with."
 ;;; Package: treemacs
 (pewcfg::use-package treemacs
   :commands treemacs
-  :hook (treemacs-mode . pew::treemacs::oninit)
+  :hook (treemacs-mode . pew::treemacs::on-enter)
   :bind ( :map treemacs-mode-map
           ("j" . treemacs-find-file) )
 
@@ -41,7 +41,7 @@ users to specify the shell to start with."
   (treemacs-hide-dot-git-directory nil)
 
   :config
-  (defun pew::treemacs::oninit ()
+  (defun pew::treemacs::on-enter ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1))
 

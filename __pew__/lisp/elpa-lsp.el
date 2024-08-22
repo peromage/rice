@@ -72,7 +72,7 @@ MODES is a list of major mode symbols."
 ;;; Package: lsp-ui
 (pewcfg::use-package lsp-ui
   :commands lsp-ui-mode
-  :hook (lsp-mode . pew::lsp-ui::oninit)
+  :hook (lsp-mode . pew::lsp-ui::on-enter)
   :bind ( :map lsp-ui-mode-map
           ([remap xref-find-references] . lsp-ui-peek-find-references)
           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -111,7 +111,7 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-kind-position 'top)
 
   :config
-  (defun pew::lsp-ui::oninit ()
+  (defun pew::lsp-ui::on-enter ()
     "`lsp-ui-mode' initialization."
     (lsp-ui-mode 1)
     ;; Disabled since it occupies 'q'
