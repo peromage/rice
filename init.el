@@ -52,18 +52,9 @@
 (require 'elpa-utils)
 
 ;; Language supports
+(require 'elpa-langs)
 (require 'elpa-lsp) ;; LSP is the dependency of language modules
-(require 'elpa-lang)
-(require 'elpa-lang-c)
-(require 'elpa-lang-csharp)
-(require 'elpa-lang-java)
-(require 'elpa-lang-lua)
-(require 'elpa-lang-markdown)
-(require 'elpa-lang-powershell)
-(require 'elpa-lang-python)
-(require 'elpa-lang-plantuml)
-(require 'elpa-lang-mermaid)
-(require 'elpa-lang-graphviz)
+(require 'elpa-lsp-langs)
 
 ;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)

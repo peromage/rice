@@ -56,7 +56,7 @@ will be translated to:
 (defmacro pewcfg::defer-use-packages (&rest names)
   "Defer loading a list of packages in NAMES with `use-package'."
   (declare (indent 0))
-  (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) pkgs)))
+  (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) names)))
 
 (defmacro pewcfg::use-package-fragment (name &rest args)
   "Declare a fragment of package NAME in `use-package' form.
