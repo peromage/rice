@@ -7,4 +7,4 @@
 
 pkgs.aspellWithDicts (apkgs: with apkgs; [
   en
-]);
+])

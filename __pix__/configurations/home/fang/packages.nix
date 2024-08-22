@@ -68,7 +68,7 @@
 
   ++ (with pkgs.pixPkgs; [
     ## Editors
-    emacs
+    emacs29
     aspell
 
     ## Dev
