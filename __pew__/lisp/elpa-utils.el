@@ -6,7 +6,7 @@
 (pewcfg::use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pewlib::terminal-mode-oninit)
+  :hook (vterm-mode . pewlib::as-terminal-mode)
 
   :custom
   (vterm-kill-buffer-on-exit t)

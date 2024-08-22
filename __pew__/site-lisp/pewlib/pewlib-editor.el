@@ -5,7 +5,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Editor
+;;; In buffer
 (defun pewlib::delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
@@ -14,6 +14,24 @@
   "Use spaces for indentation in buffer."
   (setq-local indent-tabs-mode nil
               tab-width 4))
+
+(defun pewlib::as-terminal-mode ()
+  "Common setup for terminal/shell modes."
+  (setq-local word-wrap nil
+              truncate-lines nil
+              truncate-partial-width-windows nil
+              show-trailing-whitespace nil
+              global-hl-line-mode nil)
+  (display-line-numbers-mode -1)
+  (display-fill-column-indicator-mode -1))
+
+(defun pewlib::as-text-mode ()
+  "Common setup for text processing modes."
+  (setq-local line-move-visual t)
+  (visual-line-mode 1)
+  (flyspell-mode 1)
+  (display-line-numbers-mode -1)
+  (set-fill-column -1))
 
 ;;; Themes
 (defun pewlib::load-theme (theme)
@@ -47,25 +65,6 @@ Existing content will be overwritten."
   (with-temp-file file
     (insert ";;; -*- coding: utf-8; mode: lisp-data; -*-\n")
     (pp obj (current-buffer))))
-
-;;; Hook functions
-(defun pewlib::terminal-mode-oninit ()
-  "Common setup for terminal/shell modes."
-  (setq-local word-wrap nil
-              truncate-lines nil
-              truncate-partial-width-windows nil
-              show-trailing-whitespace nil
-              global-hl-line-mode nil)
-  (display-line-numbers-mode -1)
-  (display-fill-column-indicator-mode -1))
-
-(defun pewlib::text-mode-oninit ()
-  "Common setup for text processing modes."
-  (setq-local line-move-visual t)
-  (visual-line-mode 1)
-  (flyspell-mode 1)
-  (display-line-numbers-mode -1)
-  (set-fill-column -1))
 
 ;;; Debugging
 (defun pewlib::reload-init-file ()

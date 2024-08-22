@@ -102,7 +102,7 @@
   :config
   (defun pew::org::oninit ()
     "Org mode initial setup."
-    (pewlib::text-mode-oninit))
+    (pewlib::as-text-mode))
 
   (defun pew::org::refresh-images ()
     "Redisplay inline images if they exist in the current buffer."

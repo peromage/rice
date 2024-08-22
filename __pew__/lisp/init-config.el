@@ -428,8 +428,8 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode-hook . pewlib::terminal-mode-oninit)
-  (shell-mode-hook . pewlib::terminal-mode-oninit)
+  (eshell-mode-hook . pewlib::as-terminal-mode)
+  (shell-mode-hook . pewlib::as-terminal-mode)
 
   ;; Don't save trailing spaces
   (after-save-hook . pewlib::delete-trailing-whitespaces)

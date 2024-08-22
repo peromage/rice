@@ -9,7 +9,7 @@
   :config
   (defun pew::markdown-mode::oninit ()
     "`markdown-mode' initialization."
-    (pewlib::text-mode-oninit)))
+    (pewlib::as-text-mode)))
 
 (provide 'elpa-lang-markdown)
 ;;; elpa-lang-markdown.el ends here
