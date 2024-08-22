@@ -22,8 +22,9 @@
    :org-export "^ *\\*[Oo]rg .* [Ee]xport\\*$"
    ;; Edit mode
    :edit-indirect "^ *\\*edit-indirect .*\\*$"
-   ;; Man page
+   ;; Info page
    :man "^ *\\*[Mm]an .*\\*$"
+   :eldoc "^\\*eldoc\\*$"
    ;; Message and output
    :help "^ *\\*.*\\b[Hh]elp\\*$"
    :message "^ *\\*.*\\b[Mm]essages?\\*$"
