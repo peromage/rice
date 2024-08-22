@@ -7,7 +7,7 @@
 ;;; Code:
 
 ;;; Package: counsel
-(pewcfg::use-package counsel
+(use-package counsel
   :demand t
   :bind ( ("C-s" . swiper)
           ("C-x d" . counsel-dired)
@@ -36,7 +36,7 @@
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pewlib::get-special-buffers pewlib::special-buffer-hidden)))
 
 ;;; Package: ivy-rich -- Make Ivy show more information
-(pewcfg::use-package ivy-rich
+(use-package ivy-rich
   :requires ivy
   :custom
   (ivy-rich-path-style 'abbrev)
@@ -61,7 +61,7 @@
                            (ivy-rich-minibuffer-width 0.3))) :align left)))))
 
 ;;; Package: ivy-prescient -- Help sort candidates and also keep the most recent history on the top
-(pewcfg::use-package ivy-prescient
+(use-package ivy-prescient
   :requires ivy
   :custom
   (ivy-prescient-enable-filtering nil)
@@ -72,7 +72,7 @@
   (ivy-prescient-mode 1))
 
 ;;; Package: counsel-projectile -- Ivy projectile integration
-(pewcfg::use-package counsel-projectile
+(use-package counsel-projectile
   :after (ivy projectile)
   :custom
   (projectile-completion-system 'ivy)
@@ -81,12 +81,12 @@
   (counsel-projectile-mode 1))
 
 ;;; Package:lsp-ivy -- Ivy LSP integration
-(pewcfg::use-package lsp-ivy
+(use-package lsp-ivy
   :after (ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 
 ;;; Package: which-key -- Key prompt
-(pewcfg::use-package which-key
+(use-package which-key
   :custom
   (which-key-popup-type 'side-window)
   (which-key-show-early-on-C-h nil)

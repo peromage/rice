@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: company -- Completion frontend
-(pewcfg::use-package company
+(use-package company
   :demand t
   :bind ( :map company-mode-map
           ([remap completion-at-point] . company-complete)
@@ -26,17 +26,17 @@
   (company-require-match nil)
   (company-search-filtering t)
 
-  :config/eval-after
-  ;; Don't use orderless in company completion
-  (orderless
-   (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-   (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
-     (let ((completion-styles pew::orderless::default-completion-styles))
-       (apply oldfunc args))))
-
   :config
   (global-company-mode 1)
-  (company-tng-mode 1))
+  (company-tng-mode 1)
+
+  (pewcfg :eval-after
+          ;; Don't use orderless in company completion
+          (orderless
+           (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
+           (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
+             (let ((completion-styles pew::orderless::default-completion-styles))
+               (apply oldfunc args))))))
 
 (provide 'elpa-completion-company)
 ;;; elpa-completion-company.el ends here

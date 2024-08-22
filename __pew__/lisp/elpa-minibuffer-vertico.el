@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Package: vertico
-(pewcfg::use-package vertico
+(use-package vertico
   :demand t
   :bind ( :map vertico-map
           ("RET" . vertico-directory-enter)
@@ -37,7 +37,7 @@
   (vertico-multiform-mode 1))
 
 ;;; Package: consult -- Search and navigation commands
-(pewcfg::use-package consult
+(use-package consult
   :demand t
   :bind ( ("C-s" . consult-line)
           ("C-x b" . consult-buffer)
@@ -108,7 +108,7 @@ ARGS should be a string of arguments passed to ripgrep."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
 ;;; Package: marginalia -- Rich annotations in the minibuffer
-(pewcfg::use-package marginalia
+(use-package marginalia
   :demand t ;; :bind would cause lazy loading which is not we expect
   :bind ( :map vertico-map
           ("M-q m" . marginalia-cycle) )
@@ -117,7 +117,7 @@ ARGS should be a string of arguments passed to ripgrep."
   (marginalia-mode 1))
 
 ;;; Package: orderless -- Completion matching
-(pewcfg::use-package orderless
+(use-package orderless
   :demand t
   :custom
   ;; (completion-category-overrides nil) ;; To use orderless exclusively
@@ -128,11 +128,12 @@ ARGS should be a string of arguments passed to ripgrep."
                                     (?^ . orderless-initialism)
                                     (?= . orderless-literal)
                                     (?? . orderless-flex)))
-  :config/customize
-  (completion-styles (nconc '(orderless) completion-styles)))
+  :config
+  (pewcfg :customize
+          (completion-styles (nconc '(orderless) completion-styles))))
 
 ;;; Package: embark -- Minibuffer actions and context menu
-(pewcfg::use-package embark
+(use-package embark
   :hook (embark-collect-mode . pew::embark::on-enter-collect-mode)
   :bind ( ([remap describe-bindings] . embark-bindings)
           :map pew::M-u-map
@@ -151,10 +152,10 @@ ARGS should be a string of arguments passed to ripgrep."
     (setq-local show-trailing-whitespace nil)))
 
 ;;; Consult and embark integration
-(pewcfg::use-package embark-consult
+(use-package embark-consult
   :after (:all consult embark))
 
-(pewcfg::use-package wgrep
+(use-package wgrep
   :after (:all consult embark))
 
 (provide 'elpa-minibuffer-vertico)

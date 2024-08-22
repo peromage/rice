@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: doom-modeline
-(pewcfg::use-package doom-modeline
+(use-package doom-modeline
   :demand t
   :custom
   (doom-modeline-height 1)
@@ -13,9 +13,8 @@
 
   :config
   (doom-modeline-mode 1)
-
-  :config/switch
-  (doom-modeline-unicode-fallback))
+  (pewcfg :switch
+          (doom-modeline-unicode-fallback)))
 
 ;;; Lazy loadeding for these packages
 (pewcfg::defer-use-packages

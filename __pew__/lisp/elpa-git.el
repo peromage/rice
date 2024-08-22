@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: magit -- Frontend
-(pewcfg::use-package magit
+(use-package magit
   :commands magit-status
   :bind ( :map pew::M-u-map
           ("g" . magit-status)
@@ -14,7 +14,7 @@
   (magit-define-global-key-bindings nil))
 
 ;;; Package: git-gutter -- Margin status
-(pewcfg::use-package git-gutter
+(use-package git-gutter
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")
@@ -26,15 +26,15 @@
   (git-gutter:hide-gutter nil)
   (git-gutter:verbosity 0)
 
-  :config/face
-  (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
-  (git-gutter:added      :foreground  "green"        :background  "unspecified")
-  (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
-  (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
-  (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")
-
   :config
-  (global-git-gutter-mode 1))
+  (global-git-gutter-mode 1)
+
+  (pewcfg :face
+          (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
+          (git-gutter:added      :foreground  "green"        :background  "unspecified")
+          (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
+          (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
+          (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")))
 
 (provide 'elpa-git)
 ;;; elpa-git.el ends here

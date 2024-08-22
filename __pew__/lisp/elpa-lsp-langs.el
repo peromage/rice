@@ -2,9 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(pewcfg::use-package lsp-java :defer t)
+(use-package lsp-java :defer t)
 
-(pewcfg::use-package lsp-pyright
+(use-package lsp-pyright
   :defer t
   :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
   :custom

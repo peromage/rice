@@ -16,7 +16,7 @@
 ;;; Code:
 
 ;;; Package: evil
-(pewcfg::use-package evil
+(use-package evil
   :demand t
 ;;;; Variable config
   :custom
@@ -241,22 +241,22 @@ This is an advanced method to determine initial state rather than using
     ;; Search
     '(("*" . pew::evil::visual-search-region-text)))
 
-  ;; Elisp with leader
-  :config/eval-after
-  (elisp-mode
-   (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
-     ;; Quick eval
-     '(("eb" . eval-buffer)
-       ("er" . eval-region)
-       ("ef" . eval-defun)
-       ("ee" . eval-last-sexp))))
-
   :config
 ;;;; Enable Evil
-  (evil-mode 1)) ;; End evil
+  (evil-mode 1)
+
+  ;; Elisp with leader
+  (pewcfg :eval-after
+          (elisp-mode
+           (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+             ;; Quick eval
+             '(("eb" . eval-buffer)
+               ("er" . eval-region)
+               ("ef" . eval-defun)
+               ("ee" . eval-last-sexp)))))) ;; End evil
 
 ;;; Package: evil-surround
-(pewcfg::use-package evil-surround
+(use-package evil-surround
   :after evil
   :config
   (global-evil-surround-mode 1))

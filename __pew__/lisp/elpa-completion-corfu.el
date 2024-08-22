@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Package: corfu -- Completion frontend
-(pewcfg::use-package corfu
+(use-package corfu
   :demand t
   :bind ( :map corfu-map
           ("TAB" . corfu-complete)
@@ -48,7 +48,7 @@
   (corfu-echo-mode 1)) ;; End corfu
 
 ;;; Package: corfu-terminal -- Makes corfu usable in terminal
-(pewcfg::use-package corfu-terminal
+(use-package corfu-terminal
   :after corfu
   :custom
   (corfu-terminal-disable-on-gui t)
@@ -59,7 +59,7 @@
   (corfu-terminal-mode 1))
 
 ;;; Package: kind-icon -- Make corfu prettier
-(pewcfg::use-package kind-icon
+(use-package kind-icon
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
@@ -68,7 +68,7 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;;; Package: cape -- Completion backend
-(pewcfg::use-package cape
+(use-package cape
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)
          (emacs-lisp-mode . pew::cape::on-elisp-mode)

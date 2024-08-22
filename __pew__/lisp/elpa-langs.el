@@ -14,19 +14,19 @@
   python-mode)
 
 ;;; CMake
-(pewcfg::use-package cmake-mode
+(use-package cmake-mode
   :defer t
   :custom
   cmake-tab-width 4)
 
 ;;; Lua
-(pewcfg::use-package lua-mode
+(use-package lua-mode
   :defer t
   :custom
   (lua-indent-level 2))
 
 ;;; C/C++
-(pewcfg::use-package cc-mode
+(use-package cc-mode
   :defer t
   :hook ((c-mode . pew::cc-mode::on-enter)
          (c++-mode . pew::cc-mode::on-enter))
@@ -53,7 +53,7 @@
                 c-auto-align-backslashes t)))
 
 ;;; Markdown
-(pewcfg::use-package markdown-mode
+(use-package markdown-mode
   :defer t
   :hook (markdown-mode . pew::markdown-mode::on-enter)
   :config
@@ -62,7 +62,7 @@
     (pewlib::as-text-mode)))
 
 ;;; Plantuml
-(pewcfg::use-package plantuml-mode
+(use-package plantuml-mode
   :defer t
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
@@ -80,7 +80,7 @@
   (pew::org::add-babel-load-languages '((plantuml . t))))
 
 ;;; Graphviz
-(pewcfg::use-package graphviz-dot-mode
+(use-package graphviz-dot-mode
   :defer t
   :mode (("\\.dot\\'" . graphviz-dot-mode)
          ("\\.gv\\'" . graphviz-dot-mode))
@@ -95,7 +95,7 @@
   (pew::org::add-babel-load-languages '((dot . t))))
 
 ;;; Mermaid
-(pewcfg::use-package mermaid-mode
+(use-package mermaid-mode
   :defer t
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
@@ -111,7 +111,7 @@
       (message "Installing mermaid-cli... done"))))
 
 ;; Mermaid `org-mode' support
-(pewcfg::use-package ob-mermaid
+(use-package ob-mermaid
   :after (:all org mermaid-mode))
 
 (pewcfg::use-package-fragment org

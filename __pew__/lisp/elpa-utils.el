@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Package: vterm
-(pewcfg::use-package vterm
+(use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib::as-terminal-mode)
@@ -28,7 +28,7 @@ users to specify the shell to start with."
       (vterm :new))))
 
 ;;; Package: treemacs
-(pewcfg::use-package treemacs
+(use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::on-enter)
   :bind ( :map treemacs-mode-map
@@ -61,24 +61,24 @@ users to specify the shell to start with."
      (treemacs-git-mode 'simple))))
 
 ;;; Package: separedit
-(pewcfg::use-package separedit
+(use-package separedit
   :bind ( :map pew::M-u-map
           ("'" . separedit-dwim)) )
 
 ;;; Package: paredit -- Simplify S-expression editing
-(pewcfg::use-package paredit
+(use-package paredit
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
 ;;; Package: avy -- Jump among texts
-(pewcfg::use-package avy
+(use-package avy
   :bind ( :map pew::M-u-map
           ("f" . avy-goto-char)
           ("j" . avy-goto-line)) )
 
 ;;; Package: ace-window -- Jump between windows
-(pewcfg::use-package ace-window
+(use-package ace-window
   :bind ( :map pew::M-u-map
           ("w" . ace-window)
           ("W" . ace-swap-window)) )

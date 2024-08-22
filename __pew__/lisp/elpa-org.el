@@ -7,7 +7,7 @@
 
 ;;; Package: org
 ;; Let `use-package' ensure the latest org package to be installed
-(pewcfg::use-package org
+(use-package org
   :commands org-mode
   :hook ((org-mode . pew::org::on-enter)
          (org-babel-after-execute . pew::org::refresh-images))
@@ -175,33 +175,33 @@ Duplicated pairs will be removed."
     (org-babel-do-load-languages 'org-babel-load-languages
                                  (nconc alist org-babel-load-languages)))
 
-  :config/setq
-  ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
-  (org-babel-default-header-args '((:session . "none")
-                                   (:results . "output replace")
-                                   ;; (:wrap . "example") ;; Might be problematic for pictures
-                                   (:exports . "both")
-                                   (:eval . "never-export")
-                                   (:cache . "no")
-                                   (:noweb . "yes")
-                                   (:hlines . "no")
-                                   (:tangle . "no")))
-  (org-babel-default-inline-header-args '((:session . "none")
-                                          (:results . "output replace")
-                                          (:exports . "results")
-                                          (:eval . "never-export")
-                                          (:cache . "no")
-                                          (:noweb . "yes")
-                                          (:hlines . "no")
-                                          (:tangle . "no")))) ;; End org
+  (pewcfg :setq
+          ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
+          (org-babel-default-header-args '((:session . "none")
+                                           (:results . "output replace")
+                                           ;; (:wrap . "example") ;; Might be problematic for pictures
+                                           (:exports . "both")
+                                           (:eval . "never-export")
+                                           (:cache . "no")
+                                           (:noweb . "yes")
+                                           (:hlines . "no")
+                                           (:tangle . "no")))
+          (org-babel-default-inline-header-args '((:session . "none")
+                                                  (:results . "output replace")
+                                                  (:exports . "results")
+                                                  (:eval . "never-export")
+                                                  (:cache . "no")
+                                                  (:noweb . "yes")
+                                                  (:hlines . "no")
+                                                  (:tangle . "no"))))) ;; End org
 
 ;;; Package: org-temp -- Org built-in for template expansion
-(pewcfg::use-package org-tempo
+(use-package org-tempo
   :ensure nil
   :after org)
 
 ;;; Package: org-bullets -- Nice headings
-(pewcfg::use-package org-bullets
+(use-package org-bullets
   :after org
   :hook (org-mode . pew::org-bullets::on-enter)
 

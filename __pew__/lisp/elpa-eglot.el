@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(pewcfg::use-package eglot
+(use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
   :bind ( :map eglot-mode-map
