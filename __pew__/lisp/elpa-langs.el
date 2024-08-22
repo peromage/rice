@@ -3,7 +3,7 @@
 ;;; Code:
 
 ;;; Lazy loading for these languages
-(pewcfg::defer-use-packages
+(pewcfg::use-package-defer-list
   vimrc-mode
   yaml-mode
   json-mode

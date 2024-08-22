@@ -53,7 +53,7 @@ will be translated to:
                      seg)))
                (pewcfg::slice-keyword-segments args))))
 
-(defmacro pewcfg::defer-use-packages (&rest names)
+(defmacro pewcfg::use-package-defer-list (&rest names)
   "Defer loading a list of packages in NAMES with `use-package'."
   (declare (indent 0))
   (cons 'progn (mapcar (lambda (x) `(use-package ,x :defer t)) names)))

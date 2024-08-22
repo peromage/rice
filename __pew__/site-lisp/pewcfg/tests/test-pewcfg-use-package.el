@@ -58,7 +58,7 @@
     '(progn (use-package foo :defer t)
             (use-package bar :defer t)
             (use-package baz :defer t))
-    (macroexpand-1 '(pewcfg::defer-use-packages foo bar baz)))
+    (macroexpand-1 '(pewcfg::use-package-defer-list foo bar baz)))
 
   (expect-equal "Test use-package-depend: Normal expand"
     '(use-package foo

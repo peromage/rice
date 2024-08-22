@@ -17,7 +17,7 @@
           (doom-modeline-unicode-fallback)))
 
 ;;; Lazy loadeding for these packages
-(pewcfg::defer-use-packages
+(pewcfg::use-package-defer-list
   ;; Colors schemes
   doom-themes
   spacemacs-theme
