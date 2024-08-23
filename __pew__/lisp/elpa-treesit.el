@@ -42,13 +42,16 @@
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars)
   :init (pewcfg::vc-install "emacs-tree-sitter/treesit-langs" "main"))
 
+
 ;;; Auxiliary packages
+
 (use-package treesit-fold
   :ensure nil
   :init (pewcfg::vc-install "emacs-tree-sitter/treesit-fold" "master")
   :config
   ;; (global-treesit-fold-indicators-mode) ;; Not working in terminal
-  (global-treesit-fold-mode 1))
+  (global-treesit-fold-mode 1)) ;; Automatically adds folding functions to `evil-fold-list'.
+
 
 ;;; Language tree-sitter major modes
 
