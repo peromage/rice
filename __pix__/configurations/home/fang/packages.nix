@@ -44,6 +44,7 @@
     nodejs_latest
     dotnet-sdk_8
     lua
+    clang-tools
 
     ## Devices
     android-tools
