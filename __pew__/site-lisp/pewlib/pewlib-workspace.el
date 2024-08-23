@@ -25,6 +25,7 @@
    ;; Info page
    :man "^ *\\*[Mm]an .*\\*$"
    :eldoc "^\\*eldoc\\*$"
+   :tree-sitter-explorer "^\\*tree-sitter explorer.*\\*$"
    ;; Message and output
    :help "^ *\\*.*\\b[Hh]elp\\*$"
    :message "^ *\\*.*\\b[Mm]essages?\\*$"
