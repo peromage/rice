@@ -28,7 +28,7 @@
     '(:config . :something)
     (pewcfg::use-package::translate-pewcfg-keyword :config/something))
 
-  (expect-equal "Test use-package: Normal expand"
+  (expect-equal "Test pewcfg::use-package: Normal expand"
     '(use-package emacs
        :custom
        (aaa val)
@@ -54,13 +54,13 @@
                       (foo 666)
                       (bar 888))))
 
-  (expect-equal "Test use-package-defer: Normal expand"
+  (expect-equal "Test pewcfg::use-package-defer-list: Normal expand"
     '(progn (use-package foo :defer t)
             (use-package bar :defer t)
             (use-package baz :defer t))
     (macroexpand-1 '(pewcfg::use-package-defer-list foo bar baz)))
 
-  (expect-equal "Test use-package-depend: Normal expand"
+  (expect-equal "Test pewcfg::use-package-fragment: Normal expand"
     '(use-package foo
        :ensure nil
        :defer t
