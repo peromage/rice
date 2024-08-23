@@ -16,7 +16,16 @@
   (eglot-strict-mode nil)
   (eglot-autoshutdown t) ;; Save resources
   (eglot-extend-to-xref nil) ;; Don't include files outside of current project
-  (eglot-report-progress t))
+  (eglot-report-progress t)
+  (eglot-confirm-server-initiated-edits 'confirm))
+
+(use-package eldoc
+  :ensure nil
+  :custom
+  (eldoc-echo-area-use-multiline-p 1) ;; Single line so that minibuffer is not bouncing
+  (eldoc-echo-area-prefer-doc-buffer nil) ;; Always display in minibuffer
+  (eldoc-echo-area-display-truncation-message t)
+  (eldoc-idle-delay 0.2))
 
 (provide 'elpa-eglot)
 ;;; elpa-eglot.el ends here
