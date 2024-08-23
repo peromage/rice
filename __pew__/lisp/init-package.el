@@ -7,6 +7,8 @@
 
 ;;; Builtin package manager
 (require 'package)
+(require 'package-vc)
+(require 'use-package)
 
 ;; Config
 (setq
@@ -23,18 +25,15 @@
                               ("gnu" . 99)
                               ("nongnu" . 98)))
 
-;; Fire up package.el
+;; Fire up `package.el'
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
 
-;;; `use-package'
-(eval-and-compile
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-  (require 'use-package))
+;; `package-vc.el' config
+(setq package-vc-default-backend 'Git)
 
-;; Default `use-package' behaviors
+;; `use-package.el' config
 (setq use-package-always-ensure t
       use-package-always-defer nil
       use-package-always-demand nil
