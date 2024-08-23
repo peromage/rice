@@ -14,7 +14,7 @@
           ("C-c l i" . imenu) )
   :custom
   (eglot-strict-mode nil)
-  (eglot-autoshutdown t) ;; Save resources
+  (eglot-autoshutdown nil) ;; Reverting buffer causes auto shutdown so turn it off
   (eglot-extend-to-xref nil) ;; Don't include files outside of current project
   (eglot-report-progress t)
   (eglot-confirm-server-initiated-edits 'confirm))
