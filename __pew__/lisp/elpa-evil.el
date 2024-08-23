@@ -163,7 +163,8 @@ an advice."
                                             (image-mode . motion)
                                             (view-mode . motion))
                                            :name
-                                           ((,(pewlib::get-special-buffers '(:scratch :edit-indirect :org-starred) 'concat) . normal)))
+                                           ((,(pewlib::get-special-buffers '(:scratch :edit-indirect :org-starred) 'concat) . normal)
+                                            (,(pewlib::get-special-buffers '(:eldoc) 'concat) . motion)))
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
