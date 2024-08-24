@@ -7,37 +7,36 @@
 
 ;;; Buffers
 (defvar pewlib::special-buffers
-  (list
-   ;; VC
-   :magit "^ *[Mm]agit"
-   :vc "^ *\\*[Vv][Cc]-.*\\*$"
-   :ediff "^ *\\*[Ee]diff.*\\*$"
-   ;; Interactive
-   :shell "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Ss]h\\(ell\\)?\\*$"
-   :terminal "^ *\\*\\(\\w+\\s-?\\|\\w+\\)?[Tt]erm\\(inal\\)?\\*$"
-   :scratch "^ *\\*[Ss]cratch\\*$"
-   ;; Org mode
-   :org-starred "^ *\\*[Oo]rg "
-   :org-src "^ *\\*[Oo]rg [Ss]rc .*\\*$"
-   :org-export "^ *\\*[Oo]rg .* [Ee]xport\\*$"
-   ;; Edit mode
-   :edit-indirect "^ *\\*edit-indirect .*\\*$"
-   ;; Info page
-   :man "^ *\\*[Mm]an .*\\*$"
-   :eldoc "^\\*eldoc\\*$"
-   :tree-sitter-explorer "^\\*tree-sitter explorer.*\\*$"
-   ;; Message and output
-   :help "^ *\\*.*\\b[Hh]elp\\*$"
-   :message "^ *\\*.*\\b[Mm]essages?\\*$"
-   :backtrace "^ *\\*.*\\b[Bb]acktrace\\*$"
-   :warning "^ *\\*.*\\b[Ww]arnings?\\*$"
-   :log "^ *\\*.*\\b[Ll]og\\*$"
-   :compilation "^ *\\*.*\\b[Cc]ompilation\\*$"
-   :output "^ *\\*.*\\b[Oo]utput\\*$"
-   :command "^ *\\*.*\\b[Cc]ommands?\\*$"
-   ;; General
-   :starred "^ *\\*.*\\*"
-   :non-starred "^ *[^* ]")
+  (let ((star "^ *\\*%s\\* *$")
+        (leading-star "^ *\\*%s"))
+    ;; Use regex to align  :[a-z-]+\(\s-*\)\((\|"\)
+    (list
+     ;; Generic
+     :starred              (format star ".*")
+     :non-starred          "^ *[^* ]"
+     :with-leading-star    (format star ".*")
+     :with-leading-space   "^ +"
+     ;; Extension buffers
+     :magit                "^ *[Mm]agit"
+     :vs                   (format star "[Vv][Cc]-.*")
+     :ediff                (format star "[Ee]diff.*")
+     :shell                (format star "\\w* *[Ss]hell")
+     :terminal             (format star "\\w* *[Tt]erm\\(inal\\)?")
+     :org-starred          (format star "[Oo]rg ?.*")
+     :edit-indirect        (format star "edit-indirect .*")
+     ;; Common buffers
+     :scratch              (format star "[Ss]cratch")
+     :help                 (format star "[Hh]elp")
+     :man                  (format star "[Mm]an ?.*")
+     :eldoc                (format star "[Ee]ldoc")
+     :message              (format star "[Mm]essages?")
+     :backtrace            (format star "[Bb]acktraces?")
+     :warning              (format star "[Ww]arnings?")
+     :log                  (format star "[Ll]ogs?")
+     :compilation          (format star "[Cc]ompilations?")
+     :output               (foramt star "[Oo]utputs?")
+     :command              (foramt star "[Cc]ommands?")
+     :tree-sitter-explorer (format star "tree-sitter explorer ?.*")))
   "Special buffer patterns.")
 
 (defvar pewlib::special-buffer-hidden '(:magit :starred)
