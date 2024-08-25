@@ -1,5 +1,10 @@
 ;;; elpa-eglot.el --- Language server by Eglot -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; Notes for most used LSP servers:
+;; C++: clangd (clang-tools)
+;; Python: pipx install python-lsp-server[all]
+
 ;;; Code:
 
 (use-package eglot
