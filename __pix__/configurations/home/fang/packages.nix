@@ -45,6 +45,7 @@
     dotnet-sdk_8
     lua
     clang-tools
+    shellcheck
 
     ## Devices
     android-tools
