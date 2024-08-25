@@ -123,5 +123,21 @@ MODES is a list of major mode symbols."
   :custom
   (dap-python-executable "python3"))
 
+
+;;; Language supports
+
+(use-package lsp-java :defer t)
+
+(use-package lsp-pyright
+  :defer t
+  :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
+  :custom
+  (lsp-pyright-python-executable-cmd "python3")
+  :preface
+  (defun pew::python-mode::on-enter-lsp-mode ()
+    "`python-mode' initialization."
+    (require 'lsp-pyright)
+    (require 'dap-python)))
+
 (provide 'elpa-lsp)
 ;;; elpa-lsp.el ends here
