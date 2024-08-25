@@ -70,7 +70,7 @@ The ARGS is the same with normal `use-package'."
   `(use-package ,name :ensure nil :defer t ,@args))
 
 ;;; Facility functions
-(defun pewcfg::vc-install (repo rev &optional fetcher name backend)
+(defun pewcfg::use-package-vc-install (repo rev &optional fetcher name backend)
   "Install package from a VC source.
 This is a wrapper of `package-vc-install'.
 REPO is the name of the repository including owner, e.g. \"peromage/rice\".
