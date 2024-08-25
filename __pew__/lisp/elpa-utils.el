@@ -22,12 +22,6 @@
   ;; Hyperbole
   hyperbole)
 
-;;; Package: flymake-shellcheck -- Syntax and spell checker
-;; TODO: Remove this in Emacs 29.
-(use-package flymake-shellcheck
-  :commands flymake-shellcheck-load
-  :hook (sh-mode . flymake-shellcheck-load))
-
 ;;; Package: flycheck
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
