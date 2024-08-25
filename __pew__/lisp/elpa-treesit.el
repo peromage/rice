@@ -27,6 +27,7 @@
    '((c++-mode . c++-ts-mode)
      (c-mode . c-ts-mode)
      (csharp-mode . csharp-ts-mode)
+     (nix-mode . nix-ts-mode)
      (java-mode . java-ts-mode)
      (js-mode . js-ts-mode)
      (sh-mode . bash-ts-mode)
@@ -42,6 +43,7 @@
           (treesit--indent-verbose)))
 
 ;; Grammar pack
+;; Note: Use `treesit-language-available-p' to check if grammar is installed
 (use-package treesit-langs
   :ensure nil ;; Install from repo instead
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars)
@@ -59,11 +61,6 @@
 
 
 ;;; Language tree-sitter major modes
-
-(use-package kdl-ts-mode
-  :ensure nil
-  :mode (("\\.kdl\\'" . kdl-ts-mode))
-  :init (pewcfg::vc-install "dataphract/kdl-ts-mode" "main"))
 
 (use-package c-ts-mode
   :ensure nil
@@ -97,6 +94,13 @@ current point when `treesit-explore-mode' is on."
                 tab-width 4
                 tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
                 adaptive-fill-mode nil)))
+
+(use-package nix-ts-mode :defer t)
+
+(use-package kdl-ts-mode
+  :ensure nil
+  :mode (("\\.kdl\\'" . kdl-ts-mode))
+  :init (pewcfg::vc-install "dataphract/kdl-ts-mode" "main"))
 
 (provide 'elpa-treesit)
 ;;; elpa-treesit.el ends here

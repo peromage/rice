@@ -17,7 +17,13 @@
   (eglot-autoshutdown nil) ;; Reverting buffer causes auto shutdown so turn it off
   (eglot-extend-to-xref nil) ;; Don't include files outside of current project
   (eglot-report-progress t)
-  (eglot-confirm-server-initiated-edits 'confirm))
+  (eglot-confirm-server-initiated-edits 'confirm)
+
+  :config
+  (setq eglot-server-programs (nconc '((((nix-mode :language-id "nix")
+                                         (nix-ts-mode :language-id "nix"))
+                                        . ("nixd")))
+                                     eglot-server-programs)))
 
 (use-package eldoc
   :ensure nil
