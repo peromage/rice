@@ -83,12 +83,12 @@
   (defun pew::c-ts-mode::indent-style ()
     "Customized indentation rules.
 See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode"
-    (append '(;; Do not indent preprocessor directives
-              ((node-is "preproc") column-0 0)
-              ;; Do not indent namespace children
-              ((n-p-gp nil nil "namespace_definition") grand-parent 0))
-            ;; Base rule
-            (alist-get 'k&r (c-ts-mode--indent-styles 'cpp))))
+    (nconc '(;; Do not indent preprocessor directives
+             ((node-is "preproc") column-0 0)
+             ;; Do not indent namespace children
+             ((n-p-gp nil nil "namespace_definition") grand-parent 0))
+           ;; Base rule
+           (alist-get 'k&r (c-ts-mode--indent-styles 'cpp))))
 
   (defun pew::c-ts-mode::on-enter ()
     "Common C/C++ TS mode preference."
@@ -97,7 +97,14 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                 tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
                 adaptive-fill-mode nil)))
 
-(use-package nix-ts-mode :defer t)
+(use-package nix-ts-mode
+  :custom
+  (nix-ts-mode-indent-offset 2)
+  :config
+  (setf (alist-get 'nix nix-ts-mode-indent-rules)
+        (nconc '(((n-p-gp "binding_set" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
+                 ((parent-is "let_expression") parent-bol 0))
+               (alist-get 'nix nix-ts-mode-indent-rules))))
 
 (use-package kdl-ts-mode
   :ensure nil
