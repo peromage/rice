@@ -46,6 +46,7 @@
     lua
     clang-tools
     shellcheck
+    nixd
 
     ## Devices
     android-tools
