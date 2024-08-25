@@ -6,10 +6,10 @@
 ;;; Code:
 
 ;;; Buffers
-(defvar pewlib::special-buffers
+(defvar pewlib::buffer-regex-plist
   (let ((star "^ *\\*%s\\* *$")
         (leading-star "^ *\\*%s"))
-    ;; Use regex to align  :[a-z-]+\(\s-*\)\((\|"\)
+    ;; Align regex  :[a-z-]+\(\s-*\)\((\|"\)
     (list
      ;; Generic
      :starred              (format star ".*")
@@ -18,7 +18,7 @@
      :with-leading-space   "^ +"
      ;; Extension buffers
      :magit                "^ *[Mm]agit"
-     :vs                   (format star "[Vv][Cc]-.*")
+     :vc                   (format star "[Vv][Cc]-.*")
      :ediff                (format star "[Ee]diff.*")
      :shell                (format star "\\w* *[Ss]hell")
      :terminal             (format star "\\w* *[Tt]erm\\(inal\\)?")
@@ -34,29 +34,29 @@
      :warning              (format star "[Ww]arnings?")
      :log                  (format star "[Ll]ogs?")
      :compilation          (format star "[Cc]ompilations?")
-     :output               (foramt star "[Oo]utputs?")
-     :command              (foramt star "[Cc]ommands?")
+     :output               (format star "[Oo]utputs?")
+     :command              (format star "[Cc]ommands?")
      :tree-sitter-explorer (format star "tree-sitter explorer ?.*")))
-  "Special buffer patterns.")
+  "Buffer name patterns.")
 
-(defvar pewlib::special-buffer-hidden '(:magit :starred)
-  "Buffers that are hiddens for general purposes.")
+(defvar pewlib::hidden-buffer-keywords
+  '(:starred
+    :with-leading-star
+    :with-leading-space
+    :magit)
+  "Buffers that are treated as hidden.")
 
-(defun pewlib::get-special-buffers (keys &optional concat)
-  "Return a list of special buffer regexs based on given KEYS.
-The buffer patterns are defined in `pewlib::special-buffer-regex-plist'.
-If CONCAT is non-nil the result is a concatenated regex string."
-  (let ((f (lambda (k)
-             (let ((v (plist-get pewlib::special-buffers k)))
-               (if v v (error "Invalid key: %S" k))))))
-    (if concat
-        (mapconcat f (pewlib::tolist keys) "\\|")
-      (mapcar f (pewlib::tolist keys)))))
+(defun pewlib::buffer-regex (keyword)
+  "Get KEYWORD corresponded buffer regex from `pewlib::buffer-regex-plist'."
+  (or (plist-get pewlib::buffer-regex-plist keyword)
+      (error "Invalid keyword: %S" keyword)))
 
-(defun pewlib::special-buffer-p (key name)
-  "Check if the given buffer NAME matches special buffer KEY.
-The buffer patterns are defined in `pewlib::special-buffer-regex-plist'."
-  (string-match-p (pewlib::get-special-buffers key 'concat) name))
+(defun pewlib::map-buffer-regex (keywords &optional concat)
+  "Return a list of buffer regex from `pewlib::buffer-regex-plist' given KEYWORDS.
+If CONCAT is non-nil the return value is a single regex string."
+  (if concat
+      (mapconcat #'pewlib::buffer-regex keywords "\\|")
+    (mapcar #'pewlib::buffer-regex keywords)))
 
 (defun pewlib::next-editing-buffer (&optional backwards)
   "Switch to the next editing buffer.
@@ -66,7 +66,7 @@ If BACKWARDS is non-nil switch to the previous one."
         (switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall switch-func)
     (while (and (not (eq current-buffer (current-buffer)))
-                (or (pewlib::special-buffer-p pewlib::special-buffer-hidden (buffer-name))
+                (or (string-match-p (pewlib::map-buffer-regex pewlib::hidden-buffer-keywords t) (buffer-name))
                     (pewlib::dired-buffer-p (buffer-name))))
       (funcall switch-func))))
 

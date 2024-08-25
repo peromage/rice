@@ -163,8 +163,8 @@ an advice."
                                             (image-mode . motion)
                                             (view-mode . motion))
                                            :name
-                                           ((,(pewlib::get-special-buffers '(:scratch :edit-indirect :org-starred) 'concat) . normal)
-                                            (,(pewlib::get-special-buffers '(:eldoc :tree-sitter-explorer) 'concat) . motion)))
+                                           ((,(pewlib::map-buffer-regex '(:scratch :edit-indirect :org-starred) 'concat) . normal)
+                                            (,(pewlib::map-buffer-regex '(:eldoc :tree-sitter-explorer) 'concat) . motion)))
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
@@ -203,7 +203,7 @@ This is an advanced method to determine initial state rather than using
                ;; Visiting files
                (buffer-file-name)
                ;; New unsaved buffers
-               (and (pewlib::special-buffer-p :non-starred (buffer-name))
+               (and (string-match-p (pewlib::buffer-regex :non-starred) (buffer-name))
                     (not buffer-read-only))))
        (evil-change-state 'normal))
 
