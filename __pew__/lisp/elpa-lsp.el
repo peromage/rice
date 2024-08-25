@@ -55,7 +55,7 @@
                              "--suggest-missing-includes"
                              "--all-scopes-completion"))
 
-  :init
+  :preface
   (defmacro pew::lsp::define-remote (server modes)
     "A shortcut to define LSP remote client.
 SERVER is the base name of the server executable.
@@ -110,7 +110,7 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-buffer-position 'right)
   (lsp-ui-imenu-kind-position 'top)
 
-  :config
+  :preface
   (defun pew::lsp-ui::on-enter ()
     "`lsp-ui-mode' initialization."
     (lsp-ui-mode 1)

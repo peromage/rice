@@ -25,7 +25,7 @@
                                 (consult-outline buffer)))
   (vertico-multiform-categories '((file (vertico-sort-function . pew::vertico::sort-directories-first))))
 
-  :config
+  :preface
   ;; File sorting
   (defun pew::vertico::sort-directories-first (files)
     "Sort directories before files."
@@ -33,6 +33,7 @@
       (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
              (seq-remove (lambda (x) (string-suffix-p "/" x)) files))))
 
+  :config
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 
@@ -145,7 +146,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 
-  :config
+  :preface
   (defun pew::embark::on-enter-collect-mode ()
     "`embark-collect-mode' initialization."
     (pewlib::reuse-window-in-buffer)

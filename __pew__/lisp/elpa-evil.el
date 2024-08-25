@@ -18,7 +18,6 @@
 ;;; Package: evil
 (use-package evil
   :demand t
-;;;; Variable config
   :custom
   ;; Default evil-want behavior
   (evil-want-integration t)
@@ -126,24 +125,6 @@ See `evil-define-key*'."
     (evil-ex-search-word-forward)
     (evil-ex-search-previous))
 
-;;;; Workaround
-  ;; Evil X settings
-  ;; Don't allow Evil to kill selected region when yanking
-  ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
-  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
-
-;;;; State tags (Cannot be set by customize)
-  (setq evil-emacs-state-tag         "[EM]"
-        evil-normal-state-tag        "[NO]"
-        evil-insert-state-tag        "[IN]"
-        evil-replace-state-tag       "[RE]"
-        evil-visual-char-tag         "[VI]"
-        evil-visual-line-tag         "[VL]"
-        evil-visual-block-tag        "[VB]"
-        evil-visual-screen-line-tag  "[VS]"
-        evil-motion-state-tag        "[MO]"
-        evil-operator-state-tag      "[..]")
-
 ;;;; Custom initial states
   (evil-define-state pewinitial
     "A dummy state used to determine buffer initial Evil state.
@@ -211,6 +192,24 @@ This is an advanced method to determine initial state rather than using
       (_
        (evil-change-state 'emacs))))
 
+;;;; State tags (Cannot be set by customize)
+  (setq evil-emacs-state-tag         "[EM]"
+        evil-normal-state-tag        "[NO]"
+        evil-insert-state-tag        "[IN]"
+        evil-replace-state-tag       "[RE]"
+        evil-visual-char-tag         "[VI]"
+        evil-visual-line-tag         "[VL]"
+        evil-visual-block-tag        "[VB]"
+        evil-visual-screen-line-tag  "[VS]"
+        evil-motion-state-tag        "[MO]"
+        evil-operator-state-tag      "[..]")
+
+;;;; Workaround
+  ;; Evil X settings
+  ;; Don't allow Evil to kill selected region when yanking
+  ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
+  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
+
 ;;;; Keybindings
   ;; Toggle key
   (evil-set-toggle-key "C-x m")
@@ -242,10 +241,6 @@ This is an advanced method to determine initial state rather than using
     ;; Search
     '(("*" . pew::evil::visual-search-region-text)))
 
-  :config
-;;;; Enable Evil
-  (evil-mode 1)
-
   ;; Elisp with leader
   (pewcfg :eval-after
           (elisp-mode
@@ -254,7 +249,10 @@ This is an advanced method to determine initial state rather than using
              '(("eb" . eval-buffer)
                ("er" . eval-region)
                ("ef" . eval-defun)
-               ("ee" . eval-last-sexp)))))) ;; End evil
+               ("ee" . eval-last-sexp)))))
+
+;;;; Enable Evil mode last to ensure most of the settings work
+  (evil-mode 1)) ;; End evil
 
 ;;; Package: evil-surround
 (use-package evil-surround

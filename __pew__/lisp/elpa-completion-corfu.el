@@ -90,25 +90,7 @@
           ("&"  . cape-sgml)
           ("r"  . cape-rfc1345) )
 
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  ;; NOTE: The order matters!
-  (setq completion-at-point-functions (append (list #'cape-file
-                                                    #'cape-keyword
-                                                    #'cape-dabbrev
-                                                    #'cape-elisp-block
-                                                    ;; #'cape-history
-                                                    ;; #'cape-tex
-                                                    ;; #'cape-sgml
-                                                    ;; #'cape-rfc1345
-                                                    ;; #'cape-abbrev
-                                                    ;; #'cape-dict
-                                                    ;; #'cape-symbol
-                                                    ;; #'cape-line
-                                                    )
-                                              completion-at-point-functions))
-
-  :config
+  :preface
   (defun pew::cape::on-elisp-mode ()
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
@@ -123,7 +105,26 @@
                                                     #'pcomplete-completions-at-point
                                                     (cape-capf-super
                                                      #'elisp-completion-at-point
-                                                     #'cape-dabbrev))))) ;; End cape
+                                                     #'cape-dabbrev))))
+
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  ;; The order matters!
+  ;; NOTE: This setq doesn't work in :config for some reason.
+  (setq completion-at-point-functions (append (list #'cape-file
+                                                    #'cape-keyword
+                                                    #'cape-dabbrev
+                                                    #'cape-elisp-block
+                                                    ;; #'cape-history
+                                                    ;; #'cape-tex
+                                                    ;; #'cape-sgml
+                                                    ;; #'cape-rfc1345
+                                                    ;; #'cape-abbrev
+                                                    ;; #'cape-dict
+                                                    ;; #'cape-symbol
+                                                    ;; #'cape-line
+                                                    )
+                                              completion-at-point-functions))) ;; End cape
 
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here

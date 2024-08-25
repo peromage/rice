@@ -30,7 +30,7 @@
   :defer t
   :hook ((c-mode . pew::cc-mode::on-enter)
          (c++-mode . pew::cc-mode::on-enter))
-  :config
+  :preface
   ;; Setup functions
   (defun pew::cc-mode::on-enter ()
     "Common CC mode setup."
@@ -56,7 +56,7 @@
 (use-package markdown-mode
   :defer t
   :hook (markdown-mode . pew::markdown-mode::on-enter)
-  :config
+  :preface
   (defun pew::markdown-mode::on-enter ()
     "`markdown-mode' initialization."
     (pewlib::as-text-mode)))
@@ -100,7 +100,7 @@
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
-  :config
+  :init
   (defun pew::mermaid-mode::install-cli ()
     "Install Mermaid CLI tool in user Emacs folder."
     (interactive)

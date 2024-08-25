@@ -95,11 +95,10 @@
   ;; Templates
   (org-capture-templates (pewlib::load-data-file (expand-file-name "capture.eld" (plist-get pew::paths-plist :org-template))))
 
-  :init
+  :preface
   (defvar pew::org::marker--hidden nil
     "`org-mode' marker visibility.")
 
-  :config
   (defun pew::org::on-enter ()
     "Org mode initial setup."
     (pewlib::as-text-mode))
@@ -110,6 +109,19 @@
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
+  (defun pew::org::add-src-lang-modes (alist)
+    "Add modes defined in ALIST to `org-src-lang-modes'.
+Duplicated pairs will be removed."
+    (mapc (lambda (x) (assoc-delete-all (car x) org-src-lang-modes)) alist)
+    (setq org-src-lang-modes (nconc alist org-src-lang-modes)))
+
+  (defun pew::org::add-babel-load-languages (alist)
+    "Add languages defined in ALIST to `org-babel-load-languages'.
+`org-babel-do-load-languages' will be called underneath."
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (nconc alist org-babel-load-languages)))
+
+  :config
   (defun pew::org::toggle-marker (&optional show no-restart)
     "Pass SHOW with 1 or -1 to show or hide markers or anything else to toggle.
 Non-nil NO-RESTART to suppress `org-mode-restart'."
@@ -163,18 +175,6 @@ Otherwise the cursor is placed at the beginning of the heading."
     (let ((default-directory (file-name-as-directory org-directory)))
       (call-interactively #'find-file)))
 
-  (defun pew::org::add-src-lang-modes (alist)
-    "Add modes defined in ALIST to `org-src-lang-modes'.
-Duplicated pairs will be removed."
-    (mapc (lambda (x) (assoc-delete-all (car x) org-src-lang-modes)) alist)
-    (setq org-src-lang-modes (nconc alist org-src-lang-modes)))
-
-  (defun pew::org::add-babel-load-languages (alist)
-    "Add languages defined in ALIST to `org-babel-load-languages'.
-`org-babel-do-load-languages' will be called underneath."
-    (org-babel-do-load-languages 'org-babel-load-languages
-                                 (nconc alist org-babel-load-languages)))
-
   (pewcfg :setq
           ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
           (org-babel-default-header-args '((:session . "none")
@@ -205,7 +205,7 @@ Duplicated pairs will be removed."
   :after org
   :hook (org-mode . pew::org-bullets::on-enter)
 
-  :config
+  :preface
   (defun pew::org-bullets::on-enter ()
     "`org-bullets' initialization."
     (org-bullets-mode 1)))

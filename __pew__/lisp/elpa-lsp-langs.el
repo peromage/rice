@@ -9,7 +9,7 @@
   :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
   :custom
   (lsp-pyright-python-executable-cmd "python3")
-  :config
+  :preface
   (defun pew::python-mode::on-enter-lsp-mode ()
     "`python-mode' initialization."
     (require 'lsp-pyright)

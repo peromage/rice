@@ -40,11 +40,12 @@ users to specify the shell to start with."
   (treemacs-show-hidden-files t)
   (treemacs-hide-dot-git-directory nil)
 
-  :config
+  :preface
   (defun pew::treemacs::on-enter ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1))
 
+  :config
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode 'always)
