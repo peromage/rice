@@ -8,7 +8,17 @@
 ;; For anything that is missing from above, use `treesit-install-language-grammar'
 ;; to install additional grammar.  Note that this requires local compilation.
 ;;
-;; To check if a grammar is supported, use (treesit-language-available-p 'name).
+;; To check if a grammar is supported, use `treesit-language-available-p'.
+;;
+;; To debug/customize indentation by leveraging syntax tree, set
+;; `treesit--indent-verbose' to non-nil to show current matched indentation rule
+;; at the echo area.  Additionally, turn on `treesit-explore-mode' to view the
+;; tree.
+;; Note: The rule list is read in sequence so more specific matchers should be
+;; put at the front.  For example, n-p-gp should be earlier than parent-is.
+;;
+;; See `treesit-simple-indent-presets' for matcher and anchor definitions.
+;; See also: https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
 
 ;;; Code:
 
@@ -43,7 +53,6 @@
           (treesit--indent-verbose)))
 
 ;; Grammar pack
-;; Note: Use `treesit-language-available-p' to check if grammar is installed
 (use-package treesit-langs
   :ensure nil ;; Install from repo instead
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars)
@@ -73,14 +82,7 @@
   :preface
   (defun pew::c-ts-mode::indent-style ()
     "Customized indentation rules.
-Source:
-- https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode/
-- https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
-- See also: `treesit-simple-indent-presets'.
-
-Note: Set `treesit--indent-verbose' to show which indent rules matched at the
-current point when `treesit-explore-mode' is on."
-
+See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode"
     (append '(;; Do not indent preprocessor directives
               ((node-is "preproc") column-0 0)
               ;; Do not indent namespace children
