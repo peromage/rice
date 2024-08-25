@@ -22,7 +22,7 @@
                            ,@(pewlib::side-window-actions 'bottom 0))
                           (,(pewlib::map-buffer-regex '(:help :eldoc) 'concat)
                            ,@(pewlib::side-window-actions 'bottom 1))
-                          (,(pewlib::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command) 'concat)
+                          (,(pewlib::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command :tree-sitter-explorer :flymake-diagnostics) 'concat)
                            ,@(pewlib::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'

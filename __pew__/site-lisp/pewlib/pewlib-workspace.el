@@ -36,7 +36,8 @@
      :compilation          (format star "[Cc]ompilations?")
      :output               (format star "[Oo]utputs?")
      :command              (format star "[Cc]ommands?")
-     :tree-sitter-explorer (format star "tree-sitter explorer ?.*")))
+     :tree-sitter-explorer (format star "[Tt]ree-sitter explorer ?.*")
+     :flymake-diagnostics  (format star "[Ff]lymake diagnostics ?.*")))
   "Buffer name patterns.")
 
 (defvar pewlib::hidden-buffer-keywords
