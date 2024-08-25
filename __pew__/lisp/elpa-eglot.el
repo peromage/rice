@@ -5,7 +5,9 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
-  :bind ( :map eglot-mode-map
+  :bind ( :map pew::M-u-map
+          ("M-l" . eglot)
+          :map eglot-mode-map
           ("C-c l f" . eglot-format)
           ("C-c l F" . eglot-format-buffer)
           ("C-c l r" . eglot-rename)

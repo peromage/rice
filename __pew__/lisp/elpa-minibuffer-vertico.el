@@ -11,11 +11,11 @@
           ("RET" . vertico-directory-enter)
           ("DEL" . vertico-directory-delete-char)
           ("M-DEL" . vertico-directory-delete-word)
-          ("M-q 1" . vertico-multiform-vertical)
-          ("M-q 2" . vertico-multiform-grid)
-          ("M-q 3" . vertico-multiform-flat)
-          ("M-q 4" . vertico-multiform-reverse)
-          ("M-q 5" . vertico-multiform-unobtrusive) )
+          ("M-1" . vertico-multiform-vertical)
+          ("M-2" . vertico-multiform-grid)
+          ("M-3" . vertico-multiform-flat)
+          ("M-4" . vertico-multiform-reverse)
+          ("M-5" . vertico-multiform-unobtrusive) )
 
   :custom
   ;; Default views for different commands/results
@@ -45,14 +45,15 @@
           ("C-x g" . consult-ripgrep)
           ("C-x G" . consult-git-grep)
           ("C-x l" . consult-outline)
-          ("C-x L" . consult-flymake)
+          ("C-x j" . consult-imenu)
+          ("C-x J" . consult-flymake)
           ([remap imenu] . consult-imenu)
           ([remap goto-line] . consult-goto-line)
           ([remap bookmark-jump] . consult-bookmark)
           ([remap recentf-open-files] . consult-recent-file)
           ([remap evil-show-marks] . consult-mark)
           :map minibuffer-local-map
-          ("M-q h" . consult-history) )
+          ("M-h" . consult-history) )
 
   :custom
   (register-preview-function #'consult-register-format)
@@ -109,7 +110,7 @@ ARGS should be a string of arguments passed to ripgrep."
 (use-package marginalia
   :demand t ;; :bind would cause lazy loading which is not we expect
   :bind ( :map vertico-map
-          ("M-q m" . marginalia-cycle) )
+          ("M-m" . marginalia-cycle) )
 
   :config
   (marginalia-mode 1))
