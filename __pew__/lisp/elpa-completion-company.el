@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Package: company -- Completion frontend
 (use-package company
   :demand t
   :bind ( :map company-mode-map

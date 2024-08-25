@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-;;; Package: corfu -- Completion frontend
 (use-package corfu
   :demand t
   :bind ( :map corfu-map
@@ -47,7 +46,6 @@
   (corfu-popupinfo-mode 1)
   (corfu-echo-mode 1)) ;; End corfu
 
-;;; Package: corfu-terminal -- Makes corfu usable in terminal
 (use-package corfu-terminal
   :after corfu
   :custom
@@ -58,7 +56,6 @@
   :config
   (corfu-terminal-mode 1))
 
-;;; Package: kind-icon -- Make corfu prettier
 (use-package kind-icon
   :after corfu
   :custom
@@ -67,7 +64,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;;; Package: cape -- Completion backend
 (use-package cape
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)

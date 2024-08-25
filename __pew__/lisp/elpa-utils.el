@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Lazy loadeding for these packages
+;; Lazy loadeding for these packages
 (pewcfg::use-package-defer-list
   ;; Search
   rg
@@ -22,13 +22,11 @@
   ;; Hyperbole
   hyperbole)
 
-;;; Package: flycheck
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
   :defer t
   :commands (global-flycheck-mode flycheck-mode))
 
-;;; Package: yasnippet -- Easy snippets
 (use-package yasnippet
   :custom
   (yas-snippet-dirs (list (plist-get pew::paths-plist :yas-template)))
@@ -39,7 +37,6 @@
 
 ;; TODO: tempel
 
-;;; Package: vterm
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
@@ -64,7 +61,6 @@ users to specify the shell to start with."
           (vterm :new))
       (vterm :new))))
 
-;;; Package: treemacs
 (use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::on-enter)
@@ -98,24 +94,20 @@ users to specify the shell to start with."
     (`(t . _)
      (treemacs-git-mode 'simple))))
 
-;;; Package: separedit
 (use-package separedit
   :bind ( :map pew::M-u-map
           ("'" . separedit-dwim)) )
 
-;;; Package: paredit -- Simplify S-expression editing
 (use-package paredit
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
-;;; Package: avy -- Jump among texts
 (use-package avy
   :bind ( :map pew::M-u-map
           ("f" . avy-goto-char)
           ("j" . avy-goto-line)) )
 
-;;; Package: ace-window -- Jump between windows
 (use-package ace-window
   :bind ( :map pew::M-u-map
           ("w" . ace-window)

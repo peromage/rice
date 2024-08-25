@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-;;; Package: vertico
 (use-package vertico
   :demand t
   :bind ( :map vertico-map
@@ -37,7 +36,6 @@
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 
-;;; Package: consult -- Search and navigation commands
 (use-package consult
   :demand t
   :bind ( ("C-s" . consult-line)
@@ -108,7 +106,6 @@ ARGS should be a string of arguments passed to ripgrep."
     "Add an indicator for multi-occur mode."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
-;;; Package: marginalia -- Rich annotations in the minibuffer
 (use-package marginalia
   :demand t ;; :bind would cause lazy loading which is not we expect
   :bind ( :map vertico-map
@@ -117,7 +114,6 @@ ARGS should be a string of arguments passed to ripgrep."
   :config
   (marginalia-mode 1))
 
-;;; Package: orderless -- Completion matching
 (use-package orderless
   :demand t
   :custom
@@ -133,7 +129,6 @@ ARGS should be a string of arguments passed to ripgrep."
   (pewcfg :customize
           (completion-styles (nconc '(orderless) completion-styles))))
 
-;;; Package: embark -- Minibuffer actions and context menu
 (use-package embark
   :hook (embark-collect-mode . pew::embark::on-enter-collect-mode)
   :bind ( ([remap describe-bindings] . embark-bindings)
@@ -152,7 +147,6 @@ ARGS should be a string of arguments passed to ripgrep."
     (pewlib::reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
-;;; Consult and embark integration
 (use-package embark-consult
   :after (:all consult embark))
 

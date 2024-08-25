@@ -6,7 +6,6 @@
 
 ;;; Code:
 
-;;; Package: counsel
 (use-package counsel
   :demand t
   :bind ( ("C-s" . swiper)
@@ -35,7 +34,6 @@
   (counsel-mode 1)
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pewlib::map-buffer-regex pewlib::hidden-buffer-keywords)))
 
-;;; Package: ivy-rich -- Make Ivy show more information
 (use-package ivy-rich
   :requires ivy
   :custom
@@ -60,7 +58,6 @@
                            x
                            (ivy-rich-minibuffer-width 0.3))) :align left)))))
 
-;;; Package: ivy-prescient -- Help sort candidates and also keep the most recent history on the top
 (use-package ivy-prescient
   :requires ivy
   :custom
@@ -71,7 +68,6 @@
   ;;(prescient-persist-mode 1)
   (ivy-prescient-mode 1))
 
-;;; Package: counsel-projectile -- Ivy projectile integration
 (use-package counsel-projectile
   :after (ivy projectile)
   :custom
@@ -80,12 +76,10 @@
   :config
   (counsel-projectile-mode 1))
 
-;;; Package:lsp-ivy -- Ivy LSP integration
 (use-package lsp-ivy
   :after (ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 
-;;; Package: which-key -- Key prompt
 (use-package which-key
   :custom
   (which-key-popup-type 'side-window)

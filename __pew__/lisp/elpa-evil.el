@@ -15,7 +15,6 @@
 
 ;;; Code:
 
-;;; Package: evil
 (use-package evil
   :demand t
   :custom
@@ -59,7 +58,7 @@
   (evil-buffer-regexps nil)
 
   :config
-;;;; Functions
+;;; Functions
   ;; Key binding function
   (defun pew::evil::set-key (state map leader bindings)
     "A function to bind Evil keys.
@@ -125,7 +124,7 @@ See `evil-define-key*'."
     (evil-ex-search-word-forward)
     (evil-ex-search-previous))
 
-;;;; Custom initial states
+;;; Custom initial states
   (evil-define-state pewinitial
     "A dummy state used to determine buffer initial Evil state.
 NOTE: This dummy state means to be an intermidiate state which transits to
@@ -192,7 +191,7 @@ This is an advanced method to determine initial state rather than using
       (_
        (evil-change-state 'emacs))))
 
-;;;; State tags (Cannot be set by customize)
+;;; State tags (Cannot be set by customize)
   (setq evil-emacs-state-tag         "[EM]"
         evil-normal-state-tag        "[NO]"
         evil-insert-state-tag        "[IN]"
@@ -204,13 +203,13 @@ This is an advanced method to determine initial state rather than using
         evil-motion-state-tag        "[MO]"
         evil-operator-state-tag      "[..]")
 
-;;;; Workaround
+;;; Workaround
   ;; Evil X settings
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
   (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
 
-;;;; Keybindings
+;;; Keybindings
   ;; Toggle key
   (evil-set-toggle-key "C-x m")
   (global-set-key (kbd "C-x C-m") #'evil-mode)
@@ -251,10 +250,9 @@ This is an advanced method to determine initial state rather than using
                ("ef" . eval-defun)
                ("ee" . eval-last-sexp)))))
 
-;;;; Enable Evil mode last to ensure most of the settings work
+;;; Enable Evil mode last to ensure most of the settings work
   (evil-mode 1)) ;; End evil
 
-;;; Package: evil-surround
 (use-package evil-surround
   :after evil
   :config

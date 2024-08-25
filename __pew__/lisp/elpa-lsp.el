@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Package: lsp-mode
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :custom
@@ -69,7 +68,6 @@ MODES is a list of major mode symbols."
            :remote? t
            :server-id ',server-id)))))) ;; End lsp-mode
 
-;;; Package: lsp-ui
 (use-package lsp-ui
   :commands lsp-ui-mode
   :hook (lsp-mode . pew::lsp-ui::on-enter)
@@ -117,7 +115,6 @@ MODES is a list of major mode symbols."
     ;; Disabled since it occupies 'q'
     (lsp-ui-doc-frame-mode -1))) ;; End lsp-ui
 
-;;; Package: dap-mode
 (use-package dap-mode
   :defer t
   :custom

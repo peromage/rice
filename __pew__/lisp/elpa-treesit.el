@@ -12,7 +12,7 @@
 
 ;;; Code:
 
-;;; Builtin tree-sitter
+;; Builtin tree-sitter
 (use-package treesit
   :ensure nil
   :custom
@@ -41,7 +41,7 @@
           ;; Debug indent rules when `treesit-explore-mode' is on
           (treesit--indent-verbose)))
 
-;;; Grammar pack
+;; Grammar pack
 (use-package treesit-langs
   :ensure nil ;; Install from repo instead
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars)

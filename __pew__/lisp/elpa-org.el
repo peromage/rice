@@ -5,7 +5,6 @@
 
 ;;; Code:
 
-;;; Package: org
 ;; Let `use-package' ensure the latest org package to be installed
 (use-package org
   :commands org-mode
@@ -13,7 +12,7 @@
          (org-babel-after-execute . pew::org::refresh-images))
 
   :custom
-;;;; Visual on startup
+  ;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
   (org-startup-indented t)
   (org-startup-folded 'nofold)
@@ -29,10 +28,10 @@
   (org-link-descriptive pew::org::marker--hidden)
   (org-pretty-entities pew::org::marker--hidden)
 
-;;;; Image displaying
+  ;; Image displaying
   (org-display-remote-inline-images 'skip)
 
-;;;; Fontify
+  ;; Fontify
   (org-src-fontify-natively t)
   (org-fontify-done-headline t)
   (org-fontify-todo-headline t)
@@ -41,7 +40,7 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-fontify-whole-block-delimiter-line t)
 
-;;;; Editing
+  ;; Editing
   (org-return-follows-link nil)
   (org-insert-heading-respect-content t)
   (org-fold-catch-invisible-edits 'smart)
@@ -51,16 +50,16 @@
   (org-src-preserve-indentation t)
   (org-refile-targets '((nil :maxlevel . 10)))
 
-;;;; Indentation
+  ;; Indentation
   ;; No hard indentation: https://orgmode.org/manual/Hard-indentation.html
   (org-odd-levels-only nil)
   (org-adapt-indentation nil)
 
-;;;; Log
+  ;; Log
   (org-log-done 'time)
   (org-log-into-drawer t)
 
-;;;; Clock
+  ;; Clock
   (org-clock-into-drawer t)
   (org-clock-out-remove-zero-time-clocks nil)
   (org-clock-clocked-in-display 'mode-line)
@@ -69,16 +68,16 @@
   (org-clock-out-when-done t)
   (org-clock-persist nil)
 
-;;;; Refile
+  ;; Refile
   (org-refile-allow-creating-parent-nodes 'confirm)
 
-;;;; Babel
+  ;; Babel
   (org-babel-load-languages '((emacs-lisp . t)
                               (shell . t)
                               (perl . t)))
   (org-confirm-babel-evaluate nil)
 
-;;;; Todo
+  ;; Todo
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
   ;; generate them automatically
@@ -86,7 +85,7 @@
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
-;;;; Agenda and capture
+  ;; Agenda and capture
   ;; Org files
   (org-directory (plist-get pew::paths-plist :org))
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
@@ -195,12 +194,10 @@ Otherwise the cursor is placed at the beginning of the heading."
                                                   (:hlines . "no")
                                                   (:tangle . "no"))))) ;; End org
 
-;;; Package: org-temp -- Org built-in for template expansion
 (use-package org-tempo
   :ensure nil
   :after org)
 
-;;; Package: org-bullets -- Nice headings
 (use-package org-bullets
   :after org
   :hook (org-mode . pew::org-bullets::on-enter)

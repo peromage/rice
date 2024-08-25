@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Package: magit -- Frontend
 (use-package magit
   :commands magit-status
   :bind ( :map pew::M-u-map
@@ -13,7 +12,6 @@
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))
 
-;;; Package: git-gutter -- Margin status
 (use-package git-gutter
   :custom
   (git-gutter:modified-sign "**")

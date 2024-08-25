@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-;;; Builtin package manager
+;; Builtin package manager
 (require 'package)
 (require 'package-vc)
 (require 'use-package)

@@ -13,19 +13,16 @@
   powershell
   python-mode)
 
-;;; CMake
 (use-package cmake-mode
   :defer t
   :custom
   cmake-tab-width 4)
 
-;;; Lua
 (use-package lua-mode
   :defer t
   :custom
   (lua-indent-level 2))
 
-;;; C/C++
 (use-package cc-mode
   :defer t
   :hook ((c-mode . pew::cc-mode::on-enter)
@@ -52,7 +49,6 @@
                 c-backslash-max-column 160
                 c-auto-align-backslashes t)))
 
-;;; Markdown
 (use-package markdown-mode
   :defer t
   :hook (markdown-mode . pew::markdown-mode::on-enter)
@@ -61,7 +57,6 @@
     "`markdown-mode' initialization."
     (pewlib::as-text-mode)))
 
-;;; Plantuml
 (use-package plantuml-mode
   :defer t
   :mode (("\\.puml\\'" . plantuml-mode)
@@ -79,7 +74,6 @@
   (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
   (pew::org::add-babel-load-languages '((plantuml . t))))
 
-;;; Graphviz
 (use-package graphviz-dot-mode
   :defer t
   :mode (("\\.dot\\'" . graphviz-dot-mode)
@@ -94,7 +88,6 @@
                                   ("gv" . graphviz-dot)))
   (pew::org::add-babel-load-languages '((dot . t))))
 
-;;; Mermaid
 (use-package mermaid-mode
   :defer t
   :mode (("\\.mmd\\'" . mermaid-mode))

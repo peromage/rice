@@ -5,11 +5,11 @@
 
 ;;; Code:
 
-;;; Performance optimization
+;; Performance optimization
 (setq gc-cons-threshold 100000000      ;; 128mb
       read-process-output-max 1000000) ;; 1mb
 
-;;; Daemon
+;; Daemon
 (defun pew::start--daemon ()
   "Start Emacs daemon if not running."
   (require 'server)
