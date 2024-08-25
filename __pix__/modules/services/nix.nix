@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, nixpkgs, ... }:
 
 let
   cfg = config.pix.services.nix;
@@ -46,6 +46,8 @@ in with lib; {
              See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
           */
         package = pkgs.nixFlakes;
+
+        nixPath = [ "nixpkgs=${nixpkgs}" ];
       };
     })
 
