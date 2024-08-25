@@ -42,7 +42,6 @@
 ;; Load ELPA packages
 (require 'elpa-ui)
 (require 'elpa-evil)
-(require 'elpa-completion)
 ;; (require 'elpa-completion-company)
 (require 'elpa-completion-corfu)
 ;; (require 'elpa-minibuffer-ivy)
@@ -55,7 +54,6 @@
 (require 'elpa-langs)
 (require 'elpa-treesit)
 ;; (require 'elpa-lsp) ;; LSP is the dependency of language modules
-;; (require 'elpa-lsp-langs)
 (require 'elpa-eglot)
 
 ;; Load custom configuration which takes the highest precedence
