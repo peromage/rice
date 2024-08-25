@@ -2,6 +2,49 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; Lazy loadeding for these packages
+(pewcfg::use-package-defer-list
+  ;; Search
+  rg
+  ;; Focused view
+  olivetti
+  ;; Nyanyanya!!!
+  nyan-mode
+  zone-nyan
+  ;; Colorful parenthesises
+  rainbow-delimiters
+  ;; Colorize color code
+  rainbow-mode
+  ;; Highlight current line
+  beacon
+  ;; Sometimes useful to get prompted for LSP commands
+  which-key
+  ;; Hyperbole
+  hyperbole)
+
+;;; Package: flymake-shellcheck -- Syntax and spell checker
+;; TODO: Remove this in Emacs 29.
+(use-package flymake-shellcheck
+  :commands flymake-shellcheck-load
+  :hook (sh-mode . flymake-shellcheck-load))
+
+;;; Package: flycheck
+;; Plan B.  In case `flymake' doesn't have checkers for certain languages
+(use-package flycheck
+  :defer t
+  :commands (global-flycheck-mode flycheck-mode))
+
+;;; Package: yasnippet -- Easy snippets
+(use-package yasnippet
+  :custom
+  (yas-snippet-dirs (list (plist-get pew::paths-plist :yas-template)))
+  (yas-indent-line 'fixed)
+
+  :config
+  (yas-global-mode 1))
+
+;; TODO: tempel
+
 ;;; Package: vterm
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
@@ -83,26 +126,6 @@ users to specify the shell to start with."
   :bind ( :map pew::M-u-map
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
-
-;;; Lazy loadeding for these packages
-(pewcfg::use-package-defer-list
-  ;; Search
-  rg
-  ;; Focused view
-  olivetti
-  ;; Nyanyanya!!!
-  nyan-mode
-  zone-nyan
-  ;; Colorful parenthesises
-  rainbow-delimiters
-  ;; Colorize color code
-  rainbow-mode
-  ;; Highlight current line
-  beacon
-  ;; Sometimes useful to get prompted for LSP commands
-  which-key
-  ;; Hyperbole
-  hyperbole)
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
