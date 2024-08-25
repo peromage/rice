@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.hardware.peripherals;
@@ -6,10 +6,23 @@ let
 in with lib; {
   options.pix.hardware.peripherals = {
     enable = mkEnableOption "peripheral management";
-    enablePrinting = mkEnableOption "printing service" // { default = true; };
+    devices = mkOption {
+      type = with types; listOf (enum [ "printer" "zsa-keyboard" ]);
+      default = [];
+      description = "A list of devices to support.";
+    };
   };
 
-  config = mkIf cfg.enable {
-    services.printing.enable = cfg.enablePrinting;
-  };
+  config = mkMerge [
+    (mkIf (cfg.enable && elem "printer" cfg.devices) {
+      services.printing.enable = true;
+    })
+
+    (mkIf (cfg.enable && elem "zsa-keyboard" cfg.devices) {
+      hardware.keyboard.zsa.enable = true;
+      environment.systemPackages = with pkgs; [
+        keymapp
+      ];
+    })
+  ];
 }

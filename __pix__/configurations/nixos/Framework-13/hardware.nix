@@ -49,7 +49,10 @@
     networking.enable = true;
     bluetooth.enable = true;
     firmware.enable = true;
-    peripherals.enable = true;
+    peripherals = {
+      enable = true;
+      devices = [ "printer" "zsa-keyboard" ];
+    };
     audio.enable = true;
     power = {
       enable = true;
