@@ -31,7 +31,10 @@
   (eldoc-echo-area-use-multiline-p 1) ;; Single line so that minibuffer is not bouncing
   (eldoc-echo-area-prefer-doc-buffer nil) ;; Always display in minibuffer
   (eldoc-echo-area-display-truncation-message t)
-  (eldoc-idle-delay 0.2))
+  (eldoc-idle-delay 0.2)
+  ;; Note: The order of the displayed message in echo area is determined by the
+  ;; order of functions in `eldoc-documentation-functions'.
+  (eldoc-documentation-strategy #'eldoc-documentation-compose))
 
 (provide 'elpa-eglot)
 ;;; elpa-eglot.el ends here
