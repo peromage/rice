@@ -18,7 +18,7 @@
           ("C-c l r" . eglot-rename)
           ("C-c l a" . eglot-code-actions)
           ("C-c l q" . eglot-code-action-quickfix)
-          ("C-c l i" . imenu) )
+          ("C-c l l" . imenu) )
   :custom
   (eglot-strict-mode nil)
   (eglot-autoshutdown nil) ;; Reverting buffer causes auto shutdown so turn it off

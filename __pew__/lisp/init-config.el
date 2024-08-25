@@ -391,9 +391,6 @@
   :bind
 ;;;; Global
   (global-map
-   ;; File and directory browsing
-   ("C-x C-d" . dired-jump)
-
    ;; Remap for better experience
    ([remap next-buffer] . pewlib::next-editing-buffer)
    ([remap previous-buffer] . pewlib::previous-editing-buffer)
