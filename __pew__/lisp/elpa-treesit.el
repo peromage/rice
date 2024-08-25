@@ -34,7 +34,12 @@
      (yaml-mode . yaml-ts-mode)
      (toml-mode . toml-ts-mode)
      (json-mode . json-ts-mode)
-     (python-mode . python-ts-mode))))
+     (python-mode . python-ts-mode)))
+
+  :config
+  (pewcfg :switch
+          ;; Debug indent rules when `treesit-explore-mode' is on
+          (treesit--indent-verbose)))
 
 ;;; Grammar pack
 (use-package treesit-langs
@@ -59,6 +64,39 @@
   :ensure nil
   :mode (("\\.kdl\\'" . kdl-ts-mode))
   :init (pewcfg::vc-install "dataphract/kdl-ts-mode" "main"))
+
+(use-package c-ts-mode
+  :ensure nil
+  :hook ((c-ts-mode . pew::c-ts-mode::on-enter)
+         (c++-ts-mode . pew::c-ts-mode::on-enter))
+  :custom
+  (c-ts-mode-indent-offset 4)
+  (c-ts-mode-indent-style #'pew::c-ts-mode::indent-style)
+
+  :preface
+  (defun pew::c-ts-mode::indent-style ()
+    "Customized indentation rules.
+Source:
+- https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode/
+- https://www.gnu.org/software/emacs/manual/html_node/elisp/Parser_002dbased-Indentation.html
+- See also: `treesit-simple-indent-presets'.
+
+Note: Set `treesit--indent-verbose' to show which indent rules matched at the
+current point when `treesit-explore-mode' is on."
+
+    (append '(;; Do not indent preprocessor directives
+              ((node-is "preproc") column-0 0)
+              ;; Do not indent namespace children
+              ((n-p-gp nil nil "namespace_definition") grand-parent 0))
+            ;; Base rule
+            (alist-get 'k&r (c-ts-mode--indent-styles 'cpp))))
+
+  (defun pew::c-ts-mode::on-enter ()
+    "Common C/C++ TS mode preference."
+    (setq-local indent-tabs-mode nil
+                tab-width 4
+                tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60)
+                adaptive-fill-mode nil)))
 
 (provide 'elpa-treesit)
 ;;; elpa-treesit.el ends here
