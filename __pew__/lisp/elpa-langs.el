@@ -55,7 +55,7 @@
   :preface
   (defun pew::markdown-mode::on-enter ()
     "`markdown-mode' initialization."
-    (pewlib::as-text-mode)))
+    (pewlib::editor::as-text-mode)))
 
 (use-package plantuml-mode
   :defer t

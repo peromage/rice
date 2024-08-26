@@ -38,7 +38,7 @@
           completion-cycle-threshold completion-cycling)
       (apply #'consult-completion-in-region completion-in-region--data)))
 
-  (define-advice pewlib::as-terminal-mode (:after () pew::corfu::in-terminal)
+  (define-advice pewlib::editor::as-terminal-mode (:after () pew::corfu::in-terminal)
     (setq-local corfu-auto nil))
 
   (global-corfu-mode 1)

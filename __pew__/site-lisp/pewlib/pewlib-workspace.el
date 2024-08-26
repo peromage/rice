@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Buffers
-(defvar pewlib::buffer-regex-plist
+(defvar pewlib::workspace::buffer-regex-plist
   (let ((star "^ *\\*%s\\* *$")
         (leading-star "^ *\\*%s"))
     ;; Align regex  :[a-z-]+\(\s-*\)\((\|"\)
@@ -40,26 +40,26 @@
      :flymake-diagnostics  (format star "[Ff]lymake diagnostics ?.*")))
   "Buffer name patterns.")
 
-(defvar pewlib::hidden-buffer-keywords
+(defvar pewlib::workspace::hidden-buffer-keywords
   '(:starred
     :with-leading-star
     :with-leading-space
     :magit)
   "Buffers that are treated as hidden.")
 
-(defun pewlib::buffer-regex (keyword)
-  "Get KEYWORD corresponded buffer regex from `pewlib::buffer-regex-plist'."
-  (or (plist-get pewlib::buffer-regex-plist keyword)
+(defun pewlib::workspace::buffer-regex (keyword)
+  "Get KEYWORD corresponded buffer regex from `pewlib::workspace::buffer-regex-plist'."
+  (or (plist-get pewlib::workspace::buffer-regex-plist keyword)
       (error "Invalid keyword: %S" keyword)))
 
-(defun pewlib::map-buffer-regex (keywords &optional concat)
-  "Return a list of buffer regex from `pewlib::buffer-regex-plist' given KEYWORDS.
+(defun pewlib::workspace::map-buffer-regex (keywords &optional concat)
+  "Return a list of buffer regex from `pewlib::workspace::buffer-regex-plist' given KEYWORDS.
 If CONCAT is non-nil the return value is a single regex string."
   (if concat
-      (mapconcat #'pewlib::buffer-regex keywords "\\|")
-    (mapcar #'pewlib::buffer-regex keywords)))
+      (mapconcat #'pewlib::workspace::buffer-regex keywords "\\|")
+    (mapcar #'pewlib::workspace::buffer-regex keywords)))
 
-(defun pewlib::next-editing-buffer (&optional backwards)
+(defun pewlib::workspace::next-editing-buffer (&optional backwards)
   "Switch to the next editing buffer.
 If BACKWARDS is non-nil switch to the previous one."
   (interactive "P")
@@ -67,16 +67,16 @@ If BACKWARDS is non-nil switch to the previous one."
         (switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall switch-func)
     (while (and (not (eq current-buffer (current-buffer)))
-                (or (string-match-p (pewlib::map-buffer-regex pewlib::hidden-buffer-keywords t) (buffer-name))
-                    (pewlib::dired-buffer-p (buffer-name))))
+                (or (string-match-p (pewlib::workspace::map-buffer-regex pewlib::workspace::hidden-buffer-keywords t) (buffer-name))
+                    (pewlib::extra::dired-buffer-p (buffer-name))))
       (funcall switch-func))))
 
-(defun pewlib::previous-editing-buffer ()
-  "Like `pewlib::next-editing-buffer' but does it backwards."
+(defun pewlib::workspace::previous-editing-buffer ()
+  "Like `pewlib::workspace::next-editing-buffer' but does it backwards."
   (interactive)
-  (pewlib::next-editing-buffer :previous))
+  (pewlib::workspace::next-editing-buffer :previous))
 
-(defun pewlib::close-other-buffers-in-major-mode (mode)
+(defun pewlib::workspace::close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
   (let ((this-buffer (current-buffer)))
@@ -86,14 +86,14 @@ If BACKWARDS is non-nil switch to the previous one."
           (kill-buffer buffer)))))
 
 ;;; Windows
-(defun pewlib::reuse-window-in-buffer ()
+(defun pewlib::workspace::reuse-window-in-buffer ()
   "Make new spawned windows atttempt to reuse current ones.
 This is usually useful in some major modes like `grep-mode'."
   (setq-local display-buffer-base-action '((display-buffer-reuse-window
                                             display-buffer-use-some-window))
               display-buffer-alist nil))
 
-(defun pewlib::side-window-actions (side slot)
+(defun pewlib::workspace::side-window-actions (side slot)
   "Return a list of pre-configured side window actions.
 See `display-buffer' for property SIDE, SLOT."
   `((display-buffer-reuse-window display-buffer-in-side-window)
@@ -103,116 +103,116 @@ See `display-buffer' for property SIDE, SLOT."
     (side . ,side)
     (slot . ,slot)))
 
-(defun pewlib::side-window-p (window)
+(defun pewlib::workspace::side-window-p (window)
   "Return non-nil if WINDOW is a side window."
   (window-parameter window 'window-side))
 
-(defun pewlib::side-window-exists-p (&optional side)
+(defun pewlib::workspace::side-window-exists-p (&optional side)
   "Return the first side window if there is any, otherwise nil.
 If SIDE is given and is one of 'top' 'bottom' 'left' and 'right', check for that
 specified side.  If SIDE is nil it means check all sides."
   (window-with-parameter 'window-side side))
 
-(defun pewlib::normal-window-p (window)
+(defun pewlib::workspace::normal-window-p (window)
   "Return t if WINDOW is a normal window."
-  (not (pewlib::side-window-p window)))
+  (not (pewlib::workspace::side-window-p window)))
 
-(defun pewlib::last-normal-window-p (window)
+(defun pewlib::workspace::last-normal-window-p (window)
   "Return t if WINDOW is the last normal window."
-  (and (pewlib::normal-window-p window)
-       (= 1 (length (pewlib::list-normal-windows)))))
+  (and (pewlib::workspace::normal-window-p window)
+       (= 1 (length (pewlib::workspace::list-normal-windows)))))
 
-(defun pewlib::list-side-windows ()
+(defun pewlib::workspace::list-side-windows ()
   "Return a list of side windows."
   (seq-filter
-   (lambda (x) (pewlib::side-window-p x))
+   (lambda (x) (pewlib::workspace::side-window-p x))
    (window-list)))
 
-(defun pewlib::list-normal-windows ()
+(defun pewlib::workspace::list-normal-windows ()
   "Return a list of normal (non-side) windows."
   (seq-filter
-   (lambda (x) (pewlib::normal-window-p x))
+   (lambda (x) (pewlib::workspace::normal-window-p x))
    (window-list)))
 
-(defun pewlib::pop-window-in-new-tab (arg)
+(defun pewlib::workspace::pop-window-in-new-tab (arg)
   "Pop the current window into a new tab.
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
   (let ((current-buffer (current-buffer)))
-    (if (and (null arg) (not (pewlib::last-normal-window-p (selected-window))))
+    (if (and (null arg) (not (pewlib::workspace::last-normal-window-p (selected-window))))
         (delete-window))
     (tab-bar-new-tab) ;; Duplicate current layout
-    (select-window (car (pewlib::list-normal-windows)))
+    (select-window (car (pewlib::workspace::list-normal-windows)))
     (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
-(defun pewlib::pop-window-in-new-tab-persist ()
-  "Like `pewlib::pop-window-in-new-tab' but keep the original window."
+(defun pewlib::workspace::pop-window-in-new-tab-persist ()
+  "Like `pewlib::workspace::pop-window-in-new-tab' but keep the original window."
   (interactive)
-  (pewlib::pop-window-in-new-tab :persist))
+  (pewlib::workspace::pop-window-in-new-tab :persist))
 
-(defun pewlib::next-window ()
+(defun pewlib::workspace::next-window ()
   "Switch to the next window."
   (interactive)
   (other-window 1))
 
-(defun pewlib::prev-window ()
+(defun pewlib::workspace::prev-window ()
   "Switch to the previous window."
   (interactive)
   (other-window -1))
 
-(defun pewlib::close-window ()
+(defun pewlib::workspace::close-window ()
   "Close the current window, or the tab if it is the last normal window."
   (interactive)
-  (if (pewlib::last-normal-window-p (selected-window))
+  (if (pewlib::workspace::last-normal-window-p (selected-window))
       ;; If there is only one normal window left, close the tab, regardless even
       ;; side windows exist
       (tab-bar-close-tab)
     (delete-window)))
 
-(defun pewlib::scroll-other-window-page-down ()
+(defun pewlib::workspace::scroll-other-window-page-down ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window))
 
-(defun pewlib::scroll-other-window-page-up ()
+(defun pewlib::workspace::scroll-other-window-page-up ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window-down))
 
-(defun pewlib::scroll-other-window-line-down ()
+(defun pewlib::workspace::scroll-other-window-line-down ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window 1))
 
-(defun pewlib::scroll-other-window-line-up ()
+(defun pewlib::workspace::scroll-other-window-line-up ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window -1))
 
-(defun pewlib::recenter-other-window ()
+(defun pewlib::workspace::recenter-other-window ()
   "Scroll other window one page down."
   (interactive)
   (recenter-other-window))
 
 ;;; Tabs
-(defun pewlib::move-tab-next ()
+(defun pewlib::workspace::move-tab-next ()
   "Move current tab to the next."
   (interactive)
   (tab-bar-move-tab 1))
 
-(defun pewlib::move-tab-prev ()
+(defun pewlib::workspace::move-tab-prev ()
   "Move current tab to the previous."
   (interactive)
   (tab-bar-move-tab -1))
 
 ;;; Frames
-(defvar pewlib::frame-opacity-adjust-step 5
+(defvar pewlib::workspace::frame-opacity-adjust-step 5
   "The amount of opacity changed each time.
-Used by `pewlib::increase-frame-opacity'and `pewlib::decrease-frame-opacity'.")
+Used by `pewlib::workspace::increase-frame-opacity'and `pewlib::workspace::decrease-frame-opacity'.")
 
-(defun pewlib::set-frame-opacity (val)
+(defun pewlib::workspace::set-frame-opacity (val)
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
@@ -222,34 +222,34 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
     (message "Set Frame opacity: %d%%" value)
     (set-frame-parameter (selected-frame) 'alpha (cons value value))))
 
-(defun pewlib::increase-frame-opacity ()
+(defun pewlib::workspace::increase-frame-opacity ()
   "Increase frame opacity."
   (interactive)
-  (pewlib::set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                pewlib::frame-opacity-adjust-step)))
+  (pewlib::workspace::set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                                pewlib::workspace::frame-opacity-adjust-step)))
 
-(defun pewlib::decrease-frame-opacity ()
+(defun pewlib::workspace::decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
-  (pewlib::set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                pewlib::frame-opacity-adjust-step)))
+  (pewlib::workspace::set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                                pewlib::workspace::frame-opacity-adjust-step)))
 
-(defun pewlib::pop-window-in-new-frame (arg)
+(defun pewlib::workspace::pop-window-in-new-frame (arg)
   "Pop the current window into a new frame.
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
   (let ((current-buffer (current-buffer)))
-    (if (and (null arg) (not (pewlib::last-normal-window-p (selected-window))))
+    (if (and (null arg) (not (pewlib::workspace::last-normal-window-p (selected-window))))
         (delete-window))
     (select-frame (make-frame-command))
     (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
-(defun pewlib::pop-window-in-new-frame-persist ()
-  "Like `pewlib::pop-window-in-new-frame' but keep the original window."
+(defun pewlib::workspace::pop-window-in-new-frame-persist ()
+  "Like `pewlib::workspace::pop-window-in-new-frame' but keep the original window."
   (interactive)
-  (pewlib::pop-window-in-new-frame :persist))
+  (pewlib::workspace::pop-window-in-new-frame :persist))
 
 (provide 'pewlib-workspace)
 ;;; pewlib-workspace.el ends here

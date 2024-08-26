@@ -65,7 +65,7 @@
   (consult-preview-key '("<up>" "<down>"))
   (consult-narrow-key "<")
   ;; Don't display special buffers
-  (consult-buffer-filter (pewlib::map-buffer-regex pewlib::hidden-buffer-keywords))
+  (consult-buffer-filter (pewlib::workspace::map-buffer-regex pewlib::workspace::hidden-buffer-keywords))
   ;; Find hidden directory
   (consult-find-args "find . ! -path '*/.git/*'")
 
@@ -145,7 +145,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :preface
   (defun pew::embark::on-enter-collect-mode ()
     "`embark-collect-mode' initialization."
-    (pewlib::reuse-window-in-buffer)
+    (pewlib::workspace::reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
 (use-package embark-consult

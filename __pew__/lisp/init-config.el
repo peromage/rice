@@ -18,12 +18,12 @@
 ;;;; Windows and frames
   ;; When 3 side windows present `window-toggle-side-windows' may cause problem
   ;; Use `winner-undo' to revert the mess
-  (display-buffer-alist `((,(pewlib::map-buffer-regex '(:shell :terminal) 'concat)
-                           ,@(pewlib::side-window-actions 'bottom 0))
-                          (,(pewlib::map-buffer-regex '(:help :eldoc) 'concat)
-                           ,@(pewlib::side-window-actions 'bottom 1))
-                          (,(pewlib::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command :tree-sitter-explorer :flymake-diagnostics) 'concat)
-                           ,@(pewlib::side-window-actions 'bottom 2))))
+  (display-buffer-alist `((,(pewlib::workspace::map-buffer-regex '(:shell :terminal) 'concat)
+                           ,@(pewlib::workspace::side-window-actions 'bottom 0))
+                          (,(pewlib::workspace::map-buffer-regex '(:help :eldoc) 'concat)
+                           ,@(pewlib::workspace::side-window-actions 'bottom 1))
+                          (,(pewlib::workspace::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command :tree-sitter-explorer :flymake-diagnostics) 'concat)
+                           ,@(pewlib::workspace::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
   (split-height-threshold 20 "10 lines minimal")
@@ -224,9 +224,9 @@
                                                (mode . eshell-mode)
                                                (mode . term-mode)
                                                (mode . vterm-mode)))
-                                  ("Git" (name . ,(pewlib::buffer-regex :magit)))
-                                  ("VC" (name . ,(pewlib::buffer-regex :vc)))
-                                  ("Ediff" (name . ,(pewlib::buffer-regex :ediff)))
+                                  ("Git" (name . ,(pewlib::workspace::buffer-regex :magit)))
+                                  ("VC" (name . ,(pewlib::workspace::buffer-regex :vc)))
+                                  ("Ediff" (name . ,(pewlib::workspace::buffer-regex :ediff)))
                                   ;; Putting to last to avoid buffers being wrongly categorized as "special"
                                   ("Special" (starred-name)))))
 
@@ -282,14 +282,14 @@
    ("C-r" . pewkey-repeat)
 
 ;;;; Windows
-   ("q" . pewlib::close-window)
+   ("q" . pewlib::workspace::close-window)
    ("1" . delete-other-windows)
    ("2" . split-window-below)
    ("3" . split-window-right)
    ("9" . window-toggle-side-windows)
-   ("0" . pewlib::close-window)
-   ("o" . pewlib::next-window)
-   ("O" . pewlib::prev-window)
+   ("0" . pewlib::workspace::close-window)
+   ("o" . pewlib::workspace::next-window)
+   ("O" . pewlib::workspace::prev-window)
    ("h" . windmove-left)
    ("j" . windmove-down)
    ("k" . windmove-up)
@@ -304,11 +304,11 @@
    ("Y" . winner-redo)
 
 ;;;; Other window
-   ("C-v" . pewlib::scroll-other-window-page-down)
-   ("M-v" . pewlib::scroll-other-window-page-up)
-   ("C-n" . pewlib::scroll-other-window-line-down)
-   ("C-p" . pewlib::scroll-other-window-line-up)
-   ("C-l" . pewlib::recenter-other-window)
+   ("C-v" . pewlib::workspace::scroll-other-window-page-down)
+   ("M-v" . pewlib::workspace::scroll-other-window-page-up)
+   ("C-n" . pewlib::workspace::scroll-other-window-line-down)
+   ("C-p" . pewlib::workspace::scroll-other-window-line-up)
+   ("C-l" . pewlib::workspace::recenter-other-window)
 
 ;;;; Tabbar
    ("Q"   . tab-bar-close-tab)
@@ -317,17 +317,17 @@
    ("F"   . tab-bar-select-tab-by-name)
    ("b"   . tab-bar-switch-to-prev-tab)
    ("t"   . tab-bar-new-tab)
-   ("T"   . pewlib::pop-window-in-new-tab)
-   ("C-t" . pewlib::pop-window-in-new-tab-persist)
-   ("m"   . pewlib::move-tab-next)
-   ("M"   . pewlib::move-tab-prev)
+   ("T"   . pewlib::workspace::pop-window-in-new-tab)
+   ("C-t" . pewlib::workspace::pop-window-in-new-tab-persist)
+   ("m"   . pewlib::workspace::move-tab-next)
+   ("M"   . pewlib::workspace::move-tab-prev)
 
 ;;;; Buffers
    ("r" . rename-buffer)
    ("w" . save-buffer)
-   ("n" . pewlib::next-editing-buffer)
-   ("p" . pewlib::previous-editing-buffer)
-   ("i" . pewlib::display-buffer-path)
+   ("n" . pewlib::workspace::next-editing-buffer)
+   ("p" . pewlib::workspace::previous-editing-buffer)
+   ("i" . pewlib::debug::display-buffer-path)
    ("B" . display-buffer)
    ("g" . revert-buffer-quick)
 
@@ -354,10 +354,10 @@
    ("C-0" . text-scale-adjust)
 
 ;;;; Frame Transparency
-   ("M-=" . pewlib::increase-frame-opacity)
-   ("M--" . pewlib::decrease-frame-opacity)
-   ("A"   . pewlib::pop-window-in-new-frame)
-   ("C-a" . pewlib::pop-window-in-new-frame-persist)
+   ("M-=" . pewlib::workspace::increase-frame-opacity)
+   ("M--" . pewlib::workspace::decrease-frame-opacity)
+   ("A"   . pewlib::workspace::pop-window-in-new-frame)
+   ("C-a" . pewlib::workspace::pop-window-in-new-frame-persist)
    ("a"   . other-frame)
 
 ;;;; Rebind word manipulations
@@ -392,8 +392,8 @@
 ;;;; Global
   (global-map
    ;; Remap for better experience
-   ([remap next-buffer] . pewlib::next-editing-buffer)
-   ([remap previous-buffer] . pewlib::previous-editing-buffer)
+   ([remap next-buffer] . pewlib::workspace::next-editing-buffer)
+   ([remap previous-buffer] . pewlib::workspace::previous-editing-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
@@ -417,8 +417,8 @@
 
 ;;;; Dired
   (dired-mode-map
-   ("RET" . pewlib::dired-go-to)
-   ("DEL" . pewlib::dired-go-up)
+   ("RET" . pewlib::extra::dired-go-to)
+   ("DEL" . pewlib::extra::dired-go-up)
    ("f" . dired-find-file)
    ("b" . dired-up-directory)
    ("<left>" . dired-up-directory)
@@ -427,17 +427,17 @@
 ;;; Mode hooks
   :hook
   ;; Make shell clean
-  (eshell-mode-hook . pewlib::as-terminal-mode)
-  (shell-mode-hook . pewlib::as-terminal-mode)
+  (eshell-mode-hook . pewlib::editor::as-terminal-mode)
+  (shell-mode-hook . pewlib::editor::as-terminal-mode)
 
   ;; Don't save trailing spaces
-  (after-save-hook . pewlib::delete-trailing-whitespaces)
+  (after-save-hook . pewlib::editor::delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
   (minibuffer-setup-hook . cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode-hook . pewlib::reuse-window-in-buffer)
+  (grep-mode-hook . pewlib::workspace::reuse-window-in-buffer)
 
   ;; Enable folding
   (prog-mode-hook . outline-minor-mode)

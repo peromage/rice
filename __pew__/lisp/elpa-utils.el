@@ -40,7 +40,7 @@
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pewlib::as-terminal-mode)
+  :hook (vterm-mode . pewlib::editor::as-terminal-mode)
 
   :custom
   (vterm-kill-buffer-on-exit t)

@@ -32,7 +32,7 @@
   :config
   (ivy-mode 1)
   (counsel-mode 1)
-  (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pewlib::map-buffer-regex pewlib::hidden-buffer-keywords)))
+  (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pewlib::workspace::map-buffer-regex pewlib::workspace::hidden-buffer-keywords)))
 
 (use-package ivy-rich
   :requires ivy
