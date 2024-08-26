@@ -113,5 +113,16 @@ users to specify the shell to start with."
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
 
+(use-package keycast
+  :defer t
+  :custom
+  (keycast-mode-line-remove-tail-elements nil)
+  :config
+  (setq keycast-substitute-alist (nconc '((self-insert-command "." "Typing...")
+                                          (mouse-event-p nil)
+                                          (mouse-movement-p nil)
+                                          (mwheel-scroll nil))
+                                   keycast-substitute-alist)))
+
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
