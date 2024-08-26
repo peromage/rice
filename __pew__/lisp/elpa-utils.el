@@ -123,7 +123,10 @@ users to specify the shell to start with."
 
 (use-package keycast
   :ensure t
-  :defer t
+  :commands (keycast-log-mode
+             keycast-tab-bar-mode
+             keycast-header-line-mode
+             keycast-mode-line-mode)
   :custom
   (keycast-mode-line-format "%2s%k%c%R")
   (keycast-mode-line-window-predicate 'mode-line-window-selected-p) ;; Show in current window
