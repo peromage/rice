@@ -3,15 +3,17 @@
 ;;; Code:
 
 ;;; Lazy loading for these languages
-(pewcfg::use-package-defer-list
-  vimrc-mode
-  yaml-mode
-  json-mode
-  fish-mode
-  nix-mode
-  csharp-mode
-  powershell
-  python-mode)
+
+(use-package vimrc-mode :ensure t :defer t)
+(use-package yaml-mode :ensure t :defer t)
+(use-package json-mode :ensure t :defer t)
+(use-package fish-mode :ensure t :defer t)
+(use-package nix-mode :ensure t :defer t)
+(use-package csharp-mode :ensure t :defer t)
+(use-package powershell :ensure t :defer t)
+(use-package python-mode :ensure t :defer t)
+
+;;; Common
 
 (use-package cmake-mode
   :ensure t
@@ -68,16 +70,15 @@
          ("\\.plantuml\\'" . plantuml-mode))
   :custom
   (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
-  (plantuml-default-exec-mode 'jar))
+  (plantuml-default-exec-mode 'jar)
 
-;; Plantuml `org-mode' support
-(pewcfg::use-package-fragment org
-  :custom
-  (org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
-  (org-plantuml-exec-mode 'jar)
-  :config
-  (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
-  (pew::org::add-babel-load-languages '((plantuml . t))))
+  :init
+  ;; `org-mode' support
+  (with-eval-after-load 'org
+    (setq org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
+    (setq org-plantuml-exec-mode 'jar)
+    (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
+    (pew::org::add-babel-load-languages '((plantuml . t)))))
 
 (use-package graphviz-dot-mode
   :ensure t
@@ -85,14 +86,14 @@
   :mode (("\\.dot\\'" . graphviz-dot-mode)
          ("\\.gv\\'" . graphviz-dot-mode))
   :custom
-  (graphviz-dot-indent-width 4))
+  (graphviz-dot-indent-width 4)
 
-;; Graphviz `org-mode' support
-(pewcfg::use-package-fragment org
-  :config
-  (pew::org::add-src-lang-modes '(("dot" . graphviz-dot)
-                                  ("gv" . graphviz-dot)))
-  (pew::org::add-babel-load-languages '((dot . t))))
+  :init
+  ;; Graphviz `org-mode' support
+  (with-eval-after-load 'org
+    (pew::org::add-src-lang-modes '(("dot" . graphviz-dot)
+                                    ("gv" . graphviz-dot)))
+    (pew::org::add-babel-load-languages '((dot . t)))))
 
 (use-package mermaid-mode
   :ensure t
@@ -113,12 +114,11 @@
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
   :ensure t
-  :after (:all org mermaid-mode))
-
-(pewcfg::use-package-fragment org
-  :config
-  (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
-  (pew::org::add-babel-load-languages '((mermaid . t))))
+  :after mermaid-mode
+  :init
+  (with-eval-after-load 'org
+    (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
+    (pew::org::add-babel-load-languages '((mermaid . t)))))
 
 (provide 'elpa-langs)
 ;;; elpa-langs.el ends here

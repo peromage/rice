@@ -2,25 +2,25 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Lazy loadeding for these packages
-(pewcfg::use-package-defer-list
-  ;; Search
-  rg
-  ;; Focused view
-  olivetti
-  ;; Nyanyanya!!!
-  nyan-mode
-  zone-nyan
-  ;; Colorful parenthesises
-  rainbow-delimiters
-  ;; Colorize color code
-  rainbow-mode
-  ;; Highlight current line
-  beacon
-  ;; Sometimes useful to get prompted for LSP commands
-  which-key
-  ;; Hyperbole
-  hyperbole)
+;;; Lazy loadeding for these packages
+
+;; Search
+(use-package rg :ensure t :defer t)
+;; Focused view
+(use-package olivetti :ensure t :defer t)
+;; Nyanyanya!!!
+(use-package nyan-mode :ensure t :defer t)
+(use-package zone-nyan :ensure t :defer t)
+;; Colorful parenthesises
+(use-package rainbow-delimiters :ensure t :defer t)
+;; Colorize color code
+(use-package rainbow-mode :ensure t :defer t)
+;; Highlight current line
+(use-package beacon :ensure t :defer t)
+;; Hyperbole
+(use-package hyperbole :ensure t :defer t)
+
+;;; Common
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
@@ -142,8 +142,8 @@ users to specify the shell to start with."
                                    keycast-substitute-alist)))
 
 (use-package which-key
-  :disabled
   :ensure t
+  :commands which-key-mode
   :custom
   (which-key-popup-type 'side-window)
   (which-key-show-early-on-C-h nil)

@@ -208,11 +208,10 @@ Otherwise the cursor is placed at the beginning of the heading."
     "`org-bullets' initialization."
     (org-bullets-mode 1)))
 
-(pewcfg::use-package-defer-list
-  ;; Export backend for Hugo
-  ox-hugo
-  ;; Export backend for GitHub flavored Markdown
-  ox-gfm)
+;; Org to Markdown for Hugo
+(use-package ox-hugo :ensure t :defer t)
+;; Export backend for GitHub flavored Markdown
+(use-package ox-gfm :ensure t :defer t)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here

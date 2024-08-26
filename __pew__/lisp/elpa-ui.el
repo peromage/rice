@@ -3,20 +3,20 @@
 ;;; Code:
 
 ;;; Lazy loadeding for these packages
-(pewcfg::use-package-defer-list
-  ;; Colors schemes
-  doom-themes
-  spacemacs-theme
-  dracula-theme
-  moe-theme
-  catppuccin-theme
-  monokai-theme
-  ;; From https://protesilaos.com/
-  modus-themes
-  ef-themes
-  ;; Fonts and icons
-  all-the-icons
-  nerd-icons)
+
+;; Colors schemes
+(use-package doom-themes :ensure t :defer t)
+(use-package spacemacs-theme :ensure t :defer t)
+(use-package dracula-theme :ensure t :defer t)
+(use-package moe-theme :ensure t :defer t)
+(use-package catppuccin-theme :ensure t :defer t)
+(use-package monokai-theme :ensure t :defer t)
+;; From https://protesilaos.com/
+(use-package modus-themes :ensure t :defer t)
+(use-package ef-themes :ensure t :defer t)
+;; Fonts and icons
+(use-package all-the-icons :ensure t :defer t)
+(use-package nerd-icons :ensure t :defer t)
 
 ;;; Modelines
 
