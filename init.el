@@ -4,7 +4,7 @@
 
 ;;; Emacs version check
 (let ((min-ver "29"))
-  (if (version<= emacs-version min-ver)
+  (if (version< emacs-version min-ver)
       (error "[pew] Emacs version %s+ is required" min-ver)))
 
 (defvar pew::paths-plist
