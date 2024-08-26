@@ -66,7 +66,7 @@
         /* Improvised functions
         */
 
-        __pkgsOverlay = system: import nixpkgs {
+        __pkgsWithOverlay = system: import nixpkgs {
           inherit system;
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
@@ -191,7 +191,7 @@
          from there automatically.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = user: homeTopModule (__pkgsOverlay system) specialArgs (path.homeConfigurations + "/${user}");
+        let inc = user: homeTopModule (__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
         in {
           fang = inc "fang";
         }

@@ -3,7 +3,7 @@
 let
   lib = nixpkgs.lib;
   libpix = pix.lib;
-  pkgs = libpix.__pkgsOverlay system;
+  pkgs = libpix.__pkgsWithOverlay system;
   pathGeneric = ./generic;
   pathSystem = ./. + "/${system}";
 
