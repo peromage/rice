@@ -24,10 +24,12 @@
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
+  :ensure t
   :defer t
   :commands (global-flycheck-mode flycheck-mode))
 
 (use-package yasnippet
+  :ensure t
   :custom
   (yas-snippet-dirs (list (plist-get pew::path-plist :yas-template)))
   (yas-indent-line 'fixed)
@@ -38,6 +40,7 @@
 ;; TODO: tempel
 
 (use-package vterm
+  :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib::editor::as-terminal-mode)
@@ -62,6 +65,7 @@ users to specify the shell to start with."
       (vterm :new))))
 
 (use-package treemacs
+  :ensure t
   :commands treemacs
   :hook (treemacs-mode . pew::treemacs::on-enter)
   :bind ( :map treemacs-mode-map
@@ -95,25 +99,30 @@ users to specify the shell to start with."
      (treemacs-git-mode 'simple))))
 
 (use-package separedit
+  :ensure t
   :bind ( :map pew::M-u-map
           ("'" . separedit-dwim)) )
 
 (use-package paredit
+  :ensure t
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
 (use-package avy
+  :ensure t
   :bind ( :map pew::M-u-map
           ("f" . avy-goto-char)
           ("j" . avy-goto-line)) )
 
 (use-package ace-window
+  :ensure t
   :bind ( :map pew::M-u-map
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
 
 (use-package keycast
+  :ensure t
   :defer t
   :custom
   (keycast-mode-line-format "%2s%k%c%R")

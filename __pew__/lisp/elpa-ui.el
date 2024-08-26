@@ -22,6 +22,7 @@
 
 (use-package doom-modeline
   :disabled
+  :ensure t
   :demand t
   :custom
   (doom-modeline-height 1)
@@ -41,6 +42,7 @@
 ;;; Misc
 
 (use-package spacious-padding
+  :ensure t
   :demand t
   :custom
   (spacious-padding-subtle-mode-line t)
@@ -48,18 +50,22 @@
   (spacious-padding-mode 1))
 
 (use-package nerd-icons-completion
+  :ensure t
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
 (use-package nerd-icons-dired
+  :ensure t
   :hook (dired-mode . nerd-icons-dired-mode))
 
 (use-package nerd-icons-corfu
+  :ensure t
   :after corfu
   :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package kind-icon
   :disabled
+  :ensure t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly

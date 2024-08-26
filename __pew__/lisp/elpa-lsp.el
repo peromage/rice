@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package lsp-mode
+  :ensure t
   :commands (lsp lsp-deferred)
   :custom
   (lsp-keymap-prefix "C-c l")
@@ -69,6 +70,7 @@ MODES is a list of major mode symbols."
            :server-id ',server-id)))))) ;; End lsp-mode
 
 (use-package lsp-ui
+  :ensure t
   :commands lsp-ui-mode
   :hook (lsp-mode . pew::lsp-ui::on-enter)
   :bind ( :map lsp-ui-mode-map
@@ -116,6 +118,7 @@ MODES is a list of major mode symbols."
     (lsp-ui-doc-frame-mode -1))) ;; End lsp-ui
 
 (use-package dap-mode
+  :ensure t
   :defer t
   :custom
   (dap-python-executable "python3"))
@@ -123,9 +126,12 @@ MODES is a list of major mode symbols."
 
 ;;; Language supports
 
-(use-package lsp-java :defer t)
+(use-package lsp-java
+  :ensure t
+  :defer t)
 
 (use-package lsp-pyright
+  :ensure t
   :defer t
   :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
   :custom

@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package company
+  :ensure t
   :demand t
   :bind ( :map company-mode-map
           ([remap completion-at-point] . company-complete)

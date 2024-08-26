@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package corfu
+  :ensure t
   :demand t
   :bind ( :map corfu-map
           ("TAB" . corfu-complete)
@@ -47,6 +48,7 @@
   (corfu-echo-mode 1)) ;; End corfu
 
 (use-package corfu-terminal
+  :ensure t
   :after corfu
   :custom
   (corfu-terminal-disable-on-gui t)
@@ -57,6 +59,7 @@
   (corfu-terminal-mode 1))
 
 (use-package cape
+  :ensure t
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)
          (emacs-lisp-mode . pew::cape::on-elisp-mode)

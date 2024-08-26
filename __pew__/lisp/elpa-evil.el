@@ -16,6 +16,7 @@
 ;;; Code:
 
 (use-package evil
+  :ensure t
   :demand t
   :custom
   ;; Default evil-want behavior
@@ -254,6 +255,7 @@ This is an advanced method to determine initial state rather than using
   (evil-mode 1)) ;; End evil
 
 (use-package evil-surround
+  :ensure t
   :after evil
   :config
   (global-evil-surround-mode 1))

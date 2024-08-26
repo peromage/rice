@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package magit
+  :ensure t
   :commands magit-status
   :bind ( :map pew::M-u-map
           ("g" . magit-status)
@@ -13,6 +14,7 @@
   (magit-define-global-key-bindings nil))
 
 (use-package git-gutter
+  :ensure t
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")

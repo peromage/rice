@@ -5,8 +5,8 @@
 
 ;;; Code:
 
-;; Let `use-package' ensure the latest org package to be installed
 (use-package org
+  :ensure t ;; Keep the package up-to-date
   :commands org-mode
   :hook ((org-mode . pew::org::on-enter)
          (org-babel-after-execute . pew::org::refresh-images))
@@ -199,6 +199,7 @@ Otherwise the cursor is placed at the beginning of the heading."
   :after org)
 
 (use-package org-bullets
+  :ensure t
   :after org
   :hook (org-mode . pew::org-bullets::on-enter)
 

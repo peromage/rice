@@ -14,16 +14,19 @@
   python-mode)
 
 (use-package cmake-mode
+  :ensure t
   :defer t
   :custom
   cmake-tab-width 4)
 
 (use-package lua-mode
+  :ensure t
   :defer t
   :custom
   (lua-indent-level 2))
 
 (use-package cc-mode
+  :ensure nil
   :defer t
   :hook ((c-mode . pew::cc-mode::on-enter)
          (c++-mode . pew::cc-mode::on-enter))
@@ -50,6 +53,7 @@
                 c-auto-align-backslashes t)))
 
 (use-package markdown-mode
+  :ensure t
   :defer t
   :hook (markdown-mode . pew::markdown-mode::on-enter)
   :preface
@@ -58,6 +62,7 @@
     (pewlib::editor::as-text-mode)))
 
 (use-package plantuml-mode
+  :ensure t
   :defer t
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
@@ -75,6 +80,7 @@
   (pew::org::add-babel-load-languages '((plantuml . t))))
 
 (use-package graphviz-dot-mode
+  :ensure t
   :defer t
   :mode (("\\.dot\\'" . graphviz-dot-mode)
          ("\\.gv\\'" . graphviz-dot-mode))
@@ -89,6 +95,7 @@
   (pew::org::add-babel-load-languages '((dot . t))))
 
 (use-package mermaid-mode
+  :ensure t
   :defer t
   :mode (("\\.mmd\\'" . mermaid-mode))
   :custom
@@ -105,6 +112,7 @@
 
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
+  :ensure t
   :after (:all org mermaid-mode))
 
 (pewcfg::use-package-fragment org

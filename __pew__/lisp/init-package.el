@@ -34,7 +34,7 @@
 (setq package-vc-default-backend 'Git)
 
 ;; `use-package.el' config
-(setq use-package-always-ensure t
+(setq use-package-always-ensure nil
       use-package-always-defer nil
       use-package-always-demand nil
       use-package-always-pin nil

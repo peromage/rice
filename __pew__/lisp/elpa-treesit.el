@@ -98,6 +98,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                 adaptive-fill-mode nil)))
 
 (use-package nix-ts-mode
+  :ensure t
   :custom
   (nix-ts-mode-indent-offset 2)
   :config

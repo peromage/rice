@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package vertico
+  :ensure t
   :demand t
   :bind ( :map vertico-map
           ("RET" . vertico-directory-enter)
@@ -37,6 +38,7 @@
   (vertico-multiform-mode 1))
 
 (use-package consult
+  :ensure t
   :demand t
   :bind ( ("C-s" . consult-line)
           ("C-x b" . consult-buffer)
@@ -108,6 +110,7 @@ ARGS should be a string of arguments passed to ripgrep."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
 (use-package marginalia
+  :ensure t
   :demand t ;; :bind would cause lazy loading which is not we expect
   :bind ( :map vertico-map
           ("M-m" . marginalia-cycle) )
@@ -116,6 +119,7 @@ ARGS should be a string of arguments passed to ripgrep."
   (marginalia-mode 1))
 
 (use-package orderless
+  :ensure t
   :demand t
   :custom
   ;; (completion-category-overrides nil) ;; To use orderless exclusively
@@ -131,6 +135,7 @@ ARGS should be a string of arguments passed to ripgrep."
           (completion-styles (nconc '(orderless) completion-styles))))
 
 (use-package embark
+  :ensure t
   :hook (embark-collect-mode . pew::embark::on-enter-collect-mode)
   :bind ( ([remap describe-bindings] . embark-bindings)
           :map pew::M-u-map
@@ -149,9 +154,11 @@ ARGS should be a string of arguments passed to ripgrep."
     (setq-local show-trailing-whitespace nil)))
 
 (use-package embark-consult
+  :ensure t
   :after (:all consult embark))
 
 (use-package wgrep
+  :ensure t
   :after (:all consult embark))
 
 (provide 'elpa-minibuffer-vertico)
