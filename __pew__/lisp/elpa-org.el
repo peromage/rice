@@ -9,7 +9,6 @@
   :ensure t ;; Keep the package up-to-date
   :commands org-mode
   :hook (org-babel-after-execute . pew::org::refresh-images)
-
   :custom
   ;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
@@ -197,7 +196,6 @@ Otherwise the cursor is placed at the beginning of the heading."
   :ensure t
   :after org
   :hook (org-mode . pew::org-bullets::on-enter)
-
   :preface
   (defun pew::org-bullets::on-enter ()
     "`org-bullets' initialization."

@@ -17,7 +17,6 @@
           ("M-3" . vertico-multiform-flat)
           ("M-4" . vertico-multiform-reverse)
           ("M-5" . vertico-multiform-unobtrusive) )
-
   :custom
   ;; Default views for different commands/results
   ;; NOTE: `vertico-multiform-commands' takes precedence over `vertico-multiform-categories'
@@ -56,7 +55,6 @@
           ([remap evil-show-marks] . consult-mark)
           :map minibuffer-local-map
           ("M-h" . consult-history) )
-
   :custom
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
@@ -76,7 +74,6 @@
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
-
    consult-line
    consult-line-multi
    consult-outline
@@ -114,7 +111,6 @@ ARGS should be a string of arguments passed to ripgrep."
   :demand t ;; :bind would cause lazy loading which is not we expect
   :bind ( :map vertico-map
           ("M-m" . marginalia-cycle) )
-
   :config
   (marginalia-mode 1))
 
@@ -143,7 +139,6 @@ ARGS should be a string of arguments passed to ripgrep."
           ("e d" . embark-dwim)
           ("e e" . embark-export)
           ("e c" . embark-collect) )
-
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 

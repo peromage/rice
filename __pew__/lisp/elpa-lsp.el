@@ -43,7 +43,6 @@
   (lsp-completion-provider :capf)
   ;; Other
   (lsp-log-io nil)
-
   ;; Language settings
   (lsp-clients-clangd-args '("-j=8"
                              "--background-index"
@@ -80,7 +79,6 @@ MODES is a list of major mode symbols."
           ("C-c l l" . lsp-ui-doc-glance)
           ("C-c l L" . lsp-ui-doc-show)
           ("C-c l j" . lsp-ui-doc-focus-frame) )
-
   :custom
   ;; Sideline
   (lsp-ui-sideline-enable t)
@@ -122,7 +120,6 @@ MODES is a list of major mode symbols."
   :defer t
   :custom
   (dap-python-executable "python3"))
-
 
 ;;; Language supports
 

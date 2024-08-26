@@ -8,7 +8,6 @@
   :bind ( :map pew::M-u-map
           ("g" . magit-status)
           ("G" . magit-file-dispatch) )
-
   :custom
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))

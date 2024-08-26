@@ -33,7 +33,6 @@
   :custom
   (yas-snippet-dirs (list (plist-get pew::path-plist :yas-template)))
   (yas-indent-line 'fixed)
-
   :config
   (yas-global-mode 1))
 
@@ -44,7 +43,6 @@
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib::editor::as-terminal-mode)
-
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
@@ -70,7 +68,6 @@ users to specify the shell to start with."
   :hook (treemacs-mode . pew::treemacs::on-enter)
   :bind ( :map treemacs-mode-map
           ("j" . treemacs-find-file) )
-
   :custom
   (treemacs-wrap-around nil)
   (treemacs-eldoc-display 'detailed)

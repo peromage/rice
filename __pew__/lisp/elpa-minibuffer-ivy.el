@@ -18,7 +18,6 @@
           ("C-c g" . counsel-ag)
           :map minibuffer-local-map
           ("C-r" . counsel-minibuffer-history) )
-
   :custom
   (ivy-use-virtual-buffers t)
   ;; enable this if you want `swiper' to use it
@@ -76,7 +75,6 @@
   :after (ivy projectile)
   :custom
   (projectile-completion-system 'ivy)
-
   :config
   (counsel-projectile-mode 1))
 

@@ -18,7 +18,6 @@
           ("RET" . corfu-insert)
           ("<return>" . corfu-insert)
           ("C-j" . pew::corfu::move-to-minibuffer) )
-
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -54,7 +53,6 @@
   (corfu-terminal-disable-on-gui t)
   (corfu-terminal-resize-minibuffer t)
   (corfu-terminal-enable-on-minibuffer t)
-
   :config
   (corfu-terminal-mode 1))
 
@@ -65,7 +63,6 @@
          (emacs-lisp-mode . pew::cape::on-elisp-mode)
          (lisp-data-mode . pew::cape::on-elisp-mode)
          (eshell-mode . pew::cape::on-eshell-mode))
-
   :bind ( :map pew::M-c-map
           ("p"  . completion-at-point)
           ("t"  . complete-tag)

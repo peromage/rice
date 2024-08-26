@@ -11,7 +11,6 @@
           ("TAB" . company-complete-common-or-cycle)
           ("C-c" . company-complete-selection)
           ("C-k" . company-abort) )
-
   :custom
   (company-tooltip-align-annotations t)
   (company-tooltip-limit 10)
