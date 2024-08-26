@@ -3,6 +3,16 @@
 ;; Author:  Fang Deng <fang@elfang.com>
 
 ;;; Commentary:
+
+;; How to add new keyword supports:
+;; 1. Define a function named 'pewcfg::normalize--:KEYWORD', which takes a list
+;; of forms specified after the keyword in `pewcfg', and returns a list of forms.
+;; Each form in the list contains arguments for the generate function in the
+;; next step.
+;; 2. Define a function named 'pewcfg::generate--:KEYWORD', which takes arguments
+;; from the previous step, and returns a list of forms that can be evaluated at
+;; execution time.
+
 ;;; Code:
 
 (require 'subr-x)
