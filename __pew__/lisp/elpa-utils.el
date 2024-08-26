@@ -138,8 +138,11 @@ users to specify the shell to start with."
   (setq keycast-substitute-alist (nconc '((self-insert-command "." "Typing...")
                                           (mouse-event-p nil)
                                           (mouse-movement-p nil)
-                                          (mwheel-scroll nil))
-                                   keycast-substitute-alist)))
+                                          (mouse-set-point nil)
+                                          (mouse-drag-region nil)
+                                          (mwheel-scroll nil)
+                                          (handle-select-window nil))
+                                        keycast-substitute-alist)))
 
 (use-package which-key
   :ensure t
