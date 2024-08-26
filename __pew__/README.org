@@ -6,17 +6,15 @@ A minimalist's Emacs configuration.
 #+end_quote
 
 * About
-This is my personal Emacs configuration.  Be aware that it might not fit your needs.
+My Emacs configuration.  It is heavily tweaked for my personal taste so use it cautions.
 
-This configuration intends to be as minimal as possible so it prioritizes using Emacs built-in functionalities.
+This configuration intends to be as minimal as possible so Emacs built-in functionalities are preferred.
 
-The file structure was borrowed from [[https://github.com/purcell/emacs.d][Steve Purcell]]'s Emacs configuration.
-
-* Features
+* Perks
 - Lightweight and modular
 - Respect vanilla Emacs keybindings (=evil-mode= only enabled in editing buffers)
 - Terminal friendly
-- Emacs 28+ only
+- Emacs 29+ only
 
 * Get Started
 Simply clone to the canonical Emacs configuration location.
@@ -27,99 +25,50 @@ git clone https://github.com/peromage/rice.git ~/.emacs.d
 
 Or load it along with your personal configuration.
 
-#+begin_src bash
-git clone https://github.com/peromage/rice.git ~/rice
-#+end_src
-
-In your =.emacs= or =~/.emacs.d/init.el=,
-
 #+begin_src elisp
 (load-file "~/rice/init.el")
+#+end_src
+
+Load the mini config.
+
+#+begin_src bash
+emacs -Q -l ~/rice/init-mini.el
 #+end_src
 
 Disposable changes are stored in =custom.el= at the root of this config directory.
 
 * Key Bindings
-** Major Keybindings
-=evil-mode= is enabled for editing buffers and outside of it the key bindings are kept in a vanilla fashion.
+=evil-mode= is enabled for editing buffers and outside of it the key bindings are kept in a vanilla fashion.  The reason is, I find that configuring every buffer to Vim style is exhausting and if I want to do that I would probably use Doom Emacs already.  And vanilla Emacs key bindings work consistently in shell.
 
-In =evil-mode= the =SPC= is bound to =pewkey-map= where my personal key bindings go.
+In =evil-mode= the =SPC= is bound to =pewkey-map= where my major personal key bindings go.
 
 This keymap can be activated via =pewkey= command as well.  When it is activated, =pewkey-map= becomes a transient map and exits after any command invoked in it.
 
-=pewkey= supports repeat mode.  Unlike =repeat-mode= it is still a transient keymap.  A universal argument can be passed to =pewkey= to enable repeat mode or press =C-h= to enable it while =pewkey-map= is active.  Use =C-g= to exit.
+=pewkey= supports repeat mode.  Use =C-r= to enable while the keymap is activated and use =C-g= to exit.  I don't use the new =repeat-mode= because it doesn't work well with my workflow.
 
 Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-config.el][init-config.el]] for details.
 
-My personal key bindings mostly are bound in =pewkey-map=. It can be activated by =pewkey=.
-
 ** A Brief List of Keybindings
-Global
-
-| Key         | Command                                                       | Definition                                                    |
-|-------------+---------------------------------------------------------------+---------------------------------------------------------------|
-| =C-z=       | =pewkey=                                                      | [[./lisp/init-config.el][init-config.el]]                     |
-| =C-u C-z=   | =pewkey-repeat=                                               | [[./lisp/init-config.el][init-config.el]]                     |
-| =C-x b=     | Mini@@html:<b>@@B@@html:</b>@@uffer by =consult=              | [[./lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x g=     | Rip@@html:<b>@@G@@html:</b>@@rip by =consult=                 | [[./lisp/elpa-vertico.el][elpa-vertico.el]]                   |
-| =C-x m=     | Toggle @@html:<b>@@M@@html:</b>@@ode edit state (Evil)        | [[./lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-x C-m=   | Toggle global @@html:<b>@@M@@html:</b>@@ode edit state (Evil) | [[./lisp/elpa-evil.el][elpa-evil.el]]                         |
-| =C-c l ...= | @@html:<b>@@L@@html:</b>@@SP by =lsp-mode=                    | [[./lisp/elpa-lsp.el][elpa-lsp.el]]                           |
-| =M-c ...=   | @@html:<b>@@C@@html:</b>@@ompletion                           | [[./lisp/elpa-completion-corfu.el][elpa-completion-corfu.el]] |
-| =M-u g ...= | @@html:<b>@@G@@html:</b>@@it by =magit=                       | [[./lisp/elpa-git.el][elpa-git.el]]                           |
-| =M-u w=     | Jump @@html:<b>@@W@@html:</b>@@indow by =ace-window=          | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u f=     | @@html:<b>@@F@@html:</b>@@ind character by =avy-goto-char=    | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u j=     | @@html:<b>@@J@@html:</b>@@ump to line by =avy-goto-line=      | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
-| =M-u ''=    | Separate edit by =separedit=                                  | [[./lisp/elpa-utils.el][elpa-utils.el]]                       |
-
-Evil
-
-| Key (normal and visual state) | Command      |
-|-------------------------------+--------------|
-| =RET=                         | Leader       |
-| =DEL=                         | Local leader |
-| =SPC=                         | =pewkey=     |
-
-See [[./lisp/elpa-evil.el][elpa-evil.el]] for Evil bindings.
-
-** Available Key Prefixes
-The following key prefixes are cleared and available for binding since they are less used in general.  The original bindings can be accessed in =pewkey-map=.
-
-| Prefix | Map            | Intention  |
-|--------+----------------+------------|
-| =M-o=  | =pew::M-o-map= | Minibuffer |
-| =M-t=  | =pew::M-t-map= |            |
-| =M-c=  | =pew::M-c-map= | Completion |
-| =M-u=  | =pew::M-u-map= | Utilities  |
-| =M-l=  | =pew::M-l-map= |            |
-| =M-z=  | =pew::M-z-map= |            |
-| =M-q=  | =pew::M-q-map= |            |
-| =M-h=  | =pew::M-h-map= |            |
+| Key       | Command / Keymap  | Context                  | Notes               | Definition                                |
+|-----------+-------------------+--------------------------+---------------------+-------------------------------------------|
+| =C-z=     | =pewkey=          | Any                      | My major keymap     | [[./lisp/init-config.el][init-config.el]] |
+| =C-z C-r= | =pewkey-repeat=   | Any                      |                     | [[./lisp/init-config.el][init-config.el]] |
+| =RET=     | Evil leader       | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
+| =DEL=     | Evil local leader | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
+| =SPC=     | =pewkey=          | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
+| =M-o=     | =pew::M-o-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =M-t=     | =pew::M-t-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =M-c=     | =pew::M-c-map=    | Any                      | Used for completion | [[./lisp/init-config.el][init-config.el]] |
+| =M-u=     | =pew::M-u-map=    | Any                      | Used for utilities  | [[./lisp/init-config.el][init-config.el]] |
+| =M-l=     | =pew::M-l-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =M-z=     | =pew::M-z-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =M-q=     | =pew::M-q-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =M-h=     | =pew::M-h-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
 
 * Fonts and Icons
 For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]] which is also the default font used by this configuration.
 
 For the first time setup, =nerd-icons-install-fonts= and =all-the-icons-install-fonts= should be run in order to ensure modeline and other parts to display properly.
-
-* Side Notes (for myself)
-** Naming Conventions
-This is a complicated topic but I'll try making my points with much sense.
-
-For the namespace, personally, I don't like the Emacs traditional naming convention which uses a =-= to separate the package name and the function/variable name.  Since the tradition also uses the same =-= to separate words, say if the function/variable name has more than one word, it will later on make it hard to distinguish these two parts.  I prefer using =::= because it's a second nature if you're familiar C/C++.  Also I feel this is more visual appealing.
-
-I used to use a prefix for =let= bound variables to distinguish them from names from outer scope, but eventually removed them.  This is because I found that it was contradictory to my convention in other programming languages.  Clearly, in most of the cases I don't actually care about if my local names conflict outer scope names.  They get shadowed anyway.  Except some impure functions whose behavior are affected by certain global variables, in that case, I must be aware that I'm overriding them by intention.  Also, using a consistent style (no prefixing) for all variables makes less mind burden whiling coding stuff (no worry about the format).
-
-This is totally a personal taste.  There are a lot discussions about the naming convention.  Especially I think Xah Lee has very comprehensive articles.  I recommend to read them.
-
-- [[http://xahlee.info/emacs/misc/elisp_dollar_sign_name.html][Emacs Lisp: What is DOLLAR Sign $var and AT Sign @var, in Variable Names]]
-- [[http://xahlee.info/emacs/misc/elisp_naming_convention.html][Emacs Lisp Naming Convention]]
-- [[http://xahlee.info/comp/sigil_for_function_parameter_names.html][Sigil for Variable Names]]
-- [[http://xahlee.info/comp/programing_variable_naming.html][Variable Naming: English Words Considered Harmful]]
-
-Note: The [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Shorthands.html][shorthands]] is a good practice to simplify naming things, too.
-
-** use-package Keyword Order
-No strict order but I prefer to put =:custom= =:init= and =:config= at the end of declaration in this order, since they consist of the most part of a package configuration.
 
 * Acknowledgment
 This configuration is inspired by
