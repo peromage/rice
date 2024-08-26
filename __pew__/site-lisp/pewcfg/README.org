@@ -22,8 +22,12 @@ Here is a list of keywords.
 | ~:automode~     | Set auto mode triggers.                                               |
 | ~:eval~         | Evaluate forms.                                                       |
 | ~:eval-after~   | Evaluate forms after the feature is loaded.                           |
+| ~:vcpkg~        | Install packages from version control sources                       |
 
 Check out =pewcfg::keywords= for more.
 
 * pewcfg::use-package
 A simple wrapper of =use-package=.  The syntax is identical to =use-package=.  However, when a keyword that starts with =:init/= or =:config/= the block will be replaced with =pewcfg= with whatever keyword after these prefix.
+
+* TO-DO
+- [ ] Performance optimization
