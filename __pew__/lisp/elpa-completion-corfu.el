@@ -56,14 +56,6 @@
   :config
   (corfu-terminal-mode 1))
 
-(use-package kind-icon
-  :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
 (use-package cape
   :after corfu
   :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)
