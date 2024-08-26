@@ -2,6 +2,24 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; Lazy loadeding for these packages
+(pewcfg::use-package-defer-list
+  ;; Colors schemes
+  doom-themes
+  spacemacs-theme
+  dracula-theme
+  moe-theme
+  catppuccin-theme
+  monokai-theme
+  ;; From https://protesilaos.com/
+  modus-themes
+  ef-themes
+  ;; Fonts and icons
+  all-the-icons
+  nerd-icons)
+
+;;; Modelines
+
 (use-package doom-modeline
   :disabled
   :demand t
@@ -17,24 +35,23 @@
           (doom-modeline-unicode-fallback)))
 
 (use-package prot-modeline
-  :demand t
-  :ensure nil)
+  :ensure nil ;; site-lisp
+  :demand t)
 
-;; Lazy loadeding for these packages
-(pewcfg::use-package-defer-list
-  ;; Colors schemes
-  doom-themes
-  spacemacs-theme
-  dracula-theme
-  moe-theme
-  catppuccin-theme
-  monokai-theme
-  ;; From https://protesilaos.com/
-  modus-themes
-  ef-themes
-  ;; Fonts and icons
-  all-the-icons
-  nerd-icons)
+;;; Misc
+
+(use-package spacious-padding
+  :demand t
+  :custom
+  (spacious-padding-subtle-mode-line t)
+  :config
+  (spacious-padding-mode 1))
+
+(use-package nerd-icons-completion
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
+
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 ;; Setup functions for convenience
 (defun pew::install-fonts ()
