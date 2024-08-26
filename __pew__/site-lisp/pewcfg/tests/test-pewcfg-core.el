@@ -316,7 +316,16 @@
 
   (expect-equal "Test :eval-after: Generate"
     '((with-eval-after-load 'foo (bar a) (baz b)))
-    (pewcfg::generate--:eval-after 'foo '(bar a) '(baz b))))
+    (pewcfg::generate--:eval-after 'foo '(bar a) '(baz b)))
+
+  (expect-equal "Test :vcpkg: Normalize"
+    '(("foobar/foo" "master"))
+    (pewcfg::normalize--:vcpkg '(("foobar/foo" "master"))))
+
+  (expect-equal "Test :vcpkg: Generate"
+    '((unless (package-installed-p 'foo)
+        (package-vc-install (list 'foo :url "https://www.github.com/foobar/foo" :branch "master" :vc-backend 'Git))))
+    (pewcfg::generate--:vcpkg "foobar/foo" "master")))
 
 (provide 'test-pewcfg-core)
 ;;; test-pewcfg-core.el ends here

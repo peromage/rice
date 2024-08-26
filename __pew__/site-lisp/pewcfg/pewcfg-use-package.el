@@ -69,24 +69,5 @@ The ARGS is the same with normal `use-package'."
   (declare (indent 1))
   `(use-package ,name :ensure nil :defer t ,@args))
 
-;;; Facility functions
-(defun pewcfg::use-package-vc-install (repo rev &optional fetcher name backend)
-  "Install package from a VC source.
-This is a wrapper of `package-vc-install'.
-REPO is the name of the repository including owner, e.g. \"peromage/rice\".
-FETCHER is the remote where to get the package.  Default to \"github\".
-NAME, REV, BACKEND are the specs described in `package-vc-selected-packages'.
-
-NOTE: The package can't be upgraded along with normal package update.  The old
-package must be deleted before installing a new version, assuming the REV is not
-pinned to a specific revision.
-
-See: https://tony-zorman.com/posts/package-vc-install.html"
-  (let ((url (format "https://www.%s.com/%s" (or fetcher "github") repo))
-        (name (or name (intern (file-name-base repo))))
-        (backend (or backend 'Git)))
-    (unless (package-installed-p name)
-      (package-vc-install (list name :url url :branch rev :vc-backend backend)))))
-
 (provide 'pewcfg-use-package)
 ;;; pewcfg-use-package.el ends here
