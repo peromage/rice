@@ -79,7 +79,7 @@
   (nerd-icons-install-fonts :silent))
 
 ;; Default looking
-(pewlib::debug::load-theme 'dracula)
+(pewlib::debug::load-theme 'modus-vivendi)
 
 (provide 'elpa-ui)
 ;;; elpa-ui.el ends here
