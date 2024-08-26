@@ -33,6 +33,14 @@
   (display-line-numbers-mode -1)
   (set-fill-column -1))
 
+(defun /ns/as-prog-mode ()
+  "Common setup for programming modes."
+  (outline-minor-mode 1)
+  (electric-indent-local-mode 1)
+  (electric-pair-local-mode 1)
+  (electric-quote-local-mode -1)
+  (electric-layout-local-mode -1))
+
 (provide 'pewlib-editor)
 ;;; pewlib-editor.el ends here
 

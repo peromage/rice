@@ -250,8 +250,8 @@
 ;;;; electric
   (electric-pair-preserve-balance t)
   (electric-pair-delete-adjacent-pairs t)
-  (electric-indent-mode t)
-  (electric-pair-mode t)
+  (electric-indent-mode nil)
+  (electric-pair-mode nil)
   (electric-quote-mode nil)
   (electric-layout-mode nil)
 
@@ -426,6 +426,10 @@
 
 ;;; Mode hooks
   :hook
+  ;; Basic modes
+  (prog-mode-hook . pewlib::editor::as-prog-mode)
+  (text-mode-hook . pewlib::editor::as-text-mode)
+
   ;; Make shell clean
   (eshell-mode-hook . pewlib::editor::as-terminal-mode)
   (shell-mode-hook . pewlib::editor::as-terminal-mode)
@@ -438,9 +442,6 @@
 
   ;; Don't spawn new windows
   (grep-mode-hook . pewlib::workspace::reuse-window-in-buffer)
-
-  ;; Enable folding
-  (prog-mode-hook . outline-minor-mode)
 
   ;; Show less in Dired
   (dired-mode-hook . dired-hide-details-mode)

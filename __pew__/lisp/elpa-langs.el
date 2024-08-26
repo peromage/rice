@@ -12,6 +12,7 @@
 (use-package csharp-mode :ensure t :defer t)
 (use-package powershell :ensure t :defer t)
 (use-package python-mode :ensure t :defer t)
+(use-package markdown-mode :ensure t :defer t)
 
 ;;; Common
 
@@ -53,15 +54,6 @@
                 c-backslash-column 80
                 c-backslash-max-column 160
                 c-auto-align-backslashes t)))
-
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :hook (markdown-mode . pew::markdown-mode::on-enter)
-  :preface
-  (defun pew::markdown-mode::on-enter ()
-    "`markdown-mode' initialization."
-    (pewlib::editor::as-text-mode)))
 
 (use-package plantuml-mode
   :ensure t

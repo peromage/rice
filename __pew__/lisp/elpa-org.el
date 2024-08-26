@@ -8,8 +8,7 @@
 (use-package org
   :ensure t ;; Keep the package up-to-date
   :commands org-mode
-  :hook ((org-mode . pew::org::on-enter)
-         (org-babel-after-execute . pew::org::refresh-images))
+  :hook (org-babel-after-execute . pew::org::refresh-images)
 
   :custom
   ;; Visual on startup
@@ -97,10 +96,6 @@
   :preface
   (defvar pew::org::marker--hidden nil
     "`org-mode' marker visibility.")
-
-  (defun pew::org::on-enter ()
-    "Org mode initial setup."
-    (pewlib::editor::as-text-mode))
 
   (defun pew::org::refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
