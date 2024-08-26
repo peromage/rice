@@ -29,7 +29,7 @@
 
 (use-package yasnippet
   :custom
-  (yas-snippet-dirs (list (plist-get pew::paths-plist :yas-template)))
+  (yas-snippet-dirs (list (plist-get pew::path-plist :yas-template)))
   (yas-indent-line 'fixed)
 
   :config

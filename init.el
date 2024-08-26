@@ -7,7 +7,7 @@
   (if (version< emacs-version min-ver)
       (error "[pew] Emacs version %s+ is required" min-ver)))
 
-(defvar pew::paths-plist
+(defconst pew::path-plist
   (let* ((root (file-name-directory load-file-name))
          (topLevel (expand-file-name "__pew__" root)))
     (list
@@ -22,12 +22,12 @@
 
 ;;; Emacs variables
 ;; Configurations from the interactive `customize' interfaces.
-(setq custom-file (plist-get pew::paths-plist :custom))
+(setq custom-file (plist-get pew::path-plist :custom))
 ;; This config
-(setq load-path (nconc (mapcar (lambda (k) (plist-get pew::paths-plist k))
+(setq load-path (nconc (mapcar (lambda (k) (plist-get pew::path-plist k))
                                '(:lisp :site-lisp))
                        load-path))
-(let ((default-directory (plist-get pew::paths-plist :site-lisp)))
+(let ((default-directory (plist-get pew::path-plist :site-lisp)))
   (normal-top-level-add-subdirs-to-load-path))
 
 
