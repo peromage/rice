@@ -633,6 +633,19 @@ Check if the `window-width' is less than `split-width-threshold'."
                 "  "
                 prot-modeline-misc-info))
 
+(with-eval-after-load 'spacious-padding
+  (defun prot/modeline-spacious-indicators ()
+    "Set box attribute to `'prot-modeline-indicator-button' if spacious-padding is enabled."
+    (if (bound-and-true-p spacious-padding-mode)
+        (set-face-attribute 'prot-modeline-indicator-button nil :box t)
+      (set-face-attribute 'prot-modeline-indicator-button nil :box 'unspecified)))
+
+  ;; Run it at startup and then afterwards whenever
+  ;; `spacious-padding-mode' is toggled on/off.
+  (prot/modeline-spacious-indicators)
+
+  (add-hook 'spacious-padding-mode-hook #'prot/modeline-spacious-indicators))
+
 (with-eval-after-load 'keycast
   (setq keycast-mode-line-insert-after 'prot-modeline-vc-branch))
 
