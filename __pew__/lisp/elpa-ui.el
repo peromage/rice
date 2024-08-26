@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package doom-modeline
+  :disabled
   :demand t
   :custom
   (doom-modeline-height 1)
@@ -14,6 +15,10 @@
   (doom-modeline-mode 1)
   (pewcfg :switch
           (doom-modeline-unicode-fallback)))
+
+(use-package prot-modeline
+  :demand t
+  :ensure nil)
 
 ;; Lazy loadeding for these packages
 (pewcfg::use-package-defer-list
