@@ -2,7 +2,15 @@
 
 ;; --- Fang's Notes ---
 ;; This package is extracted from Prot's configuration since I found it useful.
-;; There are some minor modifications to make it portable.
+;; There are some minor modifications to make it portable as well suit my personal
+;; needs.
+;;
+;; It seems like Prot dropped support for Evil mode and modeline indicators were
+;; completely removed at:
+;; https://github.com/protesilaos/dotfiles/tree/f8cd425b38833b6d1de7d8241b5ae763a9e4e1d9
+;;
+;; This extracted package is based on the last revision that has Evil support.
+;; https://github.com/protesilaos/dotfiles/tree/8124b717c2eae65b34957c9833dcd8908c1ca6f9
 ;; --------------------
 
 ;; Copyright (C) 2023  Protesilaos Stavrou
@@ -310,6 +318,77 @@ Specific to the current window's mode line.")
                     'mouse-face 'mode-line-highlight)))
   "Mode line construct for dedicated window indicator.")
 
+;;;; Evil state
+
+(defvar evil-state)
+(defvar evil-visual-selection)
+
+(defconst prot-modeline-evil-state-tags
+  '((normal     :short "<N>"   :long "NORMAL")
+    (insert     :short "<I>"   :long "INSERT")
+    (visual     :short "<V>"   :long "VISUAL")
+    (vblock     :short "<Vb>"  :long "VBLOCK")
+    (vline      :short "<Vl>"  :long "VLINE")
+    (vsline     :short "<Vsl>" :long "VSLINE")
+    (motion     :short "<M>"   :long "MOTION")
+    (emacs      :short "<E>"   :long "EMACS")
+    (operator   :short "<O>"   :long "OPERATE")
+    (replace    :short "<R>"   :long "REPLACE")
+    (prot-basic :short "<B>"   :long "BASIC"))
+  "Short and long tags for Evil states.")
+
+(defun prot-modeline--evil-get-tag (state variant)
+  "Get Evil STATE tag of VARIANT :short or :long.
+VARIANT of the state tag is either :short or :long, as defined in
+`prot-modeline-evil-state-tags'."
+  (let ((tags (alist-get state prot-modeline-evil-state-tags)))
+    (plist-get tags (or variant :short))))
+
+(defun prot-modeline--evil-get-format-specifier (variant)
+  "Return a `format' specifier for VARIANT.
+VARIANT of the state tag is either :short or :long, as defined in
+`prot-modeline-evil-state-tags'."
+  (if (eq variant :short)
+      " %-5s"
+    " %-8s"))
+
+(defun prot-modeline--evil-propertize-tag (state variant &optional face)
+  "Propertize STATE tag of VARIANT with optional FACE.
+VARIANT of the state tag is either :short or :long, as defined in
+`prot-modeline-evil-state-tags'.  If FACE is nil, fall back to
+`default'."
+  (propertize
+   (format (prot-modeline--evil-get-format-specifier variant) (prot-modeline--evil-get-tag state variant))
+   'face (or face 'mode-line)
+   'mouse-face 'mode-line-highlight
+   'help-echo (format "Evil `%s' state" state)))
+
+(defun prot-modeline-evil-state-tag (variant)
+  "Return mode line tag VARIANT depending on the Evil state.
+VARIANT of the state tag is either :short or :long, as defined in
+`prot-modeline-evil-state-tags'."
+  (pcase evil-state
+    ('normal (prot-modeline--evil-propertize-tag 'normal variant 'prot-modeline-indicator-blue))
+    ('insert (prot-modeline--evil-propertize-tag 'insert variant))  ; I don't actually use an "insert" state: it switches to "emacs"
+    ('visual (pcase evil-visual-selection
+               ('line (prot-modeline--evil-propertize-tag 'vline variant 'prot-modeline-indicator-yellow))
+               ('screen-line (prot-modeline--evil-propertize-tag 'vsline variant 'prot-modeline-indicator-yellow))
+               ('block (prot-modeline--evil-propertize-tag 'vblock variant 'prot-modeline-indicator-yellow))
+               (_ (prot-modeline--evil-propertize-tag 'visual variant 'prot-modeline-indicator-yellow))))
+    ('motion (prot-modeline--evil-propertize-tag 'motion variant 'prot-modeline-indicator-yellow))
+    ('emacs (prot-modeline--evil-propertize-tag 'emacs variant 'prot-modeline-indicator-magenta))
+    ('operator (prot-modeline--evil-propertize-tag 'operator variant 'prot-modeline-indicator-red))
+    ('replace (prot-modeline--evil-propertize-tag 'replace variant 'prot-modeline-indicator-red))
+    ('prot-basic (prot-modeline--evil-propertize-tag 'prot-basic variant 'prot-modeline-indicator-green))))
+
+(defvar-local prot-modeline-evil
+    '(:eval
+      (if (and (mode-line-window-selected-p) (bound-and-true-p evil-mode))
+          (let ((variant (if (prot-modeline--truncate-p) :short :long)))
+            (prot-modeline-evil-state-tag variant))
+        " "))
+  "Mode line construct to display the Evil state.")
+
 ;;;; Buffer name and modified status
 
 (defun prot-modeline-buffer-identification-face ()
@@ -478,7 +557,7 @@ than `split-width-threshold'."
 
 (defun prot-modeline--vc-get-face (key)
   "Get face from KEY in `prot-modeline--vc-faces'."
-   (alist-get key prot-modeline--vc-faces 'up-to-date))
+  (alist-get key prot-modeline--vc-faces 'up-to-date))
 
 (defun prot-modeline--vc-face (file backend)
   "Return VC state face for FILE with BACKEND."
@@ -528,12 +607,12 @@ TYPE is usually keyword `:error', `:warning' or `:note'."
         (propertize ,indicator 'face 'shadow)
         (propertize count
                     'face ',(or face type)
-                     'mouse-face 'mode-line-highlight
-                     ;; FIXME 2023-07-03: Clicking on the text with
-                     ;; this buffer and a single warning present, the
-                     ;; diagnostics take up the entire frame.  Why?
-                     'local-map prot-modeline-flymake-map
-                     'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
+                    'mouse-face 'mode-line-highlight
+                    ;; FIXME 2023-07-03: Clicking on the text with
+                    ;; this buffer and a single warning present, the
+                    ;; diagnostics take up the entire frame.  Why?
+                    'local-map prot-modeline-flymake-map
+                    'help-echo "mouse-1: buffer diagnostics\nmouse-3: project diagnostics")))))
 
 (prot-modeline-flymake-type error "☣")
 (prot-modeline-flymake-type warning "!")
@@ -590,6 +669,7 @@ Specific to the current window's mode line.")
                      prot-modeline-input-method
                      prot-modeline-buffer-status
                      prot-modeline-window-dedicated-status
+                     prot-modeline-evil
                      prot-modeline-buffer-identification
                      prot-modeline-major-mode
                      prot-modeline-process
@@ -601,37 +681,14 @@ Specific to the current window's mode line.")
                      prot-modeline-misc-info))
   (put construct 'risky-local-variable t))
 
+
+;;; --- Other dependencies ---
+
 (defun prot-common-window-narrow-p ()
   "Return non-nil if window is narrow.
 Check if the `window-width' is less than `split-width-threshold'."
   (and (numberp split-width-threshold)
        (< (window-total-width) split-width-threshold)))
-
-(setq mode-line-compact nil) ; Emacs 28
-(setq mode-line-right-align-edge 'right-margin) ; Emacs 30
-(setq-default mode-line-format
-              '("%e"
-                prot-modeline-kbd-macro
-                prot-modeline-narrow
-                prot-modeline-buffer-status
-                prot-modeline-window-dedicated-status
-                prot-modeline-input-method
-                "  "
-                prot-modeline-buffer-identification
-                "  "
-                prot-modeline-major-mode
-                prot-modeline-process
-                "  "
-                prot-modeline-vc-branch
-                "  "
-                prot-modeline-eglot
-                "  "
-                prot-modeline-flymake
-                "  "
-                mode-line-format-right-align ; Emacs 30
-                prot-modeline-notmuch-indicator
-                "  "
-                prot-modeline-misc-info))
 
 (with-eval-after-load 'spacious-padding
   (defun prot/modeline-spacious-indicators ()
@@ -648,6 +705,32 @@ Check if the `window-width' is less than `split-width-threshold'."
 
 (with-eval-after-load 'keycast
   (setq keycast-mode-line-insert-after 'prot-modeline-vc-branch))
+
+(setq mode-line-compact nil) ; Emacs 28
+(setq mode-line-right-align-edge 'right-margin) ; Emacs 30
+(setq-default mode-line-format
+              '("%e"
+                prot-modeline-kbd-macro
+                prot-modeline-narrow
+                prot-modeline-buffer-status
+                prot-modeline-window-dedicated-status
+                prot-modeline-input-method
+                prot-modeline-evil
+                prot-modeline-buffer-identification
+                "  "
+                prot-modeline-major-mode
+                prot-modeline-process
+                "  "
+                prot-modeline-vc-branch
+                "  "
+                prot-modeline-eglot
+                "  "
+                prot-modeline-flymake
+                "  "
+                mode-line-format-right-align ; Emacs 30
+                prot-modeline-notmuch-indicator
+                "  "
+                prot-modeline-misc-info))
 
 (provide 'prot-modeline)
 ;;; prot-modeline.el ends here
