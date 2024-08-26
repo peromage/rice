@@ -52,27 +52,7 @@
                       (eee 321)
                       :init/unittest
                       (foo 666)
-                      (bar 888))))
-
-  (expect-equal "Test pewcfg::use-package-defer-list: Normal expand"
-    '(progn (use-package foo :defer t)
-            (use-package bar :defer t)
-            (use-package baz :defer t))
-    (macroexpand-1 '(pewcfg::use-package-defer-list foo bar baz)))
-
-  (expect-equal "Test pewcfg::use-package-fragment: Normal expand"
-    '(use-package foo
-       :ensure nil
-       :defer t
-       :custom
-       (aaa val)
-       :config
-       (blah))
-    (macroexpand-1 '(pewcfg::use-package-fragment foo
-                      :custom
-                      (aaa val)
-                      :config
-                      (blah)))))
+                      (bar 888)))))
 
 (provide 'test-pewcfg-use-package)
 ;;; test-pewcfg-use-package.el ends here
