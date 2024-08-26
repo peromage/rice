@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Themes
-(defun pewlib::debug::load-theme (theme)
+(defun /ns/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '__PEW_LOAD_THEME__))
   (if (eq '__PEW_LOAD_THEME__ theme)
@@ -17,21 +17,21 @@
       (dolist (theme (cdr custom-enabled-themes))
         (disable-theme theme))))
 
-(defun pewlib::debug::find-font (&rest args)
+(defun /ns/find-font (&rest args)
   "Return a font object is it's found on the current system.
 ARGS is the same as the ones defined in `font-spec'.
 Return nil if no match."
   (find-font (apply 'font-spec args)))
 
 ;;; Lisp data file
-(defun pewlib::debug::load-data-file (file)
+(defun /ns/load-data-file (file)
   "Read the FILE and return a Lisp data object.
 Only the first list will be read."
   (read (with-temp-buffer
           (insert-file-contents file)
           (buffer-string))))
 
-(defun pewlib::debug::save-data-file (file obj)
+(defun /ns/save-data-file (file obj)
   "Save a Lisp data OBJ to the FILE.
 Existing content will be overwritten."
   (with-temp-file file
@@ -39,27 +39,27 @@ Existing content will be overwritten."
     (pp obj (current-buffer))))
 
 ;;; Debugging
-(defun pewlib::debug::reload-init-file ()
+(defun /ns/reload-init-file ()
   "Reload the config file."
   (interactive)
   (load-file user-init-file))
 
-(defun pewlib::debug::open-init-file ()
+(defun /ns/open-init-file ()
   "Open the config file."
   (interactive)
   (find-file user-init-file))
 
-(defun pewlib::debug::display-keycode (keycode)
+(defun /ns/display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun pewlib::debug::display-buffer-path ()
+(defun /ns/display-buffer-path ()
   "Display current file path in the minibuffer."
   (interactive)
   (message buffer-file-name))
 
-(defun pewlib::debug::display-mode-inheritance (mode)
+(defun /ns/display-mode-inheritance (mode)
   "Display current major mode inheritance in the minibuffer.
 If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
@@ -77,3 +77,7 @@ If MODE is any non-nill value other than '(4), that mode name will be used."
 
 (provide 'pewlib-debug)
 ;;; pewlib-debug.el ends here
+
+;; Local Variables:
+;; read-symbol-shorthands: (("/ns/" . "pewlib::debug::"))
+;; End:

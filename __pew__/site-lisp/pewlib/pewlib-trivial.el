@@ -8,7 +8,7 @@
 
 ;;; Code:
 ;;; Paths
-(defun pewlib::trivial::normalize-path (base &optional component follow)
+(defun /ns/normalize-path (base &optional component follow)
   "Normalize path BASE by removing relative representations.
 If BASE is a relative path the result will be a path which is relative to the
 current path.
@@ -19,14 +19,14 @@ resolved."
     (if follow (file-truename result) result)))
 
 ;;; String functions
-(defun pewlib::trivial::file-to-string (path)
+(defun /ns/file-to-string (path)
   "Read the file content at PATH and return a string.
 From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
   (with-temp-buffer
     (insert-file-contents path)
     (buffer-string)))
 
-(defun pewlib::trivial::file-to-string-lines (path)
+(defun /ns/file-to-string-lines (path)
   "Read the file content at PATH and return a list of lines.
 From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
   (with-temp-buffer
@@ -34,40 +34,40 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
     (split-string (buffer-string) "\n" t)))
 
 ;;; Number functions
-(defun pewlib::trivial::evenp (num)
+(defun /ns/evenp (num)
   "Determine if NUM is odd."
   (zerop (mod num 2)))
 
-(defun pewlib::trivial::oddp (num)
+(defun /ns/oddp (num)
   "Determine if NUM is odd."
-  (not (pewlib::trivial::evenp num)))
+  (not (/ns/evenp num)))
 
 ;;; Data functions
-(defun pewlib::trivial::concat (strings &optional separator)
+(defun /ns/concat (strings &optional separator)
   "Joing a list of STRINGS with SEPARATOR delimited."
   (mapconcat #'identity strings separator))
 
-(defun pewlib::trivial::tolist (x)
+(defun /ns/tolist (x)
   "Wrap input X in a list.
 If X is a list already, it is returned as is."
   (if (listp x) x (list x)))
 
-(defun pewlib::trivial::gethash (table &rest keys)
+(defun /ns/gethash (table &rest keys)
   "Access a hashtable TABLE recursively with a list of KEYS.
 This functions is similar to `gethash' but it allows user to specify a list of
 keys in one go.
 Especially useful when accessing a JSON object."
   (if (= 1 (length keys))
       (gethash (car keys) table)
-    (apply #'pewlib::trivial::gethash (gethash (car keys) table) (cdr keys))))
+    (apply #'/ns/gethash (gethash (car keys) table) (cdr keys))))
 
 ;;; Macro helpers
-(defmacro pewlib::trivial::swap (a b)
+(defmacro /ns/swap (a b)
   "Swap values in A and B.
 NOTE: A and B must be lvalues."
   `(setq ,a (prog1 ,b (setq ,b ,a))))
 
-(defmacro pewlib::trivial::expand-macro (form &optional step noprint)
+(defmacro /ns/expand-macro (form &optional step noprint)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
@@ -90,3 +90,7 @@ out in the message buffer."
 
 (provide 'pewlib-trivial)
 ;;; pewlib-trivial.el ends here
+
+;; Local Variables:
+;; read-symbol-shorthands: (("/ns/" . "pewlib::trivial::"))
+;; End:

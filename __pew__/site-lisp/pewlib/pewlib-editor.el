@@ -6,16 +6,16 @@
 ;;; Code:
 
 ;;; In buffer
-(defun pewlib::editor::delete-trailing-whitespaces ()
+(defun /ns/delete-trailing-whitespaces ()
   "Clear trailing whitespaces in current buffer."
   (delete-trailing-whitespace (point-min) (point-max)))
 
-(defun pewlib::editor::indent-space-in-buffer ()
+(defun /ns/indent-space-in-buffer ()
   "Use spaces for indentation in buffer."
   (setq-local indent-tabs-mode nil
               tab-width 4))
 
-(defun pewlib::editor::as-terminal-mode ()
+(defun /ns/as-terminal-mode ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
               truncate-lines nil
@@ -25,7 +25,7 @@
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun pewlib::editor::as-text-mode ()
+(defun /ns/as-text-mode ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)
@@ -35,3 +35,7 @@
 
 (provide 'pewlib-editor)
 ;;; pewlib-editor.el ends here
+
+;; Local Variables:
+;; read-symbol-shorthands: (("/ns/" . "pewlib::editor::"))
+;; End:
