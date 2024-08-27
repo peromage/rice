@@ -4,6 +4,7 @@
 
 (use-package copilot
   :ensure nil
+  :commands (copilot-mode global-copilot-mode)
   :init (pewcfg :vcpkg ("copilot-emacs/copilot.el" "main"))
   :bind ( :map copilot-completion-map
           ;; Avoid conflict with regular completion
