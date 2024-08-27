@@ -46,9 +46,8 @@
 (require 'elpa-completion-corfu)
 ;; (require 'elpa-minibuffer-ivy)
 (require 'elpa-minibuffer-vertico)
-(require 'elpa-git)
-(require 'elpa-org)
 (require 'elpa-utils)
+(require 'elpa-org)
 
 ;; Language supports
 (require 'elpa-langs)
