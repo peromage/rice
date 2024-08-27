@@ -398,7 +398,7 @@ VARIANT of the state tag is either :short or :long, as defined in
      ((and (mode-line-window-selected-p)
            file
            (buffer-modified-p))
-      '(italic mode-line-buffer-id))
+      '(bold-italic mode-line-buffer-id (:underline t)))
      ((and file (buffer-modified-p))
       'italic)
      ((mode-line-window-selected-p)
