@@ -48,6 +48,7 @@
 (require 'elpa-minibuffer-vertico)
 (require 'elpa-utils)
 (require 'elpa-org)
+(require 'elpa-copilot)
 
 ;; Language supports
 (require 'elpa-langs)
