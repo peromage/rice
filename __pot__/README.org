@@ -2,7 +2,7 @@
 #+author: Peromage
 
 #+begin_quote
-> Plain boring configurations
+> Plain boring configurations.
 #+end_quote
 
 * About
