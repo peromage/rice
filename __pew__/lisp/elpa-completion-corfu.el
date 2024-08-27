@@ -9,15 +9,15 @@
   :ensure t
   :demand t
   :bind ( :map corfu-map
-          ("TAB" . corfu-complete)
-          ("<tab>" . corfu-complete)
-          ("C-s" . corfu-insert-separator)
-          ("C-c" . corfu-insert)
-          ("C-k" . corfu-quit)
-          ("C-u" . corfu-reset)
-          ("RET" . corfu-insert)
+          ("TAB"      . corfu-complete)
+          ("<tab>"    . corfu-complete)
+          ("RET"      . corfu-insert)
           ("<return>" . corfu-insert)
-          ("C-j" . pew::corfu::move-to-minibuffer) )
+          ("C-j"      . corfu-expand)
+          ("C-c"      . corfu-insert)
+          ("C-s"      . corfu-insert-separator)
+          ("C-k"      . corfu-reset)
+          ("M-m"      . pew::corfu::move-to-minibuffer) )
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -34,9 +34,12 @@
   :config
   (defun pew::corfu::move-to-minibuffer ()
     (interactive)
-    (let ((completion-extra-properties corfu--extra)
-          completion-cycle-threshold completion-cycling)
-      (apply #'consult-completion-in-region completion-in-region--data)))
+    (pcase completion-in-region--data
+      (`(,beg ,end ,table ,pred ,extras)
+       (let ((completion-extra-properties extras)
+             completion-cycle-threshold completion-cycling)
+         (consult-completion-in-region beg end table pred)))))
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
 
   (define-advice pewlib::editor::as-terminal-mode (:after () pew::corfu::in-terminal)
     (setq-local corfu-auto nil))
