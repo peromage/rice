@@ -56,8 +56,8 @@
 (use-package ace-window
   :ensure t
   :bind ( :map pew::M-u-map
-          ("w"   . ace-window)
-          ("M-w" . ace-swap-window)) )
+          ("w" . ace-window)
+          ("W" . ace-swap-window)) )
 
 ;;; Git
 
