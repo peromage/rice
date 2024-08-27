@@ -13,7 +13,7 @@
           ("<tab>"    . corfu-complete)
           ("RET"      . corfu-insert)
           ("<return>" . corfu-insert)
-          ("C-j"      . corfu-expand)
+          ("C-j"      . corfu-insert)
           ("C-c"      . corfu-insert)
           ("C-s"      . corfu-insert-separator)
           ("C-k"      . corfu-reset)
