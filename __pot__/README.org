@@ -1,8 +1,8 @@
-#+title: DOTS - Peromage's DOTfileS
+#+title: POT - Peromage's dOTfiles
 #+author: Peromage
 
 #+begin_quote
-> I exhausted my idea for this slogan.
+> Plain boring configurations
 #+end_quote
 
 * About

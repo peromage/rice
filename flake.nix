@@ -49,7 +49,8 @@
         configDir = "configurations";
       in {
         ## Root directory can be accessed through `rice.outPath'
-        dotfiles = ./__dots__;
+        dotfiles = ./__pot__;
+        emacs = ./.;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
         nixosModules = pixTop "${moduleDir}/nixos.nix";

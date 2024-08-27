@@ -19,17 +19,17 @@
 !/__rice__/**
 
 ## Include dotfiles
-!/__dots__/
-!/__dots__/**
+!/__pot__/
+!/__pot__/**
 ## No local configs
-/__dots__/**/.bashrc-custom
-/__dots__/**/.bashrc-overlay
-/__dots__/**/profile-custom.ps1
-/__dots__/**/profile-overlay.ps1
-/__dots__/**/wezterm-custom.lua
-/__dots__/**/wezterm-overlay.lua
-/__dots__/**/tmux-custom.conf
-/__dots__/**/tmux-overlay.conf
+/__pot__/**/.bashrc-custom
+/__pot__/**/.bashrc-overlay
+/__pot__/**/profile-custom.ps1
+/__pot__/**/profile-overlay.ps1
+/__pot__/**/wezterm-custom.lua
+/__pot__/**/wezterm-overlay.lua
+/__pot__/**/tmux-custom.conf
+/__pot__/**/tmux-overlay.conf
 
 ## Include GitHub workflows
 !/.github/

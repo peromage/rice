@@ -44,4 +44,4 @@ The tracked directories are intentionally surrounded by underscores since there 
 
 - [[./__pew__][pew]]: Emacs configuration.
 - [[./__pix__][pix]]: NixOS configuration.
-- [[__dots__][dots]]: Daily driver configurations.
+- [[__pot__][pot]]: Daily driver configurations.
