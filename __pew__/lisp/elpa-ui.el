@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Lazy loadeding for these packages
+;;; Lazy loading for these packages
 
 ;; Colors schemes
 (use-package doom-themes :ensure t :defer t)

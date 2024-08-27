@@ -2,13 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Lazy loadeding for these packages
+;;; Lazy loading for these packages
 
 ;; Search
 (use-package rg :ensure t :defer t)
 ;; Focused view
 (use-package olivetti :ensure t :defer t)
-;; Nyanyanya!!!
+;; Cats!!!
 (use-package nyan-mode :ensure t :defer t)
 (use-package zone-nyan :ensure t :defer t)
 ;; Colorful parenthesises
@@ -20,13 +20,14 @@
 ;; Hyperbole
 (use-package hyperbole :ensure t :defer t)
 
-;;; Common
+;;; Editing
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
   :ensure t
   :commands (global-flycheck-mode flycheck-mode))
 
+;; TODO: Maybe use tempel?
 (use-package yasnippet
   :ensure t
   :custom
@@ -35,7 +36,65 @@
   :config
   (yas-global-mode 1))
 
-;; TODO: tempel
+(use-package separedit
+  :ensure t
+  :bind ( :map pew::M-u-map
+          ("'" . separedit-dwim)) )
+
+(use-package paredit
+  :ensure t
+  :hook ((lisp-interaction-mode . paredit-mode)
+         (emacs-lisp-mode . paredit-mode)
+         (lisp-data-mode . paredit-mode)))
+
+(use-package avy
+  :ensure t
+  :bind ( :map pew::M-u-map
+          ("f" . avy-goto-char)
+          ("j" . avy-goto-line)) )
+
+(use-package ace-window
+  :ensure t
+  :bind ( :map pew::M-u-map
+          ("w" . ace-window)
+          ("W" . ace-swap-window)) )
+
+;;; Git
+
+(use-package magit
+  :ensure t
+  :commands magit-status
+  :bind ( :map pew::M-u-map
+          ("g" . magit-status)
+          ("G" . magit-file-dispatch) )
+  :custom
+  ;; Don't use the default bindings under "C-x" prefix
+  (magit-define-global-key-bindings nil))
+
+(use-package git-gutter
+  :ensure t
+  :custom
+  (git-gutter:modified-sign "**")
+  (git-gutter:added-sign "++")
+  (git-gutter:deleted-sign "--")
+  (git-gutter:unchanged-sign nil)
+  (git-gutter:separator-sign nil)
+  (git-gutter:update-interval 2)
+  (git-gutter:visual-line nil)
+  (git-gutter:hide-gutter nil)
+  (git-gutter:verbosity 0)
+
+  :config
+  (global-git-gutter-mode 1)
+
+  (pewcfg :face
+          (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
+          (git-gutter:added      :foreground  "green"        :background  "unspecified")
+          (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
+          (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
+          (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")))
+
+;;; Panels
 
 (use-package vterm
   :ensure t
@@ -94,28 +153,7 @@ users to specify the shell to start with."
     (`(t . _)
      (treemacs-git-mode 'simple))))
 
-(use-package separedit
-  :ensure t
-  :bind ( :map pew::M-u-map
-          ("'" . separedit-dwim)) )
-
-(use-package paredit
-  :ensure t
-  :hook ((lisp-interaction-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode)
-         (lisp-data-mode . paredit-mode)))
-
-(use-package avy
-  :ensure t
-  :bind ( :map pew::M-u-map
-          ("f" . avy-goto-char)
-          ("j" . avy-goto-line)) )
-
-(use-package ace-window
-  :ensure t
-  :bind ( :map pew::M-u-map
-          ("w" . ace-window)
-          ("W" . ace-swap-window)) )
+;;; Interactive
 
 (use-package keycast
   :ensure t
