@@ -393,15 +393,20 @@ VARIANT of the state tag is either :short or :long, as defined in
 
 (defun prot-modeline-buffer-identification-face ()
   "Return appropriate face or face list for `prot-modeline-buffer-identification'."
-  (let ((file (buffer-file-name)))
+  (let* ((file (buffer-file-name))
+         (fileExists (and file (file-exists-p file)))
+         (fileModified (and file (buffer-modified-p)))
+         (selected (mode-line-window-selected-p)))
     (cond
-     ((and (mode-line-window-selected-p)
-           file
-           (buffer-modified-p))
-      '(bold-italic mode-line-buffer-id (:underline t)))
-     ((and file (buffer-modified-p))
-      '(italic (:underline t)))
-     ((mode-line-window-selected-p)
+     ((and selected file fileExists fileModified)
+      '((:underline t) bold-italic mode-line-buffer-id))
+     ((and selected file (not fileExists))
+      '((:strike-through t) mode-line-buffer-id))
+     ((and file fileExists fileModified)
+      '((:underline t) italic))
+     ((and file (not fileExists))
+      '((:strike-through t)))
+     (selected
       'mode-line-buffer-id))))
 
 (defun prot-modeline--buffer-name ()
