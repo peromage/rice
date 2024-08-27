@@ -25,7 +25,6 @@
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
   :ensure t
-  :defer t
   :commands (global-flycheck-mode flycheck-mode))
 
 (use-package yasnippet

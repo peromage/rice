@@ -30,7 +30,6 @@
 
 (use-package cc-mode
   :ensure nil
-  :defer t
   :hook ((c-mode . pew::cc-mode::on-enter)
          (c++-mode . pew::cc-mode::on-enter))
   :preface
@@ -57,7 +56,6 @@
 
 (use-package plantuml-mode
   :ensure t
-  :defer t
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
   :custom
@@ -74,7 +72,6 @@
 
 (use-package graphviz-dot-mode
   :ensure t
-  :defer t
   :mode (("\\.dot\\'" . graphviz-dot-mode)
          ("\\.gv\\'" . graphviz-dot-mode))
   :custom
@@ -89,8 +86,7 @@
 
 (use-package mermaid-mode
   :ensure t
-  :defer t
-  :mode (("\\.mmd\\'" . mermaid-mode))
+  :mode ("\\.mmd\\'" . mermaid-mode)
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
   :init
@@ -106,7 +102,7 @@
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
   :ensure t
-  :after mermaid-mode
+  :defer t
   :init
   (with-eval-after-load 'org
     (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))

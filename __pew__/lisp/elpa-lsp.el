@@ -129,7 +129,6 @@ MODES is a list of major mode symbols."
 
 (use-package lsp-pyright
   :ensure t
-  :defer t
   :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
   :custom
   (lsp-pyright-python-executable-cmd "python3")

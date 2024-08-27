@@ -99,6 +99,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 (use-package nix-ts-mode
   :ensure t
+  :mode ("\\.nix\\'" . nix-ts-mode)
   :custom
   (nix-ts-mode-indent-offset 2)
   :config
@@ -109,7 +110,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 (use-package kdl-ts-mode
   :ensure nil
-  :mode (("\\.kdl\\'" . kdl-ts-mode))
+  :mode ("\\.kdl\\'" . kdl-ts-mode)
   :init (pewcfg :vcpkg ("dataphract/kdl-ts-mode" "main")))
 
 (provide 'elpa-treesit)

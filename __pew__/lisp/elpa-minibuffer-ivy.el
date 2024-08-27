@@ -36,7 +36,7 @@
 
 (use-package ivy-rich
   :ensure t
-  :requires ivy
+  :after ivy
   :custom
   (ivy-rich-path-style 'abbrev)
 
@@ -61,7 +61,7 @@
 
 (use-package ivy-prescient
   :ensure t
-  :requires ivy
+  :after ivy
   :custom
   (ivy-prescient-enable-filtering nil)
 
@@ -72,7 +72,7 @@
 
 (use-package counsel-projectile
   :ensure t
-  :after (ivy projectile)
+  :after (:all ivy projectile)
   :custom
   (projectile-completion-system 'ivy)
   :config
@@ -80,7 +80,7 @@
 
 (use-package lsp-ivy
   :ensure t
-  :after (ivy lsp)
+  :after (:all ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 
 (provide 'elpa-minibuffer-ivy)
