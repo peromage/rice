@@ -196,6 +196,18 @@ place."
   (interactive)
   (recenter-other-window))
 
+(defun /ns/split-window-below ()
+  "Split windows and switch focus to the new one."
+  (interactive)
+  (split-window-below)
+  (other-window 1))
+
+(defun /ns/split-window-right ()
+  "Split windows and switch focus to the new one."
+  (interactive)
+  (split-window-right)
+  (other-window 1))
+
 ;;; Tabs
 (defun /ns/move-tab-next ()
   "Move current tab to the next."

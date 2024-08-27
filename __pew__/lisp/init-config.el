@@ -30,7 +30,7 @@
   (split-width-threshold 160 "80 columns minimal")
   (frame-resize-pixelwise t)
   (window-resize-pixelwise t)
-  (help-window-select nil "Always select the window")
+  (help-window-select t "Make it easier to switch between focused window")
   (window-divider-default-right-width 1)
   (window-divider-default-bottom-width 1)
   (window-divider-default-places t "Right and bottom")
@@ -284,8 +284,8 @@
 ;;;; Windows
    ("q" . pewlib::workspace::close-window)
    ("1" . delete-other-windows)
-   ("2" . split-window-below)
-   ("3" . split-window-right)
+   ("2" . pewlib::workspace::split-window-below)
+   ("3" . pewlib::workspace::split-window-right)
    ("9" . window-toggle-side-windows)
    ("0" . pewlib::workspace::close-window)
    ("o" . pewlib::workspace::next-window)
@@ -401,6 +401,10 @@
    ([remap previous-buffer] . pewlib::workspace::previous-editing-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
+
+   ;; Tweak default window split logic
+   ("C-x 2" . pewlib::workspace::split-window-below)
+   ("C-x 3" . pewlib::workspace::split-window-right)
 
    ;; Pewkey
    ("C-z" . pewkey-map)
