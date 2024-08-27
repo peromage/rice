@@ -39,15 +39,15 @@
 (use-package consult
   :ensure t
   :demand t
-  :bind ( ("C-s" . consult-line)
+  :bind ( ("C-s"   . consult-line)
           ("C-x b" . consult-buffer)
           ("C-x B" . consult-buffer-other-window)
           ("C-x F" . consult-find)
           ("C-x g" . consult-ripgrep)
           ("C-x G" . consult-git-grep)
-          ("C-x j" . consult-outline)
-          ("C-x l" . consult-imenu)
-          ("C-x L" . consult-flymake)
+          ("C-x l" . consult-outline)
+          ("C-x j" . consult-imenu)
+          ("C-x J" . consult-flymake)
           ([remap imenu] . consult-imenu)
           ([remap goto-line] . consult-goto-line)
           ([remap bookmark-jump] . consult-bookmark)

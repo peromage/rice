@@ -50,14 +50,14 @@
 (use-package avy
   :ensure t
   :bind ( :map pew::M-u-map
-          ("f" . avy-goto-char)
-          ("j" . avy-goto-line)) )
+          ("f"   . avy-goto-char)
+          ("M-f" . avy-goto-line)) )
 
 (use-package ace-window
   :ensure t
   :bind ( :map pew::M-u-map
-          ("w" . ace-window)
-          ("W" . ace-swap-window)) )
+          ("w"   . ace-window)
+          ("M-w" . ace-swap-window)) )
 
 ;;; Git
 
@@ -65,8 +65,8 @@
   :ensure t
   :commands magit-status
   :bind ( :map pew::M-u-map
-          ("g" . magit-status)
-          ("G" . magit-file-dispatch) )
+          ("g"   . magit-status)
+          ("M-g" . magit-file-dispatch) )
   :custom
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))

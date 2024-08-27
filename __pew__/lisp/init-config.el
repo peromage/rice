@@ -341,12 +341,17 @@
    ("C-x"   . exchange-point-and-mark)
    ("SPC"   . set-mark-command)
 
+;;;; Dabbrev completion
+   ("M-/"   . dabbrev-expand)
+   ("C-M-/" . dabbrev-completion)
+
 ;;;; Edit
    ("u" . undo)
    ("U" . undo-redo)
    (";" . comment-line)
    ("/" . isearch-forward-regexp)
-   ("," . isearch-query-replace-regexp)
+   ("." . isearch-query-replace-regexp)
+   ("=" . what-cursor-position)
 
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("C-=" . text-scale-adjust)
@@ -377,11 +382,11 @@
   (pew::M-t-map)
   (pew::M-c-map)
   (pew::M-u-map
-   ("c"   . org-capture)
-   ("a"   . org-agenda)
-   ("M-d" . flymake-mode)
+   ("a"   . org-capture)
+   ("M-a" . org-agenda)
    ("d"   . flymake-show-buffer-diagnostics)
-   ("D"   . flymake-show-project-diagnostics))
+   ("D"   . flymake-show-project-diagnostics)
+   ("M-d" . flymake-mode))
   (pew::M-l-map)
   (pew::M-z-map)
   (pew::M-q-map)
@@ -396,10 +401,6 @@
    ([remap previous-buffer] . pewlib::workspace::previous-editing-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
-
-   ;; Swap dabbrev default bindings
-   ("M-/" . dabbrev-completion)
-   ("C-M-/" . dabbrev-expand)
 
    ;; Pewkey
    ("C-z" . pewkey-map)
@@ -417,11 +418,11 @@
 
 ;;;; Dired
   (dired-mode-map
-   ("RET" . pewlib::extra::dired-go-to)
-   ("DEL" . pewlib::extra::dired-go-up)
-   ("f" . dired-find-file)
-   ("b" . dired-up-directory)
-   ("<left>" . dired-up-directory)
+   ("RET"     . pewlib::extra::dired-go-to)
+   ("DEL"     . pewlib::extra::dired-go-up)
+   ("f"       . dired-find-file)
+   ("b"       . dired-up-directory)
+   ("<left>"  . dired-up-directory)
    ("<right>" . dired-find-file))
 
 ;;; Mode hooks
