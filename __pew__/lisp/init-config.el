@@ -81,7 +81,7 @@
 ;;;; Line numbers
   (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode t)
+  ;; (global-display-line-numbers-mode t)
   (global-hl-line-mode t)
 
 ;;;; Minibuffers
@@ -138,9 +138,9 @@
   ;; Fill columns
   (fill-column 80)
   (adaptive-fill-mode nil)
-  (display-fill-column-indicator t)
-  (display-fill-column-indicator-column t)
-  (global-display-fill-column-indicator-mode t)
+  (display-fill-column-indicator-column t) ;; Use `fill-column' variable
+  ;; (display-fill-column-indicator t)
+  ;; (global-display-fill-column-indicator-mode t)
 
 ;;;; Encoding and locale
   (coding-system-for-write 'utf-8-unix)
