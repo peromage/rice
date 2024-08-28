@@ -81,7 +81,6 @@
 ;;;; Line numbers
   (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
-  ;; (global-display-line-numbers-mode t)
   (global-hl-line-mode t)
 
 ;;;; Minibuffers
@@ -122,12 +121,10 @@
   (completion-cycle-threshold nil "Always expand list")
   (completion-styles '(basic partial-completion))
   (completion-category-overrides '((file (styles basic partial-completion))))
-  ;; (icomplete-vertical-mode t) ;; May conflict with other completion framework
 
 ;;;; Whitespaces
   ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
   (whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark))
-  ;; (global-whitespace-mode t)
   (show-trailing-whitespace t) ;; Independent to `whitespace-mode'
   (require-final-newline t) ;; Add missing newline on save
 
@@ -139,8 +136,6 @@
   (fill-column 80)
   (adaptive-fill-mode nil)
   (display-fill-column-indicator-column t) ;; Use `fill-column' variable
-  ;; (display-fill-column-indicator t)
-  ;; (global-display-fill-column-indicator-mode t)
 
 ;;;; Encoding and locale
   (coding-system-for-write 'utf-8-unix)
