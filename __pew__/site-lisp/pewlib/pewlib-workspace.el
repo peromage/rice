@@ -22,7 +22,7 @@
      :ediff                (format star "[Ee]diff.*")
      :shell                (format star "\\w* *[Ss]hell")
      :terminal             (format star "\\w* *[Tt]erm\\(inal\\)?")
-     :org-starred          (format star "[Oo]rg ?.*")
+     :org-starred          (format star "\\([Oo]rg[-_ ]+.*\\|[Oo]rg\\)")
      :edit-indirect        (format star "edit-indirect .*")
      ;; Common buffers
      :scratch              (format star "[Ss]cratch")
