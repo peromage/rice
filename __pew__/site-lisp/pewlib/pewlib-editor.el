@@ -20,7 +20,8 @@
   (setq-local word-wrap nil
               truncate-lines nil
               truncate-partial-width-windows nil
-              show-trailing-whitespace nil)
+              show-trailing-whitespace nil
+              global-hl-line-mode nil) ;; Needed, blink otherwise
   (hl-line-mode -1)
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
