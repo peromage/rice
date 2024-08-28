@@ -79,7 +79,6 @@
                            mode-line-modes))
 
 ;;;; Line numbers
-  (display-line-numbers 'relative)
   (display-line-numbers-type 'relative)
   (global-hl-line-mode t)
 
