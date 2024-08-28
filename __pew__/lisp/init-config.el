@@ -20,9 +20,9 @@
   ;; Use `winner-undo' to revert the mess
   (display-buffer-alist `((,(pewlib::workspace::map-buffer-regex '(:shell :terminal) 'concat)
                            ,@(pewlib::workspace::side-window-actions 'bottom 0))
-                          (,(pewlib::workspace::map-buffer-regex '(:help :eldoc) 'concat)
+                          (,(pewlib::workspace::map-buffer-regex '(:help :eldoc :man :woman) 'concat)
                            ,@(pewlib::workspace::side-window-actions 'bottom 1))
-                          (,(pewlib::workspace::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command :tree-sitter-explorer :flymake-diagnostics :org-starred) 'concat)
+                          (,(pewlib::workspace::map-buffer-regex '(:message :backtrace :warning :log :compilation :output :command :tree-sitter-explorer :flymake-diagnostics :org-babel) 'concat)
                            ,@(pewlib::workspace::side-window-actions 'bottom 2))))
 
   ;; See `split-window-sensibly' and `window-splittable-p'
