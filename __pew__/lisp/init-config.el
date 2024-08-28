@@ -346,6 +346,7 @@
    ("/" . isearch-forward-regexp)
    ("." . isearch-query-replace-regexp)
    ("=" . what-cursor-position)
+   ("-" . ispell-word)
 
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("C-=" . text-scale-adjust)
