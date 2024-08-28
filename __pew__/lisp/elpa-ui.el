@@ -45,6 +45,13 @@
   :demand t
   :custom
   (spacious-padding-subtle-mode-line t)
+  (spacious-padding-widths '( :internal-border-width 3
+                              :header-line-width 3
+                              :mode-line-width 3
+                              :tab-width 3
+                              :right-divider-width 15
+                              :scroll-bar-width 6
+                              :fringe-width 9 ))
   :config
   (spacious-padding-mode 1))
 
