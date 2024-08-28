@@ -18,16 +18,20 @@
      :with-leading-space   "^ +"
      ;; Extension buffers
      :magit                "^ *[Mm]agit"
-     :vc                   (format star "[Vv][Cc]-.*")
-     :ediff                (format star "[Ee]diff.*")
-     :shell                (format star "\\w* *[Ss]hell")
-     :terminal             (format star "\\w* *[Tt]erm\\(inal\\)?")
-     :org-starred          (format star "\\([Oo]rg[-_ ]+.*\\|[Oo]rg\\)")
-     :edit-indirect        (format star "edit-indirect .*")
+     :vc                   (format star "[Vv][Cc][-_ ].+")
+     :ediff                (format star "[Ee]diff[-_ ].+")
+     :shell                (format star ".*[Ss]hell")
+     :terminal             (format star ".*[Tt]erm\\(inal\\)?")
+     :org-babel            (format star "[Oo]rg[-_ ][Bb]abel .+")
+     :org-src              (format star "\\([Oo]rg[-_ ][Ss]rc .+\\|[Oo]rg .+ [Ss]rc\\)")
+     :org-export           (format star "\\([Oo]rg[-_ ][Ee]xport .+\\|[Oo]rg .+ [Ee]xport\\)")
+     :org-starred          (format star "\\([Oo]rg[-_ ].+\\|[Oo]rg\\)") ;; Generic
+     :edit-indirect        (format star "edit-indirect[-_ ].+")
      ;; Common buffers
      :scratch              (format star "[Ss]cratch")
      :help                 (format star "[Hh]elp")
-     :man                  (format star "[Mm]an ?.*")
+     :man                  (format star "[Mm]an .+")
+     :woman                (format star "[Ww]o[Mm]an .+")
      :eldoc                (format star "[Ee]ldoc")
      :message              (format star "[Mm]essages?")
      :backtrace            (format star "[Bb]acktraces?")
@@ -36,8 +40,8 @@
      :compilation          (format star "[Cc]ompilations?")
      :output               (format star "[Oo]utputs?")
      :command              (format star "[Cc]ommands?")
-     :tree-sitter-explorer (format star "[Tt]ree-sitter explorer ?.*")
-     :flymake-diagnostics  (format star "[Ff]lymake diagnostics ?.*")))
+     :tree-sitter-explorer (format star "[Tt]ree-sitter [Ee]xplorer ?.*")
+     :flymake-diagnostics  (format star "[Ff]lymake [Dd]iagnostics ?.*")))
   "Buffer name patterns.")
 
 (defvar /ns/hidden-buffer-keywords
