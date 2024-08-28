@@ -44,7 +44,7 @@
           ("C-x B" . consult-buffer-other-window)
           ("C-x F" . consult-find)
           ("C-x g" . consult-ripgrep)
-          ("C-x G" . consult-git-grep)
+          ("C-x G" . consult-grep)
           ("C-x l" . consult-outline)
           ("C-x j" . consult-imenu)
           ("C-x J" . consult-flymake)
