@@ -12,8 +12,8 @@
           ("M-p" . copilot-previous-completion)
           ("M-k" . copilot-clear-overlay)
           ("M-j" . copilot-accept-completion)
-          ("M-w" . copilot-accept-completion-by-word)
-          ("M-y" . copilot-accept-completion-by-line) ))
+          ("M-f" . copilot-accept-completion-by-word)
+          ("M-e" . copilot-accept-completion-by-line) ))
 
 (provide 'elpa-copilot)
 ;;; elpa-copilot.el ends here
