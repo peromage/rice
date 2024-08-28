@@ -144,8 +144,8 @@ an advice."
                                             (image-mode . motion)
                                             (view-mode . motion))
                                            :name
-                                           ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect :org-starred) 'concat) . normal)
-                                            (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer) 'concat) . motion)))
+                                           ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect) 'concat) . normal)
+                                            (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-starred) 'concat) . motion)))
     "A plist to determine buffer initial state by different conditions.
 The precedence of the effectiveness is: Minor, Major, Name.")
 
