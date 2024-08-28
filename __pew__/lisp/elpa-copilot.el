@@ -1,5 +1,16 @@
 ;;; elpa-copilot.el --- GitHub Copilot -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;; Based on the README, Node.js v18+ must be installed as a prerequisite.
+;; For the first time installation, remember to invoke `copilot-install-server'
+;; to install corresponding NPM package.
+
+;; Known issues:
+;;
+;; - Cursor sometimes jumps to the end of Copilot prompt instead of the
+;; beginning.  As a result, the `copilot-completion-map' will not take effective.
+;; Workaround: Type the first a few letters to move the cursor to the right position.
+
 ;;; Code:
 
 (use-package copilot
