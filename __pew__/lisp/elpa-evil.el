@@ -47,86 +47,97 @@
   (evil-kill-on-visual-paste t)
   (evil-search-module 'evil-search)
   (evil-undo-system 'undo-redo)
-  ;; Initial state with less surprise
-  ;; Use my own initial state setter instead.
-  (evil-default-state 'pewinitial)
-  (evil-motion-state-modes nil)
-  (evil-normal-state-modes nil)
-  (evil-insert-state-modes nil)
-  (evil-visual-state-modes nil)
-  (evil-replace-state-modes nil)
-  (evil-operator-state-modes nil)
-  (evil-buffer-regexps nil)
 
   :config
 ;;; State hacks
-  (evil-define-state pewinitial
-    "A dummy state used to determine buffer initial Evil state.
-NOTE: This dummy state means to be an intermidiate state which transits to
-another legit Evil state immediately under different conditions.  Due to the
-limitation in which the state toggle function can't switch to another state,
-the body of this state toggle is empty and the actual transition is done by
-an advice."
-    :tag "PEWINIT"
-    :message "-- PEWINIT --")
+  ;; This is to implement a more flexible state dispatcher other than using Evil
+  ;; built-in matchers.
 
-  (defvar pew::evil::initial-state-plist `(:minor
-                                           ((view-mode . motion))
-                                           :major
-                                           ((messages-buffer-mode . motion)
-                                            (help-mode . motion)
-                                            (image-mode . motion)
-                                            (view-mode . motion))
-                                           :name
-                                           ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect) 'concat) . normal)
-                                            (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-starred) 'concat) . motion)))
+  (defvar pew::evil::initial-state-plist
+    `( :override nil
+       :minor ((view-mode . motion))
+       :major ((messages-buffer-mode . motion)
+               (help-mode . motion)
+               (image-mode . motion)
+               (view-mode . motion))
+       :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect) 'concat) . normal)
+              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-starred) 'concat) . motion)) )
     "A plist to determine buffer initial state by different conditions.
-The precedence of the effectiveness is: Minor, Major, Name.")
+Each property should have the following values.  The precedence is from highest
+to lowest.
+Whenever a rule matches, the evaluation is stopped and the buffer Evil state
+will change to that evaluated state.
+(:override (FUNC ...))
+(:minor ((BUFFER-MINOR-MODE . EVIL-STATE) ...))
+(:major ((BUFFER-MAJOR-MODE . EVIL-STATE) ...))
+(:name ((REGEX . EVIL-STATE) ...))
 
-  (define-advice evil-pewinitial-state (:after (&optional arg) pew::evil::initial-state)
+':override': A list of functions which are invoked under current buffer context
+one by one.  The function should return a valid Evil state symbol, like 'normal.
+This enables more complex logic when determining buffer initial state.
+':minor': A list of cons that maps buffer minor mode to Evil state.
+':major': A list of cons that maps buffer major mode to Evil state.
+':name': A list of cons that matches buffer name with regex in car with th
+Evil state in cdr.")
+
+  (evil-define-state pewinit
+    "A dummy state used to determine buffer initial Evil state.
+This dummy state means to be an intermidiate state which transits to another
+legit Evil state immediately upon different conditions."
+    :tag "<PEW>"
+    :message "-- PEWINIT --"
+    (if (evil-pewinit-state-p)
+        (add-hook 'post-command-hook #'pew::evil::dispatch-initial-state nil t)
+      (remove-hook 'post-command-hook #'pew::evil::dispatch-initial-state t)))
+
+  (defun pew::evil::dispatch-initial-state (&optional command)
     "Advice to alter `evil-pewinitial-state' toggle behavior.  This advice works
 in conjunction with the toggle to decide a buffer's initial Evil state.
 This is an advanced method to determine initial state rather than using
 `evil-set-initial-state' and `evil-buffer-regexps'."
-    (pcase arg
-      ;; Don't interfere toggle off.
-      ((and (pred numberp) (pred (> 1)))
-       nil)
+    (if (evil-pewinit-state-p)
+        (let ((state (or
+                      ;; Check override
+                      (save-excursion (named-let check ((list (plist-get pew::evil::initial-state-plist :override)))
+                                        (let ((f (car list)))
+                                          (if f (or (with-current-buffer (current-buffer) (funcall f))
+                                                    (check (cdr list)))
+                                            nil))))
+                      ;; Check minor mode
+                      ;; TODO: Potentially bugged due to the delay of the minor mode variable setting.
+                      (cdr-safe (seq-find (lambda (cons) (symbol-value (car cons)))
+                                          (plist-get pew::evil::initial-state-plist :minor)))
+                      ;; Check major mode
+                      (cdr-safe (seq-find (lambda (cons) (eq major-mode (car cons)))
+                                          (plist-get pew::evil::initial-state-plist :major)))
+                      ;; Check buffer name
+                      (cdr-safe (seq-find (lambda (cons) (string-match-p (car cons) (buffer-name)))
+                                          (plist-get pew::evil::initial-state-plist :name))))))
+          (cond
+           ;; Matched by rules
+           (state
+            (evil-change-state state))
+           ;; Visiting an actual file or a new editable buffer
+           ((or (buffer-file-name)
+                (and (string-match-p (pewlib::workspace::buffer-regex :non-starred) (buffer-name))
+                     (not buffer-read-only)))
+            (evil-change-state 'normal))
+           ;; Use Emacs default key bindings otherwise
+           (t
+            (evil-change-state 'emacs))))))
 
-      ;; State by rules
-      ((and (let state (cdr-safe (or
-                                  ;; State by minor mode
-                                  ;; TODO: Currently bugged due to the delay of the minor mode variable setting.
-                                  (seq-find
-                                   (lambda (cons)
-                                     (and (symbolp (car cons))
-                                          (symbol-value (car cons))))
-                                   (plist-get pew::evil::initial-state-plist :minor))
-                                  ;; State by major mode
-                                  (seq-find
-                                   (lambda (cons) (eq major-mode (car cons)))
-                                   (plist-get pew::evil::initial-state-plist :major))
-                                  ;; State by buffer name
-                                  (seq-find
-                                   (lambda (cons) (string-match-p (car cons) (buffer-name)))
-                                   (plist-get pew::evil::initial-state-plist :name)))))
-            (guard state))
-       (evil-change-state state))
+  ;; Clear Evil built-in rules
+  (setq evil-default-state 'pewinit
+        evil-emacs-state-modes nil
+        evil-motion-state-modes nil
+        evil-normal-state-modes nil
+        evil-insert-state-modes nil
+        evil-visual-state-modes nil
+        evil-replace-state-modes nil
+        evil-operator-state-modes nil
+        evil-buffer-regexps nil)
 
-      ;; General editable buffer
-      ((guard (or
-               ;; Visiting files
-               (buffer-file-name)
-               ;; New unsaved buffers
-               (and (string-match-p (pewlib::workspace::buffer-regex :non-starred) (buffer-name))
-                    (not buffer-read-only))))
-       (evil-change-state 'normal))
-
-      ;; Default buffer state
-      (_
-       (evil-change-state 'emacs))))
-
-;;; State tags (Cannot be set by customize)
+  ;; State tags
   (setq evil-emacs-state-tag         "[EM]"
         evil-normal-state-tag        "[NO]"
         evil-insert-state-tag        "[IN]"
