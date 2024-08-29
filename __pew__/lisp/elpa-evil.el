@@ -60,8 +60,8 @@
                (help-mode . motion)
                (image-mode . motion)
                (view-mode . motion))
-       :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect) 'concat) . normal)
-              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-starred) 'concat) . motion)) )
+       :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect :org-src :org-export) 'concat) . normal)
+              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)) )
     "A plist to determine buffer initial state by different conditions.
 Each property should have the following values.  The precedence is from highest
 to lowest.
