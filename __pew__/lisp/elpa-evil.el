@@ -59,73 +59,7 @@
   (evil-buffer-regexps nil)
 
   :config
-;;; Functions
-  ;; Key binding function
-  (defun pew::evil::set-key (state map leader bindings)
-    "A function to bind Evil keys.
-This is basically a wrapper of `evil-define-key*'.
-STATE is a Evil state symbol of a list of symbols.
-MAP can be a map symbol or a list of symbols.
-LEADER is non-nil, the BINDINGS will be prefixed with Evil leader key.
-BINDINGS is an alist in the form of
-  ((KEY . DEF) (KEY . DEF) ...)
-See `evil-define-key*'."
-    (declare (indent 3))
-    (let ((bindings (mapcan (if leader
-                                (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
-                              (lambda (x) (list (kbd (car x)) (cdr x))))
-                            bindings)))
-      (mapc (lambda (m) (apply 'evil-define-key* state m bindings))
-            (if (listp map) map (list map)))))
-
-  ;; This search action searches words selected in visual mode, escaping any special
-  ;; characters. Also it provides a quick way to substitute the words just searched.
-  (defun pew::evil::escape-pattern (pattern)
-    "Escape special characters in PATTERN which is used by evil search."
-    (if (zerop (length pattern)) pattern
-      ;; `regexp-quote' does not escape /
-      (replace-regexp-in-string "/" "\\\\/" (regexp-quote pattern))))
-
-  (defun pew::evil::search-region-text (beg end)
-    "Use evil-search for text in the region from BEG to END."
-    ;; Copy region text
-    (setq evil-ex-search-pattern (evil-ex-make-pattern (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
-                                                       'sensitive
-                                                       t))
-    (evil-yank beg end)
-    (ignore-error 'search-failed
-      (evil-ex-search-next)))
-
-  (defun pew::evil::visual-search-region-text ()
-    "Search the text selected in visual state."
-    (interactive)
-    (when (evil-visual-state-p)
-      (setq evil-ex-search-count 1
-            evil-ex-search-direction 'forward)
-      (when (pew::evil::search-region-text (region-beginning) (region-end))
-        (evil-ex-search-previous))
-      (evil-normal-state)))
-
-  (defun pew::evil::replace-last-search ()
-    "Replace the last Evil EX search."
-    (interactive)
-    (if (not evil-ex-search-pattern)
-        (user-error "No search pattern found"))
-    ;; Substitute from current position
-    (evil-ex-substitute
-     (point)
-     (point-max)
-     evil-ex-search-pattern
-     (read-string (concat (car evil-ex-search-pattern) " -> "))
-     (list ?g ?c)))
-
-  (defun pew::evil::search-word ()
-    "Search and highlight the word under cursor but don't jumpt to the next."
-    (interactive)
-    (evil-ex-search-word-forward)
-    (evil-ex-search-previous))
-
-;;; Custom initial states
+;;; State hacks
   (evil-define-state pewinitial
     "A dummy state used to determine buffer initial Evil state.
 NOTE: This dummy state means to be an intermidiate state which transits to
@@ -204,11 +138,71 @@ This is an advanced method to determine initial state rather than using
         evil-motion-state-tag        "[MO]"
         evil-operator-state-tag      "[..]")
 
-;;; Workaround
-  ;; Evil X settings
-  ;; Don't allow Evil to kill selected region when yanking
-  ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
-  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
+;;; Utility functions
+  ;; Key binding function
+  (defun pew::evil::set-key (state map leader bindings)
+    "A function to bind Evil keys.
+This is basically a wrapper of `evil-define-key*'.
+STATE is a Evil state symbol of a list of symbols.
+MAP can be a map symbol or a list of symbols.
+LEADER is non-nil, the BINDINGS will be prefixed with Evil leader key.
+BINDINGS is an alist in the form of
+  ((KEY . DEF) (KEY . DEF) ...)
+See `evil-define-key*'."
+    (declare (indent 3))
+    (let ((bindings (mapcan (if leader
+                                (lambda (x) (list (kbd (concat "<leader>" (car x))) (cdr x)))
+                              (lambda (x) (list (kbd (car x)) (cdr x))))
+                            bindings)))
+      (mapc (lambda (m) (apply 'evil-define-key* state m bindings))
+            (if (listp map) map (list map)))))
+
+  ;; This search action searches words selected in visual mode, escaping any special
+  ;; characters. Also it provides a quick way to substitute the words just searched.
+  (defun pew::evil::escape-pattern (pattern)
+    "Escape special characters in PATTERN which is used by evil search."
+    (if (zerop (length pattern)) pattern
+      ;; `regexp-quote' does not escape /
+      (replace-regexp-in-string "/" "\\\\/" (regexp-quote pattern))))
+
+  (defun pew::evil::search-region-text (beg end)
+    "Use evil-search for text in the region from BEG to END."
+    ;; Copy region text
+    (setq evil-ex-search-pattern (evil-ex-make-pattern (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
+                                                       'sensitive
+                                                       t))
+    (evil-yank beg end)
+    (ignore-error 'search-failed
+      (evil-ex-search-next)))
+
+  (defun pew::evil::visual-search-region-text ()
+    "Search the text selected in visual state."
+    (interactive)
+    (when (evil-visual-state-p)
+      (setq evil-ex-search-count 1
+            evil-ex-search-direction 'forward)
+      (when (pew::evil::search-region-text (region-beginning) (region-end))
+        (evil-ex-search-previous))
+      (evil-normal-state)))
+
+  (defun pew::evil::replace-last-search ()
+    "Replace the last Evil EX search."
+    (interactive)
+    (if (not evil-ex-search-pattern)
+        (user-error "No search pattern found"))
+    ;; Substitute from current position
+    (evil-ex-substitute
+     (point)
+     (point-max)
+     evil-ex-search-pattern
+     (read-string (concat (car evil-ex-search-pattern) " -> "))
+     (list ?g ?c)))
+
+  (defun pew::evil::search-word ()
+    "Search and highlight the word under cursor but don't jumpt to the next."
+    (interactive)
+    (evil-ex-search-word-forward)
+    (evil-ex-search-previous))
 
 ;;; Keybindings
   ;; Toggle key
@@ -250,6 +244,12 @@ This is an advanced method to determine initial state rather than using
                ("er" . eval-region)
                ("ef" . eval-defun)
                ("ee" . eval-last-sexp)))))
+
+;;; Workaround
+  ;; Evil X settings
+  ;; Don't allow Evil to kill selected region when yanking
+  ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
+  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
 
 ;;; Enable Evil mode last to ensure most of the settings work
   (evil-mode 1)) ;; End evil
