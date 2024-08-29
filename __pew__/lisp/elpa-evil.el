@@ -102,26 +102,25 @@ This is an advanced method to determine initial state rather than using
                       ;; Check override
                       (save-excursion (named-let check ((list (plist-get pew::evil::initial-state-plist :override)))
                                         (let ((f (car list)))
-                                          (if f (or (with-current-buffer (current-buffer) (funcall f))
-                                                    (check (cdr list)))
-                                            nil))))
+                                          (if f (or (funcall f) (check (cdr list)))))))
                       ;; Check minor mode
                       ;; TODO: Potentially bugged due to the delay of the minor mode variable setting.
-                      (cdr-safe (seq-find (lambda (cons) (symbol-value (car cons)))
-                                          (plist-get pew::evil::initial-state-plist :minor)))
+                      (cdr (seq-find (lambda (cons) (symbol-value (car cons)))
+                                     (plist-get pew::evil::initial-state-plist :minor)))
                       ;; Check major mode
-                      (cdr-safe (seq-find (lambda (cons) (eq major-mode (car cons)))
-                                          (plist-get pew::evil::initial-state-plist :major)))
+                      (cdr (seq-find (lambda (cons) (eq major-mode (car cons)))
+                                     (plist-get pew::evil::initial-state-plist :major)))
                       ;; Check buffer name
-                      (cdr-safe (seq-find (lambda (cons) (string-match-p (car cons) (buffer-name)))
-                                          (plist-get pew::evil::initial-state-plist :name))))))
+                      (cdr (seq-find (lambda (cons) (string-match-p (car cons) (buffer-name)))
+                                     (plist-get pew::evil::initial-state-plist :name))))))
           (cond
            ;; Matched by rules
            (state
             (evil-change-state state))
-           ;; Visiting an actual file or a new editable buffer
-           ((or (buffer-file-name)
-                (and (string-match-p (pewlib::workspace::buffer-regex :non-starred) (buffer-name))
+           ;; Editable buffer
+           ((and (derived-mode-p 'prog-mode 'text-mode 'fundamental-mode)
+                 ;; Actual file buffer or unsaved editable buffer
+                 (or (buffer-file-name)
                      (not buffer-read-only)))
             (evil-change-state 'normal))
            ;; Use Emacs default key bindings otherwise
