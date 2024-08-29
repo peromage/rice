@@ -42,6 +42,7 @@
       /* All flakes including this one */
       specialArgs = self.inputs // { pix = self.outputs; };
       lib = nixpkgs.lib;
+      libpix = (import path.lib specialArgs);
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
@@ -63,7 +64,11 @@
         templates = pixTop "templates";
       };
 
-      libpix = (import path.lib specialArgs) // {
+      extraOutputs = {
+        /* Pix */
+        inherit path specialArgs;
+        lib = libpix;
+
         /* Improvised functions
         */
 
@@ -89,12 +94,7 @@
             (listDir (n: t: isNotDefaultNix n t && isImportable n t) path));
       };
 
-    in {
-      /* Pix */
-      path = path;
-      lib = libpix;
-      specialArgs = specialArgs;
-
+    in extraOutputs // {
       /* Expose my modules */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
