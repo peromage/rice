@@ -123,14 +123,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with libpix; forSupportedSystems (system: __call { inherit system; } path.packages);
+      packages = libpix.forSupportedSystems (system: self.__call { inherit system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = with libpix; forSupportedSystems (system: __call { inherit system; } path.devshells);
+      devShells = libpix.forSupportedSystems (system: self.__call { inherit system; } path.devshells);
 
       /* Code Formatter
 
@@ -145,14 +145,14 @@
 
          Imported by other flakes
       */
-      overlays = libpix.__call {} path.overlays;
+      overlays = self.__call {} path.overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = libpix.__call {} path.templates;
+      templates = self.__call {} path.templates;
 
       /* NixOS Configurations
 
@@ -192,7 +192,8 @@
          from there automatically.
       */
       homeConfigurations = with libpix; forSupportedSystems (system:
-        let inc = user: homeTopModule (__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
+        let
+          inc = user: homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
         in {
           fang = inc "fang";
         }
