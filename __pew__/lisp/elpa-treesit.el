@@ -104,7 +104,8 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   (nix-ts-mode-indent-offset 2)
   :config
   (setf (alist-get 'nix nix-ts-mode-indent-rules)
-        (nconc '(((n-p-gp "binding_set" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
+        (nconc '(((n-p-gp "comment" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
+                 ((n-p-gp "binding_set" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
                  ((parent-is "let_expression") parent-bol 0))
                (alist-get 'nix nix-ts-mode-indent-rules))))
 
