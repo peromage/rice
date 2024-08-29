@@ -59,7 +59,9 @@
        :major ((messages-buffer-mode . motion)
                (help-mode . motion)
                (image-mode . motion)
-               (view-mode . motion))
+               (view-mode . motion)
+               (Man-mode . motion)
+               (woman-mode . motion))
        :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect :org-src :org-export) 'concat) . normal)
               (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)) )
     "A plist to determine buffer initial state by different conditions.
