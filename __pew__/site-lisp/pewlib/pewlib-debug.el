@@ -75,6 +75,27 @@ If MODE is any non-nill value other than '(4), that mode name will be used."
             (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
           (find-parent parent-major-mode (cons parent-major-mode results)))))))
 
+(defmacro /ns/expand-macro (form &optional step noprint)
+  "Expand the macro in FORM and print the expanded results.
+Possible value for STEP:
+  nil              - call `macroexpand'
+  1                - call `macroexpand-1'
+  any other values - call `macroexpand-all'
+The result will be shown in the message buffer.
+If NOPRINT is non-nil, the expanded list will be returned instead of printing
+out in the message buffer."
+  (declare (indent 0))
+  (let ((result (funcall (intern (format "macroexpand%s"
+                                         (pcase step
+                                           ('nil "")
+                                           (1 "-1")
+                                           (_ "-all"))))
+                         form)))
+    (if noprint
+        `(quote ,result)
+      (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
+      t)))
+
 (provide 'pewlib-debug)
 ;;; pewlib-debug.el ends here
 
