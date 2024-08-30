@@ -321,7 +321,7 @@
    ("w" . save-buffer)
    ("n" . pewlib::workspace::next-editing-buffer)
    ("p" . pewlib::workspace::previous-editing-buffer)
-   ("i" . pewlib::debug::display-buffer-path)
+   ("i" . pewlib::debug::display-buffer-file-name)
    ("B" . display-buffer)
    ("g" . revert-buffer-quick)
 

@@ -60,8 +60,8 @@ Existing content will be overwritten."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun /ns/display-buffer-path ()
-  "Display current file path in the minibuffer."
+(defun /ns/display-buffer-file-name ()
+  "Echo current buffer file name."
   (interactive)
   (message "%s [%s]" (buffer-file-name) buffer-file-coding-system))
 
