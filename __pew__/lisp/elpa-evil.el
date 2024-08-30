@@ -55,7 +55,10 @@
 
   (defvar pew::evil::initial-state-plist
     `( :override nil
-       :minor ((view-mode . motion))
+       :minor ((view-mode . motion)
+               (magit-blame-mode . motion)
+               (magit-blame-read-only-mode . motion)
+               (magit-blob-mode . motion))
        :major ((messages-buffer-mode . motion)
                (help-mode . motion)
                (image-mode . motion)
