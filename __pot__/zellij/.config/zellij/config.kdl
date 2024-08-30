@@ -1,0 +1,56 @@
+// My Zellij configuration
+
+// NOTE: Zellij configuration doesn't have "source" or "include" syntax to read
+// multiple configurations like those in Tmux.  This can be achieved by usuing
+// either
+// - Specify extra options in CLI: zellij options --help
+// - Load extra configurations from layouts: https://zellij.dev/documentation/layouts-with-config
+
+// --- UI ---
+
+theme "default" // Follow terminal color scheme?
+default_mode "locked"
+simplified_ui false
+styled_underlines true
+
+auto_layout true
+default_layout "default" // "default" or "compact"
+
+pane_frames false
+ui {
+  pane_frames {
+    rounded_corners true
+    hide_session_name false
+  }
+}
+
+// --- Behaviors ---
+
+mirror_session true
+on_force_close "detach" // Keep server running
+default_shell "fish" // Override with CLI options command
+default_cwd "" // Where CLI is invoked
+mouse_mode true
+scroll_buffer_size 10000
+scrollback_editor "$EDITOR"
+disable_session_metadata false // Cooperate with session-manager
+
+// Session persistence
+// NOTE: Disabled since no use case for now
+session_serialization false
+serialize_pane_viewport false
+scrollback_lines_to_serialize 100
+
+// Use OSC 52 ANSI control sequence to copy text, if the terminal supports
+// copy_command "xclip -selection clipboard" // x11
+// copy_command "wl-copy"                    // wayland
+// copy_command "pbcopy"                     // osx
+// copy_clipboard "primary"                  // Conflicts with copy_command
+copy_on_select true
+
+// --- External ---
+// layout_dir "/path/to/my/layout_dir"
+// theme_dir "/path/to/my/theme_dir"
+// env {}
+
+// --- Key Bindings ---
