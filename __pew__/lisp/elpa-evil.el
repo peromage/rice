@@ -108,7 +108,9 @@ This is an advanced method to determine initial state rather than using
                                           (if f (or (funcall f) (check (cdr list)))))))
                       ;; Check minor mode
                       ;; TODO: Potentially bugged due to the delay of the minor mode variable setting.
-                      (cdr (seq-find (lambda (cons) (symbol-value (car cons)))
+                      (cdr (seq-find (lambda (cons) (let ((symbol (car cons)))
+                                                      (and (boundp symbol)
+                                                           (symbol-value symbol))))
                                      (plist-get pew::evil::initial-state-plist :minor)))
                       ;; Check major mode
                       (cdr (seq-find (lambda (cons) (eq major-mode (car cons)))
