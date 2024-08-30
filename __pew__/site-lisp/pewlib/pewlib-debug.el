@@ -49,6 +49,12 @@ Existing content will be overwritten."
   (interactive)
   (find-file user-init-file))
 
+(defmacro /ns/inhibit-message (&rest body)
+  "Inhibit all message output when executing BODY."
+  `(let ((inhibit-message t)
+         (message-log-max nil))
+     ,@body))
+
 (defun /ns/display-keycode (keycode)
   "Display corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
