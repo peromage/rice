@@ -56,7 +56,7 @@ Existing content will be overwritten."
      ,@body))
 
 (defun /ns/display-keycode (keycode)
-  "Display corresponding key name from KEYCODE."
+  "Echo corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
@@ -66,7 +66,7 @@ Existing content will be overwritten."
   (message "%s [%s]" (buffer-file-name) buffer-file-coding-system))
 
 (defun /ns/display-mode-inheritance (mode)
-  "Display current major mode inheritance in the minibuffer.
+  "Echo current major mode inheritance.
 If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
   (interactive "P")
@@ -81,14 +81,14 @@ If MODE is any non-nill value other than '(4), that mode name will be used."
             (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
           (find-parent parent-major-mode (cons parent-major-mode results)))))))
 
-(defmacro /ns/expand-macro (form &optional step noprint)
+(defmacro /ns/expand-macro (form &optional step no-echo)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
   1                - call `macroexpand-1'
   any other values - call `macroexpand-all'
 The result will be shown in the message buffer.
-If NOPRINT is non-nil, the expanded list will be returned instead of printing
+If NO-ECHO is non-nil, the expanded list will be returned instead of printing
 out in the message buffer."
   (declare (indent 0))
   (let ((result (funcall (intern (format "macroexpand%s"
@@ -97,7 +97,7 @@ out in the message buffer."
                                            (1 "-1")
                                            (_ "-all"))))
                          form)))
-    (if noprint
+    (if no-echo
         `(quote ,result)
       (message "--- Begin macro expansion ---\n%s\n--- End macro expansion ---" (pp-to-string result))
       t)))
