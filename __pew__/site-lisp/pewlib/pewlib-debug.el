@@ -63,7 +63,7 @@ Existing content will be overwritten."
 (defun /ns/display-buffer-path ()
   "Display current file path in the minibuffer."
   (interactive)
-  (message buffer-file-name))
+  (message "%s [%s]" (buffer-file-name) buffer-file-coding-system))
 
 (defun /ns/display-mode-inheritance (mode)
   "Display current major mode inheritance in the minibuffer.
