@@ -40,8 +40,10 @@ in with lib; {
     (mkIf cfg.enableGnomeTerminalConfig {
       dconf.settings = {
         inherit (dconfDump.dconf.settings)
+          "org/gnome/terminal/legacy"
           "org/gnome/terminal/legacy/keybindings"
-          "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" ;
+          "org/gnome/terminal/legacy/profiles:"
+          "org/gnome/terminal/legacy/profiles:/:233c6191-db1e-403e-9b76-0f006019cf4c" ;
       };
     })
   ];

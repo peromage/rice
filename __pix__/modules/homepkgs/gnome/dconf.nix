@@ -470,7 +470,12 @@ with lib.hm.gvariant;
       zoom-out = "disabled";
     };
 
-    "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
+    "org/gnome/terminal/legacy/profiles:" = {
+      default = "233c6191-db1e-403e-9b76-0f006019cf4c";
+      list = [ "233c6191-db1e-403e-9b76-0f006019cf4c" ];
+    };
+
+    "org/gnome/terminal/legacy/profiles:/:233c6191-db1e-403e-9b76-0f006019cf4c" = {
       cursor-blink-mode = "off";
       custom-command = "fish -i";
       font = "Iosevka 12";
