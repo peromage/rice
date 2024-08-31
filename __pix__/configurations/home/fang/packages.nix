@@ -22,6 +22,10 @@
     tmux.enable = true;
     vim.enable = true;
     # wezterm.enable = true;
+    gnome = {
+      enableKeyboardShortcuts = true;
+      enableGnomeTerminalConfig = true;
+    };
   };
 
   home.packages = (with pkgs; [
