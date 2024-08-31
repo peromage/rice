@@ -20,12 +20,6 @@ in with lib; {
   };
 
   config = mkMerge [
-    {
-      home.packages = (with pkgs; [
-        dconf2nix
-      ]);
-    }
-
     (mkIf cfg.enableKeyboardShortcuts {
       dconf.settings = {
         inherit (dconfDump.dconf.settings)

@@ -19,6 +19,7 @@ in with lib; {
 
     environment.systemPackages =
       (with pkgs; [
+        dconf2nix
         gnome-terminal ## Provides more functionalities than default gnome-console
       ])
       ++ (with pkgs.gnomeExtensions; [
