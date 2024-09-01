@@ -14,13 +14,13 @@ simplified_ui false
 styled_underlines true
 
 auto_layout true
-default_layout "default" // "default" or "compact"
+default_layout "compact" // "default" or "compact"
 
 pane_frames false
 ui {
   pane_frames {
     rounded_corners true
-    hide_session_name false
+    hide_session_name true
   }
 }
 
@@ -32,7 +32,7 @@ default_shell "fish" // Override with CLI options command
 default_cwd "" // Where CLI is invoked
 mouse_mode true
 scroll_buffer_size 10000
-scrollback_editor "$EDITOR"
+// scrollback_editor "$EDITOR"
 disable_session_metadata false // Cooperate with session-manager
 
 // Session persistence
@@ -53,4 +53,136 @@ copy_on_select true
 // theme_dir "/path/to/my/theme_dir"
 // env {}
 
+// --- Plugins ---
+
+plugins {
+  tab-bar location="zellij:tab-bar"
+  status-bar location="zellij:status-bar"
+  strider location="zellij:strider"
+  compact-bar location="zellij:compact-bar"
+  session-manager location="zellij:session-manager"
+  welcome-screen location="zellij:session-manager" {
+    welcome_screen true
+  }
+  filepicker location="zellij:strider" {
+    cwd "/"
+  }
+}
+
 // --- Key Bindings ---
+// The default key bindings don't work well with Emacs/Vim and they are tedious
+// to use.
+// To make it not too overwhelming, the default mode is Locked mode so it won't
+// get in the way of CLI programs.  Normal mode is used as a transient mode
+// exclusively for window manipulation purposes.
+
+keybinds clear-defaults=true {
+  shared_except "locked" {
+    // Universal key bindings to fall to Locked mode
+    bind "Esc" "Ctrl g" { SwitchToMode "Locked"; }
+  }
+
+  locked {
+    bind "`" { SwitchToMode "Normal"; }
+  }
+
+  normal {
+    bind "`" { WriteChars "`"; SwitchToMode "Locked"; }
+    bind "d" { Detach; }
+    bind "e" { EditScrollback; SwitchToMode "Locked"; }
+    bind "Space" { NextSwapLayout; }
+    bind "w" {
+      LaunchOrFocusPlugin "session-manager" {
+        floating true
+        move_to_focused_tab true
+      };
+      SwitchToMode "Locked"
+    }
+
+    // ---- Panes ----
+    bind "q" { CloseFocus; SwitchToMode "Locked"; }
+    bind "r" { SwitchToMode "RenamePane"; PaneNameInput 0;}
+    bind "i" { ToggleFloatingPanes; SwitchToMode "Locked"; }
+    bind "I" { TogglePaneEmbedOrFloating; SwitchToMode "Locked"; }
+    bind "p" { TogglePaneFrames; SwitchToMode "Locked"; }
+    bind "1" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
+    // Split
+    bind "2" { NewPane "Down"; SwitchToMode "Locked"; }
+    bind "3" { NewPane "Right"; SwitchToMode "Locked"; }
+    bind "4" { NewPane; SwitchToMode "Locked"; }
+    // Move around
+    bind "h" { MoveFocus "Left"; SwitchToMode "Locked"; }
+    bind "l" { MoveFocus "Right"; SwitchToMode "Locked"; }
+    bind "j" { MoveFocus "Down"; SwitchToMode "Locked"; }
+    bind "k" { MoveFocus "Up"; SwitchToMode "Locked"; }
+    bind "o" { SwitchFocus; }
+    // Swap
+    bind "}" { MovePane; }
+    bind "{" { MovePaneBackwards; }
+    bind "H" { MovePane "Left"; }
+    bind "J" { MovePane "Down"; }
+    bind "K" { MovePane "Up"; }
+    bind "L" { MovePane "Right"; }
+    // Resize
+    // TODO: CTRL + Arrow doesn't work at the moment of this writing
+    bind "Alt Left" { Resize "Increase Left"; }
+    bind "Alt Down" { Resize "Increase Down"; }
+    bind "Alt Up" { Resize "Increase Up"; }
+    bind "Alt Right" { Resize "Increase Right"; }
+
+    // ---- Tabs ----
+    bind "R" { SwitchToMode "RenameTab"; TabNameInput 0; }
+    bind "t" { NewTab; SwitchToMode "Locked"; }
+    bind "T" { BreakPane; SwitchToMode "Locked"; }
+    bind "Q" { CloseTab; SwitchToMode "Locked"; }
+    // Swap
+    bind "M" { MoveTab "Left"; }
+    bind "m" { MoveTab "Right"; }
+    // Move around
+    bind "b" { GoToPreviousTab; }
+    bind "f" { GoToNextTab; }
+
+    // ---- Scroll ----
+    bind "v" { SwitchToMode "Scroll"; }
+
+    // ---- Search ----
+    bind "/" "Ctrl s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+  }
+
+  shared_among "Scroll" "Search" {
+    bind "/" "Ctrl s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+    bind "j" "Down" { ScrollDown; }
+    bind "k" "Up" { ScrollUp; }
+    bind "Ctrl f" "Right" "l" { PageScrollDown; }
+    bind "Ctrl b" "Left" "h" { PageScrollUp; }
+    bind "Alt w" { Copy; }
+  }
+
+  scroll {
+    bind "e" { EditScrollback; SwitchToMode "Locked"; }
+  }
+
+  search {
+    bind "n" { Search "down"; }
+    bind "N" { Search "up"; }
+    bind "c" { SearchToggleOption "CaseSensitivity"; }
+    bind "w" { SearchToggleOption "Wrap"; }
+    bind "o" { SearchToggleOption "WholeWord"; }
+  }
+
+  // --- Sub Modes ---
+  entersearch {
+    bind "Enter" { SwitchToMode "Search"; }
+    bind "Esc" { SwitchToMode "Scroll"; }
+  }
+
+  renametab {
+    bind "Enter" { SwitchToMode "Locked"; }
+    bind "Esc" { UndoRenameTab; SwitchToMode "Locked"; }
+  }
+
+  renamepane {
+    bind "Enter" { SwitchToMode "Locked"; }
+    bind "Esc" { UndoRenamePane; SwitchToMode "Locked"; }
+  }
+}
