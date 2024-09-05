@@ -10,11 +10,7 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
-    programs.zellij = {
-      enable = true;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-    };
+    programs.zellij.enable = true;
 
     xdg.configFile."zellij" = {
       source = src;
