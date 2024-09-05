@@ -29,7 +29,7 @@ ui {
 mirror_session true
 on_force_close "detach" // Keep server running
 default_shell "fish" // Override with CLI options command
-default_cwd "" // Where CLI is invoked
+default_cwd "" // Last path
 mouse_mode true
 scroll_buffer_size 10000
 // scrollback_editor "$EDITOR"
@@ -49,25 +49,14 @@ scrollback_lines_to_serialize 100
 copy_on_select true
 
 // --- External ---
+
 // layout_dir "/path/to/my/layout_dir"
 // theme_dir "/path/to/my/theme_dir"
 // env {}
 
-// --- Plugins ---
+// --- Plugin Aliases ---
 
-plugins {
-  tab-bar location="zellij:tab-bar"
-  status-bar location="zellij:status-bar"
-  strider location="zellij:strider"
-  compact-bar location="zellij:compact-bar"
-  session-manager location="zellij:session-manager"
-  welcome-screen location="zellij:session-manager" {
-    welcome_screen true
-  }
-  filepicker location="zellij:strider" {
-    cwd "/"
-  }
-}
+plugins {}
 
 // --- Key Bindings ---
 // The default key bindings don't work well with Emacs/Vim and they are tedious
@@ -90,6 +79,7 @@ keybinds clear-defaults=true {
     bind "`" { WriteChars "`"; SwitchToMode "Locked"; }
     bind "e" { EditScrollback; SwitchToMode "Locked"; }
     bind "Space" { NextSwapLayout; SwitchToMode "Locked"; }
+    bind "v" { SwitchToMode "Scroll"; }
     bind "d" { Detach; }
     bind "w" {
       LaunchOrFocusPlugin "session-manager" {
@@ -99,7 +89,7 @@ keybinds clear-defaults=true {
       SwitchToMode "Locked"
     }
 
-    // ---- Panes ----
+    // *Panes*
     bind "q" { CloseFocus; SwitchToMode "Locked"; }
     bind "r" { SwitchToMode "RenamePane"; PaneNameInput 0; }
     bind "i" { ToggleFloatingPanes; SwitchToMode "Locked"; }
@@ -130,7 +120,7 @@ keybinds clear-defaults=true {
     bind "Alt Up" { Resize "Increase Up"; }
     bind "Alt Right" { Resize "Increase Right"; }
 
-    // ---- Tabs ----
+    // *Tabs*
     bind "R" { SwitchToMode "RenameTab"; TabNameInput 0; }
     bind "t" { NewTab; SwitchToMode "Locked"; }
     bind "T" { BreakPane; SwitchToMode "Locked"; }
@@ -141,9 +131,6 @@ keybinds clear-defaults=true {
     // Move around
     bind "b" { GoToPreviousTab; SwitchToMode "Locked"; }
     bind "f" { GoToNextTab; SwitchToMode "Locked"; }
-
-    // ---- Scroll ----
-    bind "v" { SwitchToMode "Scroll"; }
   }
 
   scroll {}
@@ -171,7 +158,6 @@ keybinds clear-defaults=true {
     bind "e" { EditScrollback; SwitchToMode "Locked"; }
   }
 
-  // --- Sub Modes ---
   entersearch {
     bind "Enter" { SwitchToMode "Search"; }
     bind "Esc" { SwitchToMode "Scroll"; }
