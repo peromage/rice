@@ -64,13 +64,21 @@
         templates = pixTop "templates";
       };
 
+      supportedSystems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
+
       extraOutputs = {
         /* Pix */
-        inherit path specialArgs;
+        inherit path specialArgs supportedSystems;
         lib = libpix;
 
         /* Improvised functions
         */
+        __forSupportedSystems = lib.genAttrs supportedSystems;
 
         __pkgsWithOverlay = system: import nixpkgs {
           inherit system;
@@ -123,14 +131,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = libpix.forSupportedSystems (system: self.__call { inherit system; } path.packages);
+      packages = self.__forSupportedSystems (system: self.__call { inherit system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = libpix.forSupportedSystems (system: self.__call { inherit system; } path.devshells);
+      devShells = self.__forSupportedSystems (system: self.__call { inherit system; } path.devshells);
 
       /* Code Formatter
 
@@ -139,7 +147,7 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = libpix.forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = self.__forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
@@ -191,9 +199,9 @@
          `packages.arch.homeConfigurations.user' and the command will pick it
          from there automatically.
       */
-      homeConfigurations = with libpix; forSupportedSystems (system:
+      homeConfigurations = self.__forSupportedSystems (system:
         let
-          inc = user: homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
+          inc = user: libpix.homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
         in {
           fang = inc "fang";
         }

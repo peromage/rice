@@ -4,29 +4,6 @@ let
   lib = nixpkgs.lib;
 
 in with self; {
-  /* Generate an attribute set for supported platforms.
-       More values can be checked from `nixpkgs.lib.systems.flakeExposed'.
-
-     Type:
-       forSupportedSystems :: (String -> Any) -> AttrSet
-  */
-  forSupportedSystems = lib.genAttrs [
-    "x86_64-linux"
-    "x86_64-darwin"
-    "aarch64-linux"
-    "aarch64-darwin"
-  ];
-
-  /* Supported system attribute constant. */
-  supportedSystems = forSupportedSystems lib.id;
-
-  /* Check if the given system is in the supported list.
-
-     Type:
-       isSupportedSystem :: String -> Bool
-  */
-  isSupportedSystem = system: builtins.hasAttr system supportedSystems;
-
   /* Import the given path with predefined arguments.
 
      Type:
@@ -78,7 +55,6 @@ in with self; {
   isDefaultNix = name: type: name == "default.nix";
   isNixFile = name: type: isNotDirType name type && builtins.match ".+\\.nix$" name != null;
   isImportable = name: type: isDirType name type || isNixFile name type;
-  isSupportedSystemDir = name: type: isSupportedSystem name && isDirType name type;
   isDisabled = name: type: builtins.match "^DISABLED-.*" name != null;
 
   isNotDirType = name: type: ! isDirType name type;
@@ -87,7 +63,6 @@ in with self; {
   isNotDefaultNix = name: type: ! isDefaultNix name type;
   isNotNixFile = name: type: ! isNixFile name type;
   isNotImportable = name: type: ! isImportable name type;
-  isNotSupportedSystemDir = name: type: ! isSupportedSystemDir name type;
   isNotDisabled = name: type: ! isDisabled name type;
 
   /* Return the basename without extension.
