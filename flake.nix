@@ -64,7 +64,7 @@
         templates = pixTop "templates";
       };
 
-      supportedSystems = {
+      systems = {
         amd64_pc = "x86_64-linux";
         amd64_mac = "x86_64-darwin";
         arm64_pc = "aarch64-linux";
@@ -73,12 +73,12 @@
 
       extraOutputs = {
         /* Pix */
-        inherit path specialArgs supportedSystems;
+        inherit path specialArgs systems;
         lib = libpix;
 
         /* Improvised functions
         */
-        __forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
+        __forSystems = lib.genAttrs (lib.attrValues systems);
 
         __pkgsWithOverlay = system: import nixpkgs {
           inherit system;
@@ -131,14 +131,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = self.__forSupportedSystems (system: self.__call { inherit system; } path.packages);
+      packages = self.__forSystems (system: self.__call { inherit system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = self.__forSupportedSystems (system: self.__call { inherit system; } path.devshells);
+      devShells = self.__forSystems (system: self.__call { inherit system; } path.devshells);
 
       /* Code Formatter
 
@@ -147,7 +147,7 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = self.__forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = self.__forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
@@ -202,7 +202,7 @@
       homeConfigurations = let
         inc = user: system: libpix.homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
       in {
-        fang_pc = inc "fang" supportedSystems.amd64_pc;
+        fang_pc = inc "fang" systems.amd64_pc;
       };
     };
 }
