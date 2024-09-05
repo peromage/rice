@@ -20,6 +20,7 @@
     password-store.enable = true;
     powershell.enable = true;
     tmux.enable = true;
+    zellij.enable = true;
     vim.enable = true;
     # wezterm.enable = true;
     gnome = {
@@ -63,6 +64,7 @@
     kdenlive
     flameshot
     diceware
+    yt-dlp
 
     ## GUI
     brave
