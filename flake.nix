@@ -40,7 +40,7 @@
   outputs = { self, nixpkgs, ... }:
     let
       /* All flakes including this one */
-      specialArgs = self.inputs // { pix = self.outputs; };
+      specialArgs = self.inputs // { pix = self; };
       lib = nixpkgs.lib;
       libpix = (import path.lib specialArgs);
 
