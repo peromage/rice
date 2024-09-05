@@ -8,7 +8,7 @@
 
 // --- UI ---
 
-theme "default" // Follow terminal color scheme?
+theme "molokai-dark"
 default_mode "locked"
 simplified_ui false
 styled_underlines true
@@ -88,9 +88,9 @@ keybinds clear-defaults=true {
 
   normal {
     bind "`" { WriteChars "`"; SwitchToMode "Locked"; }
-    bind "d" { Detach; }
     bind "e" { EditScrollback; SwitchToMode "Locked"; }
-    bind "Space" { NextSwapLayout; }
+    bind "Space" { NextSwapLayout; SwitchToMode "Locked"; }
+    bind "d" { Detach; }
     bind "w" {
       LaunchOrFocusPlugin "session-manager" {
         floating true
