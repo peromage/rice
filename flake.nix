@@ -64,12 +64,12 @@
         templates = pixTop "templates";
       };
 
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
+      supportedSystems = {
+        amd64_pc = "x86_64-linux";
+        amd64_mac = "x86_64-darwin";
+        arm64_pc = "aarch64-linux";
+        arm64_mac = "aarch64-darwin";
+      };
 
       extraOutputs = {
         /* Pix */
@@ -78,7 +78,7 @@
 
         /* Improvised functions
         */
-        __forSupportedSystems = lib.genAttrs supportedSystems;
+        __forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
 
         __pkgsWithOverlay = system: import nixpkgs {
           inherit system;
