@@ -99,7 +99,7 @@
           (n: v: callPackage v (specialArgs // extraArgs))
           (with libpix; importAllNameMapped
             baseNameNoExt
-            (listDir (n: t: isNotDefaultNix n t && isImportable n t) path));
+            (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) path));
       };
 
     in extraOutputs // {
@@ -199,12 +199,10 @@
          `packages.arch.homeConfigurations.user' and the command will pick it
          from there automatically.
       */
-      homeConfigurations = self.__forSupportedSystems (system:
-        let
-          inc = user: libpix.homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
-        in {
-          fang = inc "fang";
-        }
-      );
+      homeConfigurations = let
+        inc = user: system: libpix.homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
+      in {
+        fang_pc = inc "fang" supportedSystems.amd64_pc;
+      };
     };
 }
