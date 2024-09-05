@@ -161,10 +161,12 @@ keybinds clear-defaults=true {
   }
 
   shared_among "Scroll" "Search" {
-    bind "j" "Down" { ScrollDown; }
-    bind "k" "Up" { ScrollUp; }
-    bind "Ctrl f" "Right" "l" { PageScrollDown; }
-    bind "Ctrl b" "Left" "h" { PageScrollUp; }
+    bind "j" "Ctrl e" "Down" { ScrollDown; }
+    bind "k" "Ctrl y" "Up" { ScrollUp; }
+    bind "l" "Ctrl f" "Right" { PageScrollDown; }
+    bind "h" "Ctrl b" "Left" { PageScrollUp; }
+    bind "g" { ScrollToTop; }
+    bind "G" { ScrollToBottom; }
     bind "Alt w" { Copy; }
     bind "e" { EditScrollback; SwitchToMode "Locked"; }
   }
