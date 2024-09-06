@@ -19,13 +19,15 @@ in with self; {
   callAll = args: map (call args);
 
   /* Import all modules under the top level directory.
-     The returned value is an attribute set with all files/directories as names
-     and contents as values.  All names have extensions stripped.
+     The top level directory will firstly be iterated and imported for each of
+     its child nix files and directories (excluding default.nix) into an attribute
+     set which has names as the file/directory name with extension stripped, and
+     values as the return value of (f (import NAME)).
 
      Type:
-       importAll :: Path -> AttrSet
+       mapImport :: (a -> a) -> Path -> AttrSet
   */
-  importAll = top: with lib; mapAttrs'
+  mapImport = f: top: with lib; mapAttrs'
     (n: v: nameValuePair (baseNameNoExt n) v)
     (genAttrs
       (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) top)
