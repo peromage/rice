@@ -1,11 +1,6 @@
 ### Top level of the common code
 
-## TODO: Optional arguments are not captured in args when not specified.
-## See: https://nixos.wiki/wiki/Nix_Language_Quirks#Default_values_are_not_bound_in_.40_syntax
-{ nixpkgs
-, home-manager ? {} # Used for home config module importing.
-, nix-darwin ? {} # Used for darwin module importing.
-, ... }@args:
+{ nixpkgs, ... }@args:
 
 let
   lib = nixpkgs.lib;

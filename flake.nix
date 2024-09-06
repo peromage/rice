@@ -37,12 +37,14 @@
     */
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
     let
       /* All flakes including this one */
       specialArgs = self.inputs // { pix = self; };
       lib = nixpkgs.lib;
       libpix = (import path.lib specialArgs);
+      libhm = home-manager.lib;
+      libdw = nix-darwin.lib;
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
@@ -94,12 +96,33 @@
            any other equivalent and can be called with `pkgs.callPackage'.
 
            Note: `default.nix' will be ignored.
-          */
+        */
         __callPackage = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (specialArgs // extraArgs))
           (with libpix; importAllNameMapped
             baseNameNoExt
             (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) path));
+
+        /* Note that the `system' attribute is not explicitly set (default to null)
+           to allow modules to set it themselves.  This allows a hermetic configuration
+           that doesn't depend on the system architecture when it is imported.
+           See: https://github.com/NixOS/nixpkgs/pull/177012
+        */
+        mkNixOS = libpix.mkConfiguration lib.nixosSystem (modules: {
+          specialArgs = specialArgs;
+          modules = modules;
+        });
+
+        mkDarwin = libpix.mkConfiguration libdw.darwinSystem (modules: {
+          specialArgs = specialArgs;
+          modules = modules;
+        });
+
+        mkHome = pkgs: libpix.mkConfiguration libhm.homeManagerConfiguration (modules: {
+          inherit pkgs;
+          extraSpecialArgs = specialArgs;
+          modules = modules;
+        });
       };
 
     in extraOutputs // {

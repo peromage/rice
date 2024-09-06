@@ -1,9 +1,7 @@
-{ self, nixpkgs, nix-darwin, home-manager, ... }:
+{ self, nixpkgs, ... }:
 
 let
   lib = nixpkgs.lib;
-  libhm = home-manager.lib;
-  libdw = nix-darwin.lib;
 
 in with self; {
   /* A generic function to generate a module that has ability to add additonal
@@ -12,21 +10,21 @@ in with self; {
      `f' is a configuration generation function like `nixosSystem',
      `darwinSystem' or `homeManagerConfiguration'.
 
-     `genArgs' is a function that takes a list of modules and returns an attrs that
+     `fGenArgs' is a function that takes a list of modules and returns an attrs that
      can be consumed by `f'.
 
-     `mods' is a list of modules passed to `genArgs'.
+     `modules' is a list of modules passed to `fGenArgs'.
 
      Type:
-       mkTopModule :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet | [Path | AttrSet]) -> AttrSet
+       mkConfiguration :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet | [Path | AttrSet]) -> AttrSet
   */
-  mkTopModule = f: genArgs: mods:
+  mkConfiguration = f: fGenArgs: modules:
     let
-      virtualMake = mods:
-        with lib; let savedList = toList mods;
-                  in f (genArgs savedList)
-                     // { extraModules = newMods: virtualMake (savedList ++ (toList newMods)); };
-    in virtualMake mods;
+      virtualMake = modules:
+        with lib; let savedList = toList modules;
+                  in f (fGenArgs savedList)
+                     // { extraModules = newModules: virtualMake (savedList ++ (toList newModules)); };
+    in virtualMake modules;
 
   /* Merge a list of attribute sets from config top level.
 
@@ -70,43 +68,4 @@ in with self; {
        filterEnable :: AttrSet -> AttrSet
   */
   filterEnable = lib.filterAttrs (n: v: v.enable);
-
-  /* Import a NixOS top level module.
-
-     Note that the `system' attribute is not explicitly set (default to null)
-     to allow modules to set it themselves.  This allows a hermetic configuration
-     that doesn't depend on the system architecture when it is imported.
-     See: https://github.com/NixOS/nixpkgs/pull/177012
-
-     Type:
-       nixosTopModule :: (Path | AttrSet) -> AttrSet
-  */
-  nixosTopModule = specialArgs: mkTopModule lib.nixosSystem (mods: {
-    specialArgs = specialArgs;
-    modules = mods;
-  });
-
-  /* Import a Darwin top level module.
-
-     Type:
-       darwinTopModule :: (Path | AttrSet) -> AttrSet
-  */
-  darwinTopModule = specialArgs: mkTopModule libdw.darwinSystem (mods: {
-    specialArgs = specialArgs;
-    modules = mods;
-  });
-
-  /* Import a HomeManager top level module.
-
-     Note that this is a generic import so the `pkgs' needs to be passed from
-     the caller.
-
-     Type:
-       homeTopModule :: AttrSet -> (Path | AttrSet) -> AttrSet
-  */
-  homeTopModule = pkgs: specialArgs: mkTopModule libhm.homeManagerConfiguration (mods: {
-    inherit pkgs;
-    extraSpecialArgs = specialArgs;
-    modules = mods;
-  });
 }
