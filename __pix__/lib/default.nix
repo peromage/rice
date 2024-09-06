@@ -10,7 +10,6 @@ let
   libpix = with prelude; lib.foldl'
     (acc: x: acc // x)
     {}
-    (callAll (args // { self = libpix; })
-      (listDir (n: t: isNotDefaultNix n t && isImportable n t) ./.));
+    (attrValues (mapImport (call (args // { self = libpix; })) ./.));
 
 in libpix

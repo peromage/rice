@@ -11,13 +11,6 @@ in with self; {
   */
   call = args: fn: (if builtins.isFunction fn then fn else import fn) args;
 
-  /* Import each module from the list with given argument.
-
-     Type:
-       callAll :: AttrSet -> [(AttrSet -> Any) | Path] -> [Any]
-  */
-  callAll = args: map (call args);
-
   /* Import all modules under the top level directory.
      The top level directory will firstly be iterated and imported for each of
      its child nix files and directories (excluding default.nix) into an attribute
