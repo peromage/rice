@@ -18,25 +18,18 @@ in with self; {
   */
   callAll = args: map (call args);
 
-  /* Returns an attrset with file names as the attributes and imported content
-     as the values.
+  /* Import all modules under the top level directory.
+     The returned value is an attribute set with all files/directories as names
+     and contents as values.  All names have extensions stripped.
 
      Type:
-       importAll :: [String] -> AttrSet
+       importAll :: Path -> AttrSet
   */
-  importAll = list: lib.genAttrs list import;
-
-  /* Similar with `importAll' but transforms the attribute names with the given
-     function.
-     Note that if there are duplicated results of attribute names, only the first
-     one takes effect.
-
-     Type:
-       importAllNameMapped :: (String -> String) -> [String] -> AttrSet
-  */
-  importAllNameMapped = func: list: with lib; mapAttrs'
-    (n: v: nameValuePair (func n) v)
-    (importAll list);
+  importAll = top: with lib; mapAttrs'
+    (n: v: nameValuePair (baseNameNoExt n) v)
+    (genAttrs
+      (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) top)
+      import);
 
   /* A generic function that filters all the files/directories under the given
      directory.  Return a list of names prepended with the given directory.
