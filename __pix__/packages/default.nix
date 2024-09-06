@@ -1,11 +1,10 @@
-{ system, nixpkgs, pix, ... }@args:
+{ pix, pkgs, nixpkgs, ... }@args:
 
 let
   lib = nixpkgs.lib;
   libpix = pix.lib;
-  pkgs = pix.imp.pkgsWithOverlay system;
   pathGeneric = ./generic;
-  pathSystem = ./. + "/${system}";
+  pathSystem = ./. + "/${pkgs.system}";
 
   /* During the import, two directories will be included:
      - generic
@@ -13,6 +12,6 @@ let
 
      The system directory is optional, which is something like x86_64-linux.
   */
-  callAllIn = libpix.mapImport (fn: pkgs.callPackage fn (args // { inherit system; }));
+  callPackagesIn = libpix.mapImport (fn: pkgs.callPackage fn args);
 
-in callAllIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callAllIn (pathSystem))
+in callPackagesIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callPackagesIn pathSystem)

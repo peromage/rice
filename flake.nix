@@ -70,9 +70,8 @@
         arm64_mac = "aarch64-darwin";
       };
 
+      ## Improvised functions
       imp = {
-        /* Improvised functions
-        */
         forSystems = lib.genAttrs (lib.attrValues systems);
 
         pkgsWithOverlay = system: import nixpkgs {
@@ -108,7 +107,7 @@
       /* Pix */
       inherit path systems imp;
       lib = libpix;
-    } // {
+    } // (with imp; {
       /* Expose my modules */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
@@ -137,14 +136,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = with imp; forSystems (system: callWithPix { inherit system; } path.packages);
+      packages = forSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = with imp; forSystems (system: callWithPix { inherit system; } path.devshells);
+      devShells = forSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.devshells);
 
       /* Code Formatter
 
@@ -153,7 +152,7 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = with imp; forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
@@ -173,7 +172,7 @@
          Related commands:
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
-      nixosConfigurations = with imp; {
+      nixosConfigurations = {
         Framework = mkNixOS "Framework-13";
         NUC = mkNixOS "NUC-Server";
       };
@@ -183,7 +182,7 @@
          Related commands:
            darwin-rebuild switch --flake .#HOST_NAME
       */
-      darwinConfigurations = with imp; {
+      darwinConfigurations = {
         Macbook = mkDarwin "Macbook-13";
       };
 
@@ -201,8 +200,8 @@
          `packages.arch.homeConfigurations.user' and the command will pick it
          from there automatically.
       */
-      homeConfigurations = with imp; {
+      homeConfigurations = {
         fang_pc = mkHome "fang" (pkgsWithOverlay systems.amd64_pc);
       };
-    };
+    });
 }
