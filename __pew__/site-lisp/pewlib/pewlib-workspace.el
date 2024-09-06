@@ -7,14 +7,13 @@
 
 ;;; Buffers
 (defvar /ns/buffer-regex-plist
-  (let ((star "^ *\\*%s\\* *$")
-        (leading-star "^ *\\*%s"))
+  (let ((star "^ *\\*%s\\*.*$"))
     ;; Align regex  :[a-z-]+\(\s-*\)\((\|"\)
     (list
      ;; Generic
-     :starred              (format star ".*")
+     :starred              (format star ".+")
      :non-starred          "^ *[^* ]"
-     :with-leading-star    (format star ".*")
+     :with-leading-star    "^ *\\*"
      :with-leading-space   "^ +"
      ;; Extension buffers
      :magit                "^ *[Mm]agit"
