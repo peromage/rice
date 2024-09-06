@@ -12,16 +12,16 @@ in with self; {
   call = args: fn: (if builtins.isFunction fn then fn else import fn) args;
 
   /* Import all modules under the top level directory.
-     The top level directory will firstly be iterated and imported for each of
-     its child nix files and directories (excluding default.nix) into an attribute
-     set which has names as the file/directory name with extension stripped, and
-     values as the return value of (f (import NAME)).
+     This function firstly imports all the child nix files/directories into an
+     attribute set where the names are the file/directory names and values are
+     the contents.  Then `fname' and `fvalue' will be used to iterate all the
+     names and values again, then return a mapped attribute set.
 
      Type:
-       mapImport :: (a -> a) -> Path -> AttrSet
+       mapImport :: (String -> String) -> (a -> a) -> Path -> AttrSet
   */
-  mapImport = f: top: with lib; mapAttrs'
-    (n: v: nameValuePair (baseNameNoExt n) v)
+  mapImport = fname: fvalue: top: with lib; mapAttrs'
+    (name: value: nameValuePair (fname name) (fvalue value))
     (genAttrs
       (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) top)
       import);
