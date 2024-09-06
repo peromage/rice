@@ -44,7 +44,7 @@ in with self; {
   isDefaultNix = name: type: name == "default.nix";
   isNixFile = name: type: isNotDirType name type && builtins.match ".+\\.nix$" name != null;
   isImportable = name: type: isDirType name type || isNixFile name type;
-  isDisabled = name: type: builtins.match "^DISABLED-.*" name != null;
+  isDisabled = name: type: builtins.match "^DISABLED_.*" name != null;
 
   isNotDirType = name: type: ! isDirType name type;
   isNotFileType = name: type: ! isFileType name type;
