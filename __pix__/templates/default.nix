@@ -1,5 +1,3 @@
 { pix, ... }:
 
-with pix.lib; importAllNameMapped
-  baseNameNoExt
-  (listDir isNotDefaultNix ./.)
+pix.lib.importAll ./.

@@ -99,9 +99,7 @@
         */
         __callPackage = callPackage: extraArgs: path: lib.mapAttrs
           (n: v: callPackage v (specialArgs // extraArgs))
-          (with libpix; importAllNameMapped
-            baseNameNoExt
-            (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) path));
+          (libpix.importAll path);
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
