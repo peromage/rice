@@ -158,14 +158,14 @@
 
          Imported by other flakes
       */
-      overlays = import path.overlays;
+      overlays = callWithPix {} path.overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = import path.templates;
+      templates = callWithPix {} path.templates;
 
       /* NixOS Configurations
 
