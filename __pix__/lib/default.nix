@@ -7,9 +7,9 @@ let
   prelude = let x = (import ./prelude.nix) (args // { self = x; }); in x;
 
   ## Import all nix files within this folder
-  libpix = with prelude; lib.foldl'
+  self = with lib; with prelude; foldl'
     (acc: x: acc // x)
     {}
-    (attrValues (mapImport (call (args // { self = libpix; })) ./.));
+    (attrValues (mapImport (call (args // { inherit self; })) ./.));
 
-in libpix
+in self

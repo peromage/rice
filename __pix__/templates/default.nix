@@ -1,3 +1,3 @@
 { pix, ... }:
 
-pix.lib.importAll ./.
+pix.lib.mapImport (x: x) ./.
