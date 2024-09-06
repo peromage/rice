@@ -9,7 +9,7 @@ in with self; {
      Type:
        call :: AttrSet -> ((AttrSet -> Any) | Path) -> Any
   */
-  call = args: fn: (if lib.isFunction fn then fn else import fn) args;
+  call = args: fn: (if builtins.isFunction fn then fn else import fn) args;
 
   /* Import each module from the list with given argument.
 
