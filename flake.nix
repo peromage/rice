@@ -39,12 +39,9 @@
 
   outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
     let
-      /* All flakes including this one */
-      specialArgs = self.inputs // { pix = self; };
       lib = nixpkgs.lib;
-      libpix = (import path.lib specialArgs);
-      libhm = home-manager.lib;
-      libdw = nix-darwin.lib;
+      libpix = (import path.lib { inherit nixpkgs; });
+      pixArgs = self.inputs // { pix = self; };
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
@@ -73,57 +70,45 @@
         arm64_mac = "aarch64-darwin";
       };
 
-      extraOutputs = {
-        /* Pix */
-        inherit path specialArgs systems;
-        lib = libpix;
-
+      imp = {
         /* Improvised functions
         */
-        __forSystems = lib.genAttrs (lib.attrValues systems);
+        forSystems = lib.genAttrs (lib.attrValues systems);
 
-        __pkgsWithOverlay = system: import nixpkgs {
+        pkgsWithOverlay = system: import nixpkgs {
           inherit system;
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        __call = extraArgs: libpix.call (specialArgs // extraArgs);
-
-        /* Call all packages under the given path.
-
-           Each package must be a function that returns a derivation by
-           `pkgs.buildEnv', `nixpkgs.stdenv.mkDerivation', `pkgs.buildFHSEnv' or
-           any other equivalent and can be called with `pkgs.callPackage'.
-
-           Note: `default.nix' will be ignored.
-        */
-        __callPackage = callPackage: extraArgs: path: lib.mapAttrs
-          (n: v: callPackage v (specialArgs // extraArgs))
-          (libpix.importAll path);
+        callWithPix = args: libpix.call (pixArgs // args);
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        mkNixOS = libpix.mkConfiguration lib.nixosSystem (modules: {
-          specialArgs = specialArgs;
+        mkNixOS = name: libpix.mkConfiguration lib.nixosSystem (modules: {
+          specialArgs = pixArgs;
           modules = modules;
-        });
+        }) (path.nixosConfigurations + "/${name}");
 
-        mkDarwin = libpix.mkConfiguration libdw.darwinSystem (modules: {
-          specialArgs = specialArgs;
+        mkDarwin = name: libpix.mkConfiguration nix-darwin.lib.darwinSystem (modules: {
+          specialArgs = pixArgs;
           modules = modules;
-        });
+        }) (path.darwinConfigurations + "/${name}");
 
-        mkHome = pkgs: libpix.mkConfiguration libhm.homeManagerConfiguration (modules: {
+        mkHome = name: pkgs: libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
           inherit pkgs;
-          extraSpecialArgs = specialArgs;
+          extraSpecialArgs = pixArgs;
           modules = modules;
-        });
+        }) (path.homeConfigurations + "/${name}");
       };
 
-    in extraOutputs // {
+    in {
+      /* Pix */
+      inherit path systems imp;
+      lib = libpix;
+    } // {
       /* Expose my modules */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
@@ -152,14 +137,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = self.__forSystems (system: self.__call { inherit system; } path.packages);
+      packages = with imp; forSystems (system: callWithPix { inherit system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = self.__forSystems (system: self.__call { inherit system; } path.devshells);
+      devShells = with imp; forSystems (system: callWithPix { inherit system; } path.devshells);
 
       /* Code Formatter
 
@@ -168,43 +153,39 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = self.__forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = with imp; forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
          Imported by other flakes
       */
-      overlays = self.__call {} path.overlays;
+      overlays = import path.overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = self.__call {} path.templates;
+      templates = import path.templates;
 
       /* NixOS Configurations
 
          Related commands:
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
-      nixosConfigurations =
-        let inc = conf: libpix.nixosTopModule specialArgs (path.nixosConfigurations + "/${conf}");
-        in {
-          Framework = inc "Framework-13";
-          NUC = inc "NUC-Server";
-        };
+      nixosConfigurations = with imp; {
+        Framework = mkNixOS "Framework-13";
+        NUC = mkNixOS "NUC-Server";
+      };
 
       /* Darwin Configurations
 
          Related commands:
            darwin-rebuild switch --flake .#HOST_NAME
       */
-      darwinConfigurations =
-        let inc = conf: libpix.darwinTopModule specialArgs (path.darwinConfigurations + "/${conf}");
-        in {
-          Macbook = inc "Macbook-13";
-        };
+      darwinConfigurations = with imp; {
+        Macbook = mkDarwin "Macbook-13";
+      };
 
       /* HomeManager Configurations
 
@@ -220,10 +201,8 @@
          `packages.arch.homeConfigurations.user' and the command will pick it
          from there automatically.
       */
-      homeConfigurations = let
-        inc = user: system: libpix.homeTopModule (self.__pkgsWithOverlay system) specialArgs (path.homeConfigurations + "/${user}");
-      in {
-        fang_pc = inc "fang" systems.amd64_pc;
+      homeConfigurations = with imp; {
+        fang_pc = mkHome "fang" (pkgsWithOverlay systems.amd64_pc);
       };
     };
 }
