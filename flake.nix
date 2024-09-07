@@ -43,6 +43,14 @@
       libpix = (import path.lib { inherit nixpkgs; });
       pixArgs = self.inputs // { pix = self; };
 
+      license = lib.licenses.gpl3Plus;
+      maintainer = {
+        name = "Fang Deng";
+        email = "fang@elfang.com";
+        github = "fangtfs";
+        githubId = 10389606;
+      };
+
       path = let
         pixTop = p: ./__pix__ + "/${p}";
         moduleDir = "modules";
@@ -105,7 +113,7 @@
 
     in {
       /* Pix */
-      inherit path systems imp;
+      inherit license maintainer path systems imp;
       lib = libpix;
     } // (with imp; {
       /* Expose my modules */
