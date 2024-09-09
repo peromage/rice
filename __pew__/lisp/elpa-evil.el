@@ -122,17 +122,19 @@ This is an advanced method to determine initial state rather than using
            ;; Matched by rules
            (state
             (evil-change-state state))
-           ;; File editing buffer
-           ;; A rule of thumb: when visiting an actual file we always use normal
-           ;; state regardless of read-only state.
-           ;; Checking base major mode like `prog-mode' or `text-mode' may not
-           ;; work as expected since some major modes don't inherit from any of
-           ;; them.
-           ;; For any other buffers that may need normal state, for example,
-           ;; buffers created by org export, use `pew::evil::initial-state-plist'
-           ;; to explicitly specify them.
-           ((buffer-file-name)
+
+           ;; General file buffer
+           ;; The rule of thumb: when visiting an actual file we always use
+           ;; normal state regardless of read-only state as long as it derives
+           ;; from `prog-mode' or `text-mode' or `fundamental-mode'.
+           ((and (buffer-file-name)
+                 (derived-mode-p 'prog-mode 'text-mode 'fundamental-mode))
             (evil-change-state 'normal))
+
+           ;; New buffer
+           ((eq major-mode 'fundamental-mode)
+            (evil-change-state 'normal))
+
            ;; Use Emacs default key bindings otherwise
            (t
             (evil-change-state 'emacs))))))
