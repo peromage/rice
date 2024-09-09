@@ -65,6 +65,7 @@
     flameshot
     diceware
     yt-dlp
+    zbar
 
     ## GUI
     brave
