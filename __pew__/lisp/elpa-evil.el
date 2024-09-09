@@ -92,10 +92,10 @@ legit Evil state immediately upon different conditions."
     :tag "<PEW>"
     :message "-- PEWINIT --"
     (if (evil-pewinit-state-p)
-        (add-hook 'post-command-hook #'pew::evil::dispatch-initial-state nil t)
-      (remove-hook 'post-command-hook #'pew::evil::dispatch-initial-state t)))
+        (add-hook 'post-command-hook #'pew::evil::set-initial-state nil t)
+      (remove-hook 'post-command-hook #'pew::evil::set-initial-state t)))
 
-  (defun pew::evil::dispatch-initial-state (&optional command)
+  (defun pew::evil::set-initial-state (&optional command)
     "Advice to alter `evil-pewinitial-state' toggle behavior.  This advice works
 in conjunction with the toggle to decide a buffer's initial Evil state.
 This is an advanced method to determine initial state rather than using
