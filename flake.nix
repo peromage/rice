@@ -69,7 +69,7 @@
         templates = pixTop "templates";
       };
 
-      systems = {
+      supportedSystems = {
         amd64_pc = "x86_64-linux";
         amd64_mac = "x86_64-darwin";
         arm64_pc = "aarch64-linux";
@@ -78,7 +78,7 @@
 
       ## Improvised functions
       imp = {
-        forSystems = lib.genAttrs (lib.attrValues systems);
+        forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
 
         pkgsWithOverlay = system: import nixpkgs {
           inherit system;
@@ -111,7 +111,7 @@
 
     in {
       /* Pix */
-      inherit license maintainer path systems imp;
+      inherit license maintainer path supportedSystems imp;
       lib = libpix;
     } // (with imp; {
       /* Expose my modules */
@@ -142,14 +142,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.packages);
+      packages = forSupportedSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.devshells);
+      devShells = forSupportedSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.devshells);
 
       /* Code Formatter
 
@@ -158,7 +158,7 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = forSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
@@ -207,7 +207,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang_pc = mkHome "fang" (pkgsWithOverlay systems.amd64_pc);
+        fang_pc = mkHome "fang" (pkgsWithOverlay supportedSystems.amd64_pc);
       };
     });
 }
