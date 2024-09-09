@@ -53,19 +53,17 @@
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
-        moduleDir = "modules";
-        configDir = "configurations";
       in {
         ## Root directory can be accessed through `rice.outPath'
         dotfiles = ./__pot__;
         emacs = ./.;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
-        nixosModules = pixTop "${moduleDir}/nixos.nix";
-        homeManagerModules = pixTop "${moduleDir}/home-manager.nix";
-        nixosConfigurations = pixTop "${configDir}/nixos";
-        darwinConfigurations = pixTop "${configDir}/darwin";
-        homeConfigurations = pixTop "${configDir}/home";
+        nixosModules = pixTop "modules";
+        homeManagerModules = pixTop "homeModules";
+        nixosConfigurations = pixTop "configurations/nixos";
+        darwinConfigurations = pixTop "configurations/darwin";
+        homeConfigurations = pixTop "configurations/home";
         overlays = pixTop "overlays";
         packages = pixTop "packages";
         templates = pixTop "templates";
