@@ -10,11 +10,11 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
-    programs.vim.enable = true;
-
-    home.file.".vim" = {
-      source = src;
-      recursive = true;
+    programs.vim = {
+      enable = true;
+      extraConfig = ''
+        source ${src}/vimrc
+      '';
     };
   };
 }
