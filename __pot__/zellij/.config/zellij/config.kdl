@@ -8,14 +8,12 @@
 
 // --- UI ---
 
-theme "molokai-dark"
+default_layout "minimalist"
+theme "default"
 default_mode "locked"
 simplified_ui false
 styled_underlines true
-
 auto_layout true
-default_layout "compact" // "default" or "compact"
-
 pane_frames false
 ui {
   pane_frames {
