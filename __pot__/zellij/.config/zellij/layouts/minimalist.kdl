@@ -9,21 +9,27 @@ layout {
   }
 }
 
-theme "mono"
+theme "mono_compact_bar"
 
 themes {
-  // Base on nord theme
-  mono {
+  // Based off nord theme
+  // The colors are specialized for only for compact-bar
+  mono_compact_bar {
+    // fg: inactive tab bg, layout tag bg
     fg "#D8DEE9"
     bg "#2E3440"
+    // black: entire bar bg
     black "#3B4252"
     red "#BF616A"
-    green "#A3BE8C"
+    // green: active tab bg, active pane borderline, normal state indicator
+    green "#93cb63"
     yellow "#EBCB8B"
     blue "#81A1C1"
-    magenta "#B48EAD"
+    // magenta: locked state indicator
+    magenta "#E5E9F0"
     cyan "#88C0D0"
-    white "#E5E9F0"
+    // White: "Zellij" text
+    white "#3B4252"
     orange "#D08770"
   }
 }
