@@ -22,11 +22,11 @@ themes {
     black "#3B4252"
     red "#BF616A"
     // green: active tab bg, active pane borderline, normal state indicator
-    green "#93cb63"
+    green "#BAFF29"
     yellow "#EBCB8B"
     blue "#81A1C1"
     // magenta: locked state indicator
-    magenta "#E5E9F0"
+    magenta "#3B4252"
     cyan "#88C0D0"
     // White: "Zellij" text
     white "#3B4252"
