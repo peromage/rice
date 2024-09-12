@@ -12,7 +12,7 @@ in with lib; {
   config = mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      enableBashIntegration = true;
+      # enableBashIntegration = true;
     };
 
     xdg.configFile."wezterm" = {

@@ -22,7 +22,7 @@
     tmux.enable = true;
     zellij.enable = true;
     vim.enable = true;
-    # wezterm.enable = true;
+    wezterm.enable = true;
     gnome = {
       enableKeyboardShortcuts = true;
       enableGnomeTerminalConfig = true;
