@@ -59,15 +59,20 @@
                (magit-blame-mode . motion)
                (magit-blame-read-only-mode . motion)
                (magit-blob-mode . motion))
-       :major ((messages-buffer-mode . motion)
+       :major ((fundamental-mode . normal)
+               (special-mode . emacs)
+               (org-mode . normal)
+               (messages-buffer-mode . motion)
                (help-mode . motion)
                (image-mode . motion)
                (view-mode . motion)
                (Man-mode . motion)
                (woman-mode . motion)
                (git-rebase-mode . emacs))
+       :derive ((text-mode . normal)
+                (prog-mode . normal))
        :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect :org-src :org-export) 'concat) . normal)
-              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)) )
+              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)))
     "A plist to determine buffer initial state by different conditions.
 Each property should have the following values.  The precedence is from highest
 to lowest.
@@ -76,6 +81,7 @@ will change to that evaluated state.
 (:override (FUNC ...))
 (:minor ((BUFFER-MINOR-MODE . EVIL-STATE) ...))
 (:major ((BUFFER-MAJOR-MODE . EVIL-STATE) ...))
+(:derive ((BUFFER-DERIVED-MAJOR-MODE . EVIL-STATE) ...))
 (:name ((REGEX . EVIL-STATE) ...))
 
 ':override': A list of functions which are invoked under current buffer context
@@ -83,6 +89,7 @@ one by one.  The function should return a valid Evil state symbol, like 'normal.
 This enables more complex logic when determining buffer initial state.
 ':minor': A list of cons that maps buffer minor mode to Evil state.
 ':major': A list of cons that maps buffer major mode to Evil state.
+':derive': A list of cons that maps buffer derived major mode to Evil state.
 ':name': A list of cons that matches buffer name with regex in car with th
 Evil state in cdr.")
 
@@ -116,6 +123,9 @@ This is an advanced method to determine initial state rather than using
                       ;; Check major mode
                       (cdr (seq-find (lambda (cons) (eq major-mode (car cons)))
                                      (plist-get pew::evil::initial-state-plist :major)))
+                      ;; Check derived major mode
+                      (cdr (seq-find (lambda (cons) (derived-mode-p (car cons)))
+                                     (plist-get pew::evil::initial-state-plist :derive)))
                       ;; Check buffer name
                       (cdr (seq-find (lambda (cons) (string-match-p (car cons) (buffer-name)))
                                      (plist-get pew::evil::initial-state-plist :name))))))
@@ -124,17 +134,9 @@ This is an advanced method to determine initial state rather than using
            (state
             (evil-change-state state))
 
-           ;; Use native key bindings for special buffers
-           ((eq major-mode 'special-mode)
-            (evil-change-state 'emacs))
-
-           ;; New buffer
-           ((eq major-mode 'fundamental-mode)
-            (evil-change-state 'normal))
-
-           ;; General file buffer
-           ;; The rule of thumb: when visiting an actual file we always use
-           ;; normal state.
+           ;; General buffers
+           ;; The rule of thumb: when visiting an actual file buffer we always
+           ;; use normal state.
            ((buffer-file-name)
             (evil-change-state 'normal))
 
