@@ -1,3 +1,0 @@
-### -*- mode: sh; -*-
-
-export PATH="${HOME}/.dotnet/tools:${PATH}"
