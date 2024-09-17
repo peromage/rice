@@ -12,7 +12,7 @@
 --   overlay = function(prev)
 --     return {
 --       default_prog = { "fish", "-i" },
---       ssh_domains = prev.ssh_domains:__concat__ {
+--       ssh_domains = prev.ssh_domains:_append {
 --         {
 --           name = "Dev Domain",
 --           remote_address = "dev",
@@ -20,7 +20,7 @@
 --         },
 --       },
 --
---       wsl_domains = prev.wsl_domains:__concat__ {
+--       wsl_domains = prev.wsl_domains:_append {
 --         {
 --           name = "WSL::Ubuntu-20.04",
 --           distribution = "Ubuntu-20.04",
@@ -28,7 +28,7 @@
 --         },
 --       },
 --
---       launch_menu = prev.launch_menu:__concat__ {
+--       launch_menu = prev.launch_menu:_append {
 --         {
 --           label = "SSH to dev desktop",
 --           args = { "ssh", "-t", "dev" },
@@ -78,21 +78,21 @@ util = {
 -- close as possible.
 --
 -- Declare lexical scope first, otherwise referencing to it is not possible.
-local Overridable
-Overridable = {
+local BasicTable
+BasicTable = {
   -- Enable a table to be overridable
-  __new__ = function(self, tbl)
+  _new = function(self, tbl)
     setmetatable(tbl, { __index = self })
     return tbl
   end,
 
   -- The array should have at least one index
-  __is_array__ = function(self)
+  _is_array = function(self)
     return 0 ~= #self
   end,
 
   -- Shallow copy
-  __copy__ = function(self)
+  _copy = function(self)
     local tmp = {}
     for k, v in pairs(self) do
       tmp[k] = v
@@ -101,7 +101,7 @@ Overridable = {
   end,
 
   -- Shallow copy by index
-  __copy_array__ = function(self)
+  _copy_array = function(self)
     local tmp = {}
     for _, v in ipairs(self) do
       table.insert(tmp, v)
@@ -109,26 +109,26 @@ Overridable = {
     return tmp
   end,
 
-  -- Override keys and values and return a copy
-  __override__ = function(self, tbl)
-    return Overridable:__new__(Overridable.__copy__(self)):__update_impure__(tbl)
+  -- Update keys and values and return a copy
+  _update = function(self, tbl)
+    return BasicTable:_new(BasicTable._copy(self)):_updateAlt(tbl)
   end,
 
-  -- Append to the last index and return a copy
-  __concat__ = function(self, arr)
-    return Overridable:__new__(Overridable.__copy_array__(self)):__append_impure__(arr)
+  -- Append to the last and return a copy
+  _append = function(self, arr)
+    return BasicTable:_new(BasicTable._copy_array(self)):_appendAlt(arr)
   end,
 
-  -- Update keys and values (side effects)
-  __update_impure__ = function(self, tbl)
+  -- Like `_update()' but alter the original table
+  _updateAlt = function(self, tbl)
     for k, v in pairs(tbl) do
       self[k] = v
     end
     return self
   end,
 
-  -- Concatenate two arraies (side effects)
-  __append_impure__ = function(self, arr)
+  -- Like `_append()' but alter the original array
+  _appendAlt = function(self, arr)
     for _, v in ipairs(arr) do
       table.insert(self, v)
     end
@@ -150,7 +150,7 @@ wezterm.on("rice-decrease-window-opacity", adjust_window_opacity(-0.1))
 
 --- Keybindings ----------------------------------------------------------------
 --conf.leader = { mods = "CTRL", key = "`" },
-local keys = Overridable:__new__ {
+local keys = BasicTable:_new {
   { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
   { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
   { mods = "CTRL|SHIFT",  key = "C",      action = act.CopyTo "Clipboard" },
@@ -167,8 +167,8 @@ local keys = Overridable:__new__ {
   { mods = "CTRL|SHIFT",  key = "?",      action = act.ShowDebugOverlay },
 }
 
-local key_tables = Overridable:__new__ {
-  transient_mode_table = Overridable:__new__ {
+local key_tables = BasicTable:_new {
+  transient_mode_table = BasicTable:_new {
     -- Exit keys
     { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
     { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
@@ -208,7 +208,7 @@ local key_tables = Overridable:__new__ {
     { mods = "CTRL",  key = "o",           action = act.RotatePanes "Clockwise" },
   },
 
-  copy_mode_table = Overridable:__new__ {
+  copy_mode_table = BasicTable:_new {
     -- Exit
     { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
     { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
@@ -258,7 +258,7 @@ local key_tables = Overridable:__new__ {
     { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
   },
 
-  search_mode_table = Overridable:__new__ {
+  search_mode_table = BasicTable:_new {
     -- Switch back to the CopyMode when the search pattern is accepted or canceled
     -- Avoid accidentally exiting the CopyMode
     { mods = "NONE",  key = "Enter",   action = act.ActivateCopyMode },
@@ -272,7 +272,7 @@ local key_tables = Overridable:__new__ {
   },
 }
 --- Launch menu ----------------------------------------------------------------
-local launch_menu = Overridable:__new__ {
+local launch_menu = BasicTable:_new {
   {
     label = "Bash",
     args = { "bash", "-i" },
@@ -291,7 +291,7 @@ local launch_menu = Overridable:__new__ {
 }
 
 --- Domains --------------------------------------------------------------------
-local wsl_domains = Overridable:__new__ {
+local wsl_domains = BasicTable:_new {
   {
     name = "WSL::Ubuntu-20.04",
     distribution = "Ubuntu-20.04",
@@ -316,10 +316,10 @@ local wsl_domains = Overridable:__new__ {
   },
 }
 
-local ssh_domains = Overridable:__new__ {}
+local ssh_domains = BasicTable:_new {}
 
 --- Config table ---------------------------------------------------------------
-local config = Overridable:__new__ {
+local config = BasicTable:_new {
   -- System
   check_for_updates = false,
   automatically_reload_config = false,
@@ -382,6 +382,6 @@ local config = Overridable:__new__ {
 local ok, m = pcall(require, "wezterm-overlay")
 if ok then
   -- For the sake of performance use the impure method here
-  return config:__update_impure__(m.overlay(config))
+  return config:_updateAlt(m.overlay(config))
 end
 return config
