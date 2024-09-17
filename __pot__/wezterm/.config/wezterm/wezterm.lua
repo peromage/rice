@@ -145,8 +145,8 @@ local function adjust_window_opacity(step)
   end
 end
 
-wezterm.on("rice-increase-window-opacity", adjust_window_opacity(0.1))
-wezterm.on("rice-decrease-window-opacity", adjust_window_opacity(-0.1))
+wezterm.on("my-increase-window-opacity", adjust_window_opacity(0.1))
+wezterm.on("my-decrease-window-opacity", adjust_window_opacity(-0.1))
 
 --- Keybindings ----------------------------------------------------------------
 --conf.leader = { mods = "CTRL", key = "`" },
@@ -196,8 +196,8 @@ local key_tables = BasicTable:_new {
     { mods = "NONE",  key = "p",       action = act.SwitchWorkspaceRelative(-1) },
 
     -- Keys that are used repeatedly most of the time
-    { mods = "ALT",   key = "=",           action = act.EmitEvent "rice-increase-window-opacity" },
-    { mods = "ALT",   key = "-",           action = act.EmitEvent "rice-decrease-window-opacity" },
+    { mods = "ALT",   key = "=",           action = act.EmitEvent "my-increase-window-opacity" },
+    { mods = "ALT",   key = "-",           action = act.EmitEvent "my-decrease-window-opacity" },
     { mods = "CTRL",  key = "0",           action = act.ResetFontSize },
     { mods = "CTRL",  key = "=",           action = act.IncreaseFontSize },
     { mods = "CTRL",  key = "-",           action = act.DecreaseFontSize },

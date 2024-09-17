@@ -1,4 +1,4 @@
-### my-prompt.psm1 --- My prompt style
+### minimal-prompt.psm1 --- Minimal prompt style
 
 $isPrivileged = $IsWindows ? ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) : ((id -u) -eq 0)
 

@@ -9,10 +9,10 @@
 
 ### Interactive shell initialization
 ## Global variables
-declare -A RICE
-RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-RICE[custom]="${RICE[root_dir]}/.bashrc-custom"
-RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
+declare -A MYENV
+MYENV[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
+MYENV[custom]="${MYENV[root_dir]}/.bashrc-custom"
+MYENV[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ## Functions
 function join_str {
@@ -112,4 +112,4 @@ HISTSIZE=10000
 PROMPT_COMMAND="history -a" # Update history immediately
 
 ## Random stuff
-[[ -e "${RICE[custom]}" ]] && source "${RICE[custom]}"
+[[ -e "${MYENV[custom]}" ]] && source "${MYENV[custom]}"

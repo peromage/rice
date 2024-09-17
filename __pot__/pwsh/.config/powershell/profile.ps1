@@ -9,9 +9,9 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 
 ### Initialization
 ## Global variables
-$RICE = @{}
-$RICE.root_dir = Get-Item "$PSScriptRoot"
-$RICE.custom = (Join-Path $RICE.root_dir "profile-custom.ps1")
+$MYENV = @{}
+$MYENV.root_dir = Get-Item "$PSScriptRoot"
+$MYENV.custom = (Join-Path $MYENV.root_dir "profile-custom.ps1")
 
 ### Set it up
 ## Readline settings
@@ -29,9 +29,9 @@ $RICE.custom = (Join-Path $RICE.root_dir "profile-custom.ps1")
 }
 
 ## Modules
-$Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $RICE.root_dir librice)
-Import-Module my-prompt
+$Env:PSModulePath += [IO.Path]::PathSeparator + (Join-Path $MYENV.root_dir mymodules)
+Import-Module minimal-prompt
 Import-Module win-to-unix
 
 ## Random stuff
-if (Test-Path -Type Leaf $RICE.custom) { . $RICE.custom }
+if (Test-Path -Type Leaf $MYENV.custom) { . $MYENV.custom }
