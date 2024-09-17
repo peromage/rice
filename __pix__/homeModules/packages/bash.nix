@@ -21,12 +21,5 @@ in with lib; {
       source ${src}/.bashrc noenv
     '';
     };
-
-    home.file = {
-      ".librice" = {
-        source = "${src}/.librice";
-        recursive = true;
-      };
-    };
   };
 }
