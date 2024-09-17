@@ -11,7 +11,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ## Global variables
 $RICE = @{}
 $RICE.root_dir = Get-Item "$PSScriptRoot"
-$RICE.overlay = (Join-Path $RICE.root_dir "profile-overlay.ps1")
+$RICE.custom = (Join-Path $RICE.root_dir "profile-custom.ps1")
 
 ### Set it up
 ## Readline settings
@@ -34,4 +34,4 @@ Import-Module my-prompt
 Import-Module win-to-unix
 
 ## Random stuff
-if (Test-Path -Type Leaf $RICE.overlay) { . $RICE.overlay }
+if (Test-Path -Type Leaf $RICE.custom) { . $RICE.custom }

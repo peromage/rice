@@ -11,7 +11,7 @@
 ## Global variables
 declare -A RICE
 RICE[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-RICE[overlay]="${RICE[root_dir]}/.bashrc-overlay"
+RICE[custom]="${RICE[root_dir]}/.bashrc-custom"
 RICE[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ## Functions
@@ -112,4 +112,4 @@ HISTSIZE=10000
 PROMPT_COMMAND="history -a" # Update history immediately
 
 ## Random stuff
-[[ -e "${RICE[overlay]}" ]] && source "${RICE[overlay]}"
+[[ -e "${RICE[custom]}" ]] && source "${RICE[custom]}"
