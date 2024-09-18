@@ -8,10 +8,15 @@
 --
 -- Example: wezterm-overlay.lua
 --
+-- local gnome_fix = require "mymodules.wayland-gnome-fix"
 -- return {
 --   overlay = function(prev)
+--     gnome_fix.apply_to_config(prev)
+--
 --     return {
+--       font_size = 16,
 --       default_prog = { "fish", "-i" },
+--
 --       ssh_domains = prev.ssh_domains:_append {
 --         {
 --           name = "Dev Domain",
