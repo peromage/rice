@@ -291,6 +291,9 @@ local launch_menu = BasicTable:_new {
 }
 
 --- Domains --------------------------------------------------------------------
+local ssh_domains = BasicTable:_new {}
+local unix_domains = BasicTable:_new {}
+
 local wsl_domains = BasicTable:_new {
   {
     name = "WSL::Ubuntu-20.04",
@@ -315,8 +318,6 @@ local wsl_domains = BasicTable:_new {
     default_prog = {"sh", "-c", "tmux a || tmux"},
   },
 }
-
-local ssh_domains = BasicTable:_new {}
 
 --- Config table ---------------------------------------------------------------
 local config = BasicTable:_new {
@@ -376,6 +377,7 @@ local config = BasicTable:_new {
   launch_menu = launch_menu,
   wsl_domains = wsl_domains,
   ssh_domains = ssh_domains,
+  unix_domains = unix_domains,
 }
 
 --- Apply the overlay ----------------------------------------------------------
