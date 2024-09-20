@@ -10,6 +10,7 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
+  :hook (eglot-managed-mode . pew::eglot::on-enter-managed-buffer)
   :bind ( :map pew::M-u-map
           ("M-l" . eglot)
           :map eglot-mode-map
@@ -25,6 +26,10 @@
   (eglot-extend-to-xref nil) ;; Don't include files outside of current project
   (eglot-report-progress t)
   (eglot-confirm-server-initiated-edits 'confirm)
+
+  :preface
+  (defun pew::eglot::on-enter-managed-buffer ()
+    (eglot-inlay-hints-mode -1))
 
   :config
   (setq eglot-server-programs (nconc '((((nix-mode :language-id "nix")
