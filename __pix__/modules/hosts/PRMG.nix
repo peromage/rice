@@ -31,6 +31,13 @@ in with lib; {
 
     pix.desktops.env.gnome.enable = true;
 
+    /* Non-pix options */
+    programs.nix-ld = {
+      enable = true;
+      libraries = with pkgs; [];
+    };
+    virtualisation.waydroid.enable = true;
+
     /* Fonts */
     fonts = {
       fontDir.enable = true;
@@ -88,11 +95,6 @@ in with lib; {
           ];
         };
       };
-    };
-
-    programs.nix-ld = {
-      enable = true;
-      libraries = with pkgs; [];
     };
 
     /* Packages */
