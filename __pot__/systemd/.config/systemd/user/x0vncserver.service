@@ -17,9 +17,7 @@ Description=VNC (Scraping)
 
 [Service]
 Type=simple
-#ExecStartPre=/bin/sh -c '/usr/bin/vncserver -kill %i > /dev/null 2>&1 || :'
-ExecStart=/usr/bin/x0vncserver -rfbauth %h/.vnc/passwd -display :1
-#ExecStop=/usr/bin/vncserver -kill %i
+ExecStart=/usr/bin/env x0vncserver -rfbauth %h/.vnc/passwd -display :1
 Restart=on-failure
 RestartSec=1
 
