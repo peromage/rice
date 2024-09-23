@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.pix.services.libvirtd;
+  cfg = config.pix.services.virtmanager;
 
 in with lib; {
-  options.pix.services.libvirtd = {
+  options.pix.services.virtmanager = {
     enable = mkEnableOption "virtual manager";
     enableIntelSRIOV = mkEnableOption "Intel SR-IOV";
   };

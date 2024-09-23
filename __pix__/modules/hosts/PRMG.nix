@@ -26,7 +26,7 @@ in with lib; {
         enable = true;
         openFirewall.remotePlay = true;
       };
-      libvirtd.enable = true;
+      virtmanager.enable = true;
     };
 
     pix.desktops.env.gnome.enable = true;
