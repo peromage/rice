@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: My Pix option
+# key: pixopt
+# --
+{ config, lib, pix, ... }:
+
+let
+  cfg = config.pix.${1:Category}.${2:OptionName};
+  src = "\${pix.path.dotfiles}";
+
+in with lib; {
+  options.pix.$1.$2 = {
+    enable = mkEnableOption "${3:Brief description}";
+  };
+
+  config = mkIf cfg.enable {
+    $0
+  };
+}
