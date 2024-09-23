@@ -1,0 +1,11 @@
+[Unit]
+Description=Waydroid user session
+After=waydroid-container.service
+
+[Service]
+Type=simple
+Restart=no
+ExecStart=/usr/bin/env waydroid session start
+
+[Install]
+WantedBy=default.target
