@@ -27,6 +27,7 @@ in with lib; {
         openFirewall.remotePlay = true;
       };
       virtmanager.enable = true;
+      waydroid.enable = true;
     };
 
     pix.desktops.env.gnome.enable = true;
@@ -36,7 +37,6 @@ in with lib; {
       enable = true;
       libraries = with pkgs; [];
     };
-    virtualisation.waydroid.enable = true;
 
     /* Fonts */
     fonts = {
