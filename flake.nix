@@ -112,6 +112,7 @@
     in {
       /* Pix */
       inherit license maintainer path supportedSystems imp;
+      pix = self;
       lib = libpix;
     } // (with imp; {
       /* Expose my modules */
