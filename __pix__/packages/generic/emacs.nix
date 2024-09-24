@@ -20,6 +20,7 @@ in pkgs.buildEnv {
   name = "my-emacs";
   paths = with pkgs; [
     myEmacs
+    ripgrep
     libvterm-neovim # libvterm is not maintained, use this instead
   ];
 }
