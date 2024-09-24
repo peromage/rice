@@ -2,10 +2,10 @@
 , lib
 , fetchFromGitHub
 , system
-, nixpkgs
 , ... }:
 
 let
+  inherit (pix.inputs) nixpkgs;
   crane = builtins.getFlake "github:ipetkov/crane/7e4586bad4e3f8f97a9271def747cf58c4b68f3c"; # master September 3, 2024
   rust-overlay = builtins.getFlake "github:oxalica/rust-overlay/57a1564c924ee4acbffe0ad3d65c7e90d3e77cd8"; # master September 7, 2024
 

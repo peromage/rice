@@ -57,7 +57,7 @@
       };
 
       /* Improvised functions */
-      imp = {
+      imp = with self.imp; {
         forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
 
         pkgsWithOverlay = system: import nixpkgs {
@@ -82,7 +82,9 @@
           modules = modules;
         }) (path.darwinConfigurations + "/${name}");
 
-        mkHome = name: pkgs: libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
+        mkHome = name: system: let
+          pkgs = pkgsWithOverlay system;
+        in libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
           inherit pkgs;
           extraSpecialArgs = { inherit pix; };
           modules = modules;
@@ -187,7 +189,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang_pc = mkHome "fang" (pkgsWithOverlay supportedSystems.amd64_pc);
+        fang_pc = mkHome "fang" supportedSystems.amd64_pc;
       };
     });
 }
