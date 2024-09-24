@@ -31,7 +31,7 @@
 
   home.packages = with pkgs; [
     ## Daily
-    pix.emacs29
+    pix.emacs
     pix.aspell
     ripgrep
     stow
