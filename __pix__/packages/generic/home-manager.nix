@@ -1,3 +1,3 @@
-{ system, home-manager, ... }:
+{ system, pix, ... }:
 
-home-manager.packages.${system}.default
+pix.inputs.home-manager.packages.${system}.default

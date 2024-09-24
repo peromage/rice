@@ -1,6 +1,7 @@
-{ config, lib, pkgs, lanzaboote, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
+  inherit (pix.inputs) lanzaboote;
   cfg = config.pix.hardware.bootloader.lanzaboote;
 
 in with lib; {

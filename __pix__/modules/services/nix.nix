@@ -1,6 +1,7 @@
-{ config, lib, pkgs, nixpkgs, ... }:
+{ config, lib, pkgs, pix, ... }:
 
 let
+  inherit (pix.inputs) nixpkgs;
   cfg = config.pix.services.nix;
 
 in with lib; {

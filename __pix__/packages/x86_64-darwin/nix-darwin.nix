@@ -1,3 +1,3 @@
-{ nix-darwin, ... }:
+{ pix, ... }:
 
-nix-darwin.packages.x86_64-darwin.default
+pix.inputs.nix-darwin.packages.x86_64-darwin.default

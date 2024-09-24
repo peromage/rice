@@ -1,6 +1,9 @@
-{ config, pkgs, lib, pix, nixos-hardware, nixpkgs, ... }:
+{ config, pkgs, lib, pix, ... }:
 
-{
+let
+  inherit (pix.inputs) nixpkgs nixos-hardware;
+
+in {
   imports = [
     nixpkgs.nixosModules.notDetected
     nixos-hardware.nixosModules.framework-12th-gen-intel

@@ -1,6 +1,9 @@
-{ pix, pkgs, nixpkgs, ... }:
+{ pix, pkgs, ... }:
 
-{
+let
+  inherit (pix.inputs) nixpkgs;
+
+in {
   imports = with pix.lib; listDir isNotDefaultNix ./.;
 
   nixpkgs = {

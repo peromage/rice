@@ -1,7 +1,7 @@
-{ pix, pkgs, nixpkgs, ... }@args:
+{ pix, pkgs, ... }@args:
 
 let
-  lib = nixpkgs.lib;
+  inherit (pix.inputs.nixpkgs) lib;
   libpix = pix.lib;
   pathGeneric = ./generic;
   pathSystem = ./. + "/${pkgs.system}";
