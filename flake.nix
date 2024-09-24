@@ -18,10 +18,7 @@
 
   outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
     let
-      lib = nixpkgs.lib;
-      libpix = (import path.lib { inherit nixpkgs; });
-      pixArgs = self.inputs // { pix = self; };
-
+      /* Meta */
       license = lib.licenses.gpl3Plus;
       maintainer = {
         name = "Fang Deng";
@@ -29,6 +26,10 @@
         github = "fangtfs";
         githubId = 10389606;
       };
+
+      lib = nixpkgs.lib;
+      libpix = (import path.lib { inherit nixpkgs; });
+      pix = self;
 
       path = let
         pixTop = p: ./__pix__ + "/${p}";
@@ -55,7 +56,7 @@
         arm64_mac = "aarch64-darwin";
       };
 
-      ## Improvised functions
+      /* Improvised functions */
       imp = {
         forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
 
@@ -64,7 +65,7 @@
           overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
         };
 
-        callWithPix = args: libpix.call (pixArgs // args);
+        callWithPix = args: libpix.call (args // { inherit pix; });
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
@@ -72,26 +73,25 @@
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
         mkNixOS = name: libpix.mkConfiguration lib.nixosSystem (modules: {
-          specialArgs = pixArgs;
+          specialArgs = { inherit pix; };
           modules = modules;
         }) (path.nixosConfigurations + "/${name}");
 
         mkDarwin = name: libpix.mkConfiguration nix-darwin.lib.darwinSystem (modules: {
-          specialArgs = pixArgs;
+          specialArgs = { inherit pix; };
           modules = modules;
         }) (path.darwinConfigurations + "/${name}");
 
         mkHome = name: pkgs: libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
           inherit pkgs;
-          extraSpecialArgs = pixArgs;
+          extraSpecialArgs = { inherit pix; };
           modules = modules;
         }) (path.homeConfigurations + "/${name}");
       };
 
     in {
       /* Pix */
-      inherit license maintainer path supportedSystems imp;
-      pix = self;
+      inherit license maintainer path supportedSystems imp pix;
       lib = libpix;
     } // (with imp; {
       /* Expose my modules */
