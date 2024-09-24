@@ -95,8 +95,16 @@
       /* Pix */
       inherit license maintainer path supportedSystems imp pix;
       lib = libpix;
+
     } // (with imp; {
-      /* Expose my modules */
+
+      /* Expose modules
+
+         Note: Both `nixos' and `homeManager' module require an additional `pix'
+         argument (I.E. this flake).  Don't forget to pass it in the `specialArgs'
+         when importing them.  This is to bypass the infinite recursion problem
+         where these modules are written in self-contained way.
+      */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
         nixos = import path.nixosModules;
