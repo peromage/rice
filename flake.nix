@@ -62,7 +62,7 @@
 
         pkgsWithOverlay = system: import nixpkgs {
           inherit system;
-          overlays = lib.mapAttrsToList (n: v: v) self.outputs.overlays;
+          overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
         callWithPix = args: libpix.call (args // { inherit pix; });

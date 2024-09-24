@@ -29,15 +29,19 @@
     };
   };
 
-  home.packages = (with pkgs; [
-    ## CLI
+  home.packages = with pkgs; [
+    ## Daily
+    pix.emacs29
+    pix.aspell
     ripgrep
     stow
+
     ## Data transfer
     wget
     curl
     aria2
     rsync
+
     ## Fancy stuff
     neofetch
     btop # Replace `htop'
@@ -52,6 +56,7 @@
     clang-tools
     shellcheck
     nixd
+    pix.python3
 
     ## Devices
     android-tools
@@ -71,22 +76,9 @@
     brave
     firefox
     remmina
+    unrestricted.discord
 
     ## Wayland
     wl-clipboard
-  ])
-
-  ++ (with pkgs.pixPkgs; [
-    ## Editors
-    emacs29
-    aspell
-
-    ## Dev
-    python3
-  ])
-
-  ++ (with pkgs.unrestrictedPkgs; [
-    ## Gaming
-    discord
-  ]);
+  ];
 }
