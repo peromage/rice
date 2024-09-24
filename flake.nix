@@ -39,8 +39,8 @@
         emacs = ./.;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
-        nixosModules = pixTop "modules";
-        homeManagerModules = pixTop "homeModules";
+        nixosModules = pixTop "nixosModules";
+        homeManagerModules = pixTop "homeManagerModules";
         nixosConfigurations = pixTop "configurations/nixos";
         darwinConfigurations = pixTop "configurations/darwin";
         homeConfigurations = pixTop "configurations/home";
