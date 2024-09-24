@@ -60,12 +60,12 @@
       imp = with self.imp; {
         forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
 
-        pkgsWithOverlay = system: import nixpkgs {
+        mkPkgs = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        callWithPix = args: libpix.call (args // { inherit pix; });
+        mkImport = args: libpix.call (args // { inherit pix; });
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
@@ -83,7 +83,7 @@
         }) (path.darwinConfigurations + "/${name}");
 
         mkHome = name: system: let
-          pkgs = pkgsWithOverlay system;
+          pkgs = mkPkgs system;
         in libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
           inherit pkgs;
           extraSpecialArgs = { inherit pix; };
@@ -124,14 +124,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forSupportedSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.packages);
+      packages = forSupportedSystems (system: mkImport { pkgs = mkPkgs system; } path.packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (system: callWithPix { pkgs = pkgsWithOverlay system; } path.devshells);
+      devShells = forSupportedSystems (system: mkImport { pkgs = mkPkgs system; } path.devshells);
 
       /* Code Formatter
 
@@ -146,14 +146,14 @@
 
          Imported by other flakes
       */
-      overlays = callWithPix {} path.overlays;
+      overlays = mkImport {} path.overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = callWithPix {} path.templates;
+      templates = mkImport {} path.templates;
 
       /* NixOS Configurations
 
