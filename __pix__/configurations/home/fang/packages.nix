@@ -31,8 +31,8 @@
 
   home.packages = with pkgs; [
     ## Daily
-    pix.emacs
-    pix.aspell
+    pixPkgs.emacs
+    pixPkgs.aspell
     ripgrep
     stow
 
@@ -56,7 +56,7 @@
     clang-tools
     shellcheck
     nixd
-    pix.python3
+    pixPkgs.python3
 
     ## Devices
     android-tools
@@ -76,7 +76,7 @@
     brave
     firefox
     remmina
-    unrestricted.discord
+    unrestrictedPkgs.discord
 
     ## Wayland
     wl-clipboard

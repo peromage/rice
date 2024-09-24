@@ -2,7 +2,7 @@
 
 {
   unrestrictedPkgs = final: prev: {
-    unrestricted = import pix.inputs.nixpkgs {
+    unrestrictedPkgs = import pix.inputs.nixpkgs {
       inherit (final) system;
       config = {
         allowUnfree = true;
@@ -12,6 +12,6 @@
   };
 
   pixPkgs = final: prev: {
-    pix = pix.packages.${final.system};
+    pixPkgs = pix.packages.${final.system};
   };
 }
