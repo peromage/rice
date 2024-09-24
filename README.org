@@ -32,11 +32,7 @@ nix flake init -t "github:peromage/rice/master#"
 Quickly deploy dotfiles.
 
 #+begin_src bash
-# Single
-stow.sh -s <name>
-
-# Multiple
-stow.sh -s <name1> <name2> <name3>
+stow.sh -s NAME [NAME [NAME [...]]]
 #+end_src
 
 * Project Overview
