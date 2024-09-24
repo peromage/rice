@@ -98,7 +98,7 @@
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
         nixos = import path.nixosModules;
-        home-manager = import path.homeManagerModules;
+        homeManager = import path.homeManagerModules;
       };
 
       /* Packages

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    pix.nixosModules.home-manager
+    pix.nixosModules.homeManager
   ];
 
   /* Pre-configured packages */
