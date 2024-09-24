@@ -14,7 +14,7 @@
 ;; `treesit--indent-verbose' to non-nil to show current matched indentation rule
 ;; at the echo area.  Additionally, turn on `treesit-explore-mode' to view the
 ;; tree.
-;; Note: The rule list is read in sequence so more specific matchers should be
+;; NOTE: The rule list is read in sequence so more specific matchers should be
 ;; put at the front.  For example, n-p-gp should be earlier than parent-is.
 ;;
 ;; See `treesit-simple-indent-presets' for matcher and anchor definitions.

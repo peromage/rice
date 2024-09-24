@@ -13,7 +13,7 @@ in with lib; {
 
       This option implies systemd-boot.
 
-      Note: When installing the system for the first time, `systemd-boot' or
+      NOTE: When installing the system for the first time, `systemd-boot' or
       `grub' should be used and switch to `lanzaboote' after.  The steps are
       as follow:
 

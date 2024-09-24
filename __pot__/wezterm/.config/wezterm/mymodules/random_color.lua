@@ -15,7 +15,7 @@ local get_random_color_scheme = function()
 end
 
 --- Randomize current color scheme.
--- Note: This is effective to all the present windows.
+-- NOTE: This is effective to all the present windows.
 local randomize = function()
   local new_color_scheme_name, new_color_scheme = get_random_color_scheme()
   for _,win in ipairs(wezterm.gui.gui_windows()) do

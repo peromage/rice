@@ -46,7 +46,7 @@
   "A quick way to enable all the settings from the `use-package' theme.
 After enabling, remove the synthetic theme from the enabled themes, so iterating
 over them to disable-all-themes won't disable it.
-Note: This is used as a workaround to fix some variables that are set with
+NOTE: This is used as a workaround to fix some variables that are set with
 :custom in `use-package'."
   (interactive)
   (enable-theme 'use-package)

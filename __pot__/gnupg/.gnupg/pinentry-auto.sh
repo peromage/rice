@@ -7,7 +7,7 @@
 
 
 ## Use prompt in the terminal
-## Note: Change to pinentry-curses if a Curses UI is preferred.
+## NOTE: Change to pinentry-curses if a Curses UI is preferred.
 [[ "${PINENTRY_USER_DATA}" == *USE_TTY* ]] && exec pinentry "$@"
 
 ## Otherwise, use a UI dialog
