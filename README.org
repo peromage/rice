@@ -6,7 +6,9 @@
 #+end_quote
 
 * About
-This my Emacs + Nix configuration.  I purposely put them together for my own convenience.
+This is my Emacs + Nix + dotfile configuration.
+
+I intentionally organize the files in such ways merely for my own convenience (The project root is used as both Emacs config and Nix flake).
 
 Before proceeding, be aware of that this is highly customized and it may NOT work for you.
 
@@ -20,7 +22,7 @@ git clone https://github.com/peromage/rice.git ~/.emacs.d
 Use as a Nix flake.
 
 #+begin_src bash
-nix flake show ~/.emacs.d
+nix flake show .
 #+end_src
 
 Generate a flake template.
@@ -29,14 +31,14 @@ Generate a flake template.
 nix flake init -t "github:peromage/rice/master#"
 #+end_src
 
-Quickly deploy dotfiles.
+Quickly deploy dotfiles via GNU Stow.
 
 #+begin_src bash
-stow.sh -s NAME [NAME [NAME [...]]]
+__pot__/stow.sh -s NAME [NAME [NAME [...]]]
 #+end_src
 
 * Project Overview
-The tracked directories are intentionally surrounded by underscores since there are many local files/directories generated as use the configurations.
+The tracked directories are surrounded by underscores since there are many local files/directories generated in the use of the configurations.
 
 - [[./__pew__][pew]]: Emacs configuration.
 - [[./__pix__][pix]]: NixOS configuration.
