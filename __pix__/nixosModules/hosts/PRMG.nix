@@ -22,10 +22,6 @@ in with lib; {
       documentation.enable = true;
       nix.enable = true;
       ime.fcitx.enable = true;
-      steam = {
-        enable = true;
-        openFirewall.remotePlay = true;
-      };
       virtmanager.enable = true;
       waydroid.enable = true;
       flatpak.enable = true;
