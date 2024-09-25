@@ -17,13 +17,12 @@ in with lib; {
       displayManager.gdm.wayland = cfgOverall.enableWayland;
     };
 
-    environment.systemPackages =
-      (with pkgs; [
-        dconf2nix
-        gnome-terminal ## Provides more functionalities than default gnome-console
-      ])
-      ++ (with pkgs.gnomeExtensions; [
-      tray-icons-reloaded
-    ]);
+    environment.systemPackages = with pkgs; [
+      gnome-tweaks
+      gnome-extension-manager
+      dconf2nix
+      gnome-terminal ## Provides more functionalities than default gnome-console
+      gnomeExtensions.tray-icons-reloaded
+    ];
   };
 }
