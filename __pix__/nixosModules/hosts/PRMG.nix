@@ -28,6 +28,7 @@ in with lib; {
       };
       virtmanager.enable = true;
       waydroid.enable = true;
+      flatpak.enable = true;
     };
 
     pix.desktops.env.gnome.enable = true;
