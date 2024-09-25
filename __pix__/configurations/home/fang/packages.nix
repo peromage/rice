@@ -76,7 +76,6 @@
     brave
     firefox
     remmina
-    unrestrictedPkgs.discord
 
     ## Wayland
     wl-clipboard
