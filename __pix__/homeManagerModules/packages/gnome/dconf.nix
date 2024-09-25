@@ -80,7 +80,7 @@ with lib.hm.gvariant;
       target-currency = "";
       target-units = "radian";
       window-maximized = false;
-      window-size = mkTuple [ 360 676 ];
+      window-size = mkTuple [ 360 576 ];
       word-size = 64;
     };
 
@@ -120,9 +120,9 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
-      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/amber-d.jxl";
-      primary-color = "#ff7800";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-l.jpg";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-d.jpg";
+      primary-color = "#967864";
       secondary-color = "#000000";
     };
 
@@ -135,6 +135,7 @@ with lib.hm.gvariant;
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       cursor-size = 32;
+      show-battery-percentage = true;
       text-scaling-factor = 1.25;
       toolkit-accessibility = false;
     };
@@ -213,11 +214,14 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/peripherals/mouse" = {
-      speed = 9.166666666666665e-2;
+      accel-profile = "default";
+      left-handed = true;
+      natural-scroll = false;
+      speed = 0.0;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
-      speed = 0.2409448818897639;
+      speed = 0.1428571428571428;
       tap-to-click = false;
       two-finger-scrolling-enabled = true;
     };
@@ -225,8 +229,8 @@ with lib.hm.gvariant;
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/amber-l.jxl";
-      primary-color = "#ff7800";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-l.jpg";
+      primary-color = "#967864";
       secondary-color = "#000000";
     };
 
@@ -337,7 +341,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nautilus/window-state" = {
-      initial-size = mkTuple [ 1279 685 ];
+      initial-size = mkTuple [ 1254 911 ];
       maximized = false;
     };
 
@@ -409,7 +413,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/shell" = {
-      command-history = [ "r" "restart" ];
+      command-history = [ "r" "bash" "systemctl hibernation" "flameshot" "systemctl hibernate" "restart" ];
       disable-user-extensions = false;
       disabled-extensions = [ "places-menu@gnome-shell-extensions.gcampax.github.com" "window-list@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" ];
       enabled-extensions = [ "kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" ];
@@ -420,6 +424,10 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/keybindings" = {
       focus-active-notification = [];
+      screenshot = [ "Print" ];
+      screenshot-window = [];
+      show-screen-recording-ui = [ "<Shift><Super>r" ];
+      show-screenshot-ui = [ "<Super>s" ];
       toggle-message-tray = [];
       toggle-overview = [];
       toggle-quick-settings = [];
