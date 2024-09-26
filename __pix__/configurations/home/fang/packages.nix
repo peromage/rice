@@ -56,7 +56,7 @@
     clang-tools
     shellcheck
     nixd
-    pixPkgs.python3
+    pixPkgs.python
 
     ## Devices
     android-tools
