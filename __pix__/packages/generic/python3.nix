@@ -1,6 +1,9 @@
 { pkgs, ... }:
 
-pkgs.python3.withPackages (pyPkgs: with pyPkgs; [
+let
+python = pkgs.python313;
+
+in python.withPackages (pyPkgs: with pyPkgs; [
   pip
   pipx
   wheel
