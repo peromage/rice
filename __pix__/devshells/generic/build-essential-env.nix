@@ -16,7 +16,7 @@
 
 let
   fhsenv = pkgs.buildFHSEnv {
-    name = "Standard FHS environment";
+    name = "c-fhs-env";
     targetPkgs = pkgs: [ pkgs.pixPkgs.build-essential ];
   };
 
