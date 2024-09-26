@@ -36,4 +36,7 @@ in pkgs.buildEnv {
     myPython
     pkgs.poetry
   ];
+  passthru = {
+    sitePackages = myPython.sitePackages;
+  };
 }
