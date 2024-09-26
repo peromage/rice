@@ -147,12 +147,7 @@ in with lib; {
       mpv
 
       ## Development
-      gcc
-      libgcc
-      gnumake
-      cmake
-      autoconf
-      libtool
+      pixPkgs.build-essential
     ];
   };
 }
