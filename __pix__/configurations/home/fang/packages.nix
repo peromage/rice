@@ -27,6 +27,7 @@
       enableKeyboardShortcuts = true;
       enableGnomeTerminalConfig = true;
     };
+    python.enable = true;
   };
 
   home.packages = with pkgs; [
@@ -56,7 +57,6 @@
     clang-tools
     shellcheck
     nixd
-    pixPkgs.python
 
     ## Devices
     android-tools
