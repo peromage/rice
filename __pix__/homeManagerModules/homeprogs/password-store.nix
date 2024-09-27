@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.pix.homepkgs.password-store;
+  cfg = config.pix.homeprogs.password-store;
 
 in with lib; {
-  options.pix.homepkgs.password-store = {
+  options.pix.homeprogs.password-store = {
     enable = mkEnableOption "Password Store";
   };
 

@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.zellij;
+  cfg = config.pix.homeprogs.zellij;
   src = "${pix.path.dotfiles}/zellij/.config/zellij";
 
 in with lib; {
-  options.pix.homepkgs.zellij = {
+  options.pix.homeprogs.zellij = {
     enable = mkEnableOption "Zellij";
   };
 

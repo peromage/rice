@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.tmux;
+  cfg = config.pix.homeprogs.tmux;
   src = "${pix.path.dotfiles}/tmux/.config/tmux";
 
 in with lib; {
-  options.pix.homepkgs.tmux = {
+  options.pix.homeprogs.tmux = {
     enable = mkEnableOption "Tmux";
   };
 

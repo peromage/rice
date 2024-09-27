@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.bash;
+  cfg = config.pix.homeprogs.bash;
   src = "${pix.path.dotfiles}/bash";
 
 in with lib; {
-  options.pix.homepkgs.bash = {
+  options.pix.homeprogs.bash = {
     enable = mkEnableOption "Bash";
   };
 

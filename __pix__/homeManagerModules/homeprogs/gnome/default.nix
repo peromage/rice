@@ -10,11 +10,11 @@
 { config, lib, pkgs, ...}:
 
 let
-  cfg = config.pix.homepkgs.gnome;
+  cfg = config.pix.homeprogs.gnome;
   dconfDump = import ./dconf.nix { inherit lib; };
 
 in with lib; {
-  options.pix.homepkgs.gnome = {
+  options.pix.homeprogs.gnome = {
     enableKeyboardShortcuts = mkEnableOption "Customized keyboard shortcut";
     enableGnomeTerminalConfig = mkEnableOption "Customized Gnome Terminal config";
   };

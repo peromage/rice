@@ -1,11 +1,11 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.fcitx5;
+  cfg = config.pix.homeprogs.fcitx5;
   src = "${pix.path.dotfiles}/fcitx5";
 
 in with lib; {
-  options.pix.homepkgs.fcitx5 = {
+  options.pix.homeprogs.fcitx5 = {
     enable = mkEnableOption "Fcitx5";
   };
 

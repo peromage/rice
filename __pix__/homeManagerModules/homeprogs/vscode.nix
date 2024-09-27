@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.vscode;
+  cfg = config.pix.homeprogs.vscode;
   src = "${pix.path.dotfiles}/vscode/.config/Code";
 
 in with lib; {
-  options.pix.homepkgs.vscode = {
+  options.pix.homeprogs.vscode = {
     enable = mkEnableOption "Visual Studio Code";
   };
 

@@ -6,7 +6,7 @@
   ];
 
   /* Pre-configured packages */
-  pix.homepkgs = {
+  pix.homeprogs = {
     bash.enable = true;
     fcitx5.enable = true;
     fish.enable = true;

@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.pix.homepkgs.python;
+  cfg = config.pix.homeprogs.python;
   defaultPython = pkgs.pixPkgs.python;
   ## NOTE: Not passing a override function here since the `userPipPrefix' has
   ## a default value so prev.userPipPrefix will be missing during build.
@@ -10,7 +10,7 @@ let
   };
 
 in with lib; {
-  options.pix.homepkgs.python = {
+  options.pix.homeprogs.python = {
     enable = mkEnableOption "Python3";
   };
 

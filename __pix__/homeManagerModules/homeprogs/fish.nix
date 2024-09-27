@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homepkgs.fish;
+  cfg = config.pix.homeprogs.fish;
   src = "${pix.path.dotfiles}/fish/.config/fish";
 
 in with lib; {
-  options.pix.homepkgs.fish = {
+  options.pix.homeprogs.fish = {
     enable = mkEnableOption "Fish";
   };
 
