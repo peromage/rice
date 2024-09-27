@@ -74,7 +74,9 @@
         */
         mkNixOS = name: libpix.mkConfiguration lib.nixosSystem (modules: {
           specialArgs = { inherit pix; };
-          modules = modules;
+          modules = modules ++ [{
+            nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
+          }];
         }) (path.nixosConfigurations + "/${name}");
 
         mkDarwin = name: libpix.mkConfiguration nix-darwin.lib.darwinSystem (modules: {
