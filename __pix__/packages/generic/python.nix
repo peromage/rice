@@ -29,7 +29,7 @@
    compiling C code, use `nix-shell' or `nix develop' in a standard FHS environment.
 */
 
-{ pkgs, ... }:
+{ pkgs, userPipPrefix ? "pip-packages", ... }:
 
 let
   myPython = pkgs.python3.withPackages (pyPkgs: with pyPkgs; [
@@ -49,7 +49,12 @@ in pkgs.buildEnv {
     myPython
     pkgs.poetry
   ];
+
   passthru = {
     sitePackages = myPython.sitePackages;
+    ## NOTE: These variables need to be relative to somewhere
+    userPipPrefix = userPipPrefix;
+    userPythonPath = "${userPipPrefix}/${myPython.sitePackages}";
+    userPath = "${userPipPrefix}/bin";
   };
 }
