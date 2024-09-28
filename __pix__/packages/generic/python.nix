@@ -13,7 +13,10 @@
 
    2. Set environment variables for pip and python so that packages can be installed
       and searched "globally".
-      a. `PIP_PREFIX': The location where pip packages are installed.
+      a. `PIP_PREFIX': The location where pip packages are installed.  A caution
+         for this is pip is not able to uninstall packages afterwards.
+         Update: This is deprecated.  Use `python -m venv' and set variables in
+         b. and c. instead.
       b. `PYTHONPATH': Where to search for installed packages. E.g.
          PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
       c. `PATH': Where to search for installed utilities from packages. E.g.
