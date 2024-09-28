@@ -2,11 +2,9 @@
 
 let
   cfg = config.pix.homeprogs.python;
-  defaultPython = pkgs.pixPkgs.python;
-  ## NOTE: Not passing a override function here since the `userPipPrefix' has
-  ## a default value so prev.userPipPrefix will be missing during build.
-  python = defaultPython.override {
-    userPipPrefix = "${config.xdg.dataHome}/${defaultPython.userPipPrefix}";
+  p = pkgs.pixPkgs.python;
+  python = p.override {
+    userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}";
   };
 
 in with lib; {
@@ -16,7 +14,7 @@ in with lib; {
 
   config = mkIf cfg.enable {
     home.sessionVariables = {
-      PIP_PREFIX = python.userPipPrefix;
+      PIP_PREFIX = python.userPyenvDir;
       PYTHONPATH = "${python.userPythonPath}:$PYTHONPATH";
     };
     home.sessionPath = [
