@@ -13,9 +13,9 @@ let
   };
 
   initUserPyenvScript = writeScriptBin "init-user-pyenv.sh" ''
-    DIR="''${USER_PYENV_DIR:-${python.userPyenvDir}}"
-
-    if python -m venv --system-site-packages --copies --upgrade "$DIR"; then
+    set -e
+    DIR="''${1:-''${USER_PYENV_DIR:?Missing env path}}"
+    if python -m venv --system-site-packages --copies "$DIR"; then
       echo "Initialized user pyenv in $DIR"
     else
       echo "Failed to initialize user pyenv in $DIR"
@@ -37,6 +37,13 @@ let
       export PYTHONPATH="${python.userPythonPath}:$PYTHONPATH"
       export PATH="${python.userPath}:$PATH"
       unset SOURCE_DATE_EPOCH
+
+      if [[ -d "$USER_PYENV_DIR" ]]; then
+        source "$USER_PYENV_DIR/bin/activate"
+      else
+        init-user-pyenv.sh "$USER_PYENV_DIR"
+        source "$USER_PYENV_DIR/bin/activate"
+      fi
     '';
   };
 
