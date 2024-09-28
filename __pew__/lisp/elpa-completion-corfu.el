@@ -67,7 +67,7 @@
          (lisp-data-mode . pew::cape::on-elisp-mode)
          (eshell-mode . pew::cape::on-eshell-mode))
   :bind ( :map pew::M-c-map
-          ("p"  . completion-at-point)
+          ("i"  . completion-at-point)
           ("t"  . complete-tag)
           ("d"  . cape-dabbrev)
           ("h"  . cape-history)
