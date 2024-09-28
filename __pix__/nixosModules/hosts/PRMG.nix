@@ -145,9 +145,6 @@ in with lib; {
 
       ## Media
       mpv
-
-      ## Development
-      pixPkgs.build-essential
     ];
   };
 }

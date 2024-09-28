@@ -57,6 +57,7 @@
     clang-tools
     shellcheck
     nixd
+    pixPkgs.build-essential
 
     ## Devices
     android-tools
