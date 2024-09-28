@@ -28,6 +28,7 @@
       enableGnomeTerminalConfig = true;
     };
     python.enable = true;
+    nodejs.enable = true;
   };
 
   home.packages = with pkgs; [
@@ -51,7 +52,6 @@
     jq # Json parser
 
     ## Development
-    nodejs_latest
     dotnet-sdk_8
     lua
     clang-tools
