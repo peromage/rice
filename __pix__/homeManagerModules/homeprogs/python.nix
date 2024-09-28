@@ -2,8 +2,7 @@
 
 let
   cfg = config.pix.homeprogs.python;
-  p = pkgs.pixPkgs.python;
-  python = p.override {
+  python = let p = pkgs.pixPkgs.python; in p.override {
     userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}";
   };
 

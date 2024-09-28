@@ -2,8 +2,7 @@
 
 let
   cfg = config.pix.homeprogs.nodejs;
-  n = pkgs.pixPkgs.nodejs;
-  nodejs = n.override {
+  nodejs = let n = pkgs.pixPkgs.nodejs; in n.override {
     userNpmDir = "${config.xdg.dataHome}/${n.userNpmDir}";
   };
 
