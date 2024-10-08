@@ -32,9 +32,23 @@
     (eglot-inlay-hints-mode -1))
 
   :config
-  (setq eglot-server-programs (nconc '((((nix-mode :language-id "nix")
+  (setq eglot-server-programs (nconc '(;; Nix
+                                       (((nix-mode :language-id "nix")
                                          (nix-ts-mode :language-id "nix"))
-                                        . ("nixd")))
+                                        . ("nixd"))
+                                       ;; C/C++
+                                       ((c-mode c-ts-mode c++-mode c++-ts-mode)
+                                        . ("clangd"
+                                           "-j=8"
+                                           "--background-index"
+                                           "--clang-tidy"
+                                           "--completion-style=detailed"
+                                           "--pch-storage=disk"
+                                           "--header-insertion=never"
+                                           "--header-insertion-decorators=0"
+                                           "--suggest-missing-includes"
+                                           "--all-scopes-completion")))
+                                     ;; Default builtins
                                      eglot-server-programs)))
 
 (use-package eldoc
