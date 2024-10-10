@@ -77,6 +77,7 @@
     brave
     firefox
     remmina
+    zeal
 
     ## Wayland
     wl-clipboard
