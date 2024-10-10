@@ -30,11 +30,18 @@ in with lib; {
     environment.systemPackages = with pkgs; [
       ## Helper scripts
       (writeScriptBin "start-waydroid-session.sh" ''
-        systemctl --user is-active --quiet waydroid-session.service || systemctl --user start waydroid-session.service
+        SERVICE="waydroid-session.service"
+        if ! systemctl --user is-active --quiet $SERVICE; then
+          systemctl --user start $SERVICE
+          sleep 3
+        fi
+
+        ## Show UI if service is started
         waydroid show-full-ui
       '')
       (writeScriptBin "stop-waydroid-session.sh" ''
-        systemctl --user stop waydroid-session.service
+        SERVICE="waydroid-session.service"
+        systemctl --user stop $SERVICE
       '')
     ];
   };
