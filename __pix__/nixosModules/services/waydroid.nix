@@ -26,5 +26,16 @@ in with lib; {
         ExecStart = "${pkgs.waydroid}/bin/waydroid session start"; # Assume the option `virtualisation.waydroid' uses the same package
       };
     };
+
+    environment.systemPackages = with pkgs; [
+      ## Helper scripts
+      (writeScriptBin "start-waydroid-session.sh" ''
+        systemctl --user is-active --quiet waydroid-session.service || systemctl --user start waydroid-session.service
+        waydroid show-full-ui
+      '')
+      (writeScriptBin "stop-waydroid-session.sh" ''
+        systemctl --user stop waydroid-session.service
+      '')
+    ];
   };
 }
