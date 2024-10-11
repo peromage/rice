@@ -39,15 +39,20 @@
                                        ;; C/C++
                                        ((c-mode c-ts-mode c++-mode c++-ts-mode)
                                         . ("clangd"
-                                           "-j=8"
+                                           ;; Performance
+                                           "-j 8"
                                            "--background-index"
+                                           "--background-index-priority=normal"
+                                           "--pch-storage=memory"
+                                           ;; Formatting
+                                           "--fallback-style=Google"
+                                           ;; Completion
                                            "--clang-tidy"
+                                           "--all-scopes-completion"
                                            "--completion-style=detailed"
-                                           "--pch-storage=disk"
+                                           "--function-arg-placeholders"
                                            "--header-insertion=never"
-                                           "--header-insertion-decorators=0"
-                                           "--suggest-missing-includes"
-                                           "--all-scopes-completion")))
+                                           "--header-insertion-decorators")))
                                      ;; Default builtins
                                      eglot-server-programs)))
 
