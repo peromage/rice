@@ -40,7 +40,7 @@
                                        ((c-mode c-ts-mode c++-mode c++-ts-mode)
                                         . ("clangd"
                                            ;; Performance
-                                           "-j 8"
+                                           "-j=8"
                                            "--background-index"
                                            "--background-index-priority=normal"
                                            "--pch-storage=memory"
