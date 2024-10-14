@@ -79,6 +79,8 @@
     firefox
     remmina
     zeal
+    mpv
+    vlc
 
     ## Wayland
     wl-clipboard

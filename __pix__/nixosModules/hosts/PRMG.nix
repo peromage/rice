@@ -142,9 +142,6 @@ in with lib; {
 
       ## Apps
       appimage-run
-
-      ## Media
-      mpv
     ];
   };
 }
