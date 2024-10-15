@@ -3,63 +3,32 @@
 let
   cfg = config.pix.services.firewall;
 
-  tcpPreset = [
-
-  ];
-
-  ## Attrs { from; to; }
-  tcpRangePreset = [
-
-  ];
-
-  udpPreset = [
-
-  ];
-
-  ## Attrs { from; to; }
-  udpRangePreset = [
-
-  ];
-
-  combinedRules = if cfg.enablePreset then {
-    allowedTCPPorts = tcpPreset ++ cfg.tcp;
-    allowedTCPPortRanges = tcpRangePreset ++ cfg.tcpRange;
-    allowedUDPPorts = udpPreset ++ cfg.udp;
-    allowedUDPPortRanges = udpRangePreset ++ cfg.udpRange;
-  } else {
-    allowedTCPPorts = cfg.tcp;
-    allowedTCPPortRanges = cfg.tcpRange;
-    allowedUDPPorts = cfg.udp;
-    allowedUDPPortRanges = cfg.udpRange;
-  };
-
 in with lib; {
   options.pix.services.firewall = {
     enable = mkEnableOption "stateful firewall";
-    enablePreset = mkEnableOption "preset TCP/UDP rules" // { default = true; };
 
-    tcp = mkOption {
+    allowedTCPPorts = mkOption {
       type = with types; listOf port;
       default = [];
       description = "Allowed TCP ports.";
     };
 
-    tcpRange = mkOption {
+    allowedTCPPortRanges = mkOption {
       type = with types; listOf (attrsOf port);
       default = [];
-      description = "Allowed TCP port ranges.";
+      description = "Allowed TCP port range in attrs { from; to; }.";
     };
 
-    udp = mkOption {
+    allowedUDPPorts = mkOption {
       type = with types; listOf port;
       default = [];
       description = "Allowed UDP ports.";
     };
 
-    udpRange = mkOption {
+    allowedUDPPortRanges = mkOption {
       type = with types; listOf (attrsOf port);
       default = [];
-      description = "Allowed UDP port ranges.";
+      description = "Allowed UDP port range in attrs { from; to; }.";
     };
   };
 
@@ -79,6 +48,12 @@ in with lib; {
       logRefusedUnicastsOnly = true;
       logRefusedPackets = false; # There would be a lot log if enabled
       logRefusedConnections = true;
-    } // combinedRules;
+
+      ## Port rules
+      allowedTCPPorts = cfg.allowedTCPPorts;
+      allowedTCPPortRanges = cfg.allowedTCPPortRanges;
+      allowedUDPPorts = cfg.allowedUDPPorts;
+      allowedUDPPortRanges = cfg.allowedUDPPortRanges;
+    };
   };
 }
