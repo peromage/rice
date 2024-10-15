@@ -43,7 +43,6 @@ in with lib; {
         bindAddr = cfg.bindAddr;
         bindPort = cfg.bindPort;
         auth.method = "token";
-        auth.additionalScopes = [ "HeartBeats" "NewWorkConns" ];
         auth.token = cfg.password;
         maxPortsPerClient = 0;
       };
