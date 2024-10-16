@@ -104,11 +104,13 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   (nix-ts-mode-indent-offset 2)
   :config
   (setf (alist-get 'nix nix-ts-mode-indent-rules)
-        (nconc '(((n-p-gp "inherited_attrs" "inherit\\|inherit_from" nil) parent-bol nix-ts-mode-indent-offset)
-                 ((match nil "inherited_attrs" "attr" nil nil) parent-bol 0)
-                 ((n-p-gp "comment" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
-                 ((n-p-gp "binding_set" "let_expression" nil) parent-bol nix-ts-mode-indent-offset)
-                 ((parent-is "let_expression") parent-bol 0))
+        (nconc '(;; NOTE: query only takes 2 nodes (parent and child) and the node
+                 ;; to be indented needs to be captured.
+                 ((query ((inherited_attrs) @attr)) parent-bol nix-ts-mode-indent-offset)
+                 ((query ((inherited_attrs (_) @attr))) grand-parent nix-ts-mode-indent-offset)
+                 ((query ((if_expression ["then" "else"] @branch))) parent 0)
+                 ((query ((let_expression "in" body: (_) @body))) prev-line nix-ts-mode-indent-offset)
+                 ((query ((let_expression "in" @in))) parent-bol 0))
                (alist-get 'nix nix-ts-mode-indent-rules))))
 
 (use-package kdl-ts-mode
