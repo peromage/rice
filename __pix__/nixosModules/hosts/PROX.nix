@@ -30,6 +30,7 @@ in with lib; {
       wget
       rsync
       tree
+      pixPkgs.emacs
 
       ## Filesystems
       ntfs3g
