@@ -25,6 +25,12 @@ in with lib; {
       description = "Additional ports that are allowed by firewall.";
     };
 
+    proxyBindAddr = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      description = "Proxy listen address.  Default to bindAddr if null.";
+    };
+
     password = mkOption {
       type = types.str;
       default = "P@55w0rd";
@@ -34,6 +40,7 @@ in with lib; {
 
   config = let
     allowedPorts = cfg.openPorts ++ [ cfg.bindPort ];
+    proxyBindAddr = if null == cfg.proxyBindAddr then cfg.bindAddr else cfg.proxyBindAddr;
 
   in mkIf cfg.enable {
     services.frp = {
@@ -42,6 +49,7 @@ in with lib; {
       settings = {
         bindAddr = cfg.bindAddr;
         bindPort = cfg.bindPort;
+        proxyBindAddr = proxyBindAddr;
         auth.method = "token";
         auth.token = cfg.password;
         maxPortsPerClient = 0;
