@@ -29,7 +29,13 @@
 
   :preface
   (defun pew::eglot::on-enter-managed-buffer ()
-    (eglot-inlay-hints-mode -1))
+    (eglot-inlay-hints-mode -1)
+    ;; Make Eldoc show flymake errors first
+    (let ((f 'flymake-eldoc-function))
+      (when (and (boundp 'eldoc-documentation-functions)
+                 (memq f eldoc-documentation-functions))
+        (setq eldoc-documentation-functions
+              (cons f (delq f eldoc-documentation-functions))))))
 
   :config
   (setq eglot-server-programs (nconc '(;; Nix
