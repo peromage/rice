@@ -156,6 +156,7 @@
   (native-comp-async-report-warnings-errors 'silent)
   ;; Pinentry -- Let Emacs use minibuffer to prompt passphrase
   (epg-pinentry-mode 'loopback)
+  (compilation-scroll-output 'first-error)
 
 ;;;; File save
   (auto-save-default nil)
