@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-## The rest are package names
-# ACTION="$1" && shift
-# SOURCE="$1" && shift
-
 set -e
 
 function usage {
