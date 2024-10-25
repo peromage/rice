@@ -9,20 +9,20 @@
 This is my dotfiles for daily drivers.
 
 * Get Started
-Most of the configurations are managed via GNU =stow=.  Use the script quickly deploy them.
+Most of the configurations are managed via GNU =stow=.  Use the =stow.sh= to deploy them quickly.
 
 #+begin_src bash
-# Deploy
-stow.sh -s <name>
+# Deploy (no folding by default)
+stow.sh -S fish bin
 
-# Deploy multiple
-stow.sh -s <name1> <name2> <name3>
+# Deploy with folding
+stow.sh -Sf emacs
 
 # Delete
-stow.sh -d <name>
+stow.sh -D fish
 
 # Re-deploy
-stow.sh -r <name>
+stow.sh -R fish
 #+end_src
 
 * Appendix
