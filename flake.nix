@@ -32,7 +32,7 @@
       pix = self;
 
       path = {
-        ## Root directory can be accessed through `rice.outPath'
+        ## Root directory can be accessed through `pix.outPath'
         dotfiles = ./dotfiles;
         lib = ./lib;
         devshells = ./devshells;
