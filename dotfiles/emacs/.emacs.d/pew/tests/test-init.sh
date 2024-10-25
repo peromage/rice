@@ -5,13 +5,13 @@
 
 ;;; Process arguments
 (if (< (length argv) 1) (error "Not enough arguments"))
-(setq repo-root-path (nth 0 argv))
+(setq init-dir (nth 0 argv))
 
 ;;; Test starts
 (require 'url-vars)
 (let* ((debug-on-error t)
        (url-show-status nil)
-       (user-emacs-directory repo-root-path)
+       (user-emacs-directory init-dir)
        (user-init-file (expand-file-name "init.el" user-emacs-directory))
        (load-path (delq user-emacs-directory load-path)))
   (load-file user-init-file)

@@ -11,11 +11,11 @@
 ;;; Process arguments
 (if (< (length argv) 1)
     (error "No pewcfg root specified"))
-(setq repo-root-path (file-truename (nth 0 argv)))
+(setq pewcfg-dir (file-truename (nth 0 argv)))
 
 ;;; Load paths
-(add-to-list 'load-path repo-root-path)
-(let ((default-directory repo-root-path))
+(add-to-list 'load-path pewcfg-dir)
+(let ((default-directory pewcfg-dir))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;;; Load required modules
