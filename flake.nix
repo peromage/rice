@@ -36,8 +36,6 @@
       in {
         ## Root directory can be accessed through `rice.outPath'
         dotfiles = ./__pot__;
-        emacs = ./.;
-        bin = ./bin;
         lib = pixTop "lib";
         devshells = pixTop "devshells";
         nixosModules = pixTop "nixosModules";
