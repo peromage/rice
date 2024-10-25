@@ -1,0 +1,9 @@
+## No local configs
+.bashrc-custom
+.bashrc-overlay
+profile-custom.ps1
+profile-overlay.ps1
+wezterm-custom.lua
+wezterm-overlay.lua
+tmux-custom.conf
+tmux-overlay.conf

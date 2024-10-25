@@ -1,0 +1,23 @@
+## Emacs user directory is usually filled with random files. It would be a hassle
+## to exclude them all.  Thus whitelist mode is used in this gitignore file.
+
+## First, exclude all files
+*
+
+## Include pew config
+!/pew/
+!/pew/**
+
+## But not compiled ELisp files
+/pew/**/*.elc
+
+## Include files at the root
+!/.gitignore
+!/LICENSE
+!/README.org
+!/early-init.el
+!/init.el
+!/init-mini.el
+
+## Cached package bundle
+!/elpa-*.tar.gz
