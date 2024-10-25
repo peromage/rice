@@ -1,45 +1,72 @@
-#+title: RICE - Rice Is Complex Enchantment
+#+title: PIX - Peromage's nIX flake
 #+author: Peromage
 
 #+begin_quote
-> Keep ricing.
+> By the way I use Nix.
 #+end_quote
 
 * About
-This is my Emacs + Nix + dotfile configuration.
-
-I intentionally organize the files in such ways merely for my own convenience (The project root is used as both Emacs config and Nix flake).
+This is my personal daily driver configuration collection built on top of NixOS with Nix Flake.
 
 Before proceeding, be aware of that this is highly customized and it may NOT work for you.
 
 * Get started
-Use as an Emacs configuration.
+Clone and evaluate.
 
 #+begin_src bash
-git clone https://github.com/peromage/rice.git ~/.emacs.d
+git clone https://github.com/peromage/pix.git
+nix flake show pix
 #+end_src
 
-Use as a Nix flake.
+Or use as a flake along with yours.
+
+This gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.
+
+Generate a template flake to get to know the basic use case.
 
 #+begin_src bash
-nix flake show .
+nix flake init -t "github:peromage/pix/master#"
 #+end_src
 
-Generate a flake template.
+* Immutability and Dynamics
+By default the immutable user option =pix.users.immutable= is disabled.  However, when it is enabled each user declared within =pix.users.profiles= namespace must supply either a hashed password or hashed password file by =pix.users.profiles.<name>.hashedPassword=.
+
+To generate a hashed password:
 
 #+begin_src bash
-nix flake init -t "github:peromage/rice/master#"
+mkpasswd -m sha-512
 #+end_src
 
-Quickly deploy dotfiles via GNU Stow.
+However, there is problem that if a hashed password file is used, it must be tracked by git so that flake can recognize it, or paste the password in config files.  I'm not a big fan of storing secrets in my configurations in either way.  Although there are some solutions out there to encrypt/decrypt secrets automatically like [[https://github.com/ryantm/agenix][agenix]], adding it introduces more dependencies and managing the SSH key is another hassle.  So some dynamics are necessary and it is easier, at least for me.
+
+A simple solution would be creating a local =flake.nix= that is not tracked anywhere, which has been demonstrated previously already.
+
+* Sub-projects
+** Emacs (Pew)
+Code name: [[./dotfiles/emacs/.emacs.d][pew]].
+
+My personal Emacs configuration.
+
+Use stow to quickly deploy as an alternative option instead of managed by Nix.
 
 #+begin_src bash
-__pot__/stow.sh -s NAME [NAME [NAME [...]]]
+./dotfiles/stow.sh -s emacs
 #+end_src
 
-* Project Overview
-The tracked directories are surrounded by underscores since there are many local files/directories generated in the use of the configurations.
+** Dotfiles (Pot)
+Code name: [[./dotfiles][pot]].
 
-- [[./__pew__][pew]]: Emacs configuration.
-- [[./__pix__][pix]]: NixOS configuration.
-- [[__pot__][pot]]: Daily driver configurations.
+I didn't rewrite all my dotfiles into Nix modules since I also work on other distributions.  Most apps are simply wrapped by HomeManager and they still use dotfiles configurations under the hood.  This works best for me as a balanced option as it leaves freedom to drop configs in-place in other non-Nix systems.
+
+Use stow to quickly deploy as an alternative option instead of managed by Nix.
+
+* Appendix
+** Fcitx5 with Rime
+Customization should go into =name.custom.yaml= in order to avoid overwrite from redeployment.  For example, =~/.config/share/fcitx5/rime/default.yaml=, the corresponding customization file is =~/.config/share/fcitx5/rime/default.custom.yaml=.
+
+To redeploy (rebuild), run
+#+begin_src bash
+fcitx5 -r
+#+end_src
+
+NOTE: In Gnome, ~super+space~ is eatten by mutter.  Need to find a workaround to enable it by users or simply use a different key binding like ~Ctrl+|~ (a mnemonic key corresponding to Emacs's ~Ctrl+\~).
