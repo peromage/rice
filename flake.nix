@@ -34,16 +34,16 @@
       path = {
         ## Root directory can be accessed through `rice.outPath'
         dotfiles = ./dotfiles;
-        lib = "./lib";
-        devshells = "./devshells";
-        nixosModules = "./nixosModules";
-        homeManagerModules = "./homeManagerModules";
-        nixosConfigurations = "./configurations/nixos";
-        darwinConfigurations = "./configurations/darwin";
-        homeConfigurations = "./configurations/home";
-        overlays = "./overlays";
-        packages = "./packages";
-        templates = "./templates";
+        lib = ./lib;
+        devshells = ./devshells;
+        nixosModules = ./nixosModules;
+        homeManagerModules = ./homeManagerModules;
+        nixosConfigurations = ./configurations/nixos;
+        darwinConfigurations = ./configurations/darwin;
+        homeConfigurations = ./configurations/home;
+        overlays = ./overlays;
+        packages = ./packages;
+        templates = ./templates;
       };
 
       supportedSystems = {
