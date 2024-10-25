@@ -49,11 +49,4 @@ in {
     "\${HOME}/bin"
     "\${HOME}/.local/bin"
   ];
-
-  home.file = {
-    "bin" = {
-      source = "${src}/bin/bin";
-      recursive = true;
-    };
-  };
 }

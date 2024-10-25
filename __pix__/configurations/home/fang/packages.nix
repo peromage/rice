@@ -33,6 +33,7 @@
 
   home.packages = with pkgs; [
     ## Daily
+    pixPkgs.ricepot
     pixPkgs.emacs
     pixPkgs.aspell
     ripgrep
