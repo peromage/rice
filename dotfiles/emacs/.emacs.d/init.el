@@ -9,7 +9,7 @@
 
 (defconst pew::path-plist
   (let* ((root (file-name-directory load-file-name))
-         (topLevel (expand-file-name "__pew__" root)))
+         (topLevel (expand-file-name "pew" root)))
     (list
      :topLevel topLevel
      :lisp (expand-file-name "lisp" topLevel)

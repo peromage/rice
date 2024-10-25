@@ -10,7 +10,7 @@
       (error "[pew] Emacs version %s+ is required" min-ver)))
 
 ;;; Emacs variables
-(let ((topLevel (expand-file-name "__pew__" (file-name-directory load-file-name))))
+(let ((topLevel (expand-file-name "pew" (file-name-directory load-file-name))))
   ;; This config
   (setq load-path (nconc (mapcar (lambda (p) (expand-file-name p topLevel))
                                  '("lisp" "site-lisp/pewcfg" "site-lisp/pewlib"))
