@@ -12,6 +12,6 @@ pkgs.stdenvNoCC.mkDerivation {
   installPhase = ''
     mkdir -p $out/dotfiles
     rsync -av $src/* $out/dotfiles/
-    stow --no-folding --target=$out --dir=$out/dotfiles bin emacs
+    stow --no-folding --target=$out --dir=$out/dotfiles bin
   '';
 }
