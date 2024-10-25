@@ -31,21 +31,19 @@
       libpix = (import path.lib { inherit nixpkgs; });
       pix = self;
 
-      path = let
-        pixTop = p: ./__pix__ + "/${p}";
-      in {
+      path = {
         ## Root directory can be accessed through `rice.outPath'
-        dotfiles = ./__pot__;
-        lib = pixTop "lib";
-        devshells = pixTop "devshells";
-        nixosModules = pixTop "nixosModules";
-        homeManagerModules = pixTop "homeManagerModules";
-        nixosConfigurations = pixTop "configurations/nixos";
-        darwinConfigurations = pixTop "configurations/darwin";
-        homeConfigurations = pixTop "configurations/home";
-        overlays = pixTop "overlays";
-        packages = pixTop "packages";
-        templates = pixTop "templates";
+        dotfiles = ./dotfiles;
+        lib = "./lib";
+        devshells = "./devshells";
+        nixosModules = "./nixosModules";
+        homeManagerModules = "./homeManagerModules";
+        nixosConfigurations = "./configurations/nixos";
+        darwinConfigurations = "./configurations/darwin";
+        homeConfigurations = "./configurations/home";
+        overlays = "./overlays";
+        packages = "./packages";
+        templates = "./templates";
       };
 
       supportedSystems = {
