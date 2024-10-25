@@ -17,25 +17,31 @@ This configuration intends to be as minimal as possible so Emacs built-in functi
 - Emacs 29+ only
 
 * Get Started
-Simply clone to the canonical Emacs configuration location.
+There are 4 ways to use it. However, for all options the disposable changes are stored in =custom.el= at the root of this config directory.
+
+** Option 1
+Simply copy all the files to the canonical Emacs configuration directory =$HOME/.emacs.d=.
+
+** Option 2
+Change default init directory
 
 #+begin_src bash
-git clone https://github.com/peromage/rice.git ~/.emacs.d
+emacs --init-directory=/PATH/TO/THIS/DIR
 #+end_src
 
-Or load it along with your personal configuration.
+** Option 3
+Load it along with your personal configuration.
 
 #+begin_src elisp
-(load-file "~/rice/init.el")
+(load-file "/PATH/TO/init.el")
 #+end_src
 
+** Option 4
 Load the mini config.
 
 #+begin_src bash
-emacs -Q -l ~/rice/init-mini.el
+emacs -Q -l /PATH/TO/init-mini.el
 #+end_src
-
-Disposable changes are stored in =custom.el= at the root of this config directory.
 
 * Key Bindings
 =evil-mode= is enabled for editing buffers and outside of it the key bindings are kept in a vanilla fashion.  The reason is, I find that configuring every buffer to Vim style is exhausting and if I want to do that I would probably use Doom Emacs already.  And vanilla Emacs key bindings work consistently in shell.
@@ -46,24 +52,24 @@ This keymap can be activated via =pewkey= command as well.  When it is activated
 
 =pewkey= supports repeat mode.  Use =C-r= to enable while the keymap is activated and use =C-g= to exit.  I don't use the new =repeat-mode= because it doesn't work well with my workflow.
 
-Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./lisp/init-config.el][init-config.el]] for details.
+Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-config.el][init-config.el]] for details.
 
 ** A Brief List of Keybindings
 | Key       | Command / Keymap  | Context                  | Notes               | Definition                                |
 |-----------+-------------------+--------------------------+---------------------+-------------------------------------------|
-| =C-z=     | =pewkey=          | Any                      | My major keymap     | [[./lisp/init-config.el][init-config.el]] |
-| =C-z C-r= | =pewkey-repeat=   | Any                      |                     | [[./lisp/init-config.el][init-config.el]] |
-| =RET=     | Evil leader       | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
-| =DEL=     | Evil local leader | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
-| =SPC=     | =pewkey=          | Evil Normal/Motion State |                     | [[./lisp/elpa-evil.el][elpa-evil.el]]     |
-| =M-o=     | =pew::M-o-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
-| =M-t=     | =pew::M-t-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
-| =M-c=     | =pew::M-c-map=    | Any                      | Used for completion | [[./lisp/init-config.el][init-config.el]] |
-| =M-u=     | =pew::M-u-map=    | Any                      | Used for utilities  | [[./lisp/init-config.el][init-config.el]] |
-| =M-l=     | =pew::M-l-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
-| =M-z=     | =pew::M-z-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
-| =M-q=     | =pew::M-q-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
-| =M-h=     | =pew::M-h-map=    | Any                      | Reserved            | [[./lisp/init-config.el][init-config.el]] |
+| =C-z=     | =pewkey=          | Any                      | My major keymap     | [[./pew/lisp/init-config.el][init-config.el]] |
+| =C-z C-r= | =pewkey-repeat=   | Any                      |                     | [[./pew/lisp/init-config.el][init-config.el]] |
+| =RET=     | Evil leader       | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
+| =DEL=     | Evil local leader | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
+| =SPC=     | =pewkey=          | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
+| =M-o=     | =pew::M-o-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-t=     | =pew::M-t-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-c=     | =pew::M-c-map=    | Any                      | Used for completion | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-u=     | =pew::M-u-map=    | Any                      | Used for utilities  | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-l=     | =pew::M-l-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-z=     | =pew::M-z-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-q=     | =pew::M-q-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-h=     | =pew::M-h-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
 
 * Fonts and Icons
 For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]] which is also the default font used by this configuration.
