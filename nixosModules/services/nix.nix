@@ -46,7 +46,7 @@ in with lib; {
              pkgs.nixVersions.unstable -> pkgs.nixUnstable
              See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
           */
-        package = pkgs.nixFlakes;
+        package = pkgs.nixVersions.stable;
 
         nixPath = [ "nixpkgs=${nixpkgs}" ];
       };
