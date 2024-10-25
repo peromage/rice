@@ -18,14 +18,10 @@ git clone https://github.com/peromage/pix.git
 nix flake show pix
 #+end_src
 
-Or use as a flake along with yours.
-
-This gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.
-
-Generate a template flake to get to know the basic use case.
+Alternatively, it can be used as a piece in your flake.  This gives you the freedom to add improvised configurations from setup to setup.  Although this is contrary to deterministic builds, sometimes it is convenient to add temporary settings such as confidential information outside of the version control system.  You can use the template as a start point.
 
 #+begin_src bash
-nix flake init -t "github:peromage/pix/master#"
+nix flake init -t github:peromage/pix/master#
 #+end_src
 
 * Immutability and Dynamics
