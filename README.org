@@ -42,9 +42,7 @@ However, there is problem that if a hashed password file is used, it must be tra
 A simple solution would be creating a local =flake.nix= that is not tracked anywhere, which has been demonstrated previously already.
 
 * Sub-projects
-** Emacs (Pew)
-Code name: [[./dotfiles/emacs/.emacs.d][pew]].
-
+** Emacs ([[./dotfiles/emacs/.emacs.d][Pew]])
 My personal Emacs configuration.
 
 Use stow to quickly deploy as an alternative option instead of managed by Nix.
@@ -53,9 +51,7 @@ Use stow to quickly deploy as an alternative option instead of managed by Nix.
 ./dotfiles/stow.sh -s emacs
 #+end_src
 
-** Dotfiles (Pot)
-Code name: [[./dotfiles][pot]].
-
+** Dotfiles ([[./dotfiles][Pot]])
 I didn't rewrite all my dotfiles into Nix modules since I also work on other distributions.  Most apps are simply wrapped by HomeManager and they still use dotfiles configurations under the hood.  This works best for me as a balanced option as it leaves freedom to drop configs in-place in other non-Nix systems.
 
 Use stow to quickly deploy as an alternative option instead of managed by Nix.
