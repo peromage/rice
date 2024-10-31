@@ -6,8 +6,8 @@ pkgs.stdenvNoCC.mkDerivation {
   pname = "pixpot";
   version = "0.0.1";
   src = pix.path.dotfiles;
-
   nativeBuildInputs = with pkgs; [ rsync stow ];
+  dontPatchShebangs = true;
 
   installPhase = ''
     mkdir -p $out/dotfiles
