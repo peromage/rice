@@ -68,6 +68,8 @@
     graphviz
     hugo
     libreoffice-fresh
+    hunspell
+    hunspellDicts.en_US
     gimp
     kdenlive
     flameshot
