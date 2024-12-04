@@ -54,8 +54,8 @@
   :after corfu
   :custom
   (corfu-terminal-disable-on-gui t)
-  (corfu-terminal-resize-minibuffer t)
-  (corfu-terminal-enable-on-minibuffer t)
+  (corfu-terminal-resize-minibuffer nil)
+  (corfu-terminal-enable-on-minibuffer nil)
   :config
   (corfu-terminal-mode 1))
 
