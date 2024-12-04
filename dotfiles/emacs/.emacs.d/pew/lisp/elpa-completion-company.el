@@ -6,36 +6,44 @@
   :ensure t
   :demand t
   :bind ( :map company-mode-map
-          ([remap completion-at-point] . company-complete)
+          ("C-M-i" . company-complete)
           :map company-active-map
-          ("TAB" . company-complete-common-or-cycle)
-          ("C-c" . company-complete-selection)
-          ("C-k" . company-abort) )
+          ("TAB"   . company-complete-common)
+          ("<tab>" . company-complete-common)
+          ("C-c"   . company-complete-selection)
+          ("C-k"   . company-abort)
+          :map pew::M-c-map
+          ("i"     . company-complete)
+          ("f"     . company-files)
+          ("t"     . company-gtags)
+          ("T"     . company-etags)
+          ("d"     . company-dabbrev)
+          ("D"     . company-dabbrev-code)
+          ("a"     . company-abbrev))
   :custom
-  (company-tooltip-align-annotations t)
-  (company-tooltip-limit 10)
-  (company-tooltip-idle-delay 0.2)
+  (company-minimum-prefix-length 2)
   (company-idle-delay 0.0)
-  (company-show-numbers t)
-  (company-show-quick-access t)
-  (company-minimum-prefix-length 3)
-  (company-selection-wrap-around t)
-  (company-auto-complete nil)
+  (company-tooltip-idle-delay 0.2)
+  (company-tooltip-limit 5)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-flip-when-above t)
+  (company-show-quick-access 'left)
+  (company-selection-wrap-around nil)
+  (company-insertion-on-trigger nil) ;; Auto commit
   (company-abort-on-unique-match t)
-  (company-require-match nil)
   (company-search-filtering t)
+  (company-inhibit-inside-symbols nil)
 
   :config
   (global-company-mode 1)
-  (company-tng-mode 1)
 
-  (pewcfg :eval-after
-          ;; Don't use orderless in company completion
-          (orderless
-           (defvar pew::orderless::default-completion-styles (eval (car (get 'completion-styles 'standard-value))))
-           (define-advice company-capf--candidates (:around (oldfunc &rest args) pew::orderless::company-completing)
-             (let ((completion-styles pew::orderless::default-completion-styles))
-               (apply oldfunc args))))))
+  (pewcfg
+    :eval-after
+    ;; Make completion ordered
+    (orderless
+     (define-advice company-capf (:around (capf-fn &rest args) pew::company::completion-style)
+       (let ((completion-styles '(basic partial-completion orderless)))
+         (apply capf-fn args))))))
 
 (provide 'elpa-completion-company)
 ;;; elpa-completion-company.el ends here
