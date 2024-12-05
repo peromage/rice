@@ -26,7 +26,7 @@
   (company-tooltip-idle-delay 0.2)
   (company-tooltip-limit 5)
   (company-tooltip-align-annotations t)
-  (company-tooltip-flip-when-above t)
+  (company-tooltip-flip-when-above nil) ;; Cursor keys are also flipped so keep it off
   (company-show-quick-access 'left)
   (company-selection-wrap-around nil)
   (company-insertion-on-trigger nil) ;; Auto commit
