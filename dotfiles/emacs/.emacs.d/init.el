@@ -42,8 +42,8 @@
 ;; Load ELPA packages
 (require 'elpa-ui)
 (require 'elpa-evil)
-;; (require 'elpa-completion-company)
-(require 'elpa-completion-corfu)
+(require 'elpa-completion-company)
+;; (require 'elpa-completion-corfu)
 ;; (require 'elpa-minibuffer-ivy)
 (require 'elpa-minibuffer-vertico)
 (require 'elpa-utils)
