@@ -19,7 +19,7 @@
           ("T"     . company-etags)
           ("d"     . company-dabbrev)
           ("D"     . company-dabbrev-code)
-          ("a"     . company-abbrev))
+          ("a"     . company-abbrev) )
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0)
